@@ -1,0 +1,16 @@
+src/backend/composer.lock
+src/backend/.php_cs.cache
+src/backend/public/css
+src/backend/public/js
+src/backend/public/report/*
+.env
+
+# Exclude Frontend except default build/index.html for nginx config
+!src/frontend/build/index.html
+src/frontend/
+
+# Unit Test Report
+!/var/www/backend/public/report/logs/template.html
+!/var/www/backend/public/report/logs/logfile.xslt
+
+.idea
