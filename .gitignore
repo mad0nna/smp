@@ -3,7 +3,7 @@ src/backend/.php_cs.cache
 src/backend/public/css
 src/backend/public/js
 src/backend/public/report/*
-# .env
+.env
 
 # Exclude Frontend except default build/index.html for nginx config
 !src/frontend/build/index.html
