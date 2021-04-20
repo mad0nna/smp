@@ -14,3 +14,4 @@ src/frontend/
 !/var/www/backend/public/report/logs/logfile.xslt
 
 .idea
+.vscode
