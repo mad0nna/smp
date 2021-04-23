@@ -11,7 +11,7 @@
 |
 */
 
-Route::view('/', 'welcome');
+Route::view('/', 'index');
 
 // Load All Login, Register, Verify Email, Forget & Reset Password Routes
 Auth::routes(['verify' => true]);

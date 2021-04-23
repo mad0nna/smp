@@ -11,7 +11,22 @@ const mix = require('laravel-mix');
  |
  */
 
+// config eslint
+mix.webpackConfig({
+  module: {
+    rules: [
+      {
+        enforce: 'pre',
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        test: /\.(js|jsx)?$/ 
+      },
+    ]
+  }
+})
+
 mix.react('resources/js/app.js', 'public/js')
     .postCss("resources/css/app.css", "public/css", [
         require("tailwindcss"),
     ]);
+
