@@ -4,8 +4,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 require('./bootstrap')
+
 const files = require.context('./components', true, /\.js$/i)
 files.keys().map(key => {
-  return require(`./components${key.substring(1)}`)
+  require(`./components${key.substring(1)}`)
 })
  
