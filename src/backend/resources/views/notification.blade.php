@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 </head>
 <body class="bg-mainbg">
-<div id="notification" class="w-96 h-96 bg-red-200 block"></div>
+<div id="notification" class="w-96 h-96 mt-5 block"></div>
 </body>
 <script src="{{asset('js/app.js')}}"></script>
 </html>
