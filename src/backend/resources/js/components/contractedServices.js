@@ -20,12 +20,12 @@ class ContractedServices extends React.Component {
     let servicesCounter = this.state.contractedServices.length
     return(
       <div className="w-full h-full relative group">
-        <div className="absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-pointer hidden group-hover:block">Move</div>
+        <div className="absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden group-hover:block">Move</div>
         <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
           <div id="widget-header" className="max-w-full h-12 bg-white box-border align-middle p-3 relative">
             <div id="widget-icon" className="w-2 h-6 bg-primary-200 float-left ml-4"> </div>
             <div id="widget-name" className="text-primary-200 font-sans font-bold ml-8">契約サービス</div>
-            <img className="absolute w-5 h-1 top-1.5 right-3" src={Ellipsis}/>
+            <img className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block" src={Ellipsis}/>
           </div>
           <div id="widget-body" className= 'h-widgetBody w-full bg-white py-2 space-y-2  overflow-hidden'>
             {
