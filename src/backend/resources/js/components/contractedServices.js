@@ -27,7 +27,7 @@ class ContractedServices extends React.Component {
             <div id="widget-name" className="text-primary-200 font-sans font-bold ml-8">契約サービス</div>
             <img className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block" src={Ellipsis}/>
           </div>
-          <div id="widget-body" className= 'h-widgetBody w-full bg-white py-2 space-y-2  overflow-hidden'>
+          <div id="widget-body" className= 'h-widgetBody-lg w-full bg-white py-6 space-y-2 overflow-hidden'>
             {
               this.state.contractedServices.map((item, index) => {
                 let stripe = (!(index % 2)) ? 'bg-mainbg' : 'bg-white'
@@ -50,7 +50,7 @@ class ContractedServices extends React.Component {
   }
   addFooter() {
     return (
-      <div id="widget-footer" className="w-full h-14 bg-white p-3.5">
+      <div id="widget-footer" className="w-full h-14 bg-white p-3.5 hidden">
         <div id="widget-footer-control" className="float-right">
           <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter">もっと見る</button>
         </div>
