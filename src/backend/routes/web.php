@@ -16,3 +16,5 @@ Route::view('/', 'index');
 Route::view('/navigation', 'navigation');
 
 Route::view('/notification', 'notification');
+
+Route::view('/contractedServices', 'contractServices');

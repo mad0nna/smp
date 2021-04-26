@@ -63,12 +63,13 @@ module.exports = {
             }
         },
         fontFamily: {
-            'sans': ['Arial']
+            'sans': ['Arial Regular']
         }
     },
     variants: {
         extend: {
-            backgroundImage: ['group-hover']
+            backgroundImage: ['group-hover'],
+            display: ['group-hover']
         },
     },
     plugins: [],
