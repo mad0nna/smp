@@ -17,4 +17,6 @@ Route::view('/navigation', 'navigation');
 
 Route::view('/notification', 'notification');
 
+Route::view('/linkageServices', 'linkageServices');
+
 Route::view('/contractedServices', 'contractServices');
