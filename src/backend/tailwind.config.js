@@ -23,7 +23,8 @@ module.exports = {
                 'notification-icon': "url('/images/notification-icon.png')",
                 'notification-active': "url('/images/notification-active.png')",
                 'notification-inactive': "url('/images/notification-inactive.png')",
-                'arrow-down': "url('/images/arrowdown.png')"
+                'arrow-down': "url('/images/arrowdown.png')",
+                'cart-icon': "url('/images/cart-icon.png')"
             },
             colors:{
                 mainbg: '#F2F2F2',
@@ -40,6 +41,7 @@ module.exports = {
             },
             fontSize: {
                 xxs:['0.60rem', { lineHeight: '.75rem' }],
+                'widget-xs': "10px"
             },
 
             height: {
@@ -52,6 +54,10 @@ module.exports = {
 
             lineHeight: {
                 '5': '5rem'
+            },
+
+            minHeight: {
+                'widget-item' : '80px'
             },
 
             maxWidth: {
