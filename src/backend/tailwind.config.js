@@ -45,7 +45,8 @@ module.exports = {
             },
 
             height: {
-                widgetBody: 'calc(100% - 6.50rem)'
+                widgetBody: 'calc(100% - 6.50rem)',
+                'widgetBody-lg': 'calc(100% - 3rem)'
             },
 
             width: {
