@@ -8,6 +8,7 @@ class LinkageServices extends React.Component {
       linkageServices: [
         {serviceName: 'Freee', serviceLink: '#'},
         {serviceName: 'SmartHR', serviceLink: '#'},
+        {serviceName: 'SalesForce', serviceLink: '#'}
       ]
     }
   }
@@ -22,26 +23,25 @@ class LinkageServices extends React.Component {
             <div id="widget-name" className="text-primary-200 font-sans font-bold ml-8">サービス連携</div>
             <img className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block" src={Ellipsis}/>
           </div>
-          <div id="widget-body" className= 'h-widgetBody-lg w-full bg-white py-6 space-y-2 overflow-hidden'>
-            <div className="bg-mainbg rounded-3xl py-2 w-auto h-auto mx-6">
-              {
-                this.state.linkageServices.map((item, index) => {
-                  return(
-                    <div id="widget-content-item" className="w-auto h-auto align-middle my-5 relative" key={index}>
-                      <p id="item-content" className="font-sans text-sm inline-block w-1/2 pl-12 leading-loose break-words">{item.serviceName}</p>
-                      <div id="item-content" className="font-sans text-gray-400 font-black text-sm absolute top-0 right-0 left-0 bottom-0">
-                        <div className="inline-block align-middle h-full w-1/2 ml-6"/>
-                        <div className="inline-block align-middle">
-                          <a href={item.serviceLink}>
-                            <p className="bg-primary-200 w-24 h-8 rounded-lg py-2 text-white font-sans text-xs text-center"> 適用 </p>
-                          </a>
-                        </div>
+          <div id="widget-body" className= 'h-widgetBody-sm w-full bg-white px-6 space-y-0 overflow-hidden'>
+            {
+              this.state.linkageServices.map((item, index) => {
+                let stripe = (!(index % 2)) ? 'bg-mainbg' : 'bg-white'
+                return(
+                  <div id="widget-content-item" className={stripe +' w-auto h-auto align-middle relative rounded-3xl'} key={index}>
+                    <p id="item-content" className="font-sans text-sm inline-block w-1/2 pl-6 py-1 leading-loose break-words">{item.serviceName}</p>
+                    <div id="item-content" className="font-sans text-gray-400 font-black text-sm absolute top-0 right-0 left-0 bottom-0">
+                      <div className="inline-block align-middle h-full w-1/2"/>
+                      <div className="inline-block align-middle">
+                        <a href={item.serviceLink}>
+                          <p className="bg-primary-200 w-20 h-6 rounded-lg py-1 text-white font-sans text-xs text-center"> 適用 </p>
+                        </a>
                       </div>
                     </div>
-                  )
-                })
-              }
-            </div>
+                  </div>
+                )
+              })
+            }
           </div>
           <div id="widget-footer" className="w-full h-14 bg-white p-3.5 hidden">
             <div id="widget-footer-control" className="float-right">

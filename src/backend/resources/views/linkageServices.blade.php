@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 </head>
 <body class="bg-mainbg">
-<div id="linkage-services" class="w-96 h-72 mt-5 block"></div>
+<div id="linkage-services" class="w-80 h-48 mt-5 block"></div>
 </body>
 <script src="{{asset('js/app.js')}}"></script>
 </html>
