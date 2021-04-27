@@ -11,8 +11,8 @@ class ContractedServices extends React.Component {
     this.state = {
       contractedServices: [
         {serviceIcon: KotAttendanceIcon, serviceOwner: KotIcon, serviceName: '勤怠管理'},
-        {serviceIcon: KotSecureLoginIcon, serviceOwner: KotIcon, serviceName: 'セキュアログイン'},
-        {serviceIcon: KotDataAnalysisIcon, serviceOwner: KotIcon, serviceName: 'データ分析'},
+        {serviceIcon: KotDataAnalysisIcon, serviceOwner: KotIcon, serviceName: 'セキュアログイン'},
+        {serviceIcon: KotSecureLoginIcon, serviceOwner: KotIcon, serviceName: 'データ分析'},
       ]
     }
   }
@@ -27,15 +27,15 @@ class ContractedServices extends React.Component {
             <div id="widget-name" className="text-primary-200 font-sans font-bold ml-8">契約サービス</div>
             <img className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block" src={Ellipsis}/>
           </div>
-          <div id="widget-body" className= 'h-widgetBody-lg w-full bg-white py-6 space-y-2 overflow-hidden'>
+          <div id="widget-body" className= 'h-widgetBody-sm w-full bg-white space-y-2 overflow-hidden'>
             {
               this.state.contractedServices.map((item, index) => {
                 let stripe = (!(index % 2)) ? 'bg-mainbg' : 'bg-white'
                 return (
                   <div id="widget-content-item" className={stripe + ' w-auto h-auto align-middle mx-6 rounded-3xl py-1'} key={index}>
-                    <img src={item.serviceIcon} className="w-auto h-6 ml-4 mr-2 inline-block"/>
-                    <img src={item.serviceOwner} className="w-auto h-4 inline-block"/>
-                    <p id="item-content" className="font-sans text-gray-400 font-black text-sm ml-4 inline-block">
+                    <img src={item.serviceIcon} className="w-auto h-6 ml-2 mr-2 inline-block"/>
+                    <img src={item.serviceOwner} className="w-auto h-3 inline-block"/>
+                    <p id="item-content" className="font-sans text-gray-400 font-black text-xs ml-4 inline-block tracking-tighter">
                       {item.serviceName}
                     </p>
                   </div>
