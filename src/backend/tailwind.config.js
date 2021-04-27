@@ -68,6 +68,9 @@ module.exports = {
 
             boxShadow: {
                 '4xl': '0 40px 100px -20px rgba(0, 0, 0, 0.3)',
+            },
+            spacing: {
+                200: '350px'
             }
         },
         fontFamily: {
