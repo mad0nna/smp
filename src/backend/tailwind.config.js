@@ -28,6 +28,7 @@ module.exports = {
             },
             colors:{
                 mainbg: '#F2F2F2',
+                secondaryBg: '#c1cbc4',
                 primary: {
                     50: "#f3faf6",
                     100:'#5EDF89',
@@ -37,6 +38,9 @@ module.exports = {
                     100:'#DC5858',
                     200:'#DE0A0A',
                 },
+                cyan: '#43bbb3',
+                orange: '#ffbc03',
+                lightGreen: '#6ad48d',
                 greenOld: "#95A199"
             },
             fontSize: {
@@ -71,6 +75,9 @@ module.exports = {
             },
             spacing: {
                 200: '350px'
+            },
+            skew: {
+                'rectangle-skew': '-53deg'
             }
         },
         fontFamily: {
