@@ -24,7 +24,10 @@ module.exports = {
                 'notification-active': "url('/images/notification-active.png')",
                 'notification-inactive': "url('/images/notification-inactive.png')",
                 'arrow-down': "url('/images/arrowdown.png')",
-                'cart-icon': "url('/images/cart-icon.png')"
+                'cart-icon': "url('/images/cart-icon.png')",
+                'history-icon': "url('/images/history-icon.png')",
+                'pdf-icon': "url('/images/pdf-icon.png')",
+                'ellipsis-icon': "url('/images/ellipsis.png')",
             },
             colors:{
                 mainbg: '#F2F2F2',
@@ -90,6 +93,5 @@ module.exports = {
             display: ['group-hover']
         },
     },
-    plugins: [],
-
+    plugins: []
 }
