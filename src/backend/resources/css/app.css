@@ -12,19 +12,6 @@
     width: 5px;
     height: 5px;
     border-right: 2px solid white;
-<<<<<<< HEAD
-    border-bottom: 2px solid white;
- }
-
-.custom-outline-none:focus-visible {
-    outline: none;
-}
-
-.stripe-table-row:nth-child(even) {
-    @apply bg-gray-50
-}
-=======
     border-bottom: 2px solid white;  
  }
  
->>>>>>> b6792e7 (Add requested changes)
