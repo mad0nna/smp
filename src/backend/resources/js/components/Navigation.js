@@ -9,9 +9,9 @@ class Navigation extends React.Component {
       navShow: false
     }
     this.MainNav = [
-      {label: 'ダッシュボード', url: '/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconSize: 'h-8 w-9', extraStyle: ''},
-      {label: '契約', url: '/company/contracts', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconSize: 'h-7 w-9', extraStyle: ''},
-      {label: '請求', url: '/company/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconSize: 'h-8 w-8', extraStyle: ''},
+      {label: 'ダッシュボード', url: '/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+      {label: '契約', url: '/company/contracts', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
+      {label: '請求', url: '/company/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconSize: 'h-8 w-8', isActive: false, extraStyle: ''},
     ]
     this.dropdownNav = [
       {label: 'アカウント プロファイル', url: '/companyProfile', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
@@ -20,6 +20,8 @@ class Navigation extends React.Component {
       {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-4 w-5', extraStyle: ''}
     ]
     this.handleDropDown = this.handleDropDown.bind(this)
+    this.setActiveNavItem = this.setActiveNavItem.bind(this)
+    this.setActiveNavItem()
   }
 
   componentDidMount() {
@@ -35,11 +37,14 @@ class Navigation extends React.Component {
           <ul className="flex flex-row space-x-24 h-24">
             {
               this.MainNav.map((item, index) => {
+                let activeTextColor= item.isActive ? 'text-white' : ''
+                let activeIcon = item.isActive ? 'bg-dashboard-icon-hover' : item.iconNormal
+                let activeBackground = item.isActive ? 'bg-primary-200' : ''
                 return (
-                  <li className="group text-center py-5 w-36 hover:bg-primary-200 hover:text-white" key={index}>
+                  <li className={'group text-center py-5 w-36 hover:bg-primary-200 hover:text-white ' + activeBackground + ' ' + activeTextColor} key={index}>
                     <a href={item.url}>
                       <div>
-                        <div className={item.iconNormal + ' ' + item.iconHover + ' ' + item.iconSize + ' mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover'}/>
+                        <div className={item.iconSize + ' mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover ' + activeIcon + ' ' + item.iconHover + ' ' +  + activeBackground}/>
                       </div>
                       <div>
                         <p className="font-sans text-lg font-semibold mt-1">{item.label}</p>
@@ -87,6 +92,12 @@ class Navigation extends React.Component {
       })
       dropdown.classList.replace('hidden', 'block')
     }
+  }
+
+  setActiveNavItem() {
+    this.MainNav.map((item) => {
+      item.isActive = (item.url === location.pathname)
+    })
   }
 }
 export default Navigation
