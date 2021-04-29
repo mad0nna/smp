@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import logo from '../../img/index/kotLogo.png' 
+import logo from '../../img/kot-admin-panel.png' 
  
 // eslint-disable-next-line
 let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
@@ -47,13 +47,13 @@ class CompanyLogin extends Component {
       errors.email = 
           validEmailRegex.test(value)
             ? ''
-            : 'Email is not valid!'
+            : 'メールアドレスが有効ではありません'
       break
     case 'password': 
       errors.password = 
           value.length > 7 && value.length < 21 
             ? ''
-            : 'Password must be between 8-20 characters!'
+            : 'パスワードは8－20文字以内で入力してください'
       break
     default:
       break
@@ -76,7 +76,7 @@ class CompanyLogin extends Component {
       window.location.href = '/dashboard'
     }else{
       console.error('Invalid Form')
-      this.setState({formError: 'Invalid Form'})
+      this.setState({formError: '無効な入力です'})
      
     }
   }
@@ -92,20 +92,20 @@ class CompanyLogin extends Component {
             <img className= "p-0 rounded-xl mt-5" src={logo} style={{height: '42px'}} />
           </div>
           <div className="flex flex-wrap justify-around text-lg text-2xl font-bold mt-5 mb-3" style={{color: '#5B5B5B'}}> 
-            Company
+            顧客企業
           </div>
           <div className="flex flex-wrap gap-0 w-full justify-center">
             <div className="flex flex-wrap gap-0 w-1/2 ">
-              <input type="text" name="email" placeholder="ID" onChange={this.handleChange}
+              <input type="text" name="email" placeholder="Email" onChange={this.handleChange}
                 className={'w-full px-3 py-3 placeholder-blueGray-300 relative bg-white bg-white rounded text-sm border border-gray-300 outline-none rounded-b-none border-b-0'}/>
-              <input type="password"  name="password" placeholder="Password" onChange={this.handleChange}  
+              <input type="password"  name="password" placeholder="パスワード" onChange={this.handleChange}  
                 className={'w-full px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-gray-300 outline-none rounded-t-none'}/>
             </div>
           </div>
           <div className="flex flex-wrap gap-0 w-full justify-center mt-2 mb-6">
             <button   onClick={this.handleSubmit} 
-              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-1/2">
-              Sign In
+              className="bg-primary-200 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-1/2">
+              サインイン
             </button>
           </div>
 
@@ -117,7 +117,7 @@ class CompanyLogin extends Component {
                 <div className='flex flex-wrap items-center justify-center  text-sm login-error text-sm login-error '>{this.state.formError}</div>}
  
 
-          <div className="text-xs text-center static bottom-10 mt-6 mb-1"><a href="#">How to retrieve password</a></div>
+          <div className="text-xs text-center static bottom-10 mt-6 mb-1 text-gray-600"><a href="#">パスワードを取得する方法</a></div>
         </div>
       </div>
       
