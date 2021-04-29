@@ -13,3 +13,4 @@
 
 Route::view('/', 'index');
 Route::view('/dashboard', 'dashboard');
+Route::view('/company/billing', 'companyBilling');

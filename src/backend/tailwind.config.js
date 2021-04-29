@@ -44,7 +44,9 @@ module.exports = {
                 cyan: '#43bbb3',
                 orange: '#ffbc03',
                 lightGreen: '#6ad48d',
-                greenOld: "#95A199"
+                greenOld: "#95A199",
+                'table-header-Gray-100': '#ececec',
+                'table-header-Gray-400': '#a5a5a5'
             },
             fontSize: {
                 xxs:['0.60rem', { lineHeight: '.75rem' }],

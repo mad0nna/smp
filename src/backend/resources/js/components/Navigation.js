@@ -11,7 +11,7 @@ class Navigation extends React.Component {
     this.MainNav = [
       {label: 'ダッシュボード', url: '/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconSize: 'h-8 w-9', extraStyle: ''},
       {label: '契約', url: '#', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconSize: 'h-7 w-9', extraStyle: ''},
-      {label: '請求', url: '#', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconSize: 'h-8 w-8', extraStyle: ''},
+      {label: '請求', url: '/company/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconSize: 'h-8 w-8', extraStyle: ''},
     ]
     this.dropdownNav = [
       {label: 'アカウント プロファイル', url: '#', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
@@ -51,7 +51,7 @@ class Navigation extends React.Component {
             }
           </ul>
         </div>
-        <div id="nav-dropdown" name="nav-dropdown" className="float-right relative w-52 flex h-full space-x-2 cursor-pointer" onClick={this.handleDropDown}>
+        <div id="nav-dropdown" name="nav-dropdown" className="float-right relative w-52 flex h-full space-x-2 cursor-pointer z-20" onClick={this.handleDropDown}>
           <p className="my-auto font-sans text-lg text-primary-200 font-bold">株式会社町田</p>
           <div className="my-auto">
             <img alt="setting icon" src={ArrowDownIcon} />
