@@ -10,7 +10,6 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
     <body class="bg-mainbg">
-        <nav id="navigation"></nav>
         <div id="companyLogin" class="flex justify-center" style="">
     </body>
     <script src="{{asset('js/app.js')}}"></script>
