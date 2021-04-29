@@ -14,4 +14,12 @@
     border-right: 2px solid white;
     border-bottom: 2px solid white;  
  }
- 
+
+.field-error {
+    border-color: red;
+    border-bottom-width: 1px
+}
+
+.login-error {
+    color: red;
+}

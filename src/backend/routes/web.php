@@ -15,3 +15,10 @@ Route::view('/', 'index');
 Route::view('/dashboard', 'dashboard');
 Route::view('/company/billing', 'companyBilling');
 Route::view('/companyProfile', 'companyProfile');
+
+Route::get('/login', function () {
+  $query = request()->query();
+  if ($query["type"] === "company") {
+    return view('companyLogin');
+  }
+})->name('login');

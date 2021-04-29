@@ -37,4 +37,13 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function login()
+    {
+        $query = request()->query();
+        if ($query["type"] === "company") {       
+            return view('company-login');
+        }
+      
+    }
 }
