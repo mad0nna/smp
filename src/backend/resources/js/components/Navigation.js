@@ -14,7 +14,7 @@ class Navigation extends React.Component {
       {label: '請求', url: '/company/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconSize: 'h-8 w-8', extraStyle: ''},
     ]
     this.dropdownNav = [
-      {label: 'アカウント プロファイル', url: '#', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+      {label: 'アカウント プロファイル', url: '/companyProfile', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
       {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
       {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
       {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-4 w-5', extraStyle: ''}
