@@ -24,7 +24,7 @@ class DashboardServiceUsage extends Component {
             <img className= "float-right mr-6 hidden group-hover:block" src={Ellipsis}   />    
             <div className="-ml-4 mr-4 p-2 pl-4 text-xs block bg-gray-200 text-gray-500">
               サービス最終利用日時
-              <span className="ml-2 pr-4 text-xs border border-gray-500"> 2021年3月15日</span>
+              <span className="ml-2 pr-4 text-xs "> 2021年3月15日</span>
             </div>
           </div>
           <div className="justify-around w-full h-full px-3 overflow-hidden" style={{color: '#5B5B5B'}}> 
