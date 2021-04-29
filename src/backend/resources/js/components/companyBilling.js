@@ -11,11 +11,11 @@ class CompanyBilling extends React.Component{
     super(props)
     this.state = {
       billingList: [
-        {no: 'KOT - INV023', invoiceName: 'KOT - TM 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', requestBy: '矢崎紘一', state: '未払い'},
-        {no: 'KOT - INV022', invoiceName: 'KOT - SL 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', requestBy: '矢崎紘一', state: '未払い'},
-        {no: 'KOT - INV021', invoiceName: 'KOT - DA 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', requestBy: '矢崎紘一', state: '未払い'},
-        {no: 'KOT - INV020', invoiceName: 'KOT - TM 定期購読', requestDate: '2021年3月5日', dueDate: '2021年3月30日', requestBy: '矢崎紘一', state: '支払い済み'},
-        {no: 'KOT - INV019', invoiceName: 'KOT - SL 定期購読', requestDate: '2021年3月5日', dueDate: '2021年3月30日', requestBy: '矢崎紘一', state: '支払い済み'}
+        {no: 'KOT - INV023', invoiceName: 'KOT - TM 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', requestBy: '株式会社町田', state: '未払い'},
+        {no: 'KOT - INV022', invoiceName: 'KOT - SL 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', requestBy: '株式会社町田', state: '未払い'},
+        {no: 'KOT - INV021', invoiceName: 'KOT - DA 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', requestBy: '株式会社町田', state: '未払い'},
+        {no: 'KOT - INV020', invoiceName: 'KOT - TM 定期購読', requestDate: '2021年3月5日', dueDate: '2021年3月30日', requestBy: '株式会社町田', state: '支払い済み'},
+        {no: 'KOT - INV019', invoiceName: 'KOT - SL 定期購読', requestDate: '2021年3月5日', dueDate: '2021年3月30日', requestBy: '株式会社町田', state: '支払い済み'}
       ]
     }
   }

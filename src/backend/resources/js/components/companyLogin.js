@@ -96,7 +96,7 @@ class CompanyLogin extends Component {
           </div>
           <div className="flex flex-wrap gap-0 w-full justify-center">
             <div className="flex flex-wrap gap-0 w-1/2 ">
-              <input type="text" name="email" placeholder="Email" onChange={this.handleChange}
+              <input type="text" name="email" placeholder="メールアドレス" onChange={this.handleChange}
                 className={'w-full px-3 py-3 placeholder-blueGray-300 relative bg-white bg-white rounded text-sm border border-gray-300 outline-none rounded-b-none border-b-0'}/>
               <input type="password"  name="password" placeholder="パスワード" onChange={this.handleChange}  
                 className={'w-full px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-gray-300 outline-none rounded-t-none'}/>
