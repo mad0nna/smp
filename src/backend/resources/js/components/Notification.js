@@ -6,15 +6,16 @@ class Notification extends React.Component {
   constructor(props) {
     super(props)
     this.iconTypes = {
-      active: 'bg-notification-active',
-      inactive: 'bg-notification-inactive'
+      invoice: 'bg-notification-invoice',
+      contract: 'bg-notification-active',
+      hnt: 'bg-notification-normal'
     }
     this.notifWithLink = ['請求', 'お知らせ']
     this.state = {
       notificationItems : [
-        {header:'請求', message: '5月度の請求書があります。', link: '#', status: 'unread'},
-        {header:'契約リマインダー ', message: 'KOT - セキュアログインが30日後に失効します*', link: '#', status: 'unread'},
-        {header:'お知らせ', message: 'H&T 新規サービス', link: '#', status: 'read'},
+        {header:'請求', type:'invoice', message: '5月度の請求書があります。', link: '#', status: '未読'},
+        {header:'契約リマインダー ', type: 'contract', icon: '', message: 'KOT - セキュアログインが30日後に失効します*', link: '#', status: '未読'},
+        {header:'お知らせ', type: 'hnt', message: 'H&T 新規サービス', link: '#', status: '読む'},
       ]
     }
   }
@@ -31,19 +32,16 @@ class Notification extends React.Component {
           <div id="widget-body" className="h-widgetBody w-full bg-mainbg py-2 space-y-2">
             {
               this.state.notificationItems.map((item, index)=>{
-                let bIsActive = item.status === 'unread'
+                let fontColor = item.type === 'hnt' ? 'text-gray-500' : ''
                 return(
                   <div id="widget-content-item" className="bg-white w-full h-20 box-border align-middle p-3 relative" key={index}>
-                    {(bIsActive) ?
-                      <div id="item-icon" className={this.iconTypes.active + ' bg-cover bg-no-repeat w-6 h-6 float-left'}/> :
-                      <div id="item-icon" className={this.iconTypes.inactive + ' bg-cover bg-no-repeat w-4 h-5 float-left ml-1 mr-1'}/>
-                    }
-                    <p id="item-content" className="font-sans font-bold font-black text-xs ml-4 tracking-tighter float-left w-widgetBody">
+                    <div id="item-icon" className={this.iconTypes[item.type] + ' bg-cover bg-no-repeat w-6 h-6 float-left'}/> :
+                    <p id="item-content" className={fontColor + ' font-black font-sans text-xs ml-4 tracking-tighter float-left w-widgetBody'}>
                       {item.header} <br/>
                       {item.message} <br/>
                       {(this.notifWithLink.includes(item.header)) ? ' こちらをクリックして確認してください' : ''}
                     </p>
-                    <p id="item-status" className="absolute right-4 float-right font-sans text-primary-200 text-xs tracking-tighter text-center leading-5"/>
+                    <p id="item-status" className="absolute right-8 float-right font-sans text-primary-200 text-sm tracking-tighter text-center bottom-3">{item.status}</p>
                   </div>
                 )
               })
@@ -51,7 +49,7 @@ class Notification extends React.Component {
           </div>
           <div id="widget-footer" className="w-full h-14 bg-white p-3.5">
             <div id="widget-footer-control" className="float-right">
-              <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter">もっと見る</button>
+              <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter">さらに表示</button>
             </div>
           </div>
         </div>
