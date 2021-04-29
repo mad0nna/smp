@@ -10,7 +10,7 @@ import Services from './contractedServices'
 import Linkage from './linkageServices'
 import Purchase from './purchaseHistory'
 import BillingHistory from './billingHistory'
-//import Settings from './settings'
+import Settings from './dashboardSettings'
 //import ServiceUsage from './serviceUsage
 import CompanyDashboardChart from './companyDashboardChart'
 
@@ -25,7 +25,7 @@ const widgets =[
   {component: '<ServiceUsage/>',static: false, className: '', state: 'shown', x: 0, y: 4, w: 4, h: 1.25},
   {component: <BillingHistory/>, static: false, className: '', state: 'shown', x: 4, y: 0, w: 3, h: 2.50},
   {component: <Notification/>,static: false, className: '', state: 'shown', x: 4, y:2, w: 3, h: 2.25},
-  {component: '<Settings/>', static: false, className: '', state: 'shown', x: 7, y: 0, w: 3, h: 2.50},
+  {component: <Settings/>, static: false, className: '', state: 'shown', x: 8, y: 0, w: 3, h: 2.50},
   {component: <Purchase/>,static: false, className: '', state: 'shown', x: 7, y: 4, w: 3, h: 2.25}
 ]
 
