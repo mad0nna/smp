@@ -10,7 +10,7 @@ class Navigation extends React.Component {
     }
     this.MainNav = [
       {label: 'ダッシュボード', url: '/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconSize: 'h-8 w-9', extraStyle: ''},
-      {label: '契約', url: '#', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconSize: 'h-7 w-9', extraStyle: ''},
+      {label: '契約', url: '/company/contracts', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconSize: 'h-7 w-9', extraStyle: ''},
       {label: '請求', url: '/company/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconSize: 'h-8 w-8', extraStyle: ''},
     ]
     this.dropdownNav = [

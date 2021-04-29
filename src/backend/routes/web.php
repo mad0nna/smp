@@ -13,6 +13,8 @@
 
 Route::view('/', 'index');
 Route::view('/dashboard', 'dashboard');
+
+Route::view('/company/contracts', 'contracts');
 Route::view('/company/billing', 'companyBilling');
 Route::view('/companyProfile', 'companyProfile');
 
