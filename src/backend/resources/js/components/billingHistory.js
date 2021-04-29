@@ -7,9 +7,9 @@ class BillingHistory extends React.Component {
   constructor(props) {
     super(props)
     this.billingHistory = [
-      {amount: '¥ 10,000', date: '2020年3月10日', billTo: '株式会社町田', biller: '株式会社A', paymentDate: '未払い'},
-      {amount: '¥ 10,000', date: '2020年3月10日', billTo: '株式会社町田', biller: '株式会社A', paymentDate: '未払い'},
-      {amount: '¥ 10,000', date: '2020年3月10日', billTo: '株式会社町田', biller: '株式会社A', paymentDate: '未払い'},
+      {amount: '¥ 10,000', date: '2021年3月20日', invoiceNo: 'KOT - INV023', invoiceDate: '2021年2月20日', paymentDate: '未払い'},
+      {amount: '¥ 15,000', date: '2021年3月25日', invoiceNo: 'KOT - INV022', invoiceDate: '2021年2月25日', paymentDate: '未払い'},
+      {amount: '¥ 20,000', date: '2021年3月30日', invoiceNo: 'KOT - INV021', invoiceDate: '2021年2月30日', paymentDate: '未払い'},
     ]
   }
 
@@ -35,7 +35,7 @@ class BillingHistory extends React.Component {
             {
               this.billingHistory.map((item, index) => {
                 let stripe = ((index % 2)) ? 'bg-gray-50' : 'bg-white'
-                return( 
+                return(
                   <div id="widget-content-item" className={stripe + ' w-full h-auto p-3 relative'} key={index}>
                     <div className="w-5/12 h-full  inline-block align-top mr-4 pl-4">
                       <h1 className="font-semibold text-3xl text-gray-500 font-sans">{item.amount}</h1>
@@ -44,12 +44,12 @@ class BillingHistory extends React.Component {
                     </div>
                     <div className="w-1/2 h-full inline-block align-top tracking-tighter align-top">
                       <div className="-mt-1">
-                        <div className="text-gray-400 inline-block text-xs font-semibold mr-3 tracking-widest">請求先 </div>
-                        <div className="text-gray-600 inline-block text-xs font-bold tracking-wider">{item.billTo}</div>
+                        <div className="text-gray-400 inline-block text-xs font-semibold mr-3 tracking-widest">請求書番号</div>
+                        <div className="text-gray-600 inline-block text-xs font-bold tracking-wider">{item.invoiceNo}</div>
                       </div>
                       <div className="-mt-1 mb-1">
-                        <div className="text-gray-400 inline-block text-xs font-semibold mr-3 tracking-widest">請求元 </div>
-                        <div className="text-gray-600 inline-block text-xs font-bold tracking-wider">{item.biller}</div>
+                        <div className="text-gray-400 inline-block text-xs font-semibold mr-3 tracking-widest">請求日</div>
+                        <div className="text-gray-600 inline-block text-xs font-bold ml-6 tracking-wider">{item.invoiceDate}</div>
                       </div>
                       <div className="bg-gray-200 block w-full h-auto px-2 rounded-lg">
                         <div className="text-gray-400 inline-block text-xs font-semibold mr-3 tracking-widest">支払日 </div>
