@@ -9,3 +9,4 @@ const files = require.context('./components', true, /\.js$/i)
 files.keys().map(key => {
   require(`./components${key.substring(1)}`)
 })
+

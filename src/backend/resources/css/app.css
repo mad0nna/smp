@@ -1,3 +1,5 @@
+ @tailwind base;
+ @tailwind components;
 @tailwind utilities;
 @tailwind components;
 @tailwind base;
@@ -10,6 +12,7 @@
     width: 5px;
     height: 5px;
     border-right: 2px solid white;
+<<<<<<< HEAD
     border-bottom: 2px solid white;
  }
 
@@ -20,3 +23,8 @@
 .stripe-table-row:nth-child(even) {
     @apply bg-gray-50
 }
+=======
+    border-bottom: 2px solid white;  
+ }
+ 
+>>>>>>> b6792e7 (Add requested changes)
