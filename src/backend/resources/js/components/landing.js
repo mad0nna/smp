@@ -6,10 +6,10 @@ import salesLogin from '../../img/index/salesLogin.png'
 import employeeLogin from '../../img/index/employeeLogin.png'
 
 const links = [
-  { label:'管理者', url: '/login?type=admin', photo: adminLogin },
+  { label:'管理者', url: '#', photo: adminLogin },
   { label:'顧客企業', url: '/login?type=company', photo: companyLogin },
-  { label:'販売代理店', url: '/login?type=sales', photo: salesLogin },
-  { label:'従業員', url: '/login?type=employee', photo: employeeLogin },
+  { label:'販売代理店', url: '#', photo: salesLogin },
+  { label:'従業員', url: '#', photo: employeeLogin },
 ]
 
 const Landing = () =>{
