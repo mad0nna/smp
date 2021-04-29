@@ -12,7 +12,7 @@
     width: 5px;
     height: 5px;
     border-right: 2px solid white;
-    border-bottom: 2px solid white;  
+    border-bottom: 2px solid white;
  }
 
 .field-error {
@@ -22,4 +22,7 @@
 
 .login-error {
     color: red;
+}
+.custom-outline-none:focus-visible, .custom-outline-none:focus, #widget-footer-control > button:focus-visible, #widget-footer-control > button:focus{
+    outline: none;
 }
