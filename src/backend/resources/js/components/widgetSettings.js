@@ -29,11 +29,11 @@ const WidgetSettings = (props) =>{
     <div className="bg-white rounded-lg border-gray-200 m-10 w-8/12">
       <div className="flex">
         <img className="p-8" src={settings}/>
-        <span className="text-primary-200 font-sans font-bold ml-8 py-6 pt-8">Widget Settings</span>
+        <span className="text-primary-200 font-sans font-bold ml-8 py-6 pt-8">ウィジェット設定</span>
       </div>
       <div className="bg-gray-300 flex flex-justify grid-cols-2 justify-around font-bold text-center w-full">
-        <span className="">Widget Name</span>
-        <span text-center>Show</span>
+        <span className="">ウィジェット名</span>
+        <span text-center>表示</span>
       </div>
           
       <div>
@@ -49,7 +49,7 @@ const WidgetSettings = (props) =>{
       <div className="flex justify-around py-16 ">
         <form onSubmit= {onSave}>
           
-          <button className="rounded-xl text-white px-3 py-2 bg-primary-200 border-gray-300 content-center">Save</button>
+          <button className="rounded-xl text-white px-3 py-3 bg-primary-200 border-gray-300 content-center">保存する</button>
         </form>
       </div>
     </div>  
