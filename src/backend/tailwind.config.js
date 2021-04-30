@@ -20,6 +20,7 @@ module.exports = {
                 'profile-icon-white': "url('/images/profile-icon-white.png')",
                 'settings-icon-white': "url('/images/settings-icon-white.png')",
                 'switch-account-icon-white': "url('/images/switch-account-icon-white.png')",
+                'notification-icon': "url('/images/notification-icon.png')",
                 'notification-normal': "url('/images/notif-alert-hnt.png')",
                 'notification-active': "url('/images/notification-active.png')",
                 'notification-invoice': "url('/images/notif-alert-invoice.png')",
