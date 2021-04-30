@@ -23,16 +23,17 @@ const Dashboard = () => {
   }
 
   const widgets =[
-    {component: <Welcome/>, label: 'Welcome', static: true,style:'staticWidgets', className: '', state: true, x: 0, y: 0, w: 4, h: .25,isResizable:false},
-    {component:<CompanyDashboardChart/>, label: 'Dashboard Charts', static: false, className:'', state: true, x: 0, y: 0, w: 4, h: 2, minW: 2,isResizable:true},
+    {component: <Welcome/>, label: 'Welcome', static: true,style:'staticWidgets', className: 'w-1/3 flex', state: true, x: 0, y: 0, w: 4, h: .25,isResizable:false},
+    {component:<CompanyDashboardChart/>, label: 'Dashboard Charts', static: false, className:'w-1/3', state: true, x: 0, y: 0, w: 4, h: 2, minW: 2,isResizable:true},
     {component: <Services/>, label: 'Contracted Services', static: false, className:'', state: true, x: 0, y: 0, w: 2, h: 1.25, minW: 2,isResizable:false},
     {component: <Linkage/>, label: 'Linkage Services', static: false,className:'', state: true, x: 2, y:3 , w: 2, h: 1.25, minW: 2, isResizable:false},
-    {component: <ServiceUsage/>,label: 'Status of Service Usage',static: false, className: '', state: true, x: 0, y: 4, w: 4, h: 1.25, minW: 2, isResizable:true},
-    {component: <BillingHistory/>, label: 'Billing History', static: false, className: '', state: true, x: 4, y: 0, w: 3, h: 2.50, minW: 2, isResizable:true},
-    {component: <Notification/>,label: 'Notifications', static: false, className: '', state: true,x: 4, y:2, w: 3, h: 2.25, minW: 1, isResizable:true},
-    {component: <Settings showWidgets={showWidgetSettingsHandler}/>, label: 'Settings', static: false, className: '', state: true, x: 7, y: 0, w: 3, h: 2.50, isResizable:true},
-    {component: <Purchase/>,label: 'Purchase History', static: false, className: '', state: true, x: 7, y: 4, w: 3, h: 2.25, minW: 2, Resizable:true}
+    {component: <ServiceUsage/>,label: 'Status of Service Usage',static: false, className: 'w-1/3', state: true, x: 0, y: 4, w: 4, h: 1.25, minW: 2, isResizable:true},
+    {component: <BillingHistory/>, label: 'Billing History', static: false, className: 'w-1/3', state: true, x: 4, y: 0, w: 3, h: 2.50, minW: 2, isResizable:true},
+    {component: <Notification/>,label: 'Notifications', static: false, className: 'w-1/3', state: true,x: 4, y:2, w: 3, h: 2.25, minW: 1, isResizable:true},
+    {component: <Settings showWidgets={showWidgetSettingsHandler}/>, label: 'Settings', static: false, className: 'w-1/3', state: true, x: 7, y: 0, w: 3, h: 2.50, isResizable:true},
+    {component: <Purchase/>,label: 'Purchase History', static: false, className: 'w-1/3', state: true, x: 7, y: 4, w: 3, h: 2.25, minW: 2, Resizable:true}
   ]
+
   const [widgetState,setWidgetState]=useState(widgets)
   
   const updatedWidgetHandler = (widgetState) =>{
@@ -47,14 +48,14 @@ const Dashboard = () => {
       { (showWidgetSettings) ?
         
         <WidgetSettings widgetslist={widgetState} updatedWidgetState={updatedWidgetHandler}/> :
-        <ResponsiveGridLayout className="dashboardGrid" layouts={{widgets}}
-          breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480}}
+        <ResponsiveGridLayout className="dashboardGrid" layouts={{lg:widgets,md:widgets}}
+          breakpoints={{lg: 1200, md: 768, sm: 640, xs: 480}}
           cols={{lg: 10, md: 10, sm: 5, xs:1}}
           draggableCancel = '.staticWidgets' margin={[35,30]} containerPadding={[10,20]}
-          isBounded={true}>
+          isBounded={true} useCSSTransforms={true}>
           {
             widgetState.filter(widget => widget.state !== false).map((item, index) => {
-              return (<div key={index} data-grid={{x: item.x, y: item.y, w: item.w, h: item.h,static:item.static, isResizable:item.isResizable}} >{item.component}</div>)
+              return (<div className={item.className} key={index} data-grid={{x: item.x, y: item.y, w: item.w, h: item.h,static:item.static, isResizable:item.isResizable}} >{item.component}</div>)
             })
           }
         </ResponsiveGridLayout>
