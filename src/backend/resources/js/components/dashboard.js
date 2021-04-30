@@ -24,14 +24,14 @@ const Dashboard = () => {
 
   const widgets =[
     {component: <Welcome/>, label: 'Welcome', static: true,style:'staticWidgets', className: '', state: true, x: 0, y: 0, w: 4, h: .25,isResizable:false},
-    {component:<CompanyDashboardChart/>, label: 'Dashboard Charts', static: false, className:'', state: true, x: 0, y: 0, w: 4, h: 2, minW: 2,isResizable:true},
+    {component:<CompanyDashboardChart/>, label: 'Dashboard Charts', static: false, className:'', state: true, x: 0, y: 0, w: 4, h: 2, minW: 2,isResizable:false},
     {component: <Services/>, label: 'Contracted Services', static: false, className:'', state: true, x: 0, y: 0, w: 2, h: 1.25, minW: 2,isResizable:false},
     {component: <Linkage/>, label: 'Linkage Services', static: false,className:'', state: true, x: 2, y:3 , w: 2, h: 1.25, minW: 2, isResizable:false},
-    {component: <ServiceUsage/>,label: 'Status of Service Usage',static: false, className: '', state: true, x: 0, y: 4, w: 4, h: 1.25, minW: 2, isResizable:true},
-    {component: <BillingHistory/>, label: 'Billing History', static: false, className: '', state: true, x: 4, y: 0, w: 3, h: 2.50, minW: 2, isResizable:true},
-    {component: <Notification/>,label: 'Notifications', static: false, className: '', state: true,x: 4, y:2, w: 3, h: 2.25, minW: 1, isResizable:true},
-    {component: <Settings showWidgets={showWidgetSettingsHandler}/>, label: 'Settings', static: false, className: '', state: true, x: 7, y: 0, w: 3, h: 2.50, isResizable:true},
-    {component: <Purchase/>,label: 'Purchase History', static: false, className: '', state: true, x: 7, y: 4, w: 3, h: 2.25, minW: 2, sResizable:true}
+    {component: <ServiceUsage/>,label: 'Status of Service Usage',static: false, className: '', state: true, x: 0, y: 4, w: 4, h: 1.25, minW: 2, isResizable:false},
+    {component: <BillingHistory/>, label: 'Billing History', static: false, className: '', state: true, x: 4, y: 0, w: 3, h: 2.50, minW: 2, isResizable:false},
+    {component: <Notification/>,label: 'Notifications', static: false, className: '', state: true,x: 4, y:2, w: 3, h: 2.25, minW: 1, isResizable:false},
+    {component: <Settings showWidgets={showWidgetSettingsHandler}/>, label: 'Settings', static: false, className: '', state: true, x: 7, y: 0, w: 3, h: 2.50, isResizable:false},
+    {component: <Purchase/>,label: 'Purchase History', static: false, className: '', state: true, x: 7, y: 4, w: 3, h: 2.25, minW: 2, sResizable:false}
   ]
   const [widgetState,setWidgetState]=useState(widgets)
   
