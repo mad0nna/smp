@@ -35,7 +35,7 @@ class Notification extends React.Component {
                 let fontColor = item.type === 'hnt' ? 'text-gray-500' : ''
                 return(
                   <div id="widget-content-item" className="bg-white w-full h-20 box-border align-middle p-3 relative" key={index}>
-                    <div id="item-icon" className={this.iconTypes[item.type] + ' bg-cover bg-no-repeat w-6 h-6 float-left'}/> :
+                    <div id="item-icon" className={this.iconTypes[item.type] + ' bg-cover bg-no-repeat w-6 h-6 float-left'}/>
                     <p id="item-content" className={fontColor + ' font-black font-sans text-xs ml-4 tracking-tighter float-left w-widgetBody'}>
                       {item.header} <br/>
                       {item.message} <br/>
