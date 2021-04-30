@@ -16,8 +16,8 @@ class CompanyDashboardChart extends React.Component {
         <div className="w-full h-full overflow-hidden relative rounded-lg border-2 border-gray-200">
           <div id="widget-header" className="max-w-full h-16 bg-white box-border align-middle py-3 relative">
             <div className="absolute  top-1 left-10 relative">
-              <img id="widget-name" className="absolute z-10 h-7 top-0 -left-6" src={KotLogo}/>
-              <div id="widget-icon" className="absolute w-48 h-12 -top-2 bg-gray-200 transform skew-x-rectangle-skew"> </div>
+              <img id="widget-name" className="absolute z-10 xl:h-6 2xl:h-7 top-0 -left-6" src={KotLogo}/>
+              <div id="widget-icon" className="absolute sm:w-32 md:w-32 lg:w-32 xl:w-32 2xl:w-48 h-12 -top-2 bg-gray-200 transform skew-x-rectangle-skew"> </div>
             </div>
             <div className="float-right w-64 h-12 text-center pt-2">
               <div className="w-16 h-6 leading-3 bg-secondaryBg p-1 align-middle inline-block border-secondaryBg border-l-2 border-b-2 border-t-2 cursor-pointer">
@@ -33,7 +33,7 @@ class CompanyDashboardChart extends React.Component {
             <img className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block" src={Ellipsis}/>
           </div>
           <div id="widget-body" className= 'h-widgetBody-sm w-full bg-white px-6 py-2 space-x-12 overflow-hidden text-center'>
-            <div className="w-44 h-60 inline-block">
+            <div className="w-44 h-64 inline-block">
               <p className="font-sans font-black text-xs text-gray-500">定期購読契約</p>
               <img src={chart1} className="mx-auto"/>
               <div className="mx-auto w-36 p-1 rounded-lg bg-cyan">
