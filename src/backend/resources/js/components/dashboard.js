@@ -48,8 +48,8 @@ const Dashboard = () => {
         
         <WidgetSettings widgetslist={widgetState} updatedWidgetState={updatedWidgetHandler}/> :
         <ResponsiveGridLayout className="dashboardGrid" layouts={{widgets}}
-          breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-          cols={{lg: 10, md: 7, sm: 5, xs: 4}}
+          breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480}}
+          cols={{lg: 10, md: 10, sm: 5}}
           draggableCancel = '.staticWidgets' margin={[35,30]} containerPadding={[10,20]}
           isBounded={true}>
           {
