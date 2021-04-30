@@ -7,9 +7,9 @@ class BillingHistory extends React.Component {
   constructor(props) {
     super(props)
     this.billingHistory = [
-      {amount: '¥ 10,000', date: '2021年3月20日', invoiceNo: 'KOT - INV023', invoiceDate: '2021年2月20日', paymentDate: '未払い'},
-      {amount: '¥ 15,000', date: '2021年3月25日', invoiceNo: 'KOT - INV022', invoiceDate: '2021年2月25日', paymentDate: '未払い'},
-      {amount: '¥ 20,000', date: '2021年3月30日', invoiceNo: 'KOT - INV021', invoiceDate: '2021年2月30日', paymentDate: '未払い'},
+      {amount: '¥ 10,000', dueDate: '2021年3月20日', invoiceNo: 'KOT - INV023', invoiceDate: '2021年2月20日', paymentDate: '未払い'},
+      {amount: '¥ 15,000', dueDate: '2021年3月25日', invoiceNo: 'KOT - INV022', invoiceDate: '2021年2月25日', paymentDate: '未払い'},
+      {amount: '¥ 20,000', dueDate: '2021年3月30日', invoiceNo: 'KOT - INV021', invoiceDate: '2021年2月30日', paymentDate: '未払い'},
     ]
   }
 
@@ -39,8 +39,8 @@ class BillingHistory extends React.Component {
                   <div id="widget-content-item" className={stripe + ' w-full h-auto p-3 relative'} key={index}>
                     <div className="w-5/12 h-full  inline-block align-top mr-4 pl-4">
                       <h1 className="font-semibold text-3xl text-gray-500 font-sans">{item.amount}</h1>
-                      <p className="text-xs text-gray-400 font-sans">支払日</p>
-                      <p className="text-sm text-gray-600 font-sans font-semibold">{item.date}</p>
+                      <p className="text-xs text-gray-400 font-sans">支払い期限</p>
+                      <p className="text-sm text-gray-600 font-sans font-semibold">{item.dueDate}</p>
                     </div>
                     <div className="w-1/2 h-full inline-block align-top tracking-tighter align-top">
                       <div className="-mt-1">
