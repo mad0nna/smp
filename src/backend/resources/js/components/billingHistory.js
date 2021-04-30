@@ -37,18 +37,18 @@ class BillingHistory extends React.Component {
                 let stripe = ((index % 2)) ? 'bg-gray-50' : 'bg-white'
                 return(
                   <div id="widget-content-item" className={stripe + ' w-full h-auto p-3 relative'} key={index}>
-                    <div className="2xl:w-5/12 lg: xl:w-5/12 lg:w-5/12 sm:w-4/12 h-full  inline-block align-top 2xl:mr-4 xl:mr-3 lg:mr-2 sm:mr-1 pl-4">
-                      <h1 className="font-semibold 2xl:text-3xl xl:3xl lg:text-2xl md:text-xl sm:text-lg text-gray-500 font-sans">{item.amount}</h1>
+                    <div className="2xl:w-5/12 lg: xl:w-5/12 lg:w-5/12 sm:w-6/12 h-full inline-block align-top 2xl:mr-4 xl:mr-3 lg:mr-2 sm:mr-0 pl-4">
+                      <h1 className="font-semibold 2xl:text-3xl xl:3xl lg:text-xl md:text-sm sm:text-sm text-gray-500 font-sans">{item.amount}</h1>
                       <p className="2xl:text-xs xl:text-xs lg:text-xs sm:text-xxs xs:text-xxs text-gray-400 font-sans">支払い期限</p>
                       <p className="2xl:text-sm xl:text-xs lg:text-xs sm:text-xxs xs:text-xxs text-gray-600 font-sans font-semibold">{item.dueDate}</p>
                     </div>
                     <div className="w-1/2 h-full inline-block tracking-tighter align-top">
                       <div className="-mt-1">
                         <div className="text-gray-400 inline-block 2xl:text-xs lg:text-xxs sm:text-xxs font-semibold mr-3 tracking-  widest">請求書番号</div>
-                        <div className="text-gray-600 inline-block 2xl:text-xs lg:text-xxs sm:text-xxs xs:text-xxs font-bold tracking-wider">{item.invoiceNo}</div>
+                        <div className="text-gray-600 inline-block 2xl:text-xs lg:text-xxs sm:text-xxs xs:text-3xs font-bold tracking-wider">{item.invoiceNo}</div>
                       </div>
                       <div className="-mt-1 mb-1">
-                        <div className="text-gray-400 inline-block 2xl:text-xs xl:text-xs lg:xxs sm:xxs font-semibold 2xl:ml-3 xl:ml-2 lg:ml-1 sm:ml-1 tracking-widest">請求日</div>
+                        <div className="text-gray-400 inline-block 2xl:text-xs xl:text-xs lg:text-xxs sm:text-xxs font-semibold 2xl:ml-3 xl:ml-2 lg:ml-1 sm:ml-1 tracking-widest">請求日</div>
                         <div className="text-gray-600 inline-block 2xl:text-xs xl:text-xs lg:text-xxs sm:text-xxs xs:text-xxs font-bold 2xl:ml-6 xl:ml-3 lg:ml-1 sm:ml-1 tracking-wider">{item.invoiceDate}</div>
                       </div>
                       <div className="bg-gray-200 block w-full h-auto 2xl:px-2 xl:px:2 lg:px-1 sm:px-1 rounded-lg">

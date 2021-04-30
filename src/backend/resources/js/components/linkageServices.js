@@ -29,8 +29,8 @@ class LinkageServices extends React.Component {
                 let stripe = (!(index % 2)) ? 'bg-mainbg' : 'bg-white'
                 return(
                   <div id="widget-content-item" className={stripe +' w-auto h-auto align-middle relative rounded-3xl'} key={index}>
-                    <p id="item-content" className="font-sans 2xl:text-sm xl:text-xs lg:text-xs inline-block w-1/2 2xl:pl-6 xl:pl-5 lg:pl-4 2xl:py-2 xl:py-3 lg:py-3 leading-loose break-words">{item.serviceName}</p>
-                    <div id="item-content" className="font-sans text-gray-400 font-black 2xl:text-sm xl:text-xs lg:text-xs absolute top-0 right-0 left-0 bottom-0">
+                    <p id="item-content" className="font-sans 2xl:text-sm xl:text-xs lg:text-xs sm:text-xxs inline-block w-1/2 2xl:pl-6 xl:pl-5 lg:pl-4 2xl:py-2 xl:py-3 lg:py-3 sm:py-3 leading-loose break-words">{item.serviceName}</p>
+                    <div id="item-content" className="font-sans text-gray-400 font-black 2xl:text-sm xl:text-xs lg:text-xs m:text-xxs absolute top-0 right-0 left-0 bottom-0">
                       <div className="inline-block align-middle h-full w-1/2"/>
                       <div className="inline-block align-middle">
                         <a href={item.serviceLink}>
