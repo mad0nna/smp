@@ -32,10 +32,10 @@ class ContractedServices extends React.Component {
               this.state.contractedServices.map((item, index) => {
                 let stripe = (!(index % 2)) ? 'bg-mainbg' : 'bg-white'
                 return (
-                  <span id="widget-content-item" className={stripe + ' w-4/5 h-auto align-middle mx-6 rounded-3xl py-1 overflow-hidden inline-block whitespace-nowrap'} key={index}>
-                    <img src={item.serviceIcon} className="w-auto h-6 ml-2 mr-2 inline"/>
+                  <span id="widget-content-item" className={stripe + ' xl:w-4/5 lg:w-8/10 h-auto align-middle xl:mx-6 lg:mx-2 rounded-3xl py-1 overflow-hidden inline-block whitespace-nowrap'} key={index}>
+                    <img src={item.serviceIcon} className="w-auto h-6 lg:mx-1.5 2xl:mx-2 inline"/>
                     <img src={item.serviceOwner} className="w-auto h-3 inline"/>
-                    <span id="item-content" className="font-sans text-gray-400 font-black text-xs ml-4 inline tracking-tighter overflow-hidden">
+                    <span id="item-content" className="font-sans text-gray-400 font-black text-xs 2xl:ml-4 lg:mx-2 inline tracking-tighter overflow-hidden">
                       {item.serviceName}
                     </span>
                   </span>
