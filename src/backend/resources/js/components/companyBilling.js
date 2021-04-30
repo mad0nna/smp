@@ -57,7 +57,7 @@ class CompanyBilling extends React.Component{
                   <td>支払い期限</td>
                   <td>請求先</td>
                   <td>状態</td>
-                  <td>アクション</td>
+                  <td>操作</td>
                 </tr>
               </thead>
               <tbody className="transform even:bg-gray-500">
