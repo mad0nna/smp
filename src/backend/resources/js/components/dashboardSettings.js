@@ -19,16 +19,16 @@ const DashboardSettings =(props) => {
         </div>
         <div className="justify-around w-full h-full overflow-hidden relative"> 
           <div className="flex flex-wrap px-8 py-6 pb-4 h-full">
-            <div className="flex justify-center md:w-1/2 md:h-1/2 px-1">             
+            <div className="flex justify-center md:w-1/2 md:h-1/2 2xlg:px-1 sm:pr-2">             
               <img className= "p-0 rounded-l" src={imgMethPayment} style={{height : '80%'}} />             
             </div>
-            <div className="flex justify-center md:w-1/2 md:h-1/2 px-1">             
+            <div className="flex justify-center md:w-1/2 md:h-1/2 2xlg:px-1 sm:pl-2">             
               <img className= "p-0 rounded-l" src={imgCancelService} style={{height : '80%'}} />           
             </div>
-            <div className="flex justify-center md:w-1/2 md:h-1/2 px-1">
+            <div className="flex justify-center md:w-1/2 md:h-1/2 2xlg:px-1 sm:pr-2">
               <img className= "p-0 rounded-l" src={imgNotice} style={{height : '80%'}} />          
             </div>
-            <div onClick={props.showWidgets} className="flex justify-center md:w-1/2 md:h-1/2 px-1">             
+            <div onClick={props.showWidgets} className="cursor-pointer flex justify-center md:w-1/2 md:h-1/2 2xlg:px-1 sm:pl-2">             
               <img className= "p-0 rounded-l" src={imgSupport} style={{height : '80%'}} />            
             </div>
           </div>
