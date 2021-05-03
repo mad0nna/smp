@@ -7,9 +7,9 @@ class BillingHistory extends React.Component {
   constructor(props) {
     super(props)
     this.billingHistory = [
-      {amount: '¥ 10,000', dueDate: '2021年3月20日', invoiceNo: 'KOT - INV023', invoiceDate: '2021年2月20日', paymentDate: '未払い'},
-      {amount: '¥ 15,000', dueDate: '2021年3月25日', invoiceNo: 'KOT - INV022', invoiceDate: '2021年2月25日', paymentDate: '未払い'},
-      {amount: '¥ 20,000', dueDate: '2021年3月30日', invoiceNo: 'KOT - INV021', invoiceDate: '2021年2月30日', paymentDate: '未払い'},
+      {amount: '¥ 10,890', dueDate: '2021年5月31日', invoiceNo: 'INV00024143', invoiceDate: '2021年5月1日', paymentDate: '未払い'},
+      {amount: '¥ 11,220', dueDate: '2021年4月30日', invoiceNo: 'INV00024011', invoiceDate: '2021年4月1日', paymentDate: '2021年4月30日'},
+      {amount: '¥ 10,890', dueDate: '2021年3月31日', invoiceNo: 'INV00023561', invoiceDate: '2021年3月1日', paymentDate: '2021年3月31日'},
     ]
   }
 
@@ -39,7 +39,7 @@ class BillingHistory extends React.Component {
                   <div id="widget-content-item" className={stripe + ' w-full h-auto p-3 relative'} key={index}>
                     <div className="2xl:w-5/12 lg: xl:w-5/12 lg:w-5/12 sm:w-6/12 h-full inline-block align-top 2xl:mr-4 xl:mr-3 lg:mr-2 sm:mr-0 pl-4">
                       <h1 className="font-semibold 2xl:text-3xl xl:3xl lg:text-xl md:text-xs sm:text-xs text-gray-500 font-sans">{item.amount}</h1>
-                      <p className="2xl:text-xs xl:text-xs lg:text-xs  xs:text-xxs text-gray-400 font-sans">支払い期限</p>
+                      <p className="2xl:text-xs xl:text-xs lg:text-xs  xs:text-xxs text-gray-400 font-sans">支払期限</p>
                       <p className="2xl:text-sm xl:text-xxs lg:text-xxs  xs:text-xxs text-gray-600 font-sans font-semibold">{item.dueDate}</p>
                     </div>
                     <div className="w-1/2 h-full inline-block tracking-tighter align-top">

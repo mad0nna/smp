@@ -30,13 +30,13 @@ class DashboardServiceUsage extends Component {
           <div className="justify-around w-full h-full px-3 overflow-hidden" style={{color: '#5B5B5B'}}> 
             <div className="flex flex-wrap">
               <div className="lg:w-40 mx-2 my-1 relative h-24" style={{ backgroundImage: `url(${imgActiveUsers})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
-                <p className="absolute top-11 left-10 sm:text-xl 2lg:text-xl text-white font-semibold">750 / 1000</p>           
+                <p className="absolute top-11 left-10 sm:text-xl 2lg:text-xl text-white font-semibold">35 / 90</p>           
               </div>
               <div className="lg:w-40 mx-4 my-1 relative h-24" style={{ backgroundImage: `url(${inActiveUsers})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
-                <p className="absolute top-11 left-10 sm:text-xl 2lg:text-xl text-white font-semibold">150 / 1000</p>          
+                <p className="absolute top-11 left-10 sm:text-xl 2lg:text-xl text-white font-semibold">55 / 90</p>          
               </div>
               <div className="w-40 mx-2 my-1 relative h-24" style={{ backgroundImage: `url(${imgLogUsers})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
-                <p className="absolute top-11 left-10 sm:text-xl 2lg:text-xl  text-white font-semibold">550 / 1000</p>          
+                <p className="absolute top-11 left-10 sm:text-xl 2lg:text-xl  text-white font-semibold">34 / 90</p>          
               </div>
             </div>
           </div>
