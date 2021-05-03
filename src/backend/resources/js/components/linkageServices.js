@@ -14,9 +14,13 @@ class LinkageServices extends React.Component {
   }
   render() {
     let servicesCounter = this.state.linkageServices.length
+    let showMoveButton = ''
+    if (typeof this.props.interActivePages != 'undefined') {
+      showMoveButton = (this.props.interActivePages.includes(location.pathname)) ? 'group-hover:block' : ''
+    }
     return(
       <div className="w-full h-full relative group">
-        <div className="absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-pointer hidden group-hover:block">Move</div>
+        <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-pointer hidden ' + showMoveButton}>Move</div>
         <div className="w-full h-full overflow-hidden relative rounded-lg border-2 border-gray-200 ">
           <div id="widget-header" className="max-w-full h-12 bg-white box-border align-middle p-3 relative">
             <div id="widget-icon" className="w-2 h-6 bg-primary-200 float-left ml-4"> </div>

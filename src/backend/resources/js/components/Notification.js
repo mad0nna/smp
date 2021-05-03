@@ -20,9 +20,13 @@ class Notification extends React.Component {
     }
   }
   render() {
+    let showMoveButton = ''
+    if (typeof this.props.interActivePages != 'undefined') {
+      showMoveButton = (this.props.interActivePages.includes(location.pathname)) ? 'group-hover:block' : ''
+    }
     return(
       <div className="w-full h-full relative group">
-        <div className="absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden group-hover:block">Move</div>
+        <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' + showMoveButton}>Move</div>
         <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
           <div id="widget-header" className="max-w-full h-12 bg-white box-border align-middle p-3 relative">
             <div id="widget-icon" className="bg-notification-icon w-6 h-6 bg-cover bg-no-repeat float-left"/>
