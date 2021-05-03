@@ -21,13 +21,13 @@ class CompanyDashboardChart extends React.Component {
             </div>
             <div className="float-right w-64 h-12 text-center pt-2">
               <div className="w-16 h-6 leading-3 bg-secondaryBg p-1 align-middle inline-block border-secondaryBg border-l-2 border-b-2 border-t-2 cursor-pointer">
-                <p className="text-white text-xxs text-center">Pie Chart</p>
+                <p className="text-white text-xxs text-center">円グラフ</p>
               </div>
               <div className="w-16 h-6 leading-3 bg-white p-1 align-middle inline-block border-secondaryBg border-l-2 border-r-2 border-b-2 border-t-2 cursor-pointer">
-                <p className="text-greenOld text-xxs text-center">Column</p>
+                <p className="text-greenOld text-xxs text-center">カラム</p>
               </div>
               <div className="w-16 h-6 leading-3 bg-white p-1  align-middle inline-block border-secondaryBg border-r-2 border-b-2 border-t-2 cursor-pointer">
-                <p className="text-greenOld text-xxs text-center">Bar</p>
+                <p className="text-greenOld text-xxs text-center">棒グラフ</p>
               </div>
             </div>
             <img className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block" src={Ellipsis}/>
