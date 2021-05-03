@@ -53,7 +53,7 @@ const Contracts = () => {
                   const stripe = (!(index % 2)) ? 'bg-gray-50' : 'bg-white'
                   return(
                     <tr className={stripe + ' table-row g-gray-50 font-sans p-5 text-gray-500 h-20' } key={index}>
-                     <td className="w-2/12"><img className="pl-24" src={contract.logo}/></td>
+                      <td className="w-2/12"><img className="pl-24" src={contract.logo}/></td>
                       <td className="w-3/12 text-sm font-bold content-center text-center">
                         <img className="mb-1 items-center pl-28" src={contract.logo2}/>
                         <span className="text-center">{contract.name}</span>
