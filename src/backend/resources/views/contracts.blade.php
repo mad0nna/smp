@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.company')
 
 @section('content')
 <div id="contracts"></div>

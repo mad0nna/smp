@@ -16,7 +16,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-mainbg">
-    @include('layouts.navigation')
+    <nav id="navigation"></nav>
 
     <main>
         @yield('content')

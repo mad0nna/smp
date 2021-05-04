@@ -11,13 +11,22 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::view('/', 'index');
-Route::view('/dashboard', 'dashboard');
 Route::view('/widgetsettings','widgetSettings');
 
-Route::view('/company/contracts', 'contracts');
-Route::view('/company/billing', 'companyBilling');
-Route::view('/companyProfile', 'companyProfile');
+Route::prefix('company')->group(function() {
+
+    Route::view('/dashboard', 'dashboard');
+    Route::view('/contracts', 'contracts');
+    Route::view('/billing', 'companyBilling');
+    Route::view('/companyProfile', 'companyProfile');
+});
+
+Route::prefix('admin')->group(function() {
+    Route::view('/dashboard', 'admin.dashboard');
+});
 
 Route::get('/login', function () {
   $query = request()->query();

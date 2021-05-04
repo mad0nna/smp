@@ -6,21 +6,72 @@ class Navigation extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      navShow: false
+      navShow: false,
     }
-    this.MainNav = [
-      {label: 'ダッシュボード', url: '/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
-      {label: '契約', url: '/company/contracts', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
-      {label: '請求', url: '/company/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconSize: 'h-8 w-8', isActive: false, extraStyle: ''},
-    ]
-    this.dropdownNav = [
-      {label: 'アカウント プロファイル', url: '/companyProfile', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-      {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-      {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-      {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-4 w-5', extraStyle: ''}
-    ]
+    this.companyNavigation = {
+      logo: KotLogo,
+      navItem: [
+        {label: 'ダッシュボード', url: '/company/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+        {label: '契約', url: '/company/contracts', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
+        {label: '請求', url: '/company/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconSize: 'h-8 w-8', isActive: false, extraStyle: ''},
+      ],
+      dropDownNav:
+            {
+              title: '株式会社町田',
+              logo: '',
+              items: [
+                {label: 'アカウント プロファイル', url: '/company/companyProfile', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-4 w-5', extraStyle: ''}
+              ]
+            },
+    }
+
+    this.salesNavigation = {
+      logo: '',
+      navItem: [
+        {label: 'ダッシュボード', url: '/sales/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+        {label: '契約', url: '/sales/contracts', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
+        {label: '請求', url: '/sales/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconSize: 'h-8 w-8', isActive: false, extraStyle: ''},
+      ],
+      dropDownNav:
+              {
+                title: 'NTT 東日本',
+                logo: '',
+                items: [
+                  {label: 'アカウント プロファイル', url: '#', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                  {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                  {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                  {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-4 w-5', extraStyle: ''}
+                ]
+              },
+    }
+
+    this.adminNavigation = {
+      logo: KotLogo,
+      navItem: [
+        {label: 'ダッシュボード', url: '/admin/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+        {label: 'アカウント', url: '/admin/accounts', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+        {label: 'ドキュメント', url: '/admin/documents', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+      ],
+      dropDownNav: {
+        title: '管理者',
+        logo: ArrowDownIcon,
+        items: [
+          {label: 'アカウント プロファイル', url: '#', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+          {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+          {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+          {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-4 w-5', extraStyle: ''}
+        ]
+      }
+    }
+
+    this.mainNav = []
     this.handleDropDown = this.handleDropDown.bind(this)
     this.setActiveNavItem = this.setActiveNavItem.bind(this)
+    this.getNavigation = this.getNavigation.bind(this)
+    this.getNavigation()
     this.setActiveNavItem()
   }
 
@@ -31,12 +82,12 @@ class Navigation extends React.Component {
     return(
       <div className="bg-white px-5 py-5 text-center h-24">
         <div id="logo-container" className="h-full w-48 float-left relative">
-          <img className="align-content-center absolute w-full h-auto top-3" src={KotLogo} />
+          <img className="align-content-center absolute w-full h-auto top-3" src={this.mainNav.logo} />
         </div>
         <div className="inline-block -m-5">
           <ul className="flex flex-row space-x-24 h-24">
             {
-              this.MainNav.map((item, index) => {
+              this.mainNav.navItem.map((item, index) => {
                 let activeTextColor= item.isActive ? 'text-white' : ''
                 let activeIcon = item.isActive ? 'bg-dashboard-icon-hover' : item.iconNormal
                 let activeBackground = item.isActive ? 'bg-primary-200' : ''
@@ -57,13 +108,16 @@ class Navigation extends React.Component {
           </ul>
         </div>
         <div id="nav-dropdown" name="nav-dropdown" className="float-right relative w-52 flex h-full space-x-2 cursor-pointer z-20" onClick={this.handleDropDown}>
-          <p className="my-auto font-sans text-lg text-primary-200 font-bold">株式会社町田</p>
+          <div className="my-auto">
+            {/*{(this.mainNav.dropDownNav.logo !== '') ? <img alt="setting icon" src={this.mainNav.dropDownNav.logo} /> : ''}*/}
+          </div>
+          <p className="my-auto font-sans text-lg text-primary-200 font-bold">{this.mainNav.dropDownNav.title}</p>
           <div className="my-auto">
             <img alt="setting icon" src={ArrowDownIcon} />
           </div>
           <div id="nav-dropdown-content" className="bg-greenOld w-64 absolute top-12 right-16 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md hidden">
             {
-              this.dropdownNav.map((item, index)=>{
+              this.mainNav.dropDownNav.items.map((item, index)=>{
                 return(
                   <a href={item.url} key={index}>
                     <div className="flex items-center py-2 space-x-4">
@@ -95,9 +149,30 @@ class Navigation extends React.Component {
   }
 
   setActiveNavItem() {
-    this.MainNav.map((item) => {
+    this.mainNav.navItem.map((item) => {
       item.isActive = (item.url === location.pathname)
     })
+  }
+
+  getNavigation() {
+    let aPathName = location.pathname.split('/')
+    if (typeof aPathName[1] != 'undefined') {
+      switch (aPathName[1]) {
+      case 'company':
+        this.mainNav = this.companyNavigation
+        break
+      case 'admin':
+        this.mainNav = this.adminNavigation
+        break
+      case 'sales':
+        break
+      case 'employee':
+        break
+      default:
+        this.mainNav = this.companyNavigation
+        break
+      }
+    }
   }
 }
 export default Navigation
@@ -107,4 +182,9 @@ if(document.getElementById('navigation')) {
   ReactDOM.render(
     <Navigation />
     , document.getElementById('navigation'))
+}
+if(document.getElementById('navigation-admin')) {
+  ReactDOM.render(
+    <Navigation />
+    , document.getElementById('navigation-admin'))
 }
