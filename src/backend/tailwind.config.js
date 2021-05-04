@@ -29,6 +29,7 @@ module.exports = {
                 'history-icon': "url('/images/history-icon.png')",
                 'pdf-icon': "url('/images/pdf-icon.png')",
                 'ellipsis-icon': "url('/images/ellipsis.png')",
+                'signout-icon': "url('/images/signout.png')",
                 'account-list-icon': "url('/images/AccountList-normal.png')",
                 'account-list-icon-hover': "url('/images/AccountList-hover.png')",
                 'document-icon': "url('/images/document-normal.png')",

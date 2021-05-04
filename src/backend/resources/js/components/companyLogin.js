@@ -4,14 +4,15 @@ import logo from '../../img/kot-admin-panel.png'
 // eslint-disable-next-line
 let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
 
-const validateForm = (errors) => {
-  let valid = true
-  Object.values(errors).forEach(
-    (val) => val.length > 0 && (valid = false)
-  )
+//temporarily comment out, not needed for now per client feedback
+// const validateForm = (errors) => {
+//   let valid = true
+//   Object.values(errors).forEach(
+//     (val) => val.length > 0 && (valid = false)
+//   )
 
-  return valid
-}
+//   return valid
+// }
 
 class CompanyLogin extends Component {
   constructor (props) {
@@ -65,16 +66,17 @@ class CompanyLogin extends Component {
     return(error.length === 0 ? '' : 'field-error')
   }
 
-  handleSubmit (event) {
-    event.preventDefault()
-    if(validateForm(this.state.errors) && this.state.name !== null && this.state.password !== null) {
-      console.info('Valid Form')
-      window.location.href = '/company/dashboard'
-    }else{
-      console.error('Invalid Form')
-      this.setState({formError: '無効な入力です'})
+  handleSubmit () {
+    //temporarily comment out, not needed for now per client feedback
+    // event.preventDefault()
+    // if(validateForm(this.state.errors) && this.state.name !== null && this.state.password !== null) {
+    //   console.info('Valid Form')
+    window.location.href = '/company/dashboard'
+    // }else{
+    //   console.error('Invalid Form')
+    //   this.setState({formError: '無効な入力です'})
 
-    }
+    //}
   }
 
 
@@ -92,10 +94,10 @@ class CompanyLogin extends Component {
           </div>
           <div className="flex flex-wrap gap-0 w-full justify-center">
             <div className="flex flex-wrap gap-0 w-1/2 ">
-              <input type="text" name="email" placeholder="メールアドレス" onChange={this.handleChange}
-                className={'w-full px-3 py-3 placeholder-blueGray-300 relative bg-white bg-white rounded text-sm border border-gray-300 outline-none rounded-b-none border-b-0'}/>
-              <input type="password"  name="password" placeholder="パスワード" onChange={this.handleChange}
-                className={'w-full px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-gray-300 outline-none rounded-t-none'}/>
+              <input type="text" name="email" placeholder="メールアドレス"
+                className={'w-full px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none rounded-b-none border-b-0'}/>
+              <input type="password"  name="password" placeholder="パスワード"
+                className={'w-full px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-gray-300 outline-none rounded-t-none'}/>
             </div>
           </div>
           <div className="flex flex-wrap gap-0 w-full justify-center mt-2 mb-6">
@@ -108,9 +110,9 @@ class CompanyLogin extends Component {
           {this.state.errors.email.length > 0 &&
                     <div className='flex flex-wrap items-center justify-center  text-sm login-error '>{this.state.errors.email}<br/></div>}
           {this.state.errors.password.length > 0 &&
-                <div className='flex flex-wrap items-center justify-center  text-sm login-error text-sm login-error '>{this.state.errors.password}</div>}
+                <div className='flex flex-wrap items-center justify-center  login-error text-sm login-error '>{this.state.errors.password}</div>}
           {this.state.formError.length > 0 &&
-                <div className='flex flex-wrap items-center justify-center  text-sm login-error text-sm login-error '>{this.state.formError}</div>}
+                <div className='flex flex-wrap items-center justify-center  text-sm login-error login-error '>{this.state.formError}</div>}
 
 
           <div className="text-xs text-center static bottom-10 mt-6 mb-1 text-gray-600"><a href="#">パスワードを取得する方法</a></div>
