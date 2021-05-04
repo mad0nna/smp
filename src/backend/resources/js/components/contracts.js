@@ -13,15 +13,15 @@ import {interactivePages} from '../utilities/constants'
 
 const Contracts = () => {
   const data = [
-    {logo:kot, logo2: kot2, name:'勤怠管理', subscribed: '2021年1月5日', expired: '2022年1月5日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'セキュアログイン', subscribed: '2020年5月30日', expired: '2021年5月30日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'データ分析', subscribed: '2021年3月10日', expired: '2022年3月10日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'人事労務', subscribed: '2020年6月6日', expired: '2021年6月6日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'残業管理', subscribed: '2021年1月16日', expired: '2022年1月16日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'ワークフロー', subscribed: '2021年1月1日', expired: '2022年1月1日',status: '契約中'},
-    {logo:Freee, logo2: '', name:'有給休暇管理', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
-    {logo:Freee, logo2: '', name:'人事労務', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
-    {logo:SmartHR, logo2: '', name:'クラウド管理会', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
+    {logo:kot, logo2: kot2, name:'勤怠管理', pointer: '', rowcolor:'text-gray-500', statuscolor:'text-black', subscribed: '2021年1月5日', expired: '2022年1月5日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'セキュアログイン', pointer: '', rowcolor:'text-gray-500',statuscolor:'text-black', subscribed: '2020年5月30日', expired: '2021年5月30日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'データ分析', pointer: '', rowcolor:'text-gray-500',statuscolor:'text-black', subscribed: '2021年3月10日', expired: '2022年3月10日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'人事労務',pointer: '', rowcolor:'text-gray-500',statuscolor:'text-black', subscribed: '2020年6月6日', expired: '2021年6月6日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'シフト管理', pointer: '', rowcolor:'text-gray-500',statuscolor:'text-black', subscribed: '2021年1月16日', expired: '2022年1月16日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'ワークフロー', pointer: '', rowcolor:'text-gray-500',statuscolor:'text-black', subscribed: '2021年1月1日', expired: '2022年1月1日',status: '契約中'},
+    {logo:Freee, logo2: '', name:'工数管理', pointer: 'cursor-pointer', rowcolor:'text-gray-400',statuscolor:'text-primary-200', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
+    {logo:Freee, logo2: '', name:'人事労務', pointer: 'cursor-pointer', rowcolor:'text-gray-400',statuscolor:'text-primary-200', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
+    {logo:SmartHR, logo2: '', name:'クラウド管理会',pointer: 'cursor-pointer', rowcolor:'text-gray-400',statuscolor:'text-primary-200', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
 
   ]
   const pagination = [
@@ -53,7 +53,7 @@ const Contracts = () => {
                 data.map((contract, index) => {
                   const stripe = (!(index % 2)) ? 'bg-gray-50' : 'bg-white'
                   return(
-                    <tr className={stripe + ' table-row g-gray-50 font-sans p-5 text-gray-500 h-20' } key={index}>
+                    <tr className={stripe + ' table-row bg-gray-50 font-sans p-5 h-20 '+contract.rowcolor } key={index}>
                       <td className="w-2/12"><img className="pl-24" src={contract.logo}/></td>
                       <td className="w-3/12 text-sm font-bold content-center text-center">
                         <img className="mb-1 items-center pl-28" src={contract.logo2}/>
@@ -61,7 +61,7 @@ const Contracts = () => {
                       </td>
                       <td className="w-1/5 text-center text-sm font-bold">{contract.subscribed}</td>
                       <td className="w-1/5 text-center text-sm font-bold">{contract.expired}</td>
-                      <td className="w-1/5 text-center text-sm font-bold">{contract.status}</td>
+                      <td className={contract.pointer +' w-1/5 text-center text-sm font-bold '+ contract.statuscolor}>{contract.status}</td>
                     </tr>
                   )
                 })
