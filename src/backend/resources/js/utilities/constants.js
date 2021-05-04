@@ -1,3 +1,3 @@
 export const interactivePages = [
-  '/dashboard'
+  '/company/dashboard'
 ]

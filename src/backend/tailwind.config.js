@@ -29,6 +29,10 @@ module.exports = {
                 'history-icon': "url('/images/history-icon.png')",
                 'pdf-icon': "url('/images/pdf-icon.png')",
                 'ellipsis-icon': "url('/images/ellipsis.png')",
+                'account-list-icon': "url('/images/AccountList-normal.png')",
+                'account-list-icon-hover': "url('/images/AccountList-hover.png')",
+                'document-icon': "url('/images/document-normal.png')",
+                'document-icon-hover': "url('/images/document-hover.png')",
             },
             colors:{
                 mainbg: '#F2F2F2',
