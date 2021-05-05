@@ -37,6 +37,8 @@ module.exports = {
                 'sort-icon-inactive': "url('/images/sort-inactive.png')",
                 'sort-icon-active': "url('/images/sort-active.png')",
                 'company-icon-gray': "url('/images/company-icon-gray.png')",
+                'company-icon-white': "url('/images/company-icon-white.png')",
+                'all-accounts-icon-white': "url('/images/all-accounts-icon.png')",
             },
             colors:{
                 mainbg: '#F2F2F2',
