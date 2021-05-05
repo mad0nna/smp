@@ -57,7 +57,17 @@ module.exports = {
                 lightGreen: '#6ad48d',
                 greenOld: "#95A199",
                 'table-header-Gray-100': '#ececec',
-                'table-header-Gray-400': '#a5a5a5'
+                'table-header-Gray-400': '#a5a5a5',
+                lime:{
+                    'primary':'#22AC38',
+                    200:'#D9F99D',
+                    300:'#BEF264',
+                    400:'#A3E635',
+                    500:'#84CC16',
+                    600:'#65A30D',
+                    700:'#4D7C0F',
+                    800:'#3F6212',                    
+                },
             },
             fontSize: {
                 xxs:['0.60rem', { lineHeight: '.75rem' }],

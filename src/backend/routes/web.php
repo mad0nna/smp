@@ -33,5 +33,7 @@ Route::get('/login', function () {
   $query = request()->query();
   if ($query["type"] === "company") {
     return view('companyLogin');
+  } else if ($query["type"] === "sales") {
+    return view('sales.salesLogin');
   }
 })->name('login');
