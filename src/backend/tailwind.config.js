@@ -34,6 +34,9 @@ module.exports = {
                 'account-list-icon-hover': "url('/images/AccountList-hover.png')",
                 'document-icon': "url('/images/document-normal.png')",
                 'document-icon-hover': "url('/images/document-hover.png')",
+                'sort-icon-inactive': "url('/images/sort-inactive.png')",
+                'sort-icon-active': "url('/images/sort-active.png')",
+                'company-icon-gray': "url('/images/company-icon-gray.png')",
             },
             colors:{
                 mainbg: '#F2F2F2',
