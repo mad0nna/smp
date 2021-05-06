@@ -265,7 +265,8 @@ const AccountList = () =>{
                       <td className="w-12">{item.email}</td>
                       <td className="w-12">{item.telNum}</td>
                       <td className="w-12">
-                        <a href={detailPageLink + item.httId}>
+                        {/*<a href={detailPageLink + item.httId}>*/}
+                        <a href="#">
                           <img src={ViewIcon} className="mx-auto w-6 h-auto" alt="view icon"/>
                         </a>
                       </td>
