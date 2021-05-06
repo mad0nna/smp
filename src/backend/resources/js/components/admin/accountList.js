@@ -250,6 +250,7 @@ const AccountList = () =>{
                   if (item.typeEng !== state.filter && state.filter !== 'All') {
                     return
                   }
+                  // let detailPageLink = (item.typeEng === 'sales') ? '/admin/accounts/sales/' : '/admin/accounts/sales/'
                   return(
                     <tr className="stripe-table-row h-20 font-sans font-bold text-sm text-gray-600" key={index}>
                       <td className="w-12">

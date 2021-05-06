@@ -66,7 +66,7 @@ module.exports = {
                     500:'#84CC16',
                     600:'#65A30D',
                     700:'#4D7C0F',
-                    800:'#3F6212',                    
+                    800:'#3F6212',
                 },
             },
             fontSize: {
@@ -77,7 +77,8 @@ module.exports = {
             height: {
                 'widgetBody-sm': 'calc(100% - 2.50rem)',
                 widgetBody: 'calc(100% - 6.50rem)',
-                'widgetBody-lg': 'calc(100% - 3rem)'
+                'widgetBody-lg': 'calc(100% - 3rem)',
+                'detail-height': '34rem'
             },
 
             width: {
