@@ -37,7 +37,9 @@ Route::prefix('admin')->group(function() {
 
 Route::prefix('sales')->group(function() {
   Route::view('/dashboard', 'sales.dashboard');
+  Route::view('/companies', 'sales.companies');
   Route::view('/billing', 'sales.billing');
+  Route::view('/account', 'sales.account');
 });
 
 Route::get('/login', function () {
@@ -48,3 +50,5 @@ Route::get('/login', function () {
     return view('sales.salesLogin');
   }
 })->name('login');
+
+
