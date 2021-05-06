@@ -4,6 +4,7 @@ import KotLogo from '../../img/KOT-menu-logo.png'
 import ArrowDownIcon from '../../img/arrowdown.png'
 import logout from '../../img/signout.png'
 import AdminIcon from '../../img/admin-icon.png'
+import idpIcon from '../../img/idp_logo.png'
 
 class Navigation extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class Navigation extends React.Component {
     }
 
     this.salesNavigation = {
-      logo: '',
+      logo: idpIcon,
       navItem: [
         {label: 'ダッシュボード', url: '/sales/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconActive: 'bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
         {label: '契約', url: '/sales/contracts', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconActive: 'bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
@@ -41,7 +42,7 @@ class Navigation extends React.Component {
       ],
       dropDownNav:
               {
-                title: 'NTT 東日本',
+                title: 'IBPテクノロジー株式会社',
                 logo: '',
                 items: [
                   {label: 'アカウント プロファイル', url: '#', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
@@ -88,7 +89,7 @@ class Navigation extends React.Component {
     return(
       <div className="bg-white px-5 py-5 text-center h-24">
         <div id="logo-container" className="h-full w-48 float-left relative">
-          <img className="align-content-center absolute w-full h-auto top-3" src={this.mainNav.logo} />
+          <img className="align-content-center absolute h-auto top-3 ml-3" src={this.mainNav.logo} />
         </div>
         <div className="inline-block -m-5">
           <ul className="flex flex-row space-x-24 h-24">
@@ -113,11 +114,11 @@ class Navigation extends React.Component {
             }
           </ul>
         </div>
-        <div id="nav-dropdown" name="nav-dropdown" className="float-right relative w-52 flex h-full space-x-2 cursor-pointer z-20" onClick={this.handleDropDown}>
+        <div id="nav-dropdown" name="nav-dropdown" className="float-right relative w-56 flex h-full space-x-2 cursor-pointer z-20" onClick={this.handleDropDown}>
           <div className="my-auto">
             {(this.mainNav.dropDownNav.logo !== '') ? <img alt="setting icon" src={this.mainNav.dropDownNav.logo} /> : ''}
           </div>
-          <p className="my-auto font-sans text-lg text-primary-200 font-bold">{this.mainNav.dropDownNav.title}</p>
+          <p className="my-auto font-sans text-base text-primary-200 font-bold">{this.mainNav.dropDownNav.title}</p>
           <div className="my-auto">
             <img alt="setting icon" src={ArrowDownIcon} />
           </div>
@@ -172,6 +173,7 @@ class Navigation extends React.Component {
         this.mainNav = this.adminNavigation
         break
       case 'sales':
+        this.mainNav = this.salesNavigation
         break
       case 'employee':
         break
@@ -194,4 +196,9 @@ if(document.getElementById('navigation-admin')) {
   ReactDOM.render(
     <Navigation />
     , document.getElementById('navigation-admin'))
+}
+if(document.getElementById('navigation-sales')) {
+  ReactDOM.render(
+    <Navigation />
+    , document.getElementById('navigation-sales'))
 }

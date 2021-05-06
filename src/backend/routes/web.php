@@ -35,6 +35,11 @@ Route::prefix('admin')->group(function() {
     });
 });
 
+Route::prefix('sales')->group(function() {
+  Route::view('/dashboard', 'sales.dashboard');
+  Route::view('/billing', 'sales.billing');
+});
+
 Route::get('/login', function () {
   $query = request()->query();
   if ($query["type"] === "company") {

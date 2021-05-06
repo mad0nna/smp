@@ -54,7 +54,7 @@ class CompanyBilling extends React.Component{
           </div>
           <div id="widget-body" className="h-50 w-full bg-white overflow-hidden">
             <table className="w-full h-auto text-center">
-              <thead className="bg-table-header-Gray-100 text-gray-400 h-3 font-bold text-lg tracking-tight">
+              <thead className="bg-table-header-Gray-100 h-3 font-bold text-lg tracking-tight">
                 <tr className="h-12 w-12">
                   <td>請求書番号</td>
                   <td>請求書名</td>
