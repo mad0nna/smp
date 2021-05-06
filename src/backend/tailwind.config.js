@@ -89,7 +89,8 @@ module.exports = {
             },
 
             minHeight: {
-                'widget-item' : '80px'
+                'widget-item' : '80px',
+                'table-height' : '740px'
             },
 
             maxWidth: {

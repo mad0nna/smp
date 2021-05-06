@@ -119,9 +119,19 @@ const AccountList = () =>{
     })
     return indicator
   }
+  const constDisplayNoResultText = () => {
+    if (state.listOfAccounts.length < 1) {
+      return (
+        <div className="absolute top-80 w-full text-center">
+          <p className="font-bold text-lg tracking-tight text-table-header-Gray-400">検索結果はありません</p>
+        </div>
+      )
+    }
+  }
   return (
     <div className="relative px-10 py-5 bg-mainbg">
-      <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
+      <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 min-h-table-height">
+        {constDisplayNoResultText()}
         <div id="widget-header" className="max-w-full h-32 bg-white box-border align-middle p-4 relative">
           <img src={AccountsIcon} className="w-auto h-7 float-left ml-4"/>
           <div id="widget-name" className="text-primary-200 text-xl font-sans font-bold ml-4 float-left">アカウント一覧</div>
@@ -240,6 +250,7 @@ const AccountList = () =>{
                   if (item.typeEng !== state.filter && state.filter !== 'All') {
                     return
                   }
+                  let detailPageLink = (item.typeEng === 'sales') ? '/admin/accounts/sales/' : '/admin/accounts/sales/'
                   return(
                     <tr className="stripe-table-row h-20 font-sans font-bold text-sm text-gray-600" key={index}>
                       <td className="w-12">
@@ -254,7 +265,7 @@ const AccountList = () =>{
                       <td className="w-12">{item.email}</td>
                       <td className="w-12">{item.telNum}</td>
                       <td className="w-12">
-                        <a href={'/admin/accounts/' + item.httId}>
+                        <a href={detailPageLink + item.httId}>
                           <img src={ViewIcon} className="mx-auto w-6 h-auto" alt="view icon"/>
                         </a>
                       </td>

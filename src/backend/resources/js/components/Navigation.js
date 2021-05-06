@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import KotLogo from '../../img/KOT-menu-logo.png'
 import ArrowDownIcon from '../../img/arrowdown.png'
 import logout from '../../img/signout.png'
+import AdminIcon from '../../img/admin-icon.png'
 
 class Navigation extends React.Component {
   constructor(props) {
@@ -61,7 +62,7 @@ class Navigation extends React.Component {
       ],
       dropDownNav: {
         title: '管理者',
-        logo: ArrowDownIcon,
+        logo: AdminIcon,
         items: [
           {label: 'アカウント プロファイル', url: '#', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
           {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
@@ -114,7 +115,7 @@ class Navigation extends React.Component {
         </div>
         <div id="nav-dropdown" name="nav-dropdown" className="float-right relative w-52 flex h-full space-x-2 cursor-pointer z-20" onClick={this.handleDropDown}>
           <div className="my-auto">
-            {/*{(this.mainNav.dropDownNav.logo !== '') ? <img alt="setting icon" src={this.mainNav.dropDownNav.logo} /> : ''}*/}
+            {(this.mainNav.dropDownNav.logo !== '') ? <img alt="setting icon" src={this.mainNav.dropDownNav.logo} /> : ''}
           </div>
           <p className="my-auto font-sans text-lg text-primary-200 font-bold">{this.mainNav.dropDownNav.title}</p>
           <div className="my-auto">
@@ -154,8 +155,9 @@ class Navigation extends React.Component {
   }
 
   setActiveNavItem() {
+    let childPages = ['/admin/account/company', '/admin/account/sales']
     this.mainNav.navItem.map((item) => {
-      item.isActive = (item.url === location.pathname)
+      item.isActive = (item.url === location.pathname || childPages.includes())
     })
   }
 

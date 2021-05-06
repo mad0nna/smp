@@ -27,6 +27,12 @@ Route::prefix('company')->group(function() {
 Route::prefix('admin')->group(function() {
     Route::view('/dashboard', 'admin.dashboard');
     Route::view('/accounts', 'admin.accounts');
+    Route::get('/accounts/sales/{salesId}', function() {
+        return view('admin.salesDetail');
+    });
+    Route::get('/accounts/company/{companyId}', function() {
+        return view('admin.companyDetail');
+    });
 });
 
 Route::get('/login', function () {
