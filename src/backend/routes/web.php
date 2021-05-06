@@ -42,6 +42,8 @@ Route::prefix('sales')->group(function() {
   Route::view('/account', 'sales.account');
 });
 
+Route::view('sales/account', 'sales.account');
+
 Route::get('/login', function () {
   $query = request()->query();
   if ($query["type"] === "company") {

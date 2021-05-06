@@ -11,29 +11,33 @@ class LinkageServices extends React.Component {
         {serviceName: 'SalesForce', serviceLink: '#'}
       ]
     }
+
+    if (this.props.displayType === 'small') {
+      this.state.linkageServices.pop()
+    }
   }
+
   render() {
-    let servicesCounter = this.state.linkageServices.length
     let showMoveButton = ''
     if (typeof this.props.interActivePages != 'undefined') {
       showMoveButton = (this.props.interActivePages.includes(location.pathname)) ? 'group-hover:block' : ''
     }
     return(
-      <div className="w-full h-full relative group">
+      <div className={this.props.displayType === 'small' ? 'h-12/12' : 'h-full' + ' w-full h-12/12 relative group'}>
         <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-pointer hidden ' + showMoveButton}>Move</div>
-        <div className="w-full h-full overflow-hidden relative rounded-lg border-2 border-gray-200 ">
+        <div className="w-full h-full overflow-hidden relative rounded-lg border-2 border-gray-200 bg-white">
           <div id="widget-header" className="max-w-full h-12 bg-white box-border align-middle p-3 relative">
             <div id="widget-icon" className="w-2 h-6 bg-primary-200 float-left ml-4"> </div>
             <div id="widget-name" className="text-primary-200 font-sans font-bold ml-8">サービス連携</div>
             <img className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block" src={Ellipsis}/>
           </div>
-          <div id="widget-body" className= 'h-widgetBody-sm w-full bg-white 2xl:px-6 xl:px-5 lg:px-3 sm:px-2 space-y-0 overflow-hidden'>
+          <div id="widget-body" className= 'h-widgetBody-sm w-full bg-white 2xl:px-6 xl:px-5 lg:px-3 sm:px-2 space-y-0 overflow-hidden bg-white mb-4'>
             {
               this.state.linkageServices.map((item, index) => {
                 let stripe = (!(index % 2)) ? 'bg-mainbg' : 'bg-white'
                 return(
                   <div id="widget-content-item" className={stripe +' w-auto h-auto align-middle relative rounded-3xl'} key={index}>
-                    <p id="item-content" className="font-sans 2xl:text-sm xl:text-xs lg:text-xs sm:text-xxs inline-block w-1/2 2xl:pl-6 xl:pl-5 lg:pl-4 2xl:py-2 xl:py-3 lg:py-3 sm:py-3 leading-loose break-words">{item.serviceName}</p>
+                    <p id="item-content" className="font-sans 2xl:text-sm xl:text-xs lg:text-xs sm:text-xxs inline-block w-1/2 2xl:pl-6 xl:pl-5 lg:pl-4 2xl:py-2 xl:py-3 lg:py-3 sm:py-3 leading-loose">{item.serviceName}</p>
                     <div id="item-content" className="font-sans text-gray-400 font-black 2xl:text-sm xl:text-xs lg:text-xs m:text-xxs absolute top-0 right-0 left-0 bottom-0">
                       <div className="inline-block align-middle h-full w-1/2"/>
                       <div className="inline-block align-middle">
@@ -47,18 +51,19 @@ class LinkageServices extends React.Component {
               })
             }
           </div>
-          <div id="widget-footer" className="w-full h-14 bg-white p-3.5 hidden">
-            <div id="widget-footer-control" className="float-right">
-              {servicesCounter >= 2 ? this.addFooter() : ''}
-            </div>
-          </div>
+          {this.props.displayType === 'small' ? this.addFooter() : ''}
         </div>
       </div>
     )
   }
   addFooter() {
     return (
-      <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter">もっと見る</button>
+      <div id="widget-footer" className="w-full h-10 pr-4 ">
+        <div id="widget-footer-control" className="float-right">
+          <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter hidden">もっと見る</button>
+        </div>
+      </div>
+      
     )
   }
 }
