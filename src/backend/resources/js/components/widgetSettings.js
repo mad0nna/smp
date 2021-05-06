@@ -20,6 +20,7 @@ const WidgetSettings = (props) =>{
   }
 
   const onSave = (event) => {
+    widgetState.push({component: '', label: '', static: true, style:'staticWidgets', className: 'relative', state: true, x: 0, y: 0, w: 10, h: 0, isResizable: false})
     props.updatedWidgetState(widgetState)
     event.preventDefault()
   }
@@ -38,8 +39,8 @@ const WidgetSettings = (props) =>{
           
       <div>
         {
-          widgetState.map((widget, index) => {
-            return (<div key={index} className=" h-10 w-full py-6 text-gray-500 font-sans text-md mb-2 mt-2 pl-2 self-center overflow-hidden flex content-center">
+          widgetState.filter(widget=>widget.label !=='').map((widget, index) => {
+            return (<div key={index} className="h-10 w-full py-6 text-gray-500 font-sans text-md mb-2 mt-2 pl-2 self-center overflow-hidden flex content-center">
               <span className=" col-span-1 w-6/12 pl-10"> {widget.label} </span>
               <span className="pl-60 col-span-1 w-6/12"> <input type="checkbox" className="bg-primary-200 border-primary-200 w-6 h-6" onChange={(e)=>onChangeHandler(e,index)} value={index} defaultChecked={widget.state}/></span>
             </div>)

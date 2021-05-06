@@ -20,8 +20,8 @@ class DashboardServiceUsage extends Component {
     }
     return(
       <div className="w-full h-full relative group">
-        <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden z-0 ' + showMoveButton}>Move</div>
-        <div className="relative flex flex-col items-center justify-center gap-4  rounded-lg border-2 border-gray-200 w-full h-full bg-white group z-20">
+        <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden' + showMoveButton}>Move</div>
+        <div className="relative flex flex-col items-center justify-center gap-4  rounded-lg border-2 border-gray-200 w-full h-full bg-white group">
           <div className="component-header w-full ml-8 relative mt-2">
             <span className="border-green-600 border-solid border-l-4 border-t-0" style={{fontSize: '15px'}}> </span>
             <span className="ml-1 p-0 inline text-green-600 font-bold ">サービス利用状況</span>
