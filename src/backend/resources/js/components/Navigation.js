@@ -57,9 +57,9 @@ class Navigation extends React.Component {
     this.adminNavigation = {
       logo: KotLogo,
       navItem: [
-        {label: 'ダッシュボード', url: '/admin/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconActive: 'bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+        {label: 'ダッシュボード', url: '#', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconActive: 'bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
         {label: 'アカウント', url: '/admin/accounts', iconNormal: 'bg-account-list-icon', iconHover: 'group-hover:bg-account-list-icon-hover', iconActive: 'bg-account-list-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
-        {label: 'ドキュメント', url: '/admin/documents', iconNormal: 'bg-document-icon', iconHover: 'group-hover:bg-document-icon-hover', iconActive: 'bg-document-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+        {label: 'ドキュメント', url: '#', iconNormal: 'bg-document-icon', iconHover: 'group-hover:bg-document-icon-hover', iconActive: 'bg-document-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
       ],
       dropDownNav: {
         title: '管理者',
