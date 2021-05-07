@@ -27,10 +27,10 @@ Route::prefix('company')->group(function() {
 Route::prefix('admin')->group(function() {
     Route::view('/dashboard', 'admin.dashboard');
     Route::view('/accounts', 'admin.accounts');
-    Route::get('/accounts/sales/{salesId}', function() {
+    Route::get('/accounts/sales/detail', function() {
         return view('admin.salesDetail');
     });
-    Route::get('/accounts/company/{companyId}', function() {
+    Route::get('/accounts/company/detail', function() {
         return view('admin.companyDetail');
     });
 });
