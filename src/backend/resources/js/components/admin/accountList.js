@@ -250,7 +250,7 @@ const AccountList = () =>{
                   if (item.typeEng !== state.filter && state.filter !== 'All') {
                     return
                   }
-                  // let detailPageLink = (item.typeEng === 'sales') ? '/admin/accounts/sales/' : '/admin/accounts/sales/'
+                  let detailPageLink = (item.typeEng === 'sales') ? '/admin/accounts/sales/detail' : '/admin/accounts/company/detail'
                   return(
                     <tr className="stripe-table-row h-20 font-sans font-bold text-sm text-gray-600" key={index}>
                       <td className="w-12">
@@ -265,7 +265,7 @@ const AccountList = () =>{
                       <td className="w-12">{item.email}</td>
                       <td className="w-12">{item.telNum}</td>
                       <td className="w-12">
-                        <a href="#">
+                        <a href={detailPageLink}>
                           <img src={ViewIcon} className="mx-auto w-6 h-auto" alt="view icon"/>
                         </a>
                       </td>
