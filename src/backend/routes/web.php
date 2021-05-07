@@ -50,6 +50,8 @@ Route::get('/login', function () {
     return view('companyLogin');
   } else if ($query["type"] === "sales") {
     return view('sales.salesLogin');
+  } else if ($query["type"] === 'admin') {
+      return view('admin.adminLogin');
   }
 })->name('login');
 

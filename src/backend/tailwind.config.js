@@ -68,6 +68,7 @@ module.exports = {
                     700:'#4D7C0F',
                     800:'#3F6212',
                 },
+                customGray: '#685d5e'
             },
             fontSize: {
                 xxs:['0.60rem', { lineHeight: '.75rem' }],
@@ -106,6 +107,9 @@ module.exports = {
             },
             skew: {
                 'rectangle-skew': '-53deg'
+            },
+            zIndex: {
+                '-1': '-1',
             }
         },
         fontFamily: {
