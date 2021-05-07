@@ -27,3 +27,10 @@
 .stripe-table-row:nth-child(even) {
     @apply bg-gray-50
 }
+.stripe-table-row-odd:nth-child(odd) {
+    @apply bg-gray-50
+}
+
+.table-px-2 td {
+    @apply px-2
+}

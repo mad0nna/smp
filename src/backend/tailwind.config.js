@@ -108,9 +108,23 @@ module.exports = {
             skew: {
                 'rectangle-skew': '-53deg'
             },
+            gridTemplateRows: {
+               '12': 'repeat(12, minmax(0, 1fr))',
+            },
+            gridTemplateColumns: {               
+               '16': 'repeat(16, minmax(0, 1fr))',
+            },
+            gridRow: {
+                'span-8': 'span 8 / span 8',
+                'span-16': 'span 16 / span 16',
+            },
+            gridColumn: {
+                'span-16': 'span 16 / span 16',
+            },
             zIndex: {
                 '-1': '-1',
             }
+       
         },
         fontFamily: {
             'sans': ['Arial Regular']
