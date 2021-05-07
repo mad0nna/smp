@@ -27,7 +27,7 @@ const Dashboard = () => {
   const widgets =[
     {component: '', label: '', static: true, style:'staticWidgets', className: 'relative', state: true, x: 0, y: 0, w: 10, h: 0, isResizable: false},
     {component: <Welcome/>, label: 'ようこそ！', static: true,style:'staticWidgets', className: 'relative', state: true, x: 0, y: 0, w: 4, h: .25, isResizable: false},
-    {component:<CompanyDashboardChart interActivePages={interactivePages}/>, label: 'ダッシュボードチャート', static: false, className:'relative', state: true, x: 0, y: 0, w: 4, h: 2, minW: 2, minH:2, isResizable: true},
+    {component:<CompanyDashboardChart interActivePages={interactivePages}/>, label: 'ダッシュボードチャート', static: false, className:'relative bg-white', state: true, x: 0, y: 0, w: 4, h: 2, minW: 2, minH:2, isResizable: true},
     {component: <Services interActivePages={interactivePages}/>, label: '契約サービス', static: false, className:'relative', state: true, x: 0, y: 0, w: 2, h: 1.25, minW: 2, minH:1.25, isResizable: true},
     {component: <Linkage interActivePages={interactivePages}/>, label: '連携サービス', static: false,className:'relative', state: true, x: 2, y:3 , w: 2, h: 1.25, minW: 2, minH:1.25, isResizable: true},
     {component: <ServiceUsage interActivePages={interactivePages}/>, label: 'サービス利用状況', static: false, className: 'relative', state: true, x: 0, y: 4, w: 4, h: 1.25, minW: 2, minH:1.25, isResizable: true},
