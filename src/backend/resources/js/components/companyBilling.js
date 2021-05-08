@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import BillingIcon from '../../svg/billing-icon.svg'
-import PdfIcon from '../../img/pdf-icon.png'
+import PdfIcon from '../../img/pdf2-icon.png'
 import Ellipsis from '../../img/ellipsis.png'
 import PrevButton from '../../img/pagination-prev.png'
 import NextButton from '../../img/pagination-next.png'
@@ -60,7 +60,7 @@ class CompanyBilling extends React.Component{
                   <td>請求書名</td>
                   <td>請求日</td>
                   <td>支払期限</td>
-                  <td>請求額</td>  
+                  <td>請求額</td>
                   <td>支払日</td>
                   <td>状態</td>
                   <td>操作</td>
