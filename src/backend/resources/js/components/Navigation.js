@@ -37,7 +37,7 @@ class Navigation extends React.Component {
       logo: idpIcon,
       navItem: [
         {label: 'ダッシュボード', url: '/sales/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconActive: 'bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
-        {label: '契約', url: '#', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconActive: 'bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
+        {label: '契約', url: '/sales/companies', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconActive: 'bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
         {label: '請求', url: '/sales/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconActive: 'bg-billing-icon-hover', iconSize: 'h-8 w-8', isActive: false, extraStyle: ''},
       ],
       dropDownNav:
