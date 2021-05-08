@@ -82,7 +82,7 @@ class SalesCompanies extends React.Component{
                         <td className="">{item.contactPerson}</td>
                         <td className="">{item.email}</td>
                         <td className="">{item.phoneNumber}</td>
-                        <td className=" cursor-pointer"><img src={viewIcon} className="mx-auto w-6 h-auto inline mt-2"/><img src={deleteIcon} className="mx-auto w-6 h-auto inline"/></td>
+                        <td className=" cursor-pointer"><a href="/sales/account"><img src={viewIcon} className="mx-auto w-6 h-auto inline mt-2"/><img src={deleteIcon} className="mx-auto w-6 h-auto inline"/></a></td>
                       </tr>
                     )
                   })

@@ -29,7 +29,7 @@ class CompanyListWidget extends React.Component{
 
   render() {
     return (
-      <div className="bg-mainbg">
+      <div className="bg-mainbg font-meiryo">
         <div className="w-full h-full overflow-hidden relative  rounded-lg border-gray-200 ">
           <div id="widget-body" className="h-50 w-full bg-white overflow-hidden">
             <table className="stripe-table-row w-full h-auto text-center table-px-2">

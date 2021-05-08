@@ -7,8 +7,10 @@ import SalesBillingHistory from './salesBillingHistory'
 import Announcement from '../announcement'
 import Notification from '../Notification'
 import PurchaseHistory from '../purchaseHistory'
+import Graph2 from './graph2Widget'
 import graph1 from '../../../img/sales/graph1.jpg'
-import graph2 from '../../../img/sales/graph2.jpg'
+//import graph2 from '../../../img/sales/graph2.jpg'
+//import graph2 from '../../../svg/sales-graph2.svg'
 
 const SalesDashboard = () => {
 
@@ -18,7 +20,7 @@ const SalesDashboard = () => {
         <img className="inline h-full" src={graph1}   />
       </div>
       <div className="col-span-6 row-span-4 " >
-        <img className="inline w-full" src={graph2} style={{height: '250px'}}    />
+        <Graph2/>
       </div> 
       <div className="col-span-4 row-span-16 " >
         <CompanyList />
