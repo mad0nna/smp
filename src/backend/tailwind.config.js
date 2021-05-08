@@ -112,7 +112,7 @@ module.exports = {
             gridTemplateRows: {
                '12': 'repeat(12, minmax(0, 1fr))',
             },
-            gridTemplateColumns: {               
+            gridTemplateColumns: {
                '16': 'repeat(16, minmax(0, 1fr))',
             },
             gridRow: {
@@ -125,11 +125,11 @@ module.exports = {
             zIndex: {
                 '-1': '-1',
             }
-       
+
         },
         fontFamily: {
-            'sans': ['Meiryo'],
-            'meiryo': ['Meiryo']
+            'sans': ['Meiryo-UI'],
+            'meiryo': ['Meiryo-UI']
         }
     },
     variants: {
