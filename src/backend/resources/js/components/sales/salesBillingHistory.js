@@ -33,7 +33,7 @@ class SalesBillingHistory extends React.Component {
                 return(
                   <div id="widget-content-item" className={stripe + ' w-full h-auto py-3 pl-14 relative text-sm mt-2'} key={index}>
                     <p className="inline-block w-1/3"><span className="text-gray-500">請求日 </span>{item.invoiceDate}</p> <p className="inline-block w-1/3"><span className="text-gray-500">支払期限  </span>{item.dueDate}</p> <p className="inline-block w-1/4">&nbsp;</p>
-                    <p className="inline-block w-1/3"><span className="text-gray-500">請求額 </span> <span className="text-red-500">{item.amount}</span> </p> <p className="inline-block w-1/3"><span className="text-gray-500">請求日 </span>{item.paymentDate}</p> 
+                    <p className="inline-block w-1/3"><span className="text-gray-500">請求額 </span> <span className="text-red-500">{item.amount}</span> </p> <p className="inline-block w-1/3"><span className="text-gray-500">請求日 </span>{item.paymentDate}</p>
                     <p className="inline-block w-1/4">
                       <a href="#">
                         <div id="widget-name" className="p-1 bg-gray-100 float-right 2xl:mr-10 xl:mr-8 lg:mr-6 sm:mr-4">
@@ -49,9 +49,13 @@ class SalesBillingHistory extends React.Component {
           </div>
           <div id="widget-footer" className="w-full h-14 bg-white p-3.5">
             <div id="widget-footer-control" className="float-right">
-              
-              <a href="/company/billing" className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter px-2 py-1">さらに表示</a>
-         
+
+              <a href="/company/billing">
+                <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">
+                      さらに表示
+                </button>
+              </a>
+
             </div>
           </div>
         </div>
