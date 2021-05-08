@@ -22,7 +22,7 @@ class CompanyListWidget extends React.Component{
         {HTTID: '894235ZBSYIPL', companyName: 'Ko-Ko-Ro 有限会社', industry: '園芸サービス業', companyNumber: '400-450', contactPerson: '森琴音', email: 'kotone@sample.com', phoneNumber: '080-1234-5678', salesAmount: '4,770,700'},
         {HTTID: '785647HSELCVI', companyName: '船橋ガス有限会社', industry: '証券業', companyNumber: '500-550', contactPerson: '榛原庄司', email: 'shoji@sample.com', phoneNumber: '080-1234-5678', salesAmount: '3,380,350'},
         {HTTID: '785269IOSDRBN', companyName: '名須川銀行株式会社', industry: '婦人・子供服小売業', companyNumber: '300-350', contactPerson: '山田海斗', email: 'kaito@sample.com', phoneNumber: '080-1234-5678', salesAmount: '3,530,350'},
-       
+
       ]
     }
   }
@@ -44,10 +44,10 @@ class CompanyListWidget extends React.Component{
                 {
                   this.state.billingList.map((item, index) => {
                     return (
-                      <tr className="stripe-table-row-odd h-10 text-gray-900 text-xs" key={index}>                        
+                      <tr className="stripe-table-row-odd h-10 text-gray-900 lg:text-widget-xs 2xl:text-xs" key={index}>
                         <td className="">{item.HTTID}</td>
                         <td className="">{item.companyName}</td>
-                        <td className="">{item.salesAmount}</td>
+                        <td className="">¥ {item.salesAmount}</td>
                       </tr>
                     )
                   })
@@ -56,7 +56,7 @@ class CompanyListWidget extends React.Component{
             </table>
             <div id="widget-footer" className="w-full h-14 p-3.5">
               <div id="widget-footer-control" className="float-right">
-                <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter cursor-pointer" >さらに表示</button>                
+                <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter cursor-pointer" >さらに表示</button>
               </div>
             </div>
           </div>
