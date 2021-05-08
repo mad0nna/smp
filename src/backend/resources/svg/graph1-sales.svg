@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="186.678" height="186.667" viewBox="0 0 186.678 186.667">
+  <g id="Group_1555" data-name="Group 1555" transform="translate(-1292.693 -1864.334)">
+    <g id="pie" transform="translate(708 1872)">
+      <path id="Path_4840" data-name="Path 4840" d="M1.006-77.493A93.335,93.335,0,0,1,92.383,4.055a93.335,93.335,0,0,1-68.048,101.83L19.51,87.228A74.066,74.066,0,0,0,73.268,6.487,74.066,74.066,0,0,0,1.006-58.222Z" transform="translate(678.235 69.827)" fill="#0eabb7"/>
+      <path id="Path_4841" data-name="Path 4841" d="M38.029,106.493A93.335,93.335,0,1,1,14.623-77.493v19.271A74.066,74.066,0,1,0,33.2,87.835Z" transform="translate(662.194 69.827)" fill="#5edf89"/>
+      <text id="_85_" data-name="85%" transform="translate(682.411 99.09)" fill="#0eabb7" font-size="60" font-family="Arial-BoldMT, Arial" font-weight="700"><tspan x="-60.044" y="0">85%</tspan></text>
+      <text id="ID数" transform="translate(664.818 124.686)" font-size="18" font-family="ArialMT, Arial" opacity="0.7"><tspan x="0" y="0">ID</tspan><tspan y="0" font-family="YuGothicUI-Regular, Yu Gothic UI">数</tspan></text>
+    </g>
+  </g>
+</svg>

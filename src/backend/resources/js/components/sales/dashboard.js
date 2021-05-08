@@ -7,17 +7,15 @@ import SalesBillingHistory from './salesBillingHistory'
 import Announcement from '../announcement'
 import Notification from '../Notification'
 import PurchaseHistory from '../purchaseHistory'
+import Graph1 from './graph1Widget'
 import Graph2 from './graph2Widget'
-import graph1 from '../../../img/sales/graph1.jpg'
-//import graph2 from '../../../img/sales/graph2.jpg'
-//import graph2 from '../../../svg/sales-graph2.svg'
 
 const SalesDashboard = () => {
 
   return(
     <div className="bg-mainbg grid grid-cols-16 grid-rows-12 grid-flow-row gap-4 mx-10 mt-5" style={{height: '850px'}}>
       <div className="col-span-6 row-span-4  ">
-        <img className="inline h-full" src={graph1}   />
+        <Graph1/>
       </div>
       <div className="col-span-6 row-span-4 " >
         <Graph2/>

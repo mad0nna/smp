@@ -11,7 +11,7 @@ const Graph2 =() =>{
         <div id="widget-header" className="max-w-full h-6 bg-white box-border align-middle p-3 relative">
           <img src={graph2Icon} className="w-6 h-6 ml-4 bg-cover bg-no-repeat float-left"/>
           <div id="widget-name" className="text-primary-200 font-sans font-bold ml-4 float-left">各サービスの売上高</div>
-          <div id="widget-name" className="float-right mr-4">
+          <div className="float-right mr-4">
             <div className="table-cell h-4 w-full align-middle relative group">
               <div id="search-bar" className="border-2 border-primary-200 h-5 rounded-xs w-44 mx-0 my-auto bg-white table-cell relative cursor-pointer">
                 <p className="mx-0 my-auto w-48 inline ml-8 text-gray-500 text-sm font-bold">顧客企業数</p>
@@ -40,7 +40,7 @@ const Graph2 =() =>{
             </div>
           </div>
         </div>
-        <div className="pt-0"><img className="mx-auto" src={graph2}/></div>
+        <div className="pt-0 w-full"><img className="mx-auto h-full px-4 pb-5" src={graph2}/></div>
         
       </div>
     </div>
