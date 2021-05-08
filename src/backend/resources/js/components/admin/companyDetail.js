@@ -251,27 +251,27 @@ const CompanyDetail = () => {
               <table className="w-full h-auto text-center font-bold text-sm text-gray-600">
                 <tbody>
                   <tr className="h-12">
-                    <td>2020年3月10日</td>
-                    <td>請求先 : 株式会社町田</td>
-                    <td>¥ 10 , 000</td>
+                    <td>2021年5月1日</td>
+                    <td>KOT-TM定期購読</td>
+                    <td>¥ 10, 890</td>
                     <td>支払日 : 未払い</td>
                   </tr>
                   <tr className="h-12">
-                    <td>2020年3月10日</td>
-                    <td>請求先 : 株式会社町田</td>
-                    <td>¥ 10 , 000</td>
-                    <td>支払日 : 未払い</td>
+                    <td>2021年4月1日</td>
+                    <td>KOT-SL 定期購読</td>
+                    <td>¥ 11, 220</td>
+                    <td>支払日 : 2021年4月30日</td>
                   </tr>
                   <tr className="h-12">
-                    <td>2020年3月10日</td>
-                    <td>請求先 : 株式会社町田</td>
-                    <td>¥ 10 , 000</td>
-                    <td>支払日 : 未払い</td>
+                    <td>2021年3月1日</td>
+                    <td>KOT-TM 定期購読</td>
+                    <td>¥ 10, 890</td>
+                    <td>支払日 : 2021年4月30日</td>
                   </tr>
                   <tr className="h-12">
-                    <td>2020年3月10日</td>
-                    <td>請求先 : 株式会社町田</td>
-                    <td>¥ 10 , 000</td>
+                    <td>2021年3月1日</td>
+                    <td>KOT-XC 定期購読</td>
+                    <td>¥ 1, 542, 000</td>
                     <td>支払日 : 未払い</td>
                   </tr>
                 </tbody>
