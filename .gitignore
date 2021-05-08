@@ -3,6 +3,7 @@ src/backend/.php_cs.cache
 src/backend/public/css
 src/backend/public/js
 src/backend/public/images
+src/backend/public/fonts
 src/backend/public/report/*
 .env
 src/backend/package-lock.json

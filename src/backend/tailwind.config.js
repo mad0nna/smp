@@ -127,7 +127,8 @@ module.exports = {
        
         },
         fontFamily: {
-            'sans': ['Arial Regular']
+            'sans': ['Meiryo'],
+            'meiryo': ['Meiryo']
         }
     },
     variants: {
