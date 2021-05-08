@@ -14,7 +14,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'index');
-Route::view('/widgetsettings','widgetSettings');
+Route::view('/widgetSettings','widgetSettings');
 
 Route::prefix('company')->group(function() {
 

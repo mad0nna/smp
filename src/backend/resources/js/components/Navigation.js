@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import KotLogo from '../../img/KOT-menu-logo.png'
 import ArrowDownIcon from '../../img/arrowdown.png'
-import logout from '../../img/signout.png'
 import AdminIcon from '../../img/admin-icon.png'
 import idpIcon from '../../img/idp_logo.png'
 
@@ -27,7 +26,8 @@ class Navigation extends React.Component {
                 {label: 'アカウント プロファイル', url: '/company/companyProfile', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                 {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                 {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-                {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-4 w-5', extraStyle: ''},
+                {label: 'ウィジェット設定', url: '/widgetSettings', iconNormal: 'bg-widget-settings-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                 {label: 'ログアウト', url: '/', iconNormal: 'bg-signout-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''}
               ]
             },
@@ -48,8 +48,9 @@ class Navigation extends React.Component {
                   {label: 'アカウント プロファイル', url: '#', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                   {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                   {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-                  {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-4 w-5', extraStyle: ''},
-                  {label: 'ログアウト', url: '/', iconNormal: logout, iconHover: '', iconSize: 'h-4 w-5', extraStyle: ''}
+                  {label: 'ウィジェット設定', url: '#', iconNormal: 'bg-widget-settings-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                  {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                  {label: 'ログアウト', url: '/', iconNormal: 'bg-signout-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''}
                 ]
               },
     }
@@ -68,8 +69,9 @@ class Navigation extends React.Component {
           {label: 'アカウント プロファイル', url: '#', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
           {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
           {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-          {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-4 w-5', extraStyle: ''},
-          {label: 'ログアウト', url: '/', iconNormal: logout, iconHover: '', iconSize: 'h-4 w-5', extraStyle: ''}
+          {label: 'ウィジェット設定', url: '#', iconNormal: 'bg-widget-settings-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+          {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+          {label: 'ログアウト', url: '/', iconNormal: 'bg-signout-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''}
         ]
       }
     }
