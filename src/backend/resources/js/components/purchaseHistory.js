@@ -34,11 +34,11 @@ class PurchaseHistory extends React.Component {
           </div>
           <div id="widget-body" className="w-full bg-gray-50 py-2 space-y-2">
             {
-              this.props.version === undefined &&               
+              this.props.version === undefined &&
               this.purchaseHistory.map((item, index)=>{
                 let stripe = (!(index % 2)) ? 'bg-gray-50' : 'bg-white'
                 return(
-                  <div id="widget-content-item" className={stripe + ' font-sans font-bold text-xs w-full box-border align-middle h-1/3 relative text-gray-500 grid grid-cols-2'} key={index}>
+                  <div id="widget-content-item" className={stripe + ' font-sans font-medium text-xs w-full box-border align-middle h-1/3 relative text-gray-500 grid grid-cols-2'} key={index}>
                     <div className="ml-20">購入履歴</div>
                     <div>&nbsp;</div>
                     <div className="ml-20">商品名</div>
@@ -54,11 +54,11 @@ class PurchaseHistory extends React.Component {
                   </div>
                 )
               })
- 
+
             }
-        
+
             {
-              this.props.version === '2'  && 
+              this.props.version === '2'  &&
               this.purchaseHistory.map((item, index)=>{
                 let stripe = (!(index % 2)) ? 'bg-gray-50' : 'bg-white'
                 return(
@@ -72,7 +72,7 @@ class PurchaseHistory extends React.Component {
                     </div>
                   </div>
                 )
-              })              
+              })
             }
           </div>
           <div id="widget-footer" className="w-full h-14 bg-white pt-2 pr-2">

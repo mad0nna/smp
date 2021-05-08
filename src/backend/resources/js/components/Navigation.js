@@ -27,7 +27,7 @@ class Navigation extends React.Component {
                 {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                 {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                 {label: 'ウィジェット設定', url: '/widgetSettings', iconNormal: 'bg-widget-settings-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-                {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                {label: 'アカウント切り替え', url: '/', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                 {label: 'ログアウト', url: '/', iconNormal: 'bg-signout-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''}
               ]
             },
@@ -37,7 +37,7 @@ class Navigation extends React.Component {
       logo: idpIcon,
       navItem: [
         {label: 'ダッシュボード', url: '/sales/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconActive: 'bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
-        {label: '契約', url: 'sales/companies', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconActive: 'bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
+        {label: '契約', url: '#', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconActive: 'bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
         {label: '請求', url: '/sales/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconActive: 'bg-billing-icon-hover', iconSize: 'h-8 w-8', isActive: false, extraStyle: ''},
       ],
       dropDownNav:
@@ -49,7 +49,7 @@ class Navigation extends React.Component {
                   {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                   {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                   {label: 'ウィジェット設定', url: '#', iconNormal: 'bg-widget-settings-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-                  {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                  {label: 'アカウント切り替え', url: '/', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                   {label: 'ログアウト', url: '/', iconNormal: 'bg-signout-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''}
                 ]
               },
@@ -70,7 +70,7 @@ class Navigation extends React.Component {
           {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
           {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
           {label: 'ウィジェット設定', url: '#', iconNormal: 'bg-widget-settings-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-          {label: 'アカウント切り替え', url: '#', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+          {label: 'アカウント切り替え', url: '/', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
           {label: 'ログアウト', url: '/', iconNormal: 'bg-signout-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''}
         ]
       }
