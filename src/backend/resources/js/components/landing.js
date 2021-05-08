@@ -6,9 +6,9 @@ import salesLogin from '../../img/index/salesLogin.png'
 import employeeLogin from '../../img/index/employeeLogin.png'
 
 const links = [
-  { label:'管理者', url: '#', photo: adminLogin },
+  { label:'管理者', url: '/login?type=admin', photo: adminLogin },
   { label:'顧客企業', url: '/login?type=company', photo: companyLogin },
-  { label:'販売代理店', url: '#', photo: salesLogin },
+  { label:'販売代理店', url: '/login?type=sales', photo: salesLogin },
   { label:'従業員', url: '#', photo: employeeLogin },
 ]
 
@@ -17,7 +17,7 @@ const Landing = () =>{
     <>
       <div className="h-20 font-bold text-white text-4xl text-center align-middle bg-primary-200 pt-5">
         韋駄天サービスにログイン
-      </div> 
+      </div>
       <div className="flex flex-wrap justify-around space-x-4 py-32 px-4 relative " >
         {
           links.map((link, index) => {
