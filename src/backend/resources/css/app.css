@@ -3,7 +3,7 @@
 @tailwind base;
 @font-face {
     font-family: Meiryo;
-    src: url(./../fonts/Meiryo-UI-W53-regular.ttf);
+    src: url('../fonts/Meiryo-UI-W53-regular.ttf');
 }
 
 .dashboardGrid > div::after {
