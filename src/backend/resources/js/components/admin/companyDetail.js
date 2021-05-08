@@ -17,14 +17,23 @@ import LinkageServices from '../linkageServices'
 import HistoryIcon from '../../../img/history-icon.png'
 import PrevButton from '../../../img/pagination-prev.png'
 import NextButton from '../../../img/pagination-next.png'
-const CompanyDetail = () => {
-  return (
-    <div className="relative px-10 pt-5 pb-5 bg-mainbg font-sans">
+const CompanyDetail = (props) => {
+  let hasBreadcrumb = false
+  if (typeof props.breadCrumb !== undefined) {
+    hasBreadcrumb = (props.breadCrumb)
+  }
+  const breadCrumb = () => {
+    return (
       <div id="breadcrumb" className="w-full relative table-cell align-middle w-60 space-x-4">
         <p className="inline font-sm font-bold text-gray-400"><a href="/admin/accounts">アカウント一覧</a></p>
         <img src={BreadCrumb} className="inline"/>
         <p className="inline font-sm font-bold text-gray-400">企業詳細</p>
       </div>
+    )
+  }
+  return (
+    <div className="relative px-10 pt-5 pb-5 bg-mainbg font-sans">
+      {hasBreadcrumb ? breadCrumb() : ''}
       <div id="contact-persons" className="w-full relative rounded-lg border-2 border-gray-200 h-48 mt-5 bg-white mb-10">
         <div id="contact-person-item" className="w-1/2 h-full inline-block px-4 py-2 border-r-2 border-gray-200">
           <div id="contact-logo-container" className="h-10 flex mb-2 pl-20">
@@ -302,5 +311,12 @@ if (document.getElementById('admin-company-account-detail')) {
   ReactDom.render(
     <CompanyDetail/>,
     document.getElementById('admin-company-account-detail')
+  )
+}
+
+if (document.getElementById('sales-account')) {
+  ReactDom.render(
+    <CompanyDetail breadCrumb={false}/>,
+    document.getElementById('sales-account')
   )
 }

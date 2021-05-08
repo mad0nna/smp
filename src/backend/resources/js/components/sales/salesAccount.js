@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 import SalesProfile from './salesProfile'
 import SalesContact from './salesContact'
 import ContractedServices from '../contractedServices'
@@ -15,7 +15,7 @@ const SalesAccount = () => {
       </div>
       <div className="col-span-2 row-span-3 " >
         <SalesProfile  />
-      </div> 
+      </div>
       <div className="col-span-1 row-span-1  ">
         <ContractedServices displayType="small" />
       </div>
@@ -32,6 +32,6 @@ const SalesAccount = () => {
 
 export default SalesAccount
 
-if (document.getElementById('sales-account')){
-  ReactDOM.render(<SalesAccount/>,document.getElementById('sales-account'))
-}
+// if (document.getElementById('sales-account')){
+//   ReactDOM.render(<SalesAccount/>,document.getElementById('sales-account'))
+// }
