@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDom from 'react-dom'
- 
+
 class PurchaseHistorySmall extends React.Component {
   constructor(props) {
     super(props)
     this.purchaseHistory = [
-      {category: '指紋スキャナー', date:'2020年12月10日', billTo: '株式会社町田', amount: '¥ 10 , 000', paymentDate: '2020年12月11日', status: '未払い'},
-      {category: '指紋スキャナー', date:'2020年12月10日', billTo: '株式会社町田', amount: '¥ 10 , 000', paymentDate: '2020年12月11日', status: '未払い'},
-      {category: '指紋スキャナー', date:'2020年12月10日', billTo: '株式会社町田', amount: '¥ 10 , 000', paymentDate: '2020年12月11日', status: '未払い'},
-      {category: '指紋スキャナー', date:'2020年12月10日', billTo: '株式会社町田', amount: '¥ 10 , 000', paymentDate: '2020年12月11日', status: '未払い'},
+      {category: '指紋スキャナー', date:'2021年5月1日', billTo: 'KOT-TM定期購読', amount: '¥ 10, 890', paymentDate: '2020年12月11日', status: '未払い'},
+      {category: '指紋スキャナー', date:'2021年4月1日', billTo: 'KOT-SL 定期購読', amount: '¥ 11, 220', paymentDate: '2020年12月11日', status: '2021年4月30日'},
+      {category: '指紋スキャナー', date:'2021年3月1日', billTo: 'KOT-TM 定期購読', amount: '¥ 10, 890', paymentDate: '2020年12月11日', status: '2021年4月30日'},
+      {category: '指紋スキャナー', date:'2021年3月1日', billTo: 'KOT-XC 定期購読', amount: '¥ 1, 542, 000', paymentDate: '2020年12月11日', status: '未払い'},
     ]
   }
 
