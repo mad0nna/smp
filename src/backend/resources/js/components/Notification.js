@@ -49,7 +49,7 @@ class Notification extends React.Component {
                       {item.message} <br/>
                       <span className="text-primary-200">{(this.notifWithLink.includes(item.header)) ? ' こちらをクリックして確認してください' : ''}</span>
                     </p>
-                    <p id="item-status" className="absolute right-3 float-right font-sans text-primary-200 text-sm tracking-tighter text-center bottom-3">{item.status}</p>
+                    <p id="item-status" className="absolute right-3 float-right font-sans text-primary-200 text-sm tracking-tighter text-center bottom-3 lg:absolute lg:bottom-0">{item.status}</p>
                   </div>
                 )
               })

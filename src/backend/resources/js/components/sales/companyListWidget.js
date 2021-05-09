@@ -47,7 +47,7 @@ class CompanyListWidget extends React.Component{
                       <tr className="stripe-table-row-odd h-10 text-gray-900 lg:text-widget-xs 2xl:text-xs" key={index}>
                         <td className="">{item.HTTID}</td>
                         <td className="">{item.companyName}</td>
-                        <td className="">¥ {item.salesAmount}</td>
+                        <td className="">¥{item.salesAmount}</td>
                       </tr>
                     )
                   })
