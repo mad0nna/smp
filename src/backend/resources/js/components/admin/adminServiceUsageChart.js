@@ -30,17 +30,17 @@ const AdminServiceUsageChart = (props) => {
 
   }
   const convertEngToJPDate = (date) => {
-      let dateSplit = date.split('-')
-      let year = dateSplit[0]
-      let month = dateSplit[1]
-      let day = dateSplit[2]
-      if (dateSplit[1].length > 1) {
-          month = (month[0] === '0') ?  month[1] : month
-      }
-      if (dateSplit[1].length > 1) {
-          day = (day[0] === '0') ?  day[1] : day
-      }
-      return year + '年' + month + '月' + day + '日'
+    let dateSplit = date.split('-')
+    let year = dateSplit[0]
+    let month = dateSplit[1]
+    let day = dateSplit[2]
+    if (dateSplit[1].length > 1) {
+      month = (month[0] === '0') ?  month[1] : month
+    }
+    if (dateSplit[1].length > 1) {
+      day = (day[0] === '0') ?  day[1] : day
+    }
+    return year + '年' + month + '月' + day + '日'
   }
 
   return(
