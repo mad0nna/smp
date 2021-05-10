@@ -5,7 +5,6 @@ import lockIcon from '../../../svg/lock-icon.svg'
 import mailIcon from '../../../svg/mail-icon.svg'
 import BackgroundImage from '../../../img/admin-login-background.png'
 import SettingIcon from '../../../img/setting-gray.png'
-import HomeIcon from '../../../img/home-gray.png'
 // eslint-disable-next-line
 let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
 
@@ -95,9 +94,6 @@ class AdminLogin extends Component {
       <div>
         <img src={BackgroundImage} className="absolute 2xl:w-9/12 xl:w-full" style={{position: 'absolute', left: '0px', bottom: '0px', overflow: 'visible'}}/>
         <div className="relative">
-          <div className="absolute w-36 h-16 top-3 -left-16 bg-customGray rounded-2xl mt-4 -z-1">
-            <img src={HomeIcon} className="mt-3 ml-3 h-10 w-auto"/>
-          </div>
           <div className="z-10" style={{width:'445px'}}>
             <div className="rounded-xl h-82 bg-white shadow-sm mt-32">
               <div className="flex flex-wrap justify-around gap-4">

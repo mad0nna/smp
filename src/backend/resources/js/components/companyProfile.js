@@ -87,7 +87,7 @@ class CompanyProfile extends Component {
                   <label className="text-sm text-gray-400">会社名</label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
-                  <label className={(this.state.isEditingProfile ? 'hidden' : '') + ' text-sm text-black w-full h-8 px-3 leading-8'} >さんよう</label>
+                  <label className={(this.state.isEditingProfile ? 'hidden' : '') + ' text-sm text-black w-full h-8 px-3 leading-8'} >株式会社町田</label>
                   <input className={(this.state.isEditingProfile ? '' : 'hidden') + ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'} defaultValue="さんよう" type="text" />
                 </div>
               </div>
