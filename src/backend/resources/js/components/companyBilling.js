@@ -71,7 +71,7 @@ class CompanyBilling extends React.Component{
                   this.state.billingList.map((item, index) => {
                     let statusHighlight = (item.status === '未払い') ? 'text-red-600' : ''
                     return (
-                      <tr className="stripe-table-row h-16 font-sans font-bold text-md text-gray-600" key={index}>
+                      <tr className="stripe-table-row h-16 font-sans text-md text-gray-600" key={index}>
                         <td className="w-10">{item.no}</td>
                         <td className="w-10">{item.billingName}</td>
                         <td className="w-10">{item.billingDate}</td>

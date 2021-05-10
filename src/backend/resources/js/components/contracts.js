@@ -55,8 +55,7 @@ const Contracts = () => {
                   return(
                     <tr className={stripe + ' table-row bg-gray-50 font-sans p-5 h-20 '+contract.rowcolor } key={index}>
                       <td className="w-2/12"><img className="pl-24" src={contract.logo}/></td>
-                      <td className="w-3/12 text-sm font-bold content-center text-center">
-                        <img className="mb-1 items-center pl-28" src={contract.logo2}/>
+                      <td className="w-3/12 text-sm font-bold content-center text-center bg-top bg-no-repeat" style={{ backgroundImage: `url("${contract.logo2}")` }}>
                         <span className="text-center">{contract.name}</span>
                       </td>
                       <td className="w-1/5 text-center text-sm font-bold">{contract.subscribed}</td>

@@ -25,7 +25,7 @@ class PurchaseHistory extends React.Component {
     }
     return(
       <div className="w-full h-full relative group ">
-        <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' + showMoveButton}>Move</div>
+        <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' + showMoveButton}>Move</div>
         <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 bg-white">
           <div id="widget-header" className="max-w-full h-12 bg-white box-border align-middle p-3 relative">
             <div id="widget-icon" className="bg-cart-icon w-6 h-6 bg-cover bg-no-repeat float-left"/>
@@ -39,8 +39,6 @@ class PurchaseHistory extends React.Component {
                 let stripe = (!(index % 2)) ? 'bg-gray-50' : 'bg-white'
                 return(
                   <div id="widget-content-item" className={stripe + ' font-sans font-medium text-xs w-full box-border align-middle h-1/3 relative text-gray-500 grid grid-cols-2'} key={index}>
-                    <div className="ml-20">購入履歴</div>
-                    <div>&nbsp;</div>
                     <div className="ml-20">商品名</div>
                     <div>{item.productName}</div>
                     <div className="ml-20">購入日</div>

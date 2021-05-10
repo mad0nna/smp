@@ -68,7 +68,7 @@ class BillingHistory extends React.Component {
           <div id="widget-footer" className="w-full h-14 bg-white p-3.5">
             <div id="widget-footer-control" className="float-right">
               
-              <a href="/company/billing" className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter px-2 py-1">さらに表示</a>
+              <a href="/company/billing" className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter px-2">さらに表示</a>
          
             </div>
           </div>

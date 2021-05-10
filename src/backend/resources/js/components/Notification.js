@@ -13,7 +13,7 @@ class Notification extends React.Component {
     this.notifWithLink = ['請求', 'お知らせ']
     this.state = {
       notificationItems : [
-        {header:'請求', type:'invoice', message: '4月度の請求書があります。', link: '#', status: '未読'},
+        {header:'請求', type:'invoice', message: '5月度の請求書があります。', link: '#', status: '未読'},
         {header:'契約リマインダー ', type: 'contract', icon: '', message: 'KOT - セキュアログインが30日後に失効します*', link: '#', status: '未読'},
         {header:'お知らせ', type: 'hnt', message: 'H&T 新規サービス', link: '#', status: '既読'},
       ]
