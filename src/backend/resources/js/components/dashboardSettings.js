@@ -14,7 +14,7 @@ const DashboardSettings =(props) => {
   }
   const buttons = [
     { label: '支払い方法', onClick: '', font: '3xl:text-4xl 2xl:text-3xl xl:text-2xl lg:text-lg md: text-md sm:text-md', url: '#', photo: imgMethPayment},
-    { label: 'サービスをキャンセル', onClick: '', font: '3xl:text-2xl 2xl:text-xl xl:text-lg lg:text-md md: text-sm sm:text-xs', url: '', photo: imgCancelService},
+    { label: 'サービスを',label2: 'キャンセル', onClick: '', font: '3xl:text-2xl 2xl:text-2xl xl:text-xl lg:text-lg md:text-md sm:text-sm', url: '', photo: imgCancelService},
     { label: '通知', onClick: '', font: '3xl:text-5xl 2xl:text-4xl xl:text-3xl lg:text-2xl md: text-xl sm:text-lg', url: '#', photo: imgNotice },
     { label: 'サポート', onClick: props.showWidgets, font: '3xl:text-4xl 2xl:text-3xl xl:text-2xl lg:text-xl md: text-lg sm:text-md', url: '#', photo: imgSupport},
   ]
@@ -33,8 +33,9 @@ const DashboardSettings =(props) => {
             {
               buttons.map((button, index) => {
                 return (
-                  <div key={index} onClick={button.onClick} className="cursor-pointer col-span-2 xl:col-span-1 h-36 bg-center bg-no-repeat bg-cover flex items-center justify-center rounded-lg" style={{ backgroundImage: `url("${button.photo}")` }}>
-                    <h3 className={'font-bold text-white ' + button.font }>{button.label}</h3>
+                  <div key={index} onClick={button.onClick} className="cursor-pointer col-span-2 xl:col-span-1 h-36 bg-center bg-no-repeat bg-cover flex-col flex items-center justify-center rounded-lg" style={{ backgroundImage: `url("${button.photo}")` }}>
+                    <h3 className={'text-center font-bold text-white ' + button.font }>{button.label}</h3>
+                    <span className={'text-center block font-bold text-white ' + button.font }> {button.label2} </span>
                   </div>
                 )
               })
