@@ -27,7 +27,7 @@ const Dashboard = () => {
     {id: 5, component: <ServiceUsage interActivePages={interactivePages}/>, label: 'サービス利用状況', static: false, className: 'relative', state: true, x: 0, y: 4, w: 4, h: 1.25, minW: 2, minH:1.25, isResizable: true},
     {id: 6, component: <BillingHistory interActivePages={interactivePages}/>, label: '請求履歴', static: false, className: 'relative', state: true, x: 4, y: 0, w: 3, h: 2.5, minW: 2, minH: 1, isResizable: true},
     {id: 7, component: <Notification interActivePages={interactivePages}/>, label: 'お知らせ', static: false, className: 'relative', state: true,x: 4, y:2, w: 3, h: 2.25, minW: 1, minH:1, isResizable: true},
-    {id: 8, component: <Settings interActivePages={interactivePages}/>, label: '設定', static: false, className: 'relative', state: true, x: 7, y: 0, w: 3, h: 2.50,minW:1, minH:2.5, isResizable: true},
+    {id: 8, component: <Settings interActivePages={interactivePages}/>, label: '設定', static: false, className: 'relative', state: true, x: 7, y: 0, w: 3, h: 2.50,minW:3, minH:2.5, isResizable: true},
     {id: 9, component: <Purchase interActivePages={interactivePages}/>, label: '購入履歴', static: false, className: 'relative', state: true, x: 7, y: 4, w: 3, h: 2.25, minW: 2, minH:1, isResizable: true}
   ]
 
