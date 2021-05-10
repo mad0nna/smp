@@ -11,16 +11,16 @@ class SalesBilling extends React.Component{
     super(props)
     this.state = {
       billingList: [
-        {no: 'KOT - INV023', invoiceName: 'KOT - TM 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', address: '矢崎紘一', state: '未払い'},
-        {no: 'KOT - INV022', invoiceName: 'KOT - SL 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', address: '矢崎紘一', state: '未払い'},
-        {no: 'KOT - INV021', invoiceName: 'KOT - DA 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', address: '矢崎紘一', state: '未払い'},
-        {no: 'KOT - INV020', invoiceName: 'KOT - TM 定期購読', requestDate: '2021年3月5日', dueDate: '2021年3月30日', address: '矢崎紘一', state: '支払い済み'},
-        {no: 'KOT - INV019', invoiceName: 'KOT - SL 定期購読', requestDate: '2021年3月5日', dueDate: '2021年3月30日', address: '矢崎紘一', state: '支払い済み'},
-        {no: 'KOT - INV023', invoiceName: 'KOT - TM 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', address: '矢崎紘一', state: '未払い'},
-        {no: 'KOT - INV022', invoiceName: 'KOT - SL 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', address: '矢崎紘一', state: '未払い'},
-        {no: 'KOT - INV021', invoiceName: 'KOT - DA 定期購読', requestDate: '2021年4月5日', dueDate: '2021年4月30日', address: '矢崎紘一', state: '未払い'},
-        {no: 'KOT - INV020', invoiceName: 'KOT - TM 定期購読', requestDate: '2021年3月5日', dueDate: '2021年3月30日', address: '矢崎紘一', state: '支払い済み'},
-        {no: 'KOT - INV019', invoiceName: 'KOT - SL 定期購読', requestDate: '2021年3月5日', dueDate: '2021年3月30日', address: '矢崎紘一', state: '支払い済み'}
+        {no: 'INV00024522', invoiceName: 'KOT-HR 定期購読', billingDate: '2021年5月1日', dueDate: '2021年5月31日', amount: '¥458,040', paidOn: '未払い', state: '未払い'},
+        {no: 'INV00024752', invoiceName: 'KOT-BG 定期購読', billingDate: '2021年3月1日', dueDate: '2021年3月31日', amount: '¥990,110', paidOn: '2021年3月20日', state: '支払い済み'},
+        {no: 'INV00021789', invoiceName: 'KOT-NN 定期購読', billingDate: '2021年2月1日', dueDate: '2021年2月28日', amount: '¥1,224,510', paidOn: '2021年2月15日', state: '支払い済み'},
+        {no: 'INV00026478', invoiceName: 'KOT-OP 定期購読', billingDate: '2021年1月1日', dueDate: '2021年1月31日', amount: '¥2,305,520', paidOn: '2021年1月15日', state: '支払い済み'},
+        {no: 'INV00020245', invoiceName: 'KOT-FE 定期購読', billingDate: '2020年12月1日', dueDate: '2020年12月31日', amount: '¥150,660', paidOn: '2020年12月31日', state: '支払い済み'},
+        {no: 'INV00026475', invoiceName: 'KOT-PS 定期購読', billingDate: '2021年3月1日', dueDate: '2021年3月31日', amount: '¥90,850', paidOn: '2021年3月19日', state: '支払い済み'},
+        {no: 'INV00026478', invoiceName: 'KOT-ZE 定期購読', billingDate: '2020年11月1日', dueDate: '2020年11月30日', amount: '¥33,450', paidOn: '2020年11月4日', state: '支払い済み'},
+        {no: 'INV00023647', invoiceName: 'KOT-FX 定期購読', billingDate: '2021年3月1日', dueDate: '2021年3月31日', amount: '¥1,567,400', paidOn: '2021年3月25日', state: '支払い済み'},
+        {no: 'INV00045254', invoiceName: 'KOT-RN 定期購読', billingDate: '2021年4月1日', dueDate: '2021年4月30日', amount: '¥19,954,000', paidOn: '未払い', state: '未払い'},
+        {no: 'INV00026485', invoiceName: 'KOT-NO 定期購読', billingDate: '2020年9月1日', dueDate: '2020年9月30日', amount: '¥204,500', paidOn: '2020年9月15日', state: '支払い済み'}
       ]
     }
   }
@@ -54,13 +54,14 @@ class SalesBilling extends React.Component{
           </div>
           <div id="widget-body" className="h-50 w-full bg-white overflow-hidden">
             <table className="stripe-table-row w-full h-auto text-center zebra-striped">
-              <thead className="bg-table-header-Gray-100 text-table-header-Gray-400 text-gray-400 h-3 font-bold text-lg tracking-tight">
+              <thead className="bg-table-header-Gray-100 h-3 font-bold text-lg tracking-tight">
                 <tr className="h-12 w-12">
-                  <td>請求書 No.</td>
+                  <td>請求書番号</td>
                   <td>請求書名</td>
                   <td>請求日</td>
                   <td>支払い期限</td>
-                  <td>請求先</td>                  
+                  <td>請求額</td>     
+                  <td>支払日</td>             
                   <td>状態</td>
                   <td>操作</td>
                 </tr>
@@ -68,16 +69,17 @@ class SalesBilling extends React.Component{
               <tbody className="transform even:bg-gray-500">
                 {
                   this.state.billingList.map((item, index) => {
-                    // let statusHighlight = (item.state === '未払い') ? 'text-red-600' : ''
+                    let statusHighlight = (item.state === '未払い') ? 'text-red-600' : ''
                     return (
                       <tr className="stripe-table-row h-16 2xl:text-base lg:text-sm text-gray-900" key={index}>
-                        <td className="w-12">{item.no}</td>
-                        <td className="w-12">{item.invoiceName}</td>
-                        <td className="w-12">{item.requestDate}</td>
-                        <td className="w-12">{item.dueDate}</td>
-                        <td className="w-12">{item.address}</td>
-                        <td className={' w-12'}>{item.state}</td>
-                        <td className="w-12 cursor-pointer"><img src={Pdf2Icon} className="mx-auto w-6 h-auto"/> </td>
+                        <td className="w-10">{item.no}</td>
+                        <td className="w-10">{item.invoiceName}</td>
+                        <td className="w-10">{item.billingDate}</td>
+                        <td className="w-10">{item.dueDate}</td>
+                        <td className="w-10">{item.amount}</td>
+                        <td className="w-10">{item.paidOn}</td>
+                        <td className={statusHighlight + ' w-10'}>{item.state}</td>
+                        <td className="w-10 cursor-pointer"><img src={Pdf2Icon} className="mx-auto w-6 h-auto"/> </td>
                       </tr>
                     )
                   })
