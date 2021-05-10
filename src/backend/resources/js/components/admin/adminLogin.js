@@ -43,8 +43,6 @@ class AdminLogin extends Component {
 
     const { name, value } = event.target
     let errors = this.state.errors
-    console.log('handleChange name:' + name)
-    console.log('handleChange value:' + value)
     switch (name) {
     case 'email':
       errors.email =

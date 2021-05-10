@@ -252,7 +252,7 @@ const AccountList = () =>{
                   }
                   let detailPageLink = (item.typeEng === 'sales') ? '/admin/accounts/sales/detail' : '/admin/accounts/company/detail'
                   return(
-                    <tr className="stripe-table-row h-20 font-sans font-bold text-sm text-gray-600" key={index}>
+                    <tr className="stripe-table-row h-20 font-meiryo text-sm text-gray-600" key={index}>
                       <td className="w-12">
                         <p className="p-1 w-7 rounded-2xl bg-orange mx-auto text-white">
                           {item.num}

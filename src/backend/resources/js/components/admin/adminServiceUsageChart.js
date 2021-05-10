@@ -16,21 +16,35 @@ const AdminServiceUsageChart = (props) => {
       setState((prevState) => {
         return {
           ...prevState,
-          fromDate: e.target.value
+          fromDate: convertEngToJPDate(e.target.value)
         }
       })
     } else {
       setState((prevState) => {
         return {
           ...prevState,
-          toDate: e.target.value
+          toDate: convertEngToJPDate(e.target.value)
         }
       })
     }
 
   }
+  const convertEngToJPDate = (date) => {
+      let dateSplit = date.split('-')
+      let year = dateSplit[0]
+      let month = dateSplit[1]
+      let day = dateSplit[2]
+      if (dateSplit[1].length > 1) {
+          month = (month[0] === '0') ?  month[1] : month
+      }
+      if (dateSplit[1].length > 1) {
+          day = (day[0] === '0') ?  day[1] : day
+      }
+      return year + '年' + month + '月' + day + '日'
+  }
+
   return(
-    <div className={props.displayType === 'small' ? 'h-12/12' : 'h-full' + ' w-full h-12/12 relative group'}>
+    <div className={props.displayType === 'small' ? 'h-12/12' : 'h-full' + ' w-full h-12/12 relative group font-meiryo'}>
       <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-pointer hidden ' + showMoveButton}>Move</div>
       <div className="w-full h-full overflow-hidden relative rounded-lg border-2 border-gray-200 bg-white">
         <div id="widget-header" className="max-w-full h-20 box-border align-middle p-3 relative">
@@ -44,7 +58,7 @@ const AdminServiceUsageChart = (props) => {
                 日付フィルター
             </div>
             <div className="h-10 w-40 mt-2 border-2 border-gray-300 rounded-sm relative">
-              <p className="absolute top-2 left-1">{state.fromDate}</p>
+              <p className="absolute top-2 left-1 text-sm">{state.fromDate}</p>
               <div className="absolute right-0 bg-primary-200 w-10 h-9">
                 <img src={CalendarIcon} className="w-6 ml-2 mt-1"/>
               </div>
@@ -54,7 +68,7 @@ const AdminServiceUsageChart = (props) => {
             </div>
 
             <div className="h-10 w-40 mt-2 border-2 border-gray-300 rounded-sm relative">
-              <p className="absolute top-2 left-1">{state.toDate}</p>
+              <p className="absolute top-2 left-1 text-sm">{state.toDate}</p>
               <div className="absolute right-0 bg-primary-200 w-10 h-9">
                 <img src={CalendarIcon} className="w-6 ml-2 mt-1"/>
               </div>

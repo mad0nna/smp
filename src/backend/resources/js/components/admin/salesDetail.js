@@ -176,7 +176,7 @@ const SalesDetail = () => {
                 {
                   state.companyList.map((item, index) => {
                     return (
-                      <tr className="h-14 stripe-table-row" key={index}>
+                      <tr className="h-14 stripe-table-row font-light 2xl:text-sm lg:text-xs" key={index}>
                         <td>{item.httId}</td>
                         <td>{item.companyName}</td>
                         <td>{item.numOfEmp}</td>
@@ -226,7 +226,7 @@ const SalesDetail = () => {
                 {state.billingHistoryList.map((item, index) => {
                   let status = (item.status === '未払い') ? 'text-red-500' : ''
                   return (
-                    <tr className="h-14 stripe-table-row" key={index}>
+                    <tr className="h-14 stripe-table-row font-light  2xl:text-sm lg:text-xs" key={index}>
                       <td>{item.invDate}</td>
                       <td>{item.dueDate}</td>
                       <td>{item.quantity}</td>
