@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import imgActiveUsers from '../../img/active-users.png'
-import inActiveUsers from '../../img/inactive-users.png'
-import imgLogUsers from '../../img/log-users.png'
+import imgActiveUsers from '../../img/company/active-users.png'
+import inActiveUsers from '../../img/company/inactive-users.png'
+import imgLogUsers from '../../img/company/log-users.png'
 import Ellipsis from '../../img/ellipsis.png'
 
 class DashboardServiceUsage extends Component {

@@ -26,7 +26,7 @@ const Graph2 =() =>{
         </div>
         <div className="pt-0 w-full">
           {
-            <img className="mx-auto h-full px-4 pb-5" src={chartType === '7.1' ? ServiceSalesGraph : ClientCountGraph}/>
+            <img className="mx-auto h-full px-2" src={chartType === '7.1' ? ServiceSalesGraph : ClientCountGraph}/>
           }
         </div>
         

@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import imgMethPayment from './../../img/meth-payment.png'
-import imgCancelService from './../../img/cancel-service.png'
-import imgNotice from './../../img/notice.png'
-import imgSupport from './../../img/support.png'
+import imgMethPayment from './../../img/company/meth-payment.png'
+import imgCancelService from './../../img/company/cancel-service.png'
+import imgNotice from './../../img/company/notice.png'
+import imgSupport from './../../img/company/support.png'
 import imgSettingsIcon from '../../img/settings-icon.png'
 import Ellipsis from './../../img/ellipsis.png'
 

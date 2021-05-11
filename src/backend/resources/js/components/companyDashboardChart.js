@@ -4,9 +4,9 @@ import Ellipsis from '../../img/ellipsis.png'
 import kotLogo from '../../svg/kot-logo.svg'
 import Bargraph from '../../svg/bar.svg'
 import Columngraph from '../../svg/column.svg'
-import chart1 from '../../img/chart1.png'
-import chart2 from '../../img/chart2.png'
-import chart3 from '../../img/chart3.png'
+import chart1 from '../../img/company/chart1.png'
+import chart2 from '../../img/company/chart2.png'
+import chart3 from '../../img/company/chart3.png'
 
 const CompanyDashboardChart = () => {
   const [chartState, setChartState] = useState('pie')
@@ -59,7 +59,7 @@ const CompanyDashboardChart = () => {
           <img className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block" src={Ellipsis}/>
         </div>
         { chartState === 'pie' ?
-          <div id="widget-body" className='h-widgetBody-sm w-full bg-white px-6 py-2 space-x-12 overflow-hidden text-center'>
+          <div id="widget-body" className='h-widgetBody-sm w-full bg-white px-6 py-6 space-x-12 overflow-hidden text-center'>
             <div className="w-44 h-64 inline-block">
               <p className="font-sans font-black text-xs text-gray-500">定期購読契約</p>
               <img src={chart1} className="mx-auto" />
@@ -83,11 +83,11 @@ const CompanyDashboardChart = () => {
             </div>
           </div>
           : chartState === 'bar' ?
-            <div className="bg-white w-full">
+            <div className="bg-white w-full pt-6 px-3">
               <img src={Bargraph} className="mx-auto"/>
             </div>
             : chartState === 'column' ?
-              <div className="bg-white w-full">
+              <div className="bg-white w-full pt-6 px-3">
                 <img src={Columngraph} className="mx-auto" />
               </div>
               :null

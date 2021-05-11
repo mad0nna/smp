@@ -39,7 +39,7 @@ const Contracts = () => {
             <span className="bg-white text-primary-200 font-sans font-bold">契約一覧</span>
           </div>
           <table className="table w-full bg-white">
-            <thead className="bg-gray-200 font-bold font-sans text-gray-500 pt-4 pb-4 text-center">
+            <thead className="bg-gray-200 font-bold font-sans text-gray-500 pt-4 pb-4 text-left">
               <tr>
                 <th className="w-1/5">&nbsp;</th>
                 <th className="w-1/5">契約名</th>
@@ -55,12 +55,12 @@ const Contracts = () => {
                   return(
                     <tr className={stripe + ' table-row bg-gray-50 font-sans 2xl:text-base lg:text-sm text-gray-900 p-5 h-20 '+contract.rowcolor } key={index}>
                       <td className="w-2/12"><img className="pl-24" src={contract.logo}/></td>
-                      <td className="w-3/12 text-sm content-center text-center bg-no-repeat pt-4" style={{ backgroundImage: `url("${contract.logo2}")`,  backgroundPosition: '50% 29%' }}>
-                        <span className="text-center">{contract.name}</span>
+                      <td className="w-3/12 text-sm content-center text-left bg-no-repeat pt-4" style={{ backgroundImage: `url("${contract.logo2}")`,  backgroundPosition: '0% 29%' }}>
+                        <span className="text-left">{contract.name}</span>
                       </td>
-                      <td className="w-1/5 text-center text-sm ">{contract.subscribed}</td>
-                      <td className="w-1/5 text-center text-sm ">{contract.expired}</td>
-                      <td className={contract.pointer +' w-1/5 text-center text-sm font-bold '+ contract.statuscolor}>{contract.status}</td>
+                      <td className="w-1/5 text-lef text-sm ">{contract.subscribed}</td>
+                      <td className="w-1/5 text-left text-sm ">{contract.expired}</td>
+                      <td className={contract.pointer +' w-1/5 text-left text-sm font-bold '+ contract.statuscolor}>{contract.status}</td>
                     </tr>
                   )
                 })
