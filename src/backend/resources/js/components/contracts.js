@@ -42,9 +42,9 @@ const Contracts = () => {
             <thead className="bg-gray-200 font-bold font-sans text-gray-500 pt-4 pb-4 text-left">
               <tr>
                 <th className="w-1/5">&nbsp;</th>
-                <th className="w-1/5">契約名</th>
-                <th className="w-1/5">開始日</th>
-                <th className="w-1/5">終了日</th>
+                <th className="w-1/5 pl-5">契約名</th>
+                <th className="w-1/5 pl-5">開始日</th>
+                <th className="w-1/5 pl-5">終了日</th>
                 <th className="w-1/5">状態</th>
               </tr>
             </thead>
