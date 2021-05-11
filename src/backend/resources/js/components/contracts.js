@@ -13,12 +13,12 @@ import {interactivePages} from '../utilities/constants'
 
 const Contracts = () => {
   const data = [
-    {logo:kot, logo2: kot2, name:'勤怠管理', pointer: '', rowcolor:'text-gray-500', statuscolor:'text-black', subscribed: '2021年1月5日', expired: '2022年1月5日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'セキュアログイン', pointer: '', rowcolor:'text-gray-500',statuscolor:'text-black', subscribed: '2020年5月30日', expired: '2021年5月30日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'データ分析', pointer: '', rowcolor:'text-gray-500',statuscolor:'text-black', subscribed: '2021年3月10日', expired: '2022年3月10日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'人事労務',pointer: '', rowcolor:'text-gray-500',statuscolor:'text-black', subscribed: '2020年6月6日', expired: '2021年6月6日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'シフト管理', pointer: '', rowcolor:'text-gray-500',statuscolor:'text-black', subscribed: '2021年1月16日', expired: '2022年1月16日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'ワークフロー', pointer: '', rowcolor:'text-gray-500',statuscolor:'text-black', subscribed: '2021年1月1日', expired: '2022年1月1日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'勤怠管理', pointer: '', rowcolor:'text-gray-800', statuscolor:'text-black', subscribed: '2021年1月5日', expired: '2022年1月5日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'セキュアログイン', pointer: '', rowcolor:'text-gray-800',statuscolor:'text-black', subscribed: '2020年5月30日', expired: '2021年5月30日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'データ分析', pointer: '', rowcolor:'text-gray-800',statuscolor:'text-black', subscribed: '2021年3月10日', expired: '2022年3月10日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'人事労務',pointer: '', rowcolor:'text-gray-800',statuscolor:'text-black', subscribed: '2020年6月6日', expired: '2021年6月6日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'シフト管理', pointer: '', rowcolor:'text-gray-800',statuscolor:'text-black', subscribed: '2021年1月16日', expired: '2022年1月16日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'ワークフロー', pointer: '', rowcolor:'text-gray-800',statuscolor:'text-black', subscribed: '2021年1月1日', expired: '2022年1月1日',status: '契約中'},
     {logo:Freee, logo2: '', name:'工数管理', pointer: 'cursor-pointer', rowcolor:'text-gray-400',statuscolor:'text-primary-200', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
     {logo:Freee, logo2: '', name:'人事労務', pointer: 'cursor-pointer', rowcolor:'text-gray-400',statuscolor:'text-primary-200', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
     {logo:SmartHR, logo2: '', name:'クラウド管理会',pointer: 'cursor-pointer', rowcolor:'text-gray-400',statuscolor:'text-primary-200', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
@@ -53,13 +53,13 @@ const Contracts = () => {
                 data.map((contract, index) => {
                   const stripe = (!(index % 2)) ? 'bg-gray-50' : 'bg-white'
                   return(
-                    <tr className={stripe + ' table-row bg-gray-50 font-sans p-5 h-20 '+contract.rowcolor } key={index}>
+                    <tr className={stripe + ' table-row bg-gray-50 font-sans 2xl:text-base lg:text-sm text-gray-900 p-5 h-20 '+contract.rowcolor } key={index}>
                       <td className="w-2/12"><img className="pl-24" src={contract.logo}/></td>
-                      <td className="w-3/12 text-sm font-bold content-center text-center bg-no-repeat pt-4" style={{ backgroundImage: `url("${contract.logo2}")`,  backgroundPosition: '50% 29%' }}>
+                      <td className="w-3/12 text-sm content-center text-center bg-no-repeat pt-4" style={{ backgroundImage: `url("${contract.logo2}")`,  backgroundPosition: '50% 29%' }}>
                         <span className="text-center">{contract.name}</span>
                       </td>
-                      <td className="w-1/5 text-center text-sm font-bold">{contract.subscribed}</td>
-                      <td className="w-1/5 text-center text-sm font-bold">{contract.expired}</td>
+                      <td className="w-1/5 text-center text-sm ">{contract.subscribed}</td>
+                      <td className="w-1/5 text-center text-sm ">{contract.expired}</td>
                       <td className={contract.pointer +' w-1/5 text-center text-sm font-bold '+ contract.statuscolor}>{contract.status}</td>
                     </tr>
                   )
