@@ -64,9 +64,9 @@ const AccountList = () =>{
             let a = x[key].toUpperCase(),
               b = y[key].toUpperCase()
             if (orderAsc) {
-              return a === b ? 0 : a > b ? 1 : -1
+              return a.localeCompare(b, 'ja', {ignorePunctuation: true})
             }
-            return a === b ? 0 : a < b ? 1 : -1
+            return b.localeCompare(a, 'ja', {ignorePunctuation: true})
           }),
           asc: orderAsc,
           activeSort: key

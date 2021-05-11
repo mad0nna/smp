@@ -35,9 +35,9 @@ class CompanyListWidget extends React.Component{
             <table className="stripe-table-row w-full h-auto text-center table-px-2">
               <thead className="text-primary-200 h-3 font-bold tracking-tight">
                 <tr className="h-12 w-12">
-                  <td className="">HTT-ID</td>
-                  <td className="">会社名</td>
-                  <td className="">前月売上高</td>
+                  <td className="text-left">HTT-ID</td>
+                  <td className="text-left">会社名</td>
+                  <td className="text-right">前月売上高</td>
                 </tr>
               </thead>
               <tbody className="transform even:bg-gray-500">
@@ -45,9 +45,9 @@ class CompanyListWidget extends React.Component{
                   this.state.billingList.map((item, index) => {
                     return (
                       <tr className="stripe-table-row-odd h-10 text-gray-900 lg:text-widget-xs 2xl:text-xs" key={index}>
-                        <td className="">{item.HTTID}</td>
-                        <td className="">{item.companyName}</td>
-                        <td className="">¥{item.salesAmount}</td>
+                        <td className="text-left">{item.HTTID}</td>
+                        <td className="text-left">{item.companyName}</td>
+                        <td className="text-right">¥{item.salesAmount}</td>
                       </tr>
                     )
                   })

@@ -22,7 +22,7 @@ const AdminFreeeServiceUsage = (props) => {
                   <p className="text-xs text-primary-200 font-bold ml-1">Freee システム利用</p>
                 </div>
                 <div className="text-center mt-2">
-                  <p className="2xl:text-4xl lg:text-2xl text-cyan font-black">5000 / 20000</p>
+                  <p className="2xl:text-4xl lg:text-2xl text-cyan font-black">5,000 / 20,000</p>
                 </div>
                 <div className="text-center border-2 border-primary-200 rounded-2xl h-8 w-24 mx-auto mt-1">
                   <p className="text-sm text-primary-200 font-bold mt-1">詳細を確認</p>

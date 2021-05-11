@@ -31,7 +31,7 @@ const MonthlyAccountRegistration = (props) => {
             <div className="w-1/2 my-auto">
               <div className="w-3 h-3 rounded-lg bg-primary-200 inline-block mb-1 mr-4"/>
               <div className="inline-block 2xl:text-4xl xl:text-2xl lg:text-2xl font-black text-gray-800">
-                              500 / 1000
+                              500 / 1,000
               </div>
               <p className="text-sm text-gray-600 font-bold mb-1">顧客企業数</p>
               <div className="w-full rounded-lg bg-primary-100 h-1"/>
@@ -47,7 +47,7 @@ const MonthlyAccountRegistration = (props) => {
             <div className="w-1/2 my-auto">
               <div className="w-3 h-3 rounded-lg bg-cyan inline-block mb-1 mr-4"/>
               <div className="inline-block 2xl:text-4xl xl:text-2xl lg:text-2xl font-black text-gray-800">
-                              200 / 1000
+                              200 / 1,000
               </div>
               <p className="text-sm text-gray-600 font-bold mb-1 h-4"/>
               <div className="w-full rounded-lg bg-cyan h-1"/>

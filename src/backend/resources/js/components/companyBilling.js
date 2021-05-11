@@ -54,7 +54,7 @@ class CompanyBilling extends React.Component{
           </div>
           <div id="widget-body" className="h-50 w-full bg-white overflow-hidden">
             <table className="w-full h-auto text-center">
-              <thead className="bg-table-header-Gray-100 h-3 font-bold text-lg tracking-tight">
+              <thead className="bg-table-header-Gray-100 text-table-header-Gray-400 h-3 font-bold text-lg tracking-tight">
                 <tr className="h-12 w-12">
                   <td>請求書番号</td>
                   <td>請求書名</td>
@@ -69,17 +69,17 @@ class CompanyBilling extends React.Component{
               <tbody className="transform even:bg-gray-500">
                 {
                   this.state.billingList.map((item, index) => {
-                    let statusHighlight = (item.status === '未払い') ? 'text-red-600' : ''
+                    let paymentDate = (item.status === '未払い') ? '-' : item.paidOn
                     return (
                       <tr className="stripe-table-row h-16 2xl:text-base lg:text-sm text-gray-900" key={index}>
-                        <td className="w-10">{item.no}</td>
-                        <td className="w-10">{item.billingName}</td>
-                        <td className="w-10">{item.billingDate}</td>
-                        <td className="w-10">{item.dueDate}</td>
-                        <td className="w-10">{item.amount}</td>
-                        <td className="w-10">{item.paidOn}</td>
-                        <td className={statusHighlight+ ' w-10'}>{item.status}</td>
-                        <td className="w-10 cursor-pointer"><img src={PdfIcon} className="mx-auto w-6 h-auto"/> </td>
+                        <td>{item.no}</td>
+                        <td>{item.billingName}</td>
+                        <td>{item.billingDate}</td>
+                        <td>{item.dueDate}</td>
+                        <td className="  text-right pr-10 w-4">{item.amount}</td>
+                        <td>{paymentDate}</td>
+                        <td>{item.status}</td>
+                        <td className="cursor-pointer"><img src={PdfIcon} className="mx-auto w-6 h-auto"/> </td>
                       </tr>
                     )
                   })

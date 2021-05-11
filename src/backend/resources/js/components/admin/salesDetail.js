@@ -224,13 +224,13 @@ const SalesDetail = () => {
               </thead>
               <tbody>
                 {state.billingHistoryList.map((item, index) => {
-                  let status = (item.status === '未払い') ? 'text-red-500' : ''
+                  let status = (item.status === '未払い') ? '-' : item.status
                   return (
                     <tr className="h-14 stripe-table-row font-light  2xl:text-sm lg:text-xs" key={index}>
                       <td>{item.invDate}</td>
                       <td>{item.dueDate}</td>
                       <td>{item.quantity}</td>
-                      <td className={status}>{item.status}</td>
+                      <td>{status}</td>
                     </tr>
                   )
                 })}
