@@ -20,28 +20,28 @@ class SalesBillingHistory extends React.Component {
     return(
       <div className="w-full h-full relative group">
         <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' + showMoveButton}>Move</div>
-        <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
-          <div id="widget-header" className="max-w-full h-12 bg-white box-border align-middle 2xl:p-3 xl:p-3 lg:p-4 relative mb-2">
+        <div className="w-full h-full overflow-auto relative  rounded-lg border-2 border-gray-200 bg-white">
+          <div id="widget-header" className="max-w-full h-12 bg-white box-border align-middle py-2 px-3 relative pt-3 mb-1">
             <img src={HistoryIcon} className="bg-history-icon w-6 h-5 bg-cover bg-no-repeat float-left mt-1"/>
             <div id="widget-name" className="text-primary-200 font-sans font-bold ml-4 float-left">H&Tからの請求書</div>
             <img className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block" src={Ellipsis}/>
           </div>
-          <div id="widget-body" className="h-widgetBody w-full bg-white overflow-hidden bg-mainbg space-y-2">
+          <div id="widget-body" className=" w-full  bg-mainbg py-1 space-y-1  mb-1">
             {
               this.billingHistory.map((item, index) => {
                 let stripe = ((index % 2)) ? 'bg-white' : 'bg-white'
                 return(
-                  <div id="widget-content-item" className={stripe + ' w-full h-auto py-3 pl-14 relative text-sm'} key={index}>
+                  <div id="widget-content-item" className={stripe + ' w-full h-auto py-3 2xl:pl-14 xl:pl-10 lg:pl-5 relative text-sm'} key={index}>
                     <div className="inline-block w-1/3">
                       <div className="text-gray-500 2xl:inline-block lg:block pr-2">請求日 </div>
                       {item.invoiceDate}
                     </div>
-                    <p className="inline-block w-1/3">
+                    <p className="inline-block w-1/3 whitespace-nowrap overflow-hidden">
                       <div className="text-gray-500 2xl:inline-block lg:block pr-2">支払期限  </div>
                       {item.dueDate}
                     </p>
 
-                    <div className="inline-block w-1/3">
+                    <div className="inline-block w-1/3 lg:w-1/4">
                       <a href="#">
                         <div id="widget-name" className="p-1 bg-gray-100 float-right 2xl:mr-10 xl:mr-8 lg:mr-6 sm:mr-4 relative">
                           <p className="text-gray-400 text-xxs font-sans">Download</p>
@@ -62,9 +62,8 @@ class SalesBillingHistory extends React.Component {
               })
             }
           </div>
-          <div id="widget-footer" className="w-full h-14 bg-white p-3.5">
+          <div id="widget-footer" className="w-full h-10 bg-white pr-2.5 pt-2">
             <div id="widget-footer-control" className="float-right">
-
               <a href="/sales/billing">
                 <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">
                       さらに表示

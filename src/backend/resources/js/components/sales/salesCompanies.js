@@ -55,10 +55,10 @@ class SalesCompanies extends React.Component{
             <img className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block" src={Ellipsis}/>
           </div>
           <div id="widget-body" className="h-50 w-full bg-white overflow-hidden">
-            <table className="stripe-table-row w-full h-auto text-center">
+            <table className="stripe-table-row w-full h-auto text-left">
               <thead className="bg-table-header-Gray-100 text-table-header-Gray-400 text-gray-400 h-3 font-bold text-lg tracking-tight">
-                <tr className="h-12 w-12">
-                  <td className="">No.</td>
+                <tr className="h-12 w-12 ">
+                  <td className="" style={{width:'100px', paddingLeft: '40px'}}>No.</td>
                   <td className="">HTT-ID</td>
                   <td className="">会社名</td>
                   <td className="">業種</td>
@@ -73,8 +73,8 @@ class SalesCompanies extends React.Component{
                 {
                   this.state.billingList.map((item, index) => {
                     return (
-                      <tr className="stripe-table-row h-16 2xl:text-base lg:text-sm text-gray-900" key={index}>
-                        <td className="" ><div className="w-6 inline-block text-white" style={{ backgroundImage: `url(${yellowCircle})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: '100%', height: '32px', width: '32px', padding: '3px 8px 3px 3px' }}>{index+1}</div></td>
+                      <tr className="stripe-table-row h-16 2xl:text-base lg:text-sm lg:text-sm md:text-sm text-gray-900" key={index}>
+                        <td className="" style={{width:'100px', paddingLeft: '40px'}}><div className="w-6 inline-block text-white text-center" style={{ backgroundImage: `url(${yellowCircle})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: '100%', height: '32px', width: '32px', padding: '3px 8px 3px 3px' }}>{index+1}</div></td>
                         <td className="">{item.HTTID}</td>
                         <td className="">{item.companyName}</td>
                         <td className="">{item.industry}</td>
@@ -93,13 +93,13 @@ class SalesCompanies extends React.Component{
         </div>
 
         <div id="billing-pagination" className="w-full h-12 p-3 text-center space-x-2">
-          <img src={PrevButton} className="inline-block w-8 h-auto cursor-pointer"/>
+          <img src={PrevButton} className="inline-block w-8 h-auto "/>
           <div className="inline-block text-primary-200" >
-            <span className="text-white rounded-2xl bg-primary-200 px-3 py-2 cursor-pointer">1</span>
-            <span className="px-3 py-2 cursor-pointer">2</span>
-            <span className="px-3 py-2 rounded-2xl cursor-pointer">3</span>
+            <span className="text-white rounded-2xl bg-primary-200 px-3 py-2  ">1</span>
+            <span className="px-3 py-2 ">2</span>
+            <span className="px-3 py-2 rounded-2xl ">3</span>
           </div>
-          <img src={NextButton} className="inline-block  w-8 h-auto cursor-pointer"/>
+          <img src={NextButton} className="inline-block  w-8 h-auto "/>
         </div>
       </div>
     )

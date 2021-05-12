@@ -13,14 +13,14 @@ import Graph2 from './graph2Widget'
 const SalesDashboard = () => {
 
   return(
-    <div className="bg-mainbg grid grid-cols-16 grid-rows-12 grid-flow-row gap-4 mx-10 mt-5" style={{height: '850px'}}>
+    <div className="bg-mainbg grid grid-cols-16 grid-rows-12 grid-flow-row gap-4 mx-10 mt-5" style={{height: '820px'}}>
       <div className="col-span-6 row-span-4  ">
         <Graph1/>
       </div>
       <div className="col-span-6 row-span-4 " >
         <Graph2/>
       </div> 
-      <div className="col-span-4 row-span-16 " >
+      <div className="col-span-4 row-span-12 " >
         <CompanyList />
       </div> 
 
@@ -39,10 +39,10 @@ const SalesDashboard = () => {
       </div>
 
 
-      <div className="col-span-6 row-span-6  " >
+      <div className="col-span-6 row-span-5  " >
         <SalesBillingHistory />
       </div>
-      <div className="col-span-3 row-span-6" >
+      <div className="col-span-3 row-span-5" >
         <Notification displayType="small"/>
       </div>
 

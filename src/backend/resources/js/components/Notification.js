@@ -26,12 +26,12 @@ class Notification extends React.Component {
       showMoveButton = (this.props.interActivePages.includes(location.pathname)) ? 'group-hover:block' : ''
     }
     
-    this.props.displayType !== 'undefined' && this.props.displayType === 'small' ? py = 'py-2 h-18 pl-3 ' : 'py-3 h-20 p-3 px-3'
+    this.props.displayType !== 'undefined' && this.props.displayType === 'small' ? py = 'xl:py-3 lg:py-1 h-18 pl-3 ' : 'py-3 h-20 p-3 px-3'
 
     return(
       <div className="w-full h-full relative group ">
         <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' + showMoveButton}>Move</div>
-        <div className="w-full h-full overflow-hidden relative bg-white rounded-lg border-2 border-gray-200 ">
+        <div className="w-full h-full overflow-auto relative bg-white rounded-lg border-2 border-gray-200 ">
           <div id="widget-header" className="max-w-full h-12 bg-white box-border align-middle p-3 relative">
             <div id="widget-icon" className="bg-notification-icon w-6 h-6 bg-cover bg-no-repeat float-left"/>
             <div id="widget-name" className="text-primary-200 font-sans font-bold ml-8">お知らせ</div>
