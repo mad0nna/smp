@@ -78,99 +78,102 @@ const MonthlyAccountRegistration = (props) => {
   }
   const renderBarChart = () => {
     return (
-      <svg className="w-full" xmlns="http://www.w3.org/2000/svg" width="621.499" height="546" viewBox="0 0 621.499 546">
+      <svg className="w-full" xmlns="http://www.w3.org/2000/svg" width="655.216" height="580.115" viewBox="0 0 655.216 580.115">
+        <g id="account_circle-24px" transform="translate(13.568 178.665)">
+          <path id="Path_2177" data-name="Path 2177" d="M0,0H121V121H0Z" fill="none"/>
+        </g>
         <g id="UI_Element_Light_Column_charts_Clustered_column_2_categories" data-name="UI Element/Light/Column charts/Clustered column 2 categories">
           <g id="UI_Element_Column_charts_Clustered_column_2_categories" data-name="UI Element/Column charts/Clustered column 2 categories">
             <g id="Mobile-chart-background">
-              <rect id="Rectangle_Copy_16" data-name="Rectangle Copy 16" width="621.499" height="469.114" rx="12" fill="#fff"/>
+              <rect id="Rectangle_Copy_16" data-name="Rectangle Copy 16" width="655.216" height="580.114" rx="12" fill="#fff"/>
             </g>
-            <g id="Chart" transform="translate(107.764 80.114)">
-              <g id="x-axis" transform="translate(0 328.756)">
-                <text id="Jun" transform="translate(416.671)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="19.862" y="13">6</tspan><tspan y="13" fontFamily="YuGothicUI-Bold, Yu Gothic UI" fontWeight="700">月</tspan></text>
-                <text id="May" transform="translate(332.495)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="19.862" y="13">5</tspan><tspan y="13" fontFamily="YuGothicUI-Bold, Yu Gothic UI" fontWeight="700">月</tspan></text>
-                <text id="Apr" transform="translate(248.319)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="19.862" y="13">4</tspan><tspan y="13" fontFamily="YuGothicUI-Bold, Yu Gothic UI" fontWeight="700">月</tspan></text>
-                <text id="Mar" transform="translate(170.456)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="16.705" y="13">3</tspan><tspan y="13" fontFamily="YuGothicUI-Bold, Yu Gothic UI" fontWeight="700">月</tspan></text>
-                <text id="Feb" transform="translate(86.28)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="19.856" y="13">2</tspan><tspan y="13" fontFamily="YuGothicUI-Bold, Yu Gothic UI" fontWeight="700">月</tspan></text>
-                <text id="Jan" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="19.862" y="13">1</tspan><tspan y="13" fontFamily="YuGothicUI-Bold, Yu Gothic UI" fontWeight="700">月</tspan></text>
+            <g id="Chart" transform="translate(-7.863 150.324)">
+              <g id="x-axis" transform="translate(121.474 258.546)">
+                <text id="Jun" transform="translate(439.276)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="19.528" y="12">May</tspan></text>
+                <text id="May" transform="translate(350.533)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="20.47" y="12">Apr</tspan></text>
+                <text id="Apr" transform="translate(261.79)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="20.326" y="12">Mar</tspan></text>
+                <text id="Mar" transform="translate(177.485)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="17.484" y="12">Feb</tspan></text>
+                <text id="Feb" transform="translate(90.961)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="21.952" y="12">Jan</tspan></text>
+                <text id="Jan" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="20.32" y="12">Dec</tspan></text>
               </g>
-              <g id="Columns">
-                <g id="category-02" transform="translate(21.044 185.544)">
-                  <g id="Charts_Columns_Bars_Single-column-size02" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(416.671 40.173)">
-                    <rect id="Rectangle_Copy_35" data-name="Rectangle Copy 35" width="16.835" height="93.305" rx="4" fill="#56dce1"/>
+              <g id="Columns" transform="translate(121.474 14.255)">
+                <g id="category-02" transform="translate(22.186 101.08)">
+                  <g id="Charts_Columns_Bars_Single-column-size02" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(439.276 79.173)">
+                    <rect id="Rectangle_Copy_35" data-name="Rectangle Copy 35" width="17.749" height="54.305" rx="4" fill="#56dce1"/>
                   </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-2" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(332.495)">
-                    <rect id="Rectangle_Copy_35-2" data-name="Rectangle Copy 35" width="16.835" height="133.477" rx="4" fill="#56dce1"/>
+                  <g id="Charts_Columns_Bars_Single-column-size02-2" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(350.533 40.173)">
+                    <rect id="Rectangle_Copy_35-2" data-name="Rectangle Copy 35" width="17.749" height="93.305" rx="4" fill="#56dce1"/>
                   </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-3" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(248.319 69.978)">
-                    <rect id="Rectangle_Copy_35-3" data-name="Rectangle Copy 35" width="16.835" height="63.499" rx="4" fill="#56dce1"/>
+                  <g id="Charts_Columns_Bars_Single-column-size02-3" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(261.79 -18.521)">
+                    <rect id="Rectangle_Copy_35-3" data-name="Rectangle Copy 35" width="17.749" height="151.998" rx="4" fill="#56dce1"/>
                   </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-4" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(166.247 54.428)">
-                    <rect id="Rectangle_Copy_35-4" data-name="Rectangle Copy 35" width="16.835" height="79.05" rx="4" fill="#56dce1"/>
+                  <g id="Charts_Columns_Bars_Single-column-size02-4" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(175.267 -18.521)">
+                    <rect id="Rectangle_Copy_35-4" data-name="Rectangle Copy 35" width="17.749" height="151.998" rx="4" fill="#56dce1"/>
                   </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-5" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(86.28 6.479)">
-                    <rect id="Rectangle_Copy_35-5" data-name="Rectangle Copy 35" width="16.835" height="126.998" rx="4" fill="#56dce1"/>
+                  <g id="Charts_Columns_Bars_Single-column-size02-5" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(90.961 -18.521)">
+                    <rect id="Rectangle_Copy_35-5" data-name="Rectangle Copy 35" width="17.749" height="151.998" rx="4" fill="#56dce1"/>
                   </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-6" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(0 69.978)">
-                    <rect id="Rectangle_Copy_35-6" data-name="Rectangle Copy 35" width="16.835" height="63.499" rx="4" fill="#56dce1"/>
-                  </g>
-                </g>
-                <g id="category-01" transform="translate(0 84.464)">
-                  <g id="Charts_Columns_Bars_Single-column-size02-7" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(416.671 32.397)">
-                    <rect id="Rectangle_Copy_35-7" data-name="Rectangle Copy 35" width="16.835" height="202.16" rx="4" fill="#5490de"/>
-                  </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-8" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(332.495 60.907)">
-                    <rect id="Rectangle_Copy_35-8" data-name="Rectangle Copy 35" width="16.835" height="173.65" rx="4" fill="#5490de"/>
-                  </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-9" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(248.319 130.886)">
-                    <rect id="Rectangle_Copy_35-9" data-name="Rectangle Copy 35" width="16.835" height="103.672" rx="4" fill="#5490de"/>
-                  </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-10" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(166.247)">
-                    <rect id="Rectangle_Copy_35-10" data-name="Rectangle Copy 35" width="16.835" height="234.557" rx="4" fill="#5490de"/>
-                  </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-11" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(86.28 80.346)">
-                    <rect id="Rectangle_Copy_35-11" data-name="Rectangle Copy 35" width="16.835" height="154.212" rx="4" fill="#5490de"/>
-                  </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-12" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(0 116.631)">
-                    <rect id="Rectangle_Copy_35-12" data-name="Rectangle Copy 35" width="16.835" height="117.927" rx="4" fill="#5490de"/>
+                  <g id="Charts_Columns_Bars_Single-column-size02-6" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(0 -126.022)">
+                    <rect id="Rectangle_Copy_35-6" data-name="Rectangle Copy 35" width="17.749" height="259.499" rx="4" fill="#56dce1"/>
                   </g>
                 </g>
-                <g id="category-01-2" data-name="category-01" transform="translate(44.581)">
-                  <g id="Charts_Columns_Bars_Single-column-size02-13" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(416.671 44.064)">
-                    <rect id="Rectangle_Copy_35-13" data-name="Rectangle Copy 35" width="16.835" height="274.958" rx="4" fill="#1d9e48"/>
+                <g id="category-01">
+                  <g id="Charts_Columns_Bars_Single-column-size02-7" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(439.276 113.397)">
+                    <rect id="Rectangle_Copy_35-7" data-name="Rectangle Copy 35" width="17.749" height="121.16" rx="4" fill="#5490de"/>
                   </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-14" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(332.495 82.84)">
-                    <rect id="Rectangle_Copy_35-14" data-name="Rectangle Copy 35" width="16.835" height="236.182" rx="4" fill="#1d9e48"/>
+                  <g id="Charts_Columns_Bars_Single-column-size02-8" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(350.533 179.907)">
+                    <rect id="Rectangle_Copy_35-8" data-name="Rectangle Copy 35" width="17.749" height="54.65" rx="4" fill="#5490de"/>
                   </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-15" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(248.319 178.018)">
-                    <rect id="Rectangle_Copy_35-15" data-name="Rectangle Copy 35" width="16.835" height="141.004" rx="4" fill="#1d9e48"/>
+                  <g id="Charts_Columns_Bars_Single-column-size02-9" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(261.79 80.346)">
+                    <rect id="Rectangle_Copy_35-9" data-name="Rectangle Copy 35" width="17.749" height="154.212" rx="4" fill="#5490de"/>
                   </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-16" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(166.247)">
-                    <rect id="Rectangle_Copy_35-16" data-name="Rectangle Copy 35" width="16.835" height="319.022" rx="4" fill="#1d9e48"/>
+                  <g id="Charts_Columns_Bars_Single-column-size02-10" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(175.267 80.346)">
+                    <rect id="Rectangle_Copy_35-10" data-name="Rectangle Copy 35" width="17.749" height="154.212" rx="4" fill="#5490de"/>
                   </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-17" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(86.28 109.278)">
-                    <rect id="Rectangle_Copy_35-17" data-name="Rectangle Copy 35" width="16.835" height="209.743" rx="4" fill="#1d9e48"/>
+                  <g id="Charts_Columns_Bars_Single-column-size02-11" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(90.961 80.346)">
+                    <rect id="Rectangle_Copy_35-11" data-name="Rectangle Copy 35" width="17.749" height="154.212" rx="4" fill="#5490de"/>
                   </g>
-                  <g id="Charts_Columns_Bars_Single-column-size02-18" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(0 158.63)">
-                    <rect id="Rectangle_Copy_35-18" data-name="Rectangle Copy 35" width="16.835" height="160.392" rx="4" fill="#1d9e48"/>
+                  <g id="Charts_Columns_Bars_Single-column-size02-12" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(0 97.631)">
+                    <rect id="Rectangle_Copy_35-12" data-name="Rectangle Copy 35" width="17.749" height="136.927" rx="4" fill="#5490de"/>
+                  </g>
+                </g>
+                <g id="category-01-2" data-name="category-01" transform="translate(47 -84.464)">
+                  <g id="Charts_Columns_Bars_Single-column-size02-13" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(439.276 -23.936)">
+                    <rect id="Rectangle_Copy_35-13" data-name="Rectangle Copy 35" width="17.749" height="342.958" rx="4" fill="#1d9e48"/>
+                  </g>
+                  <g id="Charts_Columns_Bars_Single-column-size02-14" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(350.533 62.84)">
+                    <rect id="Rectangle_Copy_35-14" data-name="Rectangle Copy 35" width="17.749" height="256.182" rx="4" fill="#1d9e48"/>
+                  </g>
+                  <g id="Charts_Columns_Bars_Single-column-size02-15" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(261.79 167.018)">
+                    <rect id="Rectangle_Copy_35-15" data-name="Rectangle Copy 35" width="17.749" height="152.004" rx="4" fill="#1d9e48"/>
+                  </g>
+                  <g id="Charts_Columns_Bars_Single-column-size02-16" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(175.267 122)">
+                    <rect id="Rectangle_Copy_35-16" data-name="Rectangle Copy 35" width="17.749" height="197.022" rx="4" fill="#1d9e48"/>
+                  </g>
+                  <g id="Charts_Columns_Bars_Single-column-size02-17" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(90.961 74.278)">
+                    <rect id="Rectangle_Copy_35-17" data-name="Rectangle Copy 35" width="17.749" height="244.743" rx="4" fill="#1d9e48"/>
+                  </g>
+                  <g id="Charts_Columns_Bars_Single-column-size02-18" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(0 220.63)">
+                    <rect id="Rectangle_Copy_35-18" data-name="Rectangle Copy 35" width="17.749" height="98.392" rx="4" fill="#1d9e48"/>
                   </g>
                 </g>
               </g>
             </g>
           </g>
         </g>
-        <rect id="Rectangle_2161" data-name="Rectangle 2161" width="45" height="45" rx="12" transform="translate(147.38 479)" fill="#56dce1"/>
-        <rect id="Rectangle_2162" data-name="Rectangle 2162" width="45" height="45" rx="12" transform="translate(308.932 479)" fill="#5490de"/>
-        <text id="SmartHR" transform="translate(169.462 543)" fill="#56dce1" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-25.497" y="0">SmartHR</tspan></text>
-        <text id="Freee" transform="translate(330.042 543)" fill="#5490de" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-15.223" y="0">Freee</tspan></text>
-        <rect id="Rectangle_2163" data-name="Rectangle 2163" width="45" height="45" rx="12" transform="translate(465.76 481)" fill="#1d9e48"/>
-        <text id="King_of_Time_" data-name="King of Time " transform="translate(493.826 543)" fill="#1d9e48" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-37.749" y="0">King of Time </tspan></text>
-        <g id="y-axis" transform="translate(14.331 91.255)">
-          <text id="_0" data-name="0" transform="translate(0 321.23)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="39.064" y="12">0</tspan></text>
-          <text id="_250" data-name="250" transform="translate(0 238.23)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="24.664" y="12">250</tspan></text>
-          <text id="_500" data-name="500" transform="translate(0 152.438)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="24.664" y="12">500</tspan></text>
-          <text id="_750" data-name="750" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="17.464" y="12">1000</tspan></text>
-          <text id="_750-2" data-name="750" transform="translate(0 69.438)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="24.664" y="12">750</tspan></text>
+        <g id="y-axis" transform="translate(36.347 127.078)">
+          <text id="_0" data-name="0" transform="translate(0 256.267)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="41.574" y="12">0</tspan></text>
+          <text id="_250" data-name="250" transform="translate(0 173.267)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="27.174" y="12">250</tspan></text>
+          <text id="_500" data-name="500" transform="translate(0 87.475)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="27.174" y="12">500</tspan></text>
+          <text id="_750" data-name="750" transform="translate(0 -64.963)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="19.974" y="12">1000</tspan></text>
+          <text id="_750-2" data-name="750" transform="translate(0 4.475)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="27.174" y="12">750</tspan></text>
         </g>
+        <rect id="Rectangle_2167" data-name="Rectangle 2167" width="45" height="45" rx="12" transform="translate(151.233 495.115)" fill="#56dce1"/>
+        <rect id="Rectangle_2168" data-name="Rectangle 2168" width="45" height="45" rx="12" transform="translate(322.233 495.115)" fill="#5490de"/>
+        <text id="SmartHR" transform="translate(173.233 559.115)" fill="#56dce1" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-25.497" y="0">SmartHR</tspan></text>
+        <text id="Freee" transform="translate(343.233 559.115)" fill="#5490de" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-15.223" y="0">Freee</tspan></text>
+        <rect id="Rectangle_2169" data-name="Rectangle 2169" width="45" height="45" rx="12" transform="translate(488.233 497.115)" fill="#1d9e48"/>
+        <text id="King_of_Time_" data-name="King of Time " transform="translate(517.233 559.115)" fill="#1d9e48" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-37.749" y="0">King of Time </tspan></text>
       </svg>
 
     )
