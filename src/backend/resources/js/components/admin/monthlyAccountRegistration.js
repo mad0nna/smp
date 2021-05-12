@@ -88,14 +88,6 @@ const MonthlyAccountRegistration = (props) => {
               <rect id="Rectangle_Copy_16" data-name="Rectangle Copy 16" width="655.216" height="580.114" rx="12" fill="#fff"/>
             </g>
             <g id="Chart" transform="translate(-7.863 150.324)">
-              <g id="x-axis" transform="translate(121.474 258.546)">
-                <text id="Jun" transform="translate(439.276)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="19.528" y="12">May</tspan></text>
-                <text id="May" transform="translate(350.533)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="20.47" y="12">Apr</tspan></text>
-                <text id="Apr" transform="translate(261.79)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="20.326" y="12">Mar</tspan></text>
-                <text id="Mar" transform="translate(177.485)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="17.484" y="12">Feb</tspan></text>
-                <text id="Feb" transform="translate(90.961)" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="21.952" y="12">Jan</tspan></text>
-                <text id="Jan" fontSize="12" fontFamily="NunitoSans-ExtraBold, Nunito Sans" fontWeight="800"><tspan x="20.32" y="12">Dec</tspan></text>
-              </g>
               <g id="Columns" transform="translate(121.474 14.255)">
                 <g id="category-02" transform="translate(22.186 101.08)">
                   <g id="Charts_Columns_Bars_Single-column-size02" data-name="Charts/Columns&amp;Bars/Single-column-size02" transform="translate(439.276 79.173)">
@@ -174,8 +166,13 @@ const MonthlyAccountRegistration = (props) => {
         <text id="Freee" transform="translate(343.233 559.115)" fill="#5490de" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-15.223" y="0">Freee</tspan></text>
         <rect id="Rectangle_2169" data-name="Rectangle 2169" width="45" height="45" rx="12" transform="translate(488.233 497.115)" fill="#1d9e48"/>
         <text id="King_of_Time_" data-name="King of Time " transform="translate(517.233 559.115)" fill="#1d9e48" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-37.749" y="0">King of Time </tspan></text>
+        <text id="Jan" transform="translate(102.733 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">1</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+        <text id="Jan-2" data-name="Jan" transform="translate(199.233 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">2</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+        <text id="Jan-3" data-name="Jan" transform="translate(280.196 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">3</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+        <text id="Jan-4" data-name="Jan" transform="translate(367.233 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">4</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+        <text id="Jan-5" data-name="Jan" transform="translate(454.271 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">5</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+        <text id="Jan-6" data-name="Jan" transform="translate(545.271 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.425" y="13">6</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
       </svg>
-
     )
   }
   const renderLineChart = () => {
