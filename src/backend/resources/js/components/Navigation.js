@@ -14,9 +14,9 @@ class Navigation extends React.Component {
     this.companyNavigation = {
       logo: KotLogo,
       navItem: [
-        {label: 'ダッシュボード', url: '/company/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconActive: 'bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
-        {label: '契約', url: '/company/contracts', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconActive: 'bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
-        {label: '請求', url: '/company/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconActive: 'bg-billing-icon-hover', iconSize: 'h-8 w-8', isActive: false, extraStyle: ''},
+        {label: 'ダッシュボード', url: '/company/dashboard', childUrl: [], iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconActive: 'bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+        {label: '契約', url: '/company/contracts', childUrl: [], iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconActive: 'bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
+        {label: '請求', url: '/company/billing', childUrl: [], iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconActive: 'bg-billing-icon-hover', iconSize: 'h-8 w-8', isActive: false, extraStyle: ''},
       ],
       dropDownNav:
             {
@@ -36,9 +36,9 @@ class Navigation extends React.Component {
     this.salesNavigation = {
       logo: idpIcon,
       navItem: [
-        {label: 'ダッシュボード', url: '/sales/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconActive: 'bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
-        {label: '契約', url: '/sales/companies', iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconActive: 'bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
-        {label: '請求', url: '/sales/billing', iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconActive: 'bg-billing-icon-hover', iconSize: 'h-8 w-8', isActive: false, extraStyle: ''},
+        {label: 'ダッシュボード', url: '/sales/dashboard', childUrl: [], iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconActive: 'bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+        {label: '契約', url: '/sales/companies', childUrl: [], iconNormal: 'bg-contract-icon', iconHover: 'group-hover:bg-contract-icon-hover', iconActive: 'bg-contract-icon-hover', iconSize: 'h-7 w-9', isActive: false, extraStyle: ''},
+        {label: '請求', url: '/sales/billing', childUrl: [], iconNormal: 'bg-billing-icon', iconHover: 'group-hover:bg-billing-icon-hover', iconActive: 'bg-billing-icon-hover', iconSize: 'h-8 w-8', isActive: false, extraStyle: ''},
       ],
       dropDownNav:
               {
@@ -58,18 +58,18 @@ class Navigation extends React.Component {
     this.adminNavigation = {
       logo: KotLogo,
       navItem: [
-        {label: 'ダッシュボード', url: '/admin/dashboard', iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconActive: 'bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
-        {label: 'アカウント', url: '/admin/accounts', iconNormal: 'bg-account-list-icon', iconHover: 'group-hover:bg-account-list-icon-hover', iconActive: 'bg-account-list-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
-        {label: 'ドキュメント', url: '#', iconNormal: 'bg-document-icon', iconHover: 'group-hover:bg-document-icon-hover', iconActive: 'bg-document-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+        {label: 'ダッシュボード', url: '/admin/dashboard', childUrl: [], iconNormal: 'bg-dashboard-icon', iconHover: 'group-hover:bg-dashboard-icon-hover', iconActive: 'bg-dashboard-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+        {label: 'アカウント', url: '/admin/accounts', childUrl: ['/admin/accounts/company/detail', '/admin/accounts/sales/detail'], iconNormal: 'bg-account-list-icon', iconHover: 'group-hover:bg-account-list-icon-hover', iconActive: 'bg-account-list-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: ''},
+        {label: 'ドキュメント', url: '#', childUrl: [], iconNormal: 'bg-document-icon', iconHover: 'group-hover:bg-document-icon-hover', iconActive: 'bg-document-icon-hover', iconSize: 'h-8 w-9', isActive: false, extraStyle: 'cursor-default'},
       ],
       dropDownNav: {
         title: '管理者',
         logo: AdminIcon,
         items: [
-          {label: 'アカウント プロファイル', url: '#', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-          {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-          {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-          {label: 'ウィジェット設定', url: '#', iconNormal: 'bg-widget-settings-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+          {label: 'アカウント プロファイル', url: '#', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: 'cursor-default'},
+          {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle:  'cursor-default'},
+          {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle:  'cursor-default'},
+          {label: 'ウィジェット設定', url: '#', iconNormal: 'bg-widget-settings-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle:  'cursor-default'},
           {label: 'アカウント切り替え', url: '/', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
           {label: 'ログアウト', url: '/', iconNormal: 'bg-signout-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''}
         ]
@@ -100,9 +100,14 @@ class Navigation extends React.Component {
                 let activeTextColor= item.isActive ? 'text-white' : ''
                 let activeIcon = item.isActive ? item.iconActive : item.iconNormal
                 let activeBackground = item.isActive ? 'bg-primary-200' : ''
+                if (!item.isActive && item.childUrl.indexOf(location.pathname) !== -1) {
+                  activeIcon = item.iconActive
+                  activeTextColor = 'text-white'
+                  activeBackground = 'bg-primary-200'
+                }
                 return (
                   <li className={'group text-center py-5 w-36 hover:bg-primary-200 hover:text-white ' + activeBackground + ' ' + activeTextColor} key={index}>
-                    <a href={item.url}>
+                    <a href={item.url} className={item.extraStyle}>
                       <div>
                         <div className={item.iconSize + ' mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover ' + activeIcon + ' ' + item.iconHover + ' ' +  + activeBackground}/>
                       </div>
@@ -128,7 +133,7 @@ class Navigation extends React.Component {
             {
               this.mainNav.dropDownNav.items.map((item, index)=>{
                 return(
-                  <a href={item.url} key={index}>
+                  <a href={item.url} key={index} className={item.extraStyle}>
                     <div className="flex items-center py-2 space-x-4">
                       <div className={item.iconNormal + ' ' + item.iconSize + ' bg-cover bg-no-repeat'}/>
                       <div className="text-sm text-white tracking-tighter">{item.label}</div>

@@ -19,21 +19,21 @@ const SalesDashboard = () => {
       </div>
       <div className="col-span-6 row-span-4 " >
         <Graph2/>
-      </div> 
+      </div>
       <div className="col-span-4 row-span-12 " >
         <CompanyList />
-      </div> 
+      </div>
 
 
       <div className="col-span-3 row-span-3  ">
         <ContractedServices />
       </div>
       <div className="col-span-3 row-span-3 " >
-        <LinkageServices displayType="small" />
+        <LinkageServices/>
       </div>
       <div className="col-span-3 row-span-8 " >
         <PurchaseHistory version="2" />
-      </div> 
+      </div>
       <div className="col-span-3 row-span-3 " >
         <Announcement  />
       </div>

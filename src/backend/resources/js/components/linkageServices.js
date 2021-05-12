@@ -13,10 +13,6 @@ class LinkageServices extends React.Component {
         {serviceName: 'SalesForce', serviceLink: '#', icon: ''}
       ]
     }
-
-    if (this.props.displayType === 'small') {
-      this.state.linkageServices.pop()
-    }
   }
 
   render() {
@@ -54,7 +50,7 @@ class LinkageServices extends React.Component {
               })
             }
           </div>
-          {this.props.displayType === 'small' ? this.addFooter() : ''}
+          {/*this.addFooter()*/}
         </div>
       </div>
     )
@@ -66,7 +62,7 @@ class LinkageServices extends React.Component {
           <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter hidden">もっと見る</button>
         </div>
       </div>
-      
+
     )
   }
 }

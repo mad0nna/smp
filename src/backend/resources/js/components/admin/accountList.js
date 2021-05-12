@@ -278,13 +278,13 @@ const AccountList = () =>{
         </div>
       </div>
       <div id="billing-pagination" className="w-full h-12 p-3 text-center space-x-2 mt-4">
-        <img src={PrevButton} className="inline-block w-8 h-auto cursor-pointer mb-1"/>
+        <img src={PrevButton} className="inline-block w-8 h-auto  cursor-default mb-1"/>
         <div className="inline-block text-primary-200">
-          <span className="text-white rounded-2xl bg-primary-200 px-3 py-2 cursor-pointer">1</span>
-          <span className="px-3 py-2 cursor-pointer">2</span>
-          <span className="px-3 py-2 rounded-2xl cursor-pointer">3</span>
+          <span className="text-white rounded-2xl bg-primary-200 px-3 py-2 cursor-default">1</span>
+          <span className="px-3 py-2  cursor-default">2</span>
+          <span className="px-3 py-2 rounded-2xl  cursor-default">3</span>
         </div>
-        <img src={NextButton} className="inline-block  w-8 h-auto cursor-pointer mb-1"/>
+        <img src={NextButton} className="inline-block  w-8 h-auto  cursor-default mb-1"/>
       </div>
     </div>
   )
