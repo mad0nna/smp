@@ -1,8 +1,6 @@
 import React,{useState} from 'react'
 import GraphIcon from '../../../img/admin/graph-icon.png'
 import Ellipsis from '../../../img/ellipsis.png'
-import CustomerRegisteredGraph from '../../../img/admin/customer-registered-graph.png'
-import SalesRegisteredGraph from '../../../img/admin/sales-registered-graph.png'
 const MonthlyAccountRegistration = (props) => {
   let showMoveButton = ''
   if (typeof props.interActivePages != 'undefined') {
@@ -25,36 +23,57 @@ const MonthlyAccountRegistration = (props) => {
   }
   const renderPieChart = () => {
     return (
-      <div id="pieChart">
-        <div className="pt-10 px-4">
-          <div id="graphItem" className="w-full my-8 relative flex text-center">
-            <div className="w-1/2 my-auto">
-              <div className="w-3 h-3 rounded-lg bg-primary-200 inline-block mb-1 mr-4"/>
-              <div className="inline-block 2xl:text-4xl xl:text-2xl lg:text-2xl font-black text-gray-800">
-                              500 / 1,000
-              </div>
-              <p className="text-sm text-gray-600 font-bold mb-1">顧客企業数</p>
-              <div className="w-full rounded-lg bg-primary-100 h-1"/>
-            </div>
-            <div className="my-auto w-1/2">
-              <img src={CustomerRegisteredGraph} className="w-auto mx-auto"/>
-            </div>
-          </div>
-          <div id="graphItem" className="w-full relative flex text-center">
-            <div className="my-auto w-1/2">
-              <img src={SalesRegisteredGraph} className=" w-auto mx-auto"/>
-            </div>
-            <div className="w-1/2 my-auto">
-              <div className="w-3 h-3 rounded-lg bg-cyan inline-block mb-1 mr-4"/>
-              <div className="inline-block 2xl:text-4xl xl:text-2xl lg:text-2xl font-black text-gray-800">
-                              200 / 1,000
-              </div>
-              <p className="text-sm text-gray-600 font-bold mb-1 h-4"/>
-              <div className="w-full rounded-lg bg-cyan h-1"/>
-            </div>
-          </div>
-        </div>
-      </div>
+      <svg className="w-full 2xl:pt-8 lg:pt-0" id="UI_Element_Light_Line_charts_03-categories_line_chart" data-name="UI Element/Light/Line charts/03-categories line chart" xmlns="http://www.w3.org/2000/svg" width="614.548" height="527.608" viewBox="0 0 614.548 527.608">
+        <defs>
+          <filter id="Rectangle_282" x="198.714" y="115.115" width="179" height="23" filterUnits="userSpaceOnUse">
+            <feOffset dy="3" input="SourceAlpha"/>
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feFlood floodOpacity="0.161"/>
+            <feComposite operator="in" in2="blur"/>
+            <feComposite in="SourceGraphic"/>
+          </filter>
+        </defs>
+        <g id="UI_Element_Line_charts_03-categories_line_chart" data-name="UI Element/Line charts/03-categories line chart">
+          <g id="Mobile-chart-background">
+            <rect id="Rectangle_Copy_16" data-name="Rectangle Copy 16" width="614.548" height="527.608" rx="1" fill="#fff"/>
+          </g>
+          <rect id="Rectangle_283" data-name="Rectangle 283" width="161" height="5" rx="2.5" transform="translate(207.714 292.114)" fill="#c2e5d3"/>
+          <g id="Ring_Chart5" data-name="Ring Chart5" transform="translate(420.214 13.616)">
+            <path id="Path_3516" data-name="Path 3516" d="M1.006-77.493A77.5,77.5,0,0,1,76.88-9.78a77.5,77.5,0,0,1-56.5,84.554L16.371,59.281A61.5,61.5,0,0,0,61.008-7.761a61.5,61.5,0,0,0-60-53.73Z" transform="translate(77.501 77.493)" fill="#1d9e48"/>
+            <path id="Path_3517" data-name="Path 3517" d="M18.429,75.277a77.5,77.5,0,0,1-78.3-26.066A77.5,77.5,0,0,1-70.285-32.653,77.5,77.5,0,0,1-1.006-77.493v16A61.5,61.5,0,0,0-55.8-25.849,61.5,61.5,0,0,0-47.554,39,61.5,61.5,0,0,0,14.422,59.785Z" transform="translate(77.501 77.493)" fill="#5edf89"/>
+            <text id="_70_" data-name="70%" transform="translate(77.501 89.056)" fill="#1f78b4" fontSize="34.875" fontFamily="ArialMT, Arial"><tspan x="-34.901" y="0">70%</tspan></text>
+          </g>
+          <g id="Ring_Chart5-2" data-name="Ring Chart5" transform="translate(24.214 182.822)">
+            <path id="Path_3516-2" data-name="Path 3516" d="M1.006-77.493A77.5,77.5,0,0,1,76.88-9.78a77.5,77.5,0,0,1-56.5,84.554L16.371,59.281A61.5,61.5,0,0,0,61.008-7.761a61.5,61.5,0,0,0-60-53.73Z" transform="translate(77.501 77.493)" fill="#56dce1"/>
+            <path id="Path_3517-2" data-name="Path 3517" d="M18.429,75.277a77.5,77.5,0,0,1-78.3-26.066A77.5,77.5,0,0,1-70.285-32.653,77.5,77.5,0,0,1-1.006-77.493v16A61.5,61.5,0,0,0-55.8-25.849,61.5,61.5,0,0,0-47.554,39,61.5,61.5,0,0,0,14.422,59.785Z" transform="translate(77.501 77.493)" fill="#c2e5d3"/>
+            <text id="_20_" data-name="20%" transform="translate(77.501 89.056)" fill="#1f78b4" fontSize="34.875" fontFamily="ArialMT, Arial"><tspan x="-34.901" y="0">20%</tspan></text>
+          </g>
+          <g id="Ring_Chart5-3" data-name="Ring Chart5" transform="translate(420.214 347.612)">
+            <path id="Path_3516-3" data-name="Path 3516" d="M1.006-77.493A77.5,77.5,0,0,1,76.88-9.78a77.5,77.5,0,0,1-56.5,84.554L16.371,59.281A61.5,61.5,0,0,0,61.008-7.761a61.5,61.5,0,0,0-60-53.73Z" transform="translate(77.501 77.493)" fill="#5490de"/>
+            <path id="Path_3517-3" data-name="Path 3517" d="M18.429,75.277a77.5,77.5,0,0,1-78.3-26.066A77.5,77.5,0,0,1-70.285-32.653,77.5,77.5,0,0,1-1.006-77.493v16A61.5,61.5,0,0,0-55.8-25.849,61.5,61.5,0,0,0-47.554,39,61.5,61.5,0,0,0,14.422,59.785Z" transform="translate(77.501 77.493)" fill="#9bc5d8"/>
+            <text id="_30_" data-name="30%" transform="translate(77.501 89.056)" fill="#1f78b4" fontSize="34.875" fontFamily="ArialMT, Arial"><tspan x="-34.901" y="0">30%</tspan></text>
+          </g>
+          <text id="_700_1000" data-name="700 / 1000" transform="translate(228.714 102.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.9"><tspan x="0" y="0">700 / 1000</tspan></text>
+          <g id="Ellipse_2" data-name="Ellipse 2" transform="translate(211.714 87.114)" fill="#1ace74" stroke="#1ace74" strokeWidth="1">
+            <circle cx="4.5" cy="4.5" r="4.5" stroke="none"/>
+            <circle cx="4.5" cy="4.5" r="4" fill="none"/>
+          </g>
+          <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Rectangle_282)">
+            <rect id="Rectangle_282-2" data-name="Rectangle 282" width="161" height="5" rx="2.5" transform="translate(207.71 121.11)" fill="#78db6d"/>
+          </g>
+          <text id="顧客企業数" transform="translate(258.714 116.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7"><tspan x="0" y="0">顧客企業数</tspan></text>
+          <text id="_200_1000" data-name="200 / 1000" transform="translate(228.714 274.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7"><tspan x="0" y="0">200 / 1000</tspan></text>
+          <circle id="Ellipse_3" data-name="Ellipse 3" cx="4.5" cy="4.5" r="4.5" transform="translate(211.714 260.114)" fill="#56dce1"/>
+          <rect id="Rectangle_284" data-name="Rectangle 284" width="127" height="5" rx="2.5" transform="translate(207.714 292.114)" fill="#56dce1"/>
+          <text id="販売代理店数" transform="translate(252.714 287.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7"><tspan x="0" y="0">販売代理店数</tspan></text>
+          <rect id="Rectangle_2157" data-name="Rectangle 2157" width="127" height="5" rx="2.5" transform="translate(207.714 121.114)" fill="#1d9e48"/>
+          <rect id="Rectangle_2158" data-name="Rectangle 2158" width="161" height="5" rx="2.5" transform="translate(211.714 462.114)" fill="#9bc5d8"/>
+          <text id="_300_1000" data-name="300 / 1000" transform="translate(232.714 444.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7"><tspan x="0" y="0">300 / 1000</tspan></text>
+          <circle id="Ellipse_4" data-name="Ellipse 4" cx="4.5" cy="4.5" r="4.5" transform="translate(215.714 431.114)" fill="#5490de"/>
+          <rect id="Rectangle_2159" data-name="Rectangle 2159" width="127" height="5" rx="2.5" transform="translate(211.714 462.114)" fill="#5490de"/>
+          <text id="販売代理店数-2" data-name="販売代理店数" transform="translate(252.714 459.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7"><tspan x="0" y="0">販売代理店数</tspan></text>
+        </g>
+      </svg>
     )
   }
   const renderBarChart = () => {
