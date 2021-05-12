@@ -92,7 +92,7 @@ class SalesCompanies extends React.Component{
           </div>
         </div>
 
-        <div id="billing-pagination" className="w-full h-12 p-3 text-center space-x-2">
+        <div id="billing-pagination" className="w-full h-6 pt-3 text-center space-x-2">
           <img src={PrevButton} className="inline-block w-8 h-auto "/>
           <div className="inline-block text-primary-200" >
             <span className="text-white rounded-2xl bg-primary-200 px-3 py-2  ">1</span>

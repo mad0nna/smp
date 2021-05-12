@@ -27,9 +27,9 @@ class SalesBilling extends React.Component{
 
   render() {
     return (
-      <div className="relative px-10 py-5 bg-mainbg">
+      <div className="relative px-10 pt-5 bg-mainbg">
         <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
-          <div id="widget-header" className="max-w-full h-32 bg-white box-border align-middle p-4 relative">
+          <div id="widget-header" className="max-w-full h-28 bg-white box-border align-middle p-4 relative">
             <img src={BillingIcon} className="w-auto h-7 float-left ml-4"/>
             <div id="widget-name" className="text-primary-200 text-xl font-sans font-bold ml-4 float-left">請求履歴</div>
             <div id="widget-name" className="float-right mr-12">
@@ -71,7 +71,7 @@ class SalesBilling extends React.Component{
                   this.state.billingList.map((item, index) => {
                     // let statusHighlight = (item.state === '未払い') ? 'text-red-600' : ''
                     return (
-                      <tr className="stripe-table-row h-16 text-gray-900" key={index}>
+                      <tr className="stripe-table-row h-16 text-gray-900 my-2" key={index}>
                         <td className="pl-5">{item.no}</td>
                         <td className="">{item.invoiceName}</td>
                         <td className="">{item.billingDate}</td>
@@ -88,7 +88,7 @@ class SalesBilling extends React.Component{
             </table>
           </div>
         </div>
-        <div id="billing-pagination" className="w-full h-12 p-3 text-center space-x-2">
+        <div id="billing-pagination" className="w-full h-6 pt-3 text-center space-x-2">
           <img src={PrevButton} className="inline-block w-8 h-auto "/>
           <div className="inline-block text-primary-200">
             <span className="text-white rounded-2xl bg-primary-200 px-3 py-2 ">1</span>
