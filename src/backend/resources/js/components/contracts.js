@@ -13,15 +13,15 @@ import {interactivePages} from '../utilities/constants'
 
 const Contracts = () => {
   const data = [
-    {logo:kot, logo2: kot2, name:'勤怠管理', pointer: '', rowcolor:'text-gray-800', statuscolor:'text-black', subscribed: '2021年1月5日', expired: '2022年1月5日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'セキュアログイン', pointer: '', rowcolor:'text-gray-800',statuscolor:'text-black', subscribed: '2020年5月30日', expired: '2021年5月30日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'データ分析', pointer: '', rowcolor:'text-gray-800',statuscolor:'text-black', subscribed: '2021年3月10日', expired: '2022年3月10日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'人事労務',pointer: '', rowcolor:'text-gray-800',statuscolor:'text-black', subscribed: '2020年6月6日', expired: '2021年6月6日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'シフト管理', pointer: '', rowcolor:'text-gray-800',statuscolor:'text-black', subscribed: '2021年1月16日', expired: '2022年1月16日',status: '契約中'},
-    {logo:kot, logo2: kot2, name:'ワークフロー', pointer: '', rowcolor:'text-gray-800',statuscolor:'text-black', subscribed: '2021年1月1日', expired: '2022年1月1日',status: '契約中'},
-    {logo:Freee, logo2: '', name:'工数管理', pointer: 'cursor-pointer', rowcolor:'text-gray-400',statuscolor:'text-primary-200', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
-    {logo:Freee, logo2: '', name:'人事労務', pointer: 'cursor-pointer', rowcolor:'text-gray-400',statuscolor:'text-primary-200', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
-    {logo:SmartHR, logo2: '', name:'クラウド管理会',pointer: 'cursor-pointer', rowcolor:'text-gray-400',statuscolor:'text-primary-200', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
+    {logo:kot, logo2: kot2, name:'勤怠管理', rowcolor:'text-gray-800',  subscribed: '2021年1月5日', expired: '2022年1月5日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'セキュアログイン', rowcolor:'text-gray-800', subscribed: '2020年5月30日', expired: '2021年5月30日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'データ分析', rowcolor:'text-gray-800', subscribed: '2021年3月10日', expired: '2022年3月10日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'人事労務', rowcolor:'text-gray-800', subscribed: '2020年6月6日', expired: '2021年6月6日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'シフト管理', rowcolor:'text-gray-800', subscribed: '2021年1月16日', expired: '2022年1月16日',status: '契約中'},
+    {logo:kot, logo2: kot2, name:'ワークフロー', rowcolor:'text-gray-800', subscribed: '2021年1月1日', expired: '2022年1月1日',status: '契約中'},
+    {logo:Freee, logo2: '', name:'工数管理', rowcolor:'text-gray-400', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
+    {logo:Freee, logo2: '', name:'人事労務', rowcolor:'text-gray-400', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
+    {logo:SmartHR, logo2: '', name:'クラウド管理会', rowcolor:'text-gray-400', subscribed: '非アクティブ', expired: '非アクティ',status: '申請する'},
 
   ]
   const pagination = [
@@ -51,7 +51,9 @@ const Contracts = () => {
             <tbody>
               {
                 data.map((contract, index) => {
+
                   const stripe = (!(index % 2)) ? 'bg-gray-50' : 'bg-white'
+                  const styles = (contract.status === '申請する') ? 'text-primary-200' : 'text-black'
                   return(
                     <tr className={stripe + ' table-row bg-gray-50 font-sans 2xl:text-base lg:text-sm text-gray-900 p-5 h-20 '+contract.rowcolor } key={index}>
                       <td className="w-2/12"><img className="pl-24" src={contract.logo}/></td>
@@ -60,7 +62,7 @@ const Contracts = () => {
                       </td>
                       <td className="w-1/5 text-lef text-sm ">{contract.subscribed}</td>
                       <td className="w-1/5 text-left text-sm ">{contract.expired}</td>
-                      <td className={contract.pointer +' w-1/5 text-left text-sm font-bold '+ contract.statuscolor}>{contract.status}</td>
+                      <td className={styles +' w-1/5 text-left text-sm font-bold '}>{contract.status}</td>
                     </tr>
                   )
                 })
@@ -70,21 +72,18 @@ const Contracts = () => {
         </div>
 
         <div className="col-span-3 row-span-2 w-full text-primary-200 font-bold font-sans text-center flex gap-3 justify-center items-center text-sm align-center h-3">
-          <a href="#"><img src={back}/></a>
+          <img src={back}/>
           {
             pagination.map((page, index) => {
               return (
-                <a
-                  href={page.url}
-                  className={'flex items-center justify-center w-6 h-6 rounded-full ' + (page.active ? 'bg-primary-200 text-white' : 'text-primary-200')}
-                  key={index}
-                >
+                <p className={'flex items-center justify-center w-6 h-6 rounded-full ' + (page.active ? 'bg-primary-200 text-white' : 'text-primary-200')}
+                  key={index}>
                   {page.label}
-                </a>
+                </p>
               )
             })
           }
-          <a href="#"><img src={next}/></a>
+          <img src={next}/>
         </div>
       </div>
       <div className="col-span-1 row-span-1 w-full align-top">

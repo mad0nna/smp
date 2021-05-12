@@ -24,8 +24,8 @@ class Navigation extends React.Component {
               logo: '',
               items: [
                 {label: 'アカウント プロファイル', url: '/company/companyProfile', iconNormal: 'bg-profile-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-                {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
-                {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
+                {label: 'お問合せ', url: '#', iconNormal: 'bg-call-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: 'cursor-default'},
+                {label: 'アカウント設定', url: '#', iconNormal: 'bg-settings-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: 'cursor-default'},
                 {label: 'ウィジェット設定', url: '/widgetSettings', iconNormal: 'bg-widget-settings-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                 {label: 'アカウント切り替え', url: '/', iconNormal: 'bg-switch-account-icon-white', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''},
                 {label: 'ログアウト', url: '/', iconNormal: 'bg-signout-icon', iconHover: '', iconSize: 'h-5 w-5', extraStyle: ''}

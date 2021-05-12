@@ -33,7 +33,7 @@ const DashboardSettings =(props) => {
             {
               buttons.map((button, index) => {
                 return (
-                  <div key={index} onClick={button.onClick} className="cursor-pointer col-span-2 xl:col-span-1 h-36 bg-center bg-no-repeat bg-cover flex-col flex items-center justify-center rounded-lg" style={{ backgroundImage: `url("${button.photo}")` }}>
+                  <div key={index} onClick={button.onClick} className="col-span-2 xl:col-span-1 h-36 bg-center bg-no-repeat bg-cover flex-col flex items-center justify-center rounded-lg" style={{ backgroundImage: `url("${button.photo}")` }}>
                     <h3 className={'text-center font-bold text-white ' + button.font }>{button.label}</h3>
                     <span className={'text-center block font-bold text-white ' + button.font }> {button.label2} </span>
                   </div>
