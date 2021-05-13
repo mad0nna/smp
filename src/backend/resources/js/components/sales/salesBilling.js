@@ -57,11 +57,11 @@ class SalesBilling extends React.Component{
               <thead className="bg-table-header-Gray-100 h-3 font-bold text-lg tracking-tight">
                 <tr className="h-12 w-12">
                   <td className="pl-5">請求書番号</td>
-                  <td>請求書名</td>
-                  <td>請求日</td>
-                  <td>支払い期限</td>
+                  <td className="pl-5">請求書名</td>
+                  <td className="pl-5">請求日</td>
+                  <td className="pl-5">支払い期限</td>
                   <td className="text-right pr-20">請求額</td>     
-                  <td>支払日</td>             
+                  <td className="pl-5">支払日</td>             
                   <td>状態</td>
                   <td>操作</td>
                 </tr>
@@ -76,7 +76,7 @@ class SalesBilling extends React.Component{
                         <td className="">{item.invoiceName}</td>
                         <td className="">{item.billingDate}</td>
                         <td className="">{item.dueDate}</td>
-                        <td className="text-right pr-20">{item.amount}</td>
+                        <td className="text-right px-auto pr-20">{item.amount}</td>
                         <td className="">{item.paidOn}</td>
                         <td className={''}>{item.state}</td>
                         <td className=""><img src={Pdf2Icon} className=""/> </td>

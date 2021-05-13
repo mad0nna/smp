@@ -115,7 +115,7 @@ class CompanyLogin extends Component {
                 <div className='flex flex-wrap items-center justify-center  text-sm login-error login-error '>{this.state.formError}</div>}
 
 
-          <div className="text-xs text-center static bottom-10 mt-6 mb-1 text-gray-600"><a href="#">パスワードを取得する方法</a></div>
+          <div className="text-xs text-center static bottom-10 mt-6 mb-1 text-gray-600"><a href="#">パスワードをお忘れですか？</a></div>
         </div>
       </div>
 

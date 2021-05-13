@@ -9,6 +9,13 @@ class SalesBillingHistory extends React.Component {
       {amount: '¥ 10,890', dueDate: '2021年5月31日', invoiceNo: 'INV00024143', invoiceDate: '2021年5月1日', paymentDate: '未払い'},
       {amount: '¥ 11,220', dueDate: '2021年4月30日', invoiceNo: 'INV00024011', invoiceDate: '2021年4月1日', paymentDate: '2021年4月30日'},
       {amount: '¥ 10,890', dueDate: '2021年3月31日', invoiceNo: 'INV00023561', invoiceDate: '2021年3月1日', paymentDate: '2021年3月31日'},
+      {amount: '¥ 9,860', dueDate: '2021年2月31日', invoiceNo: 'INV00023562', invoiceDate: '2021年2月1日', paymentDate: '2021年2月28日'},
+      {amount: '¥ 10,290', dueDate: '2021年1月31日', invoiceNo: 'INV00023467', invoiceDate: '2021年1月1日', paymentDate: '2021年1月3日'},
+      {amount: '¥ 12,180', dueDate: '2020年12月31日', invoiceNo: 'INV00023564', invoiceDate: '2020年12月1日', paymentDate: '2020年12月31日'},
+      {amount: '¥ 15,780', dueDate: '2020年11月31日', invoiceNo: 'INV00023461', invoiceDate: '2020年11月1日', paymentDate: '2020年11月30日'},
+      {amount: '¥ 13,830', dueDate: '2020年10月31日', invoiceNo: 'INV00023363', invoiceDate: '2020年10月1日', paymentDate: '2020年10月9日'},
+      {amount: '¥ 11,110', dueDate: '2020年9月31日', invoiceNo: 'INV00023264', invoiceDate: '2020年9月1日', paymentDate: '2020年9月30日'},
+      {amount: '¥ 9,870', dueDate: '2020年8月31日', invoiceNo: 'INV00023169', invoiceDate: '2020年8月1日', paymentDate: '2020年8月3日'},
     ]
   }
 

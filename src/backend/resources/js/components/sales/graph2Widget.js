@@ -14,12 +14,12 @@ const Graph2 =() =>{
       <div className="w-full h-full overflow-hidden relative bg-white rounded-lg border-2 border-gray-200 ">
         <div id="widget-header" className="max-w-full h-6 bg-white box-border align-middle p-3 relative">
           <img src={graph2Icon} className="w-6 h-6 ml-4 bg-cover bg-no-repeat float-left"/>
-          <div id="widget-name" className="text-primary-200 text-md font-meiryo font-bold ml-4 float-left">各サービスの売上高</div>
+          <div id="widget-name" className="text-primary-200 text-md font-meiryo font-bold ml-4 float-left">{chartType === '7.1' ? '各サービスの売上高' : '顧客企業数'}</div>
           <div className="float-right">  
             <div className="w-full h-8 z-10 py-1 px-8 text-xs">
               <select className="w-full h-8 bg-white border-2 border-primary-200 px-4 lg:px-2 font-bold text-center" onChange={(e)=>changeChartHandler(e)}>
-                <option className="h-12 bg-gray-300 border-2 border-primary-200 px-auto" value="7.1">顧客企業数</option>
-                <option className="h-12 bg-gray-300 px-auto border-2 border-primary-200" value="7.2">各サービスの売上高</option>
+                <option className="h-12 bg-gray-300 border-2 border-primary-200 px-auto" value="7.1">各サービスの売上高</option>
+                <option className="h-12 bg-gray-300 px-auto border-2 border-primary-200" value="7.2">顧客企業数</option>
               </select>
             </div>
           </div>
