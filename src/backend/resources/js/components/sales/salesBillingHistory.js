@@ -53,7 +53,7 @@ class SalesBillingHistory extends React.Component {
                     <div className="flex">
                       <div className="inline-block w-1/3">
                         <div className="text-gray-500 2xl:inline-block lg:block pr-2">請求額 </div>
-                        <div className="text-red-500 2xl:inline-block">{item.amount}</div>
+                        <div className="text-red-500 2xl:inline-block float-right pr-14">{item.amount}</div>
                       </div>
                       <p className="inline-block w-1/3">
                         <div className="text-gray-500 2xl:inline-block lg:block pr-2">請求日 </div>

@@ -55,7 +55,7 @@ const MonthlyAccountRegistration = (props) => {
             <path id="Path_3517-3" data-name="Path 3517" d="M18.429,75.277a77.5,77.5,0,0,1-78.3-26.066A77.5,77.5,0,0,1-70.285-32.653,77.5,77.5,0,0,1-1.006-77.493v16A61.5,61.5,0,0,0-55.8-25.849,61.5,61.5,0,0,0-47.554,39,61.5,61.5,0,0,0,14.422,59.785Z" transform="translate(77.501 77.493)" fill="#9bc5d8"/>
             <text id="_30_" data-name="30%" transform="translate(77.501 89.056)" fill="#1f78b4" fontSize="34.875" fontFamily="ArialMT, Arial"><tspan x="-34.901" y="0">30%</tspan></text>
           </g>
-          <text id="_700_1000" data-name="700 / 1,000" transform="translate(228.714 102.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.9"><tspan x="0" y="0">700 / 1000</tspan></text>
+          <text id="_700_1000" data-name="700 / 1,000" transform="translate(228.714 102.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.9"><tspan x="0" y="0">700 / 1,000</tspan></text>
           <g id="Ellipse_2" data-name="Ellipse 2" transform="translate(211.714 87.114)" fill="#1ace74" stroke="#1ace74" strokeWidth="1">
             <circle cx="4.5" cy="4.5" r="4.5" stroke="none"/>
             <circle cx="4.5" cy="4.5" r="4" fill="none"/>
@@ -64,13 +64,13 @@ const MonthlyAccountRegistration = (props) => {
             <rect id="Rectangle_282-2" data-name="Rectangle 282" width="161" height="5" rx="2.5" transform="translate(207.71 121.11)" fill="#78db6d"/>
           </g>
           <text id="顧客企業数" transform="translate(258.714 116.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7"><tspan x="0" y="0">顧客企業数</tspan></text>
-          <text id="_200_1000" data-name="200 / 1,000" transform="translate(228.714 274.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7"><tspan x="0" y="0">200 / 1000</tspan></text>
+          <text id="_200_1000" data-name="200 / 1,000" transform="translate(228.714 274.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7"><tspan x="0" y="0">200 / 1,000</tspan></text>
           <circle id="Ellipse_3" data-name="Ellipse 3" cx="4.5" cy="4.5" r="4.5" transform="translate(211.714 260.114)" fill="#56dce1"/>
           <rect id="Rectangle_284" data-name="Rectangle 284" width="127" height="5" rx="2.5" transform="translate(207.714 292.114)" fill="#56dce1"/>
           <text id="販売代理店数" transform="translate(252.714 287.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7"><tspan x="0" y="0">販売代理店数</tspan></text>
           <rect id="Rectangle_2157" data-name="Rectangle 2157" width="127" height="5" rx="2.5" transform="translate(207.714 121.114)" fill="#1d9e48"/>
           <rect id="Rectangle_2158" data-name="Rectangle 2158" width="161" height="5" rx="2.5" transform="translate(211.714 462.114)" fill="#9bc5d8"/>
-          <text id="_300_1000" data-name="300 / 1,000" transform="translate(232.714 444.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7"><tspan x="0" y="0">300 / 1000</tspan></text>
+          <text id="_300_1000" data-name="300 / 1,000" transform="translate(232.714 444.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7"><tspan x="0" y="0">300 / 1,000</tspan></text>
           <circle id="Ellipse_4" data-name="Ellipse 4" cx="4.5" cy="4.5" r="4.5" transform="translate(215.714 431.114)" fill="#5490de"/>
           <rect id="Rectangle_2159" data-name="Rectangle 2159" width="127" height="5" rx="2.5" transform="translate(211.714 462.114)" fill="#5490de"/>
           <text id="販売代理店数-2" data-name="販売代理店数" transform="translate(252.714 459.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7"><tspan x="0" y="0">販売代理店数</tspan></text>
