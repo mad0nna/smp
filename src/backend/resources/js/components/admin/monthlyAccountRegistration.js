@@ -179,74 +179,120 @@ const MonthlyAccountRegistration = (props) => {
   }
   const renderLineChart = () => {
     return (
-      <svg className="w-full" xmlns="http://www.w3.org/2000/svg" width="621.499" height="560.024" viewBox="0 0 621.499 560.024">
-        <g id="account_circle-24px" transform="translate(0 171.081)">
-          <path id="Path_2177" data-name="Path 2177" d="M0,0H121V121H0Z" fill="none"/>
+      <svg xmlns="http://www.w3.org/2000/svg" width="573.674" height="559.753" viewBox="0 0 573.674 559.753">
+  <g id="Group_1607" data-name="Group 1607" transform="translate(-1.821)">
+    <g id="Mobile-chart-background" transform="translate(1.821)">
+      <rect id="Rectangle_Copy_16" data-name="Rectangle Copy 16" width="573.674" height="559.753" rx="12" fill="#fff"/>
+    </g>
+    <g id="chart" transform="translate(30.96 118.433)">
+      <g id="Grid" transform="translate(68.295 7.794)">
+        <path id="Line_Copy_18" data-name="Line Copy 18" d="M.5,1l438.906.781" transform="translate(-0.5 300.389)" fill="none" stroke="#d6d9dc" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1" opacity="0.4"/>
+        <path id="Line_Copy_19" data-name="Line Copy 19" d="M.5,1l438.906.781" transform="translate(-0.5 142.048)" fill="none" stroke="#d6d9dc" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1" opacity="0.4"/>
+        <path id="Line_Copy_20" data-name="Line Copy 20" d="M.5,1l438.906.781" transform="translate(-0.5 221.219)" fill="none" stroke="#d6d9dc" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1" opacity="0.4"/>
+        <path id="Line_Copy_21" data-name="Line Copy 21" d="M.5,1l438.906.781" transform="translate(-0.5 62.878)" fill="none" stroke="#d6d9dc" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1" opacity="0.4"/>
+        <path id="Line_Copy_19-2" data-name="Line Copy 19" d="M.5,1l438.906.781" transform="translate(6.968 -1)" fill="none" stroke="#d6d9dc" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1" opacity="0.4"/>
+      </g>
+      <g id="Charts_Line_charts_03-categories" data-name="Charts/Line charts/03-categories">
+        <g id="x-axis" transform="translate(58.278 330.668)">
+          <text id="Jun" transform="translate(401.049)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="27.28" y="12">6月</tspan></text>
+          <text id="May" transform="translate(321.219)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="25.468" y="12">5月</tspan></text>
+          <text id="Apr" transform="translate(239.489)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="25.666" y="12">4月</tspan></text>
+          <text id="Mar" transform="translate(159.659)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="24.49" y="12">3月</tspan></text>
+          <text id="Feb" transform="translate(79.83)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="27.136" y="12">2月</tspan></text>
+          <text id="Jan" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="27.262" y="12">1月</tspan></text>
         </g>
-        <g id="UI_Element_Light_Line_charts_03-categories_line_chart" data-name="UI Element/Light/Line charts/03-categories line chart" transform="translate(6.951)">
-          <g id="UI_Element_Line_charts_03-categories_line_chart" data-name="UI Element/Line charts/03-categories line chart" transform="translate(-1.951 -86)">
-            <g id="Mobile-chart-background" transform="translate(1.951 86)">
-              <rect id="Rectangle_Copy_16" data-name="Rectangle Copy 16" width="614.548" height="560.024" rx="12" fill="#fff"/>
-            </g>
-            <g id="chart" transform="translate(33.166 130.988)">
-              <g id="Grid" transform="translate(73.16 9.096)">
-                <path id="Line_Copy_18" data-name="Line Copy 18" d="M.5,1l470.178.912" transform="translate(-0.5 350.731)" fill="none" stroke="#d6d9dc" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="1" opacity="0.4"/>
-                <path id="Line_Copy_19" data-name="Line Copy 19" d="M.5,1l470.178.912" transform="translate(-0.5 165.942)" fill="none" stroke="#d6d9dc" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="1" opacity="0.4"/>
-                <path id="Line_Copy_20" data-name="Line Copy 20" d="M.5,1l470.178.912" transform="translate(-0.5 258.337)" fill="none" stroke="#d6d9dc" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="1" opacity="0.4"/>
-                <path id="Line_Copy_21" data-name="Line Copy 21" d="M.5,1l470.178.912" transform="translate(-0.5 73.548)" fill="none" stroke="#d6d9dc" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="1" opacity="0.4"/>
-                <path id="Line_Copy_19-2" data-name="Line Copy 19" d="M.5,1l470.178.912" transform="translate(7.5 -1)" fill="none" stroke="#d6d9dc" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="1" opacity="0.4"/>
-              </g>
-              <g id="Charts_Line_charts_03-categories" data-name="Charts/Line charts/03-categories" transform="translate(0 0)">
-                <g id="x-axis" transform="translate(62.43 385.902)">
-                  <text id="Jun" transform="translate(411.65)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.425" y="13">5</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-                  <text id="May" transform="translate(329.71)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">4</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-                  <text id="Apr" transform="translate(245.819)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">3</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-                  <text id="Mar" transform="translate(163.879)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">2</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-                  <text id="Feb" transform="translate(81.94)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">1</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-                  <text id="Jan" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">12</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-                </g>
-                <g id="y-axis">
-                  <text id="_0" data-name="0" transform="translate(0 348.227)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="41.574" y="12">0</tspan></text>
-                  <text id="_250" data-name="250" transform="translate(0 258.251)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="27.174" y="12">250</tspan></text>
-                  <text id="_500" data-name="500" transform="translate(0 165.249)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="27.174" y="12">500</tspan></text>
-                  <text id="_750" data-name="750" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="19.974" y="12">1000</tspan></text>
-                  <text id="_750-2" data-name="750" transform="translate(0 75.274)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="27.174" y="12">750</tspan></text>
-                </g>
-                <g id="Line_02" data-name="Line 02" transform="translate(79.989 94.043)">
-                  <path id="Line_2" d="M0,1.659,1.314,0,114.038,118.063l114.2,22.925,112.839,26.459.275.116L455.7,239.946l-.941,1.966-114.218-72.3L227.675,143.15,113.146,120.163Z" transform="translate(5.196 5.902)" fill="#79d2de"/>
-                  <circle id="Dot_21" cx="3" cy="3" r="3" fill="#79d2de"/>
-                  <circle id="Dot_22" cx="3" cy="3" r="3" transform="translate(114.575 120.311)" fill="#79d2de"/>
-                  <circle id="Dot_23" cx="3" cy="3" r="3" transform="translate(229.15 145.762)" fill="#79d2de"/>
-                  <circle id="Dot_24" cx="3" cy="3" r="3" transform="translate(341.75 173.526)" fill="#79d2de"/>
-                  <circle id="Dot_25" cx="3" cy="3" r="3" transform="translate(460.276 247.563)" fill="#79d2de"/>
-                </g>
-                <g id="Line_01" data-name="Line 01" transform="translate(83.891 9.289)">
-                  <path id="Line_1" d="M454.948,0l.891,2.285L341.708,79.453,228.137,296.435,113.82,93.311,1.646,325.483,0,324.1,113.7,88.779l114.38,203.238,112.3-214.553Z" transform="translate(3.079 6.563)" fill="#1d9e48"/>
-                  <circle id="Dot_11" cx="3" cy="3" r="3" transform="translate(0 330.494)" fill="#1d9e48"/>
-                  <circle id="Dot_12" cx="3" cy="3" r="3" transform="translate(112.606 95.182)" fill="#1d9e48"/>
-                  <circle id="Dot_13" cx="3" cy="3" r="3" transform="translate(227.187 298.767)" fill="#1d9e48"/>
-                  <circle id="Dot_14" cx="3" cy="3" r="3" transform="translate(341.768 81.963)" fill="#1d9e48"/>
-                  <circle id="Dot_15" cx="3" cy="3" r="3" transform="translate(458.325)" fill="#1d9e48"/>
-                </g>
-                <g id="Line_03" data-name="Line 03" transform="translate(79.989 203.544)">
-                  <path id="Line_3" d="M0,0,112.334,0l.7,0,114.7,11.12L340.276,120.009,453.928,27.147l1.284,1.373L340.165,122.525,226.831,12.869,112.937,1.824H0Z" transform="translate(5.853 4.559)" fill="#147ad6"/>
-                  <circle id="Dot_31" cx="3" cy="3" r="3" fill="#147ad6"/>
-                  <circle id="Dot_32" cx="3" cy="3" r="3" transform="translate(112.6)" fill="#147ad6"/>
-                  <circle id="Dot_33" cx="3" cy="3" r="3" transform="translate(229.15 11.398)" fill="#147ad6"/>
-                  <circle id="Dot_34" cx="3" cy="3" r="3" transform="translate(345.701 123.474)" fill="#147ad6"/>
-                  <circle id="Dot_35" cx="3" cy="3" r="3" transform="translate(460.276 28.494)" fill="#147ad6"/>
-                </g>
-              </g>
-            </g>
+        <g id="y-axis">
+          <text id="_0" data-name="0" transform="translate(0 298.386)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="38.33" y="12">0</tspan></text>
+          <text id="_250" data-name="250" transform="translate(0 221.288)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="23.93" y="12">250</tspan></text>
+          <text id="_500" data-name="500" transform="translate(0 141.597)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="23.93" y="12">500</tspan></text>
+          <text id="_750" data-name="750" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="16.73" y="12">1000</tspan></text>
+          <text id="_750-2" data-name="750" transform="translate(0 64.5)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="23.93" y="12">750</tspan></text>
+        </g>
+        <g id="Line_02" data-name="Line 02" transform="translate(80.011 184.997)">
+          <path id="Path_4866" data-name="Path 4866" d="M2.578,2.168l92-60.667,84,47.333L267.245,5.5l86.666-68.667,84.667,35.333" transform="translate(-5.837 68.051)" fill="none" stroke="#59c0cb" stroke-width="4"/>
+          <g id="Dot_21" transform="translate(-5.939 59.747)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-2" data-name="Dot_21" transform="translate(85.348 3.375)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-3" data-name="Dot_21" transform="translate(165.187 46.194)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-4" data-name="Dot_21" transform="translate(250.492 62.747)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-5" data-name="Dot_21" transform="translate(337.597 -2)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-6" data-name="Dot_21" transform="translate(420.463 31.466)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
           </g>
         </g>
-        <rect id="Rectangle_2166" data-name="Rectangle 2166" width="45" height="45" rx="12" transform="translate(137.665 487.531)" fill="#56dce1"/>
-        <rect id="Rectangle_2167" data-name="Rectangle 2167" width="45" height="45" rx="12" transform="translate(308.665 487.531)" fill="#5490de"/>
-        <text id="SmartHR" transform="translate(159.665 551.531)" fill="#56dce1" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-25.497" y="0">SmartHR</tspan></text>
-        <text id="Freee" transform="translate(329.665 551.531)" fill="#5490de" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-15.223" y="0">Freee</tspan></text>
-        <rect id="Rectangle_2168" data-name="Rectangle 2168" width="45" height="45" rx="12" transform="translate(474.665 489.531)" fill="#1d9e48"/>
-        <text id="King_of_Time_" data-name="King of Time " transform="translate(503.665 551.531)" fill="#1d9e48" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-37.749" y="0">King of Time </tspan></text>
-      </svg>
+        <g id="Line_02-2" data-name="Line 02" transform="translate(77.713 88.078)">
+          <path id="Path_4866-2" data-name="Path 4866" d="M2.578,2.168,95.911-36.166l82-80.667L267.245,13.834l86.666-66.667L443.245-81.5" transform="translate(-5.871 119.587)" fill="none" stroke="#3c7dc0" stroke-width="4"/>
+          <g id="Dot_21-7" data-name="Dot_21" transform="translate(-4.642 111.384)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-8" data-name="Dot_21" transform="translate(89.646 73.769)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-9" data-name="Dot_21" transform="translate(164.485 -2)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-10" data-name="Dot_21" transform="translate(250.791 122.047)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-11" data-name="Dot_21" transform="translate(336.897 61.084)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-12" data-name="Dot_21" transform="translate(422.763 31.324)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+        </g>
+        <g id="Line_02-3" data-name="Line 02" transform="translate(77.713 12.062)">
+          <path id="Path_4866-3" data-name="Path 4866" d="M2.578,2.168,93.911-49l85.334-104.667,88,176,86.666-85.5,89.334-48.5" transform="translate(-5.871 154.319)" fill="none" stroke="#318e36" stroke-width="4"/>
+          <g id="Dot_21-13" data-name="Dot_21" transform="translate(-6.642 145.856)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-14" data-name="Dot_21" transform="translate(84.646 97.127)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-15" data-name="Dot_21" transform="translate(165.417 -4)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-16" data-name="Dot_21" transform="translate(251.791 164.382)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-17" data-name="Dot_21" transform="translate(333.897 86.407)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+          <g id="Dot_21-18" data-name="Dot_21" transform="translate(423.763 37.856)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
+            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
 
     )
   }
