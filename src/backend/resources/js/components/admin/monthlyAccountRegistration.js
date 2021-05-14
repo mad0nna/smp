@@ -180,119 +180,119 @@ const MonthlyAccountRegistration = (props) => {
   const renderLineChart = () => {
     return (
       <svg xmlns="http://www.w3.org/2000/svg" width="573.674" height="559.753" viewBox="0 0 573.674 559.753">
-  <g id="Group_1607" data-name="Group 1607" transform="translate(-1.821)">
-    <g id="Mobile-chart-background" transform="translate(1.821)">
-      <rect id="Rectangle_Copy_16" data-name="Rectangle Copy 16" width="573.674" height="559.753" rx="12" fill="#fff"/>
-    </g>
-    <g id="chart" transform="translate(30.96 118.433)">
-      <g id="Grid" transform="translate(68.295 7.794)">
-        <path id="Line_Copy_18" data-name="Line Copy 18" d="M.5,1l438.906.781" transform="translate(-0.5 300.389)" fill="none" stroke="#d6d9dc" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1" opacity="0.4"/>
-        <path id="Line_Copy_19" data-name="Line Copy 19" d="M.5,1l438.906.781" transform="translate(-0.5 142.048)" fill="none" stroke="#d6d9dc" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1" opacity="0.4"/>
-        <path id="Line_Copy_20" data-name="Line Copy 20" d="M.5,1l438.906.781" transform="translate(-0.5 221.219)" fill="none" stroke="#d6d9dc" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1" opacity="0.4"/>
-        <path id="Line_Copy_21" data-name="Line Copy 21" d="M.5,1l438.906.781" transform="translate(-0.5 62.878)" fill="none" stroke="#d6d9dc" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1" opacity="0.4"/>
-        <path id="Line_Copy_19-2" data-name="Line Copy 19" d="M.5,1l438.906.781" transform="translate(6.968 -1)" fill="none" stroke="#d6d9dc" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1" opacity="0.4"/>
-      </g>
-      <g id="Charts_Line_charts_03-categories" data-name="Charts/Line charts/03-categories">
-        <g id="x-axis" transform="translate(58.278 330.668)">
-          <text id="Jun" transform="translate(401.049)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="27.28" y="12">6月</tspan></text>
-          <text id="May" transform="translate(321.219)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="25.468" y="12">5月</tspan></text>
-          <text id="Apr" transform="translate(239.489)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="25.666" y="12">4月</tspan></text>
-          <text id="Mar" transform="translate(159.659)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="24.49" y="12">3月</tspan></text>
-          <text id="Feb" transform="translate(79.83)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="27.136" y="12">2月</tspan></text>
-          <text id="Jan" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="27.262" y="12">1月</tspan></text>
+        <g id="Group_1607" data-name="Group 1607" transform="translate(-1.821)">
+          <g id="Mobile-chart-background" transform="translate(1.821)">
+            <rect id="Rectangle_Copy_16" data-name="Rectangle Copy 16" width="573.674" height="559.753" rx="12" fill="#fff"/>
+          </g>
+          <g id="chart" transform="translate(30.96 118.433)">
+            <g id="Grid" transform="translate(68.295 7.794)">
+              <path id="Line_Copy_18" data-name="Line Copy 18" d="M.5,1l438.906.781" transform="translate(-0.5 300.389)" fill="none" stroke="#d6d9dc" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="1" opacity="0.4"/>
+              <path id="Line_Copy_19" data-name="Line Copy 19" d="M.5,1l438.906.781" transform="translate(-0.5 142.048)" fill="none" stroke="#d6d9dc" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="1" opacity="0.4"/>
+              <path id="Line_Copy_20" data-name="Line Copy 20" d="M.5,1l438.906.781" transform="translate(-0.5 221.219)" fill="none" stroke="#d6d9dc" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="1" opacity="0.4"/>
+              <path id="Line_Copy_21" data-name="Line Copy 21" d="M.5,1l438.906.781" transform="translate(-0.5 62.878)" fill="none" stroke="#d6d9dc" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="1" opacity="0.4"/>
+              <path id="Line_Copy_19-2" data-name="Line Copy 19" d="M.5,1l438.906.781" transform="translate(6.968 -1)" fill="none" stroke="#d6d9dc" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="1" opacity="0.4"/>
+            </g>
+            <g id="Charts_Line_charts_03-categories" data-name="Charts/Line charts/03-categories">
+              <g id="x-axis" transform="translate(58.278 330.668)">
+                <text id="Jun" transform="translate(401.049)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="27.28" y="12">6月</tspan></text>
+                <text id="May" transform="translate(321.219)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="25.468" y="12">5月</tspan></text>
+                <text id="Apr" transform="translate(239.489)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="25.666" y="12">4月</tspan></text>
+                <text id="Mar" transform="translate(159.659)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="24.49" y="12">3月</tspan></text>
+                <text id="Feb" transform="translate(79.83)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="27.136" y="12">2月</tspan></text>
+                <text id="Jan" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="27.262" y="12">1月</tspan></text>
+              </g>
+              <g id="y-axis">
+                <text id="_0" data-name="0" transform="translate(0 298.386)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="38.33" y="12">0</tspan></text>
+                <text id="_250" data-name="250" transform="translate(0 221.288)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="23.93" y="12">250</tspan></text>
+                <text id="_500" data-name="500" transform="translate(0 141.597)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="23.93" y="12">500</tspan></text>
+                <text id="_750" data-name="750" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="16.73" y="12">1000</tspan></text>
+                <text id="_750-2" data-name="750" transform="translate(0 64.5)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="23.93" y="12">750</tspan></text>
+              </g>
+              <g id="Line_02" data-name="Line 02" transform="translate(80.011 184.997)">
+                <path id="Path_4866" data-name="Path 4866" d="M2.578,2.168l92-60.667,84,47.333L267.245,5.5l86.666-68.667,84.667,35.333" transform="translate(-5.837 68.051)" fill="none" stroke="#59c0cb" strokeWidth="4"/>
+                <g id="Dot_21" transform="translate(-5.939 59.747)" fill="#fff" stroke="#59c0cb" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-2" data-name="Dot_21" transform="translate(85.348 3.375)" fill="#fff" stroke="#59c0cb" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-3" data-name="Dot_21" transform="translate(165.187 46.194)" fill="#fff" stroke="#59c0cb" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-4" data-name="Dot_21" transform="translate(250.492 62.747)" fill="#fff" stroke="#59c0cb" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-5" data-name="Dot_21" transform="translate(337.597 -2)" fill="#fff" stroke="#59c0cb" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-6" data-name="Dot_21" transform="translate(420.463 31.466)" fill="#fff" stroke="#59c0cb" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+              </g>
+              <g id="Line_02-2" data-name="Line 02" transform="translate(77.713 88.078)">
+                <path id="Path_4866-2" data-name="Path 4866" d="M2.578,2.168,95.911-36.166l82-80.667L267.245,13.834l86.666-66.667L443.245-81.5" transform="translate(-5.871 119.587)" fill="none" stroke="#3c7dc0" strokeWidth="4"/>
+                <g id="Dot_21-7" data-name="Dot_21" transform="translate(-4.642 111.384)" fill="#fff" stroke="#3c7dc0" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-8" data-name="Dot_21" transform="translate(89.646 73.769)" fill="#fff" stroke="#3c7dc0" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-9" data-name="Dot_21" transform="translate(164.485 -2)" fill="#fff" stroke="#3c7dc0" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-10" data-name="Dot_21" transform="translate(250.791 122.047)" fill="#fff" stroke="#3c7dc0" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-11" data-name="Dot_21" transform="translate(336.897 61.084)" fill="#fff" stroke="#3c7dc0" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-12" data-name="Dot_21" transform="translate(422.763 31.324)" fill="#fff" stroke="#3c7dc0" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+              </g>
+              <g id="Line_02-3" data-name="Line 02" transform="translate(77.713 12.062)">
+                <path id="Path_4866-3" data-name="Path 4866" d="M2.578,2.168,93.911-49l85.334-104.667,88,176,86.666-85.5,89.334-48.5" transform="translate(-5.871 154.319)" fill="none" stroke="#318e36" strokeWidth="4"/>
+                <g id="Dot_21-13" data-name="Dot_21" transform="translate(-6.642 145.856)" fill="#fff" stroke="#318e36" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-14" data-name="Dot_21" transform="translate(84.646 97.127)" fill="#fff" stroke="#318e36" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-15" data-name="Dot_21" transform="translate(165.417 -4)" fill="#fff" stroke="#318e36" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-16" data-name="Dot_21" transform="translate(251.791 164.382)" fill="#fff" stroke="#318e36" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-17" data-name="Dot_21" transform="translate(333.897 86.407)" fill="#fff" stroke="#318e36" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+                <g id="Dot_21-18" data-name="Dot_21" transform="translate(423.763 37.856)" fill="#fff" stroke="#318e36" strokeMiterlimit="10" strokeWidth="4">
+                  <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
+                  <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
+                </g>
+              </g>
+            </g>
+          </g>
         </g>
-        <g id="y-axis">
-          <text id="_0" data-name="0" transform="translate(0 298.386)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="38.33" y="12">0</tspan></text>
-          <text id="_250" data-name="250" transform="translate(0 221.288)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="23.93" y="12">250</tspan></text>
-          <text id="_500" data-name="500" transform="translate(0 141.597)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="23.93" y="12">500</tspan></text>
-          <text id="_750" data-name="750" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="16.73" y="12">1000</tspan></text>
-          <text id="_750-2" data-name="750" transform="translate(0 64.5)" fill="#7c828a" font-size="12" font-family="NunitoSans-Regular, Nunito Sans"><tspan x="23.93" y="12">750</tspan></text>
-        </g>
-        <g id="Line_02" data-name="Line 02" transform="translate(80.011 184.997)">
-          <path id="Path_4866" data-name="Path 4866" d="M2.578,2.168l92-60.667,84,47.333L267.245,5.5l86.666-68.667,84.667,35.333" transform="translate(-5.837 68.051)" fill="none" stroke="#59c0cb" stroke-width="4"/>
-          <g id="Dot_21" transform="translate(-5.939 59.747)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-2" data-name="Dot_21" transform="translate(85.348 3.375)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-3" data-name="Dot_21" transform="translate(165.187 46.194)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-4" data-name="Dot_21" transform="translate(250.492 62.747)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-5" data-name="Dot_21" transform="translate(337.597 -2)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-6" data-name="Dot_21" transform="translate(420.463 31.466)" fill="#fff" stroke="#59c0cb" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-        </g>
-        <g id="Line_02-2" data-name="Line 02" transform="translate(77.713 88.078)">
-          <path id="Path_4866-2" data-name="Path 4866" d="M2.578,2.168,95.911-36.166l82-80.667L267.245,13.834l86.666-66.667L443.245-81.5" transform="translate(-5.871 119.587)" fill="none" stroke="#3c7dc0" stroke-width="4"/>
-          <g id="Dot_21-7" data-name="Dot_21" transform="translate(-4.642 111.384)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-8" data-name="Dot_21" transform="translate(89.646 73.769)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-9" data-name="Dot_21" transform="translate(164.485 -2)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-10" data-name="Dot_21" transform="translate(250.791 122.047)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-11" data-name="Dot_21" transform="translate(336.897 61.084)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-12" data-name="Dot_21" transform="translate(422.763 31.324)" fill="#fff" stroke="#3c7dc0" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-        </g>
-        <g id="Line_02-3" data-name="Line 02" transform="translate(77.713 12.062)">
-          <path id="Path_4866-3" data-name="Path 4866" d="M2.578,2.168,93.911-49l85.334-104.667,88,176,86.666-85.5,89.334-48.5" transform="translate(-5.871 154.319)" fill="none" stroke="#318e36" stroke-width="4"/>
-          <g id="Dot_21-13" data-name="Dot_21" transform="translate(-6.642 145.856)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-14" data-name="Dot_21" transform="translate(84.646 97.127)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-15" data-name="Dot_21" transform="translate(165.417 -4)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-16" data-name="Dot_21" transform="translate(251.791 164.382)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-17" data-name="Dot_21" transform="translate(333.897 86.407)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-          <g id="Dot_21-18" data-name="Dot_21" transform="translate(423.763 37.856)" fill="#fff" stroke="#318e36" stroke-miterlimit="10" stroke-width="4">
-            <circle cx="7.98" cy="7.98" r="7.98" stroke="none"/>
-            <circle cx="7.98" cy="7.98" r="5.98" fill="none"/>
-          </g>
-        </g>
-      </g>
-    </g>
-  </g>
-</svg>
+      </svg>
 
     )
   }
