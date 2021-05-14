@@ -16,11 +16,11 @@ class SalesBilling extends React.Component{
         {no: 'INV00021789', invoiceName: 'KOT-NN 定期購読', billingDate: '2021年2月1日', dueDate: '2021年2月28日', amount: '¥1,224,510', paidOn: '2021年2月15日', state: '支払い済み'},
         {no: 'INV00026478', invoiceName: 'KOT-OP 定期購読', billingDate: '2021年1月1日', dueDate: '2021年1月31日', amount: '¥2,305,520', paidOn: '2021年1月15日', state: '支払い済み'},
         {no: 'INV00020245', invoiceName: 'KOT-FE 定期購読', billingDate: '2020年12月1日', dueDate: '2020年12月31日', amount: '¥150,660', paidOn: '2020年12月31日', state: '支払い済み'},
-        {no: 'INV00026475', invoiceName: 'KOT-PS 定期購読', billingDate: '2021年3月1日', dueDate: '2021年3月31日', amount: '¥90,850', paidOn: '2021年3月19日', state: '支払い済み'},
-        {no: 'INV00026478', invoiceName: 'KOT-ZE 定期購読', billingDate: '2020年11月1日', dueDate: '2020年11月30日', amount: '¥33,450', paidOn: '2020年11月4日', state: '支払い済み'},
-        {no: 'INV00023647', invoiceName: 'KOT-FX 定期購読', billingDate: '2021年3月1日', dueDate: '2021年3月31日', amount: '¥1,567,400', paidOn: '2021年3月25日', state: '支払い済み'},
-        {no: 'INV00045254', invoiceName: 'KOT-RN 定期購読', billingDate: '2021年4月1日', dueDate: '2021年4月30日', amount: '¥19,954,000', paidOn: '2021年4月20日', state: '支払い済み'},
-        {no: 'INV00026485', invoiceName: 'KOT-NO 定期購読', billingDate: '2020年9月1日', dueDate: '2020年9月30日', amount: '¥204,500', paidOn: '2020年9月15日', state: '支払い済み'}
+        {no: 'INV00026475', invoiceName: 'KOT-PS 定期購読', billingDate: '2020年11月1日', dueDate: '2020年11月30日', amount: '¥90,850', paidOn: '2020年11月19日', state: '支払い済み'},
+        {no: 'INV00026478', invoiceName: 'KOT-ZE 定期購読', billingDate: '2020年10月1日', dueDate: '2020年10月31日', amount: '¥33,450', paidOn: '2020年10月4日', state: '支払い済み'},
+        {no: 'INV00023647', invoiceName: 'KOT-FX 定期購読', billingDate: '2021年9月1日', dueDate: '2021年9月30日', amount: '¥1,567,400', paidOn: '2020年9月25日', state: '支払い済み'},
+        {no: 'INV00045254', invoiceName: 'KOT-RN 定期購読', billingDate: '2021年8月1日', dueDate: '2021年8月31日', amount: '¥19,954,000', paidOn: '2020年8月20日', state: '支払い済み'},
+        {no: 'INV00026485', invoiceName: 'KOT-NO 定期購読', billingDate: '2020年7月1日', dueDate: '2020年7月31日', amount: '¥204,500', paidOn: '2020年7月15日', state: '支払い済み'}
       ]
     }
   }
@@ -76,7 +76,7 @@ class SalesBilling extends React.Component{
                         <td className="">{item.invoiceName}</td>
                         <td className="">{item.billingDate}</td>
                         <td className="">{item.dueDate}</td>
-                        <td className="text-right px-auto pr-20">{item.amount}</td>
+                        <td className="text-right pr-20">{item.amount}</td>
                         <td className="">{item.paidOn}</td>
                         <td className={''}>{item.state}</td>
                         <td className=""><img src={Pdf2Icon} className=""/> </td>

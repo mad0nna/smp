@@ -2,20 +2,21 @@ import React from 'react'
 import Ellipsis from '../../../img/ellipsis.png'
 import PdfIcon from '../../../img/pdf-icon.png'
 import HistoryIcon from '../../../img/history-icon.png'
+
 class SalesBillingHistory extends React.Component {
   constructor(props) {
     super(props)
     this.billingHistory = [
-      {amount: '¥ 10,890', dueDate: '2021年5月31日', invoiceNo: 'INV00024143', invoiceDate: '2021年5月1日', paymentDate: '未払い'},
-      {amount: '¥ 11,220', dueDate: '2021年4月30日', invoiceNo: 'INV00024011', invoiceDate: '2021年4月1日', paymentDate: '2021年4月30日'},
-      {amount: '¥ 10,890', dueDate: '2021年3月31日', invoiceNo: 'INV00023561', invoiceDate: '2021年3月1日', paymentDate: '2021年3月31日'},
-      {amount: '¥ 9,860', dueDate: '2021年2月31日', invoiceNo: 'INV00023562', invoiceDate: '2021年2月1日', paymentDate: '2021年2月28日'},
-      {amount: '¥ 10,290', dueDate: '2021年1月31日', invoiceNo: 'INV00023467', invoiceDate: '2021年1月1日', paymentDate: '2021年1月3日'},
-      {amount: '¥ 12,180', dueDate: '2020年12月31日', invoiceNo: 'INV00023564', invoiceDate: '2020年12月1日', paymentDate: '2020年12月31日'},
-      {amount: '¥ 15,780', dueDate: '2020年11月31日', invoiceNo: 'INV00023461', invoiceDate: '2020年11月1日', paymentDate: '2020年11月30日'},
-      {amount: '¥ 13,830', dueDate: '2020年10月31日', invoiceNo: 'INV00023363', invoiceDate: '2020年10月1日', paymentDate: '2020年10月9日'},
-      {amount: '¥ 11,110', dueDate: '2020年9月31日', invoiceNo: 'INV00023264', invoiceDate: '2020年9月1日', paymentDate: '2020年9月30日'},
-      {amount: '¥ 9,870', dueDate: '2020年8月31日', invoiceNo: 'INV00023169', invoiceDate: '2020年8月1日', paymentDate: '2020年8月3日'},
+      {amount: '¥458,040', dueDate: '2021年5月31日', invoiceNo: 'INV00024522', invoiceDate: '2021年5月1日', paymentDate: '未払い'},
+      {amount: '¥990,110', dueDate: '2021年3月31日', invoiceNo: 'INV00024752', invoiceDate: '2021年3月1日', paymentDate: '2021年3月20日'},
+      {amount: '¥1,224,510', dueDate: '2021年2月28日', invoiceNo: 'INV00021789', invoiceDate: '2021年2月1日', paymentDate: '2021年2月15日'},
+      {amount: '¥2,305,520', dueDate: '2021年1月31日', invoiceNo: 'INV00026478', invoiceDate: '2021年1月1日', paymentDate: '2021年1月15日'},
+      {amount: '¥150,660', dueDate: '2020年12月31日', invoiceNo: 'INV00020245', invoiceDate: '2020年12月1日', paymentDate: '2020年12月31日'},
+      {amount: '¥90,850', dueDate: '2020年11月30日', invoiceNo: 'INV00026475', invoiceDate: '2020年11月1日', paymentDate: '2020年11月19日'},
+      {amount: '¥33,450', dueDate: '2020年10月31日', invoiceNo: 'INV00026478', invoiceDate: '2020年10月1日', paymentDate: '2020年10月4日'},
+      {amount: '¥1,567,400', dueDate: '2021年9月30日', invoiceNo: 'INV00023647', invoiceDate: '2021年9月1日', paymentDate: '2020年9月25日'},
+      {amount: '¥19,954,000', dueDate: '2021年8月31日', invoiceNo: 'INV00045254', invoiceDate: '2021年8月1日', paymentDate: '2020年8月20日'},
+      {amount: '¥204,500', dueDate: '2020年7月31日', invoiceNo: 'INV00026485', invoiceDate: '2020年7月1日', paymentDate: '2020年7月15日'},
     ]
   }
 

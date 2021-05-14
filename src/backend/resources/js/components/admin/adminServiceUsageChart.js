@@ -153,19 +153,19 @@ const AdminServiceUsageChart = (props) => {
                 <text id="_60" data-name="60" transform="translate(452.253 840.366)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">60</tspan></text>
                 <text id="_40" data-name="40" transform="translate(452.253 878.737)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">40</tspan></text>
                 <text id="_0" data-name="0" transform="translate(452.253 955.48)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">0</tspan></text>
-                <text id="May_1" data-name="May 1" transform="translate(499.533 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 1</tspan></text>
-                <text id="May_2" data-name="May 2" transform="translate(575.351 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 2</tspan></text>
-                <text id="May_3" data-name="May 3" transform="translate(640.472 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 3</tspan></text>
-                <text id="May_4" data-name="May 4" transform="translate(702.662 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 4</tspan></text>
-                <text id="May_5" data-name="May 5" transform="translate(765.908 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 5</tspan></text>
-                <text id="May_6" data-name="May 6" transform="translate(829.192 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 6</tspan></text>
-                <text id="May_7" data-name="May 7" transform="translate(895.38 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 7</tspan></text>
-                <text id="May_8" data-name="May 8" transform="translate(960.587 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 8</tspan></text>
-                <text id="May_9" data-name="May 9" transform="translate(1023.833 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 9</tspan></text>
-                <text id="May_10" data-name="May 10" transform="translate(1087.54 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 10</tspan></text>
-                <text id="May_11" data-name="May 11" transform="translate(1164.257 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 11</tspan></text>
-                <text id="May_12" data-name="May 12" transform="translate(1220.025 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 12</tspan></text>
-                <text id="May_13" data-name="May 13" transform="translate(1273.006 1009.45)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">May 13</tspan></text>
+                <text id="May_1" data-name="May 1" transform="translate(499.533 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 1日</tspan></text>
+                <text id="May_2" data-name="May 2" transform="translate(575.351 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 2日</tspan></text>
+                <text id="May_3" data-name="May 3" transform="translate(640.472 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 3日</tspan></text>
+                <text id="May_4" data-name="May 4" transform="translate(702.662 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 4日</tspan></text>
+                <text id="May_5" data-name="May 5" transform="translate(765.908 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 5日</tspan></text>
+                <text id="May_6" data-name="May 6" transform="translate(829.192 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 6日</tspan></text>
+                <text id="May_7" data-name="May 7" transform="translate(895.38 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 7日</tspan></text>
+                <text id="May_8" data-name="May 8" transform="translate(960.587 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 8日</tspan></text>
+                <text id="May_9" data-name="May 9" transform="translate(1023.833 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 9日</tspan></text>
+                <text id="May_10" data-name="May 10" transform="translate(1087.54 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 10日</tspan></text>
+                <text id="May_11" data-name="May 11" transform="translate(1164.257 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 11日</tspan></text>
+                <text id="May_12" data-name="May 12" transform="translate(1220.025 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 12日</tspan></text>
+                <text id="May_13" data-name="May 13" transform="translate(1273.006 1009.45)" fill="black" fontSize="12" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">5月 13日</tspan></text>
                 <text id="_20" data-name="20" transform="translate(452.254 917.109)" fill="#dc5858" fontSize="13" fontFamily="Poppins-Regular, Poppins"><tspan x="0" y="0">20</tspan></text>
               </g>
               <rect id="Rectangle_2163" data-name="Rectangle 2163" width="45" height="45" rx="12" transform="translate(41 59)" fill="#56dce1"/>

@@ -1,6 +1,8 @@
 import React,{useState} from 'react'
 import GraphIcon from '../../../img/admin/graph-icon.png'
 import Ellipsis from '../../../img/ellipsis.png'
+
+
 const MonthlyAccountRegistration = (props) => {
   let showMoveButton = ''
   if (typeof props.interActivePages != 'undefined') {
@@ -53,7 +55,7 @@ const MonthlyAccountRegistration = (props) => {
             <path id="Path_3517-3" data-name="Path 3517" d="M18.429,75.277a77.5,77.5,0,0,1-78.3-26.066A77.5,77.5,0,0,1-70.285-32.653,77.5,77.5,0,0,1-1.006-77.493v16A61.5,61.5,0,0,0-55.8-25.849,61.5,61.5,0,0,0-47.554,39,61.5,61.5,0,0,0,14.422,59.785Z" transform="translate(77.501 77.493)" fill="#9bc5d8"/>
             <text id="_30_" data-name="30%" transform="translate(77.501 89.056)" fill="#1f78b4" fontSize="34.875" fontFamily="ArialMT, Arial"><tspan x="-34.901" y="0">30%</tspan></text>
           </g>
-          <text id="_700_1000" data-name="700 / 1000" transform="translate(228.714 102.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.9"><tspan x="0" y="0">700 / 1000</tspan></text>
+          <text id="_700_1000" data-name="700 / 1,000" transform="translate(228.714 102.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.9"><tspan x="0" y="0">700 / 1000</tspan></text>
           <g id="Ellipse_2" data-name="Ellipse 2" transform="translate(211.714 87.114)" fill="#1ace74" stroke="#1ace74" strokeWidth="1">
             <circle cx="4.5" cy="4.5" r="4.5" stroke="none"/>
             <circle cx="4.5" cy="4.5" r="4" fill="none"/>
@@ -62,13 +64,13 @@ const MonthlyAccountRegistration = (props) => {
             <rect id="Rectangle_282-2" data-name="Rectangle 282" width="161" height="5" rx="2.5" transform="translate(207.71 121.11)" fill="#78db6d"/>
           </g>
           <text id="顧客企業数" transform="translate(258.714 116.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7"><tspan x="0" y="0">顧客企業数</tspan></text>
-          <text id="_200_1000" data-name="200 / 1000" transform="translate(228.714 274.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7"><tspan x="0" y="0">200 / 1000</tspan></text>
+          <text id="_200_1000" data-name="200 / 1,000" transform="translate(228.714 274.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7"><tspan x="0" y="0">200 / 1000</tspan></text>
           <circle id="Ellipse_3" data-name="Ellipse 3" cx="4.5" cy="4.5" r="4.5" transform="translate(211.714 260.114)" fill="#56dce1"/>
           <rect id="Rectangle_284" data-name="Rectangle 284" width="127" height="5" rx="2.5" transform="translate(207.714 292.114)" fill="#56dce1"/>
           <text id="販売代理店数" transform="translate(252.714 287.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7"><tspan x="0" y="0">販売代理店数</tspan></text>
           <rect id="Rectangle_2157" data-name="Rectangle 2157" width="127" height="5" rx="2.5" transform="translate(207.714 121.114)" fill="#1d9e48"/>
           <rect id="Rectangle_2158" data-name="Rectangle 2158" width="161" height="5" rx="2.5" transform="translate(211.714 462.114)" fill="#9bc5d8"/>
-          <text id="_300_1000" data-name="300 / 1000" transform="translate(232.714 444.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7"><tspan x="0" y="0">300 / 1000</tspan></text>
+          <text id="_300_1000" data-name="300 / 1,000" transform="translate(232.714 444.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7"><tspan x="0" y="0">300 / 1000</tspan></text>
           <circle id="Ellipse_4" data-name="Ellipse 4" cx="4.5" cy="4.5" r="4.5" transform="translate(215.714 431.114)" fill="#5490de"/>
           <rect id="Rectangle_2159" data-name="Rectangle 2159" width="127" height="5" rx="2.5" transform="translate(211.714 462.114)" fill="#5490de"/>
           <text id="販売代理店数-2" data-name="販売代理店数" transform="translate(252.714 459.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7"><tspan x="0" y="0">販売代理店数</tspan></text>
@@ -166,12 +168,12 @@ const MonthlyAccountRegistration = (props) => {
         <text id="Freee" transform="translate(343.233 559.115)" fill="#5490de" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-15.223" y="0">Freee</tspan></text>
         <rect id="Rectangle_2169" data-name="Rectangle 2169" width="45" height="45" rx="12" transform="translate(488.233 497.115)" fill="#1d9e48"/>
         <text id="King_of_Time_" data-name="King of Time " transform="translate(517.233 559.115)" fill="#1d9e48" fontSize="12" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="-37.749" y="0">King of Time </tspan></text>
-        <text id="Jan" transform="translate(102.733 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">1</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-        <text id="Jan-2" data-name="Jan" transform="translate(199.233 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">2</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-        <text id="Jan-3" data-name="Jan" transform="translate(280.196 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">3</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-        <text id="Jan-4" data-name="Jan" transform="translate(367.233 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">4</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-        <text id="Jan-5" data-name="Jan" transform="translate(454.271 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">5</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-        <text id="Jan-6" data-name="Jan" transform="translate(545.271 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.425" y="13">6</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+        <text id="Jan" transform="translate(102.733 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">12</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+        <text id="Jan-2" data-name="Jan" transform="translate(199.233 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">1</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+        <text id="Jan-3" data-name="Jan" transform="translate(280.196 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">2</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+        <text id="Jan-4" data-name="Jan" transform="translate(367.233 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">3</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+        <text id="Jan-5" data-name="Jan" transform="translate(454.271 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">4</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+        <text id="Jan-6" data-name="Jan" transform="translate(545.271 411.484)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.425" y="13">5</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
       </svg>
     )
   }
@@ -196,12 +198,12 @@ const MonthlyAccountRegistration = (props) => {
               </g>
               <g id="Charts_Line_charts_03-categories" data-name="Charts/Line charts/03-categories" transform="translate(0 0)">
                 <g id="x-axis" transform="translate(62.43 385.902)">
-                  <text id="Jun" transform="translate(411.65)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.425" y="13">6</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-                  <text id="May" transform="translate(329.71)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">5</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-                  <text id="Apr" transform="translate(245.819)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">4</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-                  <text id="Mar" transform="translate(163.879)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">3</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-                  <text id="Feb" transform="translate(81.94)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">2</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
-                  <text id="Jan" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">1</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+                  <text id="Jun" transform="translate(411.65)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.425" y="13">5</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+                  <text id="May" transform="translate(329.71)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">4</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+                  <text id="Apr" transform="translate(245.819)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">3</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+                  <text id="Mar" transform="translate(163.879)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">2</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+                  <text id="Feb" transform="translate(81.94)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">1</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
+                  <text id="Jan" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="29.419" y="13">12</tspan><tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">月</tspan></text>
                 </g>
                 <g id="y-axis">
                   <text id="_0" data-name="0" transform="translate(0 348.227)" fill="#7c828a" fontSize="12" fontFamily="NunitoSans-Regular, Nunito Sans"><tspan x="41.574" y="12">0</tspan></text>
