@@ -33,13 +33,13 @@ class ContractedServices extends React.Component {
     return(
       <div className={this.props.displayType === 'small' ? 'h-12/12' : 'h-full' + ' h-full w-full relative group'}>
         <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 2xl:border-2 lg:border cursor-move hidden ' + showMoveButton}>Move</div>
-        <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 bg-white">
+        <div className="dashboard-widget-list w-full h-full relative  rounded-lg border-2 border-gray-200 bg-white">
           <div id="widget-header" className="max-w-full h-12 bg-white box-border align-middle p-3 relative">
             <div id="widget-icon" className="2xl:w-2 w-1 h-6 bg-primary-200 float-left 2xl:ml-4"> </div>
             <div id="widget-name" className="text-primary-200 font-sans font-bold 2xl:ml-8 lg:ml-4">契約サービス</div>
             <img className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block" src={Ellipsis}/>
           </div>
-          <div id="widget-body" className= 'h-widgetBody-sm w-full bg-white 2xl:space-y-2 overflow-hidden '>
+          <div id="widget-body" className= 'w-full bg-white 2xl:space-y-1 overflow-hidden '>
             {
               this.state.contractedServices.map((item, index) => {
                 let stripe = (!(index % 2)) ? 'bg-mainbg' : 'bg-white'

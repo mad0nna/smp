@@ -28,7 +28,7 @@ class SalesBilling extends React.Component{
   render() {
     return (
       <div className="relative px-10 pt-5 bg-mainbg">
-        <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
+        <div className="dashboard-widget-list w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
           <div id="widget-header" className="max-w-full h-28 bg-white box-border align-middle p-4 relative">
             <img src={BillingIcon} className="w-auto h-7 float-left ml-4"/>
             <div id="widget-name" className="text-primary-200 text-xl font-sans font-bold ml-4 float-left">請求履歴</div>
@@ -60,7 +60,7 @@ class SalesBilling extends React.Component{
                   <td className="pl-5">請求書名</td>
                   <td className="pl-5">請求日</td>
                   <td className="pl-5">支払い期限</td>
-                  <td className="text-right pr-20">請求額</td>     
+                  <td className="text-right pr-20 w-5">請求額</td>
                   <td className="pl-5">支払日</td>             
                   <td>状態</td>
                   <td>操作</td>
@@ -70,6 +70,7 @@ class SalesBilling extends React.Component{
                 {
                   this.state.billingList.map((item, index) => {
                     // let statusHighlight = (item.state === '未払い') ? 'text-red-600' : ''
+                    let isEmpty = (item.paidOn === '-') ? 'pl-10' : ''
                     return (
                       <tr className="stripe-table-row h-16 text-gray-900 my-2" key={index}>
                         <td className="pl-5">{item.no}</td>
@@ -77,7 +78,7 @@ class SalesBilling extends React.Component{
                         <td className="">{item.billingDate}</td>
                         <td className="">{item.dueDate}</td>
                         <td className="text-right pr-20">{item.amount}</td>
-                        <td className="">{item.paidOn}</td>
+                        <td className={isEmpty + ''}>{item.paidOn}</td>
                         <td className={''}>{item.state}</td>
                         <td className=""><img src={Pdf2Icon} className=""/> </td>
                       </tr>

@@ -46,20 +46,24 @@
     @apply px-2
 }
 
-.dashboard-widget::-webkit-scrollbar-track
+.dashboard-widget-list {
+    @apply overflow-auto
+}
+
+.dashboard-widget-list::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.144);
 	border-radius: 10px;
 	background-color: #F5F5F5;
 }
 
-.dashboard-widget::-webkit-scrollbar
+.dashboard-widget-list::-webkit-scrollbar
 {
 	width: 8px;
 	background-color: #F5F5F5;
 }
 
-.dashboard-widget::-webkit-scrollbar-thumb
+.dashboard-widget-list::-webkit-scrollbar-thumb
 {
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.164);

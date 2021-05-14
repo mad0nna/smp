@@ -28,7 +28,7 @@ class SalesBillingHistory extends React.Component {
     return(
       <div className="w-full h-full relative group">
         <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' + showMoveButton}>Move</div>
-        <div className="dashboard-widget w-full h-full overflow-auto relative  rounded-lg border-2 border-gray-200 bg-white">
+        <div className="dashboard-widget-list w-full h-full overflow-auto relative  rounded-lg border-2 border-gray-200 bg-white">
           <div id="widget-header" className="max-w-full h-12 bg-white box-border align-middle py-2 px-3 relative pt-3 mb-1">
             <img src={HistoryIcon} className="bg-history-icon w-6 h-5 bg-cover bg-no-repeat float-left mt-1"/>
             <div id="widget-name" className="text-primary-200 font-sans font-bold ml-4 float-left">H&Tからの請求書</div>

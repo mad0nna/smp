@@ -5,10 +5,6 @@ class PurchaseHistory extends React.Component {
   constructor(props) {
     super(props)
     this.purchaseHistory = [
-      // {category: '指紋スキャナー', date:'2020年12月10日 - ¥ 10 , 000', billTo: '株式会社町田', paymentDate: '2020年12月11日', purchaseDate: '05/25/2021', qty: '1', amount: '¥ 10,000', status: '支払済み' },
-      // {category: '指紋スキャナー', date:'2020年12月10日 - ¥ 10 , 000', billTo: '株式会社町田', paymentDate: '2020年12月11日', purchaseDate: '05/18/2021', qty: '6', amount: '¥ 6,000', status: '支払済み'},
-      // {category: '指紋スキャナー', date:'2020年12月10日 - ¥ 10 , 000', billTo: '株式会社町田', paymentDate: '2020年12月11日', purchaseDate: '05/11/2021', qty: '10', amount: '¥ 20,000', status: '支払済み'},
-      // {category: '指紋スキャナー', date:'2020年12月10日 - ¥ 10 , 000', billTo: '株式会社町田', paymentDate: '2020年12月11日', purchaseDate: '05/09/2021', qty: '2', amount: '¥ 5,000', status: '支払済み'},
       {productName:'指紋スキャナー', purchaseDate: '2021年3月5日', numberOfUnits: '5', amount:'¥25,000',  status:'支払済み', date: '05/25/2021' },
       {productName:'指紋スキャナー', purchaseDate: '2021年2月6日', numberOfUnits: '7', amount:'¥35,000',  status:'支払済み', date: '05/18/2021' },
       {productName:'指紋スキャナー', purchaseDate: '2020年12月4日', numberOfUnits: '10', amount:'¥50,000',  status:'支払済み', date: '05/11/2021' },
@@ -26,7 +22,7 @@ class PurchaseHistory extends React.Component {
     return(
       <div className="w-full h-full relative group ">
         <div className={'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' + showMoveButton}>Move</div>
-        <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 bg-white">
+        <div className="dashboard-widget-list w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 bg-white">
           <div id="widget-header" className="max-w-full h-12 bg-white box-border align-middle p-3 relative">
             <div id="widget-icon" className="bg-cart-icon w-6 h-6 bg-cover bg-no-repeat float-left"/>
             <div id="widget-name" className="text-primary-200 font-sans font-black ml-8">購入履歴</div>
@@ -73,7 +69,7 @@ class PurchaseHistory extends React.Component {
               })
             }
           </div>
-          <div id="widget-footer" className="w-full h-14 bg-white pt-3 pr-2">
+          <div id="widget-footer" className="w-full h-10 bg-white pt-3 pr-2">
             <div id="widget-footer-control" className="float-right">
               <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">さらに表示</button>
             </div>

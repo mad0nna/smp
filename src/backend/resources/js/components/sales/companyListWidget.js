@@ -32,7 +32,7 @@ class CompanyListWidget extends React.Component{
     return (
       
       <div className="bg-white font-meiryo w-full h-full overflow-hidden relative  rounded-lg border-gray-200 border-2 ">
-        <div id="widget-body" className="h-50 w-full overflow-hidden">
+        <div id="widget-body" className="dashboard-widget-list h-full w-full">
           <table className="stripe-table-row w-full h-auto text-center table-px-2">
             <thead className="text-primary-200 h-3 font-bold tracking-tight">
               <tr className="h-12 w-12">
@@ -55,7 +55,7 @@ class CompanyListWidget extends React.Component{
               }
             </tbody>
           </table>
-          <div id="widget-footer" className="w-full h-14 p-3.5">
+          <div id="widget-footer" className="w-full h-10 p-3.5">
             <div id="widget-footer-control" className="float-right">
               <a href="/sales/companies">
                 <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter cursor-pointer" >さらに表示</button>
