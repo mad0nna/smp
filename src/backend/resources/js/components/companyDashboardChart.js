@@ -70,7 +70,7 @@ const CompanyDashboardChart = () => {
             <div className="w-44 h-60 inline-block">
               <p className="font-sans font-black text-xs text-gray-500">サービス利用</p>
               <img src={chart2} className="mx-auto" />
-              <div className="mx-auto w-36 p-1 rounded-lg bg-orange">
+              <div className="mx-auto w-36 p-1 rounded-lg bg-blue-400">
                 <p className="text-white font-sans text-sm tracking-tighter">他のサービスを確認</p>
               </div>
             </div>
