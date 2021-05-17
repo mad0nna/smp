@@ -1,4 +1,5 @@
 module.exports = {
+  'root': true,
   'env': {
     'browser': true,
     'es2021': true,
@@ -6,13 +7,14 @@ module.exports = {
   },
   'extends': [
     'eslint:recommended',
-    'plugin:react/recommended'
+    'plugin:react/recommended',
+    'plugin:prettier/recommended'
   ],
   'parserOptions': {
     'ecmaFeatures': {
       'jsx': true
     },
-    'ecmaVersion': 12,
+    'ecmaVersion': 2020,
     'sourceType': 'module'
   },
   'plugins': [
@@ -22,24 +24,9 @@ module.exports = {
   'rules': {
     'react-hooks/rules-of-hooks': 'error', 
     'react-hooks/exhaustive-deps': 'warn', 
-    'indent': [
-      'error',
-      2
-    ],
     'react/prop-types' : 'off',
     'no-const-assign': 2,
-    'linebreak-style': [
-      'error',
-      'unix'
-    ],
-    'quotes': [
-      'error',
-      'single'
-    ],
-    'semi': [
-      'error',
-      'never'
-    ]
+    'prettier/prettier': ['error', {}, { usePrettierrc: true }]
   },
   'settings': {
     'react': {
