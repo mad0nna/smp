@@ -324,521 +324,539 @@ const MonthlyAccountRegistration = (props) => {
   const renderBarChart = () => {
     return (
       <svg
-        className="w-full"
         xmlns="http://www.w3.org/2000/svg"
-        width="655.216"
-        height="580.115"
-        viewBox="0 0 655.216 580.115"
+        width="100%"
+        height="461.127"
+        viewBox="0 0 554 461.127"
       >
-        <g id="account_circle-24px" transform="translate(13.568 178.665)">
-          <path
-            id="Path_2177"
-            data-name="Path 2177"
-            d="M0,0H121V121H0Z"
-            fill="none"
-          />
-        </g>
         <g
-          id="UI_Element_Light_Column_charts_Clustered_column_2_categories"
-          data-name="UI Element/Light/Column charts/Clustered column 2 categories"
+          id="Group_1608"
+          data-name="Group 1608"
+          transform="translate(-2450 -2552.333)"
         >
           <g
-            id="UI_Element_Column_charts_Clustered_column_2_categories"
-            data-name="UI Element/Column charts/Clustered column 2 categories"
+            id="UI_Element_Light_Column_charts_Clustered_column_2_categories"
+            data-name="UI Element/Light/Column charts/Clustered column 2 categories"
+            transform="translate(2450 2552.333)"
           >
-            <g id="Mobile-chart-background">
-              <rect
-                id="Rectangle_Copy_16"
-                data-name="Rectangle Copy 16"
-                width="655.216"
-                height="580.114"
-                rx="12"
-                fill="#fff"
-              />
-            </g>
-            <g id="Chart" transform="translate(-7.863 150.324)">
-              <g id="Columns" transform="translate(121.474 14.255)">
-                <g id="category-02" transform="translate(22.186 101.08)">
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(439.276 79.173)"
+            <g
+              id="UI_Element_Column_charts_Clustered_column_2_categories"
+              data-name="UI Element/Column charts/Clustered column 2 categories"
+            >
+              <g id="Mobile-chart-background">
+                <rect
+                  id="Rectangle_Copy_16"
+                  data-name="Rectangle Copy 16"
+                  width="554"
+                  height="396.647"
+                  rx="12"
+                  fill="#fff"
+                />
+              </g>
+              <g id="Chart" transform="translate(96.06 67.739)">
+                <g id="x-axis" transform="translate(0 277.971)">
+                  <text
+                    id="Jun"
+                    transform="translate(371.418)"
+                    fontSize="12"
+                    fontFamily="NunitoSans-ExtraBold, Nunito Sans"
+                    fontWeight="800"
                   >
-                    <rect
-                      id="Rectangle_Copy_35"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="54.305"
-                      rx="4"
-                      fill="#56dce1"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-2"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(350.533 40.173)"
+                    <tspan x="16.662" y="13">
+                      6
+                    </tspan>
+                    <tspan
+                      y="13"
+                      fontFamily="YuGothicUI-Bold, Yu Gothic UI"
+                      fontWeight="700"
+                    >
+                      月
+                    </tspan>
+                  </text>
+                  <text
+                    id="May"
+                    transform="translate(296.384)"
+                    fontSize="12"
+                    fontFamily="NunitoSans-ExtraBold, Nunito Sans"
+                    fontWeight="800"
                   >
-                    <rect
-                      id="Rectangle_Copy_35-2"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="93.305"
-                      rx="4"
-                      fill="#56dce1"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-3"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(261.79 -18.521)"
+                    <tspan x="16.662" y="13">
+                      5
+                    </tspan>
+                    <tspan
+                      y="13"
+                      fontFamily="YuGothicUI-Bold, Yu Gothic UI"
+                      fontWeight="700"
+                    >
+                      月
+                    </tspan>
+                  </text>
+                  <text
+                    id="Apr"
+                    transform="translate(221.35)"
+                    fontSize="12"
+                    fontFamily="NunitoSans-ExtraBold, Nunito Sans"
+                    fontWeight="800"
                   >
-                    <rect
-                      id="Rectangle_Copy_35-3"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="151.998"
-                      rx="4"
-                      fill="#56dce1"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-4"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(175.267 -18.521)"
+                    <tspan x="16.662" y="13">
+                      4
+                    </tspan>
+                    <tspan
+                      y="13"
+                      fontFamily="YuGothicUI-Bold, Yu Gothic UI"
+                      fontWeight="700"
+                    >
+                      月
+                    </tspan>
+                  </text>
+                  <text
+                    id="Mar"
+                    transform="translate(151.944)"
+                    fontSize="12"
+                    fontFamily="NunitoSans-ExtraBold, Nunito Sans"
+                    fontWeight="800"
                   >
-                    <rect
-                      id="Rectangle_Copy_35-4"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="151.998"
-                      rx="4"
-                      fill="#56dce1"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-5"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(90.961 -18.521)"
+                    <tspan x="13.848" y="13">
+                      3
+                    </tspan>
+                    <tspan
+                      y="13"
+                      fontFamily="YuGothicUI-Bold, Yu Gothic UI"
+                      fontWeight="700"
+                    >
+                      月
+                    </tspan>
+                  </text>
+                  <text
+                    id="Feb"
+                    transform="translate(76.91)"
+                    fontSize="12"
+                    fontFamily="NunitoSans-ExtraBold, Nunito Sans"
+                    fontWeight="800"
                   >
-                    <rect
-                      id="Rectangle_Copy_35-5"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="151.998"
-                      rx="4"
-                      fill="#56dce1"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-6"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(0 -126.022)"
+                    <tspan x="16.656" y="13">
+                      2
+                    </tspan>
+                    <tspan
+                      y="13"
+                      fontFamily="YuGothicUI-Bold, Yu Gothic UI"
+                      fontWeight="700"
+                    >
+                      月
+                    </tspan>
+                  </text>
+                  <text
+                    id="Jan"
+                    fontSize="12"
+                    fontFamily="NunitoSans-ExtraBold, Nunito Sans"
+                    fontWeight="800"
                   >
-                    <rect
-                      id="Rectangle_Copy_35-6"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="259.499"
-                      rx="4"
-                      fill="#56dce1"
-                    />
-                  </g>
+                    <tspan x="16.662" y="13">
+                      1
+                    </tspan>
+                    <tspan
+                      y="13"
+                      fontFamily="YuGothicUI-Bold, Yu Gothic UI"
+                      fontWeight="700"
+                    >
+                      月
+                    </tspan>
+                  </text>
                 </g>
-                <g id="category-01">
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-7"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(439.276 113.397)"
-                  >
-                    <rect
-                      id="Rectangle_Copy_35-7"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="121.16"
-                      rx="4"
-                      fill="#5490de"
-                    />
+                <g id="Columns" transform="translate(0 0)">
+                  <g id="category-02" transform="translate(18.758 156.882)">
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(371.418 33.967)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="78.891"
+                        rx="4"
+                        fill="#56dce1"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-2"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(296.384)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-2"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="112.858"
+                        rx="4"
+                        fill="#56dce1"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-3"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(221.35 59.168)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-3"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="53.69"
+                        rx="4"
+                        fill="#56dce1"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-4"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(148.192 46.02)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-4"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="66.838"
+                        rx="4"
+                        fill="#56dce1"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-5"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(76.91 5.479)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-5"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="107.38"
+                        rx="4"
+                        fill="#56dce1"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-6"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(0 59.168)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-6"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="53.69"
+                        rx="4"
+                        fill="#56dce1"
+                      />
+                    </g>
+                  </g>
+                  <g id="category-01" transform="translate(0 71.417)">
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-7"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(371.418 27.393)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-7"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="170.931"
+                        rx="4"
+                        fill="#5490de"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-8"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(296.384 51.498)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-8"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="146.825"
+                        rx="4"
+                        fill="#5490de"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-9"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(221.35 110.667)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-9"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="87.657"
+                        rx="4"
+                        fill="#5490de"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-10"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(148.192)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-10"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="198.324"
+                        rx="4"
+                        fill="#5490de"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-11"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(76.91 67.934)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-11"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="130.39"
+                        rx="4"
+                        fill="#5490de"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-12"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(0 98.614)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-12"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="99.71"
+                        rx="4"
+                        fill="#5490de"
+                      />
+                    </g>
                   </g>
                   <g
-                    id="Charts_Columns_Bars_Single-column-size02-8"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(350.533 179.907)"
+                    id="category-01-2"
+                    data-name="category-01"
+                    transform="translate(39.74)"
                   >
-                    <rect
-                      id="Rectangle_Copy_35-8"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="54.65"
-                      rx="4"
-                      fill="#5490de"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-9"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(261.79 80.346)"
-                  >
-                    <rect
-                      id="Rectangle_Copy_35-9"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="154.212"
-                      rx="4"
-                      fill="#5490de"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-10"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(175.267 80.346)"
-                  >
-                    <rect
-                      id="Rectangle_Copy_35-10"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="154.212"
-                      rx="4"
-                      fill="#5490de"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-11"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(90.961 80.346)"
-                  >
-                    <rect
-                      id="Rectangle_Copy_35-11"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="154.212"
-                      rx="4"
-                      fill="#5490de"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-12"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(0 97.631)"
-                  >
-                    <rect
-                      id="Rectangle_Copy_35-12"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="136.927"
-                      rx="4"
-                      fill="#5490de"
-                    />
-                  </g>
-                </g>
-                <g
-                  id="category-01-2"
-                  data-name="category-01"
-                  transform="translate(47 -84.464)"
-                >
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-13"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(439.276 -23.936)"
-                  >
-                    <rect
-                      id="Rectangle_Copy_35-13"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="342.958"
-                      rx="4"
-                      fill="#1d9e48"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-14"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(350.533 62.84)"
-                  >
-                    <rect
-                      id="Rectangle_Copy_35-14"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="256.182"
-                      rx="4"
-                      fill="#1d9e48"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-15"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(261.79 167.018)"
-                  >
-                    <rect
-                      id="Rectangle_Copy_35-15"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="152.004"
-                      rx="4"
-                      fill="#1d9e48"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-16"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(175.267 122)"
-                  >
-                    <rect
-                      id="Rectangle_Copy_35-16"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="197.022"
-                      rx="4"
-                      fill="#1d9e48"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-17"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(90.961 74.278)"
-                  >
-                    <rect
-                      id="Rectangle_Copy_35-17"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="244.743"
-                      rx="4"
-                      fill="#1d9e48"
-                    />
-                  </g>
-                  <g
-                    id="Charts_Columns_Bars_Single-column-size02-18"
-                    data-name="Charts/Columns&amp;Bars/Single-column-size02"
-                    transform="translate(0 220.63)"
-                  >
-                    <rect
-                      id="Rectangle_Copy_35-18"
-                      data-name="Rectangle Copy 35"
-                      width="17.749"
-                      height="98.392"
-                      rx="4"
-                      fill="#1d9e48"
-                    />
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-13"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(371.418 37.257)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-13"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="232.483"
+                        rx="4"
+                        fill="#1d9e48"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-14"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(296.384 70.043)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-14"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="199.697"
+                        rx="4"
+                        fill="#1d9e48"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-15"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(221.35 150.518)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-15"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="119.222"
+                        rx="4"
+                        fill="#1d9e48"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-16"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(148.192)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-16"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="269.74"
+                        rx="4"
+                        fill="#1d9e48"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-17"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(76.91 92.397)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-17"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="177.343"
+                        rx="4"
+                        fill="#1d9e48"
+                      />
+                    </g>
+                    <g
+                      id="Charts_Columns_Bars_Single-column-size02-18"
+                      data-name="Charts/Columns&amp;Bars/Single-column-size02"
+                      transform="translate(0 134.125)"
+                    >
+                      <rect
+                        id="Rectangle_Copy_35-18"
+                        data-name="Rectangle Copy 35"
+                        width="15.007"
+                        height="135.615"
+                        rx="4"
+                        fill="#1d9e48"
+                      />
+                    </g>
                   </g>
                 </g>
               </g>
             </g>
           </g>
+          <rect
+            id="Rectangle_2161"
+            data-name="Rectangle 2161"
+            width="38.049"
+            height="38.049"
+            rx="12"
+            transform="translate(2581.902 2957.339)"
+            fill="#56dce1"
+          />
+          <rect
+            id="Rectangle_2162"
+            data-name="Rectangle 2162"
+            width="38.049"
+            height="38.049"
+            rx="12"
+            transform="translate(2726.486 2957.339)"
+            fill="#5490de"
+          />
+          <text
+            id="SmartHR"
+            transform="translate(2598.365 3010.46)"
+            fill="#56dce1"
+            fontSize="9"
+            fontFamily="SegoeUI-Bold, Segoe UI"
+            fontWeight="700"
+          >
+            <tspan x="-19.123" y="0">
+              SmartHR
+            </tspan>
+          </text>
+          <text
+            id="Freee"
+            transform="translate(2742.559 3010.46)"
+            fill="#5490de"
+            fontSize="9"
+            fontFamily="SegoeUI-Bold, Segoe UI"
+            fontWeight="700"
+          >
+            <tspan x="-11.417" y="0">
+              Freee
+            </tspan>
+          </text>
+          <rect
+            id="Rectangle_2163"
+            data-name="Rectangle 2163"
+            width="38.049"
+            height="38.049"
+            rx="12"
+            transform="translate(2866.843 2959.03)"
+            fill="#1d9e48"
+          />
+          <text
+            id="King_of_Time_"
+            data-name="King of Time "
+            transform="translate(2887.233 3010.46)"
+            fill="#1d9e48"
+            fontSize="9"
+            fontFamily="SegoeUI-Bold, Segoe UI"
+            fontWeight="700"
+          >
+            <tspan x="-28.312" y="0">
+              King of Time{' '}
+            </tspan>
+          </text>
+          <g id="y-axis" transform="translate(2462.774 2623.688)">
+            <text
+              id="_0"
+              data-name="0"
+              transform="translate(0 271.608)"
+              fill="#7c828a"
+              fontSize="12"
+              fontFamily="NunitoSans-Regular, Nunito Sans"
+            >
+              <tspan x="34.039" y="12">
+                0
+              </tspan>
+            </text>
+            <text
+              id="_250"
+              data-name="250"
+              transform="translate(0 201.429)"
+              fill="#7c828a"
+              fontSize="12"
+              fontFamily="NunitoSans-Regular, Nunito Sans"
+            >
+              <tspan x="19.639" y="12">
+                250
+              </tspan>
+            </text>
+            <text
+              id="_500"
+              data-name="500"
+              transform="translate(0 128.89)"
+              fill="#7c828a"
+              fontSize="12"
+              fontFamily="NunitoSans-Regular, Nunito Sans"
+            >
+              <tspan x="19.639" y="12">
+                500
+              </tspan>
+            </text>
+            <text
+              id="_750"
+              data-name="750"
+              transform="translate(0 0)"
+              fill="#7c828a"
+              fontSize="12"
+              fontFamily="NunitoSans-Regular, Nunito Sans"
+            >
+              <tspan x="12.439" y="12">
+                1000
+              </tspan>
+            </text>
+            <text
+              id="_750-2"
+              data-name="750"
+              transform="translate(0 58.711)"
+              fill="#7c828a"
+              fontSize="12"
+              fontFamily="NunitoSans-Regular, Nunito Sans"
+            >
+              <tspan x="19.639" y="12">
+                750
+              </tspan>
+            </text>
+          </g>
         </g>
-        <g id="y-axis" transform="translate(36.347 127.078)">
-          <text
-            id="_0"
-            data-name="0"
-            transform="translate(0 256.267)"
-            fill="#7c828a"
-            fontSize="12"
-            fontFamily="NunitoSans-Regular, Nunito Sans"
-          >
-            <tspan x="41.574" y="12">
-              0
-            </tspan>
-          </text>
-          <text
-            id="_250"
-            data-name="250"
-            transform="translate(0 173.267)"
-            fill="#7c828a"
-            fontSize="12"
-            fontFamily="NunitoSans-Regular, Nunito Sans"
-          >
-            <tspan x="27.174" y="12">
-              250
-            </tspan>
-          </text>
-          <text
-            id="_500"
-            data-name="500"
-            transform="translate(0 87.475)"
-            fill="#7c828a"
-            fontSize="12"
-            fontFamily="NunitoSans-Regular, Nunito Sans"
-          >
-            <tspan x="27.174" y="12">
-              500
-            </tspan>
-          </text>
-          <text
-            id="_750"
-            data-name="750"
-            transform="translate(0 -64.963)"
-            fill="#7c828a"
-            fontSize="12"
-            fontFamily="NunitoSans-Regular, Nunito Sans"
-          >
-            <tspan x="19.974" y="12">
-              1000
-            </tspan>
-          </text>
-          <text
-            id="_750-2"
-            data-name="750"
-            transform="translate(0 4.475)"
-            fill="#7c828a"
-            fontSize="12"
-            fontFamily="NunitoSans-Regular, Nunito Sans"
-          >
-            <tspan x="27.174" y="12">
-              750
-            </tspan>
-          </text>
-        </g>
-        <rect
-          id="Rectangle_2167"
-          data-name="Rectangle 2167"
-          width="45"
-          height="45"
-          rx="12"
-          transform="translate(151.233 495.115)"
-          fill="#56dce1"
-        />
-        <rect
-          id="Rectangle_2168"
-          data-name="Rectangle 2168"
-          width="45"
-          height="45"
-          rx="12"
-          transform="translate(322.233 495.115)"
-          fill="#5490de"
-        />
-        <text
-          id="SmartHR"
-          transform="translate(173.233 559.115)"
-          fill="#56dce1"
-          fontSize="12"
-          fontFamily="SegoeUI-Bold, Segoe UI"
-          fontWeight="700"
-        >
-          <tspan x="-25.497" y="0">
-            SmartHR
-          </tspan>
-        </text>
-        <text
-          id="Freee"
-          transform="translate(343.233 559.115)"
-          fill="#5490de"
-          fontSize="12"
-          fontFamily="SegoeUI-Bold, Segoe UI"
-          fontWeight="700"
-        >
-          <tspan x="-15.223" y="0">
-            Freee
-          </tspan>
-        </text>
-        <rect
-          id="Rectangle_2169"
-          data-name="Rectangle 2169"
-          width="45"
-          height="45"
-          rx="12"
-          transform="translate(488.233 497.115)"
-          fill="#1d9e48"
-        />
-        <text
-          id="King_of_Time_"
-          data-name="King of Time "
-          transform="translate(517.233 559.115)"
-          fill="#1d9e48"
-          fontSize="12"
-          fontFamily="SegoeUI-Bold, Segoe UI"
-          fontWeight="700"
-        >
-          <tspan x="-37.749" y="0">
-            King of Time{' '}
-          </tspan>
-        </text>
-        <text
-          id="Jan"
-          transform="translate(102.733 411.484)"
-          fill="#7c828a"
-          fontSize="12"
-          fontFamily="NunitoSans-Regular, Nunito Sans"
-        >
-          <tspan x="29.419" y="13">
-            12
-          </tspan>
-          <tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">
-            月
-          </tspan>
-        </text>
-        <text
-          id="Jan-2"
-          data-name="Jan"
-          transform="translate(199.233 411.484)"
-          fill="#7c828a"
-          fontSize="12"
-          fontFamily="NunitoSans-Regular, Nunito Sans"
-        >
-          <tspan x="29.419" y="13">
-            1
-          </tspan>
-          <tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">
-            月
-          </tspan>
-        </text>
-        <text
-          id="Jan-3"
-          data-name="Jan"
-          transform="translate(280.196 411.484)"
-          fill="#7c828a"
-          fontSize="12"
-          fontFamily="NunitoSans-Regular, Nunito Sans"
-        >
-          <tspan x="29.419" y="13">
-            2
-          </tspan>
-          <tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">
-            月
-          </tspan>
-        </text>
-        <text
-          id="Jan-4"
-          data-name="Jan"
-          transform="translate(367.233 411.484)"
-          fill="#7c828a"
-          fontSize="12"
-          fontFamily="NunitoSans-Regular, Nunito Sans"
-        >
-          <tspan x="29.419" y="13">
-            3
-          </tspan>
-          <tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">
-            月
-          </tspan>
-        </text>
-        <text
-          id="Jan-5"
-          data-name="Jan"
-          transform="translate(454.271 411.484)"
-          fill="#7c828a"
-          fontSize="12"
-          fontFamily="NunitoSans-Regular, Nunito Sans"
-        >
-          <tspan x="29.419" y="13">
-            4
-          </tspan>
-          <tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">
-            月
-          </tspan>
-        </text>
-        <text
-          id="Jan-6"
-          data-name="Jan"
-          transform="translate(545.271 411.484)"
-          fill="#7c828a"
-          fontSize="12"
-          fontFamily="NunitoSans-Regular, Nunito Sans"
-        >
-          <tspan x="29.425" y="13">
-            5
-          </tspan>
-          <tspan y="13" fontFamily="YuGothicUI-Regular, Yu Gothic UI">
-            月
-          </tspan>
-        </text>
       </svg>
     )
   }
@@ -846,7 +864,7 @@ const MonthlyAccountRegistration = (props) => {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="573.674"
+        width="100%"
         height="559.753"
         viewBox="0 0 573.674 559.753"
       >
