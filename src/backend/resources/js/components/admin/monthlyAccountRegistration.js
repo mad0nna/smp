@@ -363,7 +363,7 @@ const MonthlyAccountRegistration = (props) => {
                     fontWeight="800"
                   >
                     <tspan x="16.662" y="13">
-                      6
+                      5
                     </tspan>
                     <tspan
                       y="13"
@@ -381,7 +381,7 @@ const MonthlyAccountRegistration = (props) => {
                     fontWeight="800"
                   >
                     <tspan x="16.662" y="13">
-                      5
+                      4
                     </tspan>
                     <tspan
                       y="13"
@@ -399,7 +399,7 @@ const MonthlyAccountRegistration = (props) => {
                     fontWeight="800"
                   >
                     <tspan x="16.662" y="13">
-                      4
+                      3
                     </tspan>
                     <tspan
                       y="13"
@@ -417,7 +417,7 @@ const MonthlyAccountRegistration = (props) => {
                     fontWeight="800"
                   >
                     <tspan x="13.848" y="13">
-                      3
+                      2
                     </tspan>
                     <tspan
                       y="13"
@@ -435,7 +435,7 @@ const MonthlyAccountRegistration = (props) => {
                     fontWeight="800"
                   >
                     <tspan x="16.656" y="13">
-                      2
+                      1
                     </tspan>
                     <tspan
                       y="13"
@@ -452,7 +452,7 @@ const MonthlyAccountRegistration = (props) => {
                     fontWeight="800"
                   >
                     <tspan x="16.662" y="13">
-                      1
+                      12
                     </tspan>
                     <tspan
                       y="13"
@@ -840,7 +840,7 @@ const MonthlyAccountRegistration = (props) => {
               fontFamily="NunitoSans-Regular, Nunito Sans"
             >
               <tspan x="12.439" y="12">
-                1000
+                1,000
               </tspan>
             </text>
             <text
@@ -955,7 +955,7 @@ const MonthlyAccountRegistration = (props) => {
                   fontFamily="NunitoSans-Regular, Nunito Sans"
                 >
                   <tspan x="27.28" y="12">
-                    6月
+                    5月
                   </tspan>
                 </text>
                 <text
@@ -966,7 +966,7 @@ const MonthlyAccountRegistration = (props) => {
                   fontFamily="NunitoSans-Regular, Nunito Sans"
                 >
                   <tspan x="25.468" y="12">
-                    5月
+                    4月
                   </tspan>
                 </text>
                 <text
@@ -977,7 +977,7 @@ const MonthlyAccountRegistration = (props) => {
                   fontFamily="NunitoSans-Regular, Nunito Sans"
                 >
                   <tspan x="25.666" y="12">
-                    4月
+                    3月
                   </tspan>
                 </text>
                 <text
@@ -988,7 +988,7 @@ const MonthlyAccountRegistration = (props) => {
                   fontFamily="NunitoSans-Regular, Nunito Sans"
                 >
                   <tspan x="24.49" y="12">
-                    3月
+                    2月
                   </tspan>
                 </text>
                 <text
@@ -999,7 +999,7 @@ const MonthlyAccountRegistration = (props) => {
                   fontFamily="NunitoSans-Regular, Nunito Sans"
                 >
                   <tspan x="27.136" y="12">
-                    2月
+                    1月
                   </tspan>
                 </text>
                 <text
@@ -1009,7 +1009,7 @@ const MonthlyAccountRegistration = (props) => {
                   fontFamily="NunitoSans-Regular, Nunito Sans"
                 >
                   <tspan x="27.262" y="12">
-                    1月
+                    12月
                   </tspan>
                 </text>
               </g>
@@ -1058,7 +1058,7 @@ const MonthlyAccountRegistration = (props) => {
                   fontFamily="NunitoSans-Regular, Nunito Sans"
                 >
                   <tspan x="16.73" y="12">
-                    1000
+                    1,000
                   </tspan>
                 </text>
                 <text
