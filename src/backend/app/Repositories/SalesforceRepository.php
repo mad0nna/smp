@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories;
 
-use App\Services\API\SalesForce\AccessToken;
+use App\Services\API\Salesforce\AccessToken;
 use App\Services\Utilities\MessageResult;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
