@@ -5,12 +5,11 @@ import 'react-resizable/css/styles.css'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 import Welcome from './welcome'
 import Notification from './Notification'
-import Services from './contractedServices'
-import Linkage from './linkageServices'
+import ServiceUsage from './serviceUsage'
 import Purchase from './purchaseHistory'
 import BillingHistory from './billingHistory'
 import Settings from './dashboardSettings'
-import ServiceUsage from './dashboardServiceUsage'
+import Products from './products'
 import CompanyDashboardChart from './companyDashboardChart'
 import { interactivePages } from '../utilities/constants'
 import resize from '../../img/resize.png'
@@ -43,7 +42,7 @@ const Dashboard = () => {
       state: true,
       x: 0,
       y: 0,
-      w: 4,
+      w: 2,
       h: 0.25,
       isResizable: false
     },
@@ -56,55 +55,41 @@ const Dashboard = () => {
       state: true,
       x: 0,
       y: 0,
-      w: 4,
-      h: 2,
+      w: 2,
+      h: 4.5,
       minW: 2,
       minH: 2,
       isResizable: true
     },
-    {
-      id: 3,
-      component: <Services interActivePages={interactivePages} />,
-      label: '契約サービス',
-      static: false,
-      className: 'relative',
-      state: true,
-      x: 0,
-      y: 0,
-      w: 2,
-      h: 1.25,
-      minW: 2,
-      minH: 1.25,
-      isResizable: true
-    },
+
     {
       id: 4,
-      component: <Linkage interActivePages={interactivePages} />,
+      component: <ServiceUsage interActivePages={interactivePages} />,
       label: '連携サービス',
       static: false,
       className: 'relative',
       state: true,
       x: 2,
-      y: 3,
-      w: 2,
-      h: 1.25,
+      y: 0,
+      w: 3,
+      h: 1,
       minW: 2,
-      minH: 1.25,
+      minH: 1,
       isResizable: true
     },
     {
       id: 5,
-      component: <ServiceUsage interActivePages={interactivePages} />,
+      component: <Products interActivePages={interactivePages} />,
       label: 'サービス利用状況',
       static: false,
       className: 'relative',
       state: true,
-      x: 0,
-      y: 4,
-      w: 4,
-      h: 1.25,
+      x: 5,
+      y: 0,
+      w: 3,
+      h: 2,
       minW: 2,
-      minH: 1.25,
+      minH: 2,
       isResizable: true
     },
     {
@@ -114,10 +99,10 @@ const Dashboard = () => {
       static: false,
       className: 'relative',
       state: true,
-      x: 4,
-      y: 0,
+      x: 2,
+      y: 2,
       w: 3,
-      h: 2.5,
+      h: 3.75,
       minW: 2,
       minH: 1,
       isResizable: true
@@ -129,10 +114,10 @@ const Dashboard = () => {
       static: false,
       className: 'relative',
       state: true,
-      x: 4,
+      x: 8,
       y: 2,
-      w: 3,
-      h: 2.25,
+      w: 2,
+      h: 3.75,
       minW: 1,
       minH: 1,
       isResizable: true
@@ -144,12 +129,12 @@ const Dashboard = () => {
       static: false,
       className: 'relative',
       state: true,
-      x: 7,
+      x: 8,
       y: 0,
-      w: 3,
-      h: 2.5,
-      minW: 3,
-      minH: 2.5,
+      w: 2,
+      h: 1,
+      minW: 2,
+      minH: 1,
       isResizable: true
     },
     {
@@ -159,10 +144,10 @@ const Dashboard = () => {
       static: false,
       className: 'relative',
       state: true,
-      x: 7,
-      y: 4,
+      x: 5,
+      y: 2,
       w: 3,
-      h: 2.25,
+      h: 2.75,
       minW: 2,
       minH: 1,
       isResizable: true
