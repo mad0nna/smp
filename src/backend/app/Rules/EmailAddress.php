@@ -25,6 +25,6 @@ class EmailAddress implements Rule
      */
     public function message()
     {
-        return 'Invalid email address.';
+        return 'メールアドレスが正しくありません。';
     }
 }

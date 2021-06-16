@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateActivationTokensTable extends Migration
+class WidgetSettings extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateActivationTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('activation_tokens', function (Blueprint $table) {
+        Schema::create('widget_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->text('token');
-            $table->boolean('revoked')->default(false);
-            $table->timestamps();
+            $table->unsignedBigInteger("user_id");
+            $table->string("name");
+            $table->string("coordinates");
+            $table->boolean("status");
 
             $table->foreign('user_id')
                 ->references('id')
@@ -34,6 +34,6 @@ class CreateActivationTokensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activation_tokens');
+        //
     }
 }

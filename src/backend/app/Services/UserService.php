@@ -5,19 +5,28 @@ namespace App\Services;
 use DB;
 use Mail;
 use Hash;
+use Auth;
 use Exception;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\ActivationToken;
 use App\Models\UserStatus;
+use App\Models\UserType;
 use App\Mail\InviteUser;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserNotCreatedException;
 use App\Exceptions\UserStatusNotFoundException;
+use App\Exceptions\InvalidUserCredentialsException;
 use App\Exceptions\ActivationTokenNotFoundException;
+use App\Exceptions\InvalidUserPasswordException;
 use App\Traits\Uploadable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Application;
+use App\Providers\RouteServiceProvider;
+use GuzzleHttp\Client;
 
 class UserService
 {
@@ -29,11 +38,17 @@ class UserService
     protected $user;
 
     /**
+     * @var UserStatus
+     */
+    protected $userStatus;
+
+    
+    /**
      * UserService constructor.
      *
      * @param App\Models\User $user
      */
-    public function __construct(User $user)
+    public function __construct(User $user, Application $app)
     {
         $this->user = $user;
     }
@@ -250,5 +265,35 @@ class UserService
         }
 
         return $user;
+    }
+
+    /**
+     * Attempt to create an access token using user credentials
+     *
+     * @param string $credentials
+     * 
+     */
+    public function log($credentials)
+    {
+        try{
+            if (Auth::attempt($credentials)) {
+                $users = auth()->user();
+                $tokenResult = $users->createToken('Personal Access Token');         
+                $result = ['status' => 200];
+                $result['access_token'] = $tokenResult->accessToken;
+                $result['token_type'] = 'Bearer';
+                Cache::put('token:login',Auth::user()->id);    
+            }
+            else{
+                $result = [
+                            'status' => 500,
+                            'error' => 'メールアドレスまたはパスワードが無効です。'
+                        ];
+            }
+            return $result;
+        }
+        catch (UserNotFoundException $e) {
+            throw new UserNotFoundException;
+        }
     }
 }

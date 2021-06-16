@@ -26,12 +26,37 @@ class PasswordController extends Controller
     }
 
     /**
+     * Shows forgot page
+     * 
+     * @param Request $request
+     * 
+     */
+    public function forgot()
+    { 
+        return view('auth.passwords.email');
+    }
+
+    /**
+     * Shows reset page
+     * 
+     * @param Request $request
+     * 
+     */
+    public function reset(Request $request)
+    { 
+        if ($request->token <> null)
+        return view('auth.passwords.reset')->with ('token',$request->token);
+
+        return redirect ('/');
+    }
+
+    /**
      * Handles the forgot password request
      *
      * @param Request $request
      * @return Response
      */
-    public function forgot(ForgotPasswordRequest $request)
+    public function email(ForgotPasswordRequest $request)
     {
         $request->validated();
 
@@ -44,8 +69,11 @@ class PasswordController extends Controller
                 'code' => 500,
             ];
         }
-
-        return response()->json($this->response, $this->response['code']);
+        if ($this->response['code']=== 200)
+            return redirect()->back()->with('status', 'パスワード再設定用メールの送信に成功しました。
+        メールボックスをご確認ください。');
+        else
+            return redirect()->back()->with('status', 'ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。');
     }
 
     /**
@@ -54,10 +82,9 @@ class PasswordController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function reset(ResetPasswordRequest $request)
+    public function update(ResetPasswordRequest $request)
     {
         $request->validated();
-
         try {
             $formData = [
                 'token' => $request->getToken(),
@@ -74,6 +101,9 @@ class PasswordController extends Controller
             ];
         }
 
-        return response()->json($this->response, $this->response['code']);
+        if ($this->response['code']=== 200)
+        return redirect()->back()->with('status', 'パスワードの更新に成功しました。新しいパスワードを使用し、ログインしてください。');
+    else
+        return redirect()->back()->with('status', $this->response['code'].$this->response['error']);
     }
 }

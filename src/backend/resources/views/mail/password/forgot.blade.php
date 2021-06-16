@@ -1,15 +1,17 @@
 @component('mail::message')
-Hi {{ $user->first_name }},<br/>
+{{ $user->first_name }}様<br/>
 <br/>
-You told us you forgot your password. If you really did, click the button below to update your password.<br/>
+サブスク韋駄天管理事務局です。<br/><br/>
+
+パスワード再設定のご要請が御座いましたのでご連絡いたします。<br/>
+パスワード再設定を行う場合は、下記ボタンをクリックして下さい。
 
 @component('mail::button', ['url' => $url])
-Choose a New Password
+パスワード再設定
 @endcomponent
 
-If you didn’t mean to reset your password, then you can just ignore this email; your password will not change.
+本メールに心当たりがない場合は、再設定を行わずに無視をして下さい。<br/><br/>
 
-<br/>
-Best Regards,<br/>
-{{ config('app.name') }}<br/>
+※本メールは自動配信されております。お心当たりがない場合は、サブスク韋駄天お問合せ窓口までご連絡ください。
+
 @endcomponent

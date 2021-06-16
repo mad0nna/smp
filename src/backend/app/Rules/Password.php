@@ -35,6 +35,6 @@ class Password implements Rule
      */
     public function message()
     {
-        return 'Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.';
+        return 'パスワードは以下の内容を有する必要があります。　1文字以上の大文字、1文字以上の特殊記号を含む最低8桁以上の英数字';
     }
 }

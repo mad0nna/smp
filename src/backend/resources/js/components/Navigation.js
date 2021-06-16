@@ -86,7 +86,7 @@ class Navigation extends React.Component {
           },
           {
             label: 'アカウント切り替え',
-            url: '/',
+            url: '/logout',
             iconNormal: 'bg-switch-account-icon-white',
             iconHover: '',
             iconSize: 'h-5 w-5',
@@ -94,7 +94,7 @@ class Navigation extends React.Component {
           },
           {
             label: 'ログアウト',
-            url: '/',
+            url: '/logout',
             iconNormal: 'bg-signout-icon',
             iconHover: '',
             iconSize: 'h-5 w-5',
@@ -179,7 +179,7 @@ class Navigation extends React.Component {
           },
           {
             label: 'アカウント切り替え',
-            url: '/',
+            url: '/logout',
             iconNormal: 'bg-switch-account-icon-white',
             iconHover: '',
             iconSize: 'h-5 w-5',
@@ -187,7 +187,7 @@ class Navigation extends React.Component {
           },
           {
             label: 'ログアウト',
-            url: '/',
+            url: '/logout',
             iconNormal: 'bg-signout-icon',
             iconHover: '',
             iconSize: 'h-5 w-5',
@@ -283,7 +283,7 @@ class Navigation extends React.Component {
           },
           {
             label: 'ログアウト',
-            url: '/',
+            url: '/logout',
             iconNormal: 'bg-signout-icon',
             iconHover: '',
             iconSize: 'h-5 w-5',

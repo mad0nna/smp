@@ -68,7 +68,7 @@ class ForgotResetPasswordTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/password/forgot', ['email' => 'notAnEmail@']);
         $result = $response->getData();
         $this->assertEquals(422, $response->getStatusCode());
-        $this->assertTrue(in_array('Invalid email address.', $result->error->email));
+        $this->assertTrue(in_array('メールアドレスが正しくありません。', $result->error->email));
     }
 
     public function testForgotPasswordUserNotFound()

@@ -1,14 +1,14 @@
 @component('mail::message')
-Hi {{ $user->first_name }},<br/>
+{{ $user->first_name }}様<br/>
 <br/>
-Your password for signing in has been changed successfully. If you made this change, then we're all set.<br/>
+平素よりお世話になっております。サブスク韋駄天管理事務局です。<br/>
+パスワードの変更が完了致しました。下記ログインボタンよりログインしてください。<br/>
 
 @component('mail::button', ['url' => $url])
-Login
+ログイン
 @endcomponent
 
-Feel free to reach out with any questions you might have. We're here to help.<br/>
+何かご不明な点等ございましたら、お気軽にお問い合わせくださいませ。<br/><br/>
 
-Best Regards,<br/>
-{{ config('app.name') }}<br/>
+サブスク韋駄天管理事務局
 @endcomponent

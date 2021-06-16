@@ -53,6 +53,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'company' => \App\Http\Middleware\Company::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
@@ -63,6 +64,10 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'accept.json' => \App\Http\Middleware\RequestAcceptJson::class,
+        'admin' => \App\Http\Middleware\Admin::class,
+        'salesAuth' => \App\Http\Middleware\SalesAuth::class,
+        'guest' => \App\Http\Middleware\Guest::class,
+
     ];
 
     /**

@@ -25,9 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // set passport route to be inside API routes.
-        Passport::routes(null, [
-            'prefix' => config('app.api_version') . '/oauth',
-        ]);
+        Passport::routes();
+
     }
 }

@@ -14,21 +14,36 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id');      
+            $table->string('username')->unique();
+            $table->string('account_code')->nullable();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('avatar')->nullable();
+            $table->string('contact_num')->unique();
             $table->string('password')->nullable();
-            $table->integer('login_attempts')->default(0);
-            $table->unsignedBigInteger('user_status_id');
-            $table->rememberToken();
+            $table->unsignedBigInteger('user_type_id')->nullable();
+            $table->string('title')->nullable();
+            $table->unsignedBigInteger('company_id')->nullable(); 
+            $table->string('sso_token')->nullable();
+            $table->rememberToken()->nullable();
+            $table->unsignedBigInteger('user_status_id')->nullable();
+            $table->timestamp("email_verified_at")->nullable();
             $table->timestamps();
 
             $table->foreign('user_status_id')
                 ->references('id')
                 ->on('user_statuses')
+                ->onDelete('cascade');
+
+            $table->foreign('user_type_id')
+                ->references('id')
+                ->on('user_types')
+                ->onDelete('cascade');
+
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies')
                 ->onDelete('cascade');
         });
     }

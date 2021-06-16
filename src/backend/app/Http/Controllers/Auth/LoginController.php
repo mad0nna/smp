@@ -3,8 +3,17 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+use App\Services\UserService;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use App\Exceptions;
+use App\Models\User;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -19,6 +28,9 @@ class LoginController extends Controller
     |
     */
 
+    /** @var App\Services\UserService */
+    protected $userService;
+
     use AuthenticatesUsers;
 
     /**
@@ -26,24 +38,86 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo;
 
     /**
      * Create a new controller instance.
-     *
+     * 
+     * @param User $user
+     * @param UserService $userService
+     * @param UserType $userType
      * @return void
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
-        $this->middleware('guest')->except('logout');
+        $this->userService = $userService;
+    }
+    
+    public function username()
+    {
+        return 'username'; 
     }
 
+     /**
+     * Shows login page
+     * 
+     * @param Request $request
+     * 
+     */
     public function login()
-    {
-        $query = request()->query();
-        if ($query["type"] === "company") {       
-            return view('company-login');
-        }
-      
+    { 
+        if (! Auth::user())
+            return view('index');
+        return redirect(Auth::user()->type->dashboard_url);   
     }
+
+     /**
+     * Authenticate user and create token
+     * 
+     * @param LoginRequest $request
+     * 
+     */
+    public function authenticate(LoginRequest $request)
+    {
+        try{
+            $request->validated();
+            $credentials = $request->only('username', 'password');
+            $result = $this->userService->log($credentials);
+             if ( $result['status'] != 200) {
+                return redirect()->back()->with('status', $result['error']);
+             }
+             Session::put('salesforceCompanyID', Auth::user()->company->company_code);
+             Session::put('salesforceContactID', Auth::user()->account_code);
+            return redirect(Auth::user()->type->dashboard_url);
+
+        } catch (Exception $e) {
+            return redirect()->back()->with('status', $e);
+        }
+    }
+
+    /**
+     * Logout
+     * 
+     * @param Request $request
+     * 
+     */
+    public function logout()
+    { 
+        try {
+            Auth::logout();
+            Session::forget('salesforceCompanyID');
+             Session::forget('salesforceContactID');
+            session()->invalidate();
+            session()->regenerateToken();
+            return redirect('/');
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
+            $this->response = [
+                'code' => 500,
+                'error' => $e->getMessage(),
+            ];
+        } // @codeCoverageIgnoreEnd
+
+    }
+
+
 }

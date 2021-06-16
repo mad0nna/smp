@@ -31,9 +31,9 @@ class PasswordChange extends Mailable
     public function __construct(User $user)
     {
         $this->view = 'mail.password.reset';
-        $this->subject = 'Password Changed';
+        $this->subject = 'パスワードの変更が完了致しました';
         $this->user = $user;
-        $this->url = env('APP_URL') . '/login';
+        $this->url = env('APP_URL');
     }
 
     /**

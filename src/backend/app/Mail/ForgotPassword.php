@@ -34,9 +34,9 @@ class ForgotPassword extends Mailable
     public function __construct(PasswordReset $passwordReset)
     {
         $this->view = 'mail.password.forgot';
-        $this->subject = 'Reset your Password';
+        $this->subject = 'パスワードを再設定してください';
         $this->user = $passwordReset->user;
-        $this->url = env('APP_URL') . '/password/reset?token=' . $passwordReset->token;
+        $this->url = env('APP_URL') . 'password/reset?token=' . $passwordReset->token;
     }
 
     /**

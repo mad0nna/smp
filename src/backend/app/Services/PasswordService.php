@@ -42,7 +42,7 @@ class PasswordService
     public function forgot(string $email)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException('Invalid email address.');
+            throw new InvalidArgumentException('ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。');
         }
 
         // check if user exists
@@ -78,7 +78,7 @@ class PasswordService
         if (!array_key_exists('password', $data)) {
             throw new InvalidArgumentException('Missing required password field.');
         }
-
+        
         // validate if token is valid
         $token = $this->passwordReset
                     ->where('token', $data['token'])
