@@ -63,6 +63,7 @@ class PasswordController extends Controller
         try {
             $result = $this->passwordService->forgot($request->getEmail());
             $this->response['token'] = $result->token;
+            $this->response['code']=== 200;
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),

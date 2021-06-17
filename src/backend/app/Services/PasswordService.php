@@ -41,9 +41,9 @@ class PasswordService
      */
     public function forgot(string $email)
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException('ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。');
-        }
+        // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        //     throw new InvalidArgumentException('ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。');
+        // }
 
         // check if user exists
         $user = $this->userService->findByEmail($email);
