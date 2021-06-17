@@ -21,6 +21,7 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::prefix('salesforce')->group(function() {
   Route::post('getCompanyDetails', "CompanyController@getCompanyDetails");
   Route::post('getCompanyAdminDetails', "CompanyController@getCompanyAdminDetails");
+  Route::post('getUpdatedDataForEditCompanyDetails', "CompanyController@getUpdatedDataForEditCompanyDetails");
   Route::post('updateCompanyDetails', "CompanyController@updateCompanyDetails");
   Route::post('getOpportunityDetails', 'CompanyController@getOpportunityDetails');
 });

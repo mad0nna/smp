@@ -18,16 +18,16 @@ class DataSynchronizer {
             return $request;
         }
 
-        // $sfResponse = $this->salesForce->updateAdminDetails($request["adminDetails"], $accountID);
-        // if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
-        //     $this->salesForce->updateCompanyDetails($request["companyDetails"], $companyID);
-        //     return $sfResponse;
-        // }
+        $sfResponse = $this->salesForce->updateAdminDetails($request["adminDetails"], $accountID);
+        if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
+            $this->salesForce->updateCompanyDetails($request["companyDetails"], $companyID);
+            return $sfResponse;
+        }
 
-        // $sfResponse = $this->salesForce->updateCompanyDetails($request["companyDetails"], $companyID);
-        // if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
-        //     return $sfResponse;
-        // }
+        $sfResponse = $this->salesForce->updateCompanyDetails($request["companyDetails"], $companyID);
+        if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
+            return $sfResponse;
+        }
 
         $dbResponse = $this->mysql->updateAdminDetails($accountID, $request["adminDetails"]);
         if (!$dbResponse) {
@@ -42,5 +42,14 @@ class DataSynchronizer {
         Cache::forget("{$companyID}:company:details");
         Cache::forget("{$companyID}:admin:details");
         return MessageResult::success("Data synchronization success!");
+    }
+
+    public function getUpdatedDataForEditCompanyDetails($companyID) {
+        $companyInformation = $this->salesForce->getCompanyDetailsByID($companyID);
+        $adminInformation = $this->salesForce->getCompanyAdminDetails($companyID);
+        return [
+            'company' => $companyInformation,
+            'admin' => $adminInformation
+        ];
     }
 }

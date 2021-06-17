@@ -19,11 +19,7 @@ class OpportunityService {
             if (!empty($opportunityDetail)) {
                 return reset($opportunityDetail);
             }
-            $opportunityDetail = json_decode($this->salesForce->getLatestKOTOpportunityDetails($companyID), true);
-            if (isset($opportunityDetail["status"]) && !$opportunityDetail["status"]) {
-                return $opportunityDetail;
-            }
-            return reset($opportunityDetail["records"]);
+            $opportunityDetail = $this->salesForce->getLatestKOTOpportunityDetails($companyID);
         });
         return json_encode($opportunity);
     }

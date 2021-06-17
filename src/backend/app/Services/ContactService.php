@@ -20,7 +20,7 @@ class ContactService {
                 $adminDetails["ableToEdit"] = $accountID === $adminDetails["Id"];
                return $adminDetails;
             }
-            $adminDetails = $this->getCompanyAdminDetailsInSF($companyID);
+            $adminDetails = $this->salesForce->getCompanyAdminDetails($companyID);
             $adminDetails["ableToEdit"] = $accountID === $adminDetails["Id"];
             return json_encode($adminDetails);
         });
@@ -33,13 +33,5 @@ class ContactService {
             return reset($adminDetails);
         }
         return $adminDetails;
-    }
-
-    private function getCompanyAdminDetailsInSF($companyID) {
-        $adminDetails = json_decode($this->salesForce->getCompanyAdminDetails($companyID),true);
-        if (isset($adminDetails["status"]) && !$adminDetails["status"]) {
-            return $adminDetails;
-        }
-        return reset($adminDetails["records"]);
     }
 }

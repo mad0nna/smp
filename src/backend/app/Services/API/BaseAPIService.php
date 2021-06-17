@@ -6,11 +6,11 @@ class BaseAPIService {
 
     public function salesForceApi() {
         $this->aAPIs['salesforce'] = array(
-           'sClientID' => env('SF_KEY'),
-           'sClientKey' => env('SF_SECRET'),
-           'sUsername' => env('SF_USERNAME'),
-           'sPassword' => env('SF_PASSWORD'),
-           'sSecurityToken' => env('SF_SECURITY_TOKEN')
+           'sClientID' => env('SALESFORCE_KEY'),
+           'sClientKey' => env('SALESFORCE_SECRET'),
+           'sUsername' => env('SALESFORCE_USERNAME'),
+           'sPassword' => env('SALESFORCE_PASSWORD'),
+           'sSecurityToken' => env('SALESFORCE_SECURITY_TOKEN')
         );
     }
 }

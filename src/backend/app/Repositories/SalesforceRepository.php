@@ -17,7 +17,7 @@ class SalesforceRepository {
     public function getCompanyDetailsByID($sfCompanyID) {
         try {
             $oResponse = $this->oClient->get(
-                env('SF_HOST').'/services/data/v34.0/sobjects/account/'.$sfCompanyID. '?fields=Name, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c',
+                env('SALESFORCE_HOST').'/services/data/v34.0/sobjects/account/'.$sfCompanyID. '?fields=Name, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c',
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -27,7 +27,12 @@ class SalesforceRepository {
                 ]
             );
             $oBody = $oResponse->getBody();
-            return $oBody->getContents();
+            $companyInformation = json_decode($oBody->getContents(), true);
+            if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
+                return $companyInformation;
+            }
+            unset($companyInformation["attributes"]);
+            return $companyInformation;
         } catch(ClientException $reqExcep) {
             $statusCode = $reqExcep->getResponse()->getStatusCode();
             if ($statusCode === 401) {
@@ -42,7 +47,7 @@ class SalesforceRepository {
     public function getCompanyAdminDetails($sfCompanyID) {
         try {
             $oResponse = $this->oClient->get(
-                env('SF_HOST')."/services/data/v34.0/query/?q=SELECT+Name, Id, FirstName, LastName, Email, Title, MobilePhone, section__c, CreatedDate+from+Contact+WHERE+AccountId='" . $sfCompanyID . "'+And+admin__c=true+Order+By+CreatedDate+ASC+LIMIT+1",
+                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Name, Id, FirstName, LastName, Email, Title, MobilePhone, section__c, CreatedDate+from+Contact+WHERE+AccountId='" . $sfCompanyID . "'+And+admin__c=true+Order+By+CreatedDate+ASC+LIMIT+1",
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -52,7 +57,11 @@ class SalesforceRepository {
                 ]
             );
             $oBody = $oResponse->getBody();
-            return $oBody->getContents();
+            $adminDetails = json_decode($oBody->getContents(), true);
+            if (isset($adminDetails["status"]) && !$adminDetails["status"]) {
+                return $adminDetails;
+            }
+            return reset($adminDetails["records"]);
         } catch(ClientException $reqExcep) {
             $statusCode = $reqExcep->getResponse()->getStatusCode();
             if ($statusCode === 401) {
@@ -67,7 +76,7 @@ class SalesforceRepository {
     public function updateCompanyDetails($newValues, $companyID) {
         try{
             $oResponse = $this->oClient->patch(
-                env('SF_HOST')."/services/data/v34.0/sobjects/Account/{$companyID}",
+                env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/Account/{$companyID}",
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -104,7 +113,7 @@ class SalesforceRepository {
     public function updateAdminDetails($newValues, $accountID) {
         try{
             $oResponse = $this->oClient->patch(
-                env('SF_HOST')."/services/data/v34.0/sobjects/contact/{$accountID}",
+                env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/contact/{$accountID}",
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -136,7 +145,7 @@ class SalesforceRepository {
     public function getLatestKOTOpportunityDetails($accountID) {
         try{
             $oResponse = $this->oClient->get(
-                env('SF_HOST')."/services/data/v34.0/query/?q=SELECT+Name, ID__c, Type, Amount, StageName, Zen__c, Id, RecordTypeId, CreatedDate+from+Opportunity+WHERE+AccountId='".$accountID."'+And+RecordTypeId='01210000000QSBPAA4'+Order+By+CreatedDate+DESC+LIMIT+1",
+                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Name, ID__c, Type, Amount, StageName, Zen__c, Id, RecordTypeId, CreatedDate+from+Opportunity+WHERE+AccountId='".$accountID."'+And+RecordTypeId='01210000000QSBPAA4'+Order+By+CreatedDate+DESC+LIMIT+1",
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -146,7 +155,11 @@ class SalesforceRepository {
             );
             
             $oBody = $oResponse->getBody();
-            return $oBody->getContents();
+            $opportunityDetail = json_decode($oBody->getContents(), true);
+            if (isset($opportunityDetail["status"]) && !$opportunityDetail["status"]) {
+                return $opportunityDetail;
+            }
+            return reset($opportunityDetail["records"]);
         } catch(ClientException $reqExcep) {
             $statusCode = $reqExcep->getResponse()->getStatusCode();
             if ($statusCode === 401) {

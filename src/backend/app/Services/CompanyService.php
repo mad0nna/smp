@@ -23,18 +23,8 @@ class CompanyService {
             if (!empty($companyInformation)) {
                 return reset($companyInformation);
             }
-            $companyInformation = $this->getDetailsInSFByID($companyID);
-            return $companyInformation;
+            return $this->salesForce->getCompanyDetailsByID($companyID);
         });
         return json_encode($companyDetails);
-    }
-
-    private function getDetailsInSFByID($companyID) {
-        $companyInformation = json_decode($this->salesForce->getCompanyDetailsByID($companyID), true);
-        if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
-            return $companyInformation;
-        }
-        unset($companyInformation["attributes"]);
-        return $companyInformation;
     }
 }

@@ -4,6 +4,7 @@ import profileIcon from '../../img/customer-company-profile.png'
 import contactIcon from '../../img/support-profile-icon.png'
 import editIcon from '../../img/edit-icon.png'
 import saveIcon from '../../img/Icon awesome-save.png'
+import spinner from '../../img/spinner.gif'
 
 // eslint-disable-next-line
 let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
@@ -51,6 +52,7 @@ class CompanyProfile extends Component {
       },
       isEditingContact: false,
       isAbleToEdit: false,
+      isGettingData: false,
       adminDetails: {
         Department: '',
         FirstName: '',
@@ -72,6 +74,7 @@ class CompanyProfile extends Component {
     this.requestKOTdetails = this.requestKOTdetails.bind(this)
     this.handleFormChanges = this.handleFormChanges.bind(this)
     this.saveProfile = this.saveProfile.bind(this)
+    this.populateTheCompanyDetails = this.populateTheCompanyDetails.bind(this)
     this.requestCompanyDetail()
     this.requestContactDetail()
     this.requestKOTdetails()
@@ -115,22 +118,25 @@ class CompanyProfile extends Component {
             hasRequestError: true
           })
         }
-        let companyDetails = { ...this.state.companyDetails }
-        ;(companyDetails.companyName = data.Name),
-          (companyDetails.contactNumber = data.Phone),
-          (companyDetails.street = data.BillingStreet),
-          (companyDetails.city = data.BillingCity),
-          (companyDetails.state = data.BillingState),
-          ((companyDetails.country = data.BillingCountry),
-          (companyDetails.postalCode = data.BillingPostalCode),
-          (companyDetails.website = data.Website)),
-          (companyDetails.industry = data.Industry)
-        this.setState({ companyDetails })
-
+        this.populateTheCompanyDetails(data)
         let ZenDetails = { ...this.state.ZenDetails }
         ZenDetails.orgName = data.Zendeskaccount__c
         this.setState({ ZenDetails })
       })
+  }
+
+  populateTheCompanyDetails(data) {
+    let companyDetails = { ...this.state.companyDetails }
+    ;(companyDetails.companyName = data.Name),
+      (companyDetails.contactNumber = data.Phone),
+      (companyDetails.street = data.BillingStreet),
+      (companyDetails.city = data.BillingCity),
+      (companyDetails.state = data.BillingState),
+      ((companyDetails.country = data.BillingCountry),
+      (companyDetails.postalCode = data.BillingPostalCode),
+      (companyDetails.website = data.Website)),
+      (companyDetails.industry = data.Industry)
+    this.setState({ companyDetails })
   }
 
   requestContactDetail() {
@@ -144,34 +150,36 @@ class CompanyProfile extends Component {
           this.setState({
             hasRequestError: true
           })
-        } else {
-          this.setState({
-            adminDetails: data,
-            isAbleToEdit: data.ableToEdit
-          })
         }
+        this.setState({
+          adminDetails: data,
+          isAbleToEdit: data.ableToEdit
+        })
+        return true
       })
   }
 
-  handleChangeProfile(event) {
-    event.preventDefault()
-
-    // const { name, value } = event.target
-    // let errors = this.state.errors
-
-    // this.setState({errors, [name]: value}, ()=> {
-    //   console.log(errors)
-    // })
-    // let companyEditValues = this.state.companyDetails
-    let companyEditValues = { ...this.state.companyDetails }
-    let adminDetailsEditValues = { ...this.state.adminDetails }
-    this.setState(() => {
-      return {
-        isEditingProfile: !this.state.isEditingProfile,
-        companyEditValues,
-        adminDetailsEditValues
-      }
+  handleChangeProfile() {
+    this.setState({ isGettingData: true })
+    fetch('/salesforce/getUpdatedDataForEditCompanyDetails', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' }
     })
+      .then((response) => response.json())
+      .then((data) => {
+        this.populateTheCompanyDetails(data.company)
+        this.setState({ adminDetails: data.admin })
+        let companyEditValues = { ...this.state.companyDetails }
+        let adminDetailsEditValues = { ...this.state.adminDetails }
+        this.setState(() => {
+          return {
+            isEditingProfile: !this.state.isEditingProfile,
+            isGettingData: false,
+            companyEditValues,
+            adminDetailsEditValues
+          }
+        })
+      })
   }
 
   handleChangeContact(event) {
@@ -235,32 +243,41 @@ class CompanyProfile extends Component {
   }
 
   displayEditButton() {
+    let currentIcon = this.state.isEditingProfile
+      ? saveIcon
+      : this.state.isGettingData
+      ? spinner
+      : editIcon
     return (
-      <div className="flex flex-wrap gap-0 w-full justify-end mt-6 ">
-        <button
-          onClick={
-            this.state.isEditingProfile
-              ? this.saveProfile
-              : this.handleChangeProfile
-          }
-          className="bg-primary-200 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
-        >
-          <img
-            className="inline mr-2"
-            src={this.state.isEditingProfile ? saveIcon : editIcon}
-          />
-          {this.state.isEditingProfile ? '変更を保存' : '編集する'}
-        </button>
-        {this.state.isEditingProfile ? (
+      <div>
+        <div className="flex flex-wrap gap-0 w-full justify-end mt-6 ">
           <button
-            onClick={() => this.setState({ isEditingProfile: false })}
-            className="bg-white text-gray-500 rounded-lg p-2 text-sm mr-1"
+            onClick={
+              this.state.isEditingProfile
+                ? this.saveProfile
+                : this.handleChangeProfile
+            }
+            className="bg-primary-200 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
           >
-            キャンセル
+            <img className="inline mr-2 w-4" src={currentIcon} />
+            {this.state.isEditingProfile ? '変更を保存' : '編集する'}
           </button>
-        ) : (
-          ''
-        )}
+          {this.state.isEditingProfile ? (
+            <button
+              onClick={() => this.setState({ isEditingProfile: false })}
+              className="bg-white text-gray-500 rounded-lg p-2 text-sm mr-1"
+            >
+              キャンセル
+            </button>
+          ) : (
+            ''
+          )}
+        </div>
+        <div className="text-right h-8 px-3 leading-8 text-sm">
+          {this.state.isGettingData
+            ? '更新されたデータをSalesforceから取得'
+            : ''}
+        </div>
       </div>
     )
   }
@@ -693,7 +710,7 @@ class CompanyProfile extends Component {
                 <label className="text-sm text-gray-400">Zendesk 組織名:</label>
               </div>
               <div className="md:w-1/2 flex-grow text-sm text-black w-full h-8 px-3 leading-8">
-                {this.state.ZenDetails.orgName}
+                {this.state.ZenDetails.orgName ?? 'N/A'}
               </div>
             </div>
             <div className="flex flex-wrap gap-0 w-full justify-start mt-5 mb-2 mx-10">
@@ -701,7 +718,7 @@ class CompanyProfile extends Component {
                 <label className="text-sm text-gray-400">アカウントID:</label>
               </div>
               <div className="md:w-1/2 flex-grow text-sm text-black w-full h-8 px-3 leading-8">
-                {this.state.ZenDetails.opportunityOwner}
+                {this.state.ZenDetails.opportunityOwner ?? 'N/A'}
               </div>
             </div>
             <div className="flex flex-wrap gap-0 w-full justify-start mt-5 mb-2 mx-10">
@@ -709,7 +726,7 @@ class CompanyProfile extends Component {
                 <label className="text-sm text-gray-400">商談ID:</label>
               </div>
               <div className="md:w-1/2 flex-grow text-sm text-black w-full h-8 px-3 leading-8">
-                {this.state.ZenDetails.opportunityId}
+                {this.state.ZenDetails.opportunityId ?? 'N/A'}
               </div>
             </div>
           </div>

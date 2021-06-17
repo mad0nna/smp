@@ -32,4 +32,8 @@ class CompanyController extends Controller
     public function getOpportunityDetails(OpportunityService $opportunityService) {
         return $opportunityService->getLatestKOTOpportunityDetails(Session::get('salesforceCompanyID'));
     }
+
+    public function getUpdatedDataForEditCompanyDetails(DataSynchronizer $synchronizer) {
+        return $synchronizer->getUpdatedDataForEditCompanyDetails(Session::get('salesforceCompanyID'));
+    }
 }
