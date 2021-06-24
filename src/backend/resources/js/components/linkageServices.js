@@ -1,33 +1,17 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Ellipsis from '../../img/ellipsis.png'
 import birdIcon from '../../img/freee_small.png'
 import smartHRIcon from '../../img/smartHR_small.png'
 
-const LinkageServices = (props) => {
+const LinkageServices = () => {
   const linkageServices = [
     { serviceName: 'Freee', serviceLink: '#', icon: birdIcon },
     { serviceName: 'SmartHR', serviceLink: '#', icon: smartHRIcon },
     { serviceName: 'SalesForce', serviceLink: '#', icon: '' }
   ]
 
-  let showMoveButton = ''
-  if (typeof props.interActivePages != 'undefined') {
-    showMoveButton = props.interActivePages.includes(location.pathname)
-      ? 'group-hover:block'
-      : ''
-  }
-
   return (
     <div className={'h-full' + ' w-full relative group'}>
-      <div
-        className={
-          'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-pointer hidden ' +
-          showMoveButton
-        }
-      >
-        Move
-      </div>
       <div className="dashboard-widget-list w-full h-full relative rounded-lg border-2 border-gray-200 bg-white">
         <div
           id="widget-header"
@@ -94,10 +78,3 @@ const LinkageServices = (props) => {
 }
 
 export default LinkageServices
-
-if (document.getElementById('linkage-services')) {
-  ReactDOM.render(
-    <LinkageServices />,
-    document.getElementById('linkage-services')
-  )
-}

@@ -20,6 +20,8 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        'salesforce/*'
+        'salesforce/*',
+        // 'company/saveCoordinates',
+        // 'company/resetCoordinates'
     ];
 }

@@ -1,10 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Ellipsis from '../../img/ellipsis.png'
 import KotIcon from '../../svg/kot-service-icon.svg'
 import KotAttendanceIcon from '../../svg/kot-attendance.svg'
 import KotSecureLoginIcon from '../../svg/kot-secure-login.svg'
 import KotDataAnalysisIcon from '../../svg/kot-data-analysis.svg'
+
 class ContractedServices extends React.Component {
   constructor(props) {
     super(props)
@@ -34,13 +34,6 @@ class ContractedServices extends React.Component {
   }
 
   render() {
-    let showMoveButton = ''
-    if (typeof this.props.interActivePages != 'undefined') {
-      showMoveButton = this.props.interActivePages.includes(location.pathname)
-        ? 'group-hover:block'
-        : ''
-    }
-
     console.log('contractedServices' + this.state.contractedServices)
 
     return (
@@ -51,14 +44,6 @@ class ContractedServices extends React.Component {
             : 'h-full' + ' h-full w-full relative group'
         }
       >
-        <div
-          className={
-            'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 2xl:border-2 lg:border cursor-move hidden ' +
-            showMoveButton
-          }
-        >
-          Move
-        </div>
         <div className="dashboard-widget-list w-full h-full relative  rounded-lg border-2 border-gray-200 bg-white">
           <div
             id="widget-header"
@@ -129,9 +114,3 @@ class ContractedServices extends React.Component {
   }
 }
 export default ContractedServices
-if (document.getElementById('contracted-services')) {
-  ReactDOM.render(
-    <ContractedServices />,
-    document.getElementById('contracted-services')
-  )
-}

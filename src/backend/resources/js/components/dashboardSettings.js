@@ -1,17 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import imgMethPayment from './../../img/company/meth-payment.png'
 import imgSupport from './../../img/company/support.png'
 import imgSettingsIcon from '../../img/settings-icon.png'
 import Ellipsis from './../../img/ellipsis.png'
 
 const DashboardSettings = (props) => {
-  let showMoveButton = ''
-  if (typeof props.interActivePages != 'undefined') {
-    showMoveButton = props.interActivePages.includes(location.pathname)
-      ? 'group-hover:block'
-      : ''
-  }
   const buttons = [
     {
       label: '支払い方法',
@@ -31,14 +24,6 @@ const DashboardSettings = (props) => {
 
   return (
     <div className="w-full h-full relative group">
-      <div
-        className={
-          'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' +
-          showMoveButton
-        }
-      >
-        Move
-      </div>
       <div className="dashboard-widget-list relative flex flex-col items-center gap-3 rounded-lg border-2 border-gray-200 w-full h-full bg-white group pt-2">
         <div className="w-full h-10 pl-4">
           <img className="inline" src={imgSettingsIcon} />
@@ -85,9 +70,3 @@ const DashboardSettings = (props) => {
 }
 
 export default DashboardSettings
-if (document.getElementById('dashboardSettings')) {
-  ReactDOM.render(
-    <DashboardSettings />,
-    document.getElementById('dashboardSettings')
-  )
-}

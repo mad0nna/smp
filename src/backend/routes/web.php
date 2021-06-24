@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\API\SalesforceController;
+use App\Http\Controllers\widgetController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Auth\LoginController@login')->name('login');
@@ -25,10 +26,12 @@ Route::prefix('salesforce')->group(function() {
   Route::post('updateCompanyDetails', "CompanyController@updateCompanyDetails");
   Route::post('getOpportunityDetails', 'CompanyController@getOpportunityDetails');
 });
-Route::view('/widgetSettings','widgetSettings');
 
   Route::group(['prefix' => 'company',  'middleware' => 'company'],function() {
-
+      Route::view('/widgetSettings','widgetSettings');
+      Route::get('/getCoordinates', 'widgetController@getCompanyCoordinates');
+      Route::post('/saveCoordinates', 'widgetController@saveCoordinates');
+      Route::post('/resetCoordinates', 'widgetController@resetCoordinates');
       Route::view('/dashboard', 'dashboard')->name('companydashboard');
       Route::view('/contracts', 'contracts');
       Route::view('/billing', 'companyBilling');

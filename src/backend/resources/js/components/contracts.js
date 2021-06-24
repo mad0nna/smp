@@ -9,7 +9,6 @@ import Purchase from './purchaseHistory'
 import kot from '../../img/kotContractLogo.png'
 import Freee from '../../img/Freee.png'
 import SmartHR from '../../img/smartHR.png'
-import { interactivePages } from '../utilities/constants'
 
 const Contracts = () => {
   const data = [
@@ -190,10 +189,10 @@ const Contracts = () => {
         </div>
       </div>
       <div className="col-span-1 row-span-1 w-full align-top">
-        <Settings interActivePages={interactivePages} />
+        <Settings />
       </div>
       <div className="col-span-1 row-span-1 w-full mt-0 align-top">
-        <Purchase interActivePages={interactivePages} />
+        <Purchase />
       </div>
     </div>
   )

@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Ellipsis from '../../img/ellipsis.png'
 
 class Notification extends React.Component {
@@ -39,28 +38,13 @@ class Notification extends React.Component {
     }
   }
   render() {
-    let showMoveButton = ''
-    let py = 'py-3 h-20 p-3 px-3'
-    if (typeof this.props.interActivePages != 'undefined') {
-      showMoveButton = this.props.interActivePages.includes(location.pathname)
-        ? 'group-hover:block'
-        : ''
-    }
-
+    let py = ''
     this.props.displayType !== 'undefined' && this.props.displayType === 'small'
       ? (py = 'xl:py-3 lg:py-1 h-18 pl-3 ')
       : 'py-3 h-20 p-3 px-3'
 
     return (
       <div className="w-full h-full relative group ">
-        <div
-          className={
-            'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' +
-            showMoveButton
-          }
-        >
-          Move
-        </div>
         <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg border-2 border-gray-200 ">
           <div
             id="widget-header"
@@ -138,6 +122,3 @@ class Notification extends React.Component {
   }
 }
 export default Notification
-if (document.getElementById('notification')) {
-  ReactDOM.render(<Notification />, document.getElementById('notification'))
-}

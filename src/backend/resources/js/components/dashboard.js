@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -11,217 +11,202 @@ import BillingHistory from './billingHistory'
 import Settings from './dashboardSettings'
 import Products from './products'
 import CompanyDashboardChart from './companyDashboardChart'
-import { interactivePages } from '../utilities/constants'
 import resize from '../../img/resize.png'
+import { findMissingWidget } from '../utilities/constants'
+import spinner from '../../img/spinner.gif'
 
 const Dashboard = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive)
-
-  const widgets = [
-    {
-      id: 0,
-      component: '',
-      label: '',
-      static: true,
-      style: 'staticWidgets',
-      className: 'relative',
-      state: true,
-      x: 0,
-      y: 0,
-      w: 10,
-      h: 0,
-      isResizable: false
-    },
-    {
-      id: 1,
-      component: <Welcome />,
-      label: 'ようこそ！',
-      static: true,
-      style: 'staticWidgets',
-      className: 'relative',
-      state: true,
-      x: 0,
-      y: 0,
-      w: 2,
-      h: 0.25,
-      isResizable: false
-    },
-    {
-      id: 2,
-      component: <CompanyDashboardChart interActivePages={interactivePages} />,
-      label: 'ダッシュボードチャート',
-      static: false,
-      className: 'relative bg-white',
-      state: true,
-      x: 0,
-      y: 0,
-      w: 2,
-      h: 4.5,
-      minW: 2,
-      minH: 2,
-      isResizable: true
-    },
-
-    {
-      id: 4,
-      component: <ServiceUsage interActivePages={interactivePages} />,
-      label: '連携サービス',
-      static: false,
-      className: 'relative',
-      state: true,
-      x: 2,
-      y: 0,
-      w: 3,
-      h: 1,
-      minW: 2,
-      minH: 1,
-      isResizable: true
-    },
-    {
-      id: 5,
-      component: <Products interActivePages={interactivePages} />,
-      label: 'サービス利用状況',
-      static: false,
-      className: 'relative',
-      state: true,
-      x: 5,
-      y: 0,
-      w: 3,
-      h: 2,
-      minW: 2,
-      minH: 2,
-      isResizable: true
-    },
-    {
-      id: 6,
-      component: <BillingHistory interActivePages={interactivePages} />,
-      label: '請求履歴',
-      static: false,
-      className: 'relative',
-      state: true,
-      x: 2,
-      y: 2,
-      w: 3,
-      h: 3.75,
-      minW: 2,
-      minH: 1,
-      isResizable: true
-    },
-    {
-      id: 7,
-      component: <Notification interActivePages={interactivePages} />,
-      label: 'お知らせ',
-      static: false,
-      className: 'relative',
-      state: true,
-      x: 8,
-      y: 2,
-      w: 2,
-      h: 3.75,
-      minW: 1,
-      minH: 1,
-      isResizable: true
-    },
-    {
-      id: 8,
-      component: <Settings interActivePages={interactivePages} />,
-      label: '設定',
-      static: false,
-      className: 'relative',
-      state: true,
-      x: 8,
-      y: 0,
-      w: 2,
-      h: 1,
-      minW: 2,
-      minH: 1,
-      isResizable: true
-    },
-    {
-      id: 9,
-      component: <Purchase interActivePages={interactivePages} />,
-      label: '購入履歴',
-      static: false,
-      className: 'relative',
-      state: true,
-      x: 5,
-      y: 2,
-      w: 3,
-      h: 2.75,
-      minW: 2,
-      minH: 1,
-      isResizable: true
+  const [isGettingCoordinates, setStatus] = useState(false)
+  useEffect(() => {
+    setStatus(true)
+    // DO NOT CHANGE THE ARRANGEMENT OF THESE COMPONENT LIST
+    const companyCoreWidgets = [
+      { component: '' },
+      { component: <Welcome /> },
+      { component: <CompanyDashboardChart /> },
+      { component: <ServiceUsage /> },
+      { component: <Products /> },
+      { component: <BillingHistory /> },
+      { component: <Notification /> },
+      { component: <Settings /> },
+      { component: <Purchase /> }
+    ]
+    getCoordinates()
+    function getCoordinates() {
+      let coordinatesFromLS = localStorage.getObj('pendingWidgetCoordinates')
+      if (coordinatesFromLS === null || coordinatesFromLS === undefined) {
+        coordinatesFromLS = localStorage.getObj('widgetCoordinates')
+      }
+      if (coordinatesFromLS !== null) {
+        for (let index = 0; index < coordinatesFromLS.length; index++) {
+          coordinatesFromLS[index].component =
+            companyCoreWidgets[index].component
+        }
+        setWidgetCoordinates(coordinatesFromLS)
+        setStatus(false)
+        return
+      }
+      fetch('/company/getCoordinates', {
+        method: 'get',
+        headers: { 'Content-Type': 'application/json' }
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          localStorage.setObj('widgetCoordinates', data.coordinates)
+          for (let index = 0; index < data.coordinates.length; index++) {
+            data.coordinates[index].component =
+              companyCoreWidgets[index].component
+          }
+          setWidgetCoordinates(data.coordinates)
+          setStatus(false)
+        })
     }
-  ]
+  }, [widgetState])
 
-  if (localStorage.getItem('widget') !== null) {
-    //uncomment this if there is a need to reset widget's state in the local storage
-    //localStorage.removeItem('widget')
-    Storage.prototype.getObj = function (key) {
-      return JSON.parse(this.getItem(key))
-    }
-    var newWidgets = localStorage.getObj('widget')
-  } else {
-    Storage.prototype.setObj = function (key, obj) {
-      return this.setItem(key, JSON.stringify(obj))
-    }
-    let tempWidgets = []
-    widgets.forEach((item, index) => {
-      tempWidgets[index] = { label: item.label, state: item.state }
-    })
-    localStorage.setObj('widget', tempWidgets)
+  //uncomment this if there is a need to reset widget's state in the local storage
+  //localStorage.removeItem('widget')
+  Storage.prototype.getObj = function (key) {
+    return JSON.parse(this.getItem(key))
   }
 
-  if (newWidgets !== null) {
-    for (let i = 0; i < widgets.length; i++) {
-      widgets[i].state = newWidgets[i].state
-    }
+  Storage.prototype.setObj = function (key, obj) {
+    return this.setItem(key, JSON.stringify(obj))
   }
 
-  const [widgetState] = useState(widgets)
+  const savePendingCoordinatesInLS = (pendingCoordinates) => {
+    let fromLS = localStorage.getObj('widgetCoordinates')
+    for (let index = 0; index < pendingCoordinates.length; index++) {
+      pendingCoordinates[index].state = fromLS[index].state
+      pendingCoordinates[index].label = fromLS[index].label
+    }
+    localStorage.setObj('pendingWidgetCoordinates', pendingCoordinates)
+  }
+
+  function clearPendingCoordinatesInLS() {
+    localStorage.removeItem('pendingWidgetCoordinates')
+  }
+
+  const [widgetState, setWidgetCoordinates] = useState([])
+  const compareCoordinates = (cdnt1, cdnt2) => {
+    let widgetList = localStorage.getObj('widgetCoordinates')
+    if (cdnt2.length < widgetList.length) {
+      for (let index = 0; index < widgetList.length; index++) {
+        if (cdnt2[index] !== undefined) {
+          continue
+        }
+        let indexMissing = findMissingWidget(
+          widgetList,
+          'label',
+          widgetList[index]['label']
+        )
+        cdnt2[index] = widgetList[indexMissing]
+      }
+    }
+
+    let noDifference = true
+    for (let i = 0; i < cdnt2.length; i++) {
+      if (noDifference === false) {
+        continue
+      }
+      if (cdnt2[i] === undefined) {
+        continue
+      }
+      let coor1 = JSON.stringify({
+        h: cdnt1[i].h,
+        w: cdnt1[i].w,
+        x: cdnt1[i].x,
+        y: cdnt1[i].y
+      })
+      let coor2 = JSON.stringify({
+        h: cdnt2[i].h,
+        w: cdnt2[i].w,
+        x: cdnt2[i].x,
+        y: cdnt2[i].y
+      })
+      noDifference = coor1 === coor2
+    }
+    return noDifference
+  }
 
   return (
     <div className="px-10">
-      <ResponsiveGridLayout
-        className="dashboardGrid"
-        layouts={{ lg: widgets, md: widgets }}
-        breakpoints={{ lg: 1200, md: 768, sm: 640, xs: 480 }}
-        cols={{ lg: 10, md: 10, sm: 5, xs: 1 }}
-        draggableCancel=".staticWidgets"
-        margin={[35, 30]}
-        containerPadding={[10, 20]}
-        isBounded={true}
-        useCSSTransforms={true}
-      >
-        {widgetState
-          .filter((widget) => widget.state !== false)
-          .map((item, index) => {
-            return (
-              <div
-                className={item.className}
-                key={index}
-                data-grid={{
-                  x: item.x,
-                  y: item.y,
-                  w: item.w,
-                  h: item.h,
-                  static: item.static,
-                  isResizable: item.isResizable,
-                  minW: item.minW,
-                  minH: item.minH
-                }}
-              >
-                {item.component}{' '}
-                {item.isResizable ? (
-                  <img
-                    src={resize}
-                    className="absolute bottom-1 right-1 z-10 h-4 w-4"
-                  />
-                ) : null}
-              </div>
-            )
-          })}
-      </ResponsiveGridLayout>
+      {isGettingCoordinates ? (
+        <div className="w-full h-96 relative mt-12">
+          <div className="mx-auto absolute bottom-1 w-full text-center">
+            ウィジェット設定をデータベースから読み込みました。
+            <img className="mx-auto h-12 mt-5" src={spinner}></img>
+          </div>
+        </div>
+      ) : (
+        <ResponsiveGridLayout
+          onLayoutChange={(layout) => {
+            !compareCoordinates(widgetState, layout)
+              ? savePendingCoordinatesInLS(layout)
+              : clearPendingCoordinatesInLS()
+          }}
+          className="dashboardGrid"
+          layouts={{
+            lg: widgetState,
+            md: widgetState
+          }}
+          breakpoints={{ lg: 1200, md: 768, sm: 640, xs: 480 }}
+          cols={{ lg: 10, md: 10, sm: 10, xs: 10 }}
+          draggableCancel=".staticWidgets"
+          margin={[25, 30]}
+          rowHeight={30}
+          compactType={'horizontal'}
+          containerPadding={[10, 20]}
+          isBounded={true}
+          useCSSTransforms={true}
+        >
+          {widgetState
+            .filter((widget) => widget.state !== false)
+            .map((item, index) => {
+              return (
+                <div
+                  id={item.id}
+                  data-id={index}
+                  className={
+                    item.className +
+                    ' widgetComponent group ' +
+                    (!item.isResizable || item.static
+                      ? 'react-resizable-hide'
+                      : '')
+                  }
+                  key={index}
+                  data-grid={{
+                    x: item.x,
+                    y: item.y,
+                    w: item.w,
+                    h: item.h,
+                    static: item.static,
+                    isResizable: item.static ? false : item.isResizable,
+                    minW: item.minW,
+                    minH: item.minH
+                  }}
+                >
+                  {item.component}{' '}
+                  {item.isResizable && !item.static ? (
+                    <img
+                      src={resize}
+                      className="absolute bottom-1 right-1 z-10 h-4 w-4"
+                    />
+                  ) : null}
+                  {!item.static ? (
+                    <div
+                      className={
+                        'absolute test w-12 h-4 -top-3.5 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-tl-md rounded-tr-md border-gray-200 border-2 cursor-move hidden group-hover:block'
+                      }
+                    >
+                      Move
+                    </div>
+                  ) : null}
+                </div>
+              )
+            })}
+        </ResponsiveGridLayout>
+      )}
     </div>
   )
 }

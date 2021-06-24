@@ -78,7 +78,7 @@ class Navigation extends React.Component {
           },
           {
             label: 'ウィジェット設定',
-            url: '/widgetSettings',
+            url: '/company/widgetSettings',
             iconNormal: 'bg-widget-settings-icon',
             iconHover: '',
             iconSize: 'h-5 w-5',
@@ -90,7 +90,8 @@ class Navigation extends React.Component {
             iconNormal: 'bg-signout-icon',
             iconHover: '',
             iconSize: 'h-5 w-5',
-            extraStyle: ''
+            extraStyle: '',
+            function: this.clearCoordinates
           }
         ]
       }
@@ -273,11 +274,17 @@ class Navigation extends React.Component {
     this.handleDropDown = this.handleDropDown.bind(this)
     this.setActiveNavItem = this.setActiveNavItem.bind(this)
     this.getNavigation = this.getNavigation.bind(this)
+    this.clearCoordinates = this.clearCoordinates.bind(this)
     this.getNavigation()
     this.setActiveNavItem()
   }
 
   componentDidMount() {}
+
+  clearCoordinates() {
+    localStorage.removeItem('widgetCoordinates')
+    localStorage.removeItem('pendingWidgetCoordinates')
+  }
 
   render() {
     return (
@@ -362,7 +369,12 @@ class Navigation extends React.Component {
           >
             {this.mainNav.dropDownNav.items.map((item, index) => {
               return (
-                <a href={item.url} key={index} className={item.extraStyle}>
+                <a
+                  href={item.url}
+                  key={index}
+                  className={item.extraStyle}
+                  onClick={item.function}
+                >
                   <div className="flex items-center py-2 space-x-4">
                     <div
                       className={

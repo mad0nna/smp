@@ -4,7 +4,10 @@ namespace App\Repositories;
 use App\Models\Company;
 use App\Models\Opportunity;
 use App\Models\User;
+use App\Models\Widget;
 use App\Services\Utilities\MessageResult;
+use App\Models\WidgetSettings;
+use Exception;
 
 class DatabaseRepository {
 
@@ -59,5 +62,34 @@ class DatabaseRepository {
         ->get()
         ->map->salesforceFormat()
         ->toArray();
+    }
+
+    public function getDefaultCompanyCoordinatesByID($accountID) {
+        return WidgetSettings::leftjoin('users', 'users.id', '=', 'user_id')
+        ->where('users.account_code', $accountID)
+        ->select('widget_settings.coordinates')
+        ->get()
+        ->take(1)
+        ->toArray();
+    }
+
+    public function saveCoordinates($newCoordinates, $accountID) {
+        return WidgetSettings::rightjoin('users', 'user_id', '=', 'user_id')
+        ->where('users.account_code', $accountID)
+        ->update([
+            'coordinates' => $newCoordinates
+        ]);
+    }
+
+    public function resetCompanyCoordinates($accountID) {
+        try {
+            $widget = new WidgetSettings();
+            $defaultCoordinates = $widget->getCompanyDefaultCoordinates();
+            return WidgetSettings::rightjoin('users', 'user_id', '=', 'user_id')
+            ->where('users.account_code', $accountID)
+            ->update(['widget_settings.coordinates' => $defaultCoordinates]);
+        } catch (Exception $e) {
+            return array("status" => false, "message" => $e->getMessage());
+        }
     }
 }

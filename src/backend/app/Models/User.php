@@ -68,6 +68,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->account_code;
     }
 
+    public function widgets() {
+        return $this->hasOne(WidgetSettings::class);
+    }
+
     /**
      * Retrieves all activation tokens of the user
      *

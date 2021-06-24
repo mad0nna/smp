@@ -1,36 +1,101 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import settings from '../../img/settings-icon.png'
+import spinner from '../../img/spinner.gif'
+import { findMissingWidget } from '../utilities/constants'
 
 const WidgetSettings = () => {
   Storage.prototype.getObj = function (key) {
     return JSON.parse(this.getItem(key))
   }
-  var dashboardWidgets = localStorage.getObj('widget')
-  const [widgetState, setWidgetState] = useState(dashboardWidgets)
+
+  Storage.prototype.setObj = function (key, obj) {
+    return this.setItem(key, JSON.stringify(obj))
+  }
+
+  let coordinates = localStorage.getObj('pendingWidgetCoordinates')
+  if (coordinates === null || coordinates === undefined) {
+    coordinates = localStorage.getObj('widgetCoordinates')
+  }
+  const [widgetState, setWidgetState] = useState(coordinates)
+  const [status, setStatus] = useState(false)
 
   const onChangeHandler = (e, index) => {
     let widgets = [...widgetState]
-    let newstate = ''
-    index++
-    if (e.target.checked === false) {
-      newstate = false
-    } else {
-      newstate = true
-    }
-    widgets[index].state = newstate
-    console.log(widgets)
+    widgets[index].state = e.target.checked
+    setWidgetState(widgets)
+  }
+
+  const toggleWidgetLock = (e, index) => {
+    let widgets = [...widgetState]
+    widgets[index].static = e.target.checked
     setWidgetState(widgets)
   }
 
   const onSave = (event) => {
-    Storage.prototype.setObj = function (key, obj) {
-      return this.setItem(key, JSON.stringify(obj))
-    }
-    localStorage.setObj('widget', widgetState)
-    console.log(widgetState)
     event.preventDefault()
-    window.location = '/company/dashboard'
+    setStatus(true)
+    let newCoordinates = widgetState
+    if (newCoordinates === null || newCoordinates === undefined) {
+      newCoordinates = localStorage.getObj('widgetCoordinates')
+    }
+    let LSwidgetCoordinates = localStorage.getObj('widgetCoordinates')
+    for (let index = 0; index < newCoordinates.length; index++) {
+      if (newCoordinates[index] !== undefined) {
+        continue
+      }
+      let indexMissing = findMissingWidget(
+        LSwidgetCoordinates,
+        'label',
+        widgetState[index]['label']
+      )
+      newCoordinates[indexMissing] = widgetState[indexMissing]
+    }
+    setWidgetState(newCoordinates)
+    fetch('/company/saveCoordinates', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN':
+          document.getElementsByTagName('meta')['csrf-token'].content
+      },
+      body: JSON.stringify(widgetState)
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status) {
+          localStorage.removeItem('widgetCoordinates')
+          localStorage.removeItem('pendingWidgetCoordinates')
+          setStatus(false)
+          alert(data.message)
+          location.replace('/company/dashboard')
+          return
+        }
+        setStatus(false)
+        alert(data.message)
+      })
+  }
+
+  const resetCoordinates = (e) => {
+    e.preventDefault()
+    setStatus(true)
+    fetch('/company/resetCoordinates', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN':
+          document.getElementsByTagName('meta')['csrf-token'].content
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        localStorage.removeItem('widgetCoordinates')
+        localStorage.removeItem('pendingWidgetCoordinates')
+        setStatus(false)
+        alert(data.message)
+        location.replace('/company/dashboard')
+        return
+      })
   }
 
   return (
@@ -44,22 +109,31 @@ const WidgetSettings = () => {
       <div className="bg-gray-300 flex content-center justify-around font-bold text-center w-full">
         <span className="">ウィジェット名</span>
         <span>表示</span>
+        <span>ロック</span>
       </div>
 
       <div>
-        {widgetState
-          .filter((widget) => widget.label !== '')
-          .map((widget, index) => {
+        <form>
+          {widgetState.map((widget, index) => {
+            let hidden =
+              widget.label === '' ||
+              widget.label === null ||
+              widget.label === 'ようこそ！'
+                ? 'hidden'
+                : ''
             return (
               <div
                 key={index}
-                className="h-10 w-full py-6 text-gray-500 font-sans text-md mb-2 mt-2 pl-2 flex content-center justify-around font-bold text-center"
+                className={
+                  'h-10 w-full py-6 text-gray-500 font-sans text-md mb-2 mt-2 pl-2 flex content-center justify-around font-bold text-center ' +
+                  hidden
+                }
               >
-                <span className=" col-span-1 w-6/12 pl-10 mx-auto">
+                <span className={'col-span-1 w-6/12 pl-4 mx-auto' + hidden}>
                   {' '}
                   {widget.label}{' '}
                 </span>
-                <span className="col-span-1 w-6/12 mx-auto">
+                <span className={'col-span-1 w-6/12 mx-auto pl-2' + hidden}>
                   {' '}
                   <input
                     type="checkbox"
@@ -69,15 +143,44 @@ const WidgetSettings = () => {
                     defaultChecked={widget.state}
                   />
                 </span>
+                <span className={'col-span-1 w-6/12 mx-auto' + hidden}>
+                  {' '}
+                  <input
+                    type="checkbox"
+                    className="bg-primary-200 border-primary-200 w-6 h-6"
+                    onChange={(e) => toggleWidgetLock(e, index)}
+                    value={index}
+                    defaultChecked={widget.static}
+                  />
+                </span>
               </div>
             )
           })}
+        </form>
       </div>
       <div className="flex justify-around py-16 ">
-        <form onSubmit={onSave}>
-          <button className="rounded-xl text-white px-3 py-3 bg-primary-200 border-gray-300 content-center">
-            保存する
-          </button>
+        <form>
+          {status ? (
+            <img
+              src={spinner}
+              className="rounded-xl h-12 px-3 py-3 bg-primary-200 border-gray-300 content-center"
+            />
+          ) : (
+            <div>
+              <button
+                className="rounded-xl text-white px-3 py-3 bg-primary-200 border-gray-300 content-center "
+                onClick={onSave}
+              >
+                保存する
+              </button>
+              <button
+                className="rounded-xl text-white px-3 py-3 border-primary-200 bg-gray-500 ml-4 "
+                onClick={resetCoordinates}
+              >
+                リセット
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

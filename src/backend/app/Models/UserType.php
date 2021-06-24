@@ -8,7 +8,7 @@ class UserType extends Model
 {
     //
     protected $table = "user_types";
-    
+    public $timestamps = false;
     /**
      * The attributes that are mass assignable.
      *

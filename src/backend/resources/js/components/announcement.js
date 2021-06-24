@@ -1,6 +1,7 @@
 import React from 'react'
 import Ellipsis from '../../img/ellipsis.png'
 import notificationIcon from '../../svg/notification-icon.svg'
+import { showMoveButton } from '../utilities/constants'
 
 class Announcements extends React.Component {
   constructor(props) {
@@ -21,12 +22,6 @@ class Announcements extends React.Component {
     }
   }
   render() {
-    let showMoveButton = ''
-    if (typeof this.props.interActivePages != 'undefined') {
-      showMoveButton = this.props.interActivePages.includes(location.pathname)
-        ? 'group-hover:block'
-        : ''
-    }
     return (
       <div className="w-full h-full relative group">
         <div

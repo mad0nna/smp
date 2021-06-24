@@ -1,27 +1,12 @@
 import React from 'react'
 import Ellipsis from '../../img/ellipsis.png'
 
-const ServiceUsage = (props) => {
+const ServiceUsage = () => {
   const dateUsage = '2021年5月25日'
   const numdays = '2'
 
-  let showMoveButton = ''
-  if (typeof props.interActivePages != 'undefined') {
-    showMoveButton = props.interActivePages.includes(location.pathname)
-      ? 'group-hover:block'
-      : ''
-  }
-
   return (
     <div className={'h-full' + ' w-full relative group'}>
-      <div
-        className={
-          'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-pointer hidden ' +
-          showMoveButton
-        }
-      >
-        Move
-      </div>
       <div className="dashboard-widget-list w-full h-full relative rounded-lg border-2 border-gray-200 bg-white">
         <div
           id="widget-header"

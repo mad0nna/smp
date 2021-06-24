@@ -5,13 +5,7 @@ import scanner1 from './../../img/company/products/scanner1.png'
 import scanner2 from './../../img/company/products/scanner2.png'
 import Ellipsis from './../../img/ellipsis.png'
 
-const Products = (props) => {
-  let showMoveButton = ''
-  if (typeof props.interActivePages != 'undefined') {
-    showMoveButton = props.interActivePages.includes(location.pathname)
-      ? 'group-hover:block'
-      : ''
-  }
+const Products = () => {
   const products = [
     {
       label: 'HP プリンター',
@@ -45,14 +39,6 @@ const Products = (props) => {
 
   return (
     <div className="w-full h-full relative group font-meiryo">
-      <div
-        className={
-          'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center text-gray-500 bg-white font-sans text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' +
-          showMoveButton
-        }
-      >
-        Move
-      </div>
       <div className="dashboard-widget-list relative flex flex-col justify-center items-center gap-1 rounded-lg border-2 border-gray-200 w-full h-full bg-white group pt-2">
         <div className="w-full h-4 pl-4">
           <span className="ml-2 p-0 inline text-green-600 font-bold">物販</span>
