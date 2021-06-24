@@ -36,6 +36,7 @@ Route::prefix('salesforce')->group(function() {
       Route::view('/contracts', 'contracts');
       Route::view('/billing', 'companyBilling');
       Route::view('/companyProfile', 'companyProfile');
+      Route::view('/companyProfileEdit', 'companyProfileEdit');
   });
 
   Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function() {
