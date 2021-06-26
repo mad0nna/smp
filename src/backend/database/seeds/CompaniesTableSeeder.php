@@ -16,7 +16,7 @@ class CompaniesTableSeeder extends Seeder
         $data = [
             [
                 "id"=>'1',
-                'company_code' => '',
+                'company_code' => 'c1',
                 'name' => 'Sprobe',
                 'contact_num' => NULL,
                 "website" => '',
@@ -30,7 +30,7 @@ class CompaniesTableSeeder extends Seeder
             ],
             [
                 "id"=>'2',
-                'company_code' => '',
+                'company_code' => 'c2',
                 'name' => 'H&T',
                 'contact_num' => NULL,
                 "website" => '',
@@ -44,7 +44,7 @@ class CompaniesTableSeeder extends Seeder
             ],
             [
                 "id"=>'3',
-                'company_code' => '0010l00001IFH5GAAX',
+                'company_code' => 'c3',
                 'name' => '株式会社町田',
                 'contact_num' => '031234567',
                 "website" => 'https://www.h-t.co.jp',

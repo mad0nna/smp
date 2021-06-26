@@ -16,7 +16,8 @@ class Opportunity extends Model
         'type',
         'name',
         'stage',
-        'zen_negotiate_owner'
+        'zen_negotiate_owner',
+        'sf_created_date'
     ];
 
     public function salesforceFormat() {

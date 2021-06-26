@@ -30,13 +30,3 @@ Route::post('activate', 'API\UserController@activate');
 // Routes for Forget and Reset Password
 Route::post('password/forgot', 'Auth\PasswordController@forgot');
 Route::post('password/reset', 'Auth\PasswordController@reset');
-
-// users route
-Route::prefix('users')
-    ->group(function () {
-        Route::get('/', 'API\UserController@index');
-        Route::post('/', 'API\UserController@create');
-        Route::get('{id}', 'API\UserController@read');
-        Route::put('{id}', 'API\UserController@update');
-        Route::delete('{id}', 'API\UserController@delete');
-    });

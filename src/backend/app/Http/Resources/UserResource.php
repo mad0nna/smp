@@ -16,12 +16,19 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'full_name' => $this->full_name,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
+            'username' => $this->username,
+            'fullName' => $this->full_name,
+            'firstName' => $this->first_name,
+            'lastName' => $this->last_name,
             'email' => $this->email,
-            'avatar' => $this->avatar,
-            'status' => $this->status,
+            'title' => $this->title,
+            'userStatusId' => $this->user_status_id,
+            'contactNum' => $this->contact_num,
+            'userTypeId' => $this->user_type_id,
+            'emailVerifiedAt' => $this->email_verified_at,            
+            'createdAt' => $this->created_at->format('d/m/Y'),
+            'updatedAt' => $this->updated_at->format('d/m/Y'),
+            'type' => isset($this->type) ? $this->type['name'] : '',
         ];
     }
 }

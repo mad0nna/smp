@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Exceptions;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -66,8 +67,14 @@ class LoginController extends Controller
      */
     public function login()
     { 
-        if (! Auth::user())
+        if (! Auth::user()) {
+            if (isset($_GET['invite_token'])) {
+                $user = User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now()]);
+            } 
+            
             return view('index');
+        }
+            
         return redirect(Auth::user()->type->dashboard_url);   
     }
 
@@ -86,6 +93,12 @@ class LoginController extends Controller
              if ( $result['status'] != 200) {
                 return redirect()->back()->with('status', $result['error']);
              }
+            
+            if (Auth::user()->email_verified_at === null) {
+                Auth::logout();
+                return redirect()->back()->with('status', 'アカウントをアクティブ化するには、正しいURLが必要です。');
+            }
+
              Session::put('salesforceCompanyID', Auth::user()->company->company_code);
              Session::put('salesforceContactID', Auth::user()->account_code);
             return redirect(Auth::user()->type->dashboard_url);

@@ -16,8 +16,9 @@ class SalesforceRepository {
 
     public function getCompanyDetailsByID($sfCompanyID) {
         try {
-            $oResponse = $this->oClient->get(
-                env('SALESFORCE_HOST').'/services/data/v34.0/sobjects/account/'.$sfCompanyID. '?fields=Name, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c',
+            $oResponse = $this->oClient->get(               
+                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Name, Id, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c,
+                HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId+from+Account+WHERE+KotCompanyCode__c='".$sfCompanyID."'+LIMIT+200",
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -31,8 +32,8 @@ class SalesforceRepository {
             if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
                 return $companyInformation;
             }
-            unset($companyInformation["attributes"]);
-            return $companyInformation;
+            unset($companyInformation["records"][0]["attributes"]);
+            return reset($companyInformation["records"]);
         } catch(ClientException $reqExcep) {
             $statusCode = $reqExcep->getResponse()->getStatusCode();
             if ($statusCode === 401) {
@@ -73,8 +74,29 @@ class SalesforceRepository {
         }
     }
 
-    public function updateCompanyDetails($newValues, $companyID) {
+    public function updateCompanyDetails($newValues, $companyID, $sf_column_format = true) {
         try{
+            $data = [];
+
+            if ($sf_column_format) {
+                $data = [
+                    "Name" => $newValues["companyName"],
+                    "Phone" => $newValues["contactNumber"],
+                    "Website" => $newValues["website"],
+                    "Industry" => $newValues["industry"],
+                    "BillingPostalCode" =>  $newValues["postalCode"],
+                    "BillingStreet" => $newValues["street"],
+                    "BillingCity" => $newValues["city"],
+                    "BillingState" => $newValues["state"],
+                    "BillingCountry" => $newValues["country"]
+                ];
+            } else {
+                $data = [
+                    "Name" => $newValues["name"],
+                    "Zendeskaccount__c" => $newValues["zen_org_name"],                    
+                ];
+            }
+
             $oResponse = $this->oClient->patch(
                 env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/Account/{$companyID}",
                 [
@@ -82,17 +104,7 @@ class SalesforceRepository {
                         'Content-Type' => 'application/json',
                         'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
                     ),
-                    "json" => [
-                        "Name" => $newValues["companyName"],
-                        "Phone" => $newValues["contactNumber"],
-                        "Website" => $newValues["website"],
-                        "Industry" => $newValues["industry"],
-                        "BillingPostalCode" =>  $newValues["postalCode"],
-                        "BillingStreet" => $newValues["street"],
-                        "BillingCity" => $newValues["city"],
-                        "BillingState" => $newValues["state"],
-                        "BillingCountry" => $newValues["country"]
-                    ]
+                    "json" => $data
                 ]
             );
             if ($oResponse->getStatusCode() == 204) {
@@ -103,15 +115,33 @@ class SalesforceRepository {
             $statusCode = $reqExcep->getResponse()->getStatusCode();
             if ($statusCode === 401) {
                 $this->tokens = (new AccessToken())->getToken();
-                return $this->updateCompanyDetails($newValues, $companyID);
+                return $this->updateCompanyDetails($newValues, $companyID, $sf_column_format);
             } else {
                 return MessageResult::error("Error while updating company details in Salesforce.");
             }
         }
     }
 
-    public function updateAdminDetails($newValues, $accountID) {
+    public function updateAdminDetails($newValues, $accountID, $sf_column_format = true) {
         try{
+            $data = [];
+
+            if ($sf_column_format) {
+                $data = [
+                    "FirstName" => $newValues["FirstName"],
+                    "LastName" => $newValues["LastName"],
+                    "MobilePhone" => $newValues["MobilePhone"],
+                    "Email" => $newValues["Email"],
+                ];
+            } else {
+                $data = [
+                    "FirstName" => $newValues["first_name"] ?? "",
+                    "LastName" => $newValues["last_name"] ?? "default",
+                    "MobilePhone" => $newValues["contact_num"] ?? "",
+                    "Email" => $newValues["email"] ?? "",
+                ];
+            }
+
             $oResponse = $this->oClient->patch(
                 env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/contact/{$accountID}",
                 [
@@ -119,12 +149,7 @@ class SalesforceRepository {
                         'Content-Type' => 'application/json',
                         'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
                     ),
-                    "json" => [
-                            "FirstName" => $newValues["FirstName"],
-                            "LastName" => $newValues["LastName"],
-                            "MobilePhone" => $newValues["MobilePhone"],
-                            "Email" => $newValues["Email"],
-                        ]
+                    "json" => $data
                 ]
             );
             if ($oResponse->getStatusCode() == 204) {
@@ -135,9 +160,52 @@ class SalesforceRepository {
             $statusCode = $reqExcep->getResponse()->getStatusCode();
             if ($statusCode === 401) {
                 $this->tokens = (new AccessToken())->getToken();
-                return $this->updateAdminDetails($newValues, $accountID);
+                return $this->updateAdminDetails($newValues, $accountID, $sf_column_format);
             } else {
                 return MessageResult::error("Error while updating admin details in Salesforce.");
+            }
+        }
+    }
+
+    public function updateOpportunityDetails($newValues, $accountID, $sf_column_format = true) {
+        try{
+            $data = [];
+            if ($sf_column_format) {
+                $data = [
+                    "Name" => $newValues["zenOrgName"],
+                    "StageName" => $newValues["accountType"],
+                    "RecordTypeId" => $newValues["zendeskAccountId"],
+                ];
+            } else {
+                $data = [
+                    "Name" => $newValues["zen_org_name"] ?? "",
+                    "StageName" => $newValues["account_type"] ?? "",
+                    "RecordTypeId" => $newValues["zendesk_account_id"] ?? "",
+                ];
+                $accountID = $newValues["zendesk_opportunity_id"];
+            }
+
+            $oResponse = $this->oClient->patch(
+                env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/Opportunity/{$accountID}",
+                [
+                    'headers' => array(
+                        'Content-Type' => 'application/json',
+                        'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
+                    ),
+                    "json" => $data
+                ]
+            );
+            if ($oResponse->getStatusCode() == 204) {
+                return MessageResult::success();
+            }
+            return MessageResult::error("Error while updating opportunity details in Salesforce.");
+        } catch(ClientException $reqExcep) {
+            $statusCode = $reqExcep->getResponse()->getStatusCode();
+            if ($statusCode === 401) {
+                $this->tokens = (new AccessToken())->getToken();
+                return $this->updateOpportunityDetails($newValues, $accountID, $sf_column_format);
+            } else {
+                return MessageResult::error("Error while updating opportunity details in Salesforce.");
             }
         }
     }
@@ -145,7 +213,7 @@ class SalesforceRepository {
     public function getLatestKOTOpportunityDetails($accountID) {
         try{
             $oResponse = $this->oClient->get(
-                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Name, ID__c, Type, Amount, StageName, Zen__c, Id, RecordTypeId, CreatedDate+from+Opportunity+WHERE+AccountId='".$accountID."'+And+RecordTypeId='01210000000QSBPAA4'+Order+By+CreatedDate+DESC+LIMIT+1",
+                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Name, ID__c, Type, Amount, StageName, Zen__c, Id, RecordTypeId, CreatedDate,AccountId+from+Opportunity+WHERE+AccountId='".$accountID."'+And+RecordTypeId='01210000000QSBPAA4'+Order+By+CreatedDate+DESC+LIMIT+1",
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
