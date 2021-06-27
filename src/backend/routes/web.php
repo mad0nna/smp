@@ -22,7 +22,9 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::prefix('salesforce')->group(function() {
   Route::post('getCompanyDetails', "CompanyController@getCompanyDetails");
   Route::post('getCompanyAdminDetails', "CompanyController@getCompanyAdminDetails");
+  Route::get('getCompanyAdminDetailsbyEmail', "UserController@searchSF"); 
   Route::post('getUpdatedDataForEditCompanyDetails', "CompanyController@getUpdatedDataForEditCompanyDetails");
+  Route::put('updateAdminByEmail', "UserController@updateSF");
   Route::post('updateCompanyDetails', "CompanyController@updateCompanyDetails");
   Route::post('getOpportunityDetails', 'CompanyController@getOpportunityDetails');
 });
@@ -35,8 +37,13 @@ Route::prefix('salesforce')->group(function() {
       Route::view('/dashboard', 'dashboard')->name('companydashboard');
       Route::view('/contracts', 'contracts');
       Route::view('/billing', 'companyBilling');
+      Route::view('/accountslist', 'accountsList');
       Route::view('/companyProfile', 'companyProfile');
+      Route::get('getCompanyAdmins', "UserController@index");
       Route::view('/companyProfileEdit', 'companyProfileEdit');
+      Route::post('addCompanyAdmin', "UserController@store");
+      Route::put('updateAdmin', "UserController@update");
+      Route::delete('delete', 'UserController@destroy');
   });
 
   Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function() {

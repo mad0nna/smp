@@ -4,7 +4,7 @@ import imgSupport from './../../img/company/support.png'
 import imgSettingsIcon from '../../img/settings-icon.png'
 import Ellipsis from './../../img/ellipsis.png'
 
-const DashboardSettings = (props) => {
+const DashboardSettings = () => {
   const buttons = [
     {
       label: '支払い方法',
@@ -15,7 +15,7 @@ const DashboardSettings = (props) => {
     },
     {
       label: 'サポート',
-      onClick: props.showWidgets,
+      onClick: '',
       font: '3xl:text-xl 2xl:text-lg xl:text-md lg:text-sm md: text-xs sm:text-xxs',
       url: '#',
       photo: imgSupport
@@ -28,7 +28,7 @@ const DashboardSettings = (props) => {
         <div className="w-full h-10 pl-4">
           <img className="inline" src={imgSettingsIcon} />
           <span className="ml-2 p-0 inline text-green-600 font-bold ">
-            設定
+            クイックリンク
           </span>
           <img
             className="float-right mr-4 hidden group-hover:block"
@@ -41,7 +41,6 @@ const DashboardSettings = (props) => {
               return (
                 <div
                   key={index}
-                  onClick={button.onClick}
                   className="xl:col-span-1 h-8 w-5/6 bg-center bg-no-repeat bg-primary-200 bg-cover flex-col flex items-center justify-center rounded-full mx-auto"
                 >
                   <h3

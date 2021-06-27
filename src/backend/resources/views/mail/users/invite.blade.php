@@ -1,13 +1,19 @@
 @component('mail::message')
-Hi {{ $user->first_name }},<br/>
+平素よりお世話になっております。<br/>
+サブスク韋駄天管理事務局です。
+
+{{$company}} {{ $first_name }}様よりサブスク韋駄天への招待が御座いました。<br/>
 <br/>
-Your account has been created in {{ config('app.name') }}. Complete the registration by clicking the link below.
+<br/>
+この招待を有効化するために、下記ボタンをクリックし、ユーザー名と仮パスワードを入力してください。 <br/><br/>
+
+ユーザー名: {{ $username }}<br/>
+パスワード: {{ $pw }}<br/><br/>
 
 @component('mail::button', ['url' => $url])
-Activate Account
+サブスク韋駄天の利用を開始する
 @endcomponent
 
-<br/>
-Best Regards,<br/>
-{{ config('app.name') }}<br/>
+※本メールは自動配信されております。万が一お心あたりが無い場合は、サブスク韋駄天管理事務局までお問い合わせください。
+
 @endcomponent

@@ -13,6 +13,8 @@ use App\Models\ActivationToken;
 use App\Models\UserStatus;
 use App\Models\UserType;
 use App\Mail\InviteUser;
+use App\Repositories\SalesforceRepository;
+use App\Repositories\DatabaseRepository;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserNotCreatedException;
 use App\Exceptions\UserStatusNotFoundException;
@@ -51,6 +53,7 @@ class UserService
     public function __construct(User $user, Application $app)
     {
         $this->user = $user;
+        $this->salesForce = new SalesforceRepository();
     }
 
     /**
@@ -78,25 +81,30 @@ class UserService
         // initialize query
         $query = $this->user;
 
-        // if keyword is provided
+
+        //if keyword is provided
         if (array_key_exists('keyword', $conditions)) {
             $query = $query->where('first_name', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('last_name', 'LIKE', "%{$conditions['keyword']}%")
+                        ->orWhere('username', 'LIKE', "%{$conditions['keyword']}%")
+                        ->orWhere('account_code', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%");
         }
+
+        $query = $query->where('user_type_id',3)
+        ->orwhere('user_type_id',4);
 
         // perform user search
         $results = $query->skip($skip)
                         ->orderBy('id', 'DESC')
                         ->paginate($limit);
 
-        // append query to pagination routes
-        $results->withPath('/users?' . http_build_query([
+        //append query to pagination routes
+        $results->withPath('/company/accountslist?' . http_build_query([
                         'keyword' => $conditions['keyword'],
                         'limit' => $limit,
                     ])
                 );
-
         return $results;
     }
 
@@ -111,30 +119,33 @@ class UserService
         DB::beginTransaction();
 
         try {
-            $status = UserStatus::where('name', config('user.statuses.pending'))->first();
-
-            if (!($status instanceof UserStatus)) {
-                throw new UserStatusNotFoundException;
+            $user= $this->user->where('username',$params['username'])->first();
+            if ($user instanceof User) {     
+                $user->fill($params);
+                $user->save();
             }
+            else{
+                $status = UserStatus::where('name', config('user.statuses.pending'))->first();
 
-            $params['user_status_id'] = $status->id;
-            $user = $this->user->create($params);
+                if (!($status instanceof UserStatus)) {
+                    throw new UserStatusNotFoundException;
+                }
+                $params['user_status_id'] = $status->id;
+                $user = $this->user->create($params);
 
-            if (!($user instanceof User)) {
-                throw new UserNotCreatedException;
+                if (!($user instanceof User)) {
+                    throw new UserNotCreatedException;
+                }
             }
-
-            $token = base64_encode(time() . uniqid());
-
-            $user->activationTokens()->save(new ActivationToken(['token' => $token]));
-
+            $temp_pw = $params['temp_pw'];
+            $token = $params['invite_token'];
+            
             // send email
-            Mail::to($user)->send(new InviteUser($user, $token));
-
+            Mail::to($user)->send(new InviteUser($user, $temp_pw, $token));
             DB::commit();
+
         } catch (Exception $e) {
             DB::rollback();
-
             throw $e;
         }
 
@@ -150,20 +161,45 @@ class UserService
     public function update(array $params)
     {
         // retrieve user information
-        $user = $this->findById($params['id']);
-
-        if (array_key_exists('password', $params)) {
-            // update user password if provided in request or retain the current password
-            $params['password'] = strlen($params['password']) > 0 ?
-                                    Hash::make($params['password']) :
-                                    $user->password;
+        $user= $this->user->where('username',$params['username'])->first();
+        if ($user instanceof User) {     
+            $user->fill($params);
+            $user->save();
         }
 
-        // upload avatar if present
-        if (array_key_exists('avatar', $params)) {
-            $params['avatar'] = ($params['avatar'] instanceof UploadedFile) ?
-                                config('app.storage_disk_url') . '/' . $this->uploadOne($params['avatar'], 'avatars') :
-                                $user->avatar;
+        // if (array_key_exists('password', $params)) {
+        //     // update user password if provided in request or retain the current password
+        //     $params['password'] = strlen($params['password']) > 0 ?
+        //                             Hash::make($params['password']) :
+        //                             $user->password;
+        // }
+
+        // // upload avatar if present
+        // if (array_key_exists('avatar', $params)) {
+        //     $params['avatar'] = ($params['avatar'] instanceof UploadedFile) ?
+        //                         config('app.storage_disk_url') . '/' . $this->uploadOne($params['avatar'], 'avatars') :
+        //                         $user->avatar;
+        // }
+
+        // perform update
+        $user->update($params);
+
+        return $user;
+    }
+
+    /**
+     * Updates user in the Salesforce
+     *
+     * @param array $params
+     * @return App\Models\User $user
+     */
+    public function updateSF(array $params)
+    {
+        // retrieve user information
+        $user= $this->user->where('username',$params['username'])->first();
+        if ($user instanceof User) {     
+            $user->fill($params);
+            $user->save();
         }
 
         // perform update
@@ -295,5 +331,19 @@ class UserService
         catch (UserNotFoundException $e) {
             throw new UserNotFoundException;
         }
+    }
+
+    public function findinSFByEmail($email) {
+        try{
+            $companyAdmin = $this->salesForce->getCompanyAdminDetailsbyEmail($email);       
+            if (isset($companyAdmin["status"]) && !$companyAdmin["status"]) {
+                return json_encode($companyAdmin);
+            }
+            return $companyAdmin;
+        }
+        catch (UserNotFoundException $e) {
+            throw new UserNotFoundException;
+        }
+        
     }
 }

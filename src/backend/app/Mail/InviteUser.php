@@ -26,10 +26,16 @@ class InviteUser extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user, $token)
+    public function __construct(User $user, $pw, $token)
     {
-        $this->user = $user;
+        $this->username = $user['email'];
+        $this->full_name = $user['FullName'];
+        $this->company_name = $user['company_name'];
+        $this->pw = $pw;
         $this->url = env('APP_URL') . "/invite?token={$token}";
+        $this->view = 'mail.users.invite';
+        $this->subject = 'Activate your Account';
+        
     }
 
     /**
@@ -39,11 +45,14 @@ class InviteUser extends Mailable
      */
     public function build()
     {
-        return $this->subject('Activate your Account')
-                    ->markdown('mail.users.invite')
+        return $this->subject($this->subject)
+                    ->markdown($this->view)
                     ->with([
-                        'user' => $this->user,
-                        'url' => $this->url,
+                        'first_name' => $this->full_name,
+                        'username' => $this->username,
+                        'company' => $this->company_name ,
+                        'pw' => $this->pw,
+                        'url'=> $this->url
                     ]);
     }
 }

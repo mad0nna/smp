@@ -18,8 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'username', 'account_code', 'company_id','first_name','last_name', 'email', 'contact_num', 'password', 'user_status_id',
-        'title', 'email_verified_at','user_type_id', 'temp_pw', 'invite_token'
+        'username', 'account_code', 'company_id','first_name','last_name', 'email', 'contact_num', 'password', 'user_status_id', 'title', 'email_verified_at','user_type_id','temp_pw','invite_token',
     ];
 
     /**
@@ -48,7 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'LastName' => $this->last_name,
             'Email' => $this->email,
             'Title' => $this->title,
-            "MobilePhone" => $this->contact_num
+            "MobilePhone" => $this->contact_num,
+            "admin__c" => $this->user_type_id=== 3 ? true : false,
+            "user_status_id" => $this->user_status_id
         ];
     }
 

@@ -74,7 +74,42 @@ class SalesforceRepository {
         }
     }
 
-    public function updateCompanyDetails($newValues, $companyID, $sf_column_format = true) {
+    /**
+     * Getting Company Admin Details by email
+     * @param $email string
+     * @return $companyDetails string
+     */
+    public function getCompanyAdminDetailsbyEmail($email) {
+        try {
+            $oResponse = $this->oClient->get(
+                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Name, Id, FirstName, LastName, Email, Title, MobilePhone, section__c, CreatedDate+from+Contact+WHERE+Email='" . $email . "'+Order+By+CreatedDate+ASC+LIMIT+1",
+                [
+                    'headers' => array(
+                        'Content-Type' => 'application/json',
+                        'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
+                    ),
+                    'synchronous' => true
+                ]
+            );
+            $oBody = $oResponse->getBody();
+            $adminDetails = json_decode($oBody->getContents(), true);          
+            if (isset($adminDetails["status"]) && !$adminDetails["status"]) {
+                return $adminDetails;
+            }
+            return reset($adminDetails["records"]);
+            
+        } catch(ClientException $reqExcep) {
+            $statusCode = $reqExcep->getResponse()->getStatusCode();
+            if ($statusCode === 401) {
+                $this->tokens = (new AccessToken())->getToken();
+                return $this->getCompanyAdminDetails($email);
+            } else {
+                return MessageResult::error("Error while requesting company admin details from Salesforce.");
+            }
+        }
+    }
+
+    public function updateCompanyDetails($newValues, $companyID,$sf_column_format = true) {
         try{
             $data = [];
 
@@ -125,13 +160,14 @@ class SalesforceRepository {
     public function updateAdminDetails($newValues, $accountID, $sf_column_format = true) {
         try{
             $data = [];
-
             if ($sf_column_format) {
                 $data = [
                     "FirstName" => $newValues["FirstName"],
                     "LastName" => $newValues["LastName"],
                     "MobilePhone" => $newValues["MobilePhone"],
                     "Email" => $newValues["Email"],
+                    "Title" => $newValues["Title"],
+                    //"section_c" => $newValues["section_c"]
                 ];
             } else {
                 $data = [
@@ -141,7 +177,6 @@ class SalesforceRepository {
                     "Email" => $newValues["email"] ?? "",
                 ];
             }
-
             $oResponse = $this->oClient->patch(
                 env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/contact/{$accountID}",
                 [
@@ -167,6 +202,41 @@ class SalesforceRepository {
         }
     }
 
+    public function updateAdminDetailsbyEmail($newValues, $email) {
+        try{
+            $data = [];
+            $data = [
+                "FirstName" => $newValues["FirstName"],
+                "LastName" => $newValues["LastName"],
+                "MobilePhone" => $newValues["MobilePhone"],
+                "Email" => $newValues["Email"],
+            ];
+            //dd($data);
+            $oResponse = $this->oClient->patch(
+                env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/contact/{$email}",
+                [
+                    'headers' => array(
+                        'Content-Type' => 'application/json',
+                        'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
+                    ),
+                    "json" => $data
+                ]
+            );
+            if ($oResponse->getStatusCode() == 204) {
+                return MessageResult::success();
+            }
+            return MessageResult::error("Error while updating admin details in Salesforce.");
+        } catch(ClientException $reqExcep) {
+            $statusCode = $reqExcep->getResponse()->getStatusCode();
+            if ($statusCode === 401) {
+                $this->tokens = (new AccessToken())->getToken();
+                return $this->updateAdminDetailsbyEmail($newValues, $email);
+            } else {
+                return MessageResult::error("Error while updating admin details in Salesforce.");
+            }
+        }
+    }
+    
     public function updateOpportunityDetails($newValues, $accountID, $sf_column_format = true) {
         try{
             $data = [];

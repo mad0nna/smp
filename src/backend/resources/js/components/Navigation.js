@@ -46,6 +46,17 @@ class Navigation extends React.Component {
           iconSize: 'h-8 w-8',
           isActive: false,
           extraStyle: ''
+        },
+        {
+          label: 'アカウント',
+          url: '/company/accountslist',
+          childUrl: [],
+          iconNormal: 'bg-account-list-icon',
+          iconHover: 'group-hover:bg-account-list-icon-hover',
+          iconActive: 'bg-account-list-icon-hover',
+          iconSize: 'h-8 w-8',
+          isActive: false,
+          extraStyle: ''
         }
       ],
       dropDownNav: {
