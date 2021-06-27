@@ -46,7 +46,7 @@ class CompanyController extends Controller
             $conditions = [
                 'keyword' => $request->getKeyword(),
                 'page' => $request->getPage(),
-                'limit' => 3,
+                'limit' => $request->getLimit(),
             ];
 
             $company = $companyService->getCompaniesWithAdminUser($conditions);

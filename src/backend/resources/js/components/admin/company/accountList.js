@@ -28,7 +28,7 @@ const AccountList = (props) => {
     renderPageNumbers: '',
     currentPage: 1,
     lastPage: 1,
-    listNumbers: ''
+    pageNumbers: ''
   })
 
   const togglePopupNewAccount = () => {
@@ -205,12 +205,13 @@ const AccountList = (props) => {
       })
 
       const list = <ul id="page-numbers">{renderPageNumbers}</ul>
-
+      console.log('list')
+      console.log(list)
       setState((prevState) => {
         return {
           ...prevState,
           sortedAccountList: props.data.accountList,
-          listNumbers: list,
+          pageNumbers: list,
           currentPage: props.data.currentPage,
           lastPage: props.data.lastPage
         }
@@ -402,7 +403,7 @@ const AccountList = (props) => {
         className="w-full h-12 p-3 text-center space-x-2 mt-3"
       >
         <Pagination
-          listNumbers={state.listNumbers}
+          listNumbers={state.pageNumbers}
           currentPage={state.currentPage}
           lastPage={state.lastPage}
           handleNavigation={props.handleNavigation}

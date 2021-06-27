@@ -1,13 +1,54 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const AdminsList = (props) => {
   //console.log(props.mode)
+  const [state, setState] = useState({
+    sorted: []
+  })
+
+  const sortArray = (type) => {
+    const types = {
+      name: 'name',
+      companyCode: 'email'
+    }
+    const sortProperty = types[type]
+    const sort = state.sorted.sort((a, b) =>
+      b[sortProperty] - a[sortProperty] ? 1 : -1
+    )
+
+    setState((prevState) => {
+      return {
+        ...prevState,
+        sorted: sort
+      }
+    })
+  }
+
+  useEffect(() => {
+    console.log(props.admins)
+    if (props.admins !== undefined && props.admins.length > 0) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          sorted: props.admins
+        }
+      })
+    }
+  }, [props.admins])
+
   return (
     <table className="w-full h-auto text-center">
       <thead className="bg-table-header-Gray-100 text-table-header-Gray-400 h-3 font-bold text-lg tracking-tight">
         <tr className="h-12 w-12">
           <td>
-            <span id="num">名前</span>
+            <span id="num" onClick={() => sortArray('name')}>
+              名前&nbsp;
+              <div
+                className={
+                  'inline-block h-4 w-4 bg-cover bg-no-repeat mr-2 bg-sort-icon-inactive group-hover:bg-sort-icon-active '
+                }
+              />
+            </span>
           </td>
           <td>
             <span id="httId">役職</span>
@@ -16,13 +57,20 @@ const AdminsList = (props) => {
             <span id="name">権限</span>
           </td>
           <td>
-            <span id="type">メールアドレス</span>
+            <span id="email" onClick={() => sortArray('email')}>
+              メールアドレス&nbsp;
+              <div
+                className={
+                  'inline-block h-4 w-4 bg-cover bg-no-repeat mr-2 bg-sort-icon-inactive group-hover:bg-sort-icon-active '
+                }
+              />
+            </span>
           </td>
           <td>
             <span id="contactPerson">電話番号</span>
           </td>
           <td>
-            <span id="email">状態</span>
+            <span id="type">状態</span>
           </td>
           <td>
             <span id="telNum">操作</span>
@@ -30,7 +78,7 @@ const AdminsList = (props) => {
         </tr>
       </thead>
       <tbody className="transform even:bg-gray-500">
-        {props.admins.map((admin) => {
+        {state.sorted.map((admin) => {
           return (
             <tr
               className="stripe-table-row h-20 font-meiryo text-sm text-gray-600"

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ReactDom from 'react-dom'
 import axios from 'axios'
-import PrevButton from '../../img/pagination-prev.png'
-import NextButton from '../../img/pagination-next.png'
 import AccountsIcon from '../../img/company/accounts-list.png'
 import Settings from './dashboardSettings'
 import AdminsList from './adminsList'
@@ -11,15 +9,16 @@ import NewAccount from './newAccount'
 import MessageDialog from './messageDialog'
 import DeleteConfirmation from './deleteConfirmation'
 import ProfileEdit from './accountProfile'
+import Pagination from './pagination'
+import _ from 'lodash'
 
 const AccountsList = () => {
-  const [conditions, setConditions] = useState({
+  const [pagingConditions, setPagingConditions] = useState({
     page: 1,
     limit: 15,
-    noOfPages: 0,
-    keyword: ''
+    keyword: '',
+    handlePageClick: handlePageClick
   })
-  const [admins, setAdmins] = useState([])
 
   const [state, setState] = useState({
     showPopupNewAccount: false,
@@ -43,28 +42,32 @@ const AccountsList = () => {
     showList: true,
     showEdit: false,
     mode: '',
-    dialogMessage: ''
+    dialogMessage: '',
+    pageCount: 1,
+    lastPage: 1,
+    pageNumbers: '',
+    currentPage: 1,
+    adminList: []
   })
 
-  useEffect(() => {
-    axios
-      .get(
-        `/company/getCompanyAdmins?page=${conditions.page}&limit=${conditions.limit}`
-      )
-      .then((response) => {
-        const items = response.data.data
-        // const pages = response.data.last_page
-        // const perpage = response.data.per_page
-        setAdmins((prevAdminsState) => [...prevAdminsState, ...items])
-        // setConditions({ limit: perpage, noOfPages: pages })
-      })
-  }, [conditions])
+  const handleFilter = (e) => {
+    setPagingConditions({ ...pagingConditions, keyword: e.target.value })
+  }
+
+  function handlePageClick(n) {
+    console.log('handlePaging' + n)
+    setCurrentPage(n)
+  }
 
   const handleNavigation = (change) => {
-    setConditions({ ...conditions, ...{ page: conditions.page + change } })
+    setPagingConditions({
+      ...pagingConditions,
+      ...{ page: pagingConditions.page + change }
+    })
   }
+
   const setCurrentPage = (curpage) => {
-    setConditions({ ...conditions, ...{ page: curpage } })
+    setPagingConditions({ ...pagingConditions, ...{ page: curpage } })
   }
 
   const togglePopupNewAccount = () => {
@@ -82,17 +85,81 @@ const AccountsList = () => {
   }
 
   // const handleUpdateList = () => {
-  //   axios.get(`/company/getCompanyAdmins?page=${conditions.page}&limit=${conditions.limit}`).then((response) => {
-  //     const items = response.data
+  //   axios
+  //     .get(
+  //       `/company/getCompanyAdmins?page=${conditions.page}&limit=${conditions.limit}`
+  //     )
+  //     .then((response) => {
+  //       const items = response.data
 
-  //     console.log(admin)
-  //     setAdmins((prevAdminsState) => [...prevAdminsState, ...items])
-  //     setState({
-  //       accountList: items,
-  //       redirectToAccountList: true
+  //       console.log(admin)
+  //       setAdmins((prevAdminsState) => [...prevAdminsState, ...items])
+  //       setState({
+  //         accountList: items,
+  //         redirectToAccountList: true
+  //       })
   //     })
-  //   })
   // }
+
+  useEffect(() => {
+    axios
+      .get(
+        `/company/getCompanyAdmins?page=${pagingConditions.page}&limit=${pagingConditions.limit}&keyword=${pagingConditions.keyword}`
+      )
+      .then((response) => {
+        console.log('get record result:  ')
+        console.log(response)
+        console.log(response.data.pageCount)
+
+        if (!_.isEmpty(response.data)) {
+          // Logic for displaying page numbers
+          const pageNumbers = []
+          for (
+            let i = 1;
+            i <= Math.ceil(response.data.pageCount / pagingConditions.limit);
+            i++
+          ) {
+            pageNumbers.push(i)
+          }
+          // console.log(pageNumbers)
+          const renderPageNumbers = pageNumbers.map((number) => {
+            return (
+              <li
+                key={number}
+                id={number}
+                onClick={() => pagingConditions.handlePageClick(number)}
+                className=""
+              >
+                <span
+                  className={
+                    pagingConditions.page == number
+                      ? `text-white bg-primary-200 rounded-2xl px-3 py-1`
+                      : `text-primary-200 px-3 py-1`
+                  }
+                >
+                  {number}
+                </span>
+              </li>
+            )
+          })
+          console.log('renderPageNumbers')
+          console.log(renderPageNumbers)
+
+          const list = <ul id="page-numbers">{renderPageNumbers}</ul>
+
+          setState((prevState) => {
+            return {
+              ...prevState,
+              adminList: response.data.data,
+              pageCount: response.data.pageCount,
+              lastPage: response.data.lastPage,
+              pageNumbers: list,
+              currentPage: response.data.currentPage
+            }
+          })
+        }
+      })
+  }, [pagingConditions])
 
   const togglePopupDelete = () => {
     setState((prevState) => {
@@ -307,6 +374,7 @@ const AccountsList = () => {
                   id="billingSearch"
                   className="bg-white h-12 rounded-3xl w-80 mx-0 my-auto p-l-4"
                   placeholder="検索"
+                  onChange={handleFilter}
                 />
                 <svg
                   className="text-gray-500  fill-current w-auto h-11 float-left mt-0.5 p-3"
@@ -337,7 +405,7 @@ const AccountsList = () => {
         >
           {state.showList ? (
             <AdminsList
-              admins={admins}
+              admins={state.adminList}
               handleDisplayDelete={handleDisplayDelete}
               handleDisplayUpdate={handleDisplayUpdate}
               handleDisplayView={handleDisplayView}
@@ -359,33 +427,11 @@ const AccountsList = () => {
           id="pagination"
           className="w-full h-12 p-3 text-center space-x-2 mt-4"
         >
-          <img
-            src={PrevButton}
-            onClick={() => handleNavigation(-1)}
-            className="inline-block w-8 h-auto cursor-pointer  mb-1"
-          />
-          <div className="inline-block text-primary-200">
-            <span className="text-white rounded-2xl bg-primary-200 px-3 py-1 cursor-pointer">
-              1
-            </span>
-            <button
-              onClick={() => setCurrentPage(2)}
-              className="px-3 py-1  cursor-pointer "
-            >
-              2
-            </button>
-            <button
-              onClick={() => setCurrentPage(3)}
-              className="px-3 py-1 rounded-2xl cursor-pointer "
-            >
-              3
-            </button>
-          </div>
-          <img
-            type="button"
-            src={NextButton}
-            onClick={() => handleNavigation(+1)}
-            className="inline-block  w-8 h-auto cursor-pointer mb-1"
+          <Pagination
+            listNumbers={state.pageNumbers}
+            currentPage={pagingConditions.page}
+            lastPage={state.lastPage}
+            handleNavigation={handleNavigation}
           />
         </div>
       ) : null}

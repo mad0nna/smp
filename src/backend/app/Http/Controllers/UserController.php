@@ -69,12 +69,15 @@ class UserController extends Controller
                 'page' => $request->getPage(),
                 'limit' => $request->getLimit(),
             ];
+            // dd($conditions);
 
             $results = $this->userService->search($conditions);
 
             $this->response = [
                 'success' => true,
                 'data'    => UserResource::collection($results),
+                'pageCount' => $results->total(),
+                'lastPage' => $results->lastPage(),
                 'message' => 'Company admin retrieved successfully.',
                 'code'    => 200,
             ];

@@ -31,7 +31,7 @@ const App = () => {
 
   const [pagingConditions, setPagingConditions] = useState({
     page: 1,
-    limit: 3,
+    limit: 15,
     keyword: ''
   })
 
@@ -173,7 +173,6 @@ const App = () => {
       .then((response) => {
         console.log('get record result:  ')
         console.log(response)
-        console.log(response.data.pageCount)
         setState((prevState) => {
           return {
             ...prevState,
