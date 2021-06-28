@@ -16,7 +16,7 @@ class CompaniesTableSeeder extends Seeder
         $data = [
             [
                 "id"=>'1',
-                'company_code' => 'c1',
+                'company_code' => 'Sprobe',
                 'name' => 'Sprobe',
                 'contact_num' => NULL,
                 "website" => '',
@@ -27,11 +27,12 @@ class CompaniesTableSeeder extends Seeder
                 'billing_postal_code' => '',
                 'billing_country' => '',
                 'zen_org_name' => NULL,
+                'account_id' => '0030l00000g4k23AAA'
             ],
             [
                 "id"=>'2',
-                'company_code' => 'c2',
-                'name' => 'H&T',
+                'company_code' => 'susumu',
+                'name' => 'Susumu Company',
                 'contact_num' => NULL,
                 "website" => '',
                 'industry' => '',
@@ -41,10 +42,11 @@ class CompaniesTableSeeder extends Seeder
                 'billing_postal_code' => '',
                 'billing_country' => '',
                 'zen_org_name' => NULL,
+                'account_id' => '0010l00001IFpV5AAL',
             ],
             [
                 "id"=>'3',
-                'company_code' => 'c3',
+                'company_code' => 'cyolab',
                 'name' => '株式会社町田',
                 'contact_num' => '031234567',
                 "website" => 'https://www.h-t.co.jp',
@@ -55,6 +57,7 @@ class CompaniesTableSeeder extends Seeder
                 'billing_postal_code' => '105-0001',
                 'billing_country' => 'Japan',
                 'zen_org_name' => '【】株式会社町田1',
+                'account_id' => '0010l00001IFH5GAAX',                
             ]
         ];
 

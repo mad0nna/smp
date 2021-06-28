@@ -17,7 +17,7 @@ class Company
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user() && $request->user()->IsCompanyAdmin())
+        if (Auth::user() && $request->user()->CompanyAdmins())
         {
             return $next($request);
         }

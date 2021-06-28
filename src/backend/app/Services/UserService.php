@@ -62,7 +62,7 @@ class UserService
      * @param array $conditions
      * @return array $results
      */
-    public function search(array $conditions)
+    public function search(array $conditions, $company_id = null)
     {
         // default to 1 if page not provided
         $page = 1;
@@ -81,14 +81,28 @@ class UserService
         // initialize query
         $query = $this->user;
         // $query = $query->CompanyAdmins();
+        // dd($company_id);
 
-        //if keyword is provided
-        if (array_key_exists('keyword', $conditions)) {
-            $query = $query->where('first_name', 'LIKE', "%{$conditions['keyword']}%")
-                        ->orWhere('last_name', 'LIKE', "%{$conditions['keyword']}%")
-                        ->orWhere('username', 'LIKE', "%{$conditions['keyword']}%")
-                        ->orWhere('account_code', 'LIKE', "%{$conditions['keyword']}%")
-                        ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%");
+        if ($company_id) {
+            $query = $query->where(function ($query) use ($company_id) {
+                $query->select('company_id')->where('company_id', $company_id);
+            })->where(function ($query) use ($conditions) {
+                $query->where('first_name', 'LIKE', "%{$conditions['keyword']}%")
+                ->orWhere('last_name', 'LIKE', "%{$conditions['keyword']}%")
+                ->orWhere('username', 'LIKE', "%{$conditions['keyword']}%")
+                ->orWhere('account_code', 'LIKE', "%{$conditions['keyword']}%")
+                ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%");
+            });
+
+        } else {
+            // if keyword is provided
+            if (array_key_exists('keyword', $conditions)) {
+                $query = $query->where('first_name', 'LIKE', "%{$conditions['keyword']}%")
+                            ->orWhere('last_name', 'LIKE', "%{$conditions['keyword']}%")
+                            ->orWhere('username', 'LIKE', "%{$conditions['keyword']}%")
+                            ->orWhere('account_code', 'LIKE', "%{$conditions['keyword']}%")
+                            ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%");
+            }
         }
 
         // perform user search

@@ -9,7 +9,7 @@ use App\Services\UserService;
 use App\Services\ContactService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SearchUserRequest;
-use App\Http\Requests\SearchUserinSFRequest;
+use App\Http\Requests\SearchUserInSFRequest;
 use App\Http\Requests\User\CreateRequest;
 use App\Http\Requests\User\UpdateRequest;
 use Illuminate\Http\Response;
@@ -41,7 +41,7 @@ class UserController extends Controller
      * Retrieves the List of Company admins
      *  
      */
-    public function searchSF(SearchUserinSFRequest $request) {
+    public function searchSF(SearchUserInSFRequest $request) {
         try{
             $results = $this->userService->findinSFByEmail($request->email);
             $this->response = array_merge($results, $this->response);
@@ -69,9 +69,7 @@ class UserController extends Controller
                 'page' => $request->getPage(),
                 'limit' => $request->getLimit(),
             ];
-            // dd($conditions);
-
-            $results = $this->userService->search($conditions);
+            $results = $this->userService->search($conditions, Auth::user()->company_id);
 
             $this->response = [
                 'success' => true,
@@ -81,7 +79,6 @@ class UserController extends Controller
                 'message' => 'Company admin retrieved successfully.',
                 'code'    => 200,
             ];
-            //$this->response = array_merge($results, $this->response);
         }catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
@@ -129,12 +126,10 @@ class UserController extends Controller
                 'temp_pw' => $pw,
                 'invite_token' => $invite_token
             ];
-            //dd($formData);
+
             // create the user
             $user = $this->userService->create($formData);
-
             $this->response['data'] = new UserResource($user);
-            dd($this->response['data']);
         } catch (Exception $e) { // @codeCoverageIgnoreStart
                 $this->response = [
                     'error' => $e->getMessage(),

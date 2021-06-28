@@ -87,7 +87,7 @@ const AdminsList = (props) => {
         </tr>
       </thead>
       <tbody className="transform even:bg-gray-500">
-        {state.sorted.map((admin) => {
+        {state.sorted.map((admin, i) => {
           return (
             <tr
               className="stripe-table-row h-20 font-meiryo text-sm text-gray-600"
@@ -103,14 +103,14 @@ const AdminsList = (props) => {
               <td className="w-2/12">{admin.email}</td>
               <td className="w-2/12">{admin.contactNum}</td>
               <td className="w-1/12">
-                {admin.userStatusId === 1 ? 'Active' : 'Pending'}
+                {admin.userStatusId === 1 ? 'アクティブ' : '保留中'}
               </td>
               <td className="w-2/12  grid-flow-row text-center">
-                <a href="#" className="grid-flow-row inline">
+                <a className="grid-flow-row inline text-primary-200">
                   {admin.userTypeId === 3 &&
                   state.loggedUser.userTypeId != 3 ? (
                     <div onClick={() => props.handleDisplayView(admin)}>
-                      View
+                      見る&nbsp;
                     </div>
                   ) : null}
                   {(admin.userTypeId === 4 && admin.userStatusId != 5) ||
@@ -120,12 +120,15 @@ const AdminsList = (props) => {
                       className="cursor-pointer"
                       onClick={() => props.handleDisplayUpdate(admin)}
                     >
-                      Update &nbsp;
+                      更新 &nbsp;
                     </span>
                   ) : null}
                   {state.loggedUser.userTypeId === 3 ? (
-                    <span onClick={() => props.handleDisplayDelete(admin)}>
-                      Delete &nbsp;
+                    <span
+                      className="cursor-pointer"
+                      onClick={() => props.handleDisplayDelete(admin, i)}
+                    >
+                      削除 &nbsp;
                     </span>
                   ) : null}
                   {admin.userStatusId === 5 ? (
@@ -133,7 +136,7 @@ const AdminsList = (props) => {
                       className="cursor-pointer"
                       onClick={() => props.handleResendEmailInvite(admin)}
                     >
-                      Resend Invite
+                      招待を再送
                     </div>
                   ) : null}
                 </a>
