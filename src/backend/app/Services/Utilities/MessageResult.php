@@ -4,11 +4,6 @@ namespace App\Services\Utilities;
 
 class MessageResult {
 
-    public function __construct()
-    {
-        
-    }
-
     public static function error($message = "Something went wrong!") {
         return json_encode(array(
             'status'  => false,

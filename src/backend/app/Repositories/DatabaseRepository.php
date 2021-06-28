@@ -5,8 +5,9 @@ use App\Models\Company;
 use App\Models\Opportunity;
 use App\Models\User;
 use App\Models\Widget;
-use App\Services\Utilities\MessageResult;
 use App\Models\WidgetSettings;
+use App\Models\NotificationTarget;
+use App\Models\Notification;
 use Exception;
 
 class DatabaseRepository {
@@ -74,7 +75,7 @@ class DatabaseRepository {
     }
 
     public function saveCoordinates($newCoordinates, $accountID) {
-        return WidgetSettings::rightjoin('users', 'user_id', '=', 'user_id')
+        return WidgetSettings::rightjoin('users', 'users.id', '=', 'user_id')
         ->where('users.account_code', $accountID)
         ->update([
             'coordinates' => $newCoordinates
@@ -85,9 +86,21 @@ class DatabaseRepository {
         try {
             $widget = new WidgetSettings();
             $defaultCoordinates = $widget->getCompanyDefaultCoordinates();
-            return WidgetSettings::rightjoin('users', 'user_id', '=', 'user_id')
+            return WidgetSettings::rightjoin('users', 'users.id', '=', 'user_id')
             ->where('users.account_code', $accountID)
             ->update(['widget_settings.coordinates' => $defaultCoordinates]);
+        } catch (Exception $e) {
+            return array("status" => false, "message" => $e->getMessage());
+        }
+    }
+
+    public function getZendeskSeenNotif($accountID) {
+        try {
+            return NotificationTarget::leftjoin('users', 'users.id', '=', 'user_id')
+            ->where('users.account_code', $accountID)
+            ->select(['notification_target.article_id', 'notification_target.article_seen_timestamp'])
+            ->get()
+            ->toArray();
         } catch (Exception $e) {
             return array("status" => false, "message" => $e->getMessage());
         }

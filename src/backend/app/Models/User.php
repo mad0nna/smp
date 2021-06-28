@@ -108,6 +108,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Company::class, 'company_id');
     }
 
+    public function notification() {
+        return $this->hasMany('notification_target', 'user_id', 'id');
+    }
+
     /**
      * Generate personal passport access token
      */

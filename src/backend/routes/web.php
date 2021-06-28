@@ -42,6 +42,7 @@ Route::prefix('salesforce')->group(function() {
       Route::view('/companyProfile', 'companyProfile');
       Route::get('getCompanyAdmins', "UserController@index");
       Route::view('/companyProfileEdit', 'companyProfileEdit');
+      Route::get("/getNotification", "NotificationController@getAllNotification");
       Route::post('addCompanyAdmin', "UserController@store");
       Route::post('resendEmailInvite', "UserController@invite");
       Route::put('updateAdmin', "UserController@update");
