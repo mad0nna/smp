@@ -80,7 +80,7 @@ class UserService
 
         // initialize query
         $query = $this->user;
-
+        // $query = $query->CompanyAdmins();
 
         //if keyword is provided
         if (array_key_exists('keyword', $conditions)) {
@@ -91,8 +91,7 @@ class UserService
                         ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%");
         }
 
-        $query = $query->where('user_type_id',3)
-        ->orwhere('user_type_id',4);
+        
 
         // perform user search
         $results = $query->skip($skip)
@@ -345,5 +344,17 @@ class UserService
             throw new UserNotFoundException;
         }
         
+    }
+
+    /**
+     * Resend email invite
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function resendEmailInvite($id) {
+        $user = User::findOrFail($id);
+        Mail::to($user)->send(new InviteUser($user, $user->temp_pw, $user->invite_token));
+        return true;
     }
 }

@@ -114,7 +114,7 @@ class UserController extends Controller
             $pw = substr(md5(microtime()),rand(0,26),8);
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
-
+            $company = Auth::user()->company_id;
             $formData = [
                 'username' => $sf['Email'] ? $sf['Email'] : '',
                 'first_name' => $sf['FirstName'] ? $sf['FirstName'] : '',
@@ -123,17 +123,18 @@ class UserController extends Controller
                 'contact_num' => $sf['MobilePhone'] ? $sf['MobilePhone'] : '',
                 'title' => $sf['Title'] ? $sf['Title'] : '',
                 'user_type_id' => 4,
+                'company_id' => $company,
                 'user_status_id' => 5,
                 'password' => $pw_hash,   
                 'temp_pw' => $pw,
                 'invite_token' => $invite_token
             ];
-            
+            //dd($formData);
             // create the user
             $user = $this->userService->create($formData);
 
             $this->response['data'] = new UserResource($user);
-
+            dd($this->response['data']);
         } catch (Exception $e) { // @codeCoverageIgnoreStart
                 $this->response = [
                     'error' => $e->getMessage(),
@@ -243,38 +244,87 @@ class UserController extends Controller
     {
         try{
             $user = $request->all();
-            dd($user);
-            $id = $user['id'];
-            // perform delete
 
+            $id = $user['admin']['id'];
+            // perform delete
+            
             $user = $this->userService->delete((int) $id);
-            return response()->json($this->response, $this->response['code']);
+            
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
         } // @codeCoverageIgnoreEnd
+        return response()->json($this->response, $this->response['code']);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyinSF(Request $request)
+    {
+        try{
+            $data = $request->all();
+
+            //check record in Salesforce
+//dd($data['admin']);
+            $email =  $data['admin']['email'];
+
+            $adminInformation = $this->salesForce->getCompanyAdminDetailsbyEmail($email);
+            $accountID = $adminInformation['Id'];  
+// dd($adminInformation);
+            // perform delete
+            $response = $this->salesForce->deleteAdmin($accountID);
+    
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
+            $this->response = [
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
+        } // @codeCoverageIgnoreEnd
+        return response()->json($this->response, $this->response['code']);
     }
 
      /**
-     * Cleans array and remove empty indexes
-     *
-     * @param array $data
-     * @return array $data
+     * Resend email invite
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
-    function stripEmptyCustom($data)
+    function invite(Request $request)
     {
-        foreach ($data as $key => $value) {
-            // if (is_array($data[$key])) {
-            //     $data[$key] = stripEmptyCustom($data[$key]);
-            // }
+        $result = $this->userService->resendEmailInvite($request->id);
+ 
+        $response = [
+          'success' => $result
+        ];
+  
+        return response()->json($response, $result ? 200 : 400);
+    }
 
-            if (empty($value)) {
-                unset($data[$key]);
-            }
-        }
+     /**
+     * Get logged user Info
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    function userinfo()
+    {
+        try{
+            $id = Auth::user()->id;
 
-        return $data;
+            // retrieve user
+            $result= User::findorfail($id); 
+            $response['data'] = new UserResource($result);
+            $this->response = array_merge($response, $this->response);
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
+            $this->response = [
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
+        } // @codeCoverageIgnoreEnd
+        return response()->json($this->response, $this->response['code']);
     }
 }

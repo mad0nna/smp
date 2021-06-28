@@ -25,6 +25,7 @@ Route::prefix('salesforce')->group(function() {
   Route::get('getCompanyAdminDetailsbyEmail', "UserController@searchSF"); 
   Route::post('getUpdatedDataForEditCompanyDetails', "CompanyController@getUpdatedDataForEditCompanyDetails");
   Route::put('updateAdminByEmail', "UserController@updateSF");
+  Route::delete('deleteSFAdmin', 'UserController@destroyInSF');
   Route::post('updateCompanyDetails', "CompanyController@updateCompanyDetails");
   Route::post('getOpportunityDetails', 'CompanyController@getOpportunityDetails');
 });
@@ -42,8 +43,10 @@ Route::prefix('salesforce')->group(function() {
       Route::get('getCompanyAdmins', "UserController@index");
       Route::view('/companyProfileEdit', 'companyProfileEdit');
       Route::post('addCompanyAdmin', "UserController@store");
+      Route::post('resendEmailInvite', "UserController@invite");
       Route::put('updateAdmin', "UserController@update");
-      Route::delete('delete', 'UserController@destroy');
+      Route::delete('deleteAdmin', 'UserController@destroy');
+      Route::get('getLoggedUserInfo', "UserController@userinfo");
   });
 
   Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function() {

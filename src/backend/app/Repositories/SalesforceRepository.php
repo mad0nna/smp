@@ -202,37 +202,29 @@ class SalesforceRepository {
         }
     }
 
-    public function updateAdminDetailsbyEmail($newValues, $email) {
+    public function deleteAdmin($accountID) {
         try{
-            $data = [];
-            $data = [
-                "FirstName" => $newValues["FirstName"],
-                "LastName" => $newValues["LastName"],
-                "MobilePhone" => $newValues["MobilePhone"],
-                "Email" => $newValues["Email"],
-            ];
-            //dd($data);
-            $oResponse = $this->oClient->patch(
-                env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/contact/{$email}",
+            $oResponse = $this->oClient->delete(
+                env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/contact/{$accountID}",
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
                         'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
                     ),
-                    "json" => $data
+                    // "json" => $data
                 ]
             );
             if ($oResponse->getStatusCode() == 204) {
                 return MessageResult::success();
             }
-            return MessageResult::error("Error while updating admin details in Salesforce.");
+            return MessageResult::error("Error deleting admin in Salesforce.");
         } catch(ClientException $reqExcep) {
             $statusCode = $reqExcep->getResponse()->getStatusCode();
             if ($statusCode === 401) {
                 $this->tokens = (new AccessToken())->getToken();
-                return $this->updateAdminDetailsbyEmail($newValues, $email);
+                return $this->deleteAdmin($accountID);
             } else {
-                return MessageResult::error("Error while updating admin details in Salesforce.");
+                return MessageResult::error("Error deleting admin in Salesforce.");
             }
         }
     }

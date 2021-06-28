@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
 const AdminsList = (props) => {
-  //console.log(props.mode)
+  console.log('render list')
   const [state, setState] = useState({
-    sorted: []
+    sorted: [],
+    loggedUser: props.loggedUser
   })
 
   const sortArray = (type) => {
@@ -89,6 +90,7 @@ const AdminsList = (props) => {
               </td>
               <td className="w-2/12">{admin.title}</td>
               <td className="w-1/12">
+                {state.loggedUser.email}
                 {admin.userTypeId === 3 ? 'Super Admin' : 'User Admin'}
               </td>
               <td className="w-2/12">{admin.email}</td>
@@ -117,11 +119,10 @@ const AdminsList = (props) => {
                       </div>
                     </div>
                   ) : null}
-                  {console.log(props.HandleResendInvite)}
                   {admin.userStatusId === 5 ? (
                     <div
                       className="cursor-pointer"
-                      onClick={() => props.HandleResendInvite(admin)}
+                      onClick={() => props.handleResendEmailInvite(admin)}
                     >
                       Resend Invite
                     </div>

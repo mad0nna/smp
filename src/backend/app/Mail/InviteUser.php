@@ -32,10 +32,9 @@ class InviteUser extends Mailable
         $this->full_name = $user['FullName'];
         $this->company_name = $user['company_name'];
         $this->pw = $pw;
-        $this->url = env('APP_URL') . "/invite?token={$token}";
+        $this->url = env('APP_URL') . "/?invite_token={$token}";
         $this->view = 'mail.users.invite';
-        $this->subject = 'Activate your Account';
-        
+        $this->subject = 'Activate your Account';        
     }
 
     /**

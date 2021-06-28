@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import editIcon from '../../img/edit-icon.png'
-import saveIcon from '../../img/Icon awesome-save.png'
+// import editIcon from '../../img/edit-icon.png'
+// import saveIcon from '../../img/Icon awesome-save.png'
 import axios from 'axios'
 
 // eslint-disable-next-line
@@ -20,9 +20,7 @@ const AccountProfileEdit = (props) => {
       position: '',
       phone: '',
       email: '',
-      userTypeId: '',
-      showPopupMessageDialog: false,
-      dialogMessage: ''
+      userTypeId: ''
     },
     accountSFValues: {
       Firstname: props.account.firstName,
@@ -33,6 +31,8 @@ const AccountProfileEdit = (props) => {
       section_c: '',
       Title: ''
     },
+    showPopupMessageDialog: false,
+    dialogMessage: '',
     isEditingProfile: props.mode === 'edit' ? true : false,
     userTypes: [
       { name: 'Company Admin', value: 3 },
@@ -120,12 +120,12 @@ const AccountProfileEdit = (props) => {
       case 'name':
         key = 'Fullname'
         break
-      case 'firstname':
-        key = 'Firstname'
-        break
-      case 'lastname':
-        key = 'Lastname'
-        break
+      // case 'firstname':
+      //   key = 'Firstname'
+      //   break
+      // case 'lastname':
+      //   key = 'Lastname'
+      //   break
       case 'email':
         key = 'Email'
         break
@@ -165,7 +165,40 @@ const AccountProfileEdit = (props) => {
 
   const handleUpdateSave = () => {
     console.log('handleUpdateSave')
+    // let acct = { ...state.account }
+    // let acctsf = { ...state.accountSFValues }
+    // let full = state.account.name
+    // let arr = []
+    // // let lastname = ''
+    // // let firstname = ''
+
+    // arr = full.split(' ')
+
+    // if (arr.lenght === 3) {
+    //   acct.firstname = full.split(' ').slice(0, -1).join(' ')
+    //   acct.lastname = full.split(' ').slice(-1).join(' ')
+    //   console.log('3')
+    // } else if (arr.lenght === 4) {
+    //   acct.firstname = full.split(' ').slice(0, -2).join(' ')
+    //   acct.lastname = full.split(' ').slice(-2).join(' ')
+    //   console.log('4')
+    // } else {
+    // acct.firstname = arr[0]
+    // acct.lastname = arr[1]
+    // acctsf.FirstName = arr[0]
+    // acctsf.LastName = arr[1]
+    // }
+
+    // setState((prevState) => {
+    //   return {
+    //     ...prevState,
+    //     account: acct,
+    //     accountSFValues: acctsf
+    //   }
+    // })
+
     if (confirm('Are you sure do you want to update this data?')) {
+      console.log(state.account)
       axios
         .put('/company/updateAdmin', state.account, {
           'Content-Type': 'application/json'
@@ -398,9 +431,14 @@ const AccountProfileEdit = (props) => {
                         ' text-sm text-black w-full h-8 px-3 leading-8'
                       }
                     >
-                      {/* {state.account.userTypeId} */}
+                      {state.account.userTypeId === 3
+                        ? 'Company Admin'
+                        : 'Sub Company Admin'}
                     </label>
                     <select
+                      style={{
+                        display: state.isEditingProfile ? 'block' : 'none'
+                      }}
                       name="select"
                       onChange={(event) => userTypesChange(event.target.value)}
                     >
@@ -430,18 +468,13 @@ const AccountProfileEdit = (props) => {
         <div className="my-4 ml-6 mr-32 py-5 px-6 mt-0 pt-3 pl-0 text-center">
           <button
             onClick={handleUpdateSave}
-            className="bg-primary-200 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-5"
+            className="
+              bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm mr-5 space-x-2"
+            style={{
+              display: state.isEditingProfile ? '' : 'none'
+            }}
           >
-            {state.mode === 'view'
-              ? null
-              : (
-                  <img
-                    className="inline mr-2"
-                    src={state.isEditingProfile ? saveIcon : editIcon}
-                  />
-                ) + state.isEditingProfile
-              ? '編集する'
-              : '変更を保存'}
+            {state.isEditingProfile ? '編集する' : '変更を保存'}
           </button>
 
           <button

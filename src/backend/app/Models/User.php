@@ -135,6 +135,14 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Generate personal passport access token
      */
+    public function CompanyAdmins()
+    {
+        return ($this->user_type_id == 3 || $this->user_type_id == 4) ? true: false;
+    }
+
+    /**
+     * Generate personal passport access token
+     */
     public function IsSubCompanyAdmin()
     {
         return $this->user_type_id == 4? true: false;

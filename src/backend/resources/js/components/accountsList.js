@@ -32,7 +32,6 @@ const AccountsList = () => {
     accountToDelete: {},
     accountToEdit: null,
     accountToResend: null,
-    redirectToProfile: false,
     showPopupMessageDialog: false,
     showPopupDelete: false,
     isLoading: false,
@@ -47,7 +46,8 @@ const AccountsList = () => {
     lastPage: 1,
     pageNumbers: '',
     currentPage: 1,
-    adminList: []
+    adminList: [],
+    loggedUser: ''
   })
 
   const handleFilter = (e) => {
@@ -86,18 +86,23 @@ const AccountsList = () => {
 
   // const handleUpdateList = () => {
   //   axios
-  //     .get(
-  //       `/company/getCompanyAdmins?page=${conditions.page}&limit=${conditions.limit}`
-  //     )
+  //     .get(`/company/getCompanyAdmins`)
   //     .then((response) => {
-  //       const items = response.data
-
-  //       console.log(admin)
-  //       setAdmins((prevAdminsState) => [...prevAdminsState, ...items])
-  //       setState({
-  //         accountList: items,
-  //         redirectToAccountList: true
+  //       setState((prevState) => {
+  //         return {
+  //           ...prevState,
+  //           adminList: response.data.data
+  //           // pageCount: response.data.pageCount,
+  //           // lastPage: response.data.lastPage,
+  //           // pageNumbers: list,
+  //           // currentPage: response.data.currentPage
+  //         }
   //       })
+  //     })
+  //     .catch(function (error) {
+  //       if (error.response) {
+  //         console.log(error.response.status)
+  //       }
   //     })
   // }
 
@@ -159,23 +164,37 @@ const AccountsList = () => {
           })
         }
       })
+
+    axios
+      .get('/company/getLoggedUserInfo')
+      .then((response) => {
+        console.log(response.data.data)
+        setState((prevState) => {
+          return {
+            ...prevState,
+            loggedUser: response.data.data
+          }
+        })
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.status)
+          setState((prevState) => {
+            return {
+              ...prevState,
+              loggedUser: ''
+            }
+          })
+        }
+      })
   }, [pagingConditions])
 
-  const togglePopupDelete = () => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        showPopupDelete: !prevState.showPopupDelete,
-        deletedAccount: null,
-        AccountToDelete: null
-      }
-    })
-  }
   const searchAdminByEmail = (email) => {
     setState((prevState) => {
       return {
         ...prevState,
         isLoading: true,
+        showList: true,
         searchResult: ''
       }
     })
@@ -185,25 +204,29 @@ const AccountsList = () => {
       .then((response) => {
         const admin = response.data
         // console.log(admin)
-        setState({
-          showPopupNewAccount: true,
-          name: admin.name,
-          email: admin.email,
-          foundAccount: response.data,
-          isLoading: false,
-          searchResult: 'Record Found'
-          // redirectAfterSuccess: true,
-          // showList: true
+        setState((prevState) => {
+          return {
+            ...prevState,
+            name: admin.name,
+            email: admin.email,
+            showList: true,
+            isLoading: false,
+            foundAccount: response.data,
+            searchResult: 'Record Found'
+          }
         })
       })
       .catch(function (error) {
         if (error.response) {
           console.log(error.response.status)
-          setState({
-            showPopupNewAccount: true,
-            email: email,
-            isLoading: false,
-            searchResult: 'アカウントが見つかりません'
+          setState((prevState) => {
+            return {
+              ...prevState,
+              showList: true,
+              showPopupNewAccount: true,
+              isLoading: false,
+              searchResult: 'アカウントが見つかりません'
+            }
           })
         }
       })
@@ -228,8 +251,8 @@ const AccountsList = () => {
       .then((response) => {
         const admin = response.data
         setState({
-          addedAccount: admin
-          //redirectAfterSuccess: true
+          addedAccount: admin,
+          showList: true
         })
       })
       .catch(function (error) {
@@ -243,21 +266,47 @@ const AccountsList = () => {
   }
 
   const handleDeleteConfirmation = (admin) => {
+    console.log(admin)
     setState((prevState) => {
       return {
         ...prevState,
         deletedAccount: admin,
-        showPopupDelete: false,
+        showPopupMessageDialog: false,
         showList: true,
-        showPopupMessageDialog: true,
         dialogMessage:
           admin['username'] +
           'を削除することに成功いたしました。\n 以降、韋駄天を使用することができなくなります。'
         // redirectAfterSuccess: true
       }
     })
+
+    // axios
+    //   .delete('/salesforce/deleteSFAdmin?admin=', {
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     data: {
+    //       admin
+    //     }
+    //   })
+    //   // .then((response) => {
+    //   //   const acct = response.data
+    //   // })
+    //   .catch(function (error) {
+    //     if (error.response) {
+    //       console.log(error.response.status)
+    //       setState({
+    //         deletedAccount: null
+    //       })
+    //     }
+    //   })
+
+    // setState({
+    //   deletedAccount: admin
+    // })
+
     axios
-      .delete('/company/delete?admin=', {
+      .delete('/company/deleteAdmin?admin=', {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -267,9 +316,15 @@ const AccountsList = () => {
       })
       .then((response) => {
         const admin = response.data
+        setState((prevState) => {
+          return {
+            ...prevState,
+            deletedAccount: admin,
+            showPopupMessageDialog: false,
+            showList: true
 
-        setState({
-          deletedAccount: admin
+            // redirectAfterSuccess: true
+          }
         })
       })
       .catch(function (error) {
@@ -317,6 +372,29 @@ const AccountsList = () => {
     })
   }
 
+  const handleResendEmailInvite = (account) => {
+    console.log('handleResendEmailInvite')
+    console.log(account)
+    setState((prevState) => {
+      return {
+        ...prevState,
+        isLoadingResendEmail: true,
+        showPopupMessageDialog: true,
+        dialogMessage: 'Email Invitation sent to ' + account['username']
+      }
+    })
+
+    axios
+      .post('/company/resendEmailInvite', account, {
+        'Content-Type': 'application/json'
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.status)
+        }
+      })
+  }
+
   const handleCloseMessageDialog = () => {
     setState((prevState) => {
       return {
@@ -324,15 +402,12 @@ const AccountsList = () => {
         addedAccount: null,
         accountToEdit: null,
         accountToDelete: null,
-        showList: true,
+        showPopupMessageDialog: false,
         showEdit: false,
-        showPopupDelete: false
-        // redirectAfterSuccess: true
+        showPopupDelete: false,
+        showList: true
       }
     })
-    // if (state.redirectAfterSuccess) {
-    //   props.handleUpdateList()
-    // }
   }
 
   return (
@@ -403,12 +478,19 @@ const AccountsList = () => {
           id="widget-body"
           className="h-50 w-full bg-white overflow-hidden rounded-lg border-2 border-gray-200 "
         >
+          {/* {state.redirectToAccountList ? (
+            <Redirect to="/company/accountslist" />
+          ) : (
+            ''
+          )} */}
           {state.showList ? (
             <AdminsList
               admins={state.adminList}
               handleDisplayDelete={handleDisplayDelete}
               handleDisplayUpdate={handleDisplayUpdate}
               handleDisplayView={handleDisplayView}
+              handleResendEmailInvite={handleResendEmailInvite}
+              loggedUser={state.loggedUser}
             />
           ) : null}
           {state.showEdit ? (
@@ -450,7 +532,6 @@ const AccountsList = () => {
 
       {state.showPopupDelete ? (
         <DeleteConfirmation
-          closePopup={togglePopupDelete}
           accountToDelete={state.accountToDelete}
           isLoading={state.isLoading}
           handleDeleteConfirmation={handleDeleteConfirmation}
