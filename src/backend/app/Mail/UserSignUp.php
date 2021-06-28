@@ -46,7 +46,7 @@ class UserSignUp extends Mailable
     public function __construct(User $user, $token)
     {
         $this->view = 'mail.users.signup';
-        $this->subject = 'Activate your Account';
+        $this->subject = 'サブスク韋駄天アカウントを有効化する';
         $this->user = $user;
         $this->url = env('APP_URL') . '/activate?token=' . $token;
     }

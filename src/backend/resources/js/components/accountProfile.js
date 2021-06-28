@@ -12,6 +12,7 @@ const AccountProfileEdit = (props) => {
   const [state, setState] = useState({
     mode: props.mode,
     dataEmpty: true,
+    loggedUser: props.loggedUser,
     account: {
       username: '',
       firstname: '',
@@ -35,11 +36,14 @@ const AccountProfileEdit = (props) => {
     dialogMessage: '',
     isEditingProfile: props.mode === 'edit' ? true : false,
     userTypes: [
-      { name: 'Company Admin', value: 3 },
-      { name: 'Sub Company Admin', value: 4 }
+      { name: 'Sub Company Admin', value: 4 },
+      { name: 'Company Admin', value: 3 }
     ]
   })
-
+  {
+    console.log('profile')
+    console.log(props.loggedUser)
+  }
   const getDatafromProps = () => {
     let acct = { ...state.account }
     acct.username = props.account.username
@@ -165,37 +169,6 @@ const AccountProfileEdit = (props) => {
 
   const handleUpdateSave = () => {
     console.log('handleUpdateSave')
-    // let acct = { ...state.account }
-    // let acctsf = { ...state.accountSFValues }
-    // let full = state.account.name
-    // let arr = []
-    // // let lastname = ''
-    // // let firstname = ''
-
-    // arr = full.split(' ')
-
-    // if (arr.lenght === 3) {
-    //   acct.firstname = full.split(' ').slice(0, -1).join(' ')
-    //   acct.lastname = full.split(' ').slice(-1).join(' ')
-    //   console.log('3')
-    // } else if (arr.lenght === 4) {
-    //   acct.firstname = full.split(' ').slice(0, -2).join(' ')
-    //   acct.lastname = full.split(' ').slice(-2).join(' ')
-    //   console.log('4')
-    // } else {
-    // acct.firstname = arr[0]
-    // acct.lastname = arr[1]
-    // acctsf.FirstName = arr[0]
-    // acctsf.LastName = arr[1]
-    // }
-
-    // setState((prevState) => {
-    //   return {
-    //     ...prevState,
-    //     account: acct,
-    //     accountSFValues: acctsf
-    //   }
-    // })
 
     if (confirm('Are you sure do you want to update this data?')) {
       console.log(state.account)
@@ -424,7 +397,7 @@ const AccountProfileEdit = (props) => {
                   <div className="mb-1 md:mb-0 md:w-1/3">
                     <label className="text-sm text-gray-400">権限 :</label>
                   </div>
-                  <div className="md:w-2/3 flex-grow">
+                  <div dis className=" md:w-2/3 flex-grow">
                     <label
                       className={
                         (state.isEditingProfile ? 'hidden' : '') +
@@ -435,29 +408,64 @@ const AccountProfileEdit = (props) => {
                         ? 'Company Admin'
                         : 'Sub Company Admin'}
                     </label>
-                    <select
-                      style={{
-                        display: state.isEditingProfile ? 'block' : 'none'
-                      }}
-                      name="select"
-                      onChange={(event) => userTypesChange(event.target.value)}
-                    >
-                      {state.userTypes.map(function (t) {
-                        return (
-                          <option
-                            key={t.value}
-                            value={t.value}
-                            defaultValue={
-                              state.account.userTypeId === t.value
-                                ? 'selected'
-                                : null
-                            }
-                          >
-                            {t.name}
-                          </option>
-                        )
-                      })}
-                    </select>
+
+                    {state.loggedUser.userTypeId === 3 ||
+                    state.account.id === state.loggedUser.id ? (
+                      <select
+                        style={{
+                          display: state.isEditingProfile ? 'block' : 'none'
+                        }}
+                        defaultValue={state.account.email}
+                        name="select"
+                        onChange={(event) =>
+                          userTypesChange(event.target.value)
+                        }
+                      >
+                        {state.userTypes.map(function (t) {
+                          return (
+                            <option
+                              key={t.value}
+                              value={t.value}
+                              defaultValue={
+                                state.account.userTypeId === 3
+                                  ? 'Company Admin'
+                                  : 'Sub Company Admin'
+                              }
+                            >
+                              {t.name}
+                            </option>
+                          )
+                        })}
+                      </select>
+                    ) : (
+                      <select
+                        disabled
+                        style={{
+                          display: state.isEditingProfile ? 'block' : 'none'
+                        }}
+                        defaultValue={state.account.email}
+                        name="select"
+                        onChange={(event) =>
+                          userTypesChange(event.target.value)
+                        }
+                      >
+                        {state.userTypes.map(function (t) {
+                          return (
+                            <option
+                              key={t.value}
+                              value={t.value}
+                              defaultValue={
+                                state.account.userTypeId === 3
+                                  ? 'Company Admin'
+                                  : 'Sub Company Admin'
+                              }
+                            >
+                              {t.name}
+                            </option>
+                          )
+                        })}
+                      </select>
+                    )}
                   </div>
                 </div>
               </div>

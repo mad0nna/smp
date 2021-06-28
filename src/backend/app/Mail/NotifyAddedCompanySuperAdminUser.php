@@ -38,7 +38,7 @@ class NotifyAddedCompanySuperAdminUser extends Mailable
     public function __construct($data, $pw, $token)
     {
         $this->view = 'mail.company.notifyAddedSuperAdminUser';
-        $this->subject = 'Account added to iDaten';
+        $this->subject = 'サブスク韋駄天にアカウントが追加されました';
         $this->first_name = $data['first_name'];
         $this->company_name = $data['company_name'];
         $this->username = $data['email'];

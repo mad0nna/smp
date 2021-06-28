@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 
 const AdminsList = (props) => {
   console.log('render list')
+
   const [state, setState] = useState({
     sorted: [],
-    loggedUser: props.loggedUser
+    loggedUser: props.admins.loggedUser
   })
-
+  // console.log(props.admins.id)
+  // console.log(state.loggedUser)
   const sortArray = (type) => {
     const types = {
       name: 'name',
@@ -26,12 +28,18 @@ const AdminsList = (props) => {
   }
 
   useEffect(() => {
-    console.log(props.admins)
-    if (props.admins !== undefined && props.admins.length > 0) {
+    console.log('test')
+    //console.log(props.admins)
+    console.log(props.admins.loggedUser)
+    if (
+      props.admins.adminList !== undefined &&
+      props.admins.adminList.length > 0
+    ) {
       setState((prevState) => {
         return {
           ...prevState,
-          sorted: props.admins
+          sorted: props.admins.adminList,
+          loggedUser: props.admins.loggedUser
         }
       })
     }
@@ -90,7 +98,6 @@ const AdminsList = (props) => {
               </td>
               <td className="w-2/12">{admin.title}</td>
               <td className="w-1/12">
-                {state.loggedUser.email}
                 {admin.userTypeId === 3 ? 'Super Admin' : 'User Admin'}
               </td>
               <td className="w-2/12">{admin.email}</td>
@@ -98,26 +105,28 @@ const AdminsList = (props) => {
               <td className="w-1/12">
                 {admin.userStatusId === 1 ? 'Active' : 'Pending'}
               </td>
-              <td className="w-2/12">
-                <a href="#">
-                  {admin.userTypeId === 3 ? (
+              <td className="w-2/12  grid-flow-row text-center">
+                <a href="#" className="grid-flow-row inline">
+                  {admin.userTypeId === 3 &&
+                  state.loggedUser.userTypeId != 3 ? (
                     <div onClick={() => props.handleDisplayView(admin)}>
                       View
                     </div>
                   ) : null}
-                  {admin.userTypeId === 4 && admin.userStatusId != 5 ? (
-                    <div className="flex flex-row justify-center text-sm text-center">
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => props.handleDisplayUpdate(admin)}
-                      >
-                        Update
-                      </div>{' '}
-                      |
-                      <div onClick={() => props.handleDisplayDelete(admin)}>
-                        Delete
-                      </div>
-                    </div>
+                  {(admin.userTypeId === 4 && admin.userStatusId != 5) ||
+                  (admin.userTypeId === 3 &&
+                    admin.id === state.loggedUser.id) ? (
+                    <span
+                      className="cursor-pointer"
+                      onClick={() => props.handleDisplayUpdate(admin)}
+                    >
+                      Update &nbsp;
+                    </span>
+                  ) : null}
+                  {state.loggedUser.userTypeId === 3 ? (
+                    <span onClick={() => props.handleDisplayDelete(admin)}>
+                      Delete &nbsp;
+                    </span>
                   ) : null}
                   {admin.userStatusId === 5 ? (
                     <div

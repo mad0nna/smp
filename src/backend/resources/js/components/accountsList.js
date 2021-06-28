@@ -47,7 +47,11 @@ const AccountsList = () => {
     pageNumbers: '',
     currentPage: 1,
     adminList: [],
-    loggedUser: ''
+    emptyUser: true,
+    loggedUser: {
+      id: '',
+      userTypeId: ''
+    }
   })
 
   const handleFilter = (e) => {
@@ -83,28 +87,6 @@ const AccountsList = () => {
       }
     })
   }
-
-  // const handleUpdateList = () => {
-  //   axios
-  //     .get(`/company/getCompanyAdmins`)
-  //     .then((response) => {
-  //       setState((prevState) => {
-  //         return {
-  //           ...prevState,
-  //           adminList: response.data.data
-  //           // pageCount: response.data.pageCount,
-  //           // lastPage: response.data.lastPage,
-  //           // pageNumbers: list,
-  //           // currentPage: response.data.currentPage
-  //         }
-  //       })
-  //     })
-  //     .catch(function (error) {
-  //       if (error.response) {
-  //         console.log(error.response.status)
-  //       }
-  //     })
-  // }
 
   useEffect(() => {
     axios
@@ -164,15 +146,25 @@ const AccountsList = () => {
           })
         }
       })
+  }, [pagingConditions])
 
+  const getUserProfile = () => {
     axios
       .get('/company/getLoggedUserInfo')
       .then((response) => {
+        console.log('user info from backend')
         console.log(response.data.data)
+        const user = response.data.data
+        let logged = { ...state.loggedUser }
+
+        logged.id = user['id']
+        logged.userTypeId = user['userTypeId']
+        console.log(logged)
         setState((prevState) => {
           return {
             ...prevState,
-            loggedUser: response.data.data
+            emptyUser: false,
+            loggedUser: logged
           }
         })
       })
@@ -187,8 +179,10 @@ const AccountsList = () => {
           })
         }
       })
-  }, [pagingConditions])
-
+  }
+  {
+    state.emptyUser ? getUserProfile() : null
+  }
   const searchAdminByEmail = (email) => {
     setState((prevState) => {
       return {
@@ -203,7 +197,6 @@ const AccountsList = () => {
       .get(`/salesforce/getCompanyAdminDetailsbyEmail?email=${email}`)
       .then((response) => {
         const admin = response.data
-        // console.log(admin)
         setState((prevState) => {
           return {
             ...prevState,
@@ -212,7 +205,7 @@ const AccountsList = () => {
             showList: true,
             isLoading: false,
             foundAccount: response.data,
-            searchResult: 'Record Found'
+            searchResult: '検索する'
           }
         })
       })
@@ -266,7 +259,6 @@ const AccountsList = () => {
   }
 
   const handleDeleteConfirmation = (admin) => {
-    console.log(admin)
     setState((prevState) => {
       return {
         ...prevState,
@@ -276,34 +268,33 @@ const AccountsList = () => {
         dialogMessage:
           admin['username'] +
           'を削除することに成功いたしました。\n 以降、韋駄天を使用することができなくなります。'
-        // redirectAfterSuccess: true
       }
     })
 
-    // axios
-    //   .delete('/salesforce/deleteSFAdmin?admin=', {
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     data: {
-    //       admin
-    //     }
-    //   })
-    //   // .then((response) => {
-    //   //   const acct = response.data
-    //   // })
-    //   .catch(function (error) {
-    //     if (error.response) {
-    //       console.log(error.response.status)
-    //       setState({
-    //         deletedAccount: null
-    //       })
-    //     }
-    //   })
+    axios
+      .delete('/salesforce/deleteSFAdmin?admin=', {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          admin
+        }
+      })
+      // .then((response) => {
+      //   const acct = response.data
+      // })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.status)
+          setState({
+            deletedAccount: null
+          })
+        }
+      })
 
-    // setState({
-    //   deletedAccount: admin
-    // })
+    setState({
+      deletedAccount: admin
+    })
 
     axios
       .delete('/company/deleteAdmin?admin=', {
@@ -360,7 +351,6 @@ const AccountsList = () => {
     })
   }
   const handleDisplayView = (account) => {
-    console.log(account)
     setState((prevState) => {
       return {
         ...prevState,
@@ -373,8 +363,6 @@ const AccountsList = () => {
   }
 
   const handleResendEmailInvite = (account) => {
-    console.log('handleResendEmailInvite')
-    console.log(account)
     setState((prevState) => {
       return {
         ...prevState,
@@ -485,12 +473,14 @@ const AccountsList = () => {
           )} */}
           {state.showList ? (
             <AdminsList
-              admins={state.adminList}
+              admins={{
+                adminList: state.adminList,
+                loggedUser: state.loggedUser
+              }}
               handleDisplayDelete={handleDisplayDelete}
               handleDisplayUpdate={handleDisplayUpdate}
               handleDisplayView={handleDisplayView}
               handleResendEmailInvite={handleResendEmailInvite}
-              loggedUser={state.loggedUser}
             />
           ) : null}
           {state.showEdit ? (
@@ -500,6 +490,7 @@ const AccountsList = () => {
               isLoading={state.isLoading}
               handleDisplayUpdate={handleDisplayUpdate}
               handleCloseMessageDialog={handleCloseMessageDialog}
+              loggedUser={state.loggedUser}
             />
           ) : null}
         </div>

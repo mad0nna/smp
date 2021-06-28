@@ -91,8 +91,6 @@ class UserService
                         ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%");
         }
 
-        
-
         // perform user search
         $results = $query->skip($skip)
                         ->orderBy('id', 'DESC')

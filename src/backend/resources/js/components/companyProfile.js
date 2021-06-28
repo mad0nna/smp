@@ -219,7 +219,7 @@ class CompanyProfile extends Component {
         isEditingProfile: !this.state.isEditingProfile
       }
     })
-    if (confirm('Are you sure do you want to update this data?')) {
+    if (confirm('本当にこのデータを更新してもよろしいですか？')) {
       fetch('/salesforce/updateCompanyDetails', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
