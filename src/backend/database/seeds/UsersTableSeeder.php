@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
 
         // create the system admin
         User::create([
-            'account_code' => '123',
+            'account_code' => '',
             'username' => 'admin@tcg.sprobe.ph',
             'email' => 'admin@tcg.sprobe.ph',
             'contact_num' => '123',
@@ -54,7 +54,7 @@ class UsersTableSeeder extends Seeder
         $status = UserStatus::where('name', config('user.statuses.active'))->first();
 
         User::create([
-            'account_code' => '456',
+            'account_code' => '',
             'username' => 'ht@tcg.sprobe.ph',
             'email' => 'ht@tcg.sprobe.ph',
             'contact_num' => '1234',
@@ -74,7 +74,7 @@ class UsersTableSeeder extends Seeder
         $status = UserStatus::where('name', config('user.statuses.active'))->first();
 
         User::create([
-            'account_code' => 'abc',
+            'account_code' => '0030l00000g4k23AAA',
             'username' => 'Machida1@tcg.sprobe.ph',
             'email' => 'Machida1@tcg.sprobe.ph',
             'contact_num' => '12345',

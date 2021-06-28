@@ -99,7 +99,7 @@ class LoginController extends Controller
                 return redirect()->back()->with('status', 'アカウントをアクティブ化するには、正しいURLが必要です。');
             }
 
-             Session::put('salesforceCompanyID', Auth::user()->company->company_code);
+             Session::put('salesforceCompanyID', Auth::user()->company->account_id);
              Session::put('salesforceContactID', Auth::user()->account_code);
             return redirect(Auth::user()->type->dashboard_url);
 

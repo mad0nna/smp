@@ -18,23 +18,23 @@ class DataSynchronizer {
             return $request;
         }
 
-        $sfResponse = $this->salesForce->updateAdminDetails($request["adminDetails"], $accountID);
+        $sfResponse = $this->salesForce->updateAdminDetails($request["adminDetails"], $accountID, true);
         if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
             $this->salesForce->updateCompanyDetails($request["companyDetails"], $companyID);
             return $sfResponse;
         }
 
-        $sfResponse = $this->salesForce->updateCompanyDetails($request["companyDetails"], $companyID);
+        $sfResponse = $this->salesForce->updateCompanyDetails($request["companyDetails"], $companyID, true);
         if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
             return $sfResponse;
         }
 
-        $dbResponse = $this->mysql->updateAdminDetails($accountID, $request["adminDetails"]);
+        $dbResponse = $this->mysql->updateAdminDetails($accountID, $request["adminDetails"], true);
         if (!$dbResponse) {
             return MessageResult::error("Error on updating admin details");
         }
 
-        $dbResponse = $this->mysql->updateCompanyDetails($companyID, $request["companyDetails"]);
+        $dbResponse = $this->mysql->updateCompanyDetails($companyID, $request["companyDetails"], true);
         if (!$dbResponse) {
             return MessageResult::error("Error on updating company details");
         }
@@ -45,7 +45,7 @@ class DataSynchronizer {
     }
 
     public function getUpdatedDataForEditCompanyDetails($companyID) {
-        $companyInformation = $this->salesForce->getCompanyDetailsByID($companyID);
+        $companyInformation = $this->salesForce->getCompanyDetailsByCompanyID($companyID);
         $adminInformation = $this->salesForce->getCompanyAdminDetails($companyID);
         return [
             'company' => $companyInformation,

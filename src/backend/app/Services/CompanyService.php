@@ -27,7 +27,7 @@ class CompanyService {
             if (!empty($companyInformation)) {
                 return reset($companyInformation);
             }
-            return $this->salesForce->getCompanyDetailsByID($companyID);
+            return $this->salesForce->getCompanyDetailsByCompanyID($companyID);
         });
         return json_encode($companyDetails);
     }

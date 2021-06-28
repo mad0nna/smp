@@ -14,6 +14,35 @@ class SalesforceRepository {
         $this->oClient = new Client();
     }
 
+    public function getCompanyDetailsByCompanyID($sfCompanyID) {
+        try {    
+            $oResponse = $this->oClient->get(     
+                env('SALESFORCE_HOST').'/services/data/v34.0/sobjects/account/'.$sfCompanyID. '?fields=Name, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c',          
+                [
+                    'headers' => array(
+                        'Content-Type' => 'application/json',
+                        'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
+                    ),
+                    'synchronous' => true
+                ]
+            );
+            $oBody = $oResponse->getBody();
+            $companyInformation = json_decode($oBody->getContents(), true);
+            if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
+                return $companyInformation;
+            }
+            return $companyInformation;
+        } catch(ClientException $reqExcep) {
+            $statusCode = $reqExcep->getResponse()->getStatusCode();
+            if ($statusCode === 401) {
+                $this->tokens = (new AccessToken())->getToken();
+                return $this->getCompanyDetailsByCompanyID($sfCompanyID);
+            } else {
+                return MessageResult::error("Error while requesting company details from Salesforce.");
+            }
+        }
+    }
+
     public function getCompanyDetailsByID($sfCompanyID) {
         try {
             $oResponse = $this->oClient->get(               

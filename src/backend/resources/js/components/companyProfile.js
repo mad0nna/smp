@@ -341,11 +341,11 @@ class CompanyProfile extends Component {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {this.state.companyDetails.street + ' '}
-                    {this.state.companyDetails.city + ' '}
-                    {this.state.companyDetails.state + ' '}
-                    {this.state.companyDetails.country + ' '}
-                    {this.state.companyDetails.postalCode}
+                    {this.state.companyDetails.street ?? '' + ' '}
+                    {this.state.companyDetails.city ?? '' + ' '}
+                    {this.state.companyDetails.state ?? '' + ' '}
+                    {this.state.companyDetails.country ?? '' + ' '}
+                    {this.state.companyDetails.postalCode ?? ''}
                   </label>
                   <div className="space-y-1">
                     <input
@@ -602,7 +602,7 @@ class CompanyProfile extends Component {
                   >
                     {this.state.adminDetails.Email}
                   </label>
-                  <input
+                  {/* <input
                     type="input"
                     className={
                       (this.state.isEditingProfile ? '' : 'hidden') +
@@ -613,7 +613,7 @@ class CompanyProfile extends Component {
                     onChange={(e) =>
                       this.handleFormChanges('admin', 'Email', e.target.value)
                     }
-                  />
+                  /> */}
                 </div>
               </div>
 

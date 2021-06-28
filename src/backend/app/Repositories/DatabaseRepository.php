@@ -13,7 +13,7 @@ use Exception;
 class DatabaseRepository {
 
     public function getCompanyDetailsByID($companyID) {
-        return Company::where('company_code', $companyID)
+        return Company::where('account_id', $companyID)
         ->get()
         ->map->salesforceFormat()
         ->toArray();
@@ -22,7 +22,7 @@ class DatabaseRepository {
     public function getCompanyAdminDetailsByID($companyID) {
         return User::leftjoin("companies", "companies.id", "=", "company_id")
         ->select("users.*")
-        ->where("companies.company_code", $companyID)
+        ->where("companies.account_id", $companyID)
         ->where("users.user_type_id", 3)
         ->get()
         ->map->salesforceFormat()
@@ -30,7 +30,7 @@ class DatabaseRepository {
     }
 
     public function updateCompanyDetails($companyID, $companyData) {
-        return Company::where("company_code", $companyID)
+        return Company::where("account_id", $companyID)
         ->update([
             "name" => $companyData["companyName"],
             "contact_num" => $companyData["contactNumber"],
@@ -55,9 +55,9 @@ class DatabaseRepository {
     }
 
     public function getLatestKOTOpportunityDetails($companyID) {
-        return Opportunity::leftjoin('companies', "companies.id", "=", "company_id")
+        return Opportunity::rightjoin('companies', "companies.id", "=", "company_id")
         ->select("opportunities.*")
-        ->where("companies.company_code", $companyID)
+        ->where("companies.account_id", $companyID)
         ->orderBy("sf_created_date", "ASC")
         ->take(1)
         ->get()
