@@ -38,7 +38,7 @@ Route::prefix('salesforce')->group(function() {
       Route::view('/dashboard', 'dashboard')->name('companydashboard');
       Route::view('/contracts', 'contracts');
       Route::view('/billing', 'companyBilling');
-      // Route::view('/accountslist', 'accountsList');
+      Route::view('/accountslist', 'accountslist');
       Route::view('/companyProfile', 'companyProfile');
       Route::get('getCompanyAdmins', "UserController@index");
       Route::view('/companyProfileEdit', 'companyProfileEdit');
