@@ -80,8 +80,6 @@ class UserService
 
         // initialize query
         $query = $this->user;
-        // $query = $query->CompanyAdmins();
-        // dd($company_id);
 
         if ($company_id) {
             $query = $query->where(function ($query) use ($company_id) {

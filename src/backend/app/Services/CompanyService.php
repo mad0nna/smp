@@ -125,7 +125,7 @@ class CompanyService {
                     'last_name' => $data['contact_last_name'],
                     'contact_num' => $data['contact_contact_num'],
                     'user_type_id' => 3,
-                    'user_status_id' => 1,
+                    'user_status_id' => 5,
                     'temp_pw' => $pw,      
                     'invite_token' => $invite_token,
                     'company_name' =>  $data['name'],

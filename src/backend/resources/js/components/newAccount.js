@@ -48,7 +48,7 @@ const NewAccount = (props) => {
             </label>
             <label className="col-span-1 text-white w-1/2 my-2">管理者</label>
           </div>
-          <div className="  ">
+          <div className="mt-3">
             <label className="ml-10 text-sm text-white w-48  h-8 pr-3 leading-8 text-left col-span-1 ">
               名前 :
             </label>

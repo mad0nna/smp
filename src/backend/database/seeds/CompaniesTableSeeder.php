@@ -27,7 +27,7 @@ class CompaniesTableSeeder extends Seeder
                 'billing_postal_code' => '',
                 'billing_country' => '',
                 'zen_org_name' => NULL,
-                'account_id' => '0030l00000g4k23AAA'
+                'account_id' => '0010l00001IGApRAAX'
             ],
             [
                 "id"=>'2',

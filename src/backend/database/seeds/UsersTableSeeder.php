@@ -34,14 +34,14 @@ class UsersTableSeeder extends Seeder
 
         // create the system admin
         User::create([
-            'account_code' => '',
-            'username' => 'admin@tcg.sprobe.ph',
-            'email' => 'admin@tcg.sprobe.ph',
+            'account_code' => '0030l00000g5JSjAAM',
+            'username' => 'admin@sprobe.com',
+            'email' => 'admin@sprobe.com',
             'contact_num' => '123',
             'password' => Hash::make('Password2021!'),
             'company_id' => '1',
-            'first_name' => 'Sprobe',
-            'last_name' => 'Administrator',
+            'first_name' => 'sprobe',
+            'last_name' => 'admin',
             'user_status_id' => $status->id,
             'user_type_id' => '1',
             'email_verified_at' => Carbon::now(),
@@ -54,14 +54,14 @@ class UsersTableSeeder extends Seeder
         $status = UserStatus::where('name', config('user.statuses.active'))->first();
 
         User::create([
-            'account_code' => '',
-            'username' => 'ht@tcg.sprobe.ph',
-            'email' => 'ht@tcg.sprobe.ph',
+            'account_code' => '0030l00000g4wweAAA',
+            'username' => 'susumu@gmail.com',
+            'email' => 'susumu@gmail.com',
             'contact_num' => '1234',
             'password' => Hash::make('Password2021!'),
             'company_id' => '2',
-            'first_name' => 'H&T',
-            'last_name' => 'Administrator',
+            'first_name' => 'Tomeoku',
+            'last_name' => 'Susumu',
             'user_status_id' => $status->id,
             'user_type_id' => '2',
             'email_verified_at' => Carbon::now(),
@@ -75,13 +75,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'account_code' => '0030l00000g4k23AAA',
-            'username' => 'Machida1@tcg.sprobe.ph',
-            'email' => 'Machida1@tcg.sprobe.ph',
+            'username' => 'machida@tcg.sprobe.ph',
+            'email' => 'machida@tcg.sprobe.ph',
             'contact_num' => '12345',
             'password' => Hash::make('Password2021!'),
             'company_id' => '3',
-            'first_name' => 'Machida',
-            'last_name' => 'Administrator',
+            'first_name' => 'allan',
+            'last_name' => 'brock',
             'user_status_id' => $status->id,
             'user_type_id' => '3',
             'email_verified_at' => Carbon::now(),

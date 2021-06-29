@@ -98,17 +98,43 @@ const AccountsList = () => {
   }
 
   useEffect(() => {
-    console.log('useEffect')
-    {
-      state.emptyUser ? getUserProfile() : null
+    if (state.loggedUser.id === '') {
+      axios
+        .get('/company/getLoggedUserInfo')
+        .then((response) => {
+          const user = response.data.data
+          let logged = { ...state.loggedUser }
+
+          logged.id = user['id']
+          logged.userTypeId = user['userTypeId']
+          console.log(logged)
+          setState((prevState) => {
+            return {
+              ...prevState,
+              loggedUser: logged
+            }
+          })
+        })
+        .catch(function (error) {
+          if (error.response) {
+            console.log(error.response.status)
+            setState((prevState) => {
+              return {
+                ...prevState,
+                loggedUser: ''
+              }
+            })
+          }
+        })
     }
+  }, [state.loggedUser])
+
+  useEffect(() => {
     axios
       .get(
         `/company/getCompanyAdmins?page=${pagingConditions.page}&limit=${pagingConditions.limit}&keyword=${pagingConditions.keyword}`
       )
       .then((response) => {
-        console.log(response)
-
         if (!_.isEmpty(response.data)) {
           // Logic for displaying page numbers
           const pageNumbers = []
@@ -158,39 +184,6 @@ const AccountsList = () => {
         }
       })
   }, [pagingConditions])
-
-  const getUserProfile = () => {
-    axios
-      .get('/company/getLoggedUserInfo')
-      .then((response) => {
-        console.log('user info from backend')
-        console.log(response.data.data)
-        const user = response.data.data
-        let logged = { ...state.loggedUser }
-
-        logged.id = user['id']
-        logged.userTypeId = user['userTypeId']
-        console.log(logged)
-        setState((prevState) => {
-          return {
-            ...prevState,
-            emptyUser: false,
-            loggedUser: logged
-          }
-        })
-      })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response.status)
-          setState((prevState) => {
-            return {
-              ...prevState,
-              loggedUser: ''
-            }
-          })
-        }
-      })
-  }
 
   const searchAdminByEmail = (email) => {
     setState((prevState) => {
@@ -409,7 +402,7 @@ const AccountsList = () => {
         ...prevState,
         isLoadingResendEmail: true,
         showPopupMessageDialog: true,
-        dialogMessage: 'Email Invitation sent to ' + account['username']
+        dialogMessage: account['username'] + 'に送信された電子メールの招待状'
       }
     })
 
