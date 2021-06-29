@@ -241,19 +241,17 @@ const AccountsList = () => {
       .get('/company/search?email=' + admin.Email)
 
       .then((response) => {
-        // const admin = response.data
-        //if (response.status == 200) {
-        // state.adminList.unshift(response.data.data)
-        setState((prevState) => {
-          return {
-            ...prevState,
-            showList: true,
-            showPopupMessageDialog: true,
-            dialogMessage:
-              '既に追加されているユーザーです。アカウント一覧をご確認ください。'
-          }
-        })
-        //}
+        if (response.status == 200) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              showList: true,
+              showPopupMessageDialog: true,
+              dialogMessage:
+                '既に追加されているユーザーです。アカウント一覧をご確認ください。'
+            }
+          })
+        }
       })
       .catch(function (error) {
         if (error.response) {
