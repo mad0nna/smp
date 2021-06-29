@@ -38,7 +38,7 @@ Route::prefix('salesforce')->group(function() {
       Route::view('/dashboard', 'dashboard')->name('companydashboard');
       Route::view('/contracts', 'contracts');
       Route::view('/billing', 'companyBilling');
-      Route::view('/accountslist', 'accountsList');
+      // Route::view('/accountslist', 'accountsList');
       Route::view('/companyProfile', 'companyProfile');
       Route::get('getCompanyAdmins', "UserController@index");
       Route::view('/companyProfileEdit', 'companyProfileEdit');
@@ -49,6 +49,9 @@ Route::prefix('salesforce')->group(function() {
       Route::delete('deleteAdmin', 'UserController@destroy');
       Route::get('getLoggedUserInfo', "UserController@userinfo");
       Route::get('search', "UserController@show");
+      Route::get('/accountslist', function() {
+        return view('accountsList');
+      });
   });
 
   Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function() {
