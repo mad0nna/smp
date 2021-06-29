@@ -16,6 +16,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Repositories\SalesforceRepository;
+use App\Repositories\DatabaseRepository;
 
 class UserController extends Controller
 {
@@ -32,6 +33,7 @@ class UserController extends Controller
         parent::__construct();
         $this->salesForce = new SalesforceRepository();
         $this->userService = $userService;
+        $this->dbRepo = new DatabaseRepository();
 
         // enable api middleware
         $this->middleware(['auth', 'verified']);
@@ -129,7 +131,13 @@ class UserController extends Controller
 
             // create the user
             $user = $this->userService->create($formData);
+
+            //make a default widget settings for new user
+            $this->dbRepo->makeUserWidgetSettings($user->id);
+
             $this->response['data'] = new UserResource($user);
+
+
         } catch (Exception $e) { // @codeCoverageIgnoreStart
                 $this->response = [
                     'error' => $e->getMessage(),
@@ -146,15 +154,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
         try {
-            $user = $this->userService->findById((int) $id);
+            $data = $request->all();
+            $email = $data['email'];
+            $user = $this->userService->findByEmail($email);
+            $this->response['data'] = new UserResource($user);
+
         } catch (Exception $e) {
             abort(404, $e->getMessage());
         }
-
-        return view('users.show', ['user' => $user]);
+        return response()->json($this->response, $this->response['code']);
     }
 
     /**
@@ -166,7 +177,7 @@ class UserController extends Controller
     public function edit($id)
     {
         try {
-            $user = $this->userService->findById((int) $id);
+            $user = $this->userService->findByEmail((int) $id);
         } catch (Exception $e) {
             abort(404, $e->getMessage());
         }
@@ -196,6 +207,7 @@ class UserController extends Controller
             // perform user update
             $user=$this->userService->update($formData);
             $this->response['data'] = new UserResource($user);
+
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),

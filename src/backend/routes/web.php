@@ -48,6 +48,7 @@ Route::prefix('salesforce')->group(function() {
       Route::put('updateAdmin', "UserController@update");
       Route::delete('deleteAdmin', 'UserController@destroy');
       Route::get('getLoggedUserInfo', "UserController@userinfo");
+      Route::get('search', "UserController@show");
   });
 
   Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function() {

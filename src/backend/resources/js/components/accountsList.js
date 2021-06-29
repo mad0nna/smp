@@ -235,43 +235,57 @@ const AccountsList = () => {
   }
 
   const handleDisplayAddedAdmin = (admin) => {
+    console.log('addedAdmin')
+    console.log(admin)
     setState((prevState) => {
       return {
         ...prevState,
         addedAccount: admin,
-        showPopupNewAccount: false,
-        showPopupMessageDialog: true,
-        dialogMessage:
-          '管理者が追加されました。\n 追加された管理者に招待メールが送信されます。'
+        showPopupNewAccount: false
       }
     })
-
     axios
-      .post('/company/addCompanyAdmin', admin, {
-        'Content-Type': 'application/json'
-      })
+      .get('/company/search?email=' + admin.Email)
+
       .then((response) => {
         // const admin = response.data
-        if (response.status == 200) {
-          console.log('admin')
-          console.log(admin)
-          console.log('response')
-          console.log(response)
-          state.adminList.unshift(response.data.data)
-          setState((prevState) => {
-            return {
-              ...prevState,
-              showList: true
-            }
-          })
-        }
+        //if (response.status == 200) {
+        // state.adminList.unshift(response.data.data)
+        setState((prevState) => {
+          return {
+            ...prevState,
+            showList: true,
+            showPopupMessageDialog: true,
+            dialogMessage:
+              '既に追加されているユーザーです。アカウント一覧をご確認ください。'
+          }
+        })
+        //}
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response.status)
-          setState({
-            addedAccount: null
-          })
+          axios
+            .post('/company/addCompanyAdmin', admin, {
+              'Content-Type': 'application/json'
+            })
+            .then((response) => {
+              const admin = response.data
+              setState({
+                addedAccount: admin,
+                showList: true,
+                showPopupMessageDialog: true,
+                dialogMessage:
+                  '管理者が追加されました。追加された管理者に招待メールが送信されます。'
+              })
+            })
+            .catch(function (error) {
+              if (error.response) {
+                console.log(error.response.status)
+                setState({
+                  addedAccount: null
+                })
+              }
+            })
         }
       })
   }
@@ -313,26 +327,26 @@ const AccountsList = () => {
         }
       })
 
-    axios
-      .delete('/salesforce/deleteSFAdmin?admin=', {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data: {
-          admin
-        }
-      })
-      // .then((response) => {
-      //   const acct = response.data
-      // })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response.status)
-          setState({
-            deletedAccount: null
-          })
-        }
-      })
+    // axios
+    //   .delete('/salesforce/deleteSFAdmin?admin=', {
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     data: {
+    //       admin
+    //     }
+    //   })
+    //   // .then((response) => {
+    //   //   const acct = response.data
+    //   // })
+    //   .catch(function (error) {
+    //     if (error.response) {
+    //       console.log(error.response.status)
+    //       setState({
+    //         deletedAccount: null
+    //       })
+    //     }
+    //   })
   }
 
   const handleDisplayDelete = (account, i) => {

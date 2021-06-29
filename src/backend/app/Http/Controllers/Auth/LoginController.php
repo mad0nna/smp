@@ -69,7 +69,7 @@ class LoginController extends Controller
     { 
         if (! Auth::user()) {
             if (isset($_GET['invite_token'])) {
-                $user = User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now()]);
+                $user = User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(),'user_status_id' => 1]);
             } 
             
             return view('index');

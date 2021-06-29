@@ -94,7 +94,20 @@ class DatabaseRepository {
         }
     }
 
-    public function getZendeskSeenNotif($accountID) {
+    public function makeUserWidgetSettings($id)
+    {
+        try {
+            $widget = new WidgetSettings();
+            $defaultCoordinates = $widget->getCompanyDefaultCoordinates();
+            $formData = ['user_id' => $id,'coordinates' =>  $defaultCoordinates];
+            $widget->create($formData);
+        }catch(Exception $e){
+            return array("status" => false, "message" => $e->getMessage());
+        }
+    }
+        
+    public function getZendeskSeenNotif($accountID)
+    {
         try {
             return NotificationTarget::leftjoin('users', 'users.id', '=', 'user_id')
             ->where('users.account_code', $accountID)

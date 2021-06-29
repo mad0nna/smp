@@ -131,7 +131,9 @@ class CompanyService {
                     'company_name' =>  $data['name'],
                 ];
                 $_user = $user->create($formData);
+                $this->mysql->makeUserWidgetSettings($_user->id);
                 Mail::to($data['contact_email'])->send(new NotifyAddedCompanySuperAdminUser($formData, $pw, $invite_token));
+                
             
             } else {
                 return false;

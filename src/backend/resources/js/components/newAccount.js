@@ -65,7 +65,7 @@ const NewAccount = (props) => {
               type="text"
             />
           </div>
-          <p className="text-sm inline-block text-white w-full h-8 px-3 leading-8 text-center">
+          <p className="text-sm inline-block text-white w-full h-8 px-3 leading-8 text-left pl-36">
             {!_.isEmpty(props.searchResult) ? props.searchResult : ''}
           </p>
         </div>
