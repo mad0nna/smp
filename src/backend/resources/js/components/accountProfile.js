@@ -51,6 +51,8 @@ const AccountProfileEdit = (props) => {
     acct.phone = props.account.contactNum
     acct.email = props.account.email
     acct.userTypeId = props.account.userTypeId
+    console.log('acct from db')
+    console.log(acct)
     setState((prevState) => {
       return {
         ...prevState,
@@ -76,8 +78,7 @@ const AccountProfileEdit = (props) => {
         acct.position = data.Title
         acct.phone = data.MobilePhone
         acct.email = data.Email
-        acct.userTypeId = data.section_c ? 3 : 4
-
+        acct.userTypeId = data.admin__c ? 3 : 4
         let acctsf = { ...state.accountSFValues }
         acctsf.Email = data.Email
         acctsf.FirstName = data.FirstName
@@ -91,7 +92,6 @@ const AccountProfileEdit = (props) => {
             dataEmpty: false
           }
         })
-        // setState({ dataEmpty: false })
       })
       .catch(function (error) {
         if (error.response) {
@@ -229,7 +229,8 @@ const AccountProfileEdit = (props) => {
         Fullname: state.account.firstname + ' ' + state.account.lastname,
         LastName: state.account.lastname,
         MobilePhone: state.account.phone,
-        Title: state.account.position
+        Title: state.account.position,
+        admin__c: state.account.userTypeId
       }
 
       axios
@@ -471,13 +472,15 @@ const AccountProfileEdit = (props) => {
                       ? 'Company Admin'
                       : 'Sub Company Admin'}
                   </label>
-                  {state.loggedUser.userTypeId === 3 ||
-                  state.account.id === state.loggedUser.id ? (
+                  {
                     <select
+                      disabled={
+                        state.loggedUser.userTypeId === 3 ? `` : `disabled`
+                      }
                       style={{
                         display: state.isEditingProfile ? 'block' : 'none'
                       }}
-                      defaultValue={state.account.email}
+                      value={state.account.userTypeId}
                       name="select"
                       onChange={(event) => userTypesChange(event.target.value)}
                     >
@@ -497,33 +500,7 @@ const AccountProfileEdit = (props) => {
                         )
                       })}
                     </select>
-                  ) : (
-                    <select
-                      disabled
-                      style={{
-                        display: state.isEditingProfile ? 'block' : 'none'
-                      }}
-                      defaultValue={state.account.email}
-                      name="select"
-                      onChange={(event) => userTypesChange(event.target.value)}
-                    >
-                      {state.userTypes.map(function (t) {
-                        return (
-                          <option
-                            key={t.value}
-                            value={t.value}
-                            defaultValue={
-                              state.account.userTypeId === 3
-                                ? 'Company Admin'
-                                : 'Sub Company Admin'
-                            }
-                          >
-                            {t.name}
-                          </option>
-                        )
-                      })}
-                    </select>
-                  )}
+                  }
                 </div>
               </div>
             </div>

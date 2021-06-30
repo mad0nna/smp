@@ -49,9 +49,6 @@ Route::prefix('salesforce')->group(function() {
       Route::delete('deleteAdmin', 'UserController@destroy');
       Route::get('getLoggedUserInfo', "UserController@userinfo");
       Route::get('search', "UserController@show");
-      Route::get('/accountslist', function() {
-        return view('accountsList');
-      });
   });
 
   Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function() {

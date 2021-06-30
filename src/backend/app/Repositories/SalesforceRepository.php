@@ -111,7 +111,7 @@ class SalesforceRepository {
     public function getCompanyAdminDetailsbyEmail($email) {
         try {
             $oResponse = $this->oClient->get(
-                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Name, Id, FirstName, LastName, Email, Title, MobilePhone, section__c, CreatedDate+from+Contact+WHERE+Email='" . $email . "'+Order+By+CreatedDate+ASC+LIMIT+1",
+                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Name, Id, FirstName, LastName, Email, Title, MobilePhone, section__c, admin__c, CreatedDate+from+Contact+WHERE+Email='" . $email . "'+Order+By+CreatedDate+ASC+LIMIT+1",
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -196,7 +196,7 @@ class SalesforceRepository {
                     "MobilePhone" => $newValues["MobilePhone"],
                     "Email" => $newValues["Email"],
                     "Title" => $newValues["Title"],
-                    //"section_c" => $newValues["section_c"]
+                    "admin__c" => $newValues["admin__c"] === "3" ? true : false,
                 ];
             } else {
                 $data = [
@@ -204,6 +204,7 @@ class SalesforceRepository {
                     "LastName" => $newValues["last_name"] ?? "default",
                     "MobilePhone" => $newValues["contact_num"] ?? "",
                     "Email" => $newValues["email"] ?? "",
+                    "admin__c" => $newValues["userTypeId"] === "3" ? true : false,
                 ];
             }
            

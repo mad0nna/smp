@@ -127,25 +127,19 @@ class UserService
     {
         DB::beginTransaction();
 
-        try {
-            $user= $this->user->where('username',$params['username'])->first();
-            if ($user instanceof User) {     
-                $user->fill($params);
-                $user->save();
-            }
-            else{
-                $status = UserStatus::where('name', config('user.statuses.pending'))->first();
+        try {            
+            $status = UserStatus::where('name', config('user.statuses.pending'))->first();
 
-                if (!($status instanceof UserStatus)) {
-                    throw new UserStatusNotFoundException;
-                }
-                $params['user_status_id'] = $status->id;
-                $user = $this->user->create($params);
-
-                if (!($user instanceof User)) {
-                    throw new UserNotCreatedException;
-                }
+            if (!($status instanceof UserStatus)) {
+                throw new UserStatusNotFoundException;
             }
+            $params['user_status_id'] = $status->id;
+            $user = $this->user->create($params);
+
+            if (!($user instanceof User)) {
+                throw new UserNotCreatedException;
+            }
+           
             $temp_pw = $params['temp_pw'];
             $token = $params['invite_token'];
             

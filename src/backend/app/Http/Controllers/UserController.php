@@ -126,7 +126,8 @@ class UserController extends Controller
                 'user_status_id' => 5,
                 'password' => $pw_hash,   
                 'temp_pw' => $pw,
-                'invite_token' => $invite_token
+                'invite_token' => $invite_token,
+                'account_code' => $sf['Id'] ? $sf['Id'] : '',
             ];
 
             // create the user

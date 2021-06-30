@@ -60,7 +60,8 @@ const AccountsList = () => {
     loggedUser: {
       id: '',
       userTypeId: ''
-    }
+    },
+    isLoadingOfAddingContact: false
   })
 
   const handleFilter = (e) => {
@@ -228,65 +229,53 @@ const AccountsList = () => {
   }
 
   const handleDisplayAddedAdmin = (admin) => {
-    console.log('addedAdmin')
-    console.log(admin)
+    // console.log('handleDisplayAddedAdmin')
+
     setState((prevState) => {
       return {
         ...prevState,
-        addedAccount: admin,
-        showPopupNewAccount: false
+        isLoadingOfAddingContact: true
       }
     })
-    axios
-      .get('/company/search?email=' + admin.Email)
 
+    axios
+      .post('/company/addCompanyAdmin', admin, {
+        'Content-Type': 'application/json'
+      })
       .then((response) => {
         if (response.status == 200) {
+          state.adminList.unshift(response.data.data)
+
           setState((prevState) => {
             return {
               ...prevState,
-              showList: true,
+              showPopupNewAccount: false,
+              isLoadingOfAddingContact: false,
               showPopupMessageDialog: true,
               dialogMessage:
-                '既に追加されているユーザーです。アカウント一覧をご確認ください。'
+                '管理者が追加されました。 \n 追加された管理者に招待メールが送信されます。'
             }
           })
         }
       })
       .catch(function (error) {
         if (error.response) {
-          axios
-            .post('/company/addCompanyAdmin', admin, {
-              'Content-Type': 'application/json'
-            })
-            .then((response) => {
-              const admin = response.data
-              setState({
-                addedAccount: admin,
-                showList: true,
-                showPopupMessageDialog: true,
-                dialogMessage:
-                  '管理者が追加されました。追加された管理者に招待メールが送信されます。'
-              })
-            })
-            .catch(function (error) {
-              if (error.response) {
-                console.log(error.response.status)
-                setState({
-                  addedAccount: null
-                })
-              }
-            })
+          console.log(error.response.status)
+          setState((prevState) => {
+            return {
+              ...prevState,
+              showPopupNewAccount: false,
+              showPopupMessageDialog: true,
+              dialogMessage:
+                '既に追加されているユーザーです。\n アカウント一覧をご確認ください。'
+            }
+          })
         }
       })
   }
 
   const handleDeleteConfirmation = (admin) => {
     console.log('handleDeleteConfirmation')
-
-    // setState({
-    //   deletedAccount: admin
-    // })
 
     axios
       .delete('/company/deleteAdmin?admin=', {
@@ -578,6 +567,7 @@ const AccountsList = () => {
             name={state.name}
             searchAdminByEmail={searchAdminByEmail}
             isLoading={state.isLoading}
+            isLoadingOfAddingContact={state.isLoadingOfAddingContact}
             searchResult={state.searchResult}
             foundAccount={state.foundAccount}
             handleDisplayAddedAdmin={handleDisplayAddedAdmin}

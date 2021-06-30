@@ -80,12 +80,23 @@ const NewAccount = (props) => {
       <div className="flex flex-wrap gap-0 w-full justify-center mt-4">
         <button
           disabled={
-            props.foundAccount && props.foundAccount.Name ? '' : 'disabled'
+            props.foundAccount &&
+            props.foundAccount.Name &&
+            props.isLoadingOfAddingContact === false
+              ? ''
+              : 'disabled'
           }
           onClick={() => props.handleDisplayAddedAdmin(props.foundAccount)}
           className="rounded-xl cursor-pointer  font-extrabold w-40 py-2 px-3 mr-4 text-primary-200  tracking-tighter bg-white"
         >
-          招待を送信
+          招待を送信 &nbsp;
+          <img
+            src={waitingIcon}
+            className={
+              (props.isLoadingOfAddingContact ? ' ' : ' hidden ') +
+              ' w-7 inline '
+            }
+          />
         </button>
         <button
           onClick={props.closePopup}
