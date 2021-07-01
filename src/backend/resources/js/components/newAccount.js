@@ -17,13 +17,13 @@ const NewAccount = (props) => {
   return (
     <div className="rounded-lg border-2 border-gray-200 absolute inset-1/3 h-80 top-48 m-auto bg-primary-200 opacity-85 ">
       <div className="flex flex-wrap gap-0 w-full justify-center mt-8">
-        <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 justify-start pl-16">
+        <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 justify-start 2xl:pl-14 xl:pl-8 lg:pl-6">
           <div className="justify-center">
-            <label className="text-sm text-white w-48  h-8 px-3 leading-8 text-left col-span-1">
+            <label className="text-sm text-white 2xl:w-42 xl:w-42 lg:w-26 h-8 px-3 leading-8 col-span-1">
               入力メール:
             </label>
             <input
-              className=" text-sm col-span-1 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
+              className="text-sm 2xl:w-60 xl:w-58 lg:w-36 col-span-1 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
               defaultValue={state.email}
               type="text"
               onChange={handleEmailChange}
@@ -31,7 +31,7 @@ const NewAccount = (props) => {
             <button
               disabled={props.isLoading}
               onClick={() => props.searchAdminByEmail(state.email)}
-              className="w-24 cursor-pointer col-span-1 text-bold   text-primary-200   bg-white rounded p-1 text-sm"
+              className="w-16 xl:w-16 lg:w-14 cursor-pointer col-span-1 text-bold   text-primary-200   bg-white rounded p-1 text-sm"
             >
               &nbsp; 探す
               <img
@@ -43,17 +43,17 @@ const NewAccount = (props) => {
             </button>
           </div>
           <div className=" w-96 mt-5">
-            <label className="ml-10 text-sm text-white w-48  h-8 pr-3 leading-8 text-left col-span-1">
+            <label className="ml-10 text-sm text-white w-48 h-8 pr-3 leading-8 text-left col-span-1">
               権限 :
             </label>
             <label className="col-span-1 text-white w-1/2 my-2">管理者</label>
           </div>
-          <div className="mt-3">
+          <div className="w-full">
             <label className="ml-10 text-sm text-white w-48  h-8 pr-3 leading-8 text-left col-span-1 ">
               名前 :
             </label>
             <input
-              className=" text-sm col-span-1 w-56 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
+              className=" text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
               onChange={handleNameChange}
               value={
                 _.isEmpty(props.foundAccount)

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
 const AdminsList = (props) => {
-  console.log('render list')
-
   const [state, setState] = useState({
     sorted: [],
     loggedUser: props.admins.loggedUser
@@ -28,7 +26,6 @@ const AdminsList = (props) => {
   }
 
   useEffect(() => {
-    console.log('test')
     //console.log(props.admins)
     console.log(props.admins.loggedUser)
     if (
@@ -114,8 +111,8 @@ const AdminsList = (props) => {
                     </div>
                   ) : null}
                   {(admin.userTypeId === 4 && admin.userStatusId != 5) ||
-                  (admin.userTypeId === 3 &&
-                    admin.id === state.loggedUser.id) ? (
+                  admin.userTypeId === 3 ||
+                  admin.id != state.loggedUser.id ? (
                     <span
                       className="cursor-pointer"
                       onClick={() => props.handleDisplayUpdate(admin)}
@@ -123,7 +120,9 @@ const AdminsList = (props) => {
                       更新 &nbsp;
                     </span>
                   ) : null}
-                  {state.loggedUser.userTypeId === 3 ? (
+                  {state.loggedUser.userTypeId === 3 &&
+                  admin.id != state.loggedUser.id &&
+                  admin.userTypeId != 3 ? (
                     <span
                       className="cursor-pointer"
                       onClick={() => props.handleDisplayDelete(admin, i)}

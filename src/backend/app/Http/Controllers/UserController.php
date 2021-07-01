@@ -119,6 +119,7 @@ class UserController extends Controller
                 'first_name' => $sf['FirstName'] ? $sf['FirstName'] : '',
                 'last_name' => $sf['LastName'] ? $sf['LastName'] : '',
                 'email' =>  $sf['Email'] ? $sf['Email'] : '',
+                'account_code' => sf['Id'],
                 'contact_num' => $sf['MobilePhone'] ? $sf['MobilePhone'] : '',
                 'title' => $sf['Title'] ? $sf['Title'] : '',
                 'user_type_id' => 4,
@@ -161,10 +162,14 @@ class UserController extends Controller
             $data = $request->all();
             $email = $data['email'];
             $user = $this->userService->findByEmail($email);
+            
             $this->response['data'] = new UserResource($user);
 
         } catch (Exception $e) {
-            abort(404, $e->getMessage());
+            $this->response = [
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
         }
         return response()->json($this->response, $this->response['code']);
     }

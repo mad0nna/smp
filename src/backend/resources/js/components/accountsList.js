@@ -200,6 +200,7 @@ const AccountsList = () => {
       .get(`/salesforce/getCompanyAdminDetailsbyEmail?email=${email}`)
       .then((response) => {
         const admin = response.data
+        console.log(admin)
         setState((prevState) => {
           return {
             ...prevState,
@@ -434,12 +435,12 @@ const AccountsList = () => {
           ''
         )}
 
-        <div className="w-full h-full overflow-hidden relative min-h-table-height">
+        <div className="w-full h-full relative min-h-table-height">
           <div
             id="widget-header"
-            className="max-w-full h-52 box-border align-middle p-4 relative flex flex-row"
+            className="max-w-full h-48 box-border align-middle p-4 relative flex flex-row"
           >
-            <div className="flex flex-cols flex-wrap justify-self-start w-2/4">
+            <div className="flex flex-cols flex-wrap justify-self-start w-7/12 relative">
               <div className="float-left">
                 <img
                   src={AccountsIcon}
@@ -457,7 +458,7 @@ const AccountsList = () => {
               </div>
               <button
                 onClick={togglePopupNewAccount}
-                className="rounded-full bg-white w-2/5 h-10 py-2 font-bold text-center border-1 shadow-md border-primary-200 text-primary-200"
+                className="rounded-full bg-white w-4/12 h-10 py-2 font-bold text-center border-1 shadow-md border-primary-200 text-primary-200"
               >
                 新規ユーザーを追加 +
               </button>
@@ -465,19 +466,21 @@ const AccountsList = () => {
 
             <div
               id="widget-name"
-              className="mr-12 w-1/4 object-right-bottom relative"
+              className="mr-26 w-1/4 object-right-bottom relative rounded-full"
             >
               <div
                 className={
-                  state.showList ? `table-cell h-40 align-bottom` : ` hidden `
+                  state.showList
+                    ? `table-cell h-36 origin-right align-bottom`
+                    : ` hidden `
                 }
               >
                 <div
                   id="search-bar"
-                  className="bg-white h-12 rounded-3xl w-96 mx-0 my-auto"
+                  className="bg-white h-12 rounded-3xl 2xl:w-96 xl:w-92 lg:w-64 mx-0 my-auto shadow-md"
                 >
                   <svg
-                    className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
+                    className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3 rounded-full"
                     xmlns="http://www.w3.org/2000/svg"
                     x="30px"
                     y="30px"
@@ -494,15 +497,14 @@ const AccountsList = () => {
                   </svg>
                   <input
                     type="text"
-                    id="billingSearch"
-                    className="h-full w-80 bg-white custom-outline-none"
+                    className="h-full 2xl:w-80 xl:w-76 lg:w-44 bg-white custom-outline-none rounded-full"
                     placeholder="検索"
                     onChange={handleFilter}
                   />
                 </div>
               </div>
             </div>
-            <div className=" w-1/5 h-40 float-right">
+            <div className="w-1/4 h-40 float-right">
               <Settings />
             </div>
           </div>
