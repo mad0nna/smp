@@ -211,14 +211,9 @@ const AccountsList = () => {
             email: admin.email,
             showList: true,
             isLoading: false,
-<<<<<<< HEAD
             foundAccount: admin,
-            searchResult: '検索する'
-=======
-            foundAccount: response.data,
             searchResult:
               '既に追加されているユーザーです。アカウント一覧をご確認ください。'
->>>>>>> master
           }
         })
       })
@@ -231,13 +226,9 @@ const AccountsList = () => {
               showList: true,
               showPopupNewAccount: true,
               isLoading: false,
-<<<<<<< HEAD
               foundAccount: null,
-              searchResult: 'アカウントが見つかりません',
+              searchResult: 'セールスフォースに存在しないユーザーです。',
               email: email
-=======
-              searchResult: 'セールスフォースに存在しないユーザーです。'
->>>>>>> master
             }
           })
         }
