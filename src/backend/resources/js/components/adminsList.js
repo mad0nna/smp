@@ -110,7 +110,7 @@ const AdminsList = (props) => {
                   ) : null}
                   {(admin.userTypeId === 4 && admin.userStatusId != 5) ||
                   admin.userTypeId === 3 ||
-                  admin.id != state.loggedUser.id ? (
+                  admin.id === state.loggedUser.id ? (
                     <span
                       className="cursor-pointer"
                       onClick={() => props.handleDisplayUpdate(admin, i)}
