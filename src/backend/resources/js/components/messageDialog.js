@@ -20,7 +20,7 @@ const MessageDialog = (props) => {
           onClick={() => props.handleCloseMessageDialog()}
           className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-primary-200  tracking-tighter bg-white mr-4"
         >
-          オーケー
+          OK
         </button>
       </div>
     </div>

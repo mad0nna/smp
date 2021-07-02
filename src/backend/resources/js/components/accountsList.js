@@ -302,7 +302,8 @@ const AccountsList = () => {
             console.log(prevState.adminList)
             return {
               ...prevState,
-              showPopupDelete: false
+              showPopupDelete: false,
+              showList: true
             }
           })
         }
@@ -316,26 +317,26 @@ const AccountsList = () => {
         }
       })
 
-    axios
-      .delete('/salesforce/deleteSFAdmin?admin=', {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data: {
-          admin
-        }
-      })
-      // .then((response) => {
-      //   const acct = response.data
-      // })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response.status)
-          setState({
-            deletedAccount: null
-          })
-        }
-      })
+    // axios
+    //   .delete('/salesforce/deleteSFAdmin?admin=', {
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     data: {
+    //       admin
+    //     }
+    //   })
+    //   // .then((response) => {
+    //   //   const acct = response.data
+    //   // })
+    //   .catch(function (error) {
+    //     if (error.response) {
+    //       console.log(error.response.status)
+    //       setState({
+    //         deletedAccount: null
+    //       })
+    //     }
+    //   })
   }
 
   const handleDisplayDelete = (account, i) => {
