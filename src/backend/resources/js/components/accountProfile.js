@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 // import editIcon from '../../img/edit-icon.png'
 // import saveIcon from '../../img/Icon awesome-save.png'
 import axios from 'axios'
+import MessageDialog from './messageDialog'
+import waitingIcon from '../../img/loading-spinner.gif'
 
 // eslint-disable-next-line
 let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
@@ -13,19 +15,10 @@ const AccountProfileEdit = (props) => {
     mode: props.mode,
     dataEmpty: true,
     loggedUser: props.loggedUser,
-    account: {
-      username: '',
-      firstname: '',
-      lastname: '',
-      name: '',
-      position: '',
-      phone: '',
-      email: '',
-      userTypeId: ''
-    },
+    account: getInit(),
     accountSFValues: {
-      Firstname: props.account.firstName,
-      Lastname: props.account.lastName,
+      Firstname: '',
+      Lastname: '',
       Fullname: '',
       Email: '',
       MobilePhone: '',
@@ -38,74 +31,102 @@ const AccountProfileEdit = (props) => {
     userTypes: [
       { name: 'Sub Company Admin', value: 4 },
       { name: 'Company Admin', value: 3 }
-    ]
+    ],
+    isLoading: false,
+    updatedAccount: {}
   })
 
-  const getDatafromProps = () => {
-    let acct = { ...state.account }
-    acct.username = props.account.username
-    acct.name = props.account.fullName
-    acct.lastname = props.account.lastName
-    acct.firstname = props.account.firstName
-    acct.position = props.account.title
-    acct.phone = props.account.contactNum
-    acct.email = props.account.email
-    acct.userTypeId = props.account.userTypeId
-    console.log('acct from db')
-    console.log(acct)
-    setState((prevState) => {
+  function getInit() {
+    if (props.account !== null) {
       return {
-        ...prevState,
-        account: acct,
-        dataEmpty: false
+        username: props.account.username,
+        name: props.account.fullName,
+        lastname: props.account.lastName,
+        firstname: props.account.firstName,
+        position: props.account.title,
+        phone: props.account.contactNum,
+        email: props.account.email,
+        userTypeId: props.account.userTypeId
       }
-    })
+    } else {
+      return {
+        username: '',
+        firstname: '',
+        lastname: '',
+        name: '',
+        position: '',
+        phone: '',
+        email: '',
+        userTypeId: ''
+      }
+    }
   }
 
-  const getDatafromSalesforce = () => {
-    console.log('salesforce data')
-    axios
-      .get(
-        `/salesforce/getCompanyAdminDetailsbyEmail?email=${props.account.email}`
-      )
-      .then((response) => {
-        let data = response.data
-        let acct = { ...state.account }
-        acct.username = data.Email
-        acct.name = data.Name
-        acct.firstname = data.FirstName
-        acct.lastname = data.LastName
-        acct.position = data.Title
-        acct.phone = data.MobilePhone
-        acct.email = data.Email
-        acct.userTypeId = data.admin__c ? 3 : 4
-        let acctsf = { ...state.accountSFValues }
-        acctsf.Email = data.Email
-        acctsf.FirstName = data.FirstName
-        acctsf.LastName = data.LastName
+  // const getDatafromProps = () => {
+  //   let acct = { ...state.account }
+  //   acct.username = props.account.username
+  //   acct.name = props.account.fullName
+  //   acct.lastname = props.account.lastName
+  //   acct.firstname = props.account.firstName
+  //   acct.position = props.account.title
+  //   acct.phone = props.account.contactNum
+  //   acct.email = props.account.email
+  //   acct.userTypeId = props.account.userTypeId
+  //   console.log('acct from db')
+  //   console.log(acct)
+  //   setState((prevState) => {
+  //     return {
+  //       ...prevState,
+  //       account: acct,
+  //       dataEmpty: false
+  //     }
+  //   })
+  // }
 
-        setState((prevState) => {
-          return {
-            ...prevState,
-            account: acct,
-            accountSFValues: acctsf,
-            dataEmpty: false
-          }
-        })
-      })
-      .catch(function (error) {
-        if (error.response) {
-          getDatafromProps()
-          console.log(error.response.status)
-        }
-      })
-  }
+  // const getDatafromSalesforce = () => {
+  //   console.log('salesforce data')
+  //   axios
+  //     .get(
+  //       `/salesforce/getCompanyAdminDetailsbyEmail?email=${props.account.email}`
+  //     )
+  //     .then((response) => {
+  //       let data = response.data
+  //       let acct = { ...state.account }
+  //       acct.username = data.Email
+  //       acct.name = data.Name
+  //       acct.firstname = data.FirstName
+  //       acct.lastname = data.LastName
+  //       acct.position = data.Title
+  //       acct.phone = data.MobilePhone
+  //       acct.email = data.Email
+  //       acct.userTypeId = data.admin__c ? 3 : 4
+  //       let acctsf = { ...state.accountSFValues }
+  //       acctsf.Email = data.Email
+  //       acctsf.FirstName = data.FirstName
+  //       acctsf.LastName = data.LastName
 
-  state.dataEmpty
-    ? state.mode === 'edit'
-      ? getDatafromSalesforce()
-      : getDatafromProps()
-    : null
+  //       setState((prevState) => {
+  //         return {
+  //           ...prevState,
+  //           account: acct,
+  //           accountSFValues: acctsf,
+  //           dataEmpty: false
+  //         }
+  //       })
+  //     })
+  //     .catch(function (error) {
+  //       if (error.response) {
+  //         getDatafromProps()
+  //         console.log(error.response.status)
+  //       }
+  //     })
+  // }
+
+  // state.dataEmpty
+  //   ? state.mode === 'edit'
+  //     ? getDatafromSalesforce()
+  //     : getDatafromProps()
+  //   : null
 
   const handleTextChange = (key, val) => {
     let account = { ...state.account }
@@ -200,48 +221,24 @@ const AccountProfileEdit = (props) => {
 
     if (confirm('Are you sure do you want to update this data?')) {
       console.log(state.account)
+
+      setState((prevState) => {
+        return {
+          ...prevState,
+          isLoading: true
+        }
+      })
+
       axios
         .put('/company/updateAdmin', state.account, {
           'Content-Type': 'application/json'
         })
         .then((response) => {
-          const admin = response.data
+          const admin = response.data.data
           setState((prevState) => {
             return {
               ...prevState,
-              updatedAccount: admin,
-              dialogMessage: '顧客企業情報の更新に成功しました！'
-            }
-          })
-          props.handleDisplayList()
-        })
-        .catch(function (error) {
-          if (error.response) {
-            console.log(error.response.status)
-          }
-        })
-
-      console.log(state.accountSFValues)
-
-      const _accountSFValues = {
-        Email: state.account.email,
-        FirstName: state.account.firstname,
-        Fullname: state.account.firstname + ' ' + state.account.lastname,
-        LastName: state.account.lastname,
-        MobilePhone: state.account.phone,
-        Title: state.account.position,
-        admin__c: state.account.userTypeId
-      }
-
-      axios
-        .put('/salesforce/updateAdminByEmail', _accountSFValues, {
-          'Content-Type': 'application/json'
-        })
-        .then((response) => {
-          const admin = response.data
-          setState((prevState) => {
-            return {
-              ...prevState,
+              isLoading: false,
               updatedAccount: admin,
               showPopupMessageDialog: true,
               dialogMessage: '顧客企業情報の更新に成功しました！'
@@ -251,14 +248,64 @@ const AccountProfileEdit = (props) => {
         .catch(function (error) {
           if (error.response) {
             console.log(error.response.status)
+            setState((prevState) => {
+              return {
+                ...prevState,
+                isLoading: false
+              }
+            })
           }
         })
+
+      // console.log(state.accountSFValues)
+
+      // const _accountSFValues = {
+      //   Email: state.account.email,
+      //   FirstName: state.account.firstname,
+      //   Fullname: state.account.firstname + ' ' + state.account.lastname,
+      //   LastName: state.account.lastname,
+      //   MobilePhone: state.account.phone,
+      //   Title: state.account.position,
+      //   admin__c: state.account.userTypeId
+      // }
+
+      // axios
+      //   .put('/salesforce/updateAdminByEmail', _accountSFValues, {
+      //     'Content-Type': 'application/json'
+      //   })
+      //   .then((response) => {
+      //     const admin = response.data
+      //     setState((prevState) => {
+      //       return {
+      //         ...prevState,
+      //         updatedAccount: admin,
+      //         showPopupMessageDialog: true,
+      //         dialogMessage: '顧客企業情報の更新に成功しました！'
+      //       }
+      //     })
+      //   })
+      //   .catch(function (error) {
+      //     if (error.response) {
+      //       console.log(error.response.status)
+      //     }
+      //   })
     }
   }
 
   const handleClose = () => {
     console.log('handleClose')
     props.handleDisplayList()
+  }
+
+  const handleCloseMessageDialog = () => {
+    console.log('handleCloseMessageDialog')
+    setState((prevState) => {
+      return {
+        ...prevState,
+        showPopupMessageDialog: false
+      }
+    })
+    props.handleDisplayList(state.updatedAccount, props.accountToUpdateIndex)
   }
 
   return (
@@ -517,7 +564,11 @@ const AccountProfileEdit = (props) => {
             display: state.isEditingProfile ? '' : 'none'
           }}
         >
-          {state.isEditingProfile ? '編集する' : '変更を保存'}
+          {state.isEditingProfile ? '編集する' : '変更を保存'}&nbsp;
+          <img
+            src={waitingIcon}
+            className={(state.isLoading ? ' ' : ' hidden ') + ' w-8 inline '}
+          />
         </button>
 
         <button
@@ -528,6 +579,12 @@ const AccountProfileEdit = (props) => {
           キャンセル
         </button>
       </div>
+      {state.showPopupMessageDialog ? (
+        <MessageDialog
+          handleCloseMessageDialog={handleCloseMessageDialog}
+          message={state.dialogMessage}
+        />
+      ) : null}
     </div>
   )
 }

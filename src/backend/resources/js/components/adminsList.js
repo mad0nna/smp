@@ -5,8 +5,6 @@ const AdminsList = (props) => {
     sorted: [],
     loggedUser: props.admins.loggedUser
   })
-  // console.log(props.admins.id)
-  // console.log(state.loggedUser)
   const sortArray = (type) => {
     const types = {
       name: 'name',
@@ -115,7 +113,7 @@ const AdminsList = (props) => {
                   admin.id != state.loggedUser.id ? (
                     <span
                       className="cursor-pointer"
-                      onClick={() => props.handleDisplayUpdate(admin)}
+                      onClick={() => props.handleDisplayUpdate(admin, i)}
                     >
                       更新 &nbsp;
                     </span>

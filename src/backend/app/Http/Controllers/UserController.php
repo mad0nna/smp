@@ -114,22 +114,38 @@ class UserController extends Controller
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
             $company = Auth::user()->company_id;
-            $formData = [
-                'username' => $sf['Email'] ? $sf['Email'] : '',
-                'first_name' => $sf['FirstName'] ? $sf['FirstName'] : '',
-                'last_name' => $sf['LastName'] ? $sf['LastName'] : '',
-                'email' =>  $sf['Email'] ? $sf['Email'] : '',
-                'account_code' => sf['Id'],
-                'contact_num' => $sf['MobilePhone'] ? $sf['MobilePhone'] : '',
-                'title' => $sf['Title'] ? $sf['Title'] : '',
-                'user_type_id' => 4,
-                'company_id' => $company,
-                'user_status_id' => 5,
-                'password' => $pw_hash,   
-                'temp_pw' => $pw,
-                'invite_token' => $invite_token,
-                'account_code' => $sf['Id'] ? $sf['Id'] : '',
-            ];
+
+            if ($sf['isPartial']) {
+                $formData = [
+                    'username' => $sf['email'] ? $sf['email'] : '',
+                    'first_name' => $sf['firstName'] ? $sf['firstName'] : '',
+                    'last_name' => $sf['lastName'] ? $sf['lastName'] : '',
+                    'email' =>  $sf['email'] ? $sf['email'] : '',
+                    'user_type_id' => 4,
+                    'company_id' => $company,
+                    'user_status_id' => 5,
+                    'password' => $pw_hash,   
+                    'temp_pw' => $pw,
+                    'invite_token' => $invite_token,
+                ];
+            } else {
+                $formData = [
+                    'username' => $sf['Email'] ? $sf['Email'] : '',
+                    'first_name' => $sf['FirstName'] ? $sf['FirstName'] : '',
+                    'last_name' => $sf['LastName'] ? $sf['LastName'] : '',
+                    'email' =>  $sf['Email'] ? $sf['Email'] : '',
+                    'contact_num' => $sf['MobilePhone'] ? $sf['MobilePhone'] : '',
+                    'title' => $sf['Title'] ? $sf['Title'] : '',
+                    'user_type_id' => 4,
+                    'company_id' => $company,
+                    'user_status_id' => 5,
+                    'password' => $pw_hash,   
+                    'temp_pw' => $pw,
+                    'invite_token' => $invite_token,
+                    'account_code' => $sf['Id'] ? $sf['Id'] : '',
+                ]; 
+            }
+            
 
             // create the user
             $user = $this->userService->create($formData);

@@ -36,7 +36,8 @@ const AccountsList = () => {
     addedAccount: null,
     deletedAccount: null,
     accountToDelete: {},
-    accountToDeleteIndex: {},
+    accountToDeleteIndex: null,
+    accountToUpdateIndex: null,
     accountToEdit: null,
     accountToResend: null,
     showPopupMessageDialog: false,
@@ -197,9 +198,10 @@ const AccountsList = () => {
     })
 
     axios
-      .get(`/salesforce/getCompanyAdminDetailsbyEmail?email=${email}`)
+      .get(`/company/search?email=${email}`)
       .then((response) => {
-        const admin = response.data
+        const admin = response.data.data
+        console.log('search result')
         console.log(admin)
         setState((prevState) => {
           return {
@@ -208,7 +210,7 @@ const AccountsList = () => {
             email: admin.email,
             showList: true,
             isLoading: false,
-            foundAccount: response.data,
+            foundAccount: admin,
             searchResult: '検索する'
           }
         })
@@ -222,15 +224,18 @@ const AccountsList = () => {
               showList: true,
               showPopupNewAccount: true,
               isLoading: false,
-              searchResult: 'アカウントが見つかりません'
+              foundAccount: null,
+              searchResult: 'アカウントが見つかりません',
+              email: email
             }
           })
         }
       })
   }
 
-  const handleDisplayAddedAdmin = (admin) => {
-    // console.log('handleDisplayAddedAdmin')
+  const handleDisplayAddedAdmin = (user) => {
+    user.isPartial = 1
+    user.lastName = ''
 
     setState((prevState) => {
       return {
@@ -240,7 +245,7 @@ const AccountsList = () => {
     })
 
     axios
-      .post('/company/addCompanyAdmin', admin, {
+      .post('/company/addCompanyAdmin', user, {
         'Content-Type': 'application/json'
       })
       .then((response) => {
@@ -265,6 +270,7 @@ const AccountsList = () => {
           setState((prevState) => {
             return {
               ...prevState,
+              isLoadingOfAddingContact: false,
               showPopupNewAccount: false,
               showPopupMessageDialog: true,
               dialogMessage:
@@ -343,7 +349,7 @@ const AccountsList = () => {
     })
   }
 
-  const handleDisplayUpdate = (account) => {
+  const handleDisplayUpdate = (account, index) => {
     console.log(account)
     setState((prevState) => {
       return {
@@ -353,7 +359,8 @@ const AccountsList = () => {
         accountToEdit: account,
         mode: 'edit',
         redirectToProfile: true,
-        redirectToList: false
+        redirectToList: false,
+        accountToUpdateIndex: index
       }
     })
   }
@@ -371,8 +378,9 @@ const AccountsList = () => {
     })
   }
 
-  const handleDisplayList = () => {
-    console.log('handleDisplayList')
+  const handleDisplayList = (user, index) => {
+    state.adminList[index] = user
+
     setState((prevState) => {
       return {
         ...prevState,
@@ -526,6 +534,7 @@ const AccountsList = () => {
                     handleDisplayUpdate={handleDisplayUpdate}
                     handleDisplayList={handleDisplayList}
                     loggedUser={state.loggedUser}
+                    accountToUpdateIndex={state.accountToUpdateIndex}
                     // handleCloseMessageDialog={handleCloseMessageDialog}
                   />
                 ) : null}

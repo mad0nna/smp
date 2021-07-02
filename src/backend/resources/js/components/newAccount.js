@@ -1,18 +1,50 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import waitingIcon from '../../img/loading-spinner.gif'
 
 const NewAccount = (props) => {
   const [state, setState] = useState({
     email: '',
-    Acctname: ''
+    firstName: ''
   })
   const handleNameChange = (e) => {
-    setState({ Acctname: e.target.value })
+    setState((prevState) => {
+      return {
+        ...prevState,
+        firstName: e.target.value
+      }
+    })
   }
   const handleEmailChange = (e) => {
-    setState({ email: e.target.value })
+    setState((prevState) => {
+      return {
+        ...prevState,
+        email: e.target.value
+      }
+    })
   }
+
+  useEffect(() => {
+    if (!_.isEmpty(props.foundAccount)) {
+      console.log('useeffect')
+      console.log(props.foundAccount)
+      setState((prevState) => {
+        return {
+          ...prevState,
+          email: props.foundAccount.email,
+          firstName: props.foundAccount.firstName
+        }
+      })
+    } else {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          email: props.email,
+          firstName: ''
+        }
+      })
+    }
+  }, [props.foundAccount])
 
   return (
     <div className="rounded-lg border-2 border-gray-200 absolute inset-1/3 h-80 top-48 m-auto bg-primary-200 opacity-85 ">
@@ -56,11 +88,9 @@ const NewAccount = (props) => {
               className=" text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
               onChange={handleNameChange}
               value={
-                _.isEmpty(props.foundAccount)
-                  ? state.Acctname
-                    ? state.Acctname
-                    : ''
-                  : props.foundAccount.Name
+                !_.isEmpty(props.foundAccount)
+                  ? props.foundAccount.firstName
+                  : state.firstName
               }
               type="text"
             />
@@ -80,13 +110,18 @@ const NewAccount = (props) => {
       <div className="flex flex-wrap gap-0 w-full justify-center mt-4">
         <button
           disabled={
-            props.foundAccount &&
-            props.foundAccount.Name &&
-            props.isLoadingOfAddingContact === false
-              ? ''
-              : 'disabled'
+            !_.isEmpty(props.foundAccount) ||
+            state.email.length === 0 ||
+            state.firstName.length === 0
+              ? 'disabled'
+              : ''
           }
-          onClick={() => props.handleDisplayAddedAdmin(props.foundAccount)}
+          onClick={() =>
+            props.handleDisplayAddedAdmin({
+              email: state.email,
+              firstName: state.firstName
+            })
+          }
           className="rounded-xl cursor-pointer  font-extrabold w-40 py-2 px-3 mr-4 text-primary-200  tracking-tighter bg-white"
         >
           招待を送信 &nbsp;
