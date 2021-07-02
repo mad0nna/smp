@@ -225,8 +225,7 @@ const AccountsList = () => {
               showList: true,
               showPopupNewAccount: true,
               isLoading: false,
-              searchResult:
-                'セールスフォースに存在しないユーザーです。招待状を送信してもよろしいですか？'
+              searchResult: 'セールスフォースに存在しないユーザーです。'
             }
           })
         }

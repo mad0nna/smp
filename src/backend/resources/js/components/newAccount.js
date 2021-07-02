@@ -63,7 +63,7 @@ const NewAccount = (props) => {
             <button
               disabled={props.isLoading}
               onClick={() => props.searchAdminByEmail(state.email)}
-              className="w-16 xl:w-16 lg:w-14 cursor-pointer col-span-1 text-bold   text-primary-200   bg-white rounded p-1 text-sm"
+              className="w-20 xl:w-20 lg:w-20 cursor-pointer col-span-1 text-bold   text-primary-200   bg-white rounded p-1 text-sm"
             >
               &nbsp; 探す
               <img
