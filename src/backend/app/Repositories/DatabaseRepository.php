@@ -109,11 +109,28 @@ class DatabaseRepository {
     public function getZendeskSeenNotif($accountID)
     {
         try {
-            return NotificationTarget::leftjoin('users', 'users.id', '=', 'user_id')
+            return NotificationTarget::rightjoin('users', 'users.id', '=', 'user_id')
             ->where('users.account_code', $accountID)
             ->select(['notification_target.article_id', 'notification_target.article_seen_timestamp'])
             ->get()
             ->toArray();
+        } catch (Exception $e) {
+            return array("status" => false, "message" => $e->getMessage());
+        }
+    }
+
+    public function seenZendeskNotif($accountID, $articleId, $currentDateTime) {
+        try {
+            $userId = User::where('account_code', $accountID)->select("id")->get()->toArray();
+            if (!empty($userId)) {
+                $userId = reset($userId)["id"];
+                return NotificationTarget::create([
+                    'user_id' => $userId,
+                    'notification_type' => 'zendesk',
+                    'article_id' => $articleId,
+                    'article_seen_timestamp' => $currentDateTime
+                ]);
+            }
         } catch (Exception $e) {
             return array("status" => false, "message" => $e->getMessage());
         }

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Resources\CompanyResource;
 use App\Http\Requests\SearchCompanyRequest;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CompanyController extends Controller
 {
@@ -75,24 +76,32 @@ class CompanyController extends Controller
 
     public function searchCompanyCode(Request $request, CompanyService $companyService)
     {
-      $result = $companyService->getAllDetailsInSFByID($request->code); 
-      if ($result) {
+      $code = 200;
+
+      try {
+        $result = $companyService->getAllDetailsInSFByID($request->code); 
+        if (!$result) {
+          throw new NotFoundHttpException('No records found.');
+        }
+
         $data = (new CompanyResource([]))->filterFromSFToFront($result, $request->code);
-      }
-      
-      if (isset($request->includeCompanyDBRecord)) {
-        $company = $companyService->getCompany($request->code);
-        $data['id'] = $company[0]['id'];
+        
+        if (isset($request->includeCompanyDBRecord)) {
+          $company = $companyService->getCompany($request->code);
+          $data['id'] = $company[0]['id'];
+        }
+
+        $this->response = [
+          'success' => true,
+          'isPullFromSf' => $result ? true : false,
+          'data'    => $data,
+          'dbData' => (isset($request->includeCompanyDBRecord)) ? CompanyResource::collection($company) : null,
+        ];
+      } catch(\Exception $e) {
+        $code = ($e instanceof NotFoundHttpException) ? 404 : 500;
       }
 
-      $response = [
-        'success' => true,
-        'isPullFromSf' => $result ? true : false,
-        'data'    => $data,
-        'dbData' => (isset($request->includeCompanyDBRecord)) ? CompanyResource::collection($company) : null,
-      ];
-
-      return response()->json($response, 200);
+      return response()->json($this->response, $code);
     }
 
     public function saveAddedCompany(Request $request, CompanyService $companyService)

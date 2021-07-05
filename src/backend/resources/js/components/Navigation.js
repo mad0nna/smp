@@ -17,7 +17,7 @@ class Navigation extends React.Component {
         {
           label: 'ダッシュボード',
           url: '/company/dashboard',
-          childUrl: [],
+          childUrl: ['/company/notifications'],
           iconNormal: 'bg-dashboard-icon',
           iconHover: 'group-hover:bg-dashboard-icon-hover',
           iconActive: 'bg-dashboard-icon-hover',

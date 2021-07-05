@@ -57,12 +57,37 @@ const Notification = (props) => {
             message: zendeskNotifs[i].title,
             link: zendeskNotifs[i].html_url,
             newTab: true,
-            status: zendeskNotifs[i].seen ? '既読' : '未読'
+            status: zendeskNotifs[i].seen ? '既読' : '未読',
+            id: zendeskNotifs[i].id
           })
         }
         setState({ loading: false, notificationItems: notifs })
       })
   }, [])
+
+  const seenNotif = (stateIndex, id, type, link, newTab = true) => {
+    fetch('/company/seenNotification', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN':
+          document.getElementsByTagName('meta')['csrf-token'].content
+      },
+      body: JSON.stringify({ id: id, type: type })
+    })
+      .then((response) => response.json())
+      .then(() => {
+        let notificationItems = state.notificationItems
+        notificationItems[stateIndex].status = '既読'
+        setState({
+          notificationItems: notificationItems
+        })
+      })
+    if (newTab) {
+      window.open(link, '_blank')
+      window.focus()
+    }
+  }
 
   let py = ''
   props.displayType !== 'undefined' && props.displayType === 'small'
@@ -135,11 +160,26 @@ const Notification = (props) => {
                     {item.header} <br />
                     {item.message} <br />
                     <a
-                      href={item.link}
-                      target={item.newTab ? '_blank' : ''}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        item.type === 'zendesk'
+                          ? seenNotif(
+                              index,
+                              item.id,
+                              'zendesk',
+                              item.link,
+                              item.newTab
+                            )
+                          : ''
+                      }}
                       rel="noreferrer"
+                      className="cursor-pointer"
                     >
-                      <span className="text-primary-200">
+                      <span
+                        className="text-primary-200"
+                        dataid={item.id}
+                        datatype={item.type}
+                      >
                         {notifWithLink.includes(item.header)
                           ? ' こちらをクリックして確認してください'
                           : ''}
@@ -162,9 +202,11 @@ const Notification = (props) => {
             ''
           ) : (
             <div id="widget-footer-control" className="float-right">
-              <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">
-                さらに表示
-              </button>
+              <a href="./notifications">
+                <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">
+                  さらに表示
+                </button>
+              </a>
             </div>
           )}
         </div>

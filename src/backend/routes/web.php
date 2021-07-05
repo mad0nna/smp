@@ -43,12 +43,14 @@ Route::prefix('salesforce')->group(function() {
       Route::get('getCompanyAdmins', "UserController@index");
       Route::view('/companyProfileEdit', 'companyProfileEdit');
       Route::get("/getNotification", "NotificationController@getAllNotification");
+      Route::post('/seenNotification', "NotificationController@seenNotification");
       Route::post('addCompanyAdmin', "UserController@store");
       Route::post('resendEmailInvite', "UserController@invite");
       Route::put('updateAdmin', "UserController@update");
       Route::delete('deleteAdmin', 'UserController@destroy');
       Route::get('getLoggedUserInfo', "UserController@userinfo");
       Route::get('search', "UserController@show");
+      Route::view('/notifications', 'notifications');
   });
 
   Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function() {
