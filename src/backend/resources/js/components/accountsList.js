@@ -289,8 +289,7 @@ const AccountsList = () => {
               isLoadingOfAddingContact: false,
               showPopupNewAccount: false,
               showPopupMessageDialog: true,
-              dialogMessage:
-                '既に追加されているユーザーです。\n アカウント一覧をご確認ください。'
+              dialogMessage: '正しいメールアドレスを入力してください。'
             }
           })
         }
