@@ -3,12 +3,12 @@ import ReactDom from 'react-dom'
 import spinner from '../../img/spinner.gif'
 
 const NotificationPage = () => {
-  let iconTypes = {
-    invoice: 'bg-notification-invoice',
-    contract: 'bg-notification-active',
-    zendesk: 'bg-notification-normal'
-  }
-  let notifWithLink = ['請求', 'お知らせ']
+  // let iconTypes = {
+  //   invoice: 'bg-notification-invoice',
+  //   contract: 'bg-notification-active',
+  //   zendesk: 'bg-notification-normal'
+  // }
+  // let notifWithLink = ['請求', 'お知らせ']
   const [state, setState] = useState({
     loading: true,
     GeneralNotifs: [],
