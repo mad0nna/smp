@@ -39,14 +39,14 @@ class UserController extends Controller
         $this->middleware(['auth', 'verified']);
     }
 
-    /**
-     * Retrieves the List of Company admins
+       /**
+     * Retrieves the Company admin details from salesforce
      *  
      */
     public function searchSF(SearchUserInSFRequest $request) {
         try{
-            $results = $this->userService->findinSFByEmail($request->email);
-            $this->response = array_merge($results, $this->response);
+            $user = $this->userService->findinSFByEmail($request->email);
+            $this->response['data'] = $this->getSFResource($user); 
         }catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
@@ -118,8 +118,8 @@ class UserController extends Controller
             if ($sf['isPartial']) {
                 $formData = [
                     'username' => $sf['email'] ? $sf['email'] : '',
-                    'first_name' => $sf['firstName'] ? $sf['firstName'] : '',
-                    'last_name' => $sf['lastName'] ? $sf['lastName'] : '',
+                    'first_name' => $sf['firstname'] ? $sf['firstname'] : '',
+                    'last_name' => $sf['lastname'] ? $sf['lastname'] : '',
                     'email' =>  $sf['email'] ? $sf['email'] : '',
                     'user_type_id' => 4,
                     'company_id' => $company,
@@ -130,22 +130,22 @@ class UserController extends Controller
                 ];
             } else {
                 $formData = [
-                    'username' => $sf['Email'] ? $sf['Email'] : '',
-                    'first_name' => $sf['FirstName'] ? $sf['FirstName'] : '',
-                    'last_name' => $sf['LastName'] ? $sf['LastName'] : '',
-                    'email' =>  $sf['Email'] ? $sf['Email'] : '',
-                    'contact_num' => $sf['MobilePhone'] ? $sf['MobilePhone'] : '',
-                    'title' => $sf['Title'] ? $sf['Title'] : '',
+                    'username' => $sf['email'] ? $sf['email'] : '',
+                    'first_name' => $sf['first_name'] ? $sf['first_name'] : '',
+                    'last_name' => $sf['last_name'] ? $sf['last_name'] : '',
+                    'email' =>  $sf['email'] ? $sf['email'] : '',
+                    'contact_num' => $sf['contact_num'] ? $sf['contact_num'] : '',
+                    'title' => $sf['title'] ? $sf['title'] : '',
                     'user_type_id' => 4,
                     'company_id' => $company,
                     'user_status_id' => 5,
                     'password' => $pw_hash,   
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
-                    'account_code' => $sf['Id'] ? $sf['Id'] : '',
+                    'account_code' => $sf['account_code'] ? $sf['account_code'] : '',
                 ]; 
             }
-            
+           
 
             // create the user
             $user = $this->userService->create($formData);
@@ -177,10 +177,26 @@ class UserController extends Controller
         try {
             $data = $request->all();
             $email = $data['email'];
-            $user = $this->userService->findByEmail($email);
-            
-            $this->response['data'] = new UserResource($user);
+            $user = $this->userService->findinSFByEmail($request->email);
+            //$results = $this->getSFResource($results);
 
+            if ($user){ 
+
+                $dbuser = $this->userService->findByEmail($email);
+                if ($dbuser)
+                {
+                    $this->response['data'] = new UserResource($dbuser);
+                }
+                else
+                {
+                    $this->response['data'] = $this->getSFResource($user);    
+                }         
+            }
+            else{
+                $user = $this->userService->findByEmail($email);            
+                $this->response['data'] = new UserResource($user);
+            }
+            //$this->response = array_merge($user, $this->response);
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
@@ -188,6 +204,23 @@ class UserController extends Controller
             ];
         }
         return response()->json($this->response, $this->response['code']);
+    }
+
+    public function getSFResource($result)
+    {
+        return [
+            'account_code' => $result['Id'],
+            'username' => $result['Email'],
+            'fullName' => $result['Name'],
+            'first_name' => $result['FirstName'],
+            'last_name' => $result['LastName'],
+            'email' => $result['Email'],
+            'title' => $result['Title'],
+            'user_status_id' => 5,
+            'contact_num' =>$result['MobilePhone'],
+            'user_type_id' => $result['admin__c'] ? 3 :4, 
+            'source'=>'salesforce'       
+        ];
     }
 
     /**
@@ -239,7 +272,7 @@ class UserController extends Controller
             return response()->json($this->response, $this->response['code']);
     }
 
-/**
+    /**
      * Update user in Salesforce.
      *
      * @param  \Illuminate\Http\Request $request

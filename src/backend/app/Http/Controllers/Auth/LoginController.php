@@ -102,7 +102,7 @@ class LoginController extends Controller
             
             if (Auth::user()->email_verified_at === null) {
                 Auth::logout();
-                return redirect()->back()->with('status', 'アカウントをアクティブ化するには、正しいURLが必要です。');
+                return redirect()->back()->with('status', '招待メール記載の利用開始ボタンよりログインしてください。');
             }
 
              Session::put('salesforceCompanyID', Auth::user()->company->account_id);

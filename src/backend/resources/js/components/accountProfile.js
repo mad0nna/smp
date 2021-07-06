@@ -15,7 +15,14 @@ const AccountProfileEdit = (props) => {
     mode: props.mode,
     dataEmpty: true,
     loggedUser: props.loggedUser,
-    account: getInit(),
+    account: {
+      username: '',
+      firstname: '',
+      lastname: '',
+      phone: '',
+      email: '',
+      userTypeId: ''
+    },
     accountSFValues: {
       Firstname: '',
       Lastname: '',
@@ -36,97 +43,98 @@ const AccountProfileEdit = (props) => {
     updatedAccount: {}
   })
 
-  function getInit() {
-    if (props.account !== null) {
+  // function getInit() {
+  //   if (props.account !== null) {
+  //     return {
+  //       username: props.account.username,
+  //       name: props.account.fullName,
+  //       lastname: props.account.lastName,
+  //       firstname: props.account.firstName,
+  //       position: props.account.title,
+  //       phone: props.account.contactNum,
+  //       email: props.account.email,
+  //       userTypeId: props.account.userTypeId
+  //     }
+  //   } else {
+  //     return {
+  //       username: '',
+  //       firstname: '',
+  //       lastname: '',
+  //       name: '',
+  //       position: '',
+  //       phone: '',
+  //       email: '',
+  //       userTypeId: ''
+  //     }
+  //   }
+  // }
+
+  const getDatafromProps = () => {
+    let acct = { ...state.account }
+    acct.username = props.account.username
+    acct.name = props.account.Name
+    acct.lastname = props.account.last_name
+    acct.firstname = props.account.first_name
+    acct.position = props.account.title
+    acct.phone = props.account.contact_num
+    acct.email = props.account.email
+    acct.userTypeId = props.account.user_type_id
+    console.log('acct from db')
+    console.log(acct)
+    setState((prevState) => {
       return {
-        username: props.account.username,
-        name: props.account.fullName,
-        lastname: props.account.lastName,
-        firstname: props.account.firstName,
-        position: props.account.title,
-        phone: props.account.contactNum,
-        email: props.account.email,
-        userTypeId: props.account.userTypeId
+        ...prevState,
+        account: acct,
+        dataEmpty: false
       }
-    } else {
-      return {
-        username: '',
-        firstname: '',
-        lastname: '',
-        name: '',
-        position: '',
-        phone: '',
-        email: '',
-        userTypeId: ''
-      }
-    }
+    })
   }
 
-  // const getDatafromProps = () => {
-  //   let acct = { ...state.account }
-  //   acct.username = props.account.username
-  //   acct.name = props.account.fullName
-  //   acct.lastname = props.account.lastName
-  //   acct.firstname = props.account.firstName
-  //   acct.position = props.account.title
-  //   acct.phone = props.account.contactNum
-  //   acct.email = props.account.email
-  //   acct.userTypeId = props.account.userTypeId
-  //   console.log('acct from db')
-  //   console.log(acct)
-  //   setState((prevState) => {
-  //     return {
-  //       ...prevState,
-  //       account: acct,
-  //       dataEmpty: false
-  //     }
-  //   })
-  // }
+  const getDatafromSalesforce = () => {
+    console.log('salesforce data')
+    axios
+      .get(
+        `/salesforce/getCompanyAdminDetailsbyEmail?email=${props.account.email}`
+      )
+      .then((response) => {
+        let data = response.data.data
+        console.log(data)
+        let acct = { ...state.account }
+        acct.username = data.email
+        acct.name = data.FullName
+        acct.firstname = data.first_name
+        acct.lastname = data.last_name
+        acct.position = data.title
+        acct.phone = data.contact_num
+        acct.email = data.email
+        acct.userTypeId = data.user_type_id
+        // let acctsf = { ...state.accountSFValues }
+        // acctsf.Email = data.Email
+        // acctsf.FirstName = data.FirstName
+        // acctsf.LastName = data.LastName
 
-  // const getDatafromSalesforce = () => {
-  //   console.log('salesforce data')
-  //   axios
-  //     .get(
-  //       `/salesforce/getCompanyAdminDetailsbyEmail?email=${props.account.email}`
-  //     )
-  //     .then((response) => {
-  //       let data = response.data
-  //       let acct = { ...state.account }
-  //       acct.username = data.Email
-  //       acct.name = data.Name
-  //       acct.firstname = data.FirstName
-  //       acct.lastname = data.LastName
-  //       acct.position = data.Title
-  //       acct.phone = data.MobilePhone
-  //       acct.email = data.Email
-  //       acct.userTypeId = data.admin__c ? 3 : 4
-  //       let acctsf = { ...state.accountSFValues }
-  //       acctsf.Email = data.Email
-  //       acctsf.FirstName = data.FirstName
-  //       acctsf.LastName = data.LastName
+        setState((prevState) => {
+          return {
+            ...prevState,
+            account: acct,
+            //accountSFValues: acctsf,
+            dataEmpty: false
+          }
+        })
+      })
+      .catch(function (error) {
+        if (error.response) {
+          getDatafromProps()
+          console.log(error.response.status)
+        }
+      })
+  }
 
-  //       setState((prevState) => {
-  //         return {
-  //           ...prevState,
-  //           account: acct,
-  //           accountSFValues: acctsf,
-  //           dataEmpty: false
-  //         }
-  //       })
-  //     })
-  //     .catch(function (error) {
-  //       if (error.response) {
-  //         getDatafromProps()
-  //         console.log(error.response.status)
-  //       }
-  //     })
-  // }
-
-  // state.dataEmpty
-  //   ? state.mode === 'edit'
-  //     ? getDatafromSalesforce()
-  //     : getDatafromProps()
-  //   : null
+  state.dataEmpty
+    ? state.mode === 'edit'
+      ? getDatafromSalesforce()
+      : getDatafromProps()
+    : null
 
   const handleTextChange = (key, val) => {
     let account = { ...state.account }
@@ -142,12 +150,12 @@ const AccountProfileEdit = (props) => {
       case 'name':
         key = 'Fullname'
         break
-      // case 'firstname':
-      //   key = 'Firstname'
-      //   break
-      // case 'lastname':
-      //   key = 'Lastname'
-      //   break
+      case 'firstname':
+        key = 'Firstname'
+        break
+      case 'lastname':
+        key = 'Lastname'
+        break
       case 'email':
         key = 'Email'
         break
@@ -187,37 +195,6 @@ const AccountProfileEdit = (props) => {
 
   const handleUpdateSave = () => {
     console.log('handleUpdateSave')
-    // let acct = { ...state.account }
-    // let acctsf = { ...state.accountSFValues }
-    // let full = state.account.name
-    // let arr = []
-    // // let lastname = ''
-    // // let firstname = ''
-
-    // arr = full.split(' ')
-
-    // if (arr.lenght === 3) {
-    //   acct.firstname = full.split(' ').slice(0, -1).join(' ')
-    //   acct.lastname = full.split(' ').slice(-1).join(' ')
-    //   console.log('3')
-    // } else if (arr.lenght === 4) {
-    //   acct.firstname = full.split(' ').slice(0, -2).join(' ')
-    //   acct.lastname = full.split(' ').slice(-2).join(' ')
-    //   console.log('4')
-    // } else {
-    // acct.firstname = arr[0]
-    // acct.lastname = arr[1]
-    // acctsf.FirstName = arr[0]
-    // acctsf.LastName = arr[1]
-    // }
-
-    // setState((prevState) => {
-    //   return {
-    //     ...prevState,
-    //     account: acct,
-    //     accountSFValues: acctsf
-    //   }
-    // })
 
     if (confirm('Are you sure do you want to update this data?')) {
       console.log(state.account)
@@ -229,16 +206,53 @@ const AccountProfileEdit = (props) => {
         }
       })
 
+      const _accountSFValues = {
+        Email: state.account.email,
+        FirstName: state.account.firstname,
+        Fullname: state.account.firstname + ' ' + state.account.lastname,
+        LastName: state.account.lastname,
+        MobilePhone: state.account.phone,
+        Title: state.account.position,
+        admin__c: state.account.userTypeId
+      }
+      console.log(_accountSFValues)
       axios
-        .put('/company/updateAdmin', state.account, {
+        .put('/salesforce/updateAdminByEmail', _accountSFValues, {
           'Content-Type': 'application/json'
         })
         .then((response) => {
-          const admin = response.data.data
+          axios
+            .put('/company/updateAdmin', state.account, {
+              'Content-Type': 'application/json'
+            })
+            .then((response) => {
+              const admin = response.data.data
+              setState((prevState) => {
+                return {
+                  ...prevState,
+                  isLoading: false,
+                  updatedAccount: admin,
+                  showPopupMessageDialog: true,
+                  dialogMessage: '顧客企業情報の更新に成功しました！'
+                }
+              })
+            })
+            .catch(function (error) {
+              if (error.response) {
+                console.log(error.response.status)
+                setState((prevState) => {
+                  return {
+                    ...prevState,
+                    isLoading: false
+                  }
+                })
+              }
+            })
+
+          const admin = response.data
           setState((prevState) => {
             return {
               ...prevState,
-              isLoading: false,
               updatedAccount: admin,
               showPopupMessageDialog: true,
               dialogMessage: '顧客企業情報の更新に成功しました！'
@@ -248,47 +262,8 @@ const AccountProfileEdit = (props) => {
         .catch(function (error) {
           if (error.response) {
             console.log(error.response.status)
-            setState((prevState) => {
-              return {
-                ...prevState,
-                isLoading: false
-              }
-            })
           }
         })
-
-      // console.log(state.accountSFValues)
-
-      // const _accountSFValues = {
-      //   Email: state.account.email,
-      //   FirstName: state.account.firstname,
-      //   Fullname: state.account.firstname + ' ' + state.account.lastname,
-      //   LastName: state.account.lastname,
-      //   MobilePhone: state.account.phone,
-      //   Title: state.account.position,
-      //   admin__c: state.account.userTypeId
-      // }
-
-      // axios
-      //   .put('/salesforce/updateAdminByEmail', _accountSFValues, {
-      //     'Content-Type': 'application/json'
-      //   })
-      //   .then((response) => {
-      //     const admin = response.data
-      //     setState((prevState) => {
-      //       return {
-      //         ...prevState,
-      //         updatedAccount: admin,
-      //         showPopupMessageDialog: true,
-      //         dialogMessage: '顧客企業情報の更新に成功しました！'
-      //       }
-      //     })
-      //   })
-      //   .catch(function (error) {
-      //     if (error.response) {
-      //       console.log(error.response.status)
-      //     }
-      //   })
     }
   }
 

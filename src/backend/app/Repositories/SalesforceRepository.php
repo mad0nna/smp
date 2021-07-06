@@ -193,8 +193,8 @@ class SalesforceRepository {
                 $data = [
                     "FirstName" => $newValues["FirstName"],
                     "LastName" => $newValues["LastName"],
-                    "first_kana__c" => $newValues["first_name"] !== "" ? $newValues["first_name"] : "-",
-                    "last_kana__c" => $newValues["last_name"] !== "" ? $newValues["last_name"] : "-",
+                    "first_kana__c" => $newValues["FirstName"] !== "" ? $newValues["FirstName"] : "-",
+                    "last_kana__c" => $newValues["LastName"] !== "" ? $newValues["LastName"] : "-",
                     "MobilePhone" => $newValues["MobilePhone"],
                     "Email" => $newValues["Email"],
                     "Title" => $newValues["Title"],

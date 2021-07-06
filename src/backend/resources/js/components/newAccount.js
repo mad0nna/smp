@@ -4,14 +4,17 @@ import waitingIcon from '../../img/loading-spinner.gif'
 
 const NewAccount = (props) => {
   const [state, setState] = useState({
+    addingAccount: '',
     email: '',
-    firstName: ''
+    fullName: '',
+    firstName: '',
+    lastName: ''
   })
   const handleNameChange = (e) => {
     setState((prevState) => {
       return {
         ...prevState,
-        firstName: e.target.value
+        fullName: e.target.value
       }
     })
   }
@@ -26,21 +29,21 @@ const NewAccount = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(props.foundAccount)) {
-      console.log('useeffect')
-      console.log(props.foundAccount)
       setState((prevState) => {
         return {
           ...prevState,
           email: props.foundAccount.email,
-          firstName: props.foundAccount.firstName
+          fullName: props.foundAccount.fullName,
+          addingAccount: props.foundAccount
         }
       })
     } else {
       setState((prevState) => {
         return {
           ...prevState,
-          email: props.email,
-          firstName: ''
+          // email: '',
+          fullName: '',
+          addingAccount: ''
         }
       })
     }
@@ -52,7 +55,7 @@ const NewAccount = (props) => {
         <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 justify-start 2xl:pl-14 xl:pl-8 lg:pl-6">
           <div className="justify-center">
             <label className="text-sm text-white 2xl:w-42 xl:w-42 lg:w-26 h-8 px-3 leading-8 col-span-1">
-              入力メール:
+              メールアドレス:
             </label>
             <input
               className="text-sm 2xl:w-60 xl:w-58 lg:w-36 col-span-1 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
@@ -65,7 +68,7 @@ const NewAccount = (props) => {
               onClick={() => props.searchAdminByEmail(state.email)}
               className="w-20 xl:w-20 lg:w-20 cursor-pointer col-span-1 text-bold   text-primary-200   bg-white rounded p-1 text-sm"
             >
-              &nbsp; 探す
+              &nbsp; 検索する
               <img
                 src={waitingIcon}
                 className={
@@ -89,8 +92,10 @@ const NewAccount = (props) => {
               onChange={handleNameChange}
               value={
                 !_.isEmpty(props.foundAccount)
-                  ? props.foundAccount.firstName
-                  : state.firstName
+                  ? props.foundAccount.first_name +
+                    ' ' +
+                    props.foundAccount.last_name
+                  : state.fullName
               }
               type="text"
             />
@@ -110,17 +115,24 @@ const NewAccount = (props) => {
       <div className="flex flex-wrap gap-0 w-full justify-center mt-4">
         <button
           disabled={
-            !_.isEmpty(props.foundAccount) ||
+            (!_.isEmpty(props.foundAccount) &&
+              props.foundAccount.source === 'database') ||
             state.email.length === 0 ||
-            state.firstName.length === 0
+            state.fullName.length === 0
               ? 'disabled'
               : ''
           }
           onClick={() =>
-            props.handleDisplayAddedAdmin({
-              email: state.email,
-              firstName: state.firstName
-            })
+            props.handleDisplayAddedAdmin(
+              // {
+              // email: state.email,
+              // fullName: state.fullName
+              // }
+
+              state.addingAccount
+                ? state.addingAccount
+                : { email: state.email, fullName: state.fullName }
+            )
           }
           className="rounded-xl cursor-pointer  font-extrabold w-40 py-2 px-3 mr-4 text-primary-200  tracking-tighter bg-white"
         >

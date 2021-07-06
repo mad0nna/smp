@@ -280,12 +280,31 @@ class UserService
             // retrieve the user
             $user = $this->user
                         ->where('email', $email)
-                        ->firstOrFail();
-        } catch (ModelNotFoundException $e) {
-            throw new UserNotFoundException;
-        }
+                        ->firstOrFail();            
 
+        } catch (Exception $e) {
+            $user=null;
+        }
         return $user;
+    }
+
+    /**
+     * Retrieves a user from Salesforce by email
+     *
+     * @param string $email
+     * @return User $user
+     */
+    public function findinSFByEmail($email) {
+        try{
+            $companyAdmin = $this->salesForce->getCompanyAdminDetailsbyEmail($email);       
+            if (isset($companyAdmin["status"]) && !$companyAdmin["status"]) {
+                return json_encode($companyAdmin);
+            }
+            return $companyAdmin;
+        }
+        catch (UserNotFoundException $e) {
+            throw new UserNotFoundException;
+        }   
     }
 
     /**
@@ -334,20 +353,6 @@ class UserService
         catch (UserNotFoundException $e) {
             throw new UserNotFoundException;
         }
-    }
-
-    public function findinSFByEmail($email) {
-        try{
-            $companyAdmin = $this->salesForce->getCompanyAdminDetailsbyEmail($email);       
-            if (isset($companyAdmin["status"]) && !$companyAdmin["status"]) {
-                return json_encode($companyAdmin);
-            }
-            return $companyAdmin;
-        }
-        catch (UserNotFoundException $e) {
-            throw new UserNotFoundException;
-        }
-        
     }
 
     /**

@@ -18,17 +18,18 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'username' => $this->username,
             'fullName' => $this->full_name,
-            'firstName' => $this->first_name,
-            'lastName' => $this->last_name,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
             'email' => $this->email,
             'title' => $this->title,
-            'userStatusId' => $this->user_status_id,
-            'contactNum' => $this->contact_num,
-            'userTypeId' => $this->user_type_id,
-            'emailVerifiedAt' => $this->email_verified_at,            
-            'createdAt' => $this->created_at->format('d/m/Y'),
-            'updatedAt' => $this->updated_at->format('d/m/Y'),
-            'type' => isset($this->type) ? $this->type['name'] : '',
+            'user_status_id' => $this->user_status_id,
+            'contact_num' => $this->contact_num,
+            'user_type_id' => $this->user_type_id,
+            'email_verified_at' => $this->email_verified_at,            
+            'created_at' => $this->created_at->format('d/m/Y'),
+            'updated_at' => $this->updated_at->format('d/m/Y'),
+            // 'type' => isset($this->type) ? $this->type['name'] : '',
+            'source'=>'database'
         ];
     }
 }

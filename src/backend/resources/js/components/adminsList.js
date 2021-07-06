@@ -25,7 +25,6 @@ const AdminsList = (props) => {
 
   useEffect(() => {
     //console.log(props.admins)
-    console.log(props.admins.loggedUser)
     if (
       props.admins.adminList !== undefined &&
       props.admins.adminList.length > 0
@@ -89,27 +88,30 @@ const AdminsList = (props) => {
               key={admin.id}
             >
               <td className=" w-2/12">
-                {admin.firstName} {admin.lastName}
+                {admin.first_name} {admin.last_name}
               </td>
               <td className="w-2/12">{admin.title}</td>
               <td className="w-1/12">
                 {admin.userTypeId === 3 ? 'Super Admin' : 'User Admin'}
               </td>
               <td className="w-2/12">{admin.email}</td>
-              <td className="w-2/12">{admin.contactNum}</td>
+              <td className="w-2/12">{admin.contact_num}</td>
               <td className="w-1/12">
-                {admin.userStatusId === 1 ? 'アクティブ' : '保留中'}
+                {admin.user_status_id === 1 ? 'アクティブ' : '保留中'}
               </td>
               <td className="w-2/12  grid-flow-row text-center">
                 <a className="grid-flow-row inline text-primary-200">
-                  {admin.userTypeId === 3 &&
-                  state.loggedUser.userTypeId != 3 ? (
-                    <div onClick={() => props.handleDisplayView(admin)}>
+                  {admin.user_type_id === 3 &&
+                  state.loggedUser.user_type_id != 3 ? (
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => props.handleDisplayView(admin)}
+                    >
                       見る&nbsp;
                     </div>
                   ) : null}
-                  {(admin.userTypeId === 4 && admin.userStatusId != 5) ||
-                  admin.userTypeId === 3 ||
+                  {(admin.user_type_id === 4 && admin.user_status_id != 5) ||
+                  (admin.user_type_id != 3 && admin.user_status_id != 5) ||
                   admin.id === state.loggedUser.id ? (
                     <span
                       className="cursor-pointer"
@@ -118,9 +120,9 @@ const AdminsList = (props) => {
                       更新 &nbsp;
                     </span>
                   ) : null}
-                  {state.loggedUser.userTypeId === 3 &&
-                  admin.id != state.loggedUser.id &&
-                  admin.userTypeId != 3 ? (
+                  {(state.loggedUser.user_type_id === 3 &&
+                    admin.id != state.loggedUser.id) ||
+                  (admin.user_type_id === 4 && admin.user_status_id != 5) ? (
                     <span
                       className="cursor-pointer"
                       onClick={() => props.handleDisplayDelete(admin, i)}
@@ -128,12 +130,12 @@ const AdminsList = (props) => {
                       削除 &nbsp;
                     </span>
                   ) : null}
-                  {admin.userStatusId === 5 ? (
+                  {admin.user_status_id === 5 ? (
                     <div
                       className="cursor-pointer"
                       onClick={() => props.handleResendEmailInvite(admin)}
                     >
-                      招待を再送
+                      招待状再送信
                     </div>
                   ) : null}
                 </a>

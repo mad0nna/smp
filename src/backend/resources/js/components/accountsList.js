@@ -108,7 +108,6 @@ const AccountsList = () => {
 
           logged.id = user['id']
           logged.userTypeId = user['userTypeId']
-          console.log(logged)
           setState((prevState) => {
             return {
               ...prevState,
@@ -136,8 +135,6 @@ const AccountsList = () => {
         `/company/getCompanyAdmins?page=${pagingConditions.page}&limit=${pagingConditions.limit}&keyword=${pagingConditions.keyword}`
       )
       .then((response) => {
-        console.log('list')
-        console.log(response.data)
         if (!_.isEmpty(response.data)) {
           // Logic for displaying page numbers
           const pageNumbers = []
@@ -169,8 +166,6 @@ const AccountsList = () => {
               </li>
             )
           })
-          console.log('renderPageNumbers')
-          console.log(renderPageNumbers)
 
           const list = <ul id="page-numbers">{renderPageNumbers}</ul>
 
@@ -201,34 +196,41 @@ const AccountsList = () => {
     axios
       .get(`/company/search?email=${email}`)
       .then((response) => {
-        const admin = response.data.data
-        console.log('search result')
-        console.log(admin)
+        // console.log(response.status)
+        // const admin = response.data
         setState((prevState) => {
           return {
             ...prevState,
-            name: admin.name,
-            email: admin.email,
             showList: true,
+            showPopupNewAccount: true,
             isLoading: false,
-            foundAccount: admin,
+            foundAccount:
+              // response.data.data.source === 'salesforce'
+              response.data.data,
+            // : '',
             searchResult:
-              '既に追加されているユーザーです。アカウント一覧をご確認ください。'
+              response.data.data.source === 'salesforce'
+                ? 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？'
+                : '既に追加されているユーザーです。アカウント一覧をご確認ください',
+            email: email
           }
         })
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response.status)
+          // const admin = state.foundAccount
+          // console.log('search result')
+          // console.log(admin)
           setState((prevState) => {
             return {
               ...prevState,
+              // name: admin.name,
+              // email: admin.email,
               showList: true,
-              showPopupNewAccount: true,
               isLoading: false,
-              foundAccount: null,
-              searchResult: 'セールスフォースに存在しないユーザーです。',
-              email: email
+              foundAccount: '',
+              searchResult:
+                '未登録のユーザーです。名前を入力して招待を送信してください。'
             }
           })
         }
@@ -236,8 +238,20 @@ const AccountsList = () => {
   }
 
   const handleDisplayAddedAdmin = (user) => {
-    user.isPartial = 1
-    user.lastName = ''
+    console.log('adding user')
+    if (user.source != 'salesforce') {
+      const fullName = user.fullName
+      let arr = []
+      arr = fullName.split(' ')
+      user.firstname = arr[1] ? arr[1] : ''
+      user.lastname = arr[0] ? arr[0] : ''
+      user.firstname = user.firstname ? user.firstname : '-'
+      user.isPartial = 1
+    } else {
+      user.isPartial = 0
+    }
+
+    console.log(user)
 
     setState((prevState) => {
       return {
@@ -284,8 +298,6 @@ const AccountsList = () => {
   }
 
   const handleDeleteConfirmation = (admin) => {
-    console.log('handleDeleteConfirmation')
-
     axios
       .delete('/company/deleteAdmin?admin=', {
         headers: {
@@ -317,26 +329,23 @@ const AccountsList = () => {
         }
       })
 
-    // axios
-    //   .delete('/salesforce/deleteSFAdmin?admin=', {
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     data: {
-    //       admin
-    //     }
-    //   })
-    //   // .then((response) => {
-    //   //   const acct = response.data
-    //   // })
-    //   .catch(function (error) {
-    //     if (error.response) {
-    //       console.log(error.response.status)
-    //       setState({
-    //         deletedAccount: null
-    //       })
-    //     }
-    //   })
+    axios
+      .delete('/salesforce/deleteSFAdmin?admin=', {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          admin
+        }
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.status)
+          setState({
+            deletedAccount: null
+          })
+        }
+      })
   }
 
   const handleDisplayDelete = (account, i) => {
@@ -401,7 +410,7 @@ const AccountsList = () => {
         ...prevState,
         isLoadingResendEmail: true,
         showPopupMessageDialog: true,
-        dialogMessage: account['username'] + 'に送信された電子メールの招待状'
+        dialogMessage: account['username'] + 'に招待状が再送信されました。'
       }
     })
 
