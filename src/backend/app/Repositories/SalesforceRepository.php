@@ -186,39 +186,58 @@ class SalesforceRepository {
         }
     }
 
-    public function updateAdminDetails($newValues, $accountID, $sf_column_format = true) {
+    public function updateAdminDetails($newValues, $accountID, $sf_column_format = true, $is_update = true) {
         try{
             $data = [];
             if ($sf_column_format) {
                 $data = [
                     "FirstName" => $newValues["FirstName"],
                     "LastName" => $newValues["LastName"],
+                    "first_kana__c" => $newValues["first_name"] !== "" ? $newValues["first_name"] : "-",
+                    "last_kana__c" => $newValues["last_name"] !== "" ? $newValues["last_name"] : "-",
                     "MobilePhone" => $newValues["MobilePhone"],
                     "Email" => $newValues["Email"],
                     "Title" => $newValues["Title"],
                     "admin__c" => $newValues["admin__c"] === "3" ? true : false,
                 ];
             } else {
-                $data = [
-                    "FirstName" => $newValues["first_name"] ?? "",
-                    "LastName" => $newValues["last_name"] ?? "default",
-                    "MobilePhone" => $newValues["contact_num"] ?? "",
-                    "Email" => $newValues["email"] ?? "",
-                    "admin__c" => $newValues["userTypeId"] === "3" ? true : false,
+                $data = [                    
+                    "AccountId" => ($newValues["account_id"] !== "" && $newValues["account_id"] !== null) ? $newValues["account_id"] :  $accountID,
+                    "FirstName" => $newValues["first_name"] !== "" ? $newValues["first_name"] : "-",
+                    "LastName" => $newValues["last_name"] !== "" ? $newValues["last_name"] : "-",  
+                    "first_kana__c" => $newValues["first_name"] !== "" ? $newValues["first_name"] : "-",
+                    "last_kana__c" => $newValues["last_name"] !== "" ? $newValues["last_name"] : "-",                     
+                    "MobilePhone" => ($newValues["contact_num"] !== ""  && $newValues["contact_num"] !== null) ? $newValues["contact_num"] : "",
+                    "Email" => $newValues["email"] !== "" ? $newValues["email"] : "",
+                    "admin__c" => $newValues["user_type_id"] === "3" ? true : false,
                 ];
             }
-           
-            $oResponse = $this->oClient->patch(
-                env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/contact/{$accountID}",
-                [
-                    'headers' => array(
-                        'Content-Type' => 'application/json',
-                        'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
-                    ),
-                    "json" => $data
-                ]
-            );
-            if ($oResponse->getStatusCode() == 204) {
+
+            if ($is_update) {
+                $oResponse = $this->oClient->patch(
+                    env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/contact/{$accountID}",
+                    [
+                        'headers' => array(
+                            'Content-Type' => 'application/json',
+                            'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
+                        ),
+                        "json" => $data
+                    ]
+                );  
+            } else {
+                $oResponse = $this->oClient->post(
+                    env('SALESFORCE_HOST')."/services/data/v34.0/sobjects/contact",
+                    [
+                        'headers' => array(
+                            'Content-Type' => 'application/json',
+                            'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
+                        ),
+                        "json" => $data
+                    ]
+                );
+            }
+            
+            if ($oResponse->getStatusCode() == 204 || $oResponse->getStatusCode() == 201) {
                 return MessageResult::success();
             }
             return MessageResult::error("Error while updating admin details in Salesforce.");
@@ -226,7 +245,7 @@ class SalesforceRepository {
             $statusCode = $reqExcep->getResponse()->getStatusCode();
             if ($statusCode === 401) {
                 $this->tokens = (new AccessToken())->getToken();
-                return $this->updateAdminDetails($newValues, $accountID, $sf_column_format);
+                return $this->updateAdminDetails($newValues, $accountID, $sf_column_format, $is_update);
             } else {
                 return MessageResult::error("Error while updating admin details in Salesforce.");
             }

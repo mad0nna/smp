@@ -361,4 +361,10 @@ class UserService
         Mail::to($user)->send(new InviteUser($user, $user->temp_pw, $user->invite_token));
         return true;
     }
+
+    public function createContactToSf($user) {  
+        $accountID = $user['company']['account_id'];
+        return $this->salesForce->updateAdminDetails($user,$accountID, false, false);
+    }
+
 }
