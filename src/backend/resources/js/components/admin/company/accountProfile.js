@@ -8,7 +8,7 @@ import ConfirmAddAccountDialog from './confirmDialog'
 import ConfirmSaveUpdateDialog from './confirmDialog'
 import MessageDialog from './messageDialog'
 import _ from 'lodash'
-
+import Select from 'react-select'
 // eslint-disable-next-line
 let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
 
@@ -28,7 +28,7 @@ const AccountProfile = (props) => {
 
   function initIsEditingProfile() {
     if (!_.isEmpty(props.formState)) {
-      return props.isEditingProfile
+      return props.isEditingProfile ?? false
     } else {
       return false
     }
@@ -38,15 +38,12 @@ const AccountProfile = (props) => {
     if (!_.isEmpty(props.isEditingProfile)) {
       return props.formState
     } else {
-      return false
+      return 'add form'
     }
   }
 
   function initCompany() {
-    console.log('init profile company')
-    if (!_.isEmpty(props.company)) {
-      return props.company
-    } else {
+    if (_.isEmpty(props.company)) {
       return {
         licenseVersion: '',
         companyCode: '',
@@ -57,7 +54,7 @@ const AccountProfile = (props) => {
         accountType: '',
         customerClassification: '',
         name: '',
-        industry: '',
+        industry: null,
         industrySub: '',
         industrySub2: '',
         kotTransType: '',
@@ -65,14 +62,82 @@ const AccountProfile = (props) => {
         kotAccountId: '',
         zenOrgName: '',
         zendeskOpportunityId: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        recordTypeCode: '',
+        sfRecords: {
+          numberofemployees: '',
+          kot_sales_phase__c: '',
+          servername__c: '',
+          kotcompanycode__c: ''
+        }
       }
+    } else {
+      if (_.isEmpty(props.company.sfRecords)) {
+        props.company.sfRecords = {
+          numberofemployees: '',
+          kot_sales_phase__c: '',
+          servername__c: '',
+          kotcompanycode__c: ''
+        }
+      }
+      return props.company
     }
   }
 
-  const addCompanyToken = (token) => {
-    console.log('add token')
+  const industryTypes = [
+    { value: null, label: '--None--' },
+    { value: '農林・水産・鉱業', label: '農林・水産・鉱業' },
+    { value: '商業|小売', label: '商業|小売' },
+    { value: '商業|飲食', label: '商業|飲食' },
+    { value: '商業|卸売', label: '商業|卸売' },
+    { value: '建設', label: '建設' },
+    { value: '製造', label: '製造' },
+    { value: '物流', label: '物流' },
+    { value: '政府・公共', label: '政府・公共' },
+    { value: '教育機関', label: '教育機関' },
+    { value: '福祉・介護', label: '福祉・介護' },
+    { value: '医療', label: '医療' },
+    {
+      value: '電力・ガス・その他エネルギー',
+      label: '電力・ガス・その他エネルギー'
+    },
+    { value: '不動産', label: '不動産' },
+    { value: '通信', label: '通信' },
+    { value: 'マスコミ', label: 'マスコミ' },
+    {
+      value: 'サービス|レジャー|アミューズメント',
+      label: 'サービス|レジャー|アミューズメント'
+    },
+    {
+      value: 'サービス|レジャー|旅行・観光',
+      label: 'サービス|レジャー|旅行・観光'
+    },
+    {
+      value: 'サービス|レジャー|スポーツ・アウトドア施設',
+      label: 'サービス|レジャー|スポーツ・アウトドア施設'
+    },
+    { value: 'サービス|レンタル', label: 'サービス|レンタル' },
+    { value: 'サービス|法人向けサービス', label: 'サービス|法人向けサービス' },
+    { value: 'サービス|個人向けサービス', label: 'サービス|個人向けサービス' },
+    { value: '金融|金融', label: '金融|金融' },
+    { value: '金融|保険', label: '金融|保険' },
+    { value: '金融|証券', label: '金融|証券' },
+    { value: 'その他', label: 'その他' },
+    { value: '不明', label: '不明' }
+  ]
 
+  const handleChangeIndustry = (selectedOption) => {
+    // this.setState({ selectedOption })
+    // console.log(`Option selected:`, selectedOption)
+    state.company.industry = selectedOption.value
+    setState((prevState) => {
+      return {
+        ...prevState
+      }
+    })
+  }
+
+  const addCompanyToken = (token) => {
     state.company.token = token
 
     setState((prevState) => {
@@ -195,16 +260,16 @@ const AccountProfile = (props) => {
   }
 
   const updateSaveAccount = () => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        isLoading: true
-      }
-    })
+    // setState((prevState) => {
+    //   return {
+    //     ...prevState,
+    //     isLoading: true
+    //   }
+    // })
 
     let account = state.company
     account._token = props.token
-    account.isPullFromSf = props.isPullFromSf
+    // account.isPullFromSf = props.isPullFromSf
 
     fetch('/admin/company/updateSaveAccount', {
       method: 'POST',
@@ -268,6 +333,16 @@ const AccountProfile = (props) => {
     })
   }
 
+  const handleTextChangeNumberofemployees = (e) => {
+    const value = e.target.value
+    state.company.sfRecords.numberofemployees = value
+    setState((prevState) => {
+      return {
+        ...prevState
+      }
+    })
+  }
+
   const closeAccountToken = () => {
     console.log('closeAccountToken')
     setState((prevState) => {
@@ -283,10 +358,7 @@ const AccountProfile = (props) => {
   // }, [props.company])
 
   return (
-    <div
-      className="flex justify-center w-full h-full bg-white"
-      style={{ height: '800px' }}
-    >
+    <div className="flex justify-center w-full h-full bg-white">
       <input type="hidden" name="_token" value={state.token}></input>
       <div className="align-top inline-block w-8/12 ">
         <div className="my-4 ml-14 mr-5 py-5 px-6">
@@ -301,109 +373,7 @@ const AccountProfile = (props) => {
             <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
               <div className="mb-1 md:mb-0 md:w-1/5">
                 <label className="text-sm text-gray-400">
-                  ライセンス契約バージョン :
-                </label>
-              </div>
-              <div className="md:w-2/3 md:flex-grow">
-                <label
-                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
-                >
-                  {state.company.negotiateCode}
-                </label>
-                <input
-                  className={
-                    'hidden text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  type="text"
-                  name="negotiateCode"
-                  defaultValue={state.company.negotiateCode}
-                  onChange={handleTextChange}
-                />
-              </div>
-            </div>
-
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">HT 顧客CD :</label>
-              </div>
-              <div className="md:w-2/3 md:flex-grow">
-                <label
-                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
-                >
-                  {state.company.companyCode}
-                </label>
-                <input
-                  className={
-                    'hidden text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  type="text"
-                  name="companyCode"
-                  defaultValue={state.company.companyCode}
-                  onChange={handleTextChange}
-                />
-              </div>
-            </div>
-
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">企業ID :</label>
-              </div>
-              <div className="md:w-2/3 md:flex-grow">
-                <label
-                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
-                >
-                  {state.company.id}
-                </label>
-                <input
-                  className={
-                    'hidden text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  name="id"
-                  defaultValue={state.company.id}
-                  type="text"
-                  onChange={handleTextChange}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="my-4 ml-14 mr-5 py-5 px-6  rounded-xl border-gray-200 border ">
-          <div className="flex flex-wrap gap-0 w-full justify-start">
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">
-                  メールアドレス :{' '}
-                </label>
-              </div>
-              <div className="md:w-2/3 md:flex-grow">
-                <label
-                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
-                >
-                  {!_.isEmpty(state.company.admin[0])
-                    ? state.company.admin[0].email
-                    : ''}
-                </label>
-                <input
-                  className={
-                    ' hidden text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  name="email"
-                  defaultValue={
-                    _.isSet(state.company.admin[0])
-                      ? state.company.admin[0]['email']
-                      : ''
-                  }
-                  type="text"
-                  onChange={handleTextChange}
-                />
-              </div>
-            </div>
-
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">
-                  レコードタイプ :
+                  取引先レコードタイプ :
                 </label>
               </div>
               <div className="md:w-2/3 md:flex-grow">
@@ -426,29 +396,7 @@ const AccountProfile = (props) => {
 
             <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
               <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">顧客区分 :</label>
-              </div>
-              <div className="md:w-2/3 md:flex-grow">
-                <label
-                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
-                >
-                  {state.company.type}
-                </label>
-                <input
-                  className={
-                    ' hidden text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  name="type"
-                  defaultValue={state.company.type}
-                  type="text"
-                  onChange={handleTextChange}
-                />
-              </div>
-            </div>
-
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">顧客企業名 :</label>
+                <label className="text-sm text-gray-400">取引先名 :</label>
               </div>
               <div className="md:w-2/3 md:flex-grow">
                 <label
@@ -474,20 +422,139 @@ const AccountProfile = (props) => {
 
             <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
               <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">業種 - 大分類:</label>
+                <label className="text-sm text-gray-400">所在地 :</label>
               </div>
               <div className="md:w-2/3 md:flex-grow">
                 <label
-                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
+                  className={
+                    (state.isEditingProfile ? 'hidden' : '') +
+                    ' text-sm text-black w-full h-8 px-3 leading-8'
+                  }
                 >
-                  {state.company.industrySub}
+                  {state.company.billingStreet ?? '' + ' '}
+                  {state.company.billingCity ?? '' + ' '}
+                  {state.company.billingState ?? '' + ' '}
+                  {state.company.billingCountry ?? '' + ' '}
+                  {state.company.billingPostalCode ?? ''}
+                </label>
+                <div className="space-y-1">
+                  <input
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100'
+                    }
+                    defaultValue={state.company.billingStreet}
+                    type="text"
+                    name="billingStreet"
+                    onChange={handleTextChange}
+                  />
+                  <label
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' inline-block text-sm text-black w-full h-8 px-3 '
+                    }
+                  >
+                    地名番地
+                  </label>
+
+                  <input
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100'
+                    }
+                    defaultValue={state.company.billingCity}
+                    type="text"
+                    name="billingCity"
+                    onChange={handleTextChange}
+                  />
+                  <label
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' inline-block text-sm text-black w-full h-8 px-3 '
+                    }
+                  >
+                    市区町村
+                  </label>
+
+                  <input
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100'
+                    }
+                    defaultValue={state.company.billingState}
+                    type="text"
+                    name="billingState"
+                    onChange={handleTextChange}
+                  />
+                  <label
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' inline-block text-sm text-black w-full h-8 px-3'
+                    }
+                  >
+                    都道府県
+                  </label>
+
+                  <input
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 '
+                    }
+                    defaultValue={state.company.billingPostalCode}
+                    name="billingPostalCode"
+                    type="text"
+                    onChange={handleTextChange}
+                  />
+                  <label
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' inline-block text-sm text-black w-full h-8 px-3 '
+                    }
+                  >
+                    郵便番号
+                  </label>
+
+                  <input
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 '
+                    }
+                    defaultValue={state.company.billingCountry}
+                    type="text"
+                    onChange={handleTextChange}
+                  />
+                  <label
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' inline-block text-sm text-black w-full h-8 px-3 '
+                    }
+                  >
+                    国名
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+              <div className="mb-1 md:mb-0 md:w-1/5">
+                <label className="text-sm text-gray-400">電話 :</label>
+              </div>
+              <div className="md:w-2/3 md:flex-grow">
+                <label
+                  className={
+                    (state.isEditingProfile ? ' hidden ' : '') +
+                    ' text-sm text-black w-full h-8 px-3 leading-8'
+                  }
+                >
+                  {state.company.contactNum}
                 </label>
                 <input
                   className={
-                    ' hidden text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                    (state.isEditingProfile ? '' : ' hidden ') +
+                    ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                   }
-                  name="industrySub"
-                  defaultValue={state.company.industrySub}
+                  name="contactNum"
+                  defaultValue={state.company.contactNum}
                   type="text"
                   onChange={handleTextChange}
                 />
@@ -496,22 +563,74 @@ const AccountProfile = (props) => {
 
             <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
               <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">業種 - 中分類 :</label>
+                <label className="text-sm text-gray-400">Web サイト :</label>
               </div>
               <div className="md:w-2/3 md:flex-grow">
                 <label
-                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
+                  className={
+                    (state.isEditingProfile ? ' hidden ' : '') +
+                    ' text-sm text-black w-full h-8 px-3 leading-8'
+                  }
                 >
-                  {state.company.industrySub2}
+                  {state.company.website}
                 </label>
                 <input
                   className={
-                    ' hidden text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                    (state.isEditingProfile ? '' : ' hidden ') +
+                    ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                   }
-                  name="industrySub2"
-                  defaultValue={state.company.industrySub2}
+                  name="website"
+                  defaultValue={state.company.website}
                   type="text"
                   onChange={handleTextChange}
+                />
+              </div>
+            </div>
+
+            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+              <div className="mb-1 md:mb-0 md:w-1/5">
+                <label className="text-sm text-gray-400">業種:</label>
+              </div>
+              <div className="md:w-2/3 md:flex-grow">
+                <label
+                  className={
+                    (state.isEditingProfile ? ' hidden ' : '') +
+                    ' text-sm text-black w-full h-8 px-3 leading-8'
+                  }
+                >
+                  {state.company.industry}
+                </label>
+                <Select
+                  className={(state.isEditingProfile ? '' : ' hidden ') + ''}
+                  defaultValue={{ value: true, label: state.company.industry }}
+                  onChange={handleChangeIndustry}
+                  options={industryTypes}
+                />
+              </div>
+            </div>
+
+            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+              <div className="mb-1 md:mb-0 md:w-1/5">
+                <label className="text-sm text-gray-400">従業員数 :</label>
+              </div>
+              <div className="md:w-2/3 md:flex-grow">
+                <label
+                  className={
+                    (state.isEditingProfile ? ' hidden ' : '') +
+                    ' text-sm text-black w-full h-8 px-3 leading-8'
+                  }
+                >
+                  {state.company.sfRecords.numberofemployees}
+                </label>
+                <input
+                  className={
+                    (state.isEditingProfile ? '' : ' hidden ') +
+                    ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                  }
+                  name="industrySub2"
+                  defaultValue={state.company.sfRecords.numberofemployees}
+                  type="text"
+                  onChange={handleTextChangeNumberofemployees}
                 />
               </div>
             </div>
@@ -524,123 +643,42 @@ const AccountProfile = (props) => {
           <div className="flex flex-wrap gap-0 w-full justify-start">
             <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
               <div className="mb-1 md:mb-0 w-full">
-                <label className="text-sm text-gray-400">KOT取引種別 :</label>
-              </div>
-              <div className="md:w-1/2 md:flex-grow">
-                <label
-                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
-                >
-                  {state.company.kotTransType}
-                </label>
-                <input
-                  className={
-                    ' hidden text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  name="kotTransType"
-                  type="text"
-                  defaultValue={state.company.kotTransType}
-                  onChange={handleTextChange}
-                />
-              </div>
-            </div>
-
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 w-full">
-                <label className="text-sm text-gray-400">支払方法 :</label>
-              </div>
-              <div className="md:w-1/2 md:flex-grow">
-                <label
-                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
-                >
-                  {state.company.paymentMethod}
-                </label>
-                <input
-                  className={
-                    ' hidden text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  name="paymentMethod"
-                  type="text"
-                  defaultValue={state.company.paymentMethod}
-                  onChange={handleTextChange}
-                />
-              </div>
-            </div>
-
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 w-full">
-                <label className="text-sm text-gray-400">アカウントID :</label>
-              </div>
-              <div className="md:w-1/2 md:flex-grow">
-                <label
-                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
-                >
-                  {state.company.accountId}
-                </label>
-                <input
-                  className={
-                    (state.isEditingProfile ? '' : 'hidden') +
-                    ' hidden text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  name="accountId"
-                  type="text"
-                  defaultValue={state.company.accountId}
-                  onChange={handleTextChange}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="my-4 ml-6 mr-10 py-5 px-6  rounded-xl border-gray-200 border ">
-          <div className="flex flex-wrap gap-0 w-full justify-start">
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 w-full">
                 <label className="text-sm text-gray-400">
-                  Zendesk 組織名 :
+                  kot商談フェーズ :
                 </label>
               </div>
               <div className="md:w-1/2 md:flex-grow">
                 <label
-                  className={
-                    (state.isEditingProfile ? 'hidden' : '') +
-                    ' text-sm text-black w-full h-8 px-3 leading-8'
-                  }
+                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
                 >
-                  {state.company.zenOrgName}
+                  {state.company.sfRecords.kot_sales_phase__c}
                 </label>
-                <input
-                  className={
-                    (state.isEditingProfile ? '' : 'hidden') +
-                    ' text-sm w-full h-8 px-3 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  name="zenOrgName"
-                  type="text"
-                  defaultValue={state.company.zenOrgName}
-                  onChange={handleTextChange}
-                />
               </div>
             </div>
 
             <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
               <div className="mb-1 md:mb-0 w-full">
-                <label className="text-sm text-gray-400">商談 ID :</label>
+                <label className="text-sm text-gray-400">KoTサーバー名 :</label>
               </div>
               <div className="md:w-1/2 md:flex-grow">
                 <label
-                  className={' text-sm  text-black w-full h-8 px-3 leading-8'}
+                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
                 >
-                  {state.company.opportunityCode}
+                  {state.company.sfRecords.servername__c}
                 </label>
-                <input
-                  className={
-                    (state.isEditingProfile ? '' : 'hidden') +
-                    ' hidden text-sm w-full h-8 px-3 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  name="opportunityCode"
-                  type="text"
-                  defaultValue={state.company.opportunityCode}
-                  onChange={handleTextChange}
-                />
+              </div>
+            </div>
+
+            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+              <div className="mb-1 md:mb-0 w-full">
+                <label className="text-sm text-gray-400">KoT企業コード :</label>
+              </div>
+              <div className="md:w-1/2 md:flex-grow">
+                <label
+                  className={' text-sm text-black w-full h-8 px-3 leading-8'}
+                >
+                  {state.company.sfRecords.kotcompanycode__c}
+                </label>
               </div>
             </div>
           </div>

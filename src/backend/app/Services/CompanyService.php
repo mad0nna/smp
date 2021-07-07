@@ -42,7 +42,7 @@ class CompanyService {
     }
 
     public function getAllDetailsInSFByID($companyID) {
-        $companyInformation = $this->salesForce->getCompanyDetailsByID($companyID); 
+        $companyInformation = $this->salesForce->getCompanyDetailsByID($companyID);
         
         if ($companyInformation) {
             $adminDetails = $this->salesForce->getCompanyAdminDetails($companyInformation['Id']); 
@@ -57,8 +57,12 @@ class CompanyService {
         }
     }
 
-    public function getCompany($company_code) {
+    public function getCompanyByCode($company_code) {
         return $this->company->with(['users'])->with('opportunities')->where('company_code', '=', $company_code)->get();
+    }
+
+    public function getCompanyById($id) {
+        return $this->company->with(['users'])->with('opportunities')->where('id','=',$id)->get();
     }
 
     public function getCompaniesWithAdminUser($conditions) {
@@ -164,12 +168,23 @@ class CompanyService {
         return true;
     }
 
-    public function updateSaveAccount($id, $sf_id, $data, $sf_record, $isPullFromSf = true) {
+    public function updateTableFromSf($id, $data) {    
+        try {
+            $company = Company::findOrfail($id)->update($data);             
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $company;
+    }
+
+    public function updateSaveAccount($id, $sf_id, $data, $sf_record) {
 
         DB::beginTransaction();
         try {
             $company = Company::findOrfail($id)->update($data);
-            if ($isPullFromSf && $sf_id['account_id']) {
+            if ($sf_id['account_id']) {
+
               $r1 = $this->salesForce->updateCompanyDetails($data, $sf_id['account_id'], false); //default true to use sf column format, false for db column format.
             }
 

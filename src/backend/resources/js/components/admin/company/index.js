@@ -22,7 +22,6 @@ const App = () => {
     pageCount: 1,
     lastPage: 1,
     showPopupMessageDialog: false,
-    isPullFromSf: false,
     isLoadingPullSf: false,
     token: document
       .querySelector('meta[name="csrf-token"]')
@@ -61,12 +60,12 @@ const App = () => {
       }
     })
 
-    fetch('/admin/company/searchCompanyCode', {
+    fetch('/admin/company/searchCompanyId', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         code: selectedItem.companyCode,
-        includeCompanyDBRecord: true,
+        company_id: selectedItem.id,
         _token: state.token
       })
     })
@@ -80,8 +79,7 @@ const App = () => {
           setState((prevState) => {
             return {
               ...prevState,
-              addedCompany: data.isPullFromSf ? data.data : data.dbData[0],
-              isPullFromSf: data.isPullFromSf,
+              addedCompany: data.data,
               isEditingProfile: true,
               formState: 'edit form',
               redirectToProfile: true,
@@ -211,7 +209,6 @@ const App = () => {
               formState={state.formState}
               handleUpdateList={handleUpdateList}
               handleCloseProfile={handleCloseProfile}
-              isPullFromSf={state.isPullFromSf}
             />
           </Route>
           <Route path="/admin/accounts">

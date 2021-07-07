@@ -30,7 +30,7 @@ class CompanyResource extends JsonResource
             'accountId' => $this->account_id,
             'negotiateCode' => isset($this->opportunities[0]) ? $this->opportunities[0]['negotiate_code'] : '',            
             'opportunityCode' => isset($this->opportunities[0]) ? $this->opportunities[0]['opportunity_code'] : '',
-            'recordTypeCode' => isset($this->opportunities[0]) ? $this->opportunities[0]['record_type_code'] : '',
+            'recordTypeCode' => strlen($this->sf_records) > 2 ? json_decode($this->sf_records)->field35__c : '',
             'type' => isset($this->opportunities[0]) ? $this->opportunities[0]['type'] : '',
             'industrySub' => $this->industry_sub,
             'industrySub2' => $this->industry_sub2,
@@ -40,9 +40,34 @@ class CompanyResource extends JsonResource
             'updatedAt' => $this->updated_at->format('d/m/Y'),
             'admin' => UserResource::collection($this->users),
             'opportunity' => OpportunityResource::collection($this->opportunities),
-            
-              
             'sfRecords' => json_decode($this->sf_records),
+        ];
+    }
+
+    public function filterFromDbToFront($data)
+    {
+        return [
+            'id' => $data['id'],
+            'companyCode' => $data['company_code'],
+            'name' => $data['name'],
+            'contactNum' => $data['contact_num'] ?? "",
+            'website' => $data['website'],
+            'industry' => $data['industry'] ?? "",
+            'zenOrgName' => $data['zen_org_name'] ?? "",
+            'billingStreet' => $data['billing_street'],
+            'billingCity' => $data['billing_city'],
+            'billingState' => $data['billing_state'],
+            'billingPostalCode' => $data['billing_postal_code'],
+            'billingCountry' => $data['billing_country'],
+            'customerClassification' => $data['customer_classification'] ?? "",            
+            'status' => $data['status'] ?? "",   
+            'accountId' => $data['account_id'] ?? "",
+            'industrySub' => $data['industry_sub'] ?? "",   
+            'industrySub2' => $data['industry_sub2'] ?? "",   
+            'kotTransType' => $data['kot_trans_type'] ?? "",   
+            'paymentMethod' => $data['payment_method'] ?? "", 
+            'sfRecords' => $data['sf_records'] ?? [],
+            'recordTypeCode' => $data['record_type_code'],
         ];
     }
 

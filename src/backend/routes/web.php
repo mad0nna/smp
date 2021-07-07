@@ -84,6 +84,7 @@ Route::prefix('salesforce')->group(function() {
   Route::group(['prefix' => 'admin',  'middleware' => 'admin'],function() {
     Route::get('company', 'CompanyController@index');
     Route::post('company/searchCompanyCode', 'CompanyController@searchCompanyCode');
+    Route::post('company/searchCompanyId', 'CompanyController@searchCompanyId');
     Route::post('company/saveAddedCompany', 'CompanyController@saveAddedCompany');
     Route::post('company/updateSaveAccount', 'CompanyController@updateSaveAccount');    
     Route::post('company/resendEmailInvite', 'CompanyController@resendEmailInvite');    

@@ -47,7 +47,7 @@ class SalesforceRepository {
         try {
             $oResponse = $this->oClient->get(               
                 env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Name, Id, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c,
-                HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId+from+Account+WHERE+KotCompanyCode__c='".$sfCompanyID."'+LIMIT+200",
+                kot_sales_phase__c, ServerName__c, HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId+from+Account+WHERE+KotCompanyCode__c='".$sfCompanyID."'+LIMIT+200",
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -157,7 +157,16 @@ class SalesforceRepository {
             } else {
                 $data = [
                     "Name" => $newValues["name"],
-                    "Zendeskaccount__c" => $newValues["zen_org_name"], 
+                    "Phone" => $newValues["contact_num"],
+                    "Website" => $newValues["website"],
+                    "Industry" => $newValues["industry"],
+                    "BillingPostalCode" =>  $newValues["billing_postal_code"],
+                    "BillingStreet" => $newValues["billing_street"],
+                    "BillingCity" => $newValues["billing_city"],
+                    "BillingState" => $newValues["billing_state"],
+                    "BillingCountry" => $newValues["billing_country"],
+                    "Website" =>  $newValues["website"],
+                    "NumberOfEmployees" => $newValues["number_of_employees"]
                 ];
             }
 

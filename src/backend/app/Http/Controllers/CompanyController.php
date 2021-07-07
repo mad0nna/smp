@@ -80,22 +80,49 @@ class CompanyController extends Controller
 
       try {
         $result = $companyService->getAllDetailsInSFByID($request->code); 
+    
         if (!$result) {
           throw new NotFoundHttpException('No records found.');
         }
 
-        $data = (new CompanyResource([]))->filterFromSFToFront($result, $request->code);
-        
-        if (isset($request->includeCompanyDBRecord)) {
-          $company = $companyService->getCompany($request->code);
-          $data['id'] = $company[0]['id'];
+        // $data = (new CompanyResource([]))->filterFromSFToFront($result, $request->code);      
+      
+        $this->response = [
+          'success' => true,
+          'data'    => (new CompanyResource([]))->filterFromSFToFront($result, $request->code)
+        ];
+      } catch(\Exception $e) {
+        $code = ($e instanceof NotFoundHttpException) ? 404 : 500;
+      }
+
+      return response()->json($this->response, $code);
+    }
+
+    //should accept company id and company code
+    public function searchCompanyId(Request $request, CompanyService $companyService)
+    {
+      $code = 200;
+
+      try {
+        $result = $companyService->getAllDetailsInSFByID($request->code);
+    
+        if ($result) {
+          // throw new NotFoundHttpException('No records found.');
+          $data = $this->parseSfToDbColumn($result);
+          $companyService->updateTableFromSf($request->company_id, $data);
+          $data['id'] = $request->company_id;
+          $data['company_code'] = $request->code;
+
+          $result = (new CompanyResource([]))->filterFromDbToFront($data);
+        } else {
+          
+          $company = $companyService->getCompanyById($request->company_id);
+          $result = CompanyResource::collection($company)[0];
         }
 
         $this->response = [
           'success' => true,
-          'isPullFromSf' => $result ? true : false,
-          'data'    => $data,
-          'dbData' => (isset($request->includeCompanyDBRecord)) ? CompanyResource::collection($company) : null,
+          'data'    =>  $result
         ];
       } catch(\Exception $e) {
         $code = ($e instanceof NotFoundHttpException) ? 404 : 500;
@@ -128,9 +155,10 @@ class CompanyController extends Controller
       $admin = $this->getAdminRecord(isset($request['admin'][0]) ? array_values($request['admin'])[0] : []); 
       $sf_id = $this->getSfId($request['sfRecords']);  
       $sf_record = $request['sfRecords'];
-      $formData['admin'] = $admin;
 
-      $result = $companyService->updateSaveAccount($id, $sf_id, $formData, $sf_record, $request['isPullFromSf']);
+      $formData['number_of_employees'] = $request['sfRecords']['numberofemployees'];
+
+      $result = $companyService->updateSaveAccount($id, $sf_id, $formData, $sf_record);
 
       $response = [
         'success' => $result
@@ -150,7 +178,58 @@ class CompanyController extends Controller
 
       return response()->json($response, $result ? 200 : 400);
     }
-    
+
+    private  function parseSfToDbColumn($data) 
+    {
+      return [
+        'account_id' => $data['Id'],
+        'name' => $data['Name'],
+        'contact_num' => $data['Phone'],
+        'website' => $data['Website'],
+        'industry' => $data['Industry'],
+        'industry_sub' => $data['Field19__c'],
+        'industry_sub2' => $data['Field20__c'],
+        'zen_org_name' => $data['Zendeskaccount__c'],
+        'billing_street' => $data['BillingStreet'],
+        'billing_city' => $data['BillingCity'],
+        'billing_state' => $data['BillingState'],
+        'billing_postal_code' => $data['BillingPostalCode'],
+        'billing_country' => $data['BillingCountry'],
+        'payment_method' => $data['PaymentMethod__c'],
+        'kot_trans_type' => $data['KOT_shubetsu__c'],
+        'industry_sub' => $data['Field19__c'],
+        'industry_sub2' => $data['Field20__c'],
+        'record_type_code' => $data['Field35__c'],        
+        'sf_records' => $this->convertToLowerCase($data),
+      ];
+    }
+
+    private function convertToLowerCase($data) {
+      $items = [];
+      foreach ($data as $col => $val) {
+          
+          if ($col == 'opportunity' && is_array($val)) { //to case items in opportunity   
+              foreach ($val as $c => $v) {                    
+                  $items['opportunity'][strtolower($c)] = $v;
+              }
+          } else if ($col == 'contact' && is_array($val)) {  //to case items in contact
+              foreach ($val as $c => $v) {                
+                  $items['contact'][strtolower($c)] = $v;
+              }
+          } else {
+              $items[strtolower($col)] = $val;
+          }
+      }
+
+      if (isset($items['opportunity']['attributes'])) {
+          unset($items['opportunity']['attributes']);
+      }
+      if (isset($items['contact']['attributes'])) {
+          unset($items['contact']['attributes']);
+      }
+
+      return $items;
+  }
 
     private  function getRecord($request) 
     {
