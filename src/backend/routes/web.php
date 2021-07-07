@@ -37,6 +37,7 @@ Route::prefix('salesforce')->group(function() {
       Route::post('/resetCoordinates', 'widgetController@resetCoordinates');
       Route::view('/dashboard', 'dashboard')->name('companydashboard');
       Route::view('/contracts', 'contracts');
+      Route::get('/contractslist', 'ContractController@index');
       Route::view('/billing', 'companyBilling');
       Route::view('/accountslist', 'accountslist');
       Route::view('/companyProfile', 'companyProfile');

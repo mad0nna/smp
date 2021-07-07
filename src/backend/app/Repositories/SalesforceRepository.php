@@ -157,7 +157,7 @@ class SalesforceRepository {
             } else {
                 $data = [
                     "Name" => $newValues["name"],
-                    "Zendeskaccount__c" => $newValues["zen_org_name"],                    
+                    "Zendeskaccount__c" => $newValues["zen_org_name"], 
                 ];
             }
 
@@ -347,6 +347,35 @@ class SalesforceRepository {
                 return $this->getLatestKOTOpportunityDetails($accountID);
             } else {
                 return MessageResult::error("Error while getting latest KOT contract details in Salesforce.");
+            }
+        }
+    }
+
+    public function getContracts($sfCompanyID,$skip,$limit) {
+        try{
+            $oResponse = $this->oClient->get(
+                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Field141__c,ApplicationDay__c,KoT_startBillingMonth__c, KoT_shiharaihouhou__c,KoT_hanbaikeiro__c,AccountId+from+Opportunity+WHERE+AccountId='".$sfCompanyID."'+And+(StageName='成立'+or+StageName='展開中')+LIMIT+".$limit."+offset+".$skip,
+                [
+                    'headers' => array(
+                        'Content-Type' => 'application/json',
+                        'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
+                    )
+                ]
+            );
+            
+            $oBody = $oResponse->getBody();
+            $opportunity = json_decode($oBody->getContents(), true);
+            if (isset($opportunity["status"]) && !$opportunity["status"]) {
+                return $opportunity;
+            }
+            return $opportunity["records"];
+        } catch(ClientException $reqExcep) {
+            $statusCode = $reqExcep->getResponse()->getStatusCode();
+            if ($statusCode === 401) {
+                $this->tokens = (new AccessToken())->getToken();
+                return $this->getContracts($sfCompanyID);
+            } else {
+                return MessageResult::error("Error while getting KOT contracts list in Salesforce.");
             }
         }
     }
