@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useState, useEffect } from 'react'
+// import ReactDOM from 'react-dom'
+
 import profileIcon from '../../../../img/customer-company-profile.png'
 import editIcon from '../../../../img/edit-icon.png'
 import saveIcon from '../../../../img/Icon awesome-save.png'
@@ -9,6 +10,7 @@ import ConfirmSaveUpdateDialog from './confirmDialog'
 import MessageDialog from './messageDialog'
 import _ from 'lodash'
 import Select from 'react-select'
+import queryString from 'query-string'
 // eslint-disable-next-line
 let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
 
@@ -23,14 +25,15 @@ const AccountProfile = (props) => {
     dialogMessage: '',
     formState: initFormState(),
     redirectAfterSuccess: false,
-    isLoading: false
+    isLoading: false,
+    isNeedToFetchData: false
   })
 
   function initIsEditingProfile() {
     if (!_.isEmpty(props.formState)) {
-      return props.isEditingProfile ?? false
+      return props.isEditingProfile ?? true
     } else {
-      return false
+      return true
     }
   }
 
@@ -38,7 +41,7 @@ const AccountProfile = (props) => {
     if (!_.isEmpty(props.isEditingProfile)) {
       return props.formState
     } else {
-      return 'add form'
+      return 'edit form'
     }
   }
 
@@ -127,8 +130,6 @@ const AccountProfile = (props) => {
   ]
 
   const handleChangeIndustry = (selectedOption) => {
-    // this.setState({ selectedOption })
-    // console.log(`Option selected:`, selectedOption)
     state.company.industry = selectedOption.value
     setState((prevState) => {
       return {
@@ -152,8 +153,6 @@ const AccountProfile = (props) => {
   }
 
   const handleShowAddToken = () => {
-    console.log('handleAddToken')
-
     // Checking if the company account has an email
     if (_.isEmpty(state.company.admin[0]['email'])) {
       setState((prevState) => {
@@ -175,8 +174,6 @@ const AccountProfile = (props) => {
   }
 
   const addAccount = () => {
-    console.log('handleConfirmAddAccount')
-
     setState((prevState) => {
       return {
         ...prevState,
@@ -227,9 +224,6 @@ const AccountProfile = (props) => {
   }
 
   const closeConfirmDialog = (name) => {
-    console.log('closeConfirmDialog')
-    console.log('from ' + name)
-
     if (name === 'ConfirmAddAccountDialog') {
       setState((prevState) => {
         return {
@@ -248,8 +242,6 @@ const AccountProfile = (props) => {
   }
 
   const handleShowUpdateSaveDialog = () => {
-    console.log('handleShowUpdateSaveDialog')
-
     setState((prevState) => {
       return {
         ...prevState,
@@ -260,12 +252,12 @@ const AccountProfile = (props) => {
   }
 
   const updateSaveAccount = () => {
-    // setState((prevState) => {
-    //   return {
-    //     ...prevState,
-    //     isLoading: true
-    //   }
-    // })
+    setState((prevState) => {
+      return {
+        ...prevState,
+        isLoading: true
+      }
+    })
 
     let account = state.company
     account._token = props.token
@@ -285,7 +277,6 @@ const AccountProfile = (props) => {
           setState((prevState) => {
             return {
               ...prevState,
-              isEditingProfile: !prevState.isEditingProfile,
               showPopupMessageDialog: !prevState.showPopupMessageDialog,
               dialogMessage: 'データの保存に成功しました。',
               redirectAfterSuccess: true,
@@ -344,7 +335,6 @@ const AccountProfile = (props) => {
   }
 
   const closeAccountToken = () => {
-    console.log('closeAccountToken')
     setState((prevState) => {
       return {
         ...prevState,
@@ -353,9 +343,45 @@ const AccountProfile = (props) => {
     })
   }
 
-  // useEffect(() => {
-  //   console.log(state.company)
-  // }, [props.company])
+  useEffect(() => {
+    if (_.isEmpty(props.company)) {
+      console.log('props is empty')
+      let params = queryString.parse(location.search)
+      fetch('/admin/company/searchCompanyId', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          company_id: params.id,
+          _token: document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute('content')
+        })
+      })
+        .then((response) => {
+          if (response.ok) return response.json()
+          return { success: false }
+        })
+        .then((data) => {
+          if (data.success !== undefined && data.success === true) {
+            console.log(data)
+            setState((prevState) => {
+              return {
+                ...prevState,
+                company: data.data
+              }
+            })
+          } else {
+            setState((prevState) => {
+              return {
+                ...prevState,
+                fetchResult:
+                  '申し訳ありませんが、データの取得中にエラーが発生しました'
+              }
+            })
+          }
+        })
+    }
+  }, [props.company])
 
   return (
     <div className="flex justify-center w-full h-full bg-white">
@@ -752,9 +778,3 @@ const AccountProfile = (props) => {
 }
 
 export default AccountProfile
-if (document.getElementById('admin-account-profile')) {
-  ReactDOM.render(
-    <AccountProfile />,
-    document.getElementById('admin-account-profile')
-  )
-}

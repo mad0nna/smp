@@ -104,10 +104,17 @@ class CompanyController extends Controller
       $code = 200;
 
       try {
-        $result = $companyService->getAllDetailsInSFByID($request->code);
+        if ($request->code) {
+          $result = $companyService->getAllDetailsInSFByID($request->code);
+        } else if ($request->company_id) {
+          $company = $companyService->getCompanyById($request->company_id);
+          $result = $companyService->getAllDetailsInSFByID($company['account_id']);
+        } else {
+          throw new NotFoundHttpException('Incorrect parameter given.');
+        }
+        
     
         if ($result) {
-          // throw new NotFoundHttpException('No records found.');
           $data = $this->parseSfToDbColumn($result);
           $companyService->updateTableFromSf($request->company_id, $data);
           $data['id'] = $request->company_id;
@@ -115,9 +122,7 @@ class CompanyController extends Controller
 
           $result = (new CompanyResource([]))->filterFromDbToFront($data);
         } else {
-          
-          $company = $companyService->getCompanyById($request->company_id);
-          $result = CompanyResource::collection($company)[0];
+          $result = CompanyResource::collection([$company])[0];
         }
 
         $this->response = [
@@ -155,6 +160,7 @@ class CompanyController extends Controller
       $admin = $this->getAdminRecord(isset($request['admin'][0]) ? array_values($request['admin'])[0] : []); 
       $sf_id = $this->getSfId($request['sfRecords']);  
       $sf_record = $request['sfRecords'];
+      // dd($formData);
 
       $formData['number_of_employees'] = $request['sfRecords']['numberofemployees'];
 

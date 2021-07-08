@@ -62,7 +62,7 @@ class CompanyService {
     }
 
     public function getCompanyById($id) {
-        return $this->company->with(['users'])->with('opportunities')->where('id','=',$id)->get();
+        return $this->company->with(['users'])->with('opportunities')->find($id);
     }
 
     public function getCompaniesWithAdminUser($conditions) {

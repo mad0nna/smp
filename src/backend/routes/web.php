@@ -40,6 +40,7 @@ Route::prefix('salesforce')->group(function() {
       Route::get('/contractslist', 'ContractController@index');
       Route::view('/billing', 'companyBilling');
       Route::view('/accountslist', 'accountslist');
+      Route::view('/accountslist/profile', 'accountslist');
       Route::view('/companyProfile', 'companyProfile');
       Route::get('getCompanyAdmins', "UserController@index");
       Route::view('/companyProfileEdit', 'companyProfileEdit');
@@ -52,11 +53,14 @@ Route::prefix('salesforce')->group(function() {
       Route::get('getLoggedUserInfo', "UserController@userinfo");
       Route::get('search', "UserController@show");
       Route::view('/notifications', 'notifications');
+      Route::get('/searchSFContactByUserId', 'UserController@searchSFContactByUserId');
+      
   });
 
   Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function() {
       Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
       Route::view('/accounts', 'admin.accounts');
+      Route::view('/accounts/profile', 'admin.accounts');
       Route::get('/accounts/sales/detail', function() {
           return view('admin.salesDetail');
       });

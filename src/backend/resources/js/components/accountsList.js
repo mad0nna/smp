@@ -11,6 +11,7 @@ import DeleteConfirmation from './deleteConfirmation'
 import ProfileEdit from './accountProfile'
 import Pagination from './pagination'
 import _ from 'lodash'
+import queryString from 'query-string'
 import {
   BrowserRouter as Router,
   Switch,
@@ -48,14 +49,14 @@ const AccountsList = () => {
     redirectAfterSuccess: false,
     showList: true,
     showEdit: false,
-    mode: '',
+    mode: 'edit',
     dialogMessage: '',
     pageCount: 1,
     lastPage: 1,
     pageNumbers: '',
     currentPage: 1,
     adminList: [],
-    redirectToList: true,
+    redirectToList: false,
     redirectToProfile: false,
     emptyUser: true,
     loggedUser: {
@@ -108,10 +109,23 @@ const AccountsList = () => {
 
           logged.id = user['id']
           logged.userTypeId = user['userTypeId']
+
+          let params = queryString.parse(location.search)
+          let viewProfile = false
+          if (!_.isEmpty(params.id)) {
+            viewProfile = true
+          }
+
           setState((prevState) => {
             return {
               ...prevState,
-              loggedUser: logged
+              loggedUser: logged,
+              redirectToProfile: viewProfile,
+              showList: !viewProfile,
+              showEdit: viewProfile,
+              redirectToList: !viewProfile,
+              accountToEdit: { id: params.id },
+              accountToUpdateIndex: null
             }
           })
         })
@@ -390,7 +404,13 @@ const AccountsList = () => {
   }
 
   const handleDisplayList = (user, index) => {
-    state.adminList[index] = user
+    if (index === null) {
+      const found = state.adminList.find((element) => element.id == user.id)
+      const i = state.adminList.indexOf(found)
+      state.adminList[i] = user
+    } else {
+      state.adminList[index] = user
+    }
 
     setState((prevState) => {
       return {
@@ -447,12 +467,14 @@ const AccountsList = () => {
   return (
     <div className="relative px-10 py-5 bg-mainbg ">
       <Router>
-        {state.redirectToList ? <Redirect to="/company/accountslist" /> : ''}
         {state.redirectToProfile ? (
-          <Redirect to="/company/accountslist/profile" />
+          <Redirect
+            to={'/company/accountslist/profile?id=' + state.accountToEdit.id}
+          />
         ) : (
           ''
         )}
+        {state.redirectToList ? <Redirect to="/company/accountslist" /> : ''}
 
         <div className="w-full h-full relative min-h-table-height">
           <div
@@ -546,7 +568,6 @@ const AccountsList = () => {
                     handleDisplayList={handleDisplayList}
                     loggedUser={state.loggedUser}
                     accountToUpdateIndex={state.accountToUpdateIndex}
-                    // handleCloseMessageDialog={handleCloseMessageDialog}
                   />
                 ) : null}
               </Route>

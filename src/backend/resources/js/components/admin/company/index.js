@@ -16,8 +16,8 @@ const App = () => {
     addedCompany: {},
     redirectToProfile: false,
     redirectToAccountList: false,
-    formState: 'add form',
-    isEditingProfile: false,
+    formState: 'edit form',
+    isEditingProfile: true,
     accountList: [],
     pageCount: 1,
     lastPage: 1,
@@ -35,8 +35,7 @@ const App = () => {
   })
 
   const handleDisplayAddedCompany = (company) => {
-    console.log('add company')
-    console.log(company)
+    // console.log(company)
     setState((prevState) => {
       return {
         ...prevState,
@@ -50,9 +49,7 @@ const App = () => {
   }
 
   const handleDisplaySelectedCompany = (index) => {
-    console.log('handleDisplaySelectedCompany')
     const selectedItem = state.accountList[index]
-    // console.log(selectedItem)
     setState((prevState) => {
       return {
         ...prevState,
@@ -111,7 +108,6 @@ const App = () => {
   }
 
   const handleUpdateList = () => {
-    console.log('handleSaveNewAccount')
     fetch('/admin/company', {
       method: 'get',
       headers: { 'Content-Type': 'application/json' }
@@ -133,7 +129,6 @@ const App = () => {
   }
 
   const handleCloseProfile = () => {
-    console.log('handleCloseProfile')
     setState((prevState) => {
       return {
         ...prevState,
@@ -144,7 +139,6 @@ const App = () => {
   }
 
   const handlePageClick = (n) => {
-    console.log('handlePaging' + n)
     setCurrentPage(n)
   }
 
@@ -186,7 +180,9 @@ const App = () => {
     <div className="relative px-10 py-5 bg-mainbg fixed">
       <Router>
         {state.redirectToProfile ? (
-          <Redirect to="/admin/accounts/profile" />
+          <Redirect
+            to={'/admin/accounts/profile?id=' + state.addedCompany.id}
+          />
         ) : (
           ''
         )}

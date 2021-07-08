@@ -56,6 +56,21 @@ class UserController extends Controller
         return response()->json($this->response, $this->response['code']);
     }
 
+    public function searchSFContactByUserId(Request $request) {
+        try{
+            // dd($request->id);
+            $result = $this->userService->findById($request->id);
+            $user = $this->userService->findinSFByEmail($result['email']);
+            $this->response['data'] = $this->getSFResource($user);
+        }catch (Exception $e) {
+            $this->response = [
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
+        }
+        return response()->json($this->response, $this->response['code']);
+    }
+
     /**
      * Retrieves the List of Users
      *

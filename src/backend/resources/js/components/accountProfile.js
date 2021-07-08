@@ -1,28 +1,18 @@
-import React, { useState } from 'react'
-// import editIcon from '../../img/edit-icon.png'
-// import saveIcon from '../../img/Icon awesome-save.png'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import MessageDialog from './messageDialog'
 import waitingIcon from '../../img/loading-spinner.gif'
-
+import _ from 'lodash'
+import queryString from 'query-string'
 // eslint-disable-next-line
 let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
 
 const AccountProfileEdit = (props) => {
-  // eslint-disable-next-line
-  
   const [state, setState] = useState({
     mode: props.mode,
-    dataEmpty: true,
+    dataEmpty: _.isEmpty(props.account) ? true : false,
     loggedUser: props.loggedUser,
-    account: {
-      username: '',
-      firstname: '',
-      lastname: '',
-      phone: '',
-      email: '',
-      userTypeId: ''
-    },
+    account: initAccount(),
     accountSFValues: {
       Firstname: '',
       Lastname: '',
@@ -43,34 +33,8 @@ const AccountProfileEdit = (props) => {
     updatedAccount: {}
   })
 
-  // function getInit() {
-  //   if (props.account !== null) {
-  //     return {
-  //       username: props.account.username,
-  //       name: props.account.fullName,
-  //       lastname: props.account.lastName,
-  //       firstname: props.account.firstName,
-  //       position: props.account.title,
-  //       phone: props.account.contactNum,
-  //       email: props.account.email,
-  //       userTypeId: props.account.userTypeId
-  //     }
-  //   } else {
-  //     return {
-  //       username: '',
-  //       firstname: '',
-  //       lastname: '',
-  //       name: '',
-  //       position: '',
-  //       phone: '',
-  //       email: '',
-  //       userTypeId: ''
-  //     }
-  //   }
-  // }
-
-  const getDatafromProps = () => {
-    let acct = { ...state.account }
+  function initAccount() {
+    let acct = {}
     acct.username = props.account.username
     acct.name = props.account.Name
     acct.lastname = props.account.last_name
@@ -79,62 +43,9 @@ const AccountProfileEdit = (props) => {
     acct.phone = props.account.contact_num
     acct.email = props.account.email
     acct.userTypeId = props.account.user_type_id
-    console.log('acct from db')
-    console.log(acct)
-    setState((prevState) => {
-      return {
-        ...prevState,
-        account: acct,
-        dataEmpty: false
-      }
-    })
+
+    return acct
   }
-
-  const getDatafromSalesforce = () => {
-    console.log('salesforce data')
-    axios
-      .get(
-        `/salesforce/getCompanyAdminDetailsbyEmail?email=${props.account.email}`
-      )
-      .then((response) => {
-        let data = response.data.data
-        console.log(data)
-        let acct = { ...state.account }
-        acct.username = data.email
-        acct.name = data.FullName
-        acct.firstname = data.first_name
-        acct.lastname = data.last_name
-        acct.position = data.title
-        acct.phone = data.contact_num
-        acct.email = data.email
-        acct.userTypeId = data.user_type_id
-        // let acctsf = { ...state.accountSFValues }
-        // acctsf.Email = data.Email
-        // acctsf.FirstName = data.FirstName
-        // acctsf.LastName = data.LastName
-
-        setState((prevState) => {
-          return {
-            ...prevState,
-            account: acct,
-            //accountSFValues: acctsf,
-            dataEmpty: false
-          }
-        })
-      })
-      .catch(function (error) {
-        if (error.response) {
-          getDatafromProps()
-          console.log(error.response.status)
-        }
-      })
-  }
-
-  state.dataEmpty
-    ? state.mode === 'edit'
-      ? getDatafromSalesforce()
-      : getDatafromProps()
-    : null
 
   const handleTextChange = (key, val) => {
     let account = { ...state.account }
@@ -282,6 +193,48 @@ const AccountProfileEdit = (props) => {
     })
     props.handleDisplayList(state.updatedAccount, props.accountToUpdateIndex)
   }
+
+  useEffect(() => {
+    let emailOrId = ''
+    let qry = ''
+    if (!_.isEmpty(props.account.email)) {
+      emailOrId = props.account.email
+      qry = `/salesforce/getCompanyAdminDetailsbyEmail?email=${emailOrId}`
+    } else {
+      let params = queryString.parse(location.search)
+      emailOrId = params.id
+      qry = `/company/searchSFContactByUserId?id=${emailOrId}`
+    }
+
+    axios
+      .get(qry)
+      .then((response) => {
+        let data = response.data.data
+        console.log(data)
+        let acct = {}
+        acct.username = data.email
+        acct.name = data.FullName
+        acct.firstname = data.first_name
+        acct.lastname = data.last_name
+        acct.position = data.title
+        acct.phone = data.contact_num
+        acct.email = data.email
+        acct.userTypeId = data.user_type_id
+
+        setState((prevState) => {
+          return {
+            ...prevState,
+            account: acct,
+            dataEmpty: false
+          }
+        })
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.status)
+        }
+      })
+  }, [props.account])
 
   return (
     <div className="w-full">
