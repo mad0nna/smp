@@ -82,6 +82,7 @@ const AdminsList = (props) => {
       </thead>
       <tbody className="transform even:bg-gray-500">
         {state.sorted.map((admin, i) => {
+          console.log(admin)
           return (
             <tr
               className="stripe-table-row h-20 font-meiryo text-sm text-gray-600"
@@ -92,7 +93,7 @@ const AdminsList = (props) => {
               </td>
               <td className="w-2/12">{admin.title}</td>
               <td className="w-1/12">
-                {admin.userTypeId === 3 ? 'Super Admin' : 'User Admin'}
+                {admin.user_type_id === 3 ? 'スーパー管理者' : '副管理者'}
               </td>
               <td className="w-2/12">{admin.email}</td>
               <td className="w-2/12">{admin.contact_num}</td>
