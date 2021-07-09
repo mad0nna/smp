@@ -9,7 +9,8 @@ class Navigation extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      navShow: false
+      navShow: false,
+      userData: JSON.parse(document.getElementById('userData').textContent)
     }
     this.companyNavigation = {
       logo: KotLogo,
@@ -60,7 +61,7 @@ class Navigation extends React.Component {
         }
       ],
       dropDownNav: {
-        title: '株式会社町田',
+        title: this.state.userData.companyName,
         logo: '',
         items: [
           {

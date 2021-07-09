@@ -33,7 +33,7 @@
                             <input id="password-confirm" type="password" placeholder="新しいパスワードを再入力してください。" class="form-control px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none mx-auto w-7/12" name="password_confirmation" value="{{old('password_confirmation')}}" required autocomplete="new-password">
                         </div>
                         @error('password')
-                                <span class="invalid-feedback text-xs text-center" role="alert">
+                                <span class="invalid-feedback text-xs text-center mt-3" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror

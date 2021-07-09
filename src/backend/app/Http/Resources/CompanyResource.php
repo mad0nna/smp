@@ -95,8 +95,8 @@ class CompanyResource extends JsonResource
             'industrySub2' => $data['Field20__c'],
             'kotTransType' => $data['KOT_shubetsu__c'],
             'paymentMethod' => $data['PaymentMethod__c'],
-            'accountId' => $data['opportunity']['AccountId'] ? $data['opportunity']['AccountId'] : '',
-            'opportunityCode' => $data['opportunity']['ID__c'] ? $data['opportunity']['ID__c'] : '',
+            'accountId' => ($data['opportunity'] && $data['opportunity']['AccountId']) ? $data['opportunity']['AccountId'] : '',
+            'opportunityCode' => ($data['opportunity'] && $data['opportunity']['ID__c']) ? $data['opportunity']['ID__c'] : '',
             'admin' => [[
                 'contactId' => isset($data['contact']['Id']) ? $data['contact']['Id'] : '',
                 'email' => isset($data['contact']['Email']) ? $data['contact']['Email'] : '',

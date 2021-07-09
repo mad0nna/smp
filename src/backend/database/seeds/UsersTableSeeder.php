@@ -35,8 +35,8 @@ class UsersTableSeeder extends Seeder
         // create the system admin
         User::create([
             'account_code' => '0030l00000g5JSjAAM',
-            'username' => 'admin@sprobe.com',
-            'email' => 'admin@sprobe.com',
+            'username' => 'admin@tcg.sprobe.ph',
+            'email' => 'admin@tcg.sprobe.ph',
             'contact_num' => '123',
             'password' => Hash::make('Password2021!'),
             'company_id' => '1',
@@ -80,8 +80,8 @@ class UsersTableSeeder extends Seeder
             'contact_num' => '12345',
             'password' => Hash::make('Password2021!'),
             'company_id' => '3',
-            'first_name' => 'allan',
-            'last_name' => 'brock',
+            'first_name' => 'Allan',
+            'last_name' => 'Machida',
             'user_status_id' => $status->id,
             'user_type_id' => '3',
             'email_verified_at' => Carbon::now(),

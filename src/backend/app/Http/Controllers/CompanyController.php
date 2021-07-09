@@ -83,9 +83,7 @@ class CompanyController extends Controller
     
         if (!$result) {
           throw new NotFoundHttpException('No records found.');
-        }
-
-        // $data = (new CompanyResource([]))->filterFromSFToFront($result, $request->code);      
+        } 
       
         $this->response = [
           'success' => true,

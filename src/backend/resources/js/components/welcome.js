@@ -1,14 +1,10 @@
 import React from 'react'
-import complogo from '../../img/company/logo.png'
 
-const Welcome = () => {
+const Welcome = (props) => {
   return (
     <div className="flex gap-2">
       <span className="text-primary-200 text-lg lg:text-md font-bold content-center">
-        ようこそ{' '}
-      </span>
-      <span>
-        <img src={complogo} className="lg:w-5/6" />
+        ようこそ {props && props.lastName ? props.lastName : ''}
       </span>
     </div>
   )

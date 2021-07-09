@@ -16,6 +16,10 @@ import { findMissingWidget } from '../utilities/constants'
 import spinner from '../../img/spinner.gif'
 
 const Dashboard = () => {
+  // eslint-disable-next-line
+  const [state, setState] = useState({
+    userData: JSON.parse(document.getElementById('userData').textContent)
+  })
   const ResponsiveGridLayout = WidthProvider(Responsive)
   const [isGettingCoordinates, setStatus] = useState(false)
   useEffect(() => {
@@ -23,7 +27,7 @@ const Dashboard = () => {
     // DO NOT CHANGE THE ARRANGEMENT OF THESE COMPONENT LIST
     const companyCoreWidgets = [
       { component: '' },
-      { component: <Welcome /> },
+      { component: <Welcome lastName={state.userData.lastName} /> },
       { component: <CompanyDashboardChart /> },
       { component: <ServiceUsage /> },
       { component: <Products /> },
@@ -62,7 +66,7 @@ const Dashboard = () => {
           setStatus(false)
         })
     }
-  }, [widgetState])
+  }, [widgetState, state.userData])
 
   //uncomment this if there is a need to reset widget's state in the local storage
   //localStorage.removeItem('widget')

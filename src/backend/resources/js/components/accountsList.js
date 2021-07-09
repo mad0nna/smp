@@ -11,7 +11,6 @@ import DeleteConfirmation from './deleteConfirmation'
 import ProfileEdit from './accountProfile'
 import Pagination from './pagination'
 import _ from 'lodash'
-import queryString from 'query-string'
 import {
   BrowserRouter as Router,
   Switch,
@@ -59,9 +58,11 @@ const AccountsList = () => {
     redirectToList: false,
     redirectToProfile: false,
     emptyUser: true,
+    userData: JSON.parse(document.getElementById('userData').textContent),
     loggedUser: {
-      id: '',
-      userTypeId: ''
+      id: JSON.parse(document.getElementById('userData').textContent).userId,
+      userTypeId: JSON.parse(document.getElementById('userData').textContent)
+        .userTypeId
     },
     isLoadingOfAddingContact: false
   })
@@ -98,50 +99,6 @@ const AccountsList = () => {
       }
     })
   }
-
-  useEffect(() => {
-    if (state.loggedUser.id === '') {
-      axios
-        .get('/company/getLoggedUserInfo')
-        .then((response) => {
-          const user = response.data.data
-          let logged = { ...state.loggedUser }
-
-          logged.id = user['id']
-          logged.userTypeId = user['userTypeId']
-
-          let params = queryString.parse(location.search)
-          let viewProfile = false
-          if (!_.isEmpty(params.id)) {
-            viewProfile = true
-          }
-
-          setState((prevState) => {
-            return {
-              ...prevState,
-              loggedUser: logged,
-              redirectToProfile: viewProfile,
-              showList: !viewProfile,
-              showEdit: viewProfile,
-              redirectToList: !viewProfile,
-              accountToEdit: { id: params.id },
-              accountToUpdateIndex: null
-            }
-          })
-        })
-        .catch(function (error) {
-          if (error.response) {
-            console.log(error.response.status)
-            setState((prevState) => {
-              return {
-                ...prevState,
-                loggedUser: ''
-              }
-            })
-          }
-        })
-    }
-  }, [state.loggedUser])
 
   useEffect(() => {
     axios
@@ -495,7 +452,7 @@ const AccountsList = () => {
                 </div>
               </div>
               <div className="w-full">
-                <Welcome />
+                <Welcome lastName={state.userData.lastName} />
               </div>
               <button
                 onClick={togglePopupNewAccount}
