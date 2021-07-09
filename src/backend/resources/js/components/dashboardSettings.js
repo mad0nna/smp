@@ -17,7 +17,7 @@ const DashboardSettings = () => {
       label: 'サポート',
       onClick: '',
       font: '3xl:text-lg 2xl:text-md xl:text-sm lg:text-xs md: text-xxs',
-      url: '#',
+      url: 'https://support.ta.kingoftime.jp/hc/ja',
       photo: imgSupport
     }
   ]
@@ -43,14 +43,28 @@ const DashboardSettings = () => {
                   key={index}
                   className="xl:col-span-1 h-12 w-full bg-center bg-no-repeat flex-col flex items-center justify-center rounded-full mx-auto"
                 >
-                  <h3
-                    className={
-                      'rounded-full bg-white w-5/6 h-10 font-bold text-center border-1 shadow-md text-primary-200 py-2 align-middle ' +
-                      button.font
-                    }
-                  >
-                    {button.label}
-                  </h3>
+                  {button.url !== '#' ? (
+                    <h3
+                      className={
+                        'cursor-pointer rounded-full bg-white w-5/6 h-10 font-bold text-center border-1 shadow-md text-primary-200 py-2 align-middle ' +
+                        button.font
+                      }
+                      onClick={() => {
+                        window.open(button.url, '_blank')
+                      }}
+                    >
+                      {button.label}
+                    </h3>
+                  ) : (
+                    <h3
+                      className={
+                        'rounded-full bg-white w-5/6 h-10 font-bold text-center border-1 shadow-md text-primary-200 py-2 align-middle ' +
+                        button.font
+                      }
+                    >
+                      {button.label}
+                    </h3>
+                  )}
                 </div>
               )
             })}

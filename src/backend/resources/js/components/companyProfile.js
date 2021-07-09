@@ -341,10 +341,10 @@ class CompanyProfile extends Component {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {this.state.companyDetails.street ?? '' + ' '}
-                    {this.state.companyDetails.city ?? '' + ' '}
-                    {this.state.companyDetails.state ?? '' + ' '}
                     {this.state.companyDetails.country ?? '' + ' '}
+                    {this.state.companyDetails.state ?? '' + ' '}
+                    {this.state.companyDetails.city ?? '' + ' '}
+                    {this.state.companyDetails.street ?? '' + ' '}
                     {this.state.companyDetails.postalCode ?? ''}
                   </label>
                   <div className="space-y-1">
@@ -353,30 +353,13 @@ class CompanyProfile extends Component {
                         (this.state.isEditingProfile ? '' : 'hidden') +
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                       }
-                      defaultValue={this.state.companyEditValues.street}
+                      defaultValue={this.state.companyEditValues.country}
                       type="text"
-                      placeholder="street"
+                      placeholder="国"
                       onChange={(e) =>
                         this.handleFormChanges(
                           'company',
-                          'street',
-                          e.target.value
-                        )
-                      }
-                    />
-
-                    <input
-                      className={
-                        (this.state.isEditingProfile ? '' : 'hidden') +
-                        ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                      }
-                      defaultValue={this.state.companyEditValues.city}
-                      type="text"
-                      placeholder="市"
-                      onChange={(e) =>
-                        this.handleFormChanges(
-                          'company',
-                          'city',
+                          'country',
                           e.target.value
                         )
                       }
@@ -389,7 +372,7 @@ class CompanyProfile extends Component {
                       }
                       defaultValue={this.state.companyEditValues.state}
                       type="text"
-                      placeholder="県"
+                      placeholder="都道府県"
                       onChange={(e) =>
                         this.handleFormChanges(
                           'company',
@@ -404,6 +387,38 @@ class CompanyProfile extends Component {
                         (this.state.isEditingProfile ? '' : 'hidden') +
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                       }
+                      defaultValue={this.state.companyEditValues.city}
+                      type="text"
+                      placeholder="市区町村"
+                      onChange={(e) =>
+                        this.handleFormChanges(
+                          'company',
+                          'city',
+                          e.target.value
+                        )
+                      }
+                    />
+                    <input
+                      className={
+                        (this.state.isEditingProfile ? '' : 'hidden') +
+                        ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                      }
+                      defaultValue={this.state.companyEditValues.street}
+                      type="text"
+                      placeholder="地名番地、建物名等"
+                      onChange={(e) =>
+                        this.handleFormChanges(
+                          'company',
+                          'street',
+                          e.target.value
+                        )
+                      }
+                    />
+                    <input
+                      className={
+                        (this.state.isEditingProfile ? '' : 'hidden') +
+                        ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                      }
                       defaultValue={this.state.companyEditValues.postalCode}
                       type="text"
                       placeholder="郵便番号"
@@ -411,23 +426,6 @@ class CompanyProfile extends Component {
                         this.handleFormChanges(
                           'company',
                           'postalCode',
-                          e.target.value
-                        )
-                      }
-                    />
-
-                    <input
-                      className={
-                        (this.state.isEditingProfile ? '' : 'hidden') +
-                        ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                      }
-                      defaultValue={this.state.companyEditValues.country}
-                      type="text"
-                      placeholder="country"
-                      onChange={(e) =>
-                        this.handleFormChanges(
-                          'company',
-                          'country',
                           e.target.value
                         )
                       }
