@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Repositories\ZendeskRepository;
 use App\Services\Utilities\DateManager;
 use App\Repositories\DatabaseRepository;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Carbon;
 
 class NotificationService {
@@ -30,11 +31,17 @@ class NotificationService {
 
     public function getFromZendesk($accountID) {
         $currentYear = $this->dateManager->getCurrentYear();
-        $articles = $this->zendesk->getArticles($currentYear);
-        
+        $articles = Cache::remember("{$accountID}:notifications", now()->addHours(3), function() use($currentYear) {
+            $article = $this->zendesk->getArticlesFromTA($currentYear)['results'];
+            $article = array_merge($article, $this->zendesk->getArticlesFromSL($currentYear)['results']);
+            $article = array_merge($article, $this->zendesk->getArticlesFromDA($currentYear)['results']);
+            $article = array_merge($article, $this->zendesk->getArticlesFromHR($currentYear)['results']);
+            return $article;
+        });
         $seenNotif = $this->database->getZendeskSeenNotif($accountID);
+        $articles = $this->addCategoryName($articles);
         if (!empty($seenNotif)) {
-            $articlesWithSeenKey = $this->markAll($articles["results"], false);
+            $articlesWithSeenKey = $this->markAll($articles, false);
             $articleWithMixStatus = $this->addNotifStatus($articlesWithSeenKey, $seenNotif);
             usort($articleWithMixStatus, function($article1, $article2) {
                 if ($article1['seen'] == $article2['seen']) {
@@ -44,7 +51,19 @@ class NotificationService {
             });
             return $articleWithMixStatus;
         }
-        return $this->markAll($articles["results"], false);
+        return $this->markAll($articles, false);
+    }
+
+    private function addCategoryName($articles) {
+        $categories = config('zendesk.categories');
+        foreach ($articles as $key => $value) {
+            foreach ($categories as $catKey => $catValues) {
+               if ($catValues['section'] === $value['section_id']) {
+                $articles[$key]['category_name'] = $catValues['name'];
+               }
+            }
+        }
+        return $articles;
     }
 
     private function markAll($notifs, $status = true) {

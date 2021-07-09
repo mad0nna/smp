@@ -51,6 +51,9 @@ const Notification = (props) => {
         let zendeskNotifs = data.zendesk
         let notifs = []
         for (let i = 0; i < zendeskNotifs.length; i++) {
+          if (i > 9) {
+            continue
+          }
           notifs.push({
             header: 'お知らせ',
             type: 'zendesk',

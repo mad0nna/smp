@@ -32,8 +32,10 @@ const NotificationPage = () => {
             newTab: true,
             status: zendeskNotifs[i].seen ? '既読' : '未読',
             id: zendeskNotifs[i].id,
-            created: zendeskNotifs[i].created_at,
-            updated: zendeskNotifs[i].updated_at
+            category_name:
+              zendeskNotifs[i].category_name !== undefined
+                ? zendeskNotifs[i].category_name
+                : ''
           })
         }
         setState({ loading: false, notificationItems: notifs })
@@ -89,10 +91,8 @@ const NotificationPage = () => {
               <thead className="bg-table-header-Gray-100 text-gray-500 h-3 font-bold text-lg tracking-tight">
                 <tr className="h-12 w-12">
                   <td className="">Type</td>
-                  <td className="">ID</td>
                   <td className="">Title</td>
-                  <td className="">Created at</td>
-                  <td className="">Updated at</td>
+                  <td className="">Category Name</td>
                 </tr>
               </thead>
               <tbody className="transform even:bg-gray-500">
@@ -120,10 +120,8 @@ const NotificationPage = () => {
                       }}
                     >
                       <td className="w-36">{item.header}</td>
-                      <td className="w-10">{item.id}</td>
                       <td className="w-1/2">{item.message}</td>
-                      <td className="w-10">{item.created}</td>
-                      <td className="w-10">{item.updated}</td>
+                      <td className="w-10">{item.category_name}</td>
                     </tr>
                   )
                 })}
