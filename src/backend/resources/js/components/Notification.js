@@ -51,7 +51,7 @@ const Notification = (props) => {
         let zendeskNotifs = data.zendesk
         let notifs = []
         for (let i = 0; i < zendeskNotifs.length; i++) {
-          if (i > 9) {
+          if (i > 8) {
             continue
           }
           notifs.push({
@@ -129,7 +129,7 @@ const Notification = (props) => {
           {state.loading === true ? (
             <div className="w-full relative mt-24">
               <div className="mx-auto absolute bottom-1 w-full text-center">
-                Loading notifications
+                お知らせを読み込み中です
                 <img className="mx-auto h-12 mt-5" src={spinner}></img>
               </div>
             </div>

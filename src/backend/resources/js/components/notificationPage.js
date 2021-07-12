@@ -3,15 +3,9 @@ import ReactDom from 'react-dom'
 import spinner from '../../img/spinner.gif'
 
 const NotificationPage = () => {
-  // let iconTypes = {
-  //   invoice: 'bg-notification-invoice',
-  //   contract: 'bg-notification-active',
-  //   zendesk: 'bg-notification-normal'
-  // }
-  // let notifWithLink = ['請求', 'お知らせ']
   const [state, setState] = useState({
     loading: true,
-    GeneralNotifs: [],
+    currentPage: 1,
     notificationItems: []
   })
   useEffect(() => {
@@ -23,6 +17,11 @@ const NotificationPage = () => {
       .then((data) => {
         let zendeskNotifs = data.zendesk
         let notifs = []
+        let maxId = Math.round(state.currentPage * 10)
+        let minId =
+          state.currentPage != 1
+            ? Math.round(maxId / state.currentPage)
+            : state.currentPage
         for (let i = 0; i < zendeskNotifs.length; i++) {
           notifs.push({
             header: 'お知らせ',
@@ -38,9 +37,19 @@ const NotificationPage = () => {
                 : ''
           })
         }
-        setState({ loading: false, notificationItems: notifs })
+        setState((prevState) => {
+          return {
+            ...prevState,
+            loading: false,
+            currentPage: prevState.currentPage,
+            notificationItems: notifs,
+            numberOfPages: Math.round(notifs.length / 10),
+            maxId: maxId,
+            minId: minId
+          }
+        })
       })
-  }, [])
+  }, [state.currentPage])
   const seenNotif = (stateIndex, id, type, link, newTab = true) => {
     fetch('/company/seenNotification', {
       method: 'post',
@@ -55,8 +64,11 @@ const NotificationPage = () => {
       .then(() => {
         let notificationItems = state.notificationItems
         notificationItems[stateIndex].status = '既読'
-        setState({
-          notificationItems: notificationItems
+        setState((prevState) => {
+          return {
+            ...prevState,
+            notificationItems: notificationItems
+          }
         })
       })
     if (newTab) {
@@ -64,6 +76,61 @@ const NotificationPage = () => {
       window.focus()
     }
   }
+  let numberOFPages = Math.round(state.notificationItems.length / 10)
+  let pageNumbers = []
+  pageNumbers.push(
+    <img
+      src="/images/pagination-prev.png?1ac337e7f7bfaacab64ea9a2369b5930"
+      className=" inline-block w-8 h-auto mr-1 cursor-pointer"
+      onClick={() => {
+        if (state.currentPage <= 1) {
+          return
+        }
+        setState((prevState) => {
+          return {
+            ...prevState,
+            currentPage: prevState.currentPage - 1
+          }
+        })
+      }}
+    />
+  )
+  for (let index = 1; index <= numberOFPages; index++) {
+    let activeStyle =
+      index === state.currentPage
+        ? 'text-white bg-primary-200 '
+        : 'text-primary-200 '
+    pageNumbers.push(
+      <li
+        key={index}
+        className=""
+        onClick={() => {
+          setState((prevState) => {
+            return { ...prevState, currentPage: index }
+          })
+        }}
+      >
+        <span className={activeStyle + 'rounded-3xl px-3 py-1'}>{index}</span>
+      </li>
+    )
+  }
+  pageNumbers.push(
+    <img
+      src="/images/pagination-next.png?831991390ac360b1b03a00cdcd915ec5"
+      className=" inline-block  w-8 h-auto ml-1 cursor-pointer"
+      onClick={() => {
+        if (state.currentPage === state.numberOfPages) {
+          return
+        }
+        setState((prevState) => {
+          return {
+            ...prevState,
+            currentPage: prevState.currentPage + 1
+          }
+        })
+      }}
+    />
+  )
   return (
     <div>
       <div className="relative px-10 py-5 bg-mainbg">
@@ -80,7 +147,7 @@ const NotificationPage = () => {
               id="widget-name"
               className="text-primary-200 text-xl font-sans font-bold ml-4 float-left"
             >
-              Notifications
+              お知らせ
             </div>
           </div>
           <div
@@ -90,47 +157,49 @@ const NotificationPage = () => {
             <table className="w-full h-auto text-center">
               <thead className="bg-table-header-Gray-100 text-gray-500 h-3 font-bold text-lg tracking-tight">
                 <tr className="h-12 w-12">
-                  <td className="">Type</td>
-                  <td className="">Title</td>
-                  <td className="">Category Name</td>
+                  <td className="">種類</td>
+                  <td className="">タイトル</td>
+                  <td className="">分類</td>
                 </tr>
               </thead>
               <tbody className="transform even:bg-gray-500">
                 {state.notificationItems.map((item, index) => {
-                  let fontColor =
-                    item.status !== '既読' ? 'text-gray-900' : 'text-gray-500'
-                  return (
-                    <tr
-                      className={
-                        fontColor +
-                        ' stripe-table-row h-16 2xl:text-base lg:text-sm cursor-pointer'
-                      }
-                      key={index}
-                      onClick={(e) => {
-                        e.preventDefault()
-                        item.type === 'zendesk'
-                          ? seenNotif(
-                              index,
-                              item.id,
-                              'zendesk',
-                              item.link,
-                              item.newTab
-                            )
-                          : ''
-                      }}
-                    >
-                      <td className="w-36">{item.header}</td>
-                      <td className="w-1/2">{item.message}</td>
-                      <td className="w-10">{item.category_name}</td>
-                    </tr>
-                  )
+                  if (index >= state.minId && index <= state.maxId) {
+                    let fontColor =
+                      item.status !== '既読' ? 'text-gray-900' : 'text-gray-500'
+                    return (
+                      <tr
+                        className={
+                          fontColor +
+                          ' stripe-table-row h-16 2xl:text-base lg:text-sm cursor-pointer'
+                        }
+                        key={index}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          item.type === 'zendesk'
+                            ? seenNotif(
+                                index,
+                                item.id,
+                                'zendesk',
+                                item.link,
+                                item.newTab
+                              )
+                            : ''
+                        }}
+                      >
+                        <td className="w-36">{item.header}</td>
+                        <td className="w-1/2">{item.message}</td>
+                        <td className="w-10">{item.category_name}</td>
+                      </tr>
+                    )
+                  }
                 })}
               </tbody>
             </table>
             {state.loading === true ? (
               <div className="w-full relative mt-24">
                 <div className="mx-auto absolute bottom-1 w-full text-center">
-                  Loading notifications
+                  お知らせを読み込み中です
                   <img className="mx-auto h-12 mt-5" src={spinner}></img>
                 </div>
               </div>
@@ -140,30 +209,24 @@ const NotificationPage = () => {
           </div>
         </div>
       </div>
-      {/* <div
+      <div
         id="pagination"
         className="w-full h-12 p-3 text-center space-x-2 mt-4"
       >
         <div>
-          <img
+          {/* <img
             src="/images/pagination-prev.png?1ac337e7f7bfaacab64ea9a2369b5930"
             className=" inline-block  w-8 h-auto mr-1"
-          />
+          /> */}
           <div className="inline-block text-primary-200">
-            <ul id="page-numbers">
-              <li id="1" className="">
-                <span className="text-white bg-primary-200 rounded-2xl px-3 py-1">
-                  1
-                </span>
-              </li>
-            </ul>
+            <ul id="page-numbers">{pageNumbers}</ul>
           </div>
-          <img
+          {/* <img
             src="/images/pagination-next.png?831991390ac360b1b03a00cdcd915ec5"
             className=" inline-block  w-8 h-auto ml-1"
-          />
+          /> */}
         </div>
-      </div> */}
+      </div>
     </div>
   )
 }
