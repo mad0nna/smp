@@ -157,9 +157,9 @@ const NotificationPage = () => {
             <table className="w-full h-auto text-center">
               <thead className="bg-table-header-Gray-100 text-gray-500 h-3 font-bold text-lg tracking-tight">
                 <tr className="h-12 w-12">
-                  <td className="">種類</td>
-                  <td className="">タイトル</td>
-                  <td className="">分類</td>
+                  <td className="w-2">種類</td>
+                  <td className="w-8">タイトル</td>
+                  <td className="w-2">分類</td>
                 </tr>
               </thead>
               <tbody className="transform even:bg-gray-500">
@@ -187,9 +187,9 @@ const NotificationPage = () => {
                             : ''
                         }}
                       >
-                        <td className="w-36">{item.header}</td>
-                        <td className="w-1/2">{item.message}</td>
-                        <td className="w-10">{item.category_name}</td>
+                        <td className="w-2">{item.header}</td>
+                        <td className="w-8">{item.message}</td>
+                        <td className="w-2">{item.category_name}</td>
                       </tr>
                     )
                   }
