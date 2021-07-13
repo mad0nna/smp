@@ -2,11 +2,19 @@ import React from 'react'
 
 const Welcome = (props) => {
   return (
-    <div className="flex gap-2">
-      <span className="text-primary-200 text-lg lg:text-md font-bold content-center">
-        ようこそ {props && props.lastName ? props.lastName : ''}
-      </span>
+    <div className="w-full">
+      <h1 className="text-green-600 text-lg font-bold tracking-normal">
+        ようこそ{' '}
+        <span className="capitalize text-2xl text-green-700">
+          {props && props.lastName ? props.lastName : ''}
+        </span>
+      </h1>
     </div>
+    // <div className="w-full">
+    //   <h1 className="text-green-700 text-3xl tracking-normal">
+    //     ダッシュボード
+    //   </h1>
+    // </div>
   )
 }
 export default Welcome

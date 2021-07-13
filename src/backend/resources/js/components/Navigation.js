@@ -22,7 +22,7 @@ class Navigation extends React.Component {
           iconNormal: 'bg-dashboard-icon',
           iconHover: 'group-hover:bg-dashboard-icon-hover',
           iconActive: 'bg-dashboard-icon-hover',
-          iconSize: 'h-8 w-9',
+          iconSize: 'h-7 w-9',
           isActive: false,
           extraStyle: ''
         },
@@ -300,109 +300,116 @@ class Navigation extends React.Component {
 
   render() {
     return (
-      <div className="bg-white px-5 py-5 text-center h-24">
-        <div id="logo-container" className="h-full w-48 float-left relative">
-          <img
-            className="align-content-center absolute h-auto top-3 ml-3"
-            src={this.mainNav.logo}
-          />
-        </div>
-        <div className="inline-block -m-5">
-          <ul className="flex flex-row space-x-24 h-24">
-            {this.mainNav.navItem.map((item, index) => {
-              let activeTextColor = item.isActive ? 'text-white' : ''
-              let activeIcon = item.isActive ? item.iconActive : item.iconNormal
-              let activeBackground = item.isActive ? 'bg-primary-200' : ''
-              if (
-                !item.isActive &&
-                item.childUrl.indexOf(location.pathname) !== -1
-              ) {
-                activeIcon = item.iconActive
-                activeTextColor = 'text-white'
-                activeBackground = 'bg-primary-200'
-              }
-              return (
-                <li
-                  className={
-                    'group text-center py-5 w-36 hover:bg-primary-200 hover:text-white ' +
-                    activeBackground +
-                    ' ' +
-                    activeTextColor
-                  }
-                  key={index}
-                >
-                  <a href={item.url} className={item.extraStyle}>
-                    <div>
-                      <div
-                        className={
-                          item.iconSize +
-                          ' mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover ' +
-                          activeIcon +
-                          ' ' +
-                          item.iconHover +
-                          ' ' +
-                          +activeBackground
-                        }
-                      />
-                    </div>
-                    <div>
-                      <p className="font-sans text-lg font-semibold mt-1">
-                        {item.label}
-                      </p>
-                    </div>
-                  </a>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-        <div
-          id="nav-dropdown"
-          name="nav-dropdown"
-          className="float-right relative w-56 flex h-full space-x-2 cursor-pointer z-20"
-          onClick={this.handleDropDown}
-        >
-          <div className="my-auto">
-            {this.mainNav.dropDownNav.logo !== '' ? (
-              <img alt="setting icon" src={this.mainNav.dropDownNav.logo} />
-            ) : (
-              ''
-            )}
+      <div className="bg-white px-5 h-24 shadow-lg mb-8">
+        <div className="flex flex-row justify-between items-center">
+          <div className="w-48">
+            <img
+              className="align-content-center h-auto"
+              src={this.mainNav.logo}
+            />
           </div>
-          <p className="my-auto font-sans text-base text-primary-200 font-bold">
-            {this.mainNav.dropDownNav.title}
-          </p>
-          <div className="my-auto">
-            <img alt="setting icon" src={ArrowDownIcon} />
+          <div className="flex-grow">
+            <ul className="flex flex-row justify-center h-24">
+              {this.mainNav.navItem.map((item, index) => {
+                let activeTextColor = item.isActive
+                  ? 'text-white'
+                  : 'text-gray-400'
+                let activeIcon = item.isActive
+                  ? item.iconActive
+                  : item.iconNormal
+                let activeBackground = item.isActive ? 'bg-green-500' : ''
+                if (
+                  !item.isActive &&
+                  item.childUrl.indexOf(location.pathname) !== -1
+                ) {
+                  activeIcon = item.iconActive
+                  activeTextColor = 'text-white'
+                  activeBackground = 'bg-green-500'
+                }
+                return (
+                  <li
+                    className={
+                      'group text-center py-5 w-36 hover:bg-green-500 hover:text-white' +
+                      ' ' +
+                      activeBackground +
+                      ' ' +
+                      activeTextColor
+                    }
+                    key={index}
+                  >
+                    <a href={item.url} className={item.extraStyle}>
+                      <div>
+                        <div
+                          className={
+                            item.iconSize +
+                            ' mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover ' +
+                            activeIcon +
+                            ' ' +
+                            item.iconHover +
+                            ' ' +
+                            +activeBackground
+                          }
+                        />
+                      </div>
+                      <div>
+                        <p className="font-sans mt-1">{item.label}</p>
+                      </div>
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
           </div>
-          <div
-            id="nav-dropdown-content"
-            className="bg-greenOld w-64 absolute top-12 right-16 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md hidden"
-          >
-            {this.mainNav.dropDownNav.items.map((item, index) => {
-              return (
-                <a
-                  href={item.url}
-                  key={index}
-                  className={item.extraStyle}
-                  onClick={item.function}
-                >
-                  <div className="flex items-center py-2 space-x-4">
-                    <div
-                      className={
-                        item.iconNormal +
-                        ' ' +
-                        item.iconSize +
-                        ' bg-cover bg-no-repeat'
-                      }
-                    />
-                    <div className="text-sm text-white tracking-tighter">
-                      {item.label}
-                    </div>
-                  </div>
-                </a>
-              )
-            })}
+          <div className="justify-center">
+            <div
+              id="nav-dropdown"
+              name="nav-dropdown"
+              className="float-right relative flex h-full space-x-2 cursor-pointer z-20"
+              onClick={this.handleDropDown}
+            >
+              <div className="my-auto">
+                {this.mainNav.dropDownNav.logo !== '' ? (
+                  <img alt="setting icon" src={this.mainNav.dropDownNav.logo} />
+                ) : (
+                  ''
+                )}
+              </div>
+              <p className="my-auto font-sans text-base text-primary-200 font-bold">
+                {this.mainNav.dropDownNav.title}
+              </p>
+              <div className="my-auto">
+                <img alt="setting icon" src={ArrowDownIcon} />
+              </div>
+              <div
+                id="nav-dropdown-content"
+                className="bg-greenOld w-64 absolute top-12 right-16 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md hidden"
+              >
+                {this.mainNav.dropDownNav.items.map((item, index) => {
+                  return (
+                    <a
+                      href={item.url}
+                      key={index}
+                      className={item.extraStyle}
+                      onClick={item.function}
+                    >
+                      <div className="flex items-center py-2 space-x-4">
+                        <div
+                          className={
+                            item.iconNormal +
+                            ' ' +
+                            item.iconSize +
+                            ' bg-cover bg-no-repeat'
+                          }
+                        />
+                        <div className="text-sm text-white tracking-tighter">
+                          {item.label}
+                        </div>
+                      </div>
+                    </a>
+                  )
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </div>

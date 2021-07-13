@@ -40,10 +40,10 @@ const AdminsList = (props) => {
   }, [props.admins])
 
   return (
-    <table className="w-full h-auto text-center">
-      <thead className="bg-table-header-Gray-100 text-table-header-Gray-400 h-3 font-bold text-lg tracking-tight">
-        <tr className="h-12 w-12">
-          <td>
+    <table className="table-auto w-full mb-6">
+      <thead className="bg-gray-50 border-b border-t border-gray-200">
+        <tr className="h-11 text-xs text-gray-500 text-shadow-none">
+          <th>
             <span id="num" onClick={() => sortArray('name')}>
               名前&nbsp;
               <div
@@ -52,14 +52,14 @@ const AdminsList = (props) => {
                 }
               />
             </span>
-          </td>
-          <td>
+          </th>
+          <th>
             <span id="httId">役職</span>
-          </td>
-          <td>
+          </th>
+          <th>
             <span id="name">権限</span>
-          </td>
-          <td>
+          </th>
+          <th>
             <span id="email" onClick={() => sortArray('email')}>
               メールアドレス&nbsp;
               <div
@@ -68,39 +68,39 @@ const AdminsList = (props) => {
                 }
               />
             </span>
-          </td>
-          <td>
+          </th>
+          <th>
             <span id="contactPerson">電話番号</span>
-          </td>
-          <td>
+          </th>
+          <th>
             <span id="type">状態</span>
-          </td>
-          <td>
+          </th>
+          <th>
             <span id="telNum">操作</span>
-          </td>
+          </th>
         </tr>
       </thead>
-      <tbody className="transform even:bg-gray-500">
+      <tbody className="transform px-3">
         {state.sorted.map((admin, i) => {
           console.log(admin)
           return (
             <tr
-              className="stripe-table-row h-20 font-meiryo text-sm text-gray-600"
+              className="table-row font-sans text-sm text-gray-500 p-5 h-16 hover:bg-gray-50 border-b border-gray-100"
               key={admin.id}
             >
-              <td className=" w-2/12">
+              <td className="text-center capitalize">
                 {admin.first_name} {admin.last_name}
               </td>
-              <td className="w-2/12">{admin.title}</td>
-              <td className="w-1/12">
+              <td className="text-center">{admin.title}</td>
+              <td className="text-center">
                 {admin.user_type_id === 3 ? 'スーパー管理者' : '副管理者'}
               </td>
-              <td className="w-2/12">{admin.email}</td>
-              <td className="w-2/12">{admin.contact_num}</td>
-              <td className="w-1/12">
+              <td className="text-center">{admin.email}</td>
+              <td className="text-center">{admin.contact_num}</td>
+              <td className="text-center">
                 {admin.user_status_id === 1 ? 'アクティブ' : '保留中'}
               </td>
-              <td className="w-2/12  grid-flow-row text-center">
+              <td className=" grid-flow-row text-center">
                 <a className="grid-flow-row inline text-primary-200">
                   {admin.user_type_id === 3 &&
                   state.loggedUser.user_type_id != 3 ? (

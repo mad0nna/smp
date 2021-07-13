@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import BillingIcon from '../../svg/billing-icon.svg'
+
 import PdfIcon from '../../img/pdf2-icon.png'
 import Ellipsis from '../../img/ellipsis.png'
 import PrevButton from '../../img/pagination-prev.png'
@@ -101,24 +101,23 @@ const CompanyBilling = () => {
   ]
 
   return (
-    <div className="relative px-10 py-5 bg-mainbg">
-      <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
+    <div className="relative px-10 mt-5 bg-mainbg">
+      <div className="w-full h-full bg-white overflow-hidden relative  rounded-lg shadow-xl">
+        <div className="px-3 pt-3 pb-1">
+          <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <h2 className="text-green-800 text-lg font-bold">請求履歴</h2>
+          </div>
+        </div>
+
         <div
           id="widget-header"
           className="max-w-full h-24 bg-white box-border align-middle p-4 relative"
         >
-          <img src={BillingIcon} className="w-auto h-7 float-left ml-4" />
-          <div
-            id="widget-name"
-            className="text-primary-200 text-xl font-sans font-bold ml-4 float-left"
-          >
-            請求履歴
-          </div>
-          <div id="widget-name" className="float-right mr-12">
+          <div id="widget-name" className="float-right mr-3">
             <div className="table-cell relative h-20 w-full align-middle">
               <div
                 id="search-bar"
-                className="bg-mainbg h-12 rounded-3xl w-96 mx-0 my-auto"
+                className="bg-gray-100 h-12 rounded-lg w-96 mx-0 my-auto"
               >
                 <svg
                   className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
@@ -139,7 +138,7 @@ const CompanyBilling = () => {
                 <input
                   type="text"
                   id="billingSearch"
-                  className="h-full w-80 bg-mainbg custom-outline-none"
+                  className="h-full w-80 bg-gray-100 custom-outline-none"
                   placeholder="検索"
                 />
               </div>
@@ -151,39 +150,40 @@ const CompanyBilling = () => {
             src={Ellipsis}
           />
         </div>
-        <div id="widget-body" className="h-50 w-full bg-white overflow-hidden">
-          <table className="w-full h-auto text-center">
-            <thead className="bg-table-header-Gray-100 text-gray-500 h-3 font-bold text-lg tracking-tight">
-              <tr className="h-12 w-12">
-                <td className="text-left pl-8">請求書番号</td>
-                <td className="text-left pl-8">請求書名</td>
-                <td className="text-left pl-8">請求日</td>
-                <td className="text-left pl-8">支払期限</td>
-                <td className="text-right pr-10">請求額</td>
-                <td className="text-left pl-20">支払日</td>
-                <td className="text-left pl-5">状態</td>
-                <td className="text-left pl-8">操作</td>
+        <div
+          id="widget-body"
+          className="h-50 w-full bg-white overflow-hidden px-3"
+        >
+          <table className="table-auto w-full h-auto text-center mb-6">
+            <thead className="bg-gray-50 border-b border-t border-gray-200">
+              <tr className="h-11 text-xs text-gray-500 text-shadow-none">
+                <th>請求書番号</th>
+                <th>請求書名</th>
+                <th>請求日</th>
+                <th>支払期限</th>
+                <th>請求額</th>
+                <th>支払日</th>
+                <th>状態</th>
+                <th>操作</th>
               </tr>
             </thead>
-            <tbody className="transform even:bg-gray-500">
+            <tbody>
               {billingList.map((item, index) => {
-                let txtalign =
-                  item.paidOn === '-' ? 'text-left pl-24' : 'text-left pl-12'
                 let txtcolor =
-                  item.status === '未払い' ? 'text-red-500' : 'text-gray-900'
+                  item.status === '未払い' ? 'orange' : 'text-gray-500'
                 return (
                   <tr
-                    className="stripe-table-row h-16 2xl:text-base lg:text-sm text-gray-900"
+                    className="table-row h-16 text-sm text-gray-500 hover:bg-gray-50 border-b border-gray-100"
                     key={index}
                   >
-                    <td className="text-left pl-5">{item.no}</td>
-                    <td className="text-left">{item.billingName}</td>
-                    <td className="text-left"> {item.billingDate}</td>
-                    <td className="text-left">{item.dueDate}</td>
-                    <td className="text-right pr-10 w-4">{item.amount}</td>
-                    <td className={txtalign}>{item.paidOn}</td>
-                    <td className={txtcolor + ' text-left'}>{item.status}</td>
-                    <td className="text-left">
+                    <td className="text-center">{item.no}</td>
+                    <td className="text-center">{item.billingName}</td>
+                    <td className="text-center"> {item.billingDate}</td>
+                    <td className="text-center">{item.dueDate}</td>
+                    <td className="text-center">{item.amount}</td>
+                    <td className="text-center">{item.paidOn}</td>
+                    <td className={txtcolor + ' text-center'}>{item.status}</td>
+                    <td className="text-center">
                       <img src={PdfIcon} className="mx-auto w-6 h-auto" />{' '}
                     </td>
                   </tr>

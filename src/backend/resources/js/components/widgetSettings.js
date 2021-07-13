@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import settings from '../../img/settings-icon.png'
+
 import spinner from '../../img/spinner.gif'
 import { findMissingWidget } from '../utilities/constants'
 
@@ -99,84 +99,85 @@ const WidgetSettings = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg border-gray-200 mt-10 w-8/12 mx-auto">
-      <div className="flex">
-        <img className="p-8" src={settings} />
-        <span className="text-primary-200 font-sans font-bold ml-8 py-6 pt-8">
-          ウィジェット設定
-        </span>
-      </div>
-      <div className="bg-gray-300 flex content-center justify-around font-bold text-center w-full">
-        <span className="">ウィジェット名</span>
-        <span>表示</span>
-        <span>ロック</span>
+    <div className="bg-white rounded-lg shadow-xl mt-10 w-8/12 mx-auto">
+      <div className="p-3 pb-6">
+        <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+          <h2 className="text-green-800 text-lg font-bold">ウィジェット設定</h2>
+        </div>
       </div>
 
-      <div>
+      <div className="px-3">
         <form>
-          {widgetState.map((widget, index) => {
-            let hidden =
-              widget.label === '' ||
-              widget.label === null ||
-              widget.label === 'ようこそ！'
-                ? 'hidden'
-                : ''
-            return (
-              <div
-                key={index}
-                className={
-                  'h-10 w-full py-6 text-gray-500 font-sans text-md mb-2 mt-2 pl-2 flex content-center justify-around font-bold text-center ' +
-                  hidden
-                }
-              >
-                <span className={'col-span-1 w-6/12 pl-4 mx-auto' + hidden}>
-                  {' '}
-                  {widget.label}{' '}
-                </span>
-                <span className={'col-span-1 w-6/12 mx-auto pl-2' + hidden}>
-                  {' '}
-                  <input
-                    type="checkbox"
-                    className="bg-primary-200 border-primary-200 w-6 h-6"
-                    onChange={(e) => onChangeHandler(e, index)}
-                    value={index}
-                    defaultChecked={widget.state}
-                  />
-                </span>
-                <span className={'col-span-1 w-6/12 mx-auto' + hidden}>
-                  {' '}
-                  <input
-                    type="checkbox"
-                    className="bg-primary-200 border-primary-200 w-6 h-6"
-                    onChange={(e) => toggleWidgetLock(e, index)}
-                    value={index}
-                    defaultChecked={widget.static}
-                  />
-                </span>
-              </div>
-            )
-          })}
+          <table className="table-auto w-full mb-6">
+            <thead className="bg-gray-50 border-b border-t border-gray-200">
+              <tr className="h-11 text-xs text-gray-500 text-shadow-none">
+                <th className="text-left pl-3">ウィジェット名</th>
+                <th>表示</th>
+                <th>ロック</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {widgetState.map((widget, index) => {
+                let hidden =
+                  widget.label === '' ||
+                  widget.label === null ||
+                  widget.label === 'ようこそ！'
+                    ? 'hidden'
+                    : ''
+                return (
+                  <tr
+                    key={index}
+                    className={
+                      'table-row text-sm text-gray-400 h-14 hover:bg-gray-50 border-b border-gray-100 text-center ' +
+                      hidden
+                    }
+                  >
+                    <td className={'pl-3 text-left' + hidden}>
+                      {' '}
+                      {widget.label}{' '}
+                    </td>
+                    <td className={'' + hidden}>
+                      {' '}
+                      <input
+                        type="checkbox"
+                        className="w-6 h-6"
+                        onChange={(e) => onChangeHandler(e, index)}
+                        value={index}
+                        defaultChecked={widget.state}
+                      />
+                    </td>
+                    <td className={'' + hidden}>
+                      {' '}
+                      <input
+                        type="checkbox"
+                        className="w-6 h-6"
+                        onChange={(e) => toggleWidgetLock(e, index)}
+                        value={index}
+                        defaultChecked={widget.static}
+                      />
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
         </form>
       </div>
-      <div className="flex justify-around py-16 ">
+
+      <div className="flex justify-around pt-4 pb-16">
         <form>
           {status ? (
             <img
               src={spinner}
-              className="rounded-xl h-12 px-3 py-3 bg-primary-200 border-gray-300 content-center"
+              className="text-xs rounded-md text-white px-6 py-2 bg-green-500 border-gray-300"
             />
           ) : (
             <div>
-              <button
-                className="rounded-xl text-white px-3 py-3 bg-primary-200 border-gray-300 content-center "
-                onClick={onSave}
-              >
+              <button className="std-primary" onClick={onSave}>
                 保存する
               </button>
-              <button
-                className="rounded-xl text-white px-3 py-3 border-primary-200 bg-gray-500 ml-4 "
-                onClick={resetCoordinates}
-              >
+              <button className="std-cancel" onClick={resetCoordinates}>
                 リセット
               </button>
             </div>

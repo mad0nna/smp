@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import ReactDom from 'react-dom'
 import axios from 'axios'
-import AccountsIcon from '../../img/company/accounts-list.png'
+
 import Settings from './dashboardSettings'
 import AdminsList from './adminsList'
-import Welcome from './welcome'
+
 import NewAccount from './newAccount'
 import MessageDialog from './messageDialog'
 import DeleteConfirmation from './deleteConfirmation'
@@ -433,132 +433,137 @@ const AccountsList = () => {
         )}
         {state.redirectToList ? <Redirect to="/company/accountslist" /> : ''}
 
-        <div className="w-full h-full relative min-h-table-height">
-          <div
-            id="widget-header"
-            className="max-w-full h-48 box-border align-middle p-4 relative flex flex-row"
-          >
-            <div className="flex flex-cols flex-wrap justify-self-start w-7/12 relative">
-              <div className="float-left">
-                <img
-                  src={AccountsIcon}
-                  className="w-auto h-7 float-left ml-4"
-                />
-                <div
-                  id="widget-name"
-                  className="text-primary-200 text-xl font-sans font-bold ml-4 float-left"
-                >
+        <div className="bg-mainbg grid grid-cols-4 font-meiryo gap-6">
+          <div className="col-span-3 w-full rounded-lg shadow-xl bg-white mb-10 border-primary-100">
+            <div className="px-3 pt-3 pb-10">
+              <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+                <h2 className="text-green-800 text-lg font-bold">
                   ユーザーアカウント一覧
+                </h2>
+              </div>
+            </div>
+            <div className="px-3">
+              <div className="flex justify-between items-center">
+                <div className="">
+                  <div
+                    className="text-sm border cursor-pointer add-new-user"
+                    onClick={togglePopupNewAccount}
+                  >
+                    <span className="flex flex-col items-center justify-center text-gray-500 font-medium mx-2 my-1">
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 float-left mr-1 text-gray-400"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
+                        </svg>
+                        新規ユーザーを追加
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div className="">
+                  <div
+                    id="widget-name"
+                    className="mr-26 w-1/4 object-right-bottom relative rounded-lg"
+                  >
+                    <div
+                      className={
+                        state.showList
+                          ? `table-cell h-12 origin-right`
+                          : ` hidden `
+                      }
+                    >
+                      <div
+                        id="search-bar"
+                        className="bg-gray-100 h-10 rounded-lg 2xl:w-96 xl:w-92 lg:w-64 mx-0 my-auto"
+                      >
+                        <svg
+                          className="text-gray-500 fill-current w-auto h-11 float-left p-3 rounded-lg"
+                          xmlns="http://www.w3.org/2000/svg"
+                          x="30px"
+                          y="30px"
+                          viewBox="0 0 487.95 487.95"
+                          xmlSpace="preserve"
+                        >
+                          <g>
+                            <path
+                              d="M481.8,453l-140-140.1c27.6-33.1,44.2-75.4,44.2-121.6C386,85.9,299.5,0.2,193.1,0.2S0,86,0,191.4s86.5,191.1,192.9,191.1
+                                c45.2,0,86.8-15.5,119.8-41.4l140.5,140.5c8.2,8.2,20.4,8.2,28.6,0C490,473.4,490,461.2,481.8,453z M41,191.4
+                                c0-82.8,68.2-150.1,151.9-150.1s151.9,67.3,151.9,150.1s-68.2,150.1-151.9,150.1S41,274.1,41,191.4z"
+                            />
+                          </g>
+                        </svg>
+                        <input
+                          type="text"
+                          className="h-full 2xl:w-80 xl:w-76 lg:w-44 bg-gray-100 custom-outline-none rounded-lg"
+                          placeholder="検索"
+                          onChange={handleFilter}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="w-full">
-                <Welcome lastName={state.userData.lastName} />
-              </div>
-              <button
-                onClick={togglePopupNewAccount}
-                className="rounded-full bg-white w-4/12 h-10 py-2 font-bold text-center border-1 shadow-md border-primary-200 text-primary-200"
-              >
-                新規ユーザーを追加 +
-              </button>
-            </div>
-
-            <div
-              id="widget-name"
-              className="mr-26 w-1/4 object-right-bottom relative rounded-full"
-            >
               <div
                 className={
                   state.showList
-                    ? `table-cell h-36 origin-right align-bottom`
-                    : ` hidden `
+                    ? `'h-50 w-full bg-white overflow-hidden '`
+                    : ''
                 }
               >
-                <div
-                  id="search-bar"
-                  className="bg-white h-12 rounded-3xl 2xl:w-96 xl:w-92 lg:w-64 mx-0 my-auto shadow-md"
-                >
-                  <svg
-                    className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3 rounded-full"
-                    xmlns="http://www.w3.org/2000/svg"
-                    x="30px"
-                    y="30px"
-                    viewBox="0 0 487.95 487.95"
-                    xmlSpace="preserve"
-                  >
-                    <g>
-                      <path
-                        d="M481.8,453l-140-140.1c27.6-33.1,44.2-75.4,44.2-121.6C386,85.9,299.5,0.2,193.1,0.2S0,86,0,191.4s86.5,191.1,192.9,191.1
-                                c45.2,0,86.8-15.5,119.8-41.4l140.5,140.5c8.2,8.2,20.4,8.2,28.6,0C490,473.4,490,461.2,481.8,453z M41,191.4
-                                c0-82.8,68.2-150.1,151.9-150.1s151.9,67.3,151.9,150.1s-68.2,150.1-151.9,150.1S41,274.1,41,191.4z"
+                <Switch>
+                  <Route path="/company/accountslist/profile">
+                    {state.showEdit ? (
+                      <ProfileEdit
+                        mode={state.mode}
+                        account={state.accountToEdit}
+                        isLoading={state.isLoading}
+                        handleDisplayUpdate={handleDisplayUpdate}
+                        handleDisplayList={handleDisplayList}
+                        loggedUser={state.loggedUser}
+                        accountToUpdateIndex={state.accountToUpdateIndex}
                       />
-                    </g>
-                  </svg>
-                  <input
-                    type="text"
-                    className="h-full 2xl:w-80 xl:w-76 lg:w-44 bg-white custom-outline-none rounded-full"
-                    placeholder="検索"
-                    onChange={handleFilter}
+                    ) : null}
+                  </Route>
+
+                  <Route path="/company/accountslist">
+                    {state.showList ? (
+                      <AdminsList
+                        admins={{
+                          adminList: state.adminList,
+                          loggedUser: state.loggedUser
+                        }}
+                        handleDisplayDelete={handleDisplayDelete}
+                        handleDisplayUpdate={handleDisplayUpdate}
+                        handleDisplayView={handleDisplayView}
+                        handleResendEmailInvite={handleResendEmailInvite}
+                      />
+                    ) : null}
+                  </Route>
+                </Switch>
+              </div>
+              {state.showList ? (
+                <div
+                  id="pagination"
+                  className="w-full h-12 p-3 text-center space-x-2 mt-4 mb-10"
+                >
+                  <Pagination
+                    listNumbers={state.pageNumbers}
+                    currentPage={pagingConditions.page}
+                    lastPage={state.lastPage}
+                    handleNavigation={handleNavigation}
                   />
                 </div>
-              </div>
-            </div>
-            <div className="w-1/4 h-40 float-right">
-              <Settings />
+              ) : null}
             </div>
           </div>
-          <div
-            id="widget-body"
-            className={
-              state.showList
-                ? `'h-50 w-full bg-white overflow-hidden rounded-lg border-2 border-gray-200'`
-                : ''
-            }
-          >
-            <Switch>
-              <Route path="/company/accountslist/profile">
-                {state.showEdit ? (
-                  <ProfileEdit
-                    mode={state.mode}
-                    account={state.accountToEdit}
-                    isLoading={state.isLoading}
-                    handleDisplayUpdate={handleDisplayUpdate}
-                    handleDisplayList={handleDisplayList}
-                    loggedUser={state.loggedUser}
-                    accountToUpdateIndex={state.accountToUpdateIndex}
-                  />
-                ) : null}
-              </Route>
-
-              <Route path="/company/accountslist">
-                {state.showList ? (
-                  <AdminsList
-                    admins={{
-                      adminList: state.adminList,
-                      loggedUser: state.loggedUser
-                    }}
-                    handleDisplayDelete={handleDisplayDelete}
-                    handleDisplayUpdate={handleDisplayUpdate}
-                    handleDisplayView={handleDisplayView}
-                    handleResendEmailInvite={handleResendEmailInvite}
-                  />
-                ) : null}
-              </Route>
-            </Switch>
+          <div className="col-span-1 h-40">
+            <Settings />
           </div>
         </div>
-        {state.showList ? (
-          <div
-            id="pagination"
-            className="w-full h-12 p-3 text-center space-x-2 mt-4"
-          >
-            <Pagination
-              listNumbers={state.pageNumbers}
-              currentPage={pagingConditions.page}
-              lastPage={state.lastPage}
-              handleNavigation={handleNavigation}
-            />
-          </div>
-        ) : null}
 
         {state.showPopupNewAccount ? (
           <NewAccount

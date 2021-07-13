@@ -7,44 +7,54 @@ import chart2 from '../../img/company/chart2.png'
 const CompanyDashboardChart = () => {
   return (
     <div className="w-full h-full relative group">
-      <div className="w-full h-full overflow-hidden relative rounded-lg border-2 border-gray-200">
+      <div className="w-full h-full overflow-hidden relative bg-white rounded-lg shadow-xl">
         <div
           id="widget-header"
-          className="max-w-full h-12 bg-white box-border align-middle py-3 relative"
+          className="bg-white relative box-border p-3 pb-6"
         >
-          <img
-            className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block"
-            src={Ellipsis}
-          />
+          <div>
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+              <h2 className="text-green-800 text-lg font-bold">
+                サービス利用状況
+              </h2>
+            </div>
+          </div>
+          <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
+            <img src={Ellipsis} />
+          </div>
         </div>
 
         <div
           id="widget-body"
-          className="h-widgetBody-sm w-full bg-white px-6 py-2 text-center flex flex-col items-center gap-3"
+          className="h-widgetBody-sm w-full bg-white px-3 flex flex-col gap-3"
         >
-          <div className="font-sans text-primary-200 text-md pb-10 font-bold">
-            <p>サービス利用状況</p>
-          </div>
-          <div className="w-48 h-68 inline-block">
-            <p className="font-sans text-primary-200 text-xs">勤怠記録</p>
-            <p className="font-sans text-red-700 font-bold text-xs pb-2">
-              KOTユーザーID保有者500人のうち 350人が打刻済み
-            </p>
-            <img src={chart1} className="mx-auto" />
-            <p className="text-red-700 text-md font-bold pb-16">70%</p>
-            <div className="mx-auto w-44 rounded-lg ">
-              <p className="text-primary-200 font-sans text-sm tracking-tighter">
-                展開率
-              </p>
-              <p className="text-red-700 text-xs font-bold">
-                750人の従業員のうち
-                <br /> の500人がKOTアクティブユーザー
-              </p>
+          <div className="flex flex-col mb-2">
+            <div className="flex flex-row">
+              <div>
+                <img src={chart1} className="mx-auto" />
+              </div>
+              <div>
+                <h3 className="text-gray-700 text-md mb-2">勤怠記録</h3>
+                <p className="text-gray-500 text-xs mb-2">
+                  KOTユーザーID保有者500人のうち 350人が打刻済み
+                </p>
+                <p className="orange text-3xl font-bold">70%</p>
+              </div>
             </div>
           </div>
-          <div className="w-48 h-64">
-            <img src={chart2} className="mx-auto" />
-            <p className="text-red-700 text-md font-bold">67%</p>
+          <div className="flex flex-col">
+            <div className="flex flex-row">
+              <div>
+                <img src={chart2} className="mx-auto" />
+              </div>
+              <div>
+                <h3 className="text-gray-700 text-md mb-2">展開率</h3>
+                <p className="text-gray-500 text-xs mb-2">
+                  750人の従業員のうち の500人がKOTアクティブユーザー
+                </p>
+                <p className="orange text-3xl font-bold">67%</p>
+              </div>
+            </div>
           </div>
         </div>
 

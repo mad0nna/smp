@@ -98,36 +98,28 @@ const Notification = (props) => {
     : 'py-3 h-20 p-3 px-3'
   return (
     <div className="w-full h-full relative group ">
-      <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg border-2 border-gray-200 ">
-        <div
-          id="widget-header"
-          className="max-w-full h-12 bg-white box-border align-middle p-3 relative"
-        >
-          <div
-            id="widget-icon"
-            className="bg-notification-icon w-6 h-6 bg-cover bg-no-repeat float-left"
-          />
-          <div
-            id="widget-name"
-            className="text-primary-200 font-sans font-bold ml-8"
-          >
-            お知らせ
+      <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
+        <div id="widget-header" className="bg-white relative box-border">
+          <div>
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+              <h2 className="text-green-800 text-lg font-bold">お知らせ</h2>
+            </div>
           </div>
-          <img
-            className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block"
-            src={Ellipsis}
-          />
+          <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
+            <img src={Ellipsis} />
+          </div>
         </div>
+
         <div
           id="widget-body"
           className={
-            ' w-full py-1 space-y-1 ' + (state.loading === true)
+            'w-full py-1 space-y-1 ' + (state.loading === true)
               ? ''
               : 'bg-mainbg'
           }
         >
           {state.loading === true ? (
-            <div className="w-full relative mt-24">
+            <div className="w-full relative mt-24 dashboard-widget-list overflow-hidden">
               <div className="mx-auto absolute bottom-1 w-full text-center">
                 お知らせを読み込み中です
                 <img className="mx-auto h-12 mt-5" src={spinner}></img>
@@ -136,13 +128,13 @@ const Notification = (props) => {
           ) : (
             state.notificationItems.map((item, index) => {
               let fontColor =
-                item.status !== '既読' ? 'text-gray-900' : 'text-gray-500'
+                item.status !== '既読' ? 'text-gray-900' : 'text-gray-400'
               return (
                 <div
                   id="widget-content-item"
                   className={
                     py +
-                    ' bg-white w-full box-border align-middle px-3 relative my-1'
+                    ' bg-white w-full box-border align-middle px-1 py-4 hover:bg-gray-50 border-b border-gray-100 relative'
                   }
                   key={index}
                 >
@@ -179,7 +171,7 @@ const Notification = (props) => {
                       className="cursor-pointer"
                     >
                       <span
-                        className="text-primary-200"
+                        className="text-primary-200 text-xs"
                         dataid={item.id}
                         datatype={item.type}
                       >
@@ -191,7 +183,7 @@ const Notification = (props) => {
                   </p>
                   <p
                     id="item-status"
-                    className="absolute right-3 float-right font-sans text-primary-200 text-sm tracking-tighter text-center bottom-3 lg:absolute lg:bottom-0"
+                    className="absolute right-1 float-right font-sans text-gray-400 text-sm tracking-tighter text-center bottom-3 lg:absolute lg:bottom-0"
                   >
                     {item.status}
                   </p>

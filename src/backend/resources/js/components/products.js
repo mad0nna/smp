@@ -39,14 +39,18 @@ const Products = () => {
 
   return (
     <div className="w-full h-full relative group font-meiryo">
-      <div className="dashboard-widget-list relative flex flex-col justify-center items-center gap-1 rounded-lg border-2 border-gray-200 w-full h-full bg-white group pt-2">
-        <div className="w-full h-4 pl-4">
-          <span className="ml-2 p-0 inline text-green-600 font-bold">物販</span>
-          <img
-            className="float-right mr-4 hidden group-hover:block"
-            src={Ellipsis}
-          />
+      <div className="relative gap-1 w-full h-full bg-white rounded-lg shadow-xl group">
+        <div id="widget-header" className="relative box-border p-3">
+          <div>
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+              <h2 className="text-green-800 text-lg font-bold">物販</h2>
+            </div>
+          </div>
+          <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
+            <img src={Ellipsis} />
+          </div>
         </div>
+
         <div className=" w-full px-4">
           <div className="grid grid-cols-2 gap-1">
             {products.map((product, index) => {

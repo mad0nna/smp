@@ -45,48 +45,40 @@ class PurchaseHistory extends React.Component {
   render() {
     return (
       <div className="w-full h-full relative group ">
-        <div className="dashboard-widget-list w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 bg-white">
-          <div
-            id="widget-header"
-            className="max-w-full h-12 bg-white box-border align-middle p-3 relative"
-          >
-            <div
-              id="widget-icon"
-              className="bg-cart-icon w-6 h-6 bg-cover bg-no-repeat float-left"
-            />
-            <div
-              id="widget-name"
-              className="text-primary-200 font-sans font-black ml-8"
-            >
-              購入履歴
+        <div className="w-full h-full overflow-hidden relative bg-white rounded-lg shadow-xl pt-3 px-3">
+          <div id="widget-header" className="bg-white relative box-border">
+            <div>
+              <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+                <h2 className="text-green-800 text-lg font-bold">購入履歴</h2>
+              </div>
             </div>
-            <img
-              className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block"
-              src={Ellipsis}
-            />
+            <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
+              <img src={Ellipsis} />
+            </div>
           </div>
-          <div id="widget-body" className="w-full bg-gray-50 py-2 space-y-2">
+
+          <div id="widget-body" className="w-full">
             {this.props.version === undefined &&
               this.purchaseHistory.map((item, index) => {
-                let stripe = !(index % 2) ? 'bg-gray-50' : 'bg-white'
+                let stripe = !(index % 2) ? '' : 'bg-white'
                 return (
                   <div
                     id="widget-content-item"
                     className={
                       stripe +
-                      ' font-sans font-medium text-xs w-full box-border align-middle h-1/3 relative text-gray-500 grid grid-cols-2'
+                      ' font-sans font-medium text-xs w-full h-1/3 relative text-gray-500 grid grid-cols-2 px-3 py-4 border-b border-gray-100 hover:bg-gray-50'
                     }
                     key={index}
                   >
-                    <div className="ml-20">商品名</div>
+                    <div>商品名</div>
                     <div>{item.productName}</div>
-                    <div className="ml-20">購入日</div>
+                    <div>購入日</div>
                     <div>{item.purchaseDate}</div>
-                    <div className="ml-20">購入数</div>
+                    <div>購入数</div>
                     <div>{item.numberOfUnits}</div>
-                    <div className="ml-20">合計金額</div>
+                    <div>合計金額</div>
                     <div>{item.amount}</div>
-                    <div className="ml-20">状態</div>
+                    <div>状態</div>
                     <div className="">{item.status}</div>
                   </div>
                 )

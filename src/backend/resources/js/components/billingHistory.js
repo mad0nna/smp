@@ -1,7 +1,6 @@
 import React from 'react'
 import Ellipsis from '../../img/ellipsis.png'
 import PdfIcon from '../../img/pdf-icon.png'
-import HistoryIcon from '../../img/history-icon.png'
 
 class BillingHistory extends React.Component {
   constructor(props) {
@@ -34,79 +33,77 @@ class BillingHistory extends React.Component {
   render() {
     return (
       <div className="w-full h-full relative group">
-        <div className="dashboard-widget-list w-full h-full relative  rounded-lg border-2 border-gray-200 bg-white">
-          <div
-            id="widget-header"
-            className="max-w-full h-12 bg-white box-border align-middle 2xl:p-3 xl:p-3 lg:p-4 relative"
-          >
-            <img
-              src={HistoryIcon}
-              className="bg-history-icon w-6 h-5 bg-cover bg-no-repeat float-left mt-1"
-            />
-            <div
-              id="widget-name"
-              className="text-primary-200 font-sans font-bold ml-4 float-left"
-            >
-              請求書
-            </div>
+        <div className="overflow-hidden w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
+          <div id="widget-header" className="bg-white relative box-border">
             <div>
-              <a href="#">
-                <div
-                  id="widget-name"
-                  className="p-1 bg-gray-100 float-right 2xl:mr-10 xl:mr-8 lg:mr-6 sm:mr-4"
-                >
-                  <p className="text-gray-400 text-xxs font-sans">Download</p>
+              <div className="flex flex-row justify-between w-full pb-2 border-b border-green-800 border-opacity-80">
+                <div>
+                  <h2 className="text-green-800 text-lg font-bold">請求書</h2>
                 </div>
-                <img src={PdfIcon} className="w-5 h-5 float-right" />
-              </a>
+                <div>
+                  <a href="#">
+                    <div
+                      id="widget-name"
+                      className="p-1 bg-gray-100 float-right "
+                    >
+                      <p className="text-gray-400 text-xxs font-sans">
+                        Download
+                      </p>
+                    </div>
+                    <img src={PdfIcon} className="w-5 h-5 float-right" />
+                  </a>
+                </div>
+              </div>
             </div>
-            <img
-              className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block"
-              src={Ellipsis}
-            />
+            <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
+              <img src={Ellipsis} />
+            </div>
           </div>
-          <div id="widget-body" className="w-full bg-white">
+          <div id="widget-body" className="w-full">
             {this.billingHistory.map((item, index) => {
-              let stripe = index % 2 ? 'bg-gray-50' : 'bg-white'
+              let stripe = index % 2 ? 'bg-white' : ''
               return (
                 <div
                   id="widget-content-item"
-                  className={stripe + ' w-full h-auto p-3 relative'}
+                  className={
+                    stripe +
+                    ' w-full h-auto relative px-3 py-4 hover:bg-gray-50 border-b border-gray-100'
+                  }
                   key={index}
                 >
-                  <div className="2xl:w-5/12 lg: xl:w-5/12 lg:w-5/12 sm:w-6/12 h-full inline-block align-top 2xl:mr-4 xl:mr-3 lg:mr-2 sm:mr-0 pl-4">
+                  <div className="2xl:w-5/12 lg: xl:w-5/12 lg:w-5/12 sm:w-6/12 h-full inline-block align-top 2xl:mr-4 xl:mr-3 lg:mr-2 sm:mr-0">
                     <h1 className="font-semibold 2xl:text-3xl xl:3xl lg:text-xl md:text-xs sm:text-xs text-gray-500 font-sans">
                       {item.amount}
                     </h1>
                     <p className="2xl:text-xs xl:text-xs lg:text-xs  xs:text-xxs text-gray-400 font-sans">
                       支払期限
                     </p>
-                    <p className="2xl:text-sm xl:text-xxs lg:text-xxs  xs:text-xxs text-gray-600 font-sans font-semibold">
+                    <p className="2xl:text-sm xl:text-xxs lg:text-xxs  xs:text-xxs text-gray-500 font-sans font-semibold">
                       {item.dueDate}
                     </p>
                   </div>
                   <div className="w-1/2 h-full inline-block tracking-tighter align-top">
                     <div className="-mt-1">
-                      <div className="text-gray-400 inline-block 2xl:text-xs lg:text-xxs sm:text-xxs font-semibold 2xl:mr-3 xl:mr-2 lg:mr-1 sm:mr-0 tracking-  widest">
+                      <div className="text-gray-400 inline-block 2xl:text-xs lg:text-xxs sm:text-xxs 2xl:mr-3 xl:mr-2 lg:mr-1 sm:mr-0 tracking-widest">
                         請求書番号
                       </div>
-                      <div className="text-gray-600 inline-block 2xl:text-xs lg:text-xxs sm:text-xxs xs:text-xxs font-bold tracking-wider">
+                      <div className="text-gray-500 inline-block 2xl:text-xs lg:text-xxs sm:text-xxs xs:text-xxs font-bold tracking-wider">
                         {item.invoiceNo}
                       </div>
                     </div>
                     <div className="-mt-1 mb-1">
-                      <div className="text-gray-400 inline-block 2xl:text-xs xl:text-xs lg:text-xxs sm:text-xxs font-semibold 2xl:ml-3 xl:ml-2 lg:ml-1 sm:ml-1 tracking-widest">
+                      <div className="text-gray-400 inline-block 2xl:text-xs xl:text-xs lg:text-xxs sm:text-xxs 2xl:ml-3 xl:ml-2 lg:ml-1 sm:ml-1 tracking-widest">
                         請求日
                       </div>
-                      <div className="text-gray-600 inline-block 2xl:text-xs xl:text-xs lg:text-xxs sm:text-xxs xs:text-xxs font-bold 2xl:ml-6 xl:ml-3 lg:ml-1 sm:ml-1 tracking-wider">
+                      <div className="text-gray-500 inline-block 2xl:text-xs xl:text-xs lg:text-xxs sm:text-xxs xs:text-xxs font-bold 2xl:ml-6 xl:ml-3 lg:ml-1 sm:ml-1 tracking-wider">
                         {item.invoiceDate}
                       </div>
                     </div>
-                    <div className="bg-gray-200 block w-full h-auto 2xl:px-2 xl:px:2 lg:px-1 sm:px-1 rounded-lg">
-                      <div className="text-gray-400 inline-block 2xl:text-xs xl:text-xs lg:text-xs sm:text-xxs font-semibold mr-3 tracking-widest">
+                    <div className="block w-full h-auto 2xl:px-2 xl:px:2 lg:px-1 sm:px-1">
+                      <div className="text-gray-400 inline-block 2xl:text-xs xl:text-xs lg:text-xs sm:text-xxs mr-3 tracking-widest">
                         支払日{' '}
                       </div>
-                      <div className="text-secondary-200 inline-block 2xl:text-xs xl:text-xs lg:text-xs sm:text-xxs font-bold tracking-wider">
+                      <div className="orange bg-gray-200 py-1 px-2 rounded-md inline-block 2xl:text-xs xl:text-xs lg:text-xs sm:text-xxs tracking-wider">
                         {item.paymentDate}
                       </div>
                     </div>

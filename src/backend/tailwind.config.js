@@ -69,7 +69,7 @@ module.exports = {
                     700:'#4D7C0F',
                     800:'#3F6212',
                 },
-                customGray: '#685d5e'
+                customGray: '#685d5e',
             },
             fontSize: {
                 xxs:['0.60rem', { lineHeight: '.75rem' }],
@@ -126,6 +126,7 @@ module.exports = {
             zIndex: {
                 '-1': '-1',
             }
+            
 
         },
         fontFamily: {
@@ -136,7 +137,10 @@ module.exports = {
     variants: {
         extend: {
             backgroundImage: ['group-hover'],
-            display: ['group-hover']
+            display: ['group-hover'],
+            borderWidth: ['hover', 'focus'],
+            backgroundColor: ['checked', 'active'],
+            borderColor: ['checked']
         },
     },
     plugins: []

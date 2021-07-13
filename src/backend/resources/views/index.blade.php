@@ -15,7 +15,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-mainbg">
+<body class="bg-mainbg antialiased text-base font-sans">
 
     <main>
 
@@ -30,7 +30,7 @@
                             <img
                             class="p-0 rounded-xl mt-5"
                             src="images/kot-admin-panel.png"
-                            style="height:42px"}
+                            style="height:42px"
                             />
                         </div>
                         <div

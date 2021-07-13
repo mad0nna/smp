@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
-import topIcon from '../../img/contractsIcon.png'
+
 import Settings from './dashboardSettings'
 import Purchase from './purchaseHistory'
 import Pagination from './pagination'
@@ -96,67 +96,60 @@ const Contracts = () => {
   }, [pagingConditions])
 
   return (
-    <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 grid-flow-row lg:grid-rows-3 gap-10 mx-10 mt-5 font-meiryo">
+    <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 grid-flow-row lg:grid-rows-3 gap-6 mx-10 mt-5 font-meiryo">
       <div className="col-span-3 row-span-2">
-        <div className="w-full rounded-lg border border-gray-200 overflow-hidden bg-white mb-10">
-          <div className="flex gap-2 w-full bg-white pl-8 p-5 align-middle h-16">
-            <span>
-              <img src={topIcon} />
-            </span>
-            <span className="bg-white text-primary-200 font-sans font-bold">
-              契約一覧
-            </span>
+        <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
+          <div className="px-3 pt-3 pb-6">
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+              <h2 className="text-green-800 text-lg font-bold">契約一覧</h2>
+            </div>
           </div>
-          <table className="table w-full bg-white ">
-            <thead className="bg-gray-200 font-bold font-sans text-gray-500 pt-4 pb-4 text-left">
-              <tr>
-                <th className="w-3/12 pl-12">プロダクト</th>
-                <th className="w-2/12 pl-5">kot申込日</th>
-                <th className="w-2/12 pl-5">KoT課金開始日</th>
-                <th className="w-2/12 pl-5">KoT支払い方法</th>
-                <th className="w-3/12 pl-5">KoT販売経路</th>
-              </tr>
-            </thead>
-            <tbody>
-              {state.data.map((contract, index) => {
-                const stripe = !(index % 2) ? 'bg-gray-50' : 'bg-white'
-                const styles =
-                  contract.status === '申請する'
-                    ? 'text-primary-200'
-                    : 'text-black'
-                return (
-                  <tr
-                    className={
-                      stripe +
-                      ' table-row bg-gray-50 font-sans 2xl:text-base lg:text-sm text-gray-900 p-5 h-20 ' +
-                      contract.rowcolor
-                    }
-                    key={index}
-                  >
-                    <td className="w-3/12 pl-5">{contract.Field141__c}</td>
-                    <td className="w-2/12 text-sm content-center text-left bg-no-repeat pt-4 ">
-                      <span className="text-left pl-5">
-                        {contract.ApplicationDay__c}
-                      </span>
-                    </td>
-                    <td className="w-2/12 pl-5 text-left text-sm ">
-                      {contract.KoT_startBillingMonth__c}
-                    </td>
-                    <td className="w-2/12 pl-5 text-left text-sm ">
-                      {contract.KoT_shiharaihouhou__c}
-                    </td>
-                    <td
+          <div className="px-3">
+            <table className="table-auto w-full mb-6">
+              <thead className="bg-gray-50 border-b border-t border-gray-200">
+                <tr className="h-11 text-xs text-gray-500 text-shadow-none">
+                  <th>プロダクト</th>
+                  <th>kot申込日</th>
+                  <th>KoT課金開始日</th>
+                  <th>KoT支払い方法</th>
+                  <th>KoT販売経路</th>
+                </tr>
+              </thead>
+              <tbody>
+                {state.data.map((contract, index) => {
+                  const stripe = !(index % 2) ? '' : 'bg-white'
+                  const styles =
+                    contract.status === '申請する'
+                      ? 'text-primary-200'
+                      : 'text-green-900'
+                  return (
+                    <tr
                       className={
-                        styles + ' w-3/12 pl-5 text-left text-sm font-bold '
+                        stripe +
+                        ' table-row font-sans text-sm text-gray-500 p-5 h-16 hover:bg-gray-50 border-b border-gray-100 ' +
+                        contract.rowcolor
                       }
+                      key={index}
                     >
-                      {contract.KoT_hanbaikeiro__c}
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
+                      <td className="text-center">{contract.Field141__c}</td>
+                      <td className="text-center">
+                        {contract.ApplicationDay__c}
+                      </td>
+                      <td className="text-center">
+                        {contract.KoT_startBillingMonth__c}
+                      </td>
+                      <td className="text-center">
+                        {contract.KoT_shiharaihouhou__c}
+                      </td>
+                      <td className={styles + ' text-center'}>
+                        {contract.KoT_hanbaikeiro__c}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div
@@ -171,8 +164,10 @@ const Contracts = () => {
           />
         </div>
       </div>
-      <div className="h-40 w-full align-top grid grid-cols-1 justify-center gap-10">
-        <Settings />
+      <div className="w-full align-top grid grid-cols-1 justify-center gap-6">
+        <div className="h-40">
+          <Settings />
+        </div>
         <div className="h-96">
           <Purchase />
         </div>

@@ -7,6 +7,39 @@
         font-weight: 400;
         src: url('../fonts/Meiryo-UI.woff') format("woff");
     }
+
+    a, a:link, a:visited {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        font-weight: 500;
+    }
+
+    html, body {
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 2px #e8e8e8;
+    }
+
+    h1 {
+        text-shadow: 1px 1px 2px #fff;
+    }
+
+    .text-shadow-none {
+        text-shadow: none;
+    }
+
+    #widgetSettings form tr:last-child td {
+        @apply border-b-0;
+        @apply border-gray-900;
+    }
+
+    button.std-primary {
+        @apply text-xs rounded-md text-white px-6 py-2 bg-green-500 border-gray-300 mr-2 hover:bg-green-600;
+    }
+    
+    button.std-cancel {
+        @apply text-xs rounded-md text-gray-400 px-6 py-2 border border-gray-200 hover:bg-gray-100 hover:text-gray-500 hover:border-transparent;
+    }
+    
 }
 /*@font-face {*/
 /*    font-family: Meiryo;*/
@@ -26,7 +59,7 @@
 
 .field-error {
     border-color: red;
-    border-bottom-width: 1px
+    border-bottom-width: 1px;
 }
 
 .login-error {
@@ -36,18 +69,18 @@
     outline: none;
 }
 .stripe-table-row:nth-child(even) {
-    @apply bg-gray-50
+    @apply bg-gray-50;
 }
 .stripe-table-row-odd:nth-child(odd) {
-    @apply bg-gray-50
+    @apply bg-gray-50;
 }
 
 .table-px-2 td {
-    @apply px-2
+    @apply px-2;
 }
 
 .dashboard-widget-list {
-    @apply overflow-auto
+    @apply overflow-auto;
 }
 
 .dashboard-widget-list::-webkit-scrollbar-track
@@ -78,4 +111,30 @@
     user-select: none;
     cursor: pointer;
 }
+
+.orange {
+    color: #f98e2b;
+}
+
+.add-new-user {
+    /* height: 38px;
+    background-color: rgb(255, 255, 255); */
+    border-color: rgb(212, 212, 216);
+    /* transform-origin: 50% 50% 0px; */
+    border-radius: 4.37956% / 15.7895%;
+}
+
+.add-new-user > span {
+    opacity: 1;
+}
+
+.add-new-user > span > span {
+    transform-origin: 50% 100% 0px;
+}
+
+
+
+
+
+
 
