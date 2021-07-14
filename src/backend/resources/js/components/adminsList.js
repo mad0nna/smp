@@ -69,7 +69,7 @@ const AdminsList = (props) => {
               />
             </span>
           </th>
-          <th>
+          <th className="text-right">
             <span id="contactPerson">電話番号</span>
           </th>
           <th>
@@ -96,7 +96,7 @@ const AdminsList = (props) => {
                 {admin.user_type_id === 3 ? 'スーパー管理者' : '副管理者'}
               </td>
               <td className="text-center">{admin.email}</td>
-              <td className="text-center">{admin.contact_num}</td>
+              <td className="text-right">{admin.contact_num}</td>
               <td className="text-center">
                 {admin.user_status_id === 1 ? 'アクティブ' : '保留中'}
               </td>

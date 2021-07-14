@@ -35,14 +35,25 @@ const AccountProfileEdit = (props) => {
 
   function initAccount() {
     let acct = {}
-    acct.username = props.account.username
-    acct.name = props.account.Name
-    acct.lastname = props.account.last_name
-    acct.firstname = props.account.first_name
-    acct.position = props.account.title
-    acct.phone = props.account.contact_num
-    acct.email = props.account.email
-    acct.userTypeId = props.account.user_type_id
+    if (props.account) {
+      acct.username = props.account.username
+      acct.name = props.account.Name
+      acct.lastname = props.account.last_name
+      acct.firstname = props.account.first_name
+      acct.position = props.account.title
+      acct.phone = props.account.contact_num
+      acct.email = props.account.email
+      acct.userTypeId = props.account.user_type_id
+    } else {
+      acct.username = ''
+      acct.name = ''
+      acct.lastname = ''
+      acct.firstname = ''
+      acct.position = ''
+      acct.phone = ''
+      acct.email = ''
+      acct.userTypeId = ''
+    }
 
     return acct
   }
@@ -124,7 +135,8 @@ const AccountProfileEdit = (props) => {
         LastName: state.account.lastname,
         MobilePhone: state.account.phone,
         Title: state.account.position,
-        admin__c: state.account.userTypeId
+        admin__c: state.account.userTypeId,
+        username: state.account.email
       }
       console.log(_accountSFValues)
       axios
@@ -132,39 +144,11 @@ const AccountProfileEdit = (props) => {
           'Content-Type': 'application/json'
         })
         .then((response) => {
-          axios
-            .put('/company/updateAdmin', state.account, {
-              'Content-Type': 'application/json'
-            })
-            .then((response) => {
-              const admin = response.data.data
-              setState((prevState) => {
-                return {
-                  ...prevState,
-                  isLoading: false,
-                  updatedAccount: admin,
-                  showPopupMessageDialog: true,
-                  dialogMessage: '顧客企業情報の更新に成功しました！'
-                }
-              })
-            })
-            .catch(function (error) {
-              if (error.response) {
-                console.log(error.response.status)
-                setState((prevState) => {
-                  return {
-                    ...prevState,
-                    isLoading: false
-                  }
-                })
-              }
-            })
-
-          const admin = response.data
           setState((prevState) => {
             return {
               ...prevState,
-              updatedAccount: admin,
+              isLoading: false,
+              updatedAccount: response.data.data,
               showPopupMessageDialog: true,
               dialogMessage: '顧客企業情報の更新に成功しました！'
             }
@@ -195,21 +179,19 @@ const AccountProfileEdit = (props) => {
   }
 
   useEffect(() => {
-    let emailOrId = ''
-    let qry = ''
-    if (!_.isEmpty(props.account.email)) {
-      emailOrId = props.account.email
-      qry = `/salesforce/getCompanyAdminDetailsbyEmail?email=${emailOrId}`
+    let id = ''
+    if (!_.isEmpty(props.account)) {
+      id = props.account.id
     } else {
       let params = queryString.parse(location.search)
-      emailOrId = params.id
-      qry = `/company/searchSFContactByUserId?id=${emailOrId}`
+      id = params.id
     }
 
     axios
-      .get(qry)
+      .get(`/company/searchSFContactByUserId?id=${id}`)
       .then((response) => {
         let data = response.data.data
+        console.log('request respond')
         console.log(data)
         let acct = {}
         acct.username = data.email

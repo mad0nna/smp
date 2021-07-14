@@ -57,11 +57,15 @@ class UserController extends Controller
     }
 
     public function searchSFContactByUserId(Request $request) {
-        try{
-            // dd($request->id);
+        try{           
             $result = $this->userService->findById($request->id);
-            $user = $this->userService->findinSFByEmail($result['email']);
-            $this->response['data'] = $this->getSFResource($user);
+            if ($result['user_type_id'] === 3) {
+                $user = $this->userService->findinSFByEmail($result['email']);
+                $this->response['data'] = $this->getSFResource($user);
+            } else {
+                $this->response['data'] = new UserResource($result);
+            }
+            
         }catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
@@ -293,21 +297,40 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function updateSF(Request $request)
+    public function updateAdminByEmail(Request $request)
     {
         try{
             $data = $request->all();
             $email = $data['Email'];
-            $adminInformation = $this->salesForce->getCompanyAdminDetailsbyEmail($email);
-            $accountID = $adminInformation['Id'];    
-            $response = $this->salesForce->updateAdminDetails($data,$accountID);
-        } catch (Exception $e) { // @codeCoverageIgnoreStart
+
+            if ($data['admin__c'] === 3) {
+                $adminInformation = $this->salesForce->getCompanyAdminDetailsbyEmail($email);
+                $accountID = $adminInformation['Id'];  
+                $response = $this->salesForce->updateAdminDetails($data,$accountID);
+            } 
+
+            $formData = [
+                'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
+                'last_name' => $data['LastName'] ? $data['LastName'] : '',
+                'email' =>  $data['Email'] ? $data['Email'] : '',
+                'contact_num' => $data['MobilePhone'] ? $data['MobilePhone'] : '',
+                'title' => $data['Title'] ? $data['Title'] : '',
+                'user_type_id' => $data['admin__c'] ? $data['admin__c'] : '',
+                'username' => $data['username'] ? $data['username'] : ''
+            ];
+
+            $user = $this->userService->update($formData);
+            $this->response['data'] = new UserResource($user);
+           
+            
+        } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-    } // @codeCoverageIgnoreEnd
-            return response()->json($this->response, $this->response['code']);
+        }
+        
+        return response()->json($this->response, $this->response['code']);
     }
 
 

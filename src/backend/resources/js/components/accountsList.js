@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import ReactDom from 'react-dom'
 import axios from 'axios'
-
 import Settings from './dashboardSettings'
 import AdminsList from './adminsList'
-
 import NewAccount from './newAccount'
 import MessageDialog from './messageDialog'
 import DeleteConfirmation from './deleteConfirmation'
@@ -17,6 +15,7 @@ import {
   Route,
   Redirect
 } from 'react-router-dom'
+import queryString from 'query-string'
 
 const AccountsList = () => {
   const [pagingConditions, setPagingConditions] = useState({
@@ -64,7 +63,8 @@ const AccountsList = () => {
       userTypeId: JSON.parse(document.getElementById('userData').textContent)
         .userTypeId
     },
-    isLoadingOfAddingContact: false
+    isLoadingOfAddingContact: false,
+    params: queryString.parse(location.search)
   })
 
   const handleFilter = (e) => {
@@ -101,6 +101,22 @@ const AccountsList = () => {
   }
 
   useEffect(() => {
+    if (!_.isEmpty(state.params.id)) {
+      console.log(state.params.id)
+      setState((prevState) => {
+        return {
+          ...prevState,
+          showList: false,
+          showEdit: true,
+          accountToEdit: null,
+          mode: 'edit',
+          redirectToProfile: true
+        }
+      })
+    }
+  }, [state.params])
+
+  useEffect(() => {
     axios
       .get(
         `/company/getCompanyAdmins?page=${pagingConditions.page}&limit=${pagingConditions.limit}&keyword=${pagingConditions.keyword}`
@@ -116,7 +132,6 @@ const AccountsList = () => {
           ) {
             pageNumbers.push(i)
           }
-          // console.log(pageNumbers)
           const renderPageNumbers = pageNumbers.map((number) => {
             return (
               <li
@@ -354,8 +369,9 @@ const AccountsList = () => {
         showList: false,
         showEdit: true,
         accountToEdit: account,
-        mode: 'view',
-        redirectToProfile: true
+        mode: 'edit',
+        redirectToProfile: true,
+        redirectToList: false
       }
     })
   }
@@ -365,7 +381,7 @@ const AccountsList = () => {
       const found = state.adminList.find((element) => element.id == user.id)
       const i = state.adminList.indexOf(found)
       state.adminList[i] = user
-    } else {
+    } else if (user && index !== null) {
       state.adminList[index] = user
     }
 
@@ -426,14 +442,19 @@ const AccountsList = () => {
       <Router>
         {state.redirectToProfile ? (
           <Redirect
-            to={'/company/accountslist/profile?id=' + state.accountToEdit.id}
+            to={
+              '/company/accountslist/profile?id=' +
+              (!_.isEmpty(state.accountToEdit)
+                ? state.accountToEdit.id
+                : state.params.id)
+            }
           />
         ) : (
           ''
         )}
         {state.redirectToList ? <Redirect to="/company/accountslist" /> : ''}
 
-        <div className="bg-mainbg grid grid-cols-4 font-meiryo gap-6">
+        <div className="bg-mainbg grid grid-cols-3 font-meiryo gap-6">
           <div className="col-span-3 w-full rounded-lg shadow-xl bg-white mb-10 border-primary-100">
             <div className="px-3 pt-3 pb-10">
               <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
@@ -446,7 +467,10 @@ const AccountsList = () => {
               <div className="flex justify-between items-center">
                 <div className="">
                   <div
-                    className="text-sm border cursor-pointer add-new-user"
+                    className={
+                      (state.showList ? ' ' : 'hidden ') +
+                      'text-sm border cursor-pointer add-new-user'
+                    }
                     onClick={togglePopupNewAccount}
                   >
                     <span className="flex flex-col items-center justify-center text-gray-500 font-medium mx-2 my-1">
@@ -559,9 +583,6 @@ const AccountsList = () => {
                 </div>
               ) : null}
             </div>
-          </div>
-          <div className="col-span-1 h-40">
-            <Settings />
           </div>
         </div>
 

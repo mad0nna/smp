@@ -24,7 +24,7 @@ Route::prefix('salesforce')->group(function() {
   Route::post('getCompanyAdminDetails', "CompanyController@getCompanyAdminDetails");
   Route::get('getCompanyAdminDetailsbyEmail', "UserController@searchSF"); 
   Route::post('getUpdatedDataForEditCompanyDetails', "CompanyController@getUpdatedDataForEditCompanyDetails");
-  Route::put('updateAdminByEmail', "UserController@updateSF");
+  Route::put('updateAdminByEmail', "UserController@updateAdminByEmail");
   Route::delete('deleteSFAdmin', 'UserController@destroyInSF');
   Route::post('updateCompanyDetails', "CompanyController@updateCompanyDetails");
   Route::post('getOpportunityDetails', 'CompanyController@getOpportunityDetails');

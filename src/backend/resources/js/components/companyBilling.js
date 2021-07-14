@@ -161,7 +161,7 @@ const CompanyBilling = () => {
                 <th>請求書名</th>
                 <th>請求日</th>
                 <th>支払期限</th>
-                <th>請求額</th>
+                <th className="text-right">請求額</th>
                 <th>支払日</th>
                 <th>状態</th>
                 <th>操作</th>
@@ -180,7 +180,7 @@ const CompanyBilling = () => {
                     <td className="text-center">{item.billingName}</td>
                     <td className="text-center"> {item.billingDate}</td>
                     <td className="text-center">{item.dueDate}</td>
-                    <td className="text-center">{item.amount}</td>
+                    <td className="text-right">{item.amount}</td>
                     <td className="text-center">{item.paidOn}</td>
                     <td className={txtcolor + ' text-center'}>{item.status}</td>
                     <td className="text-center">
