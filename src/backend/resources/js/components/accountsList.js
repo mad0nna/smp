@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ReactDom from 'react-dom'
 import axios from 'axios'
-import Settings from './dashboardSettings'
 import AdminsList from './adminsList'
 import NewAccount from './newAccount'
 import MessageDialog from './messageDialog'
