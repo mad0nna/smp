@@ -54,11 +54,11 @@ const NewAccount = (props) => {
       <div className="flex flex-wrap gap-0 w-full justify-center mt-8">
         <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 justify-start 2xl:pl-14 xl:pl-8 lg:pl-6">
           <div className="justify-center">
-            <label className="text-sm text-white 2xl:w-42 xl:w-42 lg:w-26 h-8 px-3 leading-8 col-span-1">
+            <label className="text-sm text-white 2xl:w-42 xl:w-42 lg:w-26 h-8 leading-8 col-span-1">
               メールアドレス:
             </label>
             <input
-              className="text-sm 2xl:w-60 xl:w-58 lg:w-36 col-span-1 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
+              className="text-sm 2xl:w-60 xl:w-58 lg:w-36 col-span-1 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3 ml-2"
               defaultValue={state.email}
               type="text"
               onChange={handleEmailChange}
@@ -66,9 +66,9 @@ const NewAccount = (props) => {
             <button
               disabled={props.isLoading}
               onClick={() => props.searchAdminByEmail(state.email)}
-              className="w-20 xl:w-20 lg:w-20 cursor-pointer col-span-1 text-bold   text-primary-200   bg-white rounded p-1 text-sm"
+              className="w-24 xl:w-24 lg:w-24 cursor-pointer col-span-1 text-bold   text-primary-200   bg-white rounded p-1 text-sm"
             >
-              &nbsp; 検索する
+              検索する
               <img
                 src={waitingIcon}
                 className={
@@ -100,7 +100,7 @@ const NewAccount = (props) => {
               type="text"
             />
           </div>
-          <p className="text-sm inline-block text-white w-full h-8 px-3 leading-8 text-left pl-24">
+          <p className="text-sm inline-block text-white w-full h-8 leading-8 text-left pl-10">
             {!_.isEmpty(props.searchResult) ? props.searchResult : ''}
           </p>
         </div>

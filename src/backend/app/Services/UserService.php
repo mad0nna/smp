@@ -220,7 +220,7 @@ class UserService
     public function delete(int $id)
     {
         // retrieve user
-        $user = $this->findById($id);
+        $user = $this->findOrFail($id);
 
         // perform delete
         $user->delete();
@@ -294,7 +294,7 @@ class UserService
      * @param string $email
      * @return User $user
      */
-    public function findinSFByEmail($email) {
+    public function findInSFByEmail($email) {
         try{
             $companyAdmin = $this->salesForce->getCompanyAdminDetailsbyEmail($email);       
             if (isset($companyAdmin["status"]) && !$companyAdmin["status"]) {
@@ -369,7 +369,14 @@ class UserService
 
     public function createContactToSf($user) {  
         $accountID = $user['company']['account_id'];
-        return $this->salesForce->updateAdminDetails($user,$accountID, false, false);
+        $result = json_decode($this->salesForce->updateAdminDetails($user,$accountID, false, false));
+
+        if ($result->status) {
+            return $this->salesForce->getCompanyAdminDetailsbyEmail($user['email']);
+        } else {
+            return false;
+        }
+
     }
 
 }

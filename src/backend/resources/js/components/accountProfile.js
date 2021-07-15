@@ -136,7 +136,8 @@ const AccountProfileEdit = (props) => {
         MobilePhone: state.account.phone,
         Title: state.account.position,
         admin__c: state.account.userTypeId,
-        username: state.account.email
+        username: state.account.email,
+        Id: state.account.account_code
       }
       console.log(_accountSFValues)
       axios
@@ -202,6 +203,7 @@ const AccountProfileEdit = (props) => {
         acct.phone = data.contact_num
         acct.email = data.email
         acct.userTypeId = data.user_type_id
+        acct.account_code = data.account_code
 
         setState((prevState) => {
           return {

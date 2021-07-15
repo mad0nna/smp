@@ -70,10 +70,10 @@ class LoginController extends Controller
         if (! Auth::user()) {
             if (isset($_GET['invite_token'])) {
                 $user = User::with('company')->where('email_verified_at', '=', null)->where('invite_token', '=', $_GET['invite_token'])->first();
-                User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(),'user_status_id' => 1]);                
 
                 if ($user['user_type_id'] == 4) {
-                    $this->userService->createContactToSf($user);
+                    $sf_user = $this->userService->createContactToSf($user);
+                    User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(),'user_status_id' => 1, 'account_code' => $sf_user['Id']]);                
                 }
             
             } 

@@ -179,7 +179,7 @@ const AccountsList = () => {
     })
 
     axios
-      .get(`/company/search?email=${email}`)
+      .get(`/company/findInSFByEmail?email=${email}`)
       .then((response) => {
         // console.log(response.status)
         // const admin = response.data

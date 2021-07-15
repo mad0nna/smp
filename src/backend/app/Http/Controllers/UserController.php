@@ -43,9 +43,9 @@ class UserController extends Controller
      * Retrieves the Company admin details from salesforce
      *  
      */
-    public function searchSF(SearchUserInSFRequest $request) {
+    public function findInSFByEmail(SearchUserInSFRequest $request) {
         try{
-            $user = $this->userService->findinSFByEmail($request->email);
+            $user = $this->userService->findInSFByEmail($request->email);
             $this->response['data'] = $this->getSFResource($user); 
         }catch (Exception $e) {
             $this->response = [
@@ -59,12 +59,8 @@ class UserController extends Controller
     public function searchSFContactByUserId(Request $request) {
         try{           
             $result = $this->userService->findById($request->id);
-            if ($result['user_type_id'] === 3) {
-                $user = $this->userService->findinSFByEmail($result['email']);
-                $this->response['data'] = $this->getSFResource($user);
-            } else {
-                $this->response['data'] = new UserResource($result);
-            }
+            $user = $this->userService->findInSFByEmail($result['email']);
+            $this->response['data'] = $this->getSFResource($user);        
             
         }catch (Exception $e) {
             $this->response = [
@@ -196,26 +192,9 @@ class UserController extends Controller
         try {
             $data = $request->all();
             $email = $data['email'];
-            $user = $this->userService->findinSFByEmail($request->email);
-            //$results = $this->getSFResource($results);
-
-            if ($user){ 
-
-                $dbuser = $this->userService->findByEmail($email);
-                if ($dbuser)
-                {
-                    $this->response['data'] = new UserResource($dbuser);
-                }
-                else
-                {
-                    $this->response['data'] = $this->getSFResource($user);    
-                }         
-            }
-            else{
-                $user = $this->userService->findByEmail($email);            
-                $this->response['data'] = new UserResource($user);
-            }
-            //$this->response = array_merge($user, $this->response);
+            $user = $this->userService->findByEmail($email);            
+            $this->response['data'] = new UserResource($user);
+     
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
@@ -237,7 +216,7 @@ class UserController extends Controller
             'title' => $result['Title'],
             'user_status_id' => 5,
             'contact_num' =>$result['MobilePhone'],
-            'user_type_id' => $result['admin__c'] ? 3 :4, 
+            'user_type_id' => $result['admin__c'] ? 3 :4,
             'source'=>'salesforce'       
         ];
     }
@@ -302,13 +281,8 @@ class UserController extends Controller
         try{
             $data = $request->all();
             $email = $data['Email'];
-
-            if ($data['admin__c'] === 3) {
-                $adminInformation = $this->salesForce->getCompanyAdminDetailsbyEmail($email);
-                $accountID = $adminInformation['Id'];  
-                $response = $this->salesForce->updateAdminDetails($data,$accountID);
-            } 
-
+            $response = json_decode($this->salesForce->updateAdminDetails($data,$data['Id']));
+            
             $formData = [
                 'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
                 'last_name' => $data['LastName'] ? $data['LastName'] : '',

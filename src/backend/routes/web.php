@@ -51,7 +51,7 @@ Route::prefix('salesforce')->group(function() {
       Route::put('updateAdmin', "UserController@update");
       Route::delete('deleteAdmin', 'UserController@destroy');
       Route::get('getLoggedUserInfo', "UserController@userinfo");
-      Route::get('search', "UserController@show");
+      Route::get('findInSFByEmail', "UserController@findInSFByEmail");
       Route::view('/notifications', 'notifications');
       Route::get('/searchSFContactByUserId', 'UserController@searchSFContactByUserId');
       
