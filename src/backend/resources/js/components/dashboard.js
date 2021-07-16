@@ -29,7 +29,11 @@ const Dashboard = () => {
       { component: '' },
       { component: <Welcome lastName={state.userData.lastName} /> },
       { component: <CompanyDashboardChart /> },
-      { component: <ServiceUsage /> },
+      {
+        component: (
+          <ServiceUsage serviceUsageDate={state.userData.serviceUsageDate} />
+        )
+      },
       { component: <Products /> },
       { component: <BillingHistory /> },
       { component: <Notification /> },

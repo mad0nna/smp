@@ -15,8 +15,8 @@ class SalesforceRepository {
     }
 
     public function getCompanyDetailsByCompanyID($sfCompanyID) {
-        try {    
-            $oResponse = $this->oClient->get(     
+        try {
+            $oResponse = $this->oClient->get(
                 env('SALESFORCE_HOST').'/services/data/v34.0/sobjects/account/'.$sfCompanyID. '?fields=Name, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c',          
                 [
                     'headers' => array(
@@ -45,9 +45,9 @@ class SalesforceRepository {
 
     public function getCompanyDetailsByID($sfCompanyID) {
         try {
-            $oResponse = $this->oClient->get(               
+            $oResponse = $this->oClient->get(
                 env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Name, Id, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c,
-                kot_sales_phase__c, ServerName__c, HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId+from+Account+WHERE+KotCompanyCode__c='".$sfCompanyID."'+LIMIT+200",
+                field41__c, kot_sales_phase__c, ServerName__c, HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId+from+Account+WHERE+KotCompanyCode__c='".$sfCompanyID."'+LIMIT+200",
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -56,6 +56,7 @@ class SalesforceRepository {
                     'synchronous' => true
                 ]
             );
+
             $oBody = $oResponse->getBody();
             $companyInformation = json_decode($oBody->getContents(), true);
             if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
@@ -86,6 +87,7 @@ class SalesforceRepository {
                     'synchronous' => true
                 ]
             );
+
             $oBody = $oResponse->getBody();
             $adminDetails = json_decode($oBody->getContents(), true);
             if (isset($adminDetails["status"]) && !$adminDetails["status"]) {

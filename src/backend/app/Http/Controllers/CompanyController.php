@@ -26,7 +26,6 @@ class CompanyController extends Controller
     public function updateCompanyDetails(Request $request, DataSynchronizer $synchronizer) {
         return $synchronizer->updateCompanyAndAdminDetails($request->all(), Session::get('salesforceCompanyID'), Session::get("salesforceContactID"));
     }
-    
 
     public function getCompanyAdminDetails(ContactService $contactService) {
         return $contactService->getCompanyAdminDetails(Session::get('salesforceCompanyID'), Session::get("salesforceContactID"));

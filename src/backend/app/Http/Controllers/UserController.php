@@ -345,12 +345,10 @@ class UserController extends Controller
             $data = $request->all();
 
             //check record in Salesforce
-//dd($data['admin']);
             $email =  $data['admin']['email'];
 
             $adminInformation = $this->salesForce->getCompanyAdminDetailsbyEmail($email);
-            $accountID = $adminInformation['Id'];  
-// dd($adminInformation);
+            $accountID = $adminInformation['Id'];
             // perform delete
             $response = $this->salesForce->deleteAdmin($accountID);
     

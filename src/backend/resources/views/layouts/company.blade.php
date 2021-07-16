@@ -31,11 +31,22 @@
         $userData['email'] = $user['email'];
         $userData['accountCode'] = $user['account_code'];
         $userData['userTypeId'] = $user['user_type_id'];
-        $userData['title'] = $user['title'];        
+        $userData['title'] = $user['title'];
         $userData['companyId'] = $user['company'] ?  $user['company']['id'] : '';
         $userData['companyName'] = $user['company'] ?  $user['company']['name'] : '';
         $userData['companyCode'] = $user['company'] ?  $user['company']['company_code'] : '';
-        $userData['companyAccountId'] = $user['company'] ?  $user['company']['account_id'] : '';    
+        $userData['companyAccountId'] = $user['company'] ?  $user['company']['account_id'] : '';
+
+        $serviceUsageDate = '';
+        if ($user['company']) {
+            $sfRecords = $user['company']['sf_records'] ? json_decode($user['company']['sf_records']) : null;
+            if ($sfRecords && isset($sfRecords->field41__c)) {
+                $serviceUsageDate = $sfRecords->field41__c ? $sfRecords->field41__c : '';
+            }
+        }
+
+        $userData['serviceUsageDate'] = $serviceUsageDate;
+
     @endphp
     <script id="userData" type="application/json">{!! json_encode($userData, JSON_HEX_TAG) !!}</script>
     <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
