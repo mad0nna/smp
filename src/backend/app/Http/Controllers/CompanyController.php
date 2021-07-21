@@ -86,7 +86,7 @@ class CompanyController extends Controller
       
         $this->response = [
           'success' => true,
-          'data'    => (new CompanyResource([]))->filterFromSFToFront($result, $request->code)
+          'data'    => CompanyResource::filterFromSFToFront($result, $request->code)
         ];
       } catch(\Exception $e) {
         $code = ($e instanceof NotFoundHttpException) ? 404 : 500;

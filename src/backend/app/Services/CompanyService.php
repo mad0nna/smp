@@ -92,7 +92,7 @@ class CompanyService {
 
         // perform user search
         $results = $query->with('opportunities')->with(['users' => function ($query) {
-            $query->with('type')->where('user_type_id', '=', 3)->get();
+            $query->where('user_type_id', '=', 3)->get();
           }])->skip($skip)->orderBy('id', 'desc')->paginate($limit);
 
         // append query to pagination routes

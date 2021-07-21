@@ -29,8 +29,20 @@ class UserResource extends JsonResource
             'account_code' => $this->account_code,        
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),
-            // 'type' => isset($this->type) ? $this->type['name'] : '',
             'source'=>'database'
+        ];
+    }
+
+    public static function parseSfContactColumnToDbColumn($result) 
+    {
+        return [
+            'account_code' => $result['Id'],
+            'first_name' => $result['FirstName'],
+            'last_name' => $result['LastName'],
+            'email' => $result['Email'],
+            'title' => $result['Title'],
+            'contact_num' =>$result['MobilePhone'],
+            'user_type_id' => $result['admin__c'] ? 3 :4,
         ];
     }
 }

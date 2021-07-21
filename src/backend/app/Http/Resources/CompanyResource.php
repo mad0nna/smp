@@ -71,7 +71,7 @@ class CompanyResource extends JsonResource
         ];
     }
 
-    public function filterFromSFToFront($data, $company_code = "")
+    public static function filterFromSFToFront($data, $company_code = "")
     {
         return [
             'id' => "",
@@ -104,11 +104,11 @@ class CompanyResource extends JsonResource
                 'lastName' => isset($data['contact']['LastName']) ? $data['contact']['LastName'] : '',
                 'contactNum' => isset($data['contact']['MobilePhone']) ? $data['contact']['MobilePhone'] : '',
                 ]],
-            'sfRecords' => $this->convertToLowerCase($data)
+            'sfRecords' => self::convertToLowerCase($data)
         ];
     }
 
-    private function convertToLowerCase($data) {
+    private static function convertToLowerCase($data) {
         $items = [];
         foreach ($data as $col => $val) {
             
@@ -134,5 +134,31 @@ class CompanyResource extends JsonResource
 
         return $items;
     }
+
+
+    public static function parseSfCompanyColumnToDbColumn($data) 
+    {
+      return [
+        'account_id' => $data['Id'],
+        'name' => $data['Name'],
+        'contact_num' => $data['Phone'],
+        'website' => $data['Website'],
+        'industry' => $data['Industry'],
+        'industry_sub' => $data['Field19__c'],
+        'industry_sub2' => $data['Field20__c'],
+        'zen_org_name' => $data['Zendeskaccount__c'],
+        'billing_street' => $data['BillingStreet'],
+        'billing_city' => $data['BillingCity'],
+        'billing_state' => $data['BillingState'],
+        'billing_postal_code' => $data['BillingPostalCode'],
+        'billing_country' => $data['BillingCountry'],
+        'payment_method' => $data['PaymentMethod__c'],
+        'kot_trans_type' => $data['KOT_shubetsu__c'],
+        'industry_sub' => $data['Field19__c'],
+        'industry_sub2' => $data['Field20__c'],
+        'record_type_code' => $data['Field35__c'],        
+        'sf_records' => self::convertToLowerCase($data),
+      ];
+    } 
 
 }

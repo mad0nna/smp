@@ -17,7 +17,8 @@ class SalesforceRepository {
     public function getCompanyDetailsByCompanyID($sfCompanyID) {
         try {
             $oResponse = $this->oClient->get(
-                env('SALESFORCE_HOST').'/services/data/v34.0/sobjects/account/'.$sfCompanyID. '?fields=Name, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c',          
+                env('SALESFORCE_HOST').'/services/data/v34.0/sobjects/account/'.$sfCompanyID. '?fields=Name, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c,
+                field41__c, kot_sales_phase__c, ServerName__c, HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId',          
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -387,6 +388,36 @@ class SalesforceRepository {
                 return $this->getContracts($sfCompanyID);
             } else {
                 return MessageResult::error("Error while getting KOT contracts list in Salesforce.");
+            }
+        }
+    }
+
+    public function getContact($account_code) {
+        try{
+            $oResponse = $this->oClient->get(
+                env('SALESFORCE_HOST').'/services/data/v34.0/sobjects/contact/'.$account_code. '?fields=Name, Id, FirstName, LastName, Email, Title, MobilePhone, section__c, admin__c, CreatedDate',
+                [
+                    'headers' => array(
+                        'Content-Type' => 'application/json',
+                        'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
+                    )
+                ]
+            );
+        
+            if ($oResponse->getStatusCode() == 200) {
+                $result = json_decode($oResponse->getBody(), true);
+                return $result;
+            }
+            return false;
+            
+        } catch(ClientException $reqExcep) {
+            $statusCode = $reqExcep->getResponse()->getStatusCode();
+           
+            if ($statusCode === 401) {
+                $this->tokens = (new AccessToken())->getToken();
+                return $this->getContact($account_code);
+            } else {
+                return false;
             }
         }
     }
