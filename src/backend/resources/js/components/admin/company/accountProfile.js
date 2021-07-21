@@ -314,12 +314,22 @@ const AccountProfile = (props) => {
     }
   }
 
+  function handleNumberChange(evt) {
+    evt = evt ? evt : window.event
+    var charCode = evt.which ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 45) {
+      evt.preventDefault()
+      return false
+    }
+
+    return true
+  }
+
   const handleTextChange = (e) => {
-    const value = e.target.value
     setState((prevState) => {
       return {
         ...prevState,
-        company: { ...prevState.company, [e.target.name]: value }
+        company: { ...prevState.company, [e.target.name]: e.target.value }
       }
     })
   }
@@ -580,9 +590,13 @@ const AccountProfile = (props) => {
                     ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                   }
                   name="contactNum"
-                  defaultValue={state.company.contactNum}
                   type="text"
+                  defaultValue={state.company.contactNum}
+                  onKeyPress={(e) => {
+                    return handleNumberChange(e)
+                  }}
                   onChange={handleTextChange}
+                  maxLength="15"
                 />
               </div>
             </div>

@@ -58,6 +58,16 @@ const AccountProfileEdit = (props) => {
     return acct
   }
 
+  function handleNumberChange(evt) {
+    evt = evt ? evt : window.event
+    var charCode = evt.which ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 45) {
+      evt.preventDefault()
+      return false
+    }
+    return true
+  }
+
   const handleTextChange = (key, val) => {
     let account = { ...state.account }
     account[key] = val
@@ -338,6 +348,9 @@ const AccountProfileEdit = (props) => {
                   defaultValue={state.account.phone}
                   placeholder="電話番号"
                   onChange={(e) => handleTextChange('phone', e.target.value)}
+                  onKeyPress={(e) => {
+                    return handleNumberChange(e)
+                  }}
                 />
               </div>
             </div>

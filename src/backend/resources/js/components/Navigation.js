@@ -22,7 +22,7 @@ class Navigation extends React.Component {
           iconNormal: 'bg-dashboard-icon',
           iconHover: 'group-hover:bg-dashboard-icon-hover',
           iconActive: 'bg-dashboard-icon-hover',
-          iconSize: 'h-7 w-9',
+          iconSize: 'h-8 w-9',
           isActive: false,
           extraStyle: ''
         },

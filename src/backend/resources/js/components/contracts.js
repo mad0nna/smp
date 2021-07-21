@@ -78,9 +78,7 @@ const Contracts = () => {
 
           const list = <ul id="page-numbers">{renderPageNumbers}</ul>
 
-          console.log('response')
           let contracts = response.data.data
-
           setState((prevState) => {
             return {
               ...prevState,
@@ -158,7 +156,7 @@ const Contracts = () => {
         >
           <Pagination
             listNumbers={state.pageNumbers}
-            currentPage={state.currentPage}
+            currentPage={state.lastPage}
             lastPage={state.lastPage}
             handleNavigation={handleNavigation}
           />

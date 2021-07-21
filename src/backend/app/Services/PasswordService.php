@@ -72,11 +72,11 @@ class PasswordService
     public function reset(array $data)
     {
         if (!array_key_exists('token', $data)) {
-            throw new InvalidArgumentException('Missing required token field.');
+            throw new InvalidArgumentException('tokenを入力してください。');
         }
 
         if (!array_key_exists('password', $data)) {
-            throw new InvalidArgumentException('Missing required password field.');
+            throw new InvalidArgumentException('パスワードを入力してください。');
         }
         
         // validate if token is valid
@@ -92,7 +92,7 @@ class PasswordService
         $status = UserStatus::where('name', config('user.statuses.active'))->first();
 
         if (!($status instanceof UserStatus)) {
-            throw new RuntimeException('Unable to retrieve user status');
+            throw new RuntimeException('ユーザーステータスを取得することができませんでした。');
         }
 
         // retrieve user to fetch new password
