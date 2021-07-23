@@ -38,14 +38,28 @@
         $userData['companyAccountId'] = $user['company'] ?  $user['company']['account_id'] : '';
 
         $serviceUsageDate = '';
+        $numberOfEmployees = 0; //from KOT
+        $numberOfSubscribers = 0; //from SF
+        $numberOfActiveKOTUsers = 26; //from Zaura
+
         if ($user['company']) {
             $sfRecords = $user['company']['sf_records'] ? json_decode($user['company']['sf_records']) : null;
             if ($sfRecords && isset($sfRecords->field41__c)) {
-                $serviceUsageDate = $sfRecords->field41__c ? $sfRecords->field41__c : '';
+                $serviceUsageDate = $sfRecords->field41__c;
+            }
+
+            if ($sfRecords && isset($sfRecords->opportunity[0]->KoT_regardingusercount__c)) {
+                $numberOfSubscribers = $sfRecords->opportunity[0]->KoT_regardingusercount__c;
             }
         }
 
         $userData['serviceUsageDate'] = $serviceUsageDate;
+        $userData['numberOfSubscribers'] = $numberOfSubscribers;
+        $userData['numberOfActiveKOTUsers'] = $numberOfActiveKOTUsers;
+
+        $emps = \App\Repositories\KOTRepository::getAllEmployees($user['company']['token']);
+        $userData['numberOfEmployees'] = is_array($emps) ? count($emps) : 0;
+
 
     @endphp
     <script id="userData" type="application/json">{!! json_encode($userData, JSON_HEX_TAG) !!}</script>

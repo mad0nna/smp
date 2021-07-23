@@ -366,7 +366,7 @@ class SalesforceRepository {
     public function getContracts($sfCompanyID,$skip,$limit) {
         try{
             $oResponse = $this->oClient->get(
-                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Field141__c,ApplicationDay__c,KoT_startBillingMonth__c, KoT_shiharaihouhou__c,KoT_hanbaikeiro__c,AccountId+from+Opportunity+WHERE+AccountId='".$sfCompanyID."'+And+(StageName='成立'+or+StageName='展開中')+LIMIT+".$limit."+offset+".$skip,
+                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Field133__c,Field141__c,ApplicationDay__c,KoT_startBillingMonth__c,KoT_shiharaihouhou__c,KoT_hanbaikeiro__c,AccountId+from+Opportunity+WHERE+AccountId='".$sfCompanyID."'+And+(StageName='成立'+or+StageName='展開中')+LIMIT+".$limit."+offset+".$skip,
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -388,6 +388,36 @@ class SalesforceRepository {
                 return $this->getContracts($sfCompanyID);
             } else {
                 return MessageResult::error("Error while getting KOT contracts list in Salesforce.");
+            }
+        }
+    }
+
+    //Get company time and attendance contract to check total number of subscribe user for the contract which will use in pie chart.
+    public function getCompanyTAContract($account_id) {
+        try{
+            $oResponse = $this->oClient->get(
+                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Field133__c,Field141__c,KoT_regardingusercount__c,ApplicationDay__c,KoT_startBillingMonth__c, KoT_shiharaihouhou__c,KoT_hanbaikeiro__c,AccountId+from+Opportunity+WHERE+AccountId='".$account_id."'+And+Field141__c='KING OF TIME 勤怠管理'+order by+CloseDate+desc+LIMIT+1",
+                [
+                    'headers' => array(
+                        'Content-Type' => 'application/json',
+                        'Authorization'=> 'Bearer ' . $this->tokens["access_token"]
+                    )
+                ]
+            );
+            
+            $oBody = $oResponse->getBody();
+            $opportunity = json_decode($oBody->getContents(), true);
+            if (isset($opportunity["status"]) && !$opportunity["status"]) {
+                return $opportunity;
+            }
+            return $opportunity["records"];
+        } catch(ClientException $reqExcep) {
+            $statusCode = $reqExcep->getResponse()->getStatusCode();
+            if ($statusCode === 401) {
+                $this->tokens = (new AccessToken())->getToken();
+                return $this->getContracts($sfCompanyID);
+            } else {
+                return false;
             }
         }
     }

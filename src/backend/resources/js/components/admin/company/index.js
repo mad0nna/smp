@@ -163,8 +163,6 @@ const App = () => {
         `/admin/company?page=${pagingConditions.page}&limit=${pagingConditions.limit}&keyword=${pagingConditions.keyword}`
       )
       .then((response) => {
-        console.log('get record result:  ')
-        console.log(response)
         setState((prevState) => {
           return {
             ...prevState,

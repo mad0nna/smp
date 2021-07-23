@@ -10,7 +10,7 @@ import Purchase from './purchaseHistory'
 import BillingHistory from './billingHistory'
 import Settings from './dashboardSettings'
 import Products from './products'
-import CompanyDashboardChart from './companyDashboardChart'
+import CompanyDashboardPieChart from './companyDashboardPieChart'
 import resize from '../../img/resize.png'
 import { findMissingWidget } from '../utilities/constants'
 import spinner from '../../img/spinner.gif'
@@ -28,7 +28,17 @@ const Dashboard = () => {
     const companyCoreWidgets = [
       { component: '' },
       { component: <Welcome lastName={state.userData.lastName} /> },
-      { component: <CompanyDashboardChart /> },
+      {
+        component: (
+          <CompanyDashboardPieChart
+            data={{
+              numberOfEmployees: state.userData.numberOfEmployees,
+              numberOfSubscribers: state.userData.numberOfSubscribers,
+              numberOfActiveKOTUsers: state.userData.numberOfActiveKOTUsers
+            }}
+          />
+        )
+      },
       {
         component: (
           <ServiceUsage serviceUsageDate={state.userData.serviceUsageDate} />

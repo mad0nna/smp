@@ -50,15 +50,23 @@ class SyncSfRecordsToDb extends Command
             foreach ( $companies as $c ) {
                 $company = $salesForce->getCompanyDetailsByCompanyID($c['account_id']);
 
-                $_company = CompanyResource::parseSfCompanyColumnToDbColumn($company);
-                $result1 = Company::find($c['id'])->update($_company);
+                if (is_array($company)) {
+                    $adminDetails = $salesForce->getCompanyAdminDetails($company['Id']); 
+                    $opportunity = $salesForce->getCompanyTAContract($company['Id']);
 
-                foreach ( $c['users'] as $u ) {
-                    if ($u['account_code']) {
-                        $user = $salesForce->getContact($u['account_code']);
-                        if ($user) {
-                            $_user = UserResource::parseSfContactColumnToDbColumn($user);
-                            $result2 = User::find($u['id'])->update($_user); 
+                    if (is_array($adminDetails)) { $company["contact"] = $adminDetails; }
+                    if (is_array($opportunity)) { $company["opportunity"] = $opportunity; }
+
+                    $_company = CompanyResource::parseSfCompanyColumnToDbColumn($company);
+                    $result1 = Company::find($c['id'])->update($_company);
+
+                    foreach ( $c['users'] as $u ) {
+                        if ($u['account_code']) {
+                            $user = $salesForce->getContact($u['account_code']);
+                            if ($user) {
+                                $_user = UserResource::parseSfContactColumnToDbColumn($user);
+                                $result2 = User::find($u['id'])->update($_user); 
+                            }
                         }
                     }
                 }
