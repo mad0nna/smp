@@ -96,7 +96,10 @@ const Contracts = () => {
   return (
     <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 grid-flow-row lg:grid-rows-3 gap-6 mx-10 mt-5 font-meiryo">
       <div className="col-span-3 row-span-2">
-        <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
+        <div
+          className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10"
+          style={{ 'min-height': '568px' }}
+        >
           <div className="px-3 pt-3 pb-6">
             <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
               <h2 className="text-green-800 text-lg font-bold">契約一覧</h2>

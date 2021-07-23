@@ -229,60 +229,59 @@ const AccountList = (props) => {
   }, [props.isLoadingPullSf])
 
   return (
-    <div className="relative px-10 py-5 bg-mainbg fixed">
+    <div className="relative px-10 py-5 bg-mainbg">
       <input type="hidden" name="_token" value={state.token}></input>
       <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
         <div
           id="widget-header"
-          className="max-w-full h-24 bg-white box-border align-middle p-4 relative"
+          className="max-w-full h-40 bg-white box-border align-middle p-4 relative"
         >
-          <img src={BillingIcon} className="w-auto h-7 float-left ml-4" />
-          <div
-            id="widget-name"
-            className="text-primary-200 text-xl font-sans font-bold ml-4 float-left"
-          >
-            顧客企業一覧
-          </div>
-          <div id="widget-name" className="float-right mr-12">
-            <div className="table-cell relative h-20 w-full align-middle">
-              <div
-                id="search-bar"
-                className="bg-mainbg h-12 rounded-3xl w-96 mx-0 my-auto"
-              >
-                <svg
-                  className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
-                  xmlns="http://www.w3.org/2000/svg"
-                  x="30px"
-                  y="30px"
-                  viewBox="0 0 487.95 487.95"
-                  xmlSpace="preserve"
+          <div className="px-3 pt-3 pb-10">
+            <img src={BillingIcon} className="w-auto h-7 float-left ml-4" />
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+              <h2 className="text-green-800 text-lg font-bold">顧客企業一覧</h2>
+            </div>
+            <div id="widget-name" className="float-right mr-12">
+              <div className="table-cell relative h-20 w-full align-middle">
+                <div
+                  id="search-bar"
+                  className="bg-mainbg h-12 rounded-3xl w-96 mx-0 my-auto"
                 >
-                  <g>
-                    <path
-                      d="M481.8,453l-140-140.1c27.6-33.1,44.2-75.4,44.2-121.6C386,85.9,299.5,0.2,193.1,0.2S0,86,0,191.4s86.5,191.1,192.9,191.1
-                            c45.2,0,86.8-15.5,119.8-41.4l140.5,140.5c8.2,8.2,20.4,8.2,28.6,0C490,473.4,490,461.2,481.8,453z M41,191.4
-                            c0-82.8,68.2-150.1,151.9-150.1s151.9,67.3,151.9,150.1s-68.2,150.1-151.9,150.1S41,274.1,41,191.4z"
-                    />
-                  </g>
-                </svg>
-                <input
-                  type="text"
-                  id="billingSearch"
-                  className="h-full w-80 bg-mainbg custom-outline-none"
-                  placeholder="検索"
-                  onChange={handleKeywordChange}
-                />
+                  <svg
+                    className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="30px"
+                    y="30px"
+                    viewBox="0 0 487.95 487.95"
+                    xmlSpace="preserve"
+                  >
+                    <g>
+                      <path
+                        d="M481.8,453l-140-140.1c27.6-33.1,44.2-75.4,44.2-121.6C386,85.9,299.5,0.2,193.1,0.2S0,86,0,191.4s86.5,191.1,192.9,191.1
+                              c45.2,0,86.8-15.5,119.8-41.4l140.5,140.5c8.2,8.2,20.4,8.2,28.6,0C490,473.4,490,461.2,481.8,453z M41,191.4
+                              c0-82.8,68.2-150.1,151.9-150.1s151.9,67.3,151.9,150.1s-68.2,150.1-151.9,150.1S41,274.1,41,191.4z"
+                      />
+                    </g>
+                  </svg>
+                  <input
+                    type="text"
+                    id="billingSearch"
+                    className="h-full w-80 bg-mainbg custom-outline-none"
+                    placeholder="検索"
+                    onChange={handleKeywordChange}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div id="widget-name" className="float-right mr-12 ">
-            <div className="table-cell relative h-20 mr-3 align-middle">
-              <button
-                onClick={togglePopupNewAccount}
-                className="cursor-pointer border-primary-200 text-bold w-52 py-2 px-3 border-2 text-primary-200 rounded-3xl tracking-tighter"
-              >
-                顧客企業を新規追加
-              </button>
+            <div id="widget-name" className="float-right mr-12 ">
+              <div className="table-cell relative h-20 mr-3 align-middle">
+                <button
+                  onClick={togglePopupNewAccount}
+                  className="cursor-pointer border-primary-200 text-bold w-52 py-2 px-3 border-2 text-primary-200 rounded-3xl tracking-tighter"
+                >
+                  顧客企業を新規追加
+                </button>
+              </div>
             </div>
           </div>
           <div></div>
@@ -292,10 +291,10 @@ const AccountList = (props) => {
           />
         </div>
         <div id="widget-body" className="h-50 w-full bg-white overflow-hidden">
-          <table className="w-full h-auto text-center">
-            <thead className="bg-table-header-Gray-100 text-gray-500 h-3 font-bold text-lg tracking-tight">
-              <tr className="h-12 w-12">
-                <td
+          <table className="table-auto w-full mb-6">
+            <thead className="bg-gray-50 border-b border-t border-gray-200">
+              <tr className="h-11 text-xs text-gray-500 text-shadow-none">
+                <th
                   className="text-left pl-4 w-72 cursor-pointer"
                   onClick={() => sortArray('name')}
                 >
@@ -305,8 +304,8 @@ const AccountList = (props) => {
                       'inline-block h-4 w-4 bg-cover bg-no-repeat mr-2 bg-sort-icon-inactive group-hover:bg-sort-icon-active '
                     }
                   />
-                </td>
-                <td
+                </th>
+                <th
                   className="text-left pl-4 w-48"
                   onClick={() => sortArray('companyCode')}
                 >
@@ -316,12 +315,12 @@ const AccountList = (props) => {
                       'inline-block h-4 w-4 bg-cover bg-no-repeat mr-2 bg-sort-icon-inactive group-hover:bg-sort-icon-active '
                     }
                   />
-                </td>
-                <td className="text-left pl-4">アカウント種類</td>
-                <td className="text-left pl-4 w-44">メールアドレス</td>
-                <td className="text-left pl-4">電話番号</td>
-                <td className="text-left pl-4">状態</td>
-                <td className="text-left">操作</td>
+                </th>
+                <th className="text-left pl-4">アカウント種類</th>
+                <th className="text-left pl-4 w-44">メールアドレス</th>
+                <th className="text-left pl-4">電話番号</th>
+                <th className="text-left pl-4">状態</th>
+                <th className="text-left">操作</th>
               </tr>
             </thead>
             <tbody className="transform even:bg-gray-500">

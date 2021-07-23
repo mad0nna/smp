@@ -568,22 +568,23 @@ const AccountsList = () => {
                   </Route>
                 </Switch>
               </div>
-              {state.showList ? (
-                <div
-                  id="pagination"
-                  className="w-full h-12 p-3 text-center space-x-2 mt-4 mb-10"
-                >
-                  <Pagination
-                    listNumbers={state.pageNumbers}
-                    currentPage={pagingConditions.page}
-                    lastPage={state.lastPage}
-                    handleNavigation={handleNavigation}
-                  />
-                </div>
-              ) : null}
             </div>
           </div>
         </div>
+
+        {state.showList ? (
+          <div
+            id="pagination"
+            className="w-full h-12 p-3 text-center space-x-2 mt-4 mb-10"
+          >
+            <Pagination
+              listNumbers={state.pageNumbers}
+              currentPage={pagingConditions.page}
+              lastPage={state.lastPage}
+              handleNavigation={handleNavigation}
+            />
+          </div>
+        ) : null}
 
         {state.showPopupNewAccount ? (
           <NewAccount
