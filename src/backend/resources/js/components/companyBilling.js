@@ -7,18 +7,8 @@ import NextButton from '../../img/pagination-next.png'
 const CompanyBilling = () => {
   const [state, setState] = useState({
     loading: true,
-    billingList: [
-      {
-        id: '',
-        invoiceNumber: 'INV00024143',
-        invoiceDate: '2021年5月1日',
-        dueDate: '2021年5月31日',
-        amount: '10,890',
-        paymentDate: '-',
-        status: '-',
-        body: ''
-      }
-    ]
+    masterList: [],
+    billingList: []
   })
 
   useEffect(() => {
@@ -30,10 +20,56 @@ const CompanyBilling = () => {
       .then((data) => {
         setState({
           loading: false,
-          billingList: data
+          billingList: data,
+          masterList: data
         })
       })
   }, [])
+
+  const search = (text) => {
+    let results = []
+    if (text === '') {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          billingList: state.masterList
+        }
+      })
+    }
+    state.masterList.map((item) => {
+      let searchableKeys = {
+        invoiceDate: item.invoiceDate,
+        invoiceNumber: item.invoiceNumber,
+        amount: item.amount,
+        dueDate: item.dueDate
+      }
+      let values = Object.values(searchableKeys)
+      values.filter((value) => {
+        if (typeof value === 'string') {
+          if (value.indexOf(text) > -1) {
+            if (!checkIfExist(item, results)) {
+              results.push(item)
+            }
+          }
+        }
+      })
+    })
+    setState((prevState) => {
+      return {
+        ...prevState,
+        billingList: results
+      }
+    })
+  }
+  const checkIfExist = (newItem, source) => {
+    let indicator = false
+    source.map((item) => {
+      if (item.invoiceNumber === newItem.invoiceNumber) {
+        indicator = true
+      }
+    })
+    return indicator
+  }
 
   const getInvoiceFile = (invoiceFileId) => {
     fetch('/company/getInvoicePDF', {
@@ -103,6 +139,9 @@ const CompanyBilling = () => {
                   id="billingSearch"
                   className="h-full w-80 bg-gray-100 custom-outline-none"
                   placeholder="検索"
+                  onChange={(e) => {
+                    search(e.target.value)
+                  }}
                 />
               </div>
             </div>
