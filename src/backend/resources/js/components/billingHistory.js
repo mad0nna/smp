@@ -37,6 +37,7 @@ const BillingHistory = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        data = data.slice(0, 9)
         setState({
           loading: false,
           billingHistory: data
@@ -46,7 +47,7 @@ const BillingHistory = () => {
 
   return (
     <div className="w-full h-full relative group">
-      <div className="overflow-hidden w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
+      <div className="dashboard-widget-list overflow-hidden w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
         <div id="widget-header" className="bg-white relative box-border">
           <div>
             <div className="flex flex-row justify-between w-full pb-2 border-b border-green-800 border-opacity-80">
@@ -133,14 +134,18 @@ const BillingHistory = () => {
           )}
         </div>
         <div id="widget-footer" className="w-full h-14 bg-white p-3.5">
-          <div id="widget-footer-control" className="float-right">
-            <a
-              href="/company/billing"
-              className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter px-2"
-            >
-              さらに表示
-            </a>
-          </div>
+          {!state.loading ? (
+            <div id="widget-footer-control" className="float-right">
+              <a
+                href="/company/billing"
+                className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter px-2"
+              >
+                さらに表示
+              </a>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>

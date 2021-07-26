@@ -17,11 +17,8 @@ const NotificationPage = () => {
       .then((data) => {
         let zendeskNotifs = data.zendesk
         let notifs = []
-        let maxId = Math.round(state.currentPage * 10)
-        let minId =
-          state.currentPage != 1
-            ? Math.round(maxId / state.currentPage)
-            : state.currentPage
+        let maxId = Math.ceil(state.currentPage * 10)
+        let minId = maxId - 10
         for (let i = 0; i < zendeskNotifs.length; i++) {
           notifs.push({
             header: 'お知らせ',
@@ -43,7 +40,7 @@ const NotificationPage = () => {
             loading: false,
             currentPage: prevState.currentPage,
             notificationItems: notifs,
-            numberOfPages: Math.round(notifs.length / 10),
+            numberOfPages: Math.ceil(notifs.length / 10),
             maxId: maxId,
             minId: minId
           }
@@ -76,7 +73,7 @@ const NotificationPage = () => {
       window.focus()
     }
   }
-  let numberOFPages = Math.round(state.notificationItems.length / 10)
+  let numberOFPages = Math.ceil(state.notificationItems.length / 10)
   let pageNumbers = []
   pageNumbers.push(
     <img

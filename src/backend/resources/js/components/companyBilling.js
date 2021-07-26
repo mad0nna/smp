@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import PdfIcon from '../../img/pdf2-icon.png'
 import Ellipsis from '../../img/ellipsis.png'
-import PrevButton from '../../img/pagination-prev.png'
-import NextButton from '../../img/pagination-next.png'
 const CompanyBilling = () => {
   const [state, setState] = useState({
     loading: true,
+    currentPage: 1,
     masterList: [],
     billingList: []
   })
@@ -18,13 +17,22 @@ const CompanyBilling = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setState({
-          loading: false,
-          billingList: data,
-          masterList: data
+        let maxId = Math.ceil(state.currentPage * 10)
+        let minId = maxId - 10
+        setState((prevState) => {
+          return {
+            ...prevState,
+            loading: false,
+            billingList: data,
+            masterList: data,
+            currentPage: prevState.currentPage,
+            numberOfPages: Math.ceil(data.length / 10),
+            maxId: maxId,
+            minId: minId
+          }
         })
       })
-  }, [])
+  }, [state.currentPage])
 
   const search = (text) => {
     let results = []
@@ -99,6 +107,62 @@ const CompanyBilling = () => {
       })
   }
 
+  let numberOFPages = Math.ceil(state.masterList.length / 10)
+  let pageNumbers = []
+  pageNumbers.push(
+    <img
+      src="/images/pagination-prev.png?1ac337e7f7bfaacab64ea9a2369b5930"
+      className=" inline-block w-8 h-auto mr-1 cursor-pointer"
+      onClick={() => {
+        if (state.currentPage <= 1) {
+          return
+        }
+        setState((prevState) => {
+          return {
+            ...prevState,
+            currentPage: prevState.currentPage - 1
+          }
+        })
+      }}
+    />
+  )
+  for (let index = 1; index <= numberOFPages; index++) {
+    let activeStyle =
+      index === state.currentPage
+        ? 'text-white bg-primary-200 '
+        : 'text-primary-200 '
+    pageNumbers.push(
+      <li
+        key={index}
+        className=""
+        onClick={() => {
+          setState((prevState) => {
+            return { ...prevState, currentPage: index }
+          })
+        }}
+      >
+        <span className={activeStyle + 'rounded-3xl px-3 py-1'}>{index}</span>
+      </li>
+    )
+  }
+  pageNumbers.push(
+    <img
+      src="/images/pagination-next.png?831991390ac360b1b03a00cdcd915ec5"
+      className=" inline-block  w-8 h-auto ml-1 cursor-pointer"
+      onClick={() => {
+        if (state.currentPage === state.numberOfPages) {
+          return
+        }
+        setState((prevState) => {
+          return {
+            ...prevState,
+            currentPage: prevState.currentPage + 1
+          }
+        })
+      }}
+    />
+  )
+
   return (
     <div className="relative px-10 mt-5 bg-mainbg">
       <div className="w-full h-full bg-white overflow-hidden relative  rounded-lg shadow-xl">
@@ -171,49 +235,55 @@ const CompanyBilling = () => {
             </thead>
             <tbody>
               {state.billingList.map((item, index) => {
-                let txtcolor =
-                  item.status === '未払い' ? 'orange' : 'text-gray-500'
-                return (
-                  <tr
-                    className="table-row h-16 text-sm text-gray-500 hover:bg-gray-50 border-b border-gray-100"
-                    key={index}
-                  >
-                    <td className="text-center">{item.invoiceNumber}</td>
-                    {/* <td className="text-center">{item.billingName}</td> */}
-                    <td className="text-center"> {item.invoiceDate}</td>
-                    <td className="text-center">{item.dueDate}</td>
-                    <td className="text-right">¥ {item.amount}</td>
-                    <td className="text-center">{item.paymentDate}</td>
-                    <td className={txtcolor + ' text-center'}>-</td>
-                    <td className="text-center">
-                      <img
-                        src={PdfIcon}
-                        className="mx-auto w-6 h-auto cursor-pointer"
-                        onClick={() => {
-                          getInvoiceFile(item.body)
-                        }}
-                      />{' '}
-                    </td>
-                  </tr>
-                )
+                if (index >= state.minId && index <= state.maxId) {
+                  let txtcolor =
+                    item.status === '未払い' ? 'orange' : 'text-gray-500'
+                  return (
+                    <tr
+                      className="table-row h-16 text-sm text-gray-500 hover:bg-gray-50 border-b border-gray-100"
+                      key={index}
+                    >
+                      <td className="text-center">{item.invoiceNumber}</td>
+                      {/* <td className="text-center">{item.billingName}</td> */}
+                      <td className="text-center"> {item.invoiceDate}</td>
+                      <td className="text-center">{item.dueDate}</td>
+                      <td className="text-right">¥ {item.amount}</td>
+                      <td className="text-center">{item.paymentDate}</td>
+                      <td className={txtcolor + ' text-center'}>-</td>
+                      <td className="text-center">
+                        <img
+                          src={PdfIcon}
+                          className="mx-auto w-6 h-auto cursor-pointer"
+                          onClick={() => {
+                            getInvoiceFile(item.body)
+                          }}
+                        />{' '}
+                      </td>
+                    </tr>
+                  )
+                }
               })}
             </tbody>
           </table>
         </div>
       </div>
       <div
-        id="billing-pagination"
-        className="w-full h-12 p-3 text-center space-x-2"
+        id="pagination"
+        className="w-full h-12 p-3 text-center space-x-2 mt-4"
       >
-        <img src={PrevButton} className="inline-block w-8 h-auto" />
-        <div className="inline-block text-primary-200">
-          <span className="text-white rounded-2xl bg-primary-200 px-3 py-1">
-            1
-          </span>
-          <span className="px-3 py-2">2</span>
-          <span className="px-3 py-2 rounded-2xl">3</span>
+        <div>
+          {/* <img
+            src="/images/pagination-prev.png?1ac337e7f7bfaacab64ea9a2369b5930"
+            className=" inline-block  w-8 h-auto mr-1"
+          /> */}
+          <div className="inline-block text-primary-200">
+            <ul id="page-numbers">{pageNumbers}</ul>
+          </div>
+          {/* <img
+            src="/images/pagination-next.png?831991390ac360b1b03a00cdcd915ec5"
+            className=" inline-block  w-8 h-auto ml-1"
+          /> */}
         </div>
-        <img src={NextButton} className="inline-block  w-8 h-auto" />
       </div>
     </div>
   )
