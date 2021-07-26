@@ -6,6 +6,7 @@ use App\Services\Utilities\MessageResult;
 use Illuminate\Support\Facades\Cache;
 use App\Services\API\Zuora\Model\Account;
 use App\Services\API\Zuora\Model\Invoice;
+use App\Services\API\Zuora\Model\Usage;
 
 class BillingService 
 {
@@ -53,8 +54,7 @@ class BillingService
 
     private function getInvoices($accountID) 
     {
-        Cache::forget("{$accountID}:zuora:invoices");
-            $invoiceList = Cache::remember("{$accountID}:zuora:invoices", now()->addHour(1), function() use($accountID) {
+        $invoiceList = Cache::remember("{$accountID}:zuora:invoices", now()->addHour(1), function() use($accountID) {
             $invoices = (new Invoice)->findByAccountId($accountID);
             if (!$invoices['success']) {
                 return false;
@@ -62,5 +62,18 @@ class BillingService
             return $invoices['invoices'];
         });
         return $invoiceList;
+    }
+
+    public function getAccountUsageData($companyID) {
+        $accountInfo = $this->getAccountInfo($companyID);
+        if (!$accountInfo) {
+            MessageResult::error("The company id doesn't exist!");
+        }
+        $accountID = $accountInfo['id'];
+        $usage = (new Usage)->findByAccountId($accountID);
+        if (!$usage['success']) {
+            return false;
+        }
+        return $usage['usage'];
     }
 }

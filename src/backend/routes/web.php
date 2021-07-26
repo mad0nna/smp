@@ -56,6 +56,7 @@ Route::prefix('salesforce')->group(function() {
       Route::get('/searchSFContactByUserId', 'UserController@searchSFContactByUserId');
       Route::get('/getBilling', 'BillingController@index');
       Route::post('/getInvoicePDF', 'BillingController@getInvoicePDF');
+      Route::get('/getUsage', "BillingController@getAccountUsageData");
   });
 
   Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function() {

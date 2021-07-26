@@ -28,4 +28,8 @@ class BillingController extends Controller
         fclose($myfile);
         return $fileName;
     }
+    
+    public function getAccountUsageData(Request $request, BillingService $billingService) {
+        return $billingService->getAccountUsageData(Session::get('salesforceCompanyID'));
+    }
 }
