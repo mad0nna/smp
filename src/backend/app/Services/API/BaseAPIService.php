@@ -13,4 +13,11 @@ class BaseAPIService {
            'sSecurityToken' => env('SALESFORCE_SECURITY_TOKEN')
         );
     }
+
+    public function zuoraApi() {
+        $this->aAPIs['zuora'] = array(
+            'sClientID' => env('ZUORA_KEY'),
+            'sClientKey' => env('ZUORA_SECRET')
+        );
+    }
 }

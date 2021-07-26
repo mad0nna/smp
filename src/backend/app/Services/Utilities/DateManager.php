@@ -22,6 +22,11 @@ class DateManager {
         return Carbon::parse($date1)->floatDiffInSeconds($date2, false); 
     }
 
-    public function compareCurrentDate($dateToCompare) {
+    public function getLastDayOFNextMonth($date) {
+        return Carbon::createFromFormat('Y-m-d', $date)->addMonth()->endOFMonth()->format('Y年m月d日');
+    }
+
+    public function toJP($date) {
+        return Carbon::createFromFormat('Y-m-d', $date)->format('Y年m月d日');
     }
 }

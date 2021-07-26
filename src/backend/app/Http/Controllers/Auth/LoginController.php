@@ -104,7 +104,6 @@ class LoginController extends Controller
                 Auth::logout();
                 return redirect()->back()->with('status', '招待メール記載の利用開始ボタンよりログインしてください。');
             }
-
              Session::put('salesforceCompanyID', Auth::user()->company->account_id);
              Session::put('salesforceContactID', Auth::user()->account_code);
             return redirect(Auth::user()->type->dashboard_url);

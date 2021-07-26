@@ -1,104 +1,67 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-
 import PdfIcon from '../../img/pdf2-icon.png'
 import Ellipsis from '../../img/ellipsis.png'
 import PrevButton from '../../img/pagination-prev.png'
 import NextButton from '../../img/pagination-next.png'
-
 const CompanyBilling = () => {
-  const billingList = [
-    {
-      no: 'INV00024143',
-      billingName: 'KOT-TM定期購読',
-      billingDate: '2021年5月1日',
-      dueDate: '2021年5月31日',
-      amount: '¥10,890',
-      paidOn: '-',
-      status: '未払い'
-    },
-    {
-      no: 'INV00024011',
-      billingName: 'KOT-SL 定期購読',
-      billingDate: '2021年4月1日',
-      dueDate: '2021年4月30日',
-      amount: '¥11,220',
-      paidOn: '2021年4月30日',
-      status: '支払い済み'
-    },
-    {
-      no: 'INV00023561',
-      billingName: 'KOT-TM 定期購読',
-      billingDate: '2021年3月1日',
-      dueDate: '2021年3月31日',
-      amount: '¥10,890',
-      paidOn: '2021年3月28日',
-      status: '支払い済み'
-    },
-    {
-      no: 'INV00012456',
-      billingName: 'KOT-XC 定期購読',
-      billingDate: '2021年2月1日',
-      dueDate: '2021年2月28日',
-      amount: '¥1,542,000',
-      paidOn: '2021年2月20日',
-      status: '支払い済み'
-    },
-    {
-      no: 'INV00073895',
-      billingName: 'KOT-SM 定期購読',
-      billingDate: '2021年1月1日',
-      dueDate: '2021年1月31日',
-      amount: '¥5,040,220',
-      paidOn: '2021年1月25日',
-      status: '支払い済み'
-    },
-    {
-      no: 'INV00072546',
-      billingName: 'KOT-RT 定期購読',
-      billingDate: '2020年12月1日',
-      dueDate: '2020年12月31日',
-      amount: '¥78,505,500',
-      paidOn: '2020年12月22日',
-      status: '支払い済み'
-    },
-    {
-      no: 'INV00023451',
-      billingName: 'KOT-WH 定期購読',
-      billingDate: '2020年11月1日',
-      dueDate: '2020年11月30日',
-      amount: '¥2,024,520',
-      paidOn: '2020年11月28日',
-      status: '支払い済み'
-    },
-    {
-      no: 'INV00078511',
-      billingName: 'KOT-NB 定期購読',
-      billingDate: '2020年10月1日',
-      dueDate: '2020年10月31日',
-      amount: '¥3,359,950',
-      paidOn: '2020年10月29日',
-      status: '支払い済み'
-    },
-    {
-      no: 'INV00065224',
-      billingName: 'KOT-RT 定期購読',
-      billingDate: '2020年9月1日',
-      dueDate: '2020年9月30日',
-      amount: '¥11,520',
-      paidOn: '2020年9月27日',
-      status: '支払い済み'
-    },
-    {
-      no: 'INV00012575',
-      billingName: 'KOT-SL 定期購読',
-      billingDate: '2020年8月1日',
-      dueDate: '2020年8月31日',
-      amount: '¥45,234,770',
-      paidOn: '2020年8月19日',
-      status: '支払い済み'
-    }
-  ]
+  const [state, setState] = useState({
+    loading: true,
+    billingList: [
+      {
+        id: '',
+        invoiceNumber: 'INV00024143',
+        invoiceDate: '2021年5月1日',
+        dueDate: '2021年5月31日',
+        amount: '10,890',
+        paymentDate: '-',
+        status: '-',
+        body: ''
+      }
+    ]
+  })
+
+  useEffect(() => {
+    fetch('/company/getBilling', {
+      method: 'get',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setState({
+          loading: false,
+          billingList: data
+        })
+      })
+  }, [])
+
+  const getInvoiceFile = (invoiceFileId) => {
+    fetch('/company/getInvoicePDF', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'text/plain',
+        'Content-Disposition': 'attachment; filename=testpdf.pdf',
+        'X-CSRF-TOKEN':
+          document.getElementsByTagName('meta')['csrf-token'].content,
+        invoiceFileId: invoiceFileId
+      },
+      body: JSON.stringify({ invoiceFileId: invoiceFileId })
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        if (typeof data !== 'string') {
+          let jsonValue = JSON.parse(data)
+          if (!jsonValue.status) {
+            return alert(jsonValue.message)
+          }
+        }
+        const link = document.createElement('a')
+        link.href = '/temp/' + data
+        link.download = data + '.pdf'
+        document.body.append(link)
+        link.click()
+      })
+  }
 
   return (
     <div className="relative px-10 mt-5 bg-mainbg">
@@ -158,7 +121,7 @@ const CompanyBilling = () => {
             <thead className="bg-gray-50 border-b border-t border-gray-200">
               <tr className="h-11 text-xs text-gray-500 text-shadow-none">
                 <th>請求書番号</th>
-                <th>請求書名</th>
+                {/* <th>請求書名</th> */}
                 <th>請求日</th>
                 <th>支払期限</th>
                 <th className="text-right">請求額</th>
@@ -168,7 +131,7 @@ const CompanyBilling = () => {
               </tr>
             </thead>
             <tbody>
-              {billingList.map((item, index) => {
+              {state.billingList.map((item, index) => {
                 let txtcolor =
                   item.status === '未払い' ? 'orange' : 'text-gray-500'
                 return (
@@ -176,15 +139,21 @@ const CompanyBilling = () => {
                     className="table-row h-16 text-sm text-gray-500 hover:bg-gray-50 border-b border-gray-100"
                     key={index}
                   >
-                    <td className="text-center">{item.no}</td>
-                    <td className="text-center">{item.billingName}</td>
-                    <td className="text-center"> {item.billingDate}</td>
+                    <td className="text-center">{item.invoiceNumber}</td>
+                    {/* <td className="text-center">{item.billingName}</td> */}
+                    <td className="text-center"> {item.invoiceDate}</td>
                     <td className="text-center">{item.dueDate}</td>
-                    <td className="text-right">{item.amount}</td>
-                    <td className="text-center">{item.paidOn}</td>
-                    <td className={txtcolor + ' text-center'}>{item.status}</td>
+                    <td className="text-right">¥ {item.amount}</td>
+                    <td className="text-center">{item.paymentDate}</td>
+                    <td className={txtcolor + ' text-center'}>-</td>
                     <td className="text-center">
-                      <img src={PdfIcon} className="mx-auto w-6 h-auto" />{' '}
+                      <img
+                        src={PdfIcon}
+                        className="mx-auto w-6 h-auto cursor-pointer"
+                        onClick={() => {
+                          getInvoiceFile(item.body)
+                        }}
+                      />{' '}
                     </td>
                   </tr>
                 )

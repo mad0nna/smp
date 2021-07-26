@@ -1,66 +1,85 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Ellipsis from '../../img/ellipsis.png'
 import PdfIcon from '../../img/pdf-icon.png'
-
-class BillingHistory extends React.Component {
-  constructor(props) {
-    super(props)
-    this.billingHistory = [
+import spinner from '../../img/spinner.gif'
+const BillingHistory = () => {
+  const [state, setState] = useState({
+    loading: true,
+    billingHistory: [
       {
         amount: '¥ 10,890',
         dueDate: '2021年5月31日',
-        invoiceNo: 'INV00024143',
+        invoiceNumber: 'INV00024143',
         invoiceDate: '2021年5月1日',
         paymentDate: '未払い'
       },
       {
         amount: '¥ 11,220',
         dueDate: '2021年4月30日',
-        invoiceNo: 'INV00024011',
+        invoiceNumber: 'INV00024011',
         invoiceDate: '2021年4月1日',
         paymentDate: '2021年4月30日'
       },
       {
         amount: '¥ 10,890',
         dueDate: '2021年3月31日',
-        invoiceNo: 'INV00023561',
+        invoiceNumber: 'INV00023561',
         invoiceDate: '2021年3月1日',
         paymentDate: '2021年3月31日'
       }
     ]
-  }
+  })
 
-  render() {
-    return (
-      <div className="w-full h-full relative group">
-        <div className="overflow-hidden w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
-          <div id="widget-header" className="bg-white relative box-border">
-            <div>
-              <div className="flex flex-row justify-between w-full pb-2 border-b border-green-800 border-opacity-80">
-                <div>
-                  <h2 className="text-green-800 text-lg font-bold">請求書</h2>
-                </div>
-                <div>
-                  <a href="#">
-                    <div
-                      id="widget-name"
-                      className="p-1 bg-gray-100 float-right "
-                    >
-                      <p className="text-gray-400 text-xxs font-sans">
-                        Download
-                      </p>
-                    </div>
-                    <img src={PdfIcon} className="w-5 h-5 float-right" />
-                  </a>
-                </div>
+  useEffect(() => {
+    fetch('/company/getBilling', {
+      method: 'get',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setState({
+          loading: false,
+          billingHistory: data
+        })
+      })
+  }, [])
+
+  return (
+    <div className="w-full h-full relative group">
+      <div className="overflow-hidden w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
+        <div id="widget-header" className="bg-white relative box-border">
+          <div>
+            <div className="flex flex-row justify-between w-full pb-2 border-b border-green-800 border-opacity-80">
+              <div>
+                <h2 className="text-green-800 text-lg font-bold">請求書</h2>
+              </div>
+              <div>
+                <a href="/company/billing">
+                  <div
+                    id="widget-name"
+                    className="p-1 bg-gray-100 float-right "
+                  >
+                    <p className="text-gray-400 text-xxs font-sans">Download</p>
+                  </div>
+                  <img src={PdfIcon} className="w-5 h-5 float-right" />
+                </a>
               </div>
             </div>
-            <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
-              <img src={Ellipsis} />
-            </div>
           </div>
-          <div id="widget-body" className="w-full">
-            {this.billingHistory.map((item, index) => {
+          <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
+            <img src={Ellipsis} />
+          </div>
+        </div>
+        <div id="widget-body" className="w-full">
+          {state.loading === true ? (
+            <div className="w-full relative mt-24 dashboard-widget-list overflow-hidden">
+              <div className="mx-auto absolute bottom-1 w-full text-center">
+                Loading invoices...
+                <img className="mx-auto h-12 mt-5" src={spinner}></img>
+              </div>
+            </div>
+          ) : (
+            state.billingHistory.map((item, index) => {
               let stripe = index % 2 ? 'bg-white' : ''
               return (
                 <div
@@ -88,11 +107,11 @@ class BillingHistory extends React.Component {
                         請求書番号
                       </div>
                       <div className="text-gray-500 inline-block 2xl:text-xs lg:text-xxs sm:text-xxs xs:text-xxs font-bold tracking-wider">
-                        {item.invoiceNo}
+                        {item.invoiceNumber}
                       </div>
                     </div>
                     <div className="-mt-1 mb-1">
-                      <div className="text-gray-400 inline-block 2xl:text-xs xl:text-xs lg:text-xxs sm:text-xxs 2xl:ml-3 xl:ml-2 lg:ml-1 sm:ml-1 tracking-widest">
+                      <div className="text-gray-400 inline-block 2xl:text-xs xl:text-xs lg:text-xxs sm:text-xxs tracking-widest">
                         請求日
                       </div>
                       <div className="text-gray-500 inline-block 2xl:text-xs xl:text-xs lg:text-xxs sm:text-xxs xs:text-xxs font-bold 2xl:ml-6 xl:ml-3 lg:ml-1 sm:ml-1 tracking-wider">
@@ -110,22 +129,21 @@ class BillingHistory extends React.Component {
                   </div>
                 </div>
               )
-            })}
-          </div>
-          <div id="widget-footer" className="w-full h-14 bg-white p-3.5">
-            <div id="widget-footer-control" className="float-right">
-              <a
-                href="/company/billing"
-                className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter px-2"
-              >
-                さらに表示
-              </a>
-            </div>
+            })
+          )}
+        </div>
+        <div id="widget-footer" className="w-full h-14 bg-white p-3.5">
+          <div id="widget-footer-control" className="float-right">
+            <a
+              href="/company/billing"
+              className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter px-2"
+            >
+              さらに表示
+            </a>
           </div>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
-
 export default BillingHistory
