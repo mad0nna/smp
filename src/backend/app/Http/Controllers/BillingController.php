@@ -32,4 +32,10 @@ class BillingController extends Controller
     public function getAccountUsageData(Request $request, BillingService $billingService) {
         return $billingService->getAccountUsageData(Session::get('salesforceCompanyID'));
     }
+
+    public static function getAccountUsage($company_account_id) {
+        $billingService = new BillingService;
+        return $billingService->getAccountUsageData($company_account_id);
+    }
+
 }

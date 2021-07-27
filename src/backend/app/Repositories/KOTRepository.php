@@ -33,6 +33,40 @@ class KOTRepository {
       return $companyDetails;
   }
 
-  
+  public static function getLogUsersInAMonth($token, $month)
+    {
+      $companyDetails = Cache::remember("KOT_{$token}:LogUsersInAMonth", now()->addHour(1), function() use($token, $month) {
+        $oClient = new Client();
+        try{
+          $oResponse = $oClient->get(
+              env('KOT_HOST')."/v1.0/monthly-workings/".$month,
+              [
+                  'headers' => array(
+                      'Content-Type' => 'application/json',
+                      'Authorization'=> 'Bearer ' . $token
+                  ),
+                  'synchronous' => true
+              ]
+          );
+          $oBody = $oResponse->getBody();
+          $users = json_decode($oBody->getContents(), true);
+          $qty = 0;
+          foreach ($users as $u) {
+           
+            if ($u['workingCount'] > 0) {
+              $qty++;
+            }
+          }
+
+          return $qty;
+
+
+        } catch(ClientException $reqExcep) {
+          return false;
+        }
+      });
+
+      return $companyDetails;
+  }   
      
 }

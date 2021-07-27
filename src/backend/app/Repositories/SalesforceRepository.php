@@ -11,7 +11,7 @@ class SalesforceRepository {
     public function __construct()
     {
         $this->tokens = (new AccessToken())->getToken();
-        $this->oClient = new Client();
+        $this->oClient = new Client();        
     }
 
     public function getCompanyDetailsByCompanyID($sfCompanyID) {

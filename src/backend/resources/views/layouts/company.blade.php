@@ -40,7 +40,7 @@
         $serviceUsageDate = '';
         $numberOfEmployees = 0; //from KOT
         $numberOfSubscribers = 0; //from SF
-        $numberOfActiveKOTUsers = 26; //from Zaura
+        $numberOfActiveKOTUsers = 0; //from Zaura
 
         if ($user['company']) {
             $sfRecords = $user['company']['sf_records'] ? json_decode($user['company']['sf_records']) : null;
@@ -55,10 +55,16 @@
 
         $userData['serviceUsageDate'] = $serviceUsageDate;
         $userData['numberOfSubscribers'] = $numberOfSubscribers;
-        $userData['numberOfActiveKOTUsers'] = $numberOfActiveKOTUsers;
 
-        $emps = \App\Repositories\KOTRepository::getAllEmployees($user['company']['token']);
-        $userData['numberOfEmployees'] = is_array($emps) ? count($emps) : 0;
+        $numberOfActiveKOTUsers = \App\Repositories\KOTRepository::getLogUsersInAMonth($user['company']['token'], date("Y-m"));
+        $userData['numberOfActiveKOTUsers'] = (int)$numberOfActiveKOTUsers;
+
+        $billing = \App\Http\Controllers\BillingController::getAccountUsage($user['company']['account_id']);
+        
+        if (is_array($billing) && count($billing)) {
+            $numberOfEmployees = $billing[0]['quantity'];
+        }
+        $userData['numberOfEmployees'] = $numberOfEmployees;
 
 
     @endphp
