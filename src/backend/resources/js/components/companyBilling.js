@@ -79,7 +79,7 @@ const CompanyBilling = () => {
     return indicator
   }
 
-  const getInvoiceFile = (invoiceFileId) => {
+  const getInvoiceFile = (invoiceFileId, invoiceNumber, accountNumber) => {
     fetch('/company/getInvoicePDF', {
       method: 'post',
       headers: {
@@ -87,7 +87,9 @@ const CompanyBilling = () => {
         'Content-Disposition': 'attachment; filename=testpdf.pdf',
         'X-CSRF-TOKEN':
           document.getElementsByTagName('meta')['csrf-token'].content,
-        invoiceFileId: invoiceFileId
+        invoiceFileId: invoiceFileId,
+        invoiceNumber: invoiceNumber,
+        accountNumber: accountNumber
       },
       body: JSON.stringify({ invoiceFileId: invoiceFileId })
     })
@@ -255,7 +257,11 @@ const CompanyBilling = () => {
                           src={PdfIcon}
                           className="mx-auto w-6 h-auto cursor-pointer"
                           onClick={() => {
-                            getInvoiceFile(item.body)
+                            getInvoiceFile(
+                              item.body,
+                              item.invoiceNumber,
+                              item.accountNumber
+                            )
                           }}
                         />{' '}
                       </td>

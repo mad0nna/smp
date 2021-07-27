@@ -14,12 +14,14 @@ class BillingController extends Controller
     }
 
     public function getInvoicePDF(Request $request, BillingService $billingService) {
-        $invoice = $request->header("invoiceFileId");
-        if (empty($invoice)) {
+        $invoiceFileId = $request->header("invoiceFileId");
+        $invoiceNumber = $request->header("invoiceNumber");
+        $accountNumber = $request->header("accountNumber");
+        if (empty($invoiceFileId) && empty($invoiceNumber) && empty($accountNumber)) {
             return MessageResult::error('Invoice cannot be downloaded!');
         }
-        $pdfRawData = $billingService->getInvoicePDF($invoice);
-        $fileName = 'INVOICE - ' . str_replace('/v1/files/', '', $invoice) . '.pdf';
+        $pdfRawData = $billingService->getInvoicePDF($invoiceFileId);
+        $fileName = $invoiceNumber.'_'.$accountNumber.".pdf";
         if(!is_dir('temp')){
             mkdir('temp', 0755);
         }
