@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-import spinner from '../../img/spinner.gif'
+import spinner from '../../img/loading-spinner.gif'
 import { findMissingWidget } from '../utilities/constants'
 
 const WidgetSettings = () => {
@@ -168,10 +168,7 @@ const WidgetSettings = () => {
       <div className="flex justify-around pt-4 pb-16">
         <form>
           {status ? (
-            <img
-              src={spinner}
-              className="text-xs rounded-md text-white px-6 py-2 bg-green-500 border-gray-300"
-            />
+            <img src={spinner} className="w-20 h-auto inline" />
           ) : (
             <div>
               <button className="std-primary" onClick={onSave}>

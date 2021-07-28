@@ -8,6 +8,7 @@ const Welcome = (props) => {
         <span className="capitalize text-2xl text-green-700">
           {props && props.lastName ? props.lastName : ''}
         </span>
+        {props && props.lastName && ' 様'}
       </h1>
     </div>
     // <div className="w-full">
