@@ -6,7 +6,7 @@ use App\Services\WidgetService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class widgetController extends Controller
+class WidgetController extends Controller
 {
     public function getCompanyCoordinates(WidgetService $widget) {
         return $widget->getCompanyCoordinates(Session::get("salesforceContactID"));

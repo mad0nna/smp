@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Http\Controllers\Controller;
 use App\Services\CompanyService;
 use App\Services\ContactService;
@@ -19,6 +20,55 @@ class CompanyController extends Controller
     {
 
     }
+
+    public function dashboard()
+    {
+      $user = \App\Models\User::with(['company'])->find(Auth::user()->id);
+        $user_data['userId'] = $user['id'];
+        $user_data['username'] = $user['username'];
+        $user_data['firstName'] = $user['first_name'];
+        $user_data['lastName'] = $user['last_name'];
+        $user_data['email'] = $user['email'];
+        $user_data['accountCode'] = $user['account_code'];
+        $user_data['userTypeId'] = $user['user_type_id'];
+        $user_data['title'] = $user['title'];
+        $user_data['companyId'] = $user['company'] ?  $user['company']['id'] : '';
+        $user_data['companyName'] = $user['company'] ?  $user['company']['name'] : '';
+        $user_data['companyCode'] = $user['company'] ?  $user['company']['company_code'] : '';
+        $user_data['companyAccountId'] = $user['company'] ?  $user['company']['account_id'] : '';
+
+        $serviceUsageDate = '';
+        $numberOfEmployees = 0; //from KOT
+        $numberOfSubscribers = 0; //from SF
+        $numberOfActiveKOTUsers = 0; //from Zaura
+
+        if ($user['company']) {
+            $sfRecords = $user['company']['sf_records'] ? json_decode($user['company']['sf_records']) : null;
+            if ($sfRecords && isset($sfRecords->field41__c)) {
+                $serviceUsageDate = $sfRecords->field41__c;
+            }
+
+            if ($sfRecords && isset($sfRecords->opportunity[0]->KoT_regardingusercount__c)) {
+                $numberOfSubscribers = $sfRecords->opportunity[0]->KoT_regardingusercount__c;
+            }
+        }
+
+        $user_data['serviceUsageDate'] = $serviceUsageDate;
+        $user_data['numberOfSubscribers'] = $numberOfSubscribers;
+
+        $numberOfActiveKOTUsers = \App\Repositories\KOTRepository::getLogUsersInAMonth($user['company']['token'], date("Y-m"));
+        $user_data['numberOfActiveKOTUsers'] = (int)$numberOfActiveKOTUsers;
+
+        $billing = \App\Http\Controllers\BillingController::getAccountUsage($user['company']['account_id']);
+        
+        if (is_array($billing) && count($billing)) {
+            $numberOfEmployees = $billing[0]['quantity'];
+        }
+        $user_data['numberOfEmployees'] = $numberOfEmployees;
+
+      return view('dashboard',['user_data' => $user_data]);
+    }
+
     public function getCompanyDetails(CompanyService $companyService) {
         return $companyService->getDetailsByID(Session::get('salesforceCompanyID'));
     }

@@ -21,54 +21,8 @@
     <main>
         @yield('content')
     </main>
-
-    @php
-        $user = \App\Models\User::with(['company'])->find(Auth::user()->id);
-        $userData['userId'] = $user['id'];
-        $userData['username'] = $user['username'];
-        $userData['firstName'] = $user['first_name'];
-        $userData['lastName'] = $user['last_name'];
-        $userData['email'] = $user['email'];
-        $userData['accountCode'] = $user['account_code'];
-        $userData['userTypeId'] = $user['user_type_id'];
-        $userData['title'] = $user['title'];
-        $userData['companyId'] = $user['company'] ?  $user['company']['id'] : '';
-        $userData['companyName'] = $user['company'] ?  $user['company']['name'] : '';
-        $userData['companyCode'] = $user['company'] ?  $user['company']['company_code'] : '';
-        $userData['companyAccountId'] = $user['company'] ?  $user['company']['account_id'] : '';
-
-        $serviceUsageDate = '';
-        $numberOfEmployees = 0; //from KOT
-        $numberOfSubscribers = 0; //from SF
-        $numberOfActiveKOTUsers = 0; //from Zaura
-
-        if ($user['company']) {
-            $sfRecords = $user['company']['sf_records'] ? json_decode($user['company']['sf_records']) : null;
-            if ($sfRecords && isset($sfRecords->field41__c)) {
-                $serviceUsageDate = $sfRecords->field41__c;
-            }
-
-            if ($sfRecords && isset($sfRecords->opportunity[0]->KoT_regardingusercount__c)) {
-                $numberOfSubscribers = $sfRecords->opportunity[0]->KoT_regardingusercount__c;
-            }
-        }
-
-        $userData['serviceUsageDate'] = $serviceUsageDate;
-        $userData['numberOfSubscribers'] = $numberOfSubscribers;
-
-        $numberOfActiveKOTUsers = \App\Repositories\KOTRepository::getLogUsersInAMonth($user['company']['token'], date("Y-m"));
-        $userData['numberOfActiveKOTUsers'] = (int)$numberOfActiveKOTUsers;
-
-        $billing = \App\Http\Controllers\BillingController::getAccountUsage($user['company']['account_id']);
-        
-        if (is_array($billing) && count($billing)) {
-            $numberOfEmployees = $billing[0]['quantity'];
-        }
-        $userData['numberOfEmployees'] = $numberOfEmployees;
-
-
-    @endphp
-    <script id="userData" type="application/json">{!! json_encode($userData, JSON_HEX_TAG) !!}</script>
+   
+    <script id="userData" type="application/json">{!! json_encode($user_data ?? '', JSON_HEX_TAG) !!}</script>
     <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
 </body>
 </html>
