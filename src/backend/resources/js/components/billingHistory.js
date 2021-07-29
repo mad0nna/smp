@@ -151,4 +151,5 @@ const BillingHistory = () => {
     </div>
   )
 }
+
 export default BillingHistory
