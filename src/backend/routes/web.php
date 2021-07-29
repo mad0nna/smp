@@ -75,9 +75,11 @@ Route::prefix('salesforce')->group(function() {
     Route::view('/companies', 'sales.companies');
     Route::view('/billing', 'sales.billing');
     Route::view('/account', 'sales.account');
+    Route::view('/account', 'sales.account');
   });
 
   Route::view('sales/account', 'sales.account');
+  Route::view('sales/contact', 'sales.contact');
   
   Route::prefix('password')->group(function() {
     Route::get('forgot', 'Auth\PasswordController@forgot')->middleware('guest');
