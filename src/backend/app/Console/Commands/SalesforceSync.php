@@ -16,7 +16,7 @@ class SyncSfRecordsToDb extends Command
      *
      * @var string
      */
-    protected $signature = 'syncSf:toDb';
+    protected $signature = 'salesforce:sync';
 
     /**
      * The console command description.
@@ -44,39 +44,41 @@ class SyncSfRecordsToDb extends Command
     {
         $companies = $company->with(['users' => function ($query) {
             $query->where('user_type_id', '>', 2)->where('user_status_id', '=', 1)->get();
-          }])->get();
-        
-        try{
-            foreach ( $companies as $c ) {
+        }])->get();
+
+        try {
+            foreach ($companies as $c) {
                 $company = $salesForce->getCompanyDetailsByCompanyID($c['account_id']);
 
                 if (is_array($company)) {
-                    $adminDetails = $salesForce->getCompanyAdminDetails($company['Id']); 
+                    $adminDetails = $salesForce->getCompanyAdminDetails($company['Id']);
                     $opportunity = $salesForce->getCompanyTAContract($company['Id']);
 
-                    if (is_array($adminDetails)) { $company["contact"] = $adminDetails; }
-                    if (is_array($opportunity)) { $company["opportunity"] = $opportunity; }
+                    if (is_array($adminDetails)) {
+                        $company['contact'] = $adminDetails;
+                    }
 
+                    if (is_array($opportunity)) {
+                        $company['opportunity'] = $opportunity;
+                    }
                     $_company = CompanyResource::parseSfCompanyColumnToDbColumn($company);
                     $result1 = Company::find($c['id'])->update($_company);
 
-                    foreach ( $c['users'] as $u ) {
+                    foreach ($c['users'] as $u) {
                         if ($u['account_code']) {
                             $user = $salesForce->getContact($u['account_code']);
                             if ($user) {
                                 $_user = UserResource::parseSfContactColumnToDbColumn($user);
-                                $result2 = User::find($u['id'])->update($_user); 
+                                $result2 = User::find($u['id'])->update($_user);
                             }
                         }
                     }
                 }
             }
-
             $this->info('Database successfully sync from salesforce pulled records.');
-        
-
         } catch (Exception $e) {
             $this->info('Error while syncing records.');
+
             throw $e;
         }
     }

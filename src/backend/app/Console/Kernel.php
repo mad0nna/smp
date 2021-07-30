@@ -22,8 +22,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('TempInvoiceFile:clear')
                  ->everyFiveMinutes();
-        $schedule->command('syncSf:toDb')
-            ->dailyAt('03:00');
+        $schedule->command('salesforce:sync')
+            ->hourly();
     }
  
     /**

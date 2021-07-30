@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Resources\CompanyResource;
 use App\Http\Requests\SearchCompanyRequest;
+use App\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CompanyController extends Controller
@@ -23,7 +24,7 @@ class CompanyController extends Controller
 
     public function dashboard()
     {
-      $user = \App\Models\User::with(['company'])->find(Auth::user()->id);
+      $user = User::with(['company'])->find(Auth::user()->id);
         $user_data['userId'] = $user['id'];
         $user_data['username'] = $user['username'];
         $user_data['firstName'] = $user['first_name'];
