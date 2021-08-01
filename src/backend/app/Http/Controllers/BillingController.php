@@ -55,4 +55,29 @@ class BillingController extends Controller
 
         return $billingService->getAccountUsageData($company_account_id);
     }
+
+    public static function getLastMonthAccountUsage($company_account_id, $date = null) {
+        $billingService = new BillingService;
+        $data = $billingService->getAccountUsageData($company_account_id);
+
+        if (count($data)) {
+            foreach ($data as $d) {
+                if ($date) {
+                    $bill_date = $date;
+                } else {
+                    $bill_date = date('Y-m');
+                }
+                
+                $_date = date('Y-m', strtotime($d['startDateTime']));
+
+                if ($_date === $bill_date) {
+                    dd($d);
+                    return $d;
+                }
+            }
+        } else {
+            return false;
+        }
+    }
+
 }

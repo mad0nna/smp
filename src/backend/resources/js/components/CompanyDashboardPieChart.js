@@ -59,14 +59,23 @@ const CompanyDashboardPieChart = () => {
       .then((response) => {
         let usageData = response.data
         setState((prevState) => {
-          let percentOfNoSubscribedLogin = parseInt(
-            (usageData.numberOfActiveKOTUsers / usageData.numberOfEmployees) *
-              100
-          )
+          let percentOfNoSubscribedLogin = 0
+          let percentOfNoEmployeesLogin = 0
 
-          let percentOfNoEmployeesLogin = parseInt(
-            (usageData.numberOfEmployees / usageData.numberOfSubscribers) * 100
-          )
+          if (usageData.numberOfEmployees && usageData.numberOfActiveKOTUsers) {
+            percentOfNoSubscribedLogin = parseInt(
+              (usageData.numberOfEmployees / usageData.numberOfActiveKOTUsers) *
+                100
+            )
+          }
+
+          if (usageData.numberOfEmployees && usageData.numberOfSubscribers) {
+            percentOfNoEmployeesLogin = parseInt(
+              (usageData.numberOfEmployees / usageData.numberOfSubscribers) *
+                100
+            )
+          }
+
           return {
             ...prevState,
             serviceUsageDate: usageData.serviceUsageDate,
@@ -180,8 +189,13 @@ const CompanyDashboardPieChart = () => {
                   <div>
                     <h3 className="text-gray-700 text-md mb-2">勤怠記録</h3>
                     <p className="text-gray-500 text-xs mb-2">
-                      KOTユーザーID保有者{state.numberOfActiveKOTUsers}人のうち{' '}
-                      {state.numberOfEmployees}人が打刻済み
+                      <span className="text-lg">{state.numberOfEmployees}</span>
+                      人のKOTユーザーID保有者のうちの
+                      <br />
+                      <span className="text-lg">
+                        {state.numberOfActiveKOTUsers}
+                      </span>
+                      人が打刻済み
                     </p>
                     <p className="orange text-3xl font-bold">
                       {state.record1.percent}%
@@ -197,8 +211,12 @@ const CompanyDashboardPieChart = () => {
                   <div>
                     <h3 className="text-gray-700 text-md mb-2">展開率</h3>
                     <p className="text-gray-500 text-xs mb-2">
-                      {state.numberOfEmployees}人の従業員のうち の
-                      {state.numberOfSubscribers}人がKOTアクティブユーザー
+                      <span className="text-lg">{state.numberOfEmployees}</span>
+                      人の従業員のうちの <br />
+                      <span className="text-lg">
+                        {state.numberOfSubscribers}
+                      </span>
+                      人がKOTアクティブユーザー
                     </p>
                     <p className="orange text-3xl font-bold">
                       {state.record2.percent}%
