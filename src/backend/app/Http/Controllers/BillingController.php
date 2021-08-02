@@ -9,7 +9,7 @@ use App\Services\Utilities\MessageResult;
 
 class BillingController extends Controller
 {
-    public function index(Request $request, BillingService $billingService) {
+    public function index(BillingService $billingService) {
         return $billingService->getBilling(Session::get('salesforceCompanyID'));
     }
 
@@ -31,7 +31,7 @@ class BillingController extends Controller
         return $fileName;
     }
     
-    public function getAccountUsageData(Request $request, BillingService $billingService) {
+    public function getAccountUsageData(BillingService $billingService) {
         return $billingService->getAccountUsageData(Session::get('salesforceCompanyID'));
     }
 
