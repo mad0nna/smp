@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
 
-import Settings from './dashboardSettings'
-import Purchase from './purchaseHistory'
-import Pagination from './pagination'
+import Settings from './DashboardSettings'
+import Purchase from './PurchaseHistory'
+import Pagination from './Pagination'
 import _ from 'lodash'
 
 const Contracts = () => {

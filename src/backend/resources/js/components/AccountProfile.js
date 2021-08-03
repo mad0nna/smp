@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import MessageDialog from './messageDialog'
+import MessageDialog from './MessageDialog'
 import waitingIcon from '../../img/loading-spinner.gif'
 import _ from 'lodash'
 import queryString from 'query-string'

@@ -2,8 +2,8 @@ import React from 'react'
 // import ReactDOM from 'react-dom'
 import SalesProfile from './salesProfile'
 import SalesContact from './salesContact'
-import ContractedServices from '../contractedServices'
-import LinkageServices from '../linkageServices'
+import ContractedServices from '../ContractedServices'
+import LinkageServices from '../LinkageServices'
 import PurchaseHistorySmall from './purchaseHistorySmall'
 
 const SalesAccount = () => {
