@@ -7,7 +7,7 @@
         <title>iDaten</title>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link rel="dns-prefetch" href="//fonts.gstatic.com">
     </head>
     <body class="bg-mainbg">
         <div id="companyLogin" class="flex justify-center" style="">

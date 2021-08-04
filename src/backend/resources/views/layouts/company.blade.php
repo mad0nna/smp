@@ -10,9 +10,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
-    <!-- Styles -->
+    <!-- Styles --> 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-mainbg">
@@ -21,7 +20,6 @@
     <main>
         @yield('content')
     </main>
-   
     <script id="userData" type="application/json">{!! json_encode($user_data ?? '', JSON_HEX_TAG) !!}</script>
     <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
 </body>
