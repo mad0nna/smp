@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import AccountProfile from './AccountProfile'
-import AccountList from './accountList'
+import AccountList from './AccountList'
 import axios from 'axios'
 import MessageDialog from './MessageDialog'
 import {
