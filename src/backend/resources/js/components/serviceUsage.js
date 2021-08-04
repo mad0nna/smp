@@ -38,7 +38,7 @@ const ServiceUsage = (props) => {
         <div id="widget-body" className="w-full px-3 text-gray-500 text-xs">
           <div className="pb-6">
             <p>
-              サービス利用日 :: <span>{serviceUsageDate}</span>
+              サービス利用日 : <span>{serviceUsageDate}</span>
             </p>
           </div>
           <div className="inline-block pb-3">
