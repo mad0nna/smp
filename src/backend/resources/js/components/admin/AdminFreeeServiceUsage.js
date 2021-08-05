@@ -1,6 +1,7 @@
 import React from 'react'
 import Ellipsis from '../../../img/ellipsis.png'
 import FreeeIcon from '../../../img/admin/freee-icon.png'
+
 const AdminFreeeServiceUsage = (props) => {
   let showMoveButton = ''
   if (typeof props.interActivePages != 'undefined') {
