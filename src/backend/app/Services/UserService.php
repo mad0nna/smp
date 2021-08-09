@@ -220,7 +220,7 @@ class UserService
     public function delete(int $id)
     {
         // retrieve user
-        $user = $this->findOrFail($id);
+        $user = $this->user->findOrFail($id);
 
         // perform delete
         $user->delete();
