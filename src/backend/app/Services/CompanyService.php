@@ -46,7 +46,7 @@ class CompanyService {
         
         if ($companyInformation) {
             $adminDetails = $this->salesForce->getCompanyAdminDetails($companyInformation['Id']); 
-            $opportunity = $this->salesForce->getLatestKOTOpportunityDetails($companyInformation['Id']);
+            $opportunity = $this->salesForce->getCompanyTAContract($companyInformation['Id']);
         
             $companyInformation["contact"] = $adminDetails;
             $companyInformation["opportunity"] = $opportunity;
