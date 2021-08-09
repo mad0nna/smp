@@ -46,7 +46,6 @@ const AccountList = (props) => {
 
   const handleKeywordChange = (e) => {
     if (e.target.value.length > 2) {
-      console.log(e.target.value)
       props.handleFilter(e.target.value)
     } else if (e.target.value.length == 0) {
       props.handleFilter('')
@@ -54,7 +53,6 @@ const AccountList = (props) => {
   }
 
   const searchCompanyCode = (code) => {
-    console.log('searchCompanyCode')
     setState((prevState) => {
       return {
         ...prevState,

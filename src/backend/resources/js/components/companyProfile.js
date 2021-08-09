@@ -183,13 +183,6 @@ class CompanyProfile extends Component {
 
   handleChangeContact(event) {
     event.preventDefault()
-
-    // const { name, value } = event.target
-    // let errors = this.state.errors
-
-    // this.setState({errors, [name]: value}, ()=> {
-    //   console.log(errors)
-    // })
     this.setState({
       isEditingContact: !this.state.isEditingContact
     })

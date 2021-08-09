@@ -6,18 +6,6 @@ import lockIcon from '../../../svg/lock-icon.svg'
 import mailIcon from '../../../svg/mail-icon.svg'
 import bgIcon from '../../../img/login-bg-sales.png'
 
-// eslint-disable-next-line
-let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
-
-// const validateForm = (errors) => {
-//   let valid = true
-//   Object.values(errors).forEach(
-//     (val) => val.length > 0 && (valid = false)
-//   )
-
-//   return valid
-// }
-
 const SalesLogin = () => {
   // eslint-disable-next-line
   const [state, setState] = useState({
@@ -29,53 +17,6 @@ const SalesLogin = () => {
     },
     formError: ''
   })
-
-  // eslint-disable-next-line
-  const handleChange = (event) => {
-    event.preventDefault()
-
-    const { name, value } = event.target
-    let errors = state.errors
-    switch (name) {
-      case 'email':
-        errors.email = validEmailRegex.test(value)
-          ? ''
-          : 'メールアドレスが有効ではありません'
-        break
-      case 'password':
-        errors.password =
-          value.length > 7 && value.length < 21
-            ? ''
-            : 'パスワードは8－20文字以内で入力してください'
-        break
-      default:
-        break
-    }
-
-    setState({ errors, [name]: value, formError: '' }, () => {
-      console.log(errors)
-    })
-  }
-
-  // eslint-disable-next-line
-  const errorClass = (error) => {
-    return error.length === 0 ? '' : 'field-error'
-  }
-
-  // eslint-disable-next-line
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    window.location.href = '/sales/dashboard'
-    return
-    // if(validateForm(state.errors) && state.name !== null && state.password !== null) {
-    //   console.info('Valid Form')
-    //   window.location.href = '/dashboard'
-    // }else{
-    //   console.error('Invalid Form')
-    //   setState({formError: '無効な入力です'})
-
-    // }
-  }
 
   return (
     <div className="">
@@ -151,10 +92,7 @@ const SalesLogin = () => {
               </div>
             </div>
             <div className="flex flex-wrap gap-0 w-full justify-center mt-2 mb-3">
-              <button
-                onClick={handleSubmit}
-                className="bg-yellow-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-1/3"
-              >
+              <button className="bg-yellow-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-1/3">
                 サインイン
               </button>
             </div>

@@ -8,17 +8,7 @@ import SettingIcon from '../../../img/setting-gray.png'
 // eslint-disable-next-line
 let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
 
-// const validateForm = (errors) => {
-//   let valid = true
-//   Object.values(errors).forEach(
-//     (val) => val.length > 0 && (valid = false)
-//   )
-
-//   return valid
-// }
-
 const AdminLogin = () => {
-  // eslint-disable-next-line
   const [state, setState] = useState({
     email: null,
     password: null,
@@ -29,7 +19,6 @@ const AdminLogin = () => {
     formError: ''
   })
 
-  // eslint-disable-next-line
   const handleChange = (event) => {
     event.preventDefault()
 
@@ -60,11 +49,6 @@ const AdminLogin = () => {
     })
   }
 
-  // eslint-disable-next-line
-  const errorClass = (error) => {
-    return error.length === 0 ? '' : 'field-error'
-  }
-  // eslint-disable-next-line
   const handleSubmit = (event) => {
     event.preventDefault()
     window.location.href = '/admin/dashboard'
@@ -76,6 +60,15 @@ const AdminLogin = () => {
     //   console.error('Invalid Form')
     //   setState({formError: '無効な入力です'})
 
+    // }
+
+    // const validateForm = (errors) => {
+    //   let valid = true
+    //   Object.values(errors).forEach(
+    //     (val) => val.length > 0 && (valid = false)
+    //   )
+
+    //   return valid
     // }
   }
 
@@ -137,6 +130,7 @@ const AdminLogin = () => {
                     className={
                       'w-full px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none pl-9'
                     }
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="flex flex-wrap gap-0 w-3/4 relative my-4">

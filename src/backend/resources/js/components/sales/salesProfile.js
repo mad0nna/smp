@@ -8,9 +8,6 @@ import iconPhone from '../../../img/phone-number-gray.png'
 import iconCustomerCompany from '../../../img/customer-company-gray.png'
 import iconEmployees from '../../../img/multi-employee-gray.png'
 
-// eslint-disable-next-line
-let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
-
 class SalesProfile extends Component {
   constructor(props) {
     super(props)
@@ -27,20 +24,11 @@ class SalesProfile extends Component {
       Object.values(errors).forEach((val) => val.length > 0 && (valid = false))
       return valid
     }
-    console.log('init')
     this.handleChangeProfile = this.handleChangeProfile.bind(this)
   }
 
   handleChangeProfile(event) {
-    console.log('handleChangeProfile')
     event.preventDefault()
-
-    // const { name, value } = event.target
-    // let errors = this.state.errors
-
-    // this.setState({errors, [name]: value}, ()=> {
-    //   console.log(errors)
-    // })
     this.setState({ isEditingProfile: !this.state.isEditingProfile })
   }
 

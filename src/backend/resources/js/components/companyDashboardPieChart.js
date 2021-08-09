@@ -19,9 +19,7 @@ const CompanyDashboardPieChart = (props) => {
         },
         tooltips: {
           callbacks: {
-            label: function (tooltipItem) {
-              console.log(tooltipItem)
-            }
+            label: function () {}
           }
         }
       },
@@ -41,9 +39,7 @@ const CompanyDashboardPieChart = (props) => {
         },
         tooltips: {
           callbacks: {
-            label: function (tooltipItem) {
-              console.log(tooltipItem)
-            }
+            label: function () {}
           }
         }
       },

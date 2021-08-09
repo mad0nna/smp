@@ -5,40 +5,11 @@ import iconProfile from '../../../img/Icon awesome-user-alt.png'
 import iconEmail from '../../../img/Icon material-email.png'
 import iconPhone from '../../../img/Icon awesome-phone-alt.png'
 
-// eslint-disable-next-line
-let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
-
 const SalesContact = () => {
+  // eslint-disable-next-line
   const [state, setState] = useState({
     isEditingContact: false
   })
-
-  // eslint-disable-next-line
-  const validateForm = (errors) => {
-    let valid = true
-    Object.values(errors).forEach((val) => val.length > 0 && (valid = false))
-    return valid
-  }
-
-  // eslint-disable-next-line
-  const handleChangeContact = (event) => {
-    console.log('handleChangeContact')
-    event.preventDefault()
-
-    // const { name, value } = event.target
-    // let errors = state.errors
-
-    // setState({errors, [name]: value}, ()=> {
-    //   console.log(errors)
-    // })
-
-    setState((prevState) => {
-      return {
-        ...prevState,
-        isEditingContact: !prevState.isEditingContact
-      }
-    })
-  }
 
   return (
     <div className="flex justify-center bg-white align-top inline-block w-12/12 rounded-xl border-gray-200 border py-6 px-8 mt-6 mb-2 mx-8 overflow-hidden">

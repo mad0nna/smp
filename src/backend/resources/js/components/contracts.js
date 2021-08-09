@@ -23,7 +23,6 @@ const Contracts = () => {
   })
 
   const handlePageClick = (n) => {
-    console.log('handlePaging' + n)
     setCurrentPage(n)
   }
 
