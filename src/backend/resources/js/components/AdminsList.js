@@ -24,7 +24,6 @@ const AdminsList = (props) => {
   }
 
   useEffect(() => {
-    //console.log(props.admins)
     if (
       props.admins.adminList !== undefined &&
       props.admins.adminList.length > 0
@@ -82,7 +81,6 @@ const AdminsList = (props) => {
       </thead>
       <tbody className="transform px-3">
         {state.sorted.map((admin, i) => {
-          console.log(admin)
           return (
             <tr
               className="table-row font-sans text-sm text-gray-500 p-5 h-16 hover:bg-gray-50 border-b border-gray-100"

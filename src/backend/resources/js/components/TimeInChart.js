@@ -48,8 +48,6 @@ class TimeInChart extends React.Component {
         : ''
     }
 
-    console.log('time in chart' + this.state.contractedServices)
-
     return (
       <div
         className={
