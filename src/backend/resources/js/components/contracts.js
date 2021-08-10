@@ -109,7 +109,7 @@ const Contracts = () => {
               <thead className="bg-gray-50 border-b border-t border-gray-200">
                 <tr className="h-11 text-xs text-gray-500 text-shadow-none">
                   <th>プロダクト</th>
-                  <th>kot申込日</th>
+                  <th>KoT申込日</th>
                   <th>KoT課金開始日</th>
                   <th>KoT支払い方法</th>
                   <th>KoT販売経路</th>
