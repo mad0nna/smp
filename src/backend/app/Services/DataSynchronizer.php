@@ -18,7 +18,7 @@ class DataSynchronizer {
             return $request;
         }
 
-        $sfResponse = $this->salesForce->updateAdminDetails($request["adminDetails"], $accountID, true);
+        $sfResponse = $this->salesForce->updateAdminDetails($request["adminDetails"], $accountID);
         if (isset($companyInformation["status"]) && !$companyInformation["status"]) {
             $this->salesForce->updateCompanyDetails($request["companyDetails"], $companyID);
             return $sfResponse;
