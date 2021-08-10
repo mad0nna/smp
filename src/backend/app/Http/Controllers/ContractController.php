@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Repositories\SalesforceRepository;
 use App\Services\ContractService;
 use App\Http\Requests\ContractsRequest;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
 
 class ContractController extends Controller
 {
@@ -19,6 +21,14 @@ class ContractController extends Controller
         parent::__construct();
         $this->salesForce = new SalesforceRepository();
         $this->contractService = $contractService;
+    }
+    
+    public function list()
+    {
+        $user = User::with(['company'])->find(Auth::user()->id);
+        $user_data['companyName'] = $user['company'] ?  $user['company']['name'] : '';
+
+        return view('contracts',['user_data' => $user_data]);
     }
 
     /**

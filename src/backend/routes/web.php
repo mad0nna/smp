@@ -35,11 +35,11 @@ Route::prefix('salesforce')->group(function() {
       Route::post('/saveCoordinates', 'WidgetController@saveCoordinates');
       Route::post('/resetCoordinates', 'WidgetController@resetCoordinates');
       Route::get('/dashboard', 'CompanyController@dashboard');
-      Route::view('/contracts', 'contracts');
+      Route::get('/contracts', 'ContractController@list');
       Route::get('/contractslist', 'ContractController@index');
-      Route::view('/billing', 'companyBilling');
-      Route::view('/accountslist', 'accountslist');
-      Route::view('/accountslist/profile', 'accountslist');
+      Route::get('/billing', 'BillingController@list');
+      Route::get('/accountslist', 'UserController@list');
+      Route::get('/accountslist/profile', 'UserController@list');
       Route::view('/companyProfile', 'companyProfile');
       Route::get('getCompanyAdmins', "UserController@index");
       Route::view('/companyProfileEdit', 'companyProfileEdit');

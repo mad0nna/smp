@@ -2,15 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Services\BillingService;
 use App\Services\Utilities\MessageResult;
+use App\Models\User;
 
 class BillingController extends Controller
 {
     public function index(BillingService $billingService) {
         return $billingService->getBilling(Session::get('salesforceCompanyID'));
+    }
+
+    public function list()
+    {
+        $user = User::with(['company'])->find(Auth::user()->id);
+        $user_data['companyName'] = $user['company'] ?  $user['company']['name'] : '';
+
+        return view('companyBilling',['user_data' => $user_data]);
     }
 
     public function getInvoicePDF(Request $request, BillingService $billingService) {

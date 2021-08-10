@@ -39,6 +39,14 @@ class UserController extends Controller
         $this->middleware(['auth', 'verified']);
     }
 
+    public function list()
+    {
+        $user = User::with(['company'])->find(Auth::user()->id);
+        $user_data['companyName'] = $user['company'] ?  $user['company']['name'] : '';
+
+        return view('accountslist',['user_data' => $user_data]);
+    }
+
        /**
      * Retrieves the Company admin details from salesforce
      *  
