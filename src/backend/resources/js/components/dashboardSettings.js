@@ -22,7 +22,7 @@ const DashboardSettings = () => {
   ]
 
   return (
-    <div className="w-full h-full relative group">
+    <div className="w-full h-full relative group overflow-hidden">
       <div className="relative gap-3 bg-white rounded-lg shadow-xl w-full h-full">
         <div
           id="widget-header"
