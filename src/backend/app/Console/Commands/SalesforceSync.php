@@ -9,7 +9,7 @@ use App\Http\Resources\CompanyResource;
 use App\Http\Resources\UserResource;
 use App\Repositories\SalesforceRepository;
 
-class SyncSfRecordsToDb extends Command
+class SalesforceSync extends Command
 {
     /**
      * The name and signature of the console command.

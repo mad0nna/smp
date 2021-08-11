@@ -9,7 +9,7 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         Commands\TempInvoiceFile::class,
-        Commands\SyncSfRecordsToDb::class
+        Commands\SalesforceSync::class
     ];
  
     /**
