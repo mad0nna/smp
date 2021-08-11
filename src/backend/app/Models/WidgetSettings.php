@@ -54,7 +54,7 @@ class WidgetSettings extends Model
                 "className" => "relative",
             ],
             2 => [
-                "label" => 'ダッシュボードチャート',
+                "label" => 'サービス利用状況',
                 "h" => 15,
                 "id" => 2,
                 "isBounded" => null,
@@ -74,7 +74,7 @@ class WidgetSettings extends Model
                 "className" => "relative",
             ],
             3 => [
-                "label" => '連携サービス',
+                "label" => 'サービス利用日',
                 "h" => 3,
                 "id" => 3,
                 "isBounded" => null,
@@ -94,7 +94,7 @@ class WidgetSettings extends Model
                 "className" => "relative",
             ],
             4 => [
-                "label" => 'サービス利用状況',
+                "label" => '物販',
                 "h" => 6,
                 "id" => 4,
                 "isBounded" => null,
@@ -114,7 +114,7 @@ class WidgetSettings extends Model
                 "className" => "relative",
             ],
             5 => [
-                "label" => '請求履歴',
+                "label" => '請求書',
                 "h" => 12,
                 "id" => 5,
                 "isBounded" => null,
@@ -154,7 +154,7 @@ class WidgetSettings extends Model
                 "className" => "relative",
             ],
             7 => [
-                "label" => '設定',
+                "label" => 'クイックリンク',
                 "h" => 3,
                 "id" => 7,
                 "isBounded" => null,
