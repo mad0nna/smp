@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\ClientException;
 
 class KOTRepository {
 
-    public static function getAllEmployees($token)
+    public function getAllEmployees($token)
     {
       $companyDetails = Cache::remember("KOT_{$token}:employees", now()->addHour(1), function() use($token) {
         $oClient = new Client();

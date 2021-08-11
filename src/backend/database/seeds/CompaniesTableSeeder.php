@@ -57,7 +57,10 @@ class CompaniesTableSeeder extends Seeder
                 'billing_postal_code' => '105-0001',
                 'billing_country' => 'Japan',
                 'zen_org_name' => '【】株式会社町田1',
-                'account_id' => '0010l00001IFH5GAAX',                
+                'account_id' => '0010l00001IFH5GAAX',
+                'kot_billing_start_date' => '2021-05-01',                
+                'account_id' => '0010l00001IFH5GAAX', 
+                'token' => 'f7e9f5c132fd4cc197ebca87757f7fbd'               
             ]
         ];
 

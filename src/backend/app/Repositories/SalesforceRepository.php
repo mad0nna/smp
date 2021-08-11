@@ -363,10 +363,10 @@ class SalesforceRepository {
     }
 
     //Get company time and attendance contract to check total number of subscribe user for the contract which will use in pie chart.
-    public function getCompanyTAContract($account_id) {
+    public function getCompanyTAContract($companyID) {
         try{
             $oResponse = $this->oClient->get(
-                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Field133__c,Field141__c,KoT_regardingusercount__c,ApplicationDay__c,KoT_startBillingMonth__c, KoT_shiharaihouhou__c,KoT_hanbaikeiro__c,AccountId+from+Opportunity+WHERE+AccountId='".$account_id."'+And+Field141__c='KING OF TIME 勤怠管理'+order by+CloseDate+desc+LIMIT+1",
+                env('SALESFORCE_HOST')."/services/data/v34.0/query/?q=SELECT+Field133__c,Field141__c,KoT_regardingusercount__c,ApplicationDay__c,KoT_startBillingMonth__c, KoT_shiharaihouhou__c,KoT_hanbaikeiro__c,AccountId+from+Opportunity+WHERE+AccountId='".$companyID."'+And+Field141__c='KING OF TIME 勤怠管理'+order by+CloseDate+desc+LIMIT+1",
                 [
                     'headers' => array(
                         'Content-Type' => 'application/json',

@@ -27,23 +27,9 @@ const Dashboard = () => {
     // DO NOT CHANGE THE ARRANGEMENT OF THESE COMPONENT LIST
     const companyCoreWidgets = [
       { component: '' },
-      { component: <Welcome lastName={state.userData.lastName} /> },
-      {
-        component: (
-          <CompanyDashboardPieChart
-            data={{
-              numberOfEmployees: state.userData.numberOfEmployees,
-              numberOfSubscribers: state.userData.numberOfSubscribers,
-              numberOfActiveKOTUsers: state.userData.numberOfActiveKOTUsers
-            }}
-          />
-        )
-      },
-      {
-        component: (
-          <ServiceUsage serviceUsageDate={state.userData.serviceUsageDate} />
-        )
-      },
+      { component: <Welcome /> },
+      { component: <CompanyDashboardPieChart /> },
+      { component: <ServiceUsage /> },
       { component: <Products /> },
       { component: <BillingHistory /> },
       { component: <Notification /> },

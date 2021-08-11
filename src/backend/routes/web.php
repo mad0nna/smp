@@ -34,7 +34,10 @@ Route::prefix('salesforce')->group(function() {
       Route::get('/getCoordinates', 'WidgetController@getCompanyCoordinates');
       Route::post('/saveCoordinates', 'WidgetController@saveCoordinates');
       Route::post('/resetCoordinates', 'WidgetController@resetCoordinates');
-      Route::get('/dashboard', 'CompanyController@dashboard');
+      Route::get('/getServiceUsage', 'CompanyController@getServiceUsage');
+      Route::get('/getServiceUsageDate', 'CompanyController@getServiceUsageDate');
+      Route::get('/getLoggedinUser/{field}', 'CompanyController@getLoggedinUser');
+      Route::view('/dashboard', 'dashboard');
       Route::get('/contracts', 'ContractController@list');
       Route::get('/contractslist', 'ContractController@index');
       Route::get('/billing', 'BillingController@list');

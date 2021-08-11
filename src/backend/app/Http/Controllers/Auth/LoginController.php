@@ -106,6 +106,10 @@ class LoginController extends Controller
             }
              Session::put('salesforceCompanyID', Auth::user()->company->account_id);
              Session::put('salesforceContactID', Auth::user()->account_code);
+             Session::put('CompanyContactLastname', Auth::user()->last_name);
+             Session::put('companyName', Auth::user()->company->name);
+             Session::put('kotToken', Auth::user()->company->token);
+             Session::put('kotStartDate', Auth::user()->company->kot_billing_start_date);
             return redirect(Auth::user()->type->dashboard_url);
 
         } catch (Exception $e) {
@@ -124,7 +128,11 @@ class LoginController extends Controller
         try {
             Auth::logout();
             Session::forget('salesforceCompanyID');
-             Session::forget('salesforceContactID');
+            Session::forget('salesforceContactID');
+            Session::forget('CompanyContactLastname');
+            Session::forget('companyName');
+            Session::forget('kotToken');
+            Session::forget('kotStartDate');
             session()->invalidate();
             session()->regenerateToken();
             return redirect('/');

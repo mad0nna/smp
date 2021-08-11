@@ -81,7 +81,7 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('Password2021!'),
             'company_id' => '3',
             'first_name' => 'Allan',
-            'last_name' => 'Machida',
+            'last_name' => 'Brock',
             'user_status_id' => $status->id,
             'user_type_id' => '3',
             'email_verified_at' => Carbon::now(),

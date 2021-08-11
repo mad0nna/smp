@@ -1,18 +1,21 @@
 <?php
 namespace App\Services;
 
-use DB;
-use Mail;
-use Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\SalesforceRepository;
 use App\Repositories\DatabaseRepository;
+use App\Repositories\KOTRepository;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Company;
 use App\Models\User;
 use App\Models\Opportunity;
 use App\Mail\NotifyAddedCompanySuperAdminUser;
 use App\Services\UserService;
-
+use Illuminate\Support\Facades\Request;
+use App\Http\Controllers\BillingController;
 
 class CompanyService {
     public function __construct() {
@@ -20,6 +23,39 @@ class CompanyService {
         $this->mysql = new DatabaseRepository();
         $this->company = new Company();
     }
+
+    public function getUsageData($companyID, $kotToken, $kotUsageData) {
+        $usage = Cache::remember("{$companyID}:serviceUsage:data", now()->addHour(), function() use($companyID, $kotUsageData, $kotToken){
+            $usageData = [
+                'serviceUsageDate' => '',
+                'numberOfEmployees' => 0,
+                'numberOfSubscribers' => 0,
+                'numberOfActiveKOTUsers' => 0
+            ];
+            $usageData['serviceUsageDate'] = $kotUsageData;
+            $usageData['numberOfSubscribers'] = $this->getNumberSubscribers($companyID);
+            $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getLogUsersInAMonth($kotToken, date("Y-m"));
+            $billing = (new BillingController)->getAccountUsage($companyID);
+            if (is_array($billing) && count($billing)) {
+                $usageData['numberOfEmployees'] = $billing[0]['quantity'];
+            }
+            return $usageData;
+        });
+        return $usage;
+    }
+
+    public function getNumberSubscribers($companyID) {
+        $subscribersCount = Cache::remember("{$companyID}:subscribersCount:data", now()->addHour(), function() use($companyID){
+            $companySubscription = (new SalesforceRepository)->getCompanyTAContract($companyID);
+            if (empty($companySubscription)) {
+                return false;
+            }
+            $companySubscription = reset($companySubscription);
+            return $companySubscription['KoT_regardingusercount__c'];
+        });
+        return $subscribersCount;
+    }
+
     
     public function getDetailsByID($companyID) {
         $companyDetails = Cache::remember("{$companyID}:company:details", now()->addMinutes(5), function() use($companyID) {
@@ -119,29 +155,26 @@ class CompanyService {
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
 
-            if ($data['contact_email']) {
-                $formData = [
-                    'company_id' => $_company->id,
-                    'username' => $data['contact_email'],
-                    'email' => $data['contact_email'],
-                    'password' => $pw_hash,
-                    'first_name' => $data['contact_first_name'],
-                    'last_name' => $data['contact_last_name'],
-                    'contact_num' => $data['contact_contact_num'],
-                    'user_type_id' => 3,
-                    'user_status_id' => 5,
-                    'temp_pw' => $pw,      
-                    'invite_token' => $invite_token,
-                    'company_name' =>  $data['name'],
-                ];
-                $_user = $user->create($formData);
-                $this->mysql->makeUserWidgetSettings($_user->id);
-                Mail::to($data['contact_email'])->send(new NotifyAddedCompanySuperAdminUser($formData, $pw, $invite_token));
-                
-            
-            } else {
+            if (!$data['contact_email']) {
                 return false;
             }
+            $formData = [
+                'company_id' => $_company->id,
+                'username' => $data['contact_email'],
+                'email' => $data['contact_email'],
+                'password' => $pw_hash,
+                'first_name' => $data['contact_first_name'],
+                'last_name' => $data['contact_last_name'],
+                'contact_num' => $data['contact_contact_num'],
+                'user_type_id' => 3,
+                'user_status_id' => 5,
+                'temp_pw' => $pw,      
+                'invite_token' => $invite_token,
+                'company_name' =>  $data['name'],
+            ];
+            $_user = $user->create($formData);
+            $this->mysql->makeUserWidgetSettings($_user->id);
+            Mail::to($data['contact_email'])->send(new NotifyAddedCompanySuperAdminUser($formData, $pw, $invite_token));
 
             if (isset($data['opportunity']) && $data['opportunity_code'] &&  $data['negotiate_code'] ) {
                 $formDataOpportunity = [
