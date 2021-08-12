@@ -6,12 +6,9 @@ use Hash;
 use Exception;
 use App\Models\User;
 use App\Services\UserService;
-use App\Services\ContactService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SearchUserRequest;
 use App\Http\Requests\SearchUserInSFRequest;
-use App\Http\Requests\User\CreateRequest;
-use App\Http\Requests\User\UpdateRequest;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
@@ -44,38 +41,40 @@ class UserController extends Controller
         $user = User::with(['company'])->find(Auth::user()->id);
         $user_data['companyName'] = $user['company'] ?  $user['company']['name'] : '';
 
-        return view('accountslist',['user_data' => $user_data]);
+        return view('accountslist', ['user_data' => $user_data]);
     }
 
-       /**
+    /**
      * Retrieves the Company admin details from salesforce
-     *  
      */
-    public function findInSFByEmail(SearchUserInSFRequest $request) {
-        try{
+    public function findInSFByEmail(SearchUserInSFRequest $request)
+    {
+        try {
             $user = $this->userService->findInSFByEmail($request->email);
-            $this->response['data'] = $this->getSFResource($user); 
-        }catch (Exception $e) {
+            $this->response['data'] = $this->getSFResource($user);
+        } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
         }
+
         return response()->json($this->response, $this->response['code']);
     }
 
-    public function searchSFContactByUserId(Request $request) {
-        try{           
+    public function searchSFContactByUserId(Request $request)
+    {
+        try {
             $result = $this->userService->findById($request->id);
             $user = $this->userService->findInSFByEmail($result['email']);
-            $this->response['data'] = $this->getSFResource($user);        
-            
-        }catch (Exception $e) {
+            $this->response['data'] = $this->getSFResource($user);
+        } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
         }
+
         return response()->json($this->response, $this->response['code']);
     }
 
@@ -88,6 +87,7 @@ class UserController extends Controller
     public function index(SearchUserRequest $request)
     {
         $request->validated();
+
         try {
             $conditions = [
                 'keyword' => $request->getKeyword(),
@@ -98,18 +98,19 @@ class UserController extends Controller
 
             $this->response = [
                 'success' => true,
-                'data'    => UserResource::collection($results),
+                'data' => UserResource::collection($results),
                 'pageCount' => $results->total(),
                 'lastPage' => $results->lastPage(),
                 'message' => 'Company admin retrieved successfully.',
-                'code'    => 200,
+                'code' => 200,
             ];
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
         }
+
         return response()->json($this->response, $this->response['code']);
     }
 
@@ -131,9 +132,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        try {
             $sf = $request->all();
-            $pw = substr(md5(microtime()),rand(0,26),8);
+            $pw = substr(md5(microtime()), rand(0, 26), 8);
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
             $company = Auth::user()->company_id;
@@ -143,11 +144,11 @@ class UserController extends Controller
                     'username' => $sf['email'] ? $sf['email'] : '',
                     'first_name' => $sf['firstname'] ? $sf['firstname'] : '',
                     'last_name' => $sf['lastname'] ? $sf['lastname'] : '',
-                    'email' =>  $sf['email'] ? $sf['email'] : '',
+                    'email' => $sf['email'] ? $sf['email'] : '',
                     'user_type_id' => 4,
                     'company_id' => $company,
                     'user_status_id' => 5,
-                    'password' => $pw_hash,   
+                    'password' => $pw_hash,
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
                 ];
@@ -156,19 +157,19 @@ class UserController extends Controller
                     'username' => $sf['email'] ? $sf['email'] : '',
                     'first_name' => $sf['first_name'] ? $sf['first_name'] : '',
                     'last_name' => $sf['last_name'] ? $sf['last_name'] : '',
-                    'email' =>  $sf['email'] ? $sf['email'] : '',
+                    'email' => $sf['email'] ? $sf['email'] : '',
                     'contact_num' => $sf['contact_num'] ? $sf['contact_num'] : '',
                     'title' => $sf['title'] ? $sf['title'] : '',
                     'user_type_id' => 4,
                     'company_id' => $company,
                     'user_status_id' => 5,
-                    'password' => $pw_hash,   
+                    'password' => $pw_hash,
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
                     'account_code' => $sf['account_code'] ? $sf['account_code'] : '',
-                ]; 
+                ];
             }
-           
+
 
             // create the user
             $user = $this->userService->create($formData);
@@ -177,15 +178,13 @@ class UserController extends Controller
             $this->dbRepo->makeUserWidgetSettings($user->id);
 
             $this->response['data'] = new UserResource($user);
-
-
         } catch (Exception $e) { // @codeCoverageIgnoreStart
-                $this->response = [
+            $this->response = [
                     'error' => $e->getMessage(),
                     'code' => 500,
                 ];
         } // @codeCoverageIgnoreEnd
-        
+
         return response()->json($this->response, $this->response['code']);
     }
 
@@ -200,15 +199,15 @@ class UserController extends Controller
         try {
             $data = $request->all();
             $email = $data['email'];
-            $user = $this->userService->findByEmail($email);            
+            $user = $this->userService->findByEmail($email);
             $this->response['data'] = new UserResource($user);
-     
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
         }
+
         return response()->json($this->response, $this->response['code']);
     }
 
@@ -223,9 +222,9 @@ class UserController extends Controller
             'email' => $result['Email'],
             'title' => $result['Title'],
             'user_status_id' => 5,
-            'contact_num' =>$result['MobilePhone'],
+            'contact_num' => $result['MobilePhone'],
             'user_type_id' => $result['admin__c'] ? 3 :4,
-            'source'=>'salesforce'       
+            'source' => 'salesforce',
         ];
     }
 
@@ -254,28 +253,27 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        try{
+        try {
             $data = $request->all();
-                $formData = [
+            $formData = [
                     'username' => $data['email'] ? $data['email'] : '',
                     'first_name' => $data['firstname'] ? $data['firstname'] : '',
                     'last_name' => $data['lastname'] ? $data['lastname'] : '',
-                    'email' =>  $data['email'] ? $data['email'] : '',
+                    'email' => $data['email'] ? $data['email'] : '',
                     'contact_num' => $data['phone'] ? $data['phone'] : '',
                     'title' => $data['position'] ? $data['position'] : '',
                     'user_type_id' => $data['userTypeId'],
                 ];
             // perform user update
-            $user=$this->userService->update($formData);
+            $user = $this->userService->update($formData);
             $this->response['data'] = new UserResource($user);
-
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-    } // @codeCoverageIgnoreEnd
-            return response()->json($this->response, $this->response['code']);
+        } // @codeCoverageIgnoreEnd
+        return response()->json($this->response, $this->response['code']);
     }
 
     /**
@@ -286,32 +284,30 @@ class UserController extends Controller
      */
     public function updateAdminByEmail(Request $request)
     {
-        try{
+        try {
             $data = $request->all();
             $email = $data['Email'];
-            $response = json_decode($this->salesForce->updateAdminDetails($data,$data['Id']));
-            
+            $response = json_decode($this->salesForce->updateAdminDetails($data, $data['Id']));
+
             $formData = [
                 'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
                 'last_name' => $data['LastName'] ? $data['LastName'] : '',
-                'email' =>  $data['Email'] ? $data['Email'] : '',
+                'email' => $data['Email'] ? $data['Email'] : '',
                 'contact_num' => $data['MobilePhone'] ? $data['MobilePhone'] : '',
                 'title' => $data['Title'] ? $data['Title'] : '',
                 'user_type_id' => $data['admin__c'] ? $data['admin__c'] : '',
-                'username' => $data['username'] ? $data['username'] : ''
+                'username' => $data['username'] ? $data['username'] : '',
             ];
 
             $user = $this->userService->update($formData);
             $this->response['data'] = new UserResource($user);
-           
-            
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
         }
-        
+
         return response()->json($this->response, $this->response['code']);
     }
 
@@ -324,14 +320,13 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
-        try{
+        try {
             $user = $request->all();
 
             $id = $user['admin']['id'];
             // perform delete
-            
+
             $user = $this->userService->delete((int) $id);
-            
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
@@ -349,17 +344,16 @@ class UserController extends Controller
      */
     public function destroyinSF(Request $request)
     {
-        try{
+        try {
             $data = $request->all();
 
             //check record in Salesforce
-            $email =  $data['admin']['email'];
+            $email = $data['admin']['email'];
 
             $adminInformation = $this->salesForce->getCompanyAdminDetailsbyEmail($email);
             $accountID = $adminInformation['Id'];
             // perform delete
             $response = $this->salesForce->deleteAdmin($accountID);
-    
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
@@ -369,34 +363,34 @@ class UserController extends Controller
         return response()->json($this->response, $this->response['code']);
     }
 
-     /**
+    /**
      * Resend email invite
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    function invite(Request $request)
+    public function invite(Request $request)
     {
         $result = $this->userService->resendEmailInvite($request->id);
- 
+
         $response = [
-          'success' => $result
+          'success' => $result,
         ];
-  
+
         return response()->json($response, $result ? 200 : 400);
     }
 
-     /**
+    /**
      * Get logged user Info
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
-    function userinfo()
+    public function userinfo()
     {
-        try{
+        try {
             $id = Auth::user()->id;
 
             // retrieve user
-            $result= User::findorfail($id); 
+            $result = User::findorfail($id);
             $response['data'] = new UserResource($result);
             $this->response = array_merge($response, $this->response);
         } catch (Exception $e) { // @codeCoverageIgnoreStart

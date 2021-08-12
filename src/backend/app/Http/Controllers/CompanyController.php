@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use App\Services\CompanyService;
 use App\Services\ContactService;
 use App\Services\DataSynchronizer;
@@ -12,52 +10,59 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Resources\CompanyResource;
 use App\Http\Requests\SearchCompanyRequest;
-use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CompanyController extends Controller
 {
-
-    public function getServiceUsage(CompanyService $companyService) {
-      return $companyService->getUsageData(Session::get('salesforceCompanyID'), Session::get('kotToken'), Session::get('kotStartDate'));
+    public function getServiceUsage(CompanyService $companyService)
+    {
+        return $companyService->getUsageData(Session::get('salesforceCompanyID'), Session::get('kotToken'), Session::get('kotStartDate'));
     }
 
-    public function getServiceUsageDate() {
-      return Session::get('kotStartDate');
+    public function getServiceUsageDate()
+    {
+        return Session::get('kotStartDate');
     }
 
-    public function getLoggedinUser($field) {
-      if ($field === 'lastname') {
-        return Session::get('CompanyContactLastname');
-      }
-      if ($field === 'companyname') {
-        return Session::get('companyName');
-      }
+    public function getLoggedinUser($field)
+    {
+        if ($field === 'lastname') {
+            return Session::get('CompanyContactLastname');
+        }
+        if ($field === 'companyname') {
+            return Session::get('companyName');
+        }
     }
 
-    public function getCompanyDetails(CompanyService $companyService) {
+    public function getCompanyDetails(CompanyService $companyService)
+    {
         return $companyService->getDetailsByID(Session::get('salesforceCompanyID'));
     }
 
-    public function updateCompanyDetails(Request $request, DataSynchronizer $synchronizer) {
-        return $synchronizer->updateCompanyAndAdminDetails($request->all(), Session::get('salesforceCompanyID'), Session::get("salesforceContactID"));
+    public function updateCompanyDetails(Request $request, DataSynchronizer $synchronizer)
+    {
+        return $synchronizer->updateCompanyAndAdminDetails($request->all(), Session::get('salesforceCompanyID'), Session::get('salesforceContactID'));
     }
 
-    public function getCompanyAdminDetails(ContactService $contactService) {
-        return $contactService->getCompanyAdminDetails(Session::get('salesforceCompanyID'), Session::get("salesforceContactID"));
+    public function getCompanyAdminDetails(ContactService $contactService)
+    {
+        return $contactService->getCompanyAdminDetails(Session::get('salesforceCompanyID'), Session::get('salesforceContactID'));
     }
 
-    public function getOpportunityDetails(OpportunityService $opportunityService) {
+    public function getOpportunityDetails(OpportunityService $opportunityService)
+    {
         return $opportunityService->getLatestKOTOpportunityDetails(Session::get('salesforceCompanyID'));
     }
 
-    public function getUpdatedDataForEditCompanyDetails(DataSynchronizer $synchronizer) {
+    public function getUpdatedDataForEditCompanyDetails(DataSynchronizer $synchronizer)
+    {
         return $synchronizer->getUpdatedDataForEditCompanyDetails(Session::get('salesforceCompanyID'));
     }
 
     public function index(SearchCompanyRequest $request, CompanyService $companyService)
     {
         $request->validated();
+
         try {
             $conditions = [
                 'keyword' => $request->getKeyword(),
@@ -69,138 +74,136 @@ class CompanyController extends Controller
 
             $this->response = [
                 'success' => true,
-                'data'    => CompanyResource::collection($company),
+                'data' => CompanyResource::collection($company),
                 'pageCount' => $company->total(),
                 'lastPage' => $company->lastPage(),
                 'message' => 'Company with admin retrieved successfully.',
-                'code'    => 200,
+                'code' => 200,
             ];
-            
-            return response()->json($this->response, $this->response['code']);
 
-        }catch (Exception $e) {
+            return response()->json($this->response, $this->response['code']);
+        } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
         }
 
-        return response()->json($this->response, $this->response['code']);    
-
-    } 
+        return response()->json($this->response, $this->response['code']);
+    }
 
     public function searchCompanyCode(Request $request, CompanyService $companyService)
     {
-      $code = 200;
+        $code = 200;
 
-      try {
-        $result = $companyService->getAllDetailsInSFByID($request->code); 
-    
-        if (!$result) {
-          throw new NotFoundHttpException('No records found.');
-        } 
-      
-        $this->response = [
+        try {
+            $result = $companyService->getAllDetailsInSFByID($request->code);
+
+            if (!$result) {
+                throw new NotFoundHttpException('No records found.');
+            }
+
+            $this->response = [
           'success' => true,
-          'data'    => CompanyResource::filterFromSFToFront($result, $request->code)
+          'data' => CompanyResource::filterFromSFToFront($result, $request->code),
         ];
-      } catch(\Exception $e) {
-        $code = ($e instanceof NotFoundHttpException) ? 404 : 500;
-      }
+        } catch (\Exception $e) {
+            $code = ($e instanceof NotFoundHttpException) ? 404 : 500;
+        }
 
-      return response()->json($this->response, $code);
+        return response()->json($this->response, $code);
     }
 
     //should accept company id and company code
     public function searchCompanyId(Request $request, CompanyService $companyService)
     {
-      $code = 200;
+        $code = 200;
 
-      try {
-        if ($request->code) {
-          $result = $companyService->getAllDetailsInSFByID($request->code);
-        } else if ($request->company_id) {
-          $company = $companyService->getCompanyById($request->company_id);
-          $result = $companyService->getAllDetailsInSFByID($company['account_id']);
-        } else {
-          throw new NotFoundHttpException('Incorrect parameter given.');
-        }
-        
-    
-        if ($result) {
-          $data = $this->parseSfToDbColumn($result);
-          $companyService->updateTableFromSf($request->company_id, $data);
-          $data['id'] = $request->company_id;
-          $data['company_code'] = $request->code;
+        try {
+            if ($request->code) {
+                $result = $companyService->getAllDetailsInSFByID($request->code);
+            } elseif ($request->company_id) {
+                $company = $companyService->getCompanyById($request->company_id);
+                $result = $companyService->getAllDetailsInSFByID($company['account_id']);
+            } else {
+                throw new NotFoundHttpException('Incorrect parameter given.');
+            }
 
-          $result = (new CompanyResource([]))->filterFromDbToFront($data);
-        } else {
-          $result = CompanyResource::collection([$company])[0];
-        }
 
-        $this->response = [
+            if ($result) {
+                $data = $this->parseSfToDbColumn($result);
+                $companyService->updateTableFromSf($request->company_id, $data);
+                $data['id'] = $request->company_id;
+                $data['company_code'] = $request->code;
+
+                $result = (new CompanyResource([]))->filterFromDbToFront($data);
+            } else {
+                $result = CompanyResource::collection([$company])[0];
+            }
+
+            $this->response = [
           'success' => true,
-          'data'    =>  $result
+          'data' => $result,
         ];
-      } catch(\Exception $e) {
-        $code = ($e instanceof NotFoundHttpException) ? 404 : 500;
-      }
+        } catch (\Exception $e) {
+            $code = ($e instanceof NotFoundHttpException) ? 404 : 500;
+        }
 
-      return response()->json($this->response, $code);
+        return response()->json($this->response, $code);
     }
 
     public function saveAddedCompany(Request $request, CompanyService $companyService)
     {
-      $formData = $request->validate([
+        $formData = $request->validate([
           'companyCode' => ['required', 'unique:companies,company_code'],
           'name' => ['required'],
       ]);
 
-      $formData = $this->getRecord($request);
-      $result = $companyService->addCompanyToDB($formData);
- 
-      $response = [
-        'success' => $result
+        $formData = $this->getRecord($request);
+        $result = $companyService->addCompanyToDB($formData);
+
+        $response = [
+        'success' => $result,
       ];
 
-      return response()->json($response, 200);
+        return response()->json($response, 200);
     }
 
     public function updateSaveAccount(Request $request, CompanyService $companyService)
     {
-      $id = $request['id'];
-      $formData = $this->getRecord($request);
-      $admin = $this->getAdminRecord(isset($request['admin'][0]) ? array_values($request['admin'])[0] : []); 
-      $sf_id = $this->getSfId($request['sfRecords']);  
-      $sf_record = $request['sfRecords'];
-      // dd($formData);
+        $id = $request['id'];
+        $formData = $this->getRecord($request);
+        $admin = $this->getAdminRecord(isset($request['admin'][0]) ? array_values($request['admin'])[0] : []);
+        $sf_id = $this->getSfId($request['sfRecords']);
+        $sf_record = $request['sfRecords'];
+        // dd($formData);
 
-      $formData['number_of_employees'] = $request['sfRecords']['numberofemployees'];
+        $formData['number_of_employees'] = $request['sfRecords']['numberofemployees'];
 
-      $result = $companyService->updateSaveAccount($id, $sf_id, $formData, $sf_record);
+        $result = $companyService->updateSaveAccount($id, $sf_id, $formData, $sf_record);
 
-      $response = [
-        'success' => $result
+        $response = [
+        'success' => $result,
       ];
 
-      return response()->json($response, $result ? 200 : 400);
+        return response()->json($response, $result ? 200 : 400);
     }
 
 
     public function resendEmailInvite(Request $request, CompanyService $companyService)
     {
-      $result = $companyService->resendEmailInvite($request->user_id);
- 
-      $response = [
-        'success' => $result
+        $result = $companyService->resendEmailInvite($request->user_id);
+
+        $response = [
+        'success' => $result,
       ];
 
-      return response()->json($response, $result ? 200 : 400);
+        return response()->json($response, $result ? 200 : 400);
     }
 
-    private  function parseSfToDbColumn($data) 
+    private function parseSfToDbColumn($data)
     {
-      return [
+        return [
         'account_id' => $data['Id'],
         'name' => $data['Name'],
         'contact_num' => $data['Phone'],
@@ -218,96 +221,96 @@ class CompanyController extends Controller
         'kot_trans_type' => $data['KOT_shubetsu__c'],
         'industry_sub' => $data['Field19__c'],
         'industry_sub2' => $data['Field20__c'],
-        'record_type_code' => $data['Field35__c'],        
-        'kot_billing_start_date' => $data['Field41__c'],        
+        'record_type_code' => $data['Field35__c'],
+        'kot_billing_start_date' => $data['Field41__c'],
         'sf_records' => $this->convertToLowerCase($data),
       ];
     }
 
-    private function convertToLowerCase($data) {
-      $items = [];
-      foreach ($data as $col => $val) {
-          
-          if ($col == 'opportunity' && is_array($val)) { //to case items in opportunity   
-              foreach ($val as $c => $v) {                    
-                  $items['opportunity'][strtolower($c)] = $v;
-              }
-          } else if ($col == 'contact' && is_array($val)) {  //to case items in contact
-              foreach ($val as $c => $v) {                
-                  $items['contact'][strtolower($c)] = $v;
-              }
-          } else {
-              $items[strtolower($col)] = $val;
-          }
-      }
-
-      if (isset($items['opportunity']['attributes'])) {
-          unset($items['opportunity']['attributes']);
-      }
-      if (isset($items['contact']['attributes'])) {
-          unset($items['contact']['attributes']);
-      }
-
-      return $items;
-  }
-
-    private  function getRecord($request) 
+    private function convertToLowerCase($data)
     {
-      return [
-        'company_code' => isset($request['companyCode']) ? $request['companyCode'] : '',
-        'name' => isset($request['name']) ? $request['name'] : '',
-        'contact_num' => isset($request['contactNum']) ? $request['contactNum'] : '',
-        'website' => isset($request['website']) ? $request['website'] : '',
-        'industry' => isset($request['industry']) ? $request['industry'] : '',
-        'industry_sub' => isset($request['industrySub']) ? $request['industrySub'] : '',
-        'industry_sub2' => isset($request['industrySub2']) ? $request['industrySub2'] : '',
-        'zen_org_name' => isset($request['zenOrgName']) ? $request['zenOrgName'] : '',
-        'billing_street' => isset($request['billingStreet']) ? $request['billingStreet'] : '',
-        'billing_city' => isset($request['billingCity']) ? $request['billingCity'] : '',
-        'billing_state' => isset($request['billingState']) ? $request['billingState'] : '',
-        'billing_postal_code' => isset($request['billingPostalCode']) ? $request['billingPostalCode'] : '',
-        'billing_country' => isset($request['billingCountry']) ? $request['billingCountry'] : '',
-        'license_version' => isset($request['licenseVersion']) ? $request['licenseVersion'] : '',
-        'billing_address' => isset($request['billingAddress']) ? $request['billingAddress'] : '',
-        'token' => isset($request['token']) ? $request['token'] : '',
-        'contact_first_name' => isset($request['sfRecords']['contact']['firstname']) ? $request['sfRecords']['contact']['firstname'] : '',
-        'contact_last_name' => isset($request['sfRecords']['contact']['lastname']) ? $request['sfRecords']['contact']['lastname'] : '',
-        'contact_email' => isset($request['sfRecords']['contact']['email']) ? $request['sfRecords']['contact']['email'] : '',
-        'contact_contact_num' => isset($request['sfRecords']['contact']['mobilephone']) ? $request['sfRecords']['contact']['mobilephone'] : '',
-        'account_id' => isset($request['accountId']) ? $request['accountId'] : '',
-        'negotiate_code' => isset($request['negotiateCode']) ? $request['negotiateCode'] : '',
-        'company_code' => isset($request['companyCode']) ? $request['companyCode'] : '',
-        'record_type_code' => isset($request['recordTypeCode']) ? $request['recordTypeCode'] : '',
-        'type' => isset($request['type']) ? $request['type'] : '',
-        'kot_trans_type' => isset($request['kotTransType']) ? $request['kotTransType'] : '',
-        'payment_method' => isset($request['paymentMethod']) ? $request['paymentMethod'] : '',
-        'opportunity_code' => isset($request['opportunityCode']) ? $request['opportunityCode'] : '',
-        'opportunity' => isset($request['sfRecords']['opportunity']) ? $request['sfRecords']['opportunity'] : [],
+        $items = [];
+        foreach ($data as $col => $val) {
+            if ($col == 'opportunity' && is_array($val)) { //to case items in opportunity
+                foreach ($val as $c => $v) {
+                    $items['opportunity'][strtolower($c)] = $v;
+                }
+            } elseif ($col == 'contact' && is_array($val)) {  //to case items in contact
+                foreach ($val as $c => $v) {
+                    $items['contact'][strtolower($c)] = $v;
+                }
+            } else {
+                $items[strtolower($col)] = $val;
+            }
+        }
+
+        if (isset($items['opportunity']['attributes'])) {
+            unset($items['opportunity']['attributes']);
+        }
+        if (isset($items['contact']['attributes'])) {
+            unset($items['contact']['attributes']);
+        }
+
+        return $items;
+    }
+
+    private function getRecord($request)
+    {
+        return [
+        'company_code' => $request['companyCode'] ?? '',
+        'name' => $request['name'] ?? '',
+        'contact_num' => $request['contactNum'] ?? '',
+        'website' => $request['website'] ?? '',
+        'industry' => $request['industry'] ?? '',
+        'industry_sub' => $request['industrySub'] ?? '',
+        'industry_sub2' => $request['industrySub2'] ?? '',
+        'zen_org_name' => $request['zenOrgName'] ?? '',
+        'billing_street' => $request['billingStreet'] ?? '',
+        'billing_city' => $request['billingCity'] ?? '',
+        'billing_state' => $request['billingState'] ?? '',
+        'billing_postal_code' => $request['billingPostalCode'] ?? '',
+        'billing_country' => $request['billingCountry'] ?? '',
+        'license_version' => $request['licenseVersion'] ?? '',
+        'billing_address' => $request['billingAddress'] ?? '',
+        'token' => $request['token'] ?? '',
+        'contact_first_name' => $request['sfRecords']['contact']['firstname'] ?? '',
+        'contact_last_name' => $request['sfRecords']['contact']['lastname'] ?? '',
+        'contact_email' => $request['sfRecords']['contact']['email'] ?? '',
+        'contact_contact_num' => $request['sfRecords']['contact']['mobilephone'] ?? '',
+        'account_id' => $request['accountId'] ?? '',
+        'negotiate_code' => $request['negotiateCode'] ?? '',
+        'company_code' => $request['companyCode'] ?? '',
+        'record_type_code' => $request['recordTypeCode'] ?? '',
+        'type' => $request['type'] ?? '',
+        'kot_trans_type' => $request['kotTransType'] ?? '',
+        'payment_method' => $request['paymentMethod'] ?? '',
+        'opportunity_code' => $request['opportunityCode'] ?? '',
+        'opportunity' => $request['sfRecords']['opportunity'] ?? [],
         'sf_records' => isset($request['sfRecords']) ? json_encode($request['sfRecords']) : [],
 
       ];
-
     }
-  
-    private function getAdminRecord($request) {
+
+    private function getAdminRecord($request)
+    {
         return [
-          'contact_num' => isset($request['contactNum']) ? $request['contactNum'] : '',
-          'email' => isset($request['email']) ? $request['email'] : '',
-          'full_name' => isset($request['fullName']) ? $request['fullName'] : '',
-          'first_name' => isset($request['firstName']) ? $request['firstName'] : '',
-          'last_name' => isset($request['lastName']) ? $request['lastName'] : '',
-          'username' => isset($request['username']) ? $request['username'] : '',
-          'user_type_id' => isset($request['userTypeId']) ? $request['userTypeId'] : '',
-          'user_status_id' => isset($request['userStatusId']) ? $request['userStatusId'] : '',
+          'contact_num' => $request['contactNum'] ?? '',
+          'email' => $request['email'] ?? '',
+          'full_name' => $request['fullName'] ?? '',
+          'first_name' => $request['firstName'] ?? '',
+          'last_name' => $request['lastName'] ?? '',
+          'username' => $request['username'] ?? '',
+          'user_type_id' => $request['userTypeId'] ?? '',
+          'user_status_id' => $request['userStatusId'] ?? '',
         ];
     }
 
-    private function getSfId($request) {
+    private function getSfId($request)
+    {
         return [
-          'account_id' => isset($request['id']) ? $request['id'] : '',
-          'contact_id' => isset($request['contact']['id']) ? $request['contact']['id'] : '',
-          'opportunity_id' => isset($request['opportunity']['id']) ? $request['opportunity']['id'] : '',
+          'account_id' => $request['id'] ?? '',
+          'contact_id' => $request['contact']['id'] ?? '',
+          'opportunity_id' => $request['opportunity']['id'] ?? '',
         ];
     }
-
 }

@@ -24,7 +24,7 @@ class OpportunityResource extends JsonResource
             'type' => $this->type,
             'name' => $this->name,
             'stage' => $this->stage,
-            'zenNegotiateOwner' => $this->zen_negotiate_owner,        
+            'zenNegotiateOwner' => $this->zen_negotiate_owner,
             'createdAt' => $this->created_at->format('d/m/Y'),
             'updatedAt' => $this->updated_at->format('d/m/Y'),
         ];

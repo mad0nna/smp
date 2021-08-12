@@ -16,7 +16,7 @@ class NotificationTargetTableSeeder extends Seeder
             'user_id' => 3,
             'notification_type' => 'zendesk',
             'article_id' => 360038337374,
-            'article_seen_timestamp' => '2021-01-21 06:30:38'
+            'article_seen_timestamp' => '2021-01-21 06:30:38',
         ]);
     }
 }

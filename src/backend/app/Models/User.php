@@ -6,7 +6,6 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Models\Company;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -39,7 +38,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function salesforceFormat() {
+    public function salesforceFormat()
+    {
         return [
             'Id' => $this->account_code,
             'FirstName' => $this->first_name,
@@ -47,9 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'LastName' => $this->last_name,
             'Email' => $this->email,
             'Title' => $this->title,
-            "MobilePhone" => $this->contact_num,
-            "admin__c" => $this->user_type_id=== 3 ? true : false,
-            "user_status_id" => $this->user_status_id
+            'MobilePhone' => $this->contact_num,
+            'admin__c' => $this->user_type_id === 3 ? true : false,
+            'user_status_id' => $this->user_status_id,
         ];
     }
 
@@ -63,14 +63,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return "{$this->first_name} {$this->last_name}";
     }
 
-    public function getAccountCode() {
+    public function getAccountCode()
+    {
         if (!isset($this->account_code)) {
             return '';
         }
+
         return $this->account_code;
     }
 
-    public function widgets() {
+    public function widgets()
+    {
         return $this->hasOne(WidgetSettings::class);
     }
 
@@ -104,11 +107,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(UserType::class, 'user_type_id');
     }
 
-    public function company() {
+    public function company()
+    {
         return $this->belongsTo(Company::class, 'company_id');
     }
 
-    public function notification() {
+    public function notification()
+    {
         return $this->hasMany('notification_target', 'user_id', 'id');
     }
 

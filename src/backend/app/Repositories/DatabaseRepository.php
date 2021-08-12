@@ -4,68 +4,72 @@ namespace App\Repositories;
 use App\Models\Company;
 use App\Models\Opportunity;
 use App\Models\User;
-use App\Models\Widget;
 use App\Models\WidgetSettings;
 use App\Models\NotificationTarget;
-use App\Models\Notification;
 use Exception;
 
-class DatabaseRepository {
-
-    public function getCompanyDetailsByID($companyID) {
+class DatabaseRepository
+{
+    public function getCompanyDetailsByID($companyID)
+    {
         return Company::where('account_id', $companyID)
         ->get()
         ->map->salesforceFormat()
         ->toArray();
     }
 
-    public function getCompanyAdminDetailsByID($companyID) {
-        return User::leftjoin("companies", "companies.id", "=", "company_id")
-        ->select("users.*")
-        ->where("companies.account_id", $companyID)
-        ->where("users.user_type_id", 3)
+    public function getCompanyAdminDetailsByID($companyID)
+    {
+        return User::leftjoin('companies', 'companies.id', '=', 'company_id')
+        ->select('users.*')
+        ->where('companies.account_id', $companyID)
+        ->where('users.user_type_id', 3)
         ->get()
         ->map->salesforceFormat()
         ->toArray();
     }
 
-    public function updateCompanyDetails($companyID, $companyData) {
-        return Company::where("account_id", $companyID)
+    public function updateCompanyDetails($companyID, $companyData)
+    {
+        return Company::where('account_id', $companyID)
         ->update([
-            "name" => $companyData["companyName"],
-            "contact_num" => $companyData["contactNumber"],
-            "website" => $companyData["website"],
-            "industry" => $companyData["industry"],
-            "billing_postal_code" => $companyData["postalCode"],
-            "billing_street" => $companyData["street"],
-            "billing_city" => $companyData["city"],
-            "billing_state" => $companyData["state"],
-            "billing_country" => $companyData["country"],
+            'name' => $companyData['companyName'],
+            'contact_num' => $companyData['contactNumber'],
+            'website' => $companyData['website'],
+            'industry' => $companyData['industry'],
+            'billing_postal_code' => $companyData['postalCode'],
+            'billing_street' => $companyData['street'],
+            'billing_city' => $companyData['city'],
+            'billing_state' => $companyData['state'],
+            'billing_country' => $companyData['country'],
         ]);
     }
 
-    public function updateAdminDetails($accountID, $userData) {
-        return User::where("account_code", $accountID)
+    public function updateAdminDetails($accountID, $userData)
+    {
+        return User::where('account_code', $accountID)
         ->update([
-            "first_name" => $userData["FirstName"],
-            "last_name"  => $userData["LastName"],
-            "email"      => $userData["Email"],
-            "contact_num"=> $userData["MobilePhone"]
+            'first_name' => $userData['FirstName'],
+            'last_name' => $userData['LastName'],
+            'email' => $userData['Email'],
+            'contact_num' => $userData['MobilePhone'],
         ]);
     }
 
-    public function getLatestKOTOpportunityDetails($companyID) {
-        return Opportunity::rightjoin('companies', "companies.id", "=", "company_id")
-        ->select("opportunities.*")
-        ->where("companies.account_id", $companyID)
-        ->orderBy("sf_created_date", "ASC")
+    public function getLatestKOTOpportunityDetails($companyID)
+    {
+        return Opportunity::rightjoin('companies', 'companies.id', '=', 'company_id')
+        ->select('opportunities.*')
+        ->where('companies.account_id', $companyID)
+        ->orderBy('sf_created_date', 'ASC')
         ->take(1)
         ->get()
         ->map->salesforceFormat()
         ->toArray();
     }
 
-    public function getDefaultCompanyCoordinatesByID($accountID) {
+    public function getDefaultCompanyCoordinatesByID($accountID)
+    {
         return WidgetSettings::leftjoin('users', 'users.id', '=', 'user_id')
         ->where('users.account_code', $accountID)
         ->select('widget_settings.coordinates')
@@ -74,23 +78,26 @@ class DatabaseRepository {
         ->toArray();
     }
 
-    public function saveCoordinates($newCoordinates, $accountID) {
+    public function saveCoordinates($newCoordinates, $accountID)
+    {
         return WidgetSettings::rightjoin('users', 'users.id', '=', 'user_id')
         ->where('users.account_code', $accountID)
         ->update([
-            'coordinates' => $newCoordinates
+            'coordinates' => $newCoordinates,
         ]);
     }
 
-    public function resetCompanyCoordinates($accountID) {
+    public function resetCompanyCoordinates($accountID)
+    {
         try {
             $widget = new WidgetSettings();
             $defaultCoordinates = $widget->getCompanyDefaultCoordinates();
+
             return WidgetSettings::rightjoin('users', 'users.id', '=', 'user_id')
             ->where('users.account_code', $accountID)
             ->update(['widget_settings.coordinates' => $defaultCoordinates]);
         } catch (Exception $e) {
-            return array("status" => false, "message" => $e->getMessage());
+            return ['status' => false, 'message' => $e->getMessage()];
         }
     }
 
@@ -99,13 +106,13 @@ class DatabaseRepository {
         try {
             $widget = new WidgetSettings();
             $defaultCoordinates = $widget->getCompanyDefaultCoordinates();
-            $formData = ['user_id' => $id,'coordinates' =>  $defaultCoordinates];
+            $formData = ['user_id' => $id,'coordinates' => $defaultCoordinates];
             $widget->create($formData);
-        }catch(Exception $e){
-            return array("status" => false, "message" => $e->getMessage());
+        } catch (Exception $e) {
+            return ['status' => false, 'message' => $e->getMessage()];
         }
     }
-        
+
     public function getZendeskSeenNotif($accountID)
     {
         try {
@@ -115,24 +122,26 @@ class DatabaseRepository {
             ->get()
             ->toArray();
         } catch (Exception $e) {
-            return array("status" => false, "message" => $e->getMessage());
+            return ['status' => false, 'message' => $e->getMessage()];
         }
     }
 
-    public function seenZendeskNotif($accountID, $articleId, $currentDateTime) {
+    public function seenZendeskNotif($accountID, $articleId, $currentDateTime)
+    {
         try {
-            $userId = User::where('account_code', $accountID)->select("id")->get()->toArray();
+            $userId = User::where('account_code', $accountID)->select('id')->get()->toArray();
             if (!empty($userId)) {
-                $userId = reset($userId)["id"];
+                $userId = reset($userId)['id'];
+
                 return NotificationTarget::create([
                     'user_id' => $userId,
                     'notification_type' => 'zendesk',
                     'article_id' => $articleId,
-                    'article_seen_timestamp' => $currentDateTime
+                    'article_seen_timestamp' => $currentDateTime,
                 ]);
             }
         } catch (Exception $e) {
-            return array("status" => false, "message" => $e->getMessage());
+            return ['status' => false, 'message' => $e->getMessage()];
         }
     }
 }

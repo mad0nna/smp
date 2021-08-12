@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+
 class Guest
 {
     /**
@@ -15,10 +16,10 @@ class Guest
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user())
-        {
-            return redirect(Auth::user()->type->dashboard_url);   
+        if (Auth::user()) {
+            return redirect(Auth::user()->type->dashboard_url);
         }
+
         return $next($request);
     }
 }

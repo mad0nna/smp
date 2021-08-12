@@ -17,19 +17,20 @@ class Opportunity extends Model
         'name',
         'stage',
         'zen_negotiate_owner',
-        'sf_created_date'
+        'sf_created_date',
     ];
 
-    public function salesforceFormat() {
+    public function salesforceFormat()
+    {
         return [
-            "Amount" => $this->amount,
-            "ID__c" => $this->negotiate_code,
-            "Id" => $this->opportunity_code,
-            "Name" => $this->name,
-            "RecordTypeId" => $this->record_type_code,
-            "StageName" => $this->stage,
-            "Type"  => $this->type,
-            "Zen__c" => $this->zen_negotiate_owner
+            'Amount' => $this->amount,
+            'ID__c' => $this->negotiate_code,
+            'Id' => $this->opportunity_code,
+            'Name' => $this->name,
+            'RecordTypeId' => $this->record_type_code,
+            'StageName' => $this->stage,
+            'Type' => $this->type,
+            'Zen__c' => $this->zen_negotiate_owner,
         ];
     }
 }

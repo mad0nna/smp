@@ -8,41 +8,37 @@ use Illuminate\Support\Facades\Session;
 
 class ContractService
 {
-     /**
+    /**
      * ContractService constructor.
-     *
      */
     public function __construct()
     {
         $this->salesForce = new SalesforceRepository();
-
     }
 
-     /**
+    /**
      * Retrieves list of Contracts
-     *
      */
     public function search($conditions)
     {
-        try{
+        try {
             $page = 1;
             $limit = config('search.results_per_page');
-    
+
             if (array_key_exists('page', $conditions) === true) {
                 $page = $conditions['page'];
             }
-    
+
             if (array_key_exists('limit', $conditions) === true) {
                 $limit = $conditions['limit'];
             }
-    
+
             $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
-            
-            $results = $this->salesForce->getContracts(Session::get('salesforceCompanyID'),$skip,$limit);
-            
+
+            $results = $this->salesForce->getContracts(Session::get('salesforceCompanyID'), $skip, $limit);
+
             return $results;
-        }
-        catch (ContractsNotFoundException $e) {
+        } catch (ContractsNotFoundException $e) {
             throw new ContractsNotFoundException;
         }
     }

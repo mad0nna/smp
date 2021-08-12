@@ -15,41 +15,41 @@ class CompaniesTableSeeder extends Seeder
     {
         $data = [
             [
-                "id"=>'1',
+                'id' => '1',
                 'company_code' => 'Sprobe',
                 'name' => 'Sprobe',
-                'contact_num' => NULL,
-                "website" => '',
+                'contact_num' => null,
+                'website' => '',
                 'industry' => '',
                 'billing_street' => '',
                 'billing_city' => '',
                 'billing_state' => '',
                 'billing_postal_code' => '',
                 'billing_country' => '',
-                'zen_org_name' => NULL,
-                'account_id' => '0010l00001IGApRAAX'
+                'zen_org_name' => null,
+                'account_id' => '0010l00001IGApRAAX',
             ],
             [
-                "id"=>'2',
+                'id' => '2',
                 'company_code' => 'susumu',
                 'name' => 'Susumu Company',
-                'contact_num' => NULL,
-                "website" => '',
+                'contact_num' => null,
+                'website' => '',
                 'industry' => '',
                 'billing_street' => '',
                 'billing_city' => '',
                 'billing_state' => '',
                 'billing_postal_code' => '',
                 'billing_country' => '',
-                'zen_org_name' => NULL,
+                'zen_org_name' => null,
                 'account_id' => '0010l00001IFpV5AAL',
             ],
             [
-                "id"=>'3',
+                'id' => '3',
                 'company_code' => 'cyolab',
                 'name' => '株式会社町田',
                 'contact_num' => '031234567',
-                "website" => 'https://www.h-t.co.jp',
+                'website' => 'https://www.h-t.co.jp',
                 'industry' => '建設',
                 'billing_street' => '虎ノ門4-1-28 虎ノ門タワーズオフィス17F',
                 'billing_city' => '港区',
@@ -58,20 +58,19 @@ class CompaniesTableSeeder extends Seeder
                 'billing_country' => 'Japan',
                 'zen_org_name' => '【】株式会社町田1',
                 'account_id' => '0010l00001IFH5GAAX',
-                'kot_billing_start_date' => '2021-05-01',                
-                'account_id' => '0010l00001IFH5GAAX', 
-                'token' => 'f7e9f5c132fd4cc197ebca87757f7fbd'               
-            ]
+                'kot_billing_start_date' => '2021-05-01',
+                'account_id' => '0010l00001IFH5GAAX',
+                'token' => 'f7e9f5c132fd4cc197ebca87757f7fbd',
+            ],
         ];
 
         foreach ($data as $item) {
             Company::create($item);
         }
 
-        User::where("account_code", '0030l00000g4k23AAA')
+        User::where('account_code', '0030l00000g4k23AAA')
         ->update([
-            'company_id' => 3
+            'company_id' => 3,
         ]);
-        
     }
 }

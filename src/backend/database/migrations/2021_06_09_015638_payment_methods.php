@@ -15,10 +15,10 @@ class PaymentMethods extends Migration
     {
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger("user_id");
-            $table->string("type");
-            $table->string("number");
-            $table->string("schedule");
+            $table->unsignedBigInteger('user_id');
+            $table->string('type');
+            $table->string('number');
+            $table->string('schedule');
 
             $table->foreign('user_id')
                 ->references('id')

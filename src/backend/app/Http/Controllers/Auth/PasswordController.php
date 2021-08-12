@@ -27,27 +27,26 @@ class PasswordController extends Controller
 
     /**
      * Shows forgot page
-     * 
+     *
      * @param Request $request
-     * 
      */
     public function forgot()
-    { 
+    {
         return view('auth.passwords.email');
     }
 
     /**
      * Shows reset page
-     * 
+     *
      * @param Request $request
-     * 
      */
     public function reset(Request $request)
-    { 
-        if ($request->token <> null)
-        return view('auth.passwords.reset')->with ('token',$request->token);
+    {
+        if ($request->token <> null) {
+            return view('auth.passwords.reset')->with('token', $request->token);
+        }
 
-        return redirect ('/');
+        return redirect('/');
     }
 
     /**
@@ -63,18 +62,19 @@ class PasswordController extends Controller
         try {
             $result = $this->passwordService->forgot($request->getEmail());
             $this->response['token'] = $result->token;
-            $this->response['code']=== 200;
+            $this->response['code'] === 200;
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
         }
-        if ($this->response['code']=== 200)
+        if ($this->response['code'] === 200) {
             return redirect()->back()->with('status', 'パスワード再設定用メールの送信に成功しました。
         メールボックスをご確認ください。');
-        else
-            return redirect()->back()->with('status', 'ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。');
+        }
+
+        return redirect()->back()->with('status', 'ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。');
     }
 
     /**
@@ -86,6 +86,7 @@ class PasswordController extends Controller
     public function update(ResetPasswordRequest $request)
     {
         $request->validated();
+
         try {
             $formData = [
                 'token' => $request->getToken(),
@@ -102,9 +103,10 @@ class PasswordController extends Controller
             ];
         }
 
-        if ($this->response['code']=== 200)
-        return redirect()->back()->with('status', 'パスワードの更新に成功しました。新しいパスワードを使用し、ログインしてください。');
-    else
-        return redirect()->back()->with('status', $this->response['code'].$this->response['error']);
+        if ($this->response['code'] === 200) {
+            return redirect()->back()->with('status', 'パスワードの更新に成功しました。新しいパスワードを使用し、ログインしてください。');
+        }
+
+        return redirect()->back()->with('status', $this->response['code'] . $this->response['error']);
     }
 }

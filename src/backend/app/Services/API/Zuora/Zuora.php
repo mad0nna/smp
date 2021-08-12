@@ -37,7 +37,7 @@ class Zuora
         $token = $this->post('/oauth/token', [
             'grant_type' => 'client_credentials',
             'client_id' => $this->key,
-            'client_secret' => $this->secret
+            'client_secret' => $this->secret,
         ]);
 
         Session::put('zuora-accessToken', $token['access_token']);
@@ -53,12 +53,12 @@ class Zuora
                     'headers' => array_merge(
                         [
                             'Content-Type' => 'application/x-www-form-urlencoded',
-                            'Accept' => 'application/json'
+                            'Accept' => 'application/json',
                         ],
                         $headers
                     ),
                     'form_params' => $data,
-                    'synchronous' => true
+                    'synchronous' => true,
                 ]
             );
 
@@ -97,10 +97,10 @@ class Zuora
                         $headers,
                         [
                             'Accept' => 'application/json',
-                            'Authorization' => "Bearer {$this->access_token}", 
+                            'Authorization' => "Bearer {$this->access_token}",
                         ]
                     ),
-                    'synchronous' => true
+                    'synchronous' => true,
                 ]
             );
 
@@ -139,12 +139,13 @@ class Zuora
                         $headers,
                         [
                             'Accept' => 'application/pdf',
-                            'Authorization' => "Bearer {$this->access_token}", 
+                            'Authorization' => "Bearer {$this->access_token}",
                         ]
                     ),
-                    'synchronous' => true
+                    'synchronous' => true,
                 ]
             );
+
             return $request->getBody();
         } catch (ClientException $e) {
             $code = $e->getResponse()->getStatusCode();

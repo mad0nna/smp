@@ -14,8 +14,8 @@ class NotificationTarget extends Migration
     public function up()
     {
         Schema::create('notification_target', function (Blueprint $table) {
-            $table->unsignedBigInteger("user_id");
-            $table->string("notification_type");
+            $table->unsignedBigInteger('user_id');
+            $table->string('notification_type');
             $table->integer('notification_id')->nullable();
             $table->timestamp('notification_seen_timestamp')->nullable();
             $table->string('article_id')->nullable();

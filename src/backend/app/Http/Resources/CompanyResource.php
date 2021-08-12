@@ -3,8 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\OpportunityResource;
 
 class CompanyResource extends JsonResource
 {
@@ -25,10 +23,10 @@ class CompanyResource extends JsonResource
             'billingState' => $this->billing_state,
             'billingPostalCode' => $this->billing_postal_code,
             'billingCountry' => $this->billing_country,
-            'customerClassification' => $this->customer_classification,            
+            'customerClassification' => $this->customer_classification,
             'status' => $this->status,
             'accountId' => $this->account_id,
-            'negotiateCode' => isset($this->opportunities[0]) ? $this->opportunities[0]['negotiate_code'] : '',            
+            'negotiateCode' => isset($this->opportunities[0]) ? $this->opportunities[0]['negotiate_code'] : '',
             'opportunityCode' => isset($this->opportunities[0]) ? $this->opportunities[0]['opportunity_code'] : '',
             'recordTypeCode' => strlen($this->sf_records) > 2 ? json_decode($this->sf_records)->field35__c : '',
             'type' => isset($this->opportunities[0]) ? $this->opportunities[0]['type'] : '',
@@ -50,44 +48,44 @@ class CompanyResource extends JsonResource
             'id' => $data['id'],
             'companyCode' => $data['company_code'],
             'name' => $data['name'],
-            'contactNum' => $data['contact_num'] ?? "",
+            'contactNum' => $data['contact_num'] ?? '',
             'website' => $data['website'],
-            'industry' => $data['industry'] ?? "",
-            'zenOrgName' => $data['zen_org_name'] ?? "",
+            'industry' => $data['industry'] ?? '',
+            'zenOrgName' => $data['zen_org_name'] ?? '',
             'billingStreet' => $data['billing_street'],
             'billingCity' => $data['billing_city'],
             'billingState' => $data['billing_state'],
             'billingPostalCode' => $data['billing_postal_code'],
             'billingCountry' => $data['billing_country'],
-            'customerClassification' => $data['customer_classification'] ?? "",            
-            'status' => $data['status'] ?? "",   
-            'accountId' => $data['account_id'] ?? "",
-            'industrySub' => $data['industry_sub'] ?? "",   
-            'industrySub2' => $data['industry_sub2'] ?? "",   
-            'kotTransType' => $data['kot_trans_type'] ?? "",   
-            'paymentMethod' => $data['payment_method'] ?? "", 
+            'customerClassification' => $data['customer_classification'] ?? '',
+            'status' => $data['status'] ?? '',
+            'accountId' => $data['account_id'] ?? '',
+            'industrySub' => $data['industry_sub'] ?? '',
+            'industrySub2' => $data['industry_sub2'] ?? '',
+            'kotTransType' => $data['kot_trans_type'] ?? '',
+            'paymentMethod' => $data['payment_method'] ?? '',
             'sfRecords' => $data['sf_records'] ?? [],
             'recordTypeCode' => $data['record_type_code'],
         ];
     }
 
-    public static function filterFromSFToFront($data, $company_code = "")
+    public static function filterFromSFToFront($data, $company_code = '')
     {
         return [
-            'id' => "",
+            'id' => '',
             'companyCode' => $company_code,
             'name' => $data['Name'],
             'contactNum' => $data['Phone'],
             'website' => $data['Website'],
             'industry' => $data['Industry'],
             'zenOrgName' => $data['Zendeskaccount__c'],
-            'customerClassification' => $data['KoT_fps__c'],            
+            'customerClassification' => $data['KoT_fps__c'],
             'billingStreet' => $data['BillingStreet'],
             'billingCity' => $data['BillingCity'],
             'billingState' => $data['BillingState'],
-            'billingPostalCode' => $data['BillingPostalCode'],            
+            'billingPostalCode' => $data['BillingPostalCode'],
             'billingCountry' => $data['BillingCountry'],
-            'billingAddress' => $data['BillingStreet'].' '.$data['BillingCity'].' '.$data['BillingState'].' '.$data['BillingPostalCode'].' '.$data['BillingCountry'],
+            'billingAddress' => $data['BillingStreet'] . ' ' . $data['BillingCity'] . ' ' . $data['BillingState'] . ' ' . $data['BillingPostalCode'] . ' ' . $data['BillingCountry'],
             'negotiateCode' => $data['ID__c'],
             'recordTypeCode' => $data['Field35__c'],
             'type' => $data['KoT_fps__c'],
@@ -98,26 +96,26 @@ class CompanyResource extends JsonResource
             'accountId' => ($data['opportunity'] && $data['opportunity']['AccountId']) ? $data['opportunity']['AccountId'] : '',
             'opportunityCode' => ($data['opportunity'] && $data['opportunity']['ID__c']) ? $data['opportunity']['ID__c'] : '',
             'admin' => [[
-                'contactId' => isset($data['contact']['Id']) ? $data['contact']['Id'] : '',
-                'email' => isset($data['contact']['Email']) ? $data['contact']['Email'] : '',
-                'firstName' => isset($data['contact']['FirstName']) ? $data['contact']['FirstName'] : '',
-                'lastName' => isset($data['contact']['LastName']) ? $data['contact']['LastName'] : '',
-                'contactNum' => isset($data['contact']['MobilePhone']) ? $data['contact']['MobilePhone'] : '',
+                'contactId' => $data['contact']['Id'] ?? '',
+                'email' => $data['contact']['Email'] ?? '',
+                'firstName' => $data['contact']['FirstName'] ?? '',
+                'lastName' => $data['contact']['LastName'] ?? '',
+                'contactNum' => $data['contact']['MobilePhone'] ?? '',
                 ]],
-            'sfRecords' => self::convertToLowerCase($data)
+            'sfRecords' => self::convertToLowerCase($data),
         ];
     }
 
-    private static function convertToLowerCase($data) {
+    private static function convertToLowerCase($data)
+    {
         $items = [];
         foreach ($data as $col => $val) {
-            
-            if ($col == 'opportunity' && is_array($val)) { //to case items in opportunity   
-                foreach ($val as $c => $v) {                    
+            if ($col == 'opportunity' && is_array($val)) { //to case items in opportunity
+                foreach ($val as $c => $v) {
                     $items['opportunity'][strtolower($c)] = $v;
                 }
-            } else if ($col == 'contact' && is_array($val)) {  //to case items in contact
-                foreach ($val as $c => $v) {                
+            } elseif ($col == 'contact' && is_array($val)) {  //to case items in contact
+                foreach ($val as $c => $v) {
                     $items['contact'][strtolower($c)] = $v;
                 }
             } else {
@@ -136,9 +134,9 @@ class CompanyResource extends JsonResource
     }
 
 
-    public static function parseSfCompanyColumnToDbColumn($data) 
+    public static function parseSfCompanyColumnToDbColumn($data)
     {
-      return [
+        return [
         'account_id' => $data['Id'],
         'name' => $data['Name'],
         'contact_num' => $data['Phone'],
@@ -156,9 +154,8 @@ class CompanyResource extends JsonResource
         'kot_trans_type' => $data['KOT_shubetsu__c'],
         'industry_sub' => $data['Field19__c'],
         'industry_sub2' => $data['Field20__c'],
-        'record_type_code' => $data['Field35__c'],        
+        'record_type_code' => $data['Field35__c'],
         'sf_records' => self::convertToLowerCase($data),
       ];
-    } 
-
+    }
 }

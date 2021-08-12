@@ -17,5 +17,4 @@ class widgetSettingsSeeder extends Seeder
         $widget->user_id = 3;
         $widget->save();
     }
-
 }

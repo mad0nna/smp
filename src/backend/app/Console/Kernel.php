@@ -9,9 +9,9 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         Commands\TempInvoiceFile::class,
-        Commands\SalesforceSync::class
+        Commands\SalesforceSync::class,
     ];
- 
+
     /**
      * Define the application's command schedule.
      *
@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('salesforce:sync')
             ->hourly();
     }
- 
+
     /**
      * Register the commands for the application.
      *
@@ -33,8 +33,8 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
- 
+        $this->load(__DIR__ . '/Commands');
+
         require base_path('routes/console.php');
     }
 }

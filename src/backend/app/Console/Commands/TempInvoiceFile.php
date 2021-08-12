@@ -38,6 +38,6 @@ class TempInvoiceFile extends Command
     public function handle()
     {
         array_map('unlink', glob(public_path('/temp/INVOICE - *.pdf')));
-        echo "The temporary files was cleared!";
+        echo 'The temporary files was cleared!';
     }
 }

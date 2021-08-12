@@ -7,11 +7,7 @@ use App\Services\UserService;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use App\Exceptions;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
@@ -43,7 +39,7 @@ class LoginController extends Controller
 
     /**
      * Create a new controller instance.
-     * 
+     *
      * @param User $user
      * @param UserService $userService
      * @param UserType $userType
@@ -53,65 +49,63 @@ class LoginController extends Controller
     {
         $this->userService = $userService;
     }
-    
+
     public function username()
     {
-        return 'username'; 
+        return 'username';
     }
 
-     /**
+    /**
      * Shows login page
-     * 
+     *
      * @param Request $request
-     * 
      */
     public function login()
-    { 
+    {
         if (! Auth::user()) {
             if (isset($_GET['invite_token'])) {
                 $user = User::with('company')->where('email_verified_at', '=', null)->where('invite_token', '=', $_GET['invite_token'])->first();
 
                 if ($user['user_type_id'] == 4) {
                     $sf_user = $this->userService->createContactToSf($user);
-                    User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(),'user_status_id' => 1, 'account_code' => $sf_user['Id']]);                
+                    User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(),'user_status_id' => 1, 'account_code' => $sf_user['Id']]);
                 }
-            
-            } 
-            
+            }
+
             return view('index');
         }
-            
-        return redirect(Auth::user()->type->dashboard_url);   
+
+        return redirect(Auth::user()->type->dashboard_url);
     }
 
-     /**
+    /**
      * Authenticate user and create token
-     * 
+     *
      * @param LoginRequest $request
-     * 
      */
     public function authenticate(LoginRequest $request)
     {
-        try{
+        try {
             $request->validated();
             $credentials = $request->only('username', 'password');
             $result = $this->userService->log($credentials);
-             if ( $result['status'] != 200) {
+            if ($result['status'] != 200) {
                 return redirect()->back()->with('status', $result['error']);
-             }
-            
+            }
+
             if (Auth::user()->email_verified_at === null) {
                 Auth::logout();
+
                 return redirect()->back()->with('status', '招待メール記載の利用開始ボタンよりログインしてください。');
             }
-             Session::put('salesforceCompanyID', Auth::user()->company->account_id);
-             Session::put('salesforceContactID', Auth::user()->account_code);
-             Session::put('CompanyContactLastname', Auth::user()->last_name);
-             Session::put('companyName', Auth::user()->company->name);
-             Session::put('kotToken', Auth::user()->company->token);
-             Session::put('kotStartDate', Auth::user()->company->kot_billing_start_date);
-            return redirect(Auth::user()->type->dashboard_url);
+            Session::put('salesforceCompanyID', Auth::user()->company->account_id);
+            Session::put('salesforceContactID', Auth::user()->account_code);
+            Session::put('CompanyContactLastname', Auth::user()->last_name);
+            Session::put('companyName', Auth::user()->company->name);
+            Session::put('kotToken', Auth::user()->company->token);
+            Session::put('kotStartDate', Auth::user()->company->kot_billing_start_date);
 
+            return redirect(Auth::user()->type->dashboard_url);
         } catch (Exception $e) {
             return redirect()->back()->with('status', $e);
         }
@@ -119,12 +113,11 @@ class LoginController extends Controller
 
     /**
      * Logout
-     * 
+     *
      * @param Request $request
-     * 
      */
     public function logout()
-    { 
+    {
         try {
             Auth::logout();
             Session::forget('salesforceCompanyID');
@@ -135,6 +128,7 @@ class LoginController extends Controller
             Session::forget('kotStartDate');
             session()->invalidate();
             session()->regenerateToken();
+
             return redirect('/');
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
@@ -142,8 +136,5 @@ class LoginController extends Controller
                 'error' => $e->getMessage(),
             ];
         } // @codeCoverageIgnoreEnd
-
     }
-
-
 }

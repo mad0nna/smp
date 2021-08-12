@@ -1,23 +1,26 @@
 <?php
 namespace App\Services\API;
 
-class BaseAPIService {
+class BaseAPIService
+{
     public $aAPIs = [];
 
-    public function salesForceApi() {
-        $this->aAPIs['salesforce'] = array(
+    public function salesForceApi()
+    {
+        $this->aAPIs['salesforce'] = [
            'sClientID' => env('SALESFORCE_KEY'),
            'sClientKey' => env('SALESFORCE_SECRET'),
            'sUsername' => env('SALESFORCE_USERNAME'),
            'sPassword' => env('SALESFORCE_PASSWORD'),
-           'sSecurityToken' => env('SALESFORCE_SECURITY_TOKEN')
-        );
+           'sSecurityToken' => env('SALESFORCE_SECURITY_TOKEN'),
+        ];
     }
 
-    public function zuoraApi() {
-        $this->aAPIs['zuora'] = array(
+    public function zuoraApi()
+    {
+        $this->aAPIs['zuora'] = [
             'sClientID' => env('ZUORA_KEY'),
-            'sClientKey' => env('ZUORA_SECRET')
-        );
+            'sClientKey' => env('ZUORA_SECRET'),
+        ];
     }
 }

@@ -14,9 +14,9 @@ class WidgetSettings extends Migration
     public function up()
     {
         Schema::create('widget_settings', function (Blueprint $table) {
-            $table->bigIncrements("id");
-            $table->unsignedBigInteger("user_id");
-            $table->longText("coordinates")->nullable();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->longText('coordinates')->nullable();
 
             $table->foreign('user_id')
                 ->references('id')

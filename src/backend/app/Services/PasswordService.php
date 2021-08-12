@@ -78,7 +78,7 @@ class PasswordService
         if (!array_key_exists('password', $data)) {
             throw new InvalidArgumentException('パスワードを入力してください。');
         }
-        
+
         // validate if token is valid
         $token = $this->passwordReset
                     ->where('token', $data['token'])

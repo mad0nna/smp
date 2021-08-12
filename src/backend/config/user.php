@@ -9,31 +9,30 @@ return [
         'pending' => 'Pending',
         'locked' => 'Locked',
     ],
-    'types' => [  
+    'types' => [
             'admin' => [
                 'name' => 'Admin',
-                'dashboard_url' => '/admin/dashboard'
+                'dashboard_url' => '/admin/dashboard',
             ],
             'H&T' => [
                 'name' => 'H&T',
-                'dashboard_url' => '/admin/dashboard'
+                'dashboard_url' => '/admin/dashboard',
             ],
             'client' => [
                 'name' => 'Company Admin',
-                'dashboard_url' => '/company/dashboard'
+                'dashboard_url' => '/company/dashboard',
             ],
             'subClient' => [
                 'name' => 'Sub Company Admin',
-                'dashboard_url' => '/company/dashboard'
+                'dashboard_url' => '/company/dashboard',
             ],
             'sales' => [
                 'name' => 'Sales Agent',
-                'dashboard_url' => '/sales/dashboard'
+                'dashboard_url' => '/sales/dashboard',
             ],
             'employee' => [
                 'name' => 'Employee',
-                'dashboard_url' => '/employee/dashboard'
-            ]
-    ]
+                'dashboard_url' => '/employee/dashboard',
+            ],
+    ],
 ];
-

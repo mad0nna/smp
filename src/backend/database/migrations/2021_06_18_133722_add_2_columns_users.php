@@ -13,13 +13,10 @@ class add2ColumnsUsers extends Migration
      */
     public function up()
     {
-      Schema::table('users', function (Blueprint $table) {
-        $table->string('temp_pw')->nullable()->after('updated_at');
-        $table->string('invite_token')->nullable();
-        
-      });
-
-       
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('temp_pw')->nullable()->after('updated_at');
+            $table->string('invite_token')->nullable();
+        });
     }
 
     /**
@@ -29,9 +26,9 @@ class add2ColumnsUsers extends Migration
      */
     public function down()
     {
-      Schema::table('users', function (Blueprint $table) {
-        $table->dropColumn('temp_pw');
-        $table->dropColumn('invite_token');
-      });
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('temp_pw');
+            $table->dropColumn('invite_token');
+        });
     }
 }

@@ -11,24 +11,17 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\ActivationToken;
 use App\Models\UserStatus;
-use App\Models\UserType;
 use App\Mail\InviteUser;
 use App\Repositories\SalesforceRepository;
-use App\Repositories\DatabaseRepository;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserNotCreatedException;
 use App\Exceptions\UserStatusNotFoundException;
-use App\Exceptions\InvalidUserCredentialsException;
 use App\Exceptions\ActivationTokenNotFoundException;
-use App\Exceptions\InvalidUserPasswordException;
 use App\Traits\Uploadable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
-use App\Providers\RouteServiceProvider;
-use GuzzleHttp\Client;
 
 class UserService
 {
@@ -44,7 +37,7 @@ class UserService
      */
     protected $userStatus;
 
-    
+
     /**
      * UserService constructor.
      *
@@ -91,7 +84,6 @@ class UserService
                 ->orWhere('account_code', 'LIKE', "%{$conditions['keyword']}%")
                 ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%");
             });
-
         } else {
             // if keyword is provided
             if (array_key_exists('keyword', $conditions)) {
@@ -114,6 +106,7 @@ class UserService
                         'limit' => $limit,
                     ])
                 );
+
         return $results;
     }
 
@@ -127,7 +120,7 @@ class UserService
     {
         DB::beginTransaction();
 
-        try {            
+        try {
             $status = UserStatus::where('name', config('user.statuses.pending'))->first();
 
             if (!($status instanceof UserStatus)) {
@@ -139,16 +132,16 @@ class UserService
             if (!($user instanceof User)) {
                 throw new UserNotCreatedException;
             }
-           
+
             $temp_pw = $params['temp_pw'];
             $token = $params['invite_token'];
-            
+
             // send email
             Mail::to($user)->send(new InviteUser($user, $temp_pw, $token));
             DB::commit();
-
         } catch (Exception $e) {
             DB::rollback();
+
             throw $e;
         }
 
@@ -164,8 +157,8 @@ class UserService
     public function update(array $params)
     {
         // retrieve user information
-        $user= $this->user->where('username',$params['username'])->first();
-        if ($user instanceof User) {     
+        $user = $this->user->where('username', $params['username'])->first();
+        if ($user instanceof User) {
             $user->fill($params);
             $user->save();
         }
@@ -199,8 +192,8 @@ class UserService
     public function updateSF(array $params)
     {
         // retrieve user information
-        $user= $this->user->where('username',$params['username'])->first();
-        if ($user instanceof User) {     
+        $user = $this->user->where('username', $params['username'])->first();
+        if ($user instanceof User) {
             $user->fill($params);
             $user->save();
         }
@@ -280,11 +273,11 @@ class UserService
             // retrieve the user
             $user = $this->user
                         ->where('email', $email)
-                        ->firstOrFail();            
-
+                        ->firstOrFail();
         } catch (Exception $e) {
-            $user=null;
+            $user = null;
         }
+
         return $user;
     }
 
@@ -294,17 +287,18 @@ class UserService
      * @param string $email
      * @return User $user
      */
-    public function findInSFByEmail($email) {
-        try{
-            $companyAdmin = $this->salesForce->getCompanyAdminDetailsbyEmail($email);       
-            if (isset($companyAdmin["status"]) && !$companyAdmin["status"]) {
+    public function findInSFByEmail($email)
+    {
+        try {
+            $companyAdmin = $this->salesForce->getCompanyAdminDetailsbyEmail($email);
+            if (isset($companyAdmin['status']) && !$companyAdmin['status']) {
                 return json_encode($companyAdmin);
             }
+
             return $companyAdmin;
-        }
-        catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             throw new UserNotFoundException;
-        }   
+        }
     }
 
     /**
@@ -329,28 +323,26 @@ class UserService
      * Attempt to create an access token using user credentials
      *
      * @param string $credentials
-     * 
      */
     public function log($credentials)
     {
-        try{
+        try {
             if (Auth::attempt($credentials)) {
                 $users = auth()->user();
-                $tokenResult = $users->createToken('Personal Access Token');         
+                $tokenResult = $users->createToken('Personal Access Token');
                 $result = ['status' => 200];
                 $result['access_token'] = $tokenResult->accessToken;
                 $result['token_type'] = 'Bearer';
-                Cache::put('token:login',Auth::user()->id);    
-            }
-            else{
+                Cache::put('token:login', Auth::user()->id);
+            } else {
                 $result = [
                             'status' => 500,
-                            'error' => 'メールアドレスまたはパスワードが無効です。'
+                            'error' => 'メールアドレスまたはパスワードが無効です。',
                         ];
             }
+
             return $result;
-        }
-        catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             throw new UserNotFoundException;
         }
     }
@@ -361,22 +353,23 @@ class UserService
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function resendEmailInvite($id) {
+    public function resendEmailInvite($id)
+    {
         $user = User::findOrFail($id);
         Mail::to($user)->send(new InviteUser($user, $user->temp_pw, $user->invite_token));
+
         return true;
     }
 
-    public function createContactToSf($user) {  
+    public function createContactToSf($user)
+    {
         $accountID = $user['company']['account_id'];
-        $result = json_decode($this->salesForce->updateAdminDetails($user,$accountID, false, false));
+        $result = json_decode($this->salesForce->updateAdminDetails($user, $accountID, false, false));
 
         if ($result->status) {
             return $this->salesForce->getCompanyAdminDetailsbyEmail($user['email']);
-        } else {
-            return false;
         }
 
+        return false;
     }
-
 }

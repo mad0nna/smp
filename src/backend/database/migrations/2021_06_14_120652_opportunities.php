@@ -33,7 +33,6 @@ class Opportunities extends Migration
                 ->on('companies')
                 ->onDelete('cascade');
         });
-
     }
 
     /**

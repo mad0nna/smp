@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 
 class Company
@@ -17,10 +16,10 @@ class Company
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user() && $request->user()->CompanyAdmins())
-        {
+        if (Auth::user() && $request->user()->CompanyAdmins()) {
             return $next($request);
         }
-        return redirect ('/');
+
+        return redirect('/');
     }
 }

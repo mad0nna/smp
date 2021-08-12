@@ -8,11 +8,13 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    public function getAllNotification(NotificationService $notification) {
-        return $notification->getAllNotification(Session::get("salesforceContactID"));
+    public function getAllNotification(NotificationService $notification)
+    {
+        return $notification->getAllNotification(Session::get('salesforceContactID'));
     }
 
-    public function seenNotification(Request $request, NotificationService $notification) {
-        return $notification->seenNotification(Session::get("salesforceContactID"), $request->all());
+    public function seenNotification(Request $request, NotificationService $notification)
+    {
+        return $notification->seenNotification(Session::get('salesforceContactID'), $request->all());
     }
 }

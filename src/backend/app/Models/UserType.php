@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserType extends Model
 {
     //
-    protected $table = "user_types";
+    protected $table = 'user_types';
     public $timestamps = false;
     /**
      * The attributes that are mass assignable.
@@ -15,10 +15,10 @@ class UserType extends Model
      * @var array
      */
     protected $fillable = ['name'];
-    
+
     /**
      * Check if type is admin
-     * 
+     *
      * @return bool
      */
     public function IsAdmin()
@@ -28,7 +28,7 @@ class UserType extends Model
 
     /**
      * Check if type is customer
-     * 
+     *
      * @return bool
      */
     public function IsCompany()
@@ -38,7 +38,7 @@ class UserType extends Model
 
     /**
      * Check if type is representative
-     * 
+     *
      * @return bool
      */
     public function IsSales()
@@ -48,7 +48,7 @@ class UserType extends Model
 
     /**
      * Check if type is representative
-     * 
+     *
      * @return bool
      */
     public function IsEmployee()
