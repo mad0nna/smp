@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import AccountProfile from './accountProfile'
-import AccountList from './accountList'
+import AccountProfile from './AccountProfile'
+import AccountList from './AccountList'
 import axios from 'axios'
-import MessageDialog from './messageDialog'
+import MessageDialog from './MessageDialog'
 import {
   BrowserRouter as Router,
   Switch,

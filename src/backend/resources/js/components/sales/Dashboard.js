@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import CompanyList from './companyListWidget'
-import ContractedServices from '../contractedServices'
-import LinkageServices from '../linkageServices'
-import SalesBillingHistory from './salesBillingHistory'
-import Announcement from '../announcement'
+import CompanyList from './CompanyListWidget'
+import ContractedServices from '../ContractedServices'
+import LinkageServices from '../LinkageServices'
+import SalesBillingHistory from './SalesBillingHistory'
+import Announcement from '../Announcement'
 import Notification from '../Notification'
-import PurchaseHistory from '../purchaseHistory'
-import Graph1 from './graph1Widget'
-import Graph2 from './graph2Widget'
+import PurchaseHistory from '../PurchaseHistory'
+import Graph1 from './Graph1Widget'
+import Graph2 from './Graph2Widget'
 
 const SalesDashboard = () => {
   return (

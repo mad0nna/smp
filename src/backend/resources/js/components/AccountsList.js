@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import ReactDom from 'react-dom'
 import axios from 'axios'
-import AdminsList from './adminsList'
-import NewAccount from './newAccount'
-import MessageDialog from './messageDialog'
-import DeleteConfirmation from './deleteConfirmation'
-import ProfileEdit from './accountProfile'
-import Pagination from './pagination'
+import AdminsList from './AdminsList'
+import NewAccount from './NewAccount'
+import MessageDialog from './MessageDialog'
+import DeleteConfirmation from './DeleteConfirmation'
+import ProfileEdit from './AccountProfile'
+import Pagination from './Pagination'
 import _ from 'lodash'
 import {
   BrowserRouter as Router,
