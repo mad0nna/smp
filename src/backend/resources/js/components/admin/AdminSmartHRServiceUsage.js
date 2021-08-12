@@ -1,6 +1,7 @@
 import React from 'react'
 import Ellipsis from '../../../img/ellipsis.png'
 import SmartHRIcon from '../../../img/admin/smartHR-icon.png'
+
 const AdminSmartHRServiceUsage = (props) => {
   let showMoveButton = ''
   if (typeof props.interActivePages != 'undefined') {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import PdfIcon from '../../img/pdf2-icon.png'
 import Ellipsis from '../../img/ellipsis.png'
+
 const CompanyBilling = () => {
   const [state, setState] = useState({
     loading: true,

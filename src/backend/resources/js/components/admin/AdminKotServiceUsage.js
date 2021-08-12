@@ -2,6 +2,7 @@ import React from 'react'
 import Ellipsis from '../../../img/ellipsis.png'
 import KotBadge from '../../../img/admin/kot-icon.png'
 import KotBanner from '../../../img/KOT-menu-logo.png'
+
 const AdminKotServiceUsage = (props) => {
   let showMoveButton = ''
   if (typeof props.interActivePages != 'undefined') {

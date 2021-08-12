@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import Ellipsis from '../../img/ellipsis.png'
+
 const PurchaseHistory = (props) => {
   const purchaseHistory = [
     {

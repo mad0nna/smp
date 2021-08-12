@@ -17,6 +17,7 @@ import LinkageServices from '../LinkageServices'
 import HistoryIcon from '../../../img/history-icon.png'
 import PrevButton from '../../../img/pagination-prev.png'
 import NextButton from '../../../img/pagination-next.png'
+
 const CompanyDetail = (props) => {
   let hasBreadcrumb = false
   if (typeof props.breadCrumb !== undefined) {

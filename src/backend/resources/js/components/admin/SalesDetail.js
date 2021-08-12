@@ -12,6 +12,7 @@ import CompanyIcon from '../../../img/company-icon.png'
 import HistoryIcon from '../../../img/history-icon.png'
 import PrevButton from '../../../img/pagination-prev.png'
 import NextButton from '../../../img/pagination-next.png'
+
 const SalesDetail = () => {
   const [state] = useState({
     companyList: [

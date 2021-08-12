@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-
 import spinner from '../../img/loading-spinner.gif'
 import { findMissingWidget } from '../utilities/constants'
 
