@@ -136,14 +136,14 @@ const CompanyBilling = () => {
     pageNumbers.push(
       <li
         key={index}
-        className=""
+        className={activeStyle + 'rounded-3xl px-3 py-1'}
         onClick={() => {
           setState((prevState) => {
             return { ...prevState, currentPage: index }
           })
         }}
       >
-        <span className={activeStyle + 'rounded-3xl px-3 py-1'}>{index}</span>
+        {index}
       </li>
     )
   }

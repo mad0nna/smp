@@ -18,6 +18,7 @@ class ContactService {
             $adminDetails = $this->getCompanyAdminDetailsInDB($companyID);
             if (!empty($adminDetails)) {
                 $adminDetails["ableToEdit"] = $accountID === $adminDetails["Id"];
+                $adminDetails["admin__c"] = "3";
                return $adminDetails;
             }
             $adminDetails = $this->salesForce->getCompanyAdminDetails($companyID);
