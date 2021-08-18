@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import KotLogo from '../../img/KOT-menu-logo.png'
 import ArrowDownIcon from '../../img/arrowdown.png'
@@ -8,10 +8,28 @@ import axios from 'axios'
 
 const Navigation = () => {
   const [state, setState] = useState({
-    navShow: false,
     mainNav: {},
     loading: true
   })
+
+  const refMenu = useRef()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (
+        isMenuOpen &&
+        refMenu.current &&
+        !refMenu.current.contains(e.target)
+      ) {
+        setIsMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', checkIfClickedOutside)
+    return () => {
+      document.removeEventListener('mousedown', checkIfClickedOutside)
+    }
+  }, [isMenuOpen])
+
   useEffect(() => {
     let companyNavigation = {
       logo: KotLogo,
@@ -327,27 +345,6 @@ const Navigation = () => {
     localStorage.removeItem('pendingWidgetCoordinates')
   }
 
-  const handleDropDown = () => {
-    let dropdown = document.getElementById('nav-dropdown-content')
-    if (state.navShow) {
-      dropdown.classList.replace('block', 'hidden')
-      setState((prevState) => {
-        return {
-          ...prevState,
-          navShow: false
-        }
-      })
-      return
-    }
-    setState((prevState) => {
-      return {
-        ...prevState,
-        navShow: true
-      }
-    })
-    dropdown.classList.replace('hidden', 'block')
-  }
-
   return (
     <div className="bg-white px-5 h-24 shadow-lg mb-8">
       {state.loading ? (
@@ -417,9 +414,8 @@ const Navigation = () => {
               id="nav-dropdown"
               name="nav-dropdown"
               className="float-right relative flex h-full space-x-2 cursor-pointer z-20"
-              onClick={() => {
-                handleDropDown()
-              }}
+              onClick={() => setIsMenuOpen((oldState) => !oldState)}
+              ref={refMenu}
             >
               <div className="my-auto">
                 {state.mainNav.dropDownNav.logo !== '' ? (
@@ -440,35 +436,37 @@ const Navigation = () => {
               <div className="my-auto">
                 <img alt="setting icon" src={ArrowDownIcon} />
               </div>
-              <div
-                id="nav-dropdown-content"
-                className="bg-greenOld w-64 absolute top-12 right-16 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md hidden"
-              >
-                {state.mainNav.dropDownNav.items.map((item, index) => {
-                  return (
-                    <a
-                      href={item.url}
-                      key={index}
-                      className={item.extraStyle}
-                      onClick={item.function}
-                    >
-                      <div className="flex items-center py-2 space-x-4">
-                        <div
-                          className={
-                            item.iconNormal +
-                            ' ' +
-                            item.iconSize +
-                            ' bg-cover bg-no-repeat'
-                          }
-                        />
-                        <div className="text-sm text-white tracking-tighter">
-                          {item.label}
+              {isMenuOpen && (
+                <div
+                  id="nav-dropdown-content"
+                  className="bg-greenOld w-64 absolute top-12 right-16 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md"
+                >
+                  {state.mainNav.dropDownNav.items.map((item, index) => {
+                    return (
+                      <a
+                        href={item.url}
+                        key={index}
+                        className={item.extraStyle}
+                        onClick={item.function}
+                      >
+                        <div className="flex items-center py-2 space-x-4">
+                          <div
+                            className={
+                              item.iconNormal +
+                              ' ' +
+                              item.iconSize +
+                              ' bg-cover bg-no-repeat'
+                            }
+                          />
+                          <div className="text-sm text-white tracking-tighter">
+                            {item.label}
+                          </div>
                         </div>
-                      </div>
-                    </a>
-                  )
-                })}
-              </div>
+                      </a>
+                    )
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </div>
