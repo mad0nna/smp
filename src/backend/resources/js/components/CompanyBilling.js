@@ -238,7 +238,7 @@ const CompanyBilling = () => {
             </thead>
             <tbody>
               {state.billingList.map((item, index) => {
-                if (index >= state.minId && index <= state.maxId) {
+                if (index >= state.minId && index <= state.maxId - 1) {
                   let txtcolor =
                     item.status === '未払い' ? 'orange' : 'text-gray-500'
                   return (

@@ -19,7 +19,7 @@ import queryString from 'query-string'
 const AccountsList = () => {
   const [pagingConditions, setPagingConditions] = useState({
     page: 1,
-    limit: 15,
+    limit: 10,
     keyword: '',
     handlePageClick: handlePageClick
   })
