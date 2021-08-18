@@ -5,6 +5,7 @@ use App\Repositories\SalesforceRepository;
 use App\Repositories\DatabaseRepository;
 use App\Services\Utilities\MessageResult;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 
 class DataSynchronizer
 {
@@ -41,7 +42,10 @@ class DataSynchronizer
         if (!$dbResponse) {
             return MessageResult::error('Error on updating company details');
         }
-
+        Session::forget("companyName");
+        Session::put('companyName', $request['companyDetails']['companyName']);
+        Session::forget("CompanyContactLastname");
+        Session::put('CompanyContactLastname', $request['adminDetails']['LastName']);
         Cache::forget("{$companyID}:company:details");
         Cache::forget("{$companyID}:admin:details");
 
