@@ -134,7 +134,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="px-10">
+    <div className="px-10 -mt-8">
       {isGettingCoordinates ? (
         <div className="w-full h-96 relative mt-12">
           <div className="mx-auto absolute bottom-1 w-full text-center">
