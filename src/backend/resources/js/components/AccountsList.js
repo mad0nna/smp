@@ -390,14 +390,9 @@ const AccountsList = () => {
       }
     })
 
-    axios
-      .post('/company/resendEmailInvite', account, {
-        'Content-Type': 'application/json'
-      })
-      .catch(function (error) {
-        if (error.response) {
-        }
-      })
+    axios.post('/company/resendEmailInvite', account, {
+      'Content-Type': 'application/json'
+    })
   }
 
   const handleCloseDeleteConfirmation = () => {
