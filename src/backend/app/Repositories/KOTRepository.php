@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Cache;
 use GuzzleHttp\Exception\ClientException;
 
 class KOTRepository {

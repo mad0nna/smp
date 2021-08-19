@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Opportunity;
 use App\Mail\NotifyAddedCompanySuperAdminUser;
 use App\Http\Controllers\BillingController;
+use Exception;
 
 class CompanyService
 {
@@ -32,26 +33,32 @@ class CompanyService
                 'numberOfSubscribers' => 0, // Get from Salesforce projected users
                 'numberOfActiveKOTUsers' => 0, // Get total registered users from KOT
             ];
-            $usageData['serviceUsageDate'] = $kotUsageData;
-            $usageData['numberOfSubscribers'] = $this->getNumberSubscribers($companyID);
-   
-            if (date("Y-m-d") === date("Y-m-d", strtotime("first day of this month")) && (int)date("H") < 10) {       
-                $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getAllQtyEmployees($kotToken, date("Y-m-d", strtotime('-2 month')));
-                $billing = (new BillingController)->getLastMonthAccountUsage($companyID, date("Y-m", strtotime('-2 month')));
-            
-                if ($billing) {
-                    $usageData['numberOfEmployees'] = $billing['quantity'];
+
+            try {
+                $usageData['serviceUsageDate'] = $kotUsageData;
+                $usageData['numberOfSubscribers'] = $this->getNumberSubscribers($companyID);
+    
+                if (date("Y-m-d") === date("Y-m-d", strtotime("first day of this month")) && (int)date("H") < 10) {       
+                    $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getAllQtyEmployees($kotToken, date("Y-m-d", strtotime('-2 month')));
+                    $billing = (new BillingController)->getLastMonthAccountUsage($companyID, date("Y-m", strtotime('-2 month')));
+                
+                    if ($billing) {
+                        $usageData['numberOfEmployees'] = $billing['quantity'];
+                    }
+                } else {
+                    $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getAllQtyEmployees($kotToken, date("Y-m-d", strtotime("last day of previous month")));
+                    $billing = (new BillingController)->getLastMonthAccountUsage($companyID);
+                
+                    if ($billing) {
+                        $usageData['numberOfEmployees'] = $billing['quantity'];
+                    }
                 }
-            } else {
-                $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getAllQtyEmployees($kotToken, date("Y-m-d", strtotime("last day of previous month")));
-                $billing = (new BillingController)->getLastMonthAccountUsage($companyID);
-            
-                if ($billing) {
-                    $usageData['numberOfEmployees'] = $billing['quantity'];
-                }
-            }
-            
-            return $usageData;
+
+                return $usageData;
+
+            } catch(Exception $e) {
+                return $usageData;
+            } 
             
         });
 

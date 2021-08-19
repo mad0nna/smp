@@ -70,8 +70,7 @@ class BillingController extends Controller
                 
                 $_date = date('Y-m', strtotime($d['startDateTime']));
 
-                if ($_date === $bill_date) {
-                    dd($d);
+                if ($_date === $bill_date) {                    
                     return $d;
                 }
             }

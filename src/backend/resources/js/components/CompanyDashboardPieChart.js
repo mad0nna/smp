@@ -189,12 +189,13 @@ const CompanyDashboardPieChart = () => {
                   <div>
                     <h3 className="text-gray-700 text-md mb-2">勤怠記録</h3>
                     <p className="text-gray-500 text-xs mb-2">
-                      <span className="text-lg">{state.numberOfEmployees}</span>
-                      人のKOTユーザーID保有者のうちの
-                      <br />
+                      登録済従業員
                       <span className="text-lg">
                         {state.numberOfActiveKOTUsers}
                       </span>
+                      人のうち
+                      <br />
+                      <span className="text-lg">{state.numberOfEmployees}</span>
                       人が打刻済み
                     </p>
                     <p className="orange text-3xl font-bold">
@@ -211,12 +212,13 @@ const CompanyDashboardPieChart = () => {
                   <div>
                     <h3 className="text-gray-700 text-md mb-2">展開率</h3>
                     <p className="text-gray-500 text-xs mb-2">
-                      <span className="text-lg">{state.numberOfEmployees}</span>
-                      人の従業員のうちの <br />
+                      システムご利用予定人数
                       <span className="text-lg">
                         {state.numberOfSubscribers}
                       </span>
-                      人がKOTアクティブユーザー
+                      人のうち
+                      <span className="text-lg">{state.numberOfEmployees}</span>
+                      人が打刻済み
                     </p>
                     <p className="orange text-3xl font-bold">
                       {state.record2.percent}%
