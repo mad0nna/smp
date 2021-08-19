@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class LoginController extends Controller
 {
@@ -65,13 +66,29 @@ class LoginController extends Controller
         if (! Auth::user()) {
             if (isset($_GET['invite_token'])) {
                 $user = User::with('company')->where('email_verified_at', '=', null)->where('invite_token', '=', $_GET['invite_token'])->first();
-
-                if ($user['user_type_id'] == 4) {
-                    $sf_user = $this->userService->createContactToSf($user);
-                    User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(),'user_status_id' => 1, 'account_code' => $sf_user['Id']]);
+                if ($user && $user['user_type_id'] == 4 && $user['user_status_id'] === 5) {
+                    $salesforceFormat = [
+                        'FirstName' => $user['first_name'],
+                        'LastName' => $user['last_name'],
+                        'MobilePhone' => $user['contact_num'],
+                        'Email' => $user['email'],
+                        'Title' => $user['title'],
+                    ];
+                    $sf_user = $this->userService->contactVerification($salesforceFormat, $user['company']['account_id']);
+                    if($sf_user) {
+                        User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(),'user_status_id' => 1, 'account_code' => $sf_user['Id'], 'invite_token' => '', 'temp_pw' => '']);
+                    }
+                    $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+                    $currentURL = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+                    $key = 'page';
+                    // Remove specific parameter from query string
+                    $filteredURL = preg_replace('~(\?|&)'.$key.'=[^&]*~', '$1', $currentURL);
+                    return redirect($filteredURL);
+                }
+                if ($user && $user['user_status_id'] === 1) {
+                    return redirect(Auth::user()->type->dashboard_url);
                 }
             }
-
             return view('index');
         }
 

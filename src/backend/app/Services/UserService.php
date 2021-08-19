@@ -361,15 +361,22 @@ class UserService
         return true;
     }
 
-    public function createContactToSf($user)
+    public function contactVerification($user, $companyID)
     {
-        $accountID = $user['company']['account_id'];
-        $result = json_decode($this->salesForce->updateAdminDetails($user, $accountID, false, false));
-
-        if ($result->status) {
-            return $this->salesForce->getCompanyAdminDetailsbyEmail($user['email']);
+        $exisitngData = $this->salesForce->getCompanyAdminDetailsbyEmail($user['Email']);
+        if ($exisitngData === false) {
+            $user['AccountId'] = $companyID;
+            $creationStatus = $this->salesForce->createContact($user);
+            if ($creationStatus) {
+                return $exisitngData;
+            }
+            return false;
         }
-
+        $contactID = $exisitngData['Id'];
+        $result = json_decode($this->salesForce->updateAdminDetails($user, $contactID));
+        if ($result->status) {
+            return $exisitngData;
+        }
         return false;
     }
 }

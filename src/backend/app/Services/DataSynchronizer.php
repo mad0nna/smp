@@ -15,13 +15,13 @@ class DataSynchronizer
         $this->mysql = new DatabaseRepository();
     }
 
-    public function updateCompanyAndAdminDetails($request, $companyID, $accountID)
+    public function updateCompanyAndAdminDetails($request, $companyID, $contactID)
     {
-        if (empty($companyID) || empty($accountID)) {
+        if (empty($companyID) || empty($contactID)) {
             return $request;
         }
 
-        $sfResponse = $this->salesForce->updateAdminDetails($request['adminDetails'], $accountID);
+        $sfResponse = $this->salesForce->updateAdminDetails($request['adminDetails'], $contactID);
         if (isset($companyInformation['status']) && !$companyInformation['status']) {
             $this->salesForce->updateCompanyDetails($request['companyDetails'], $companyID);
 
@@ -33,7 +33,7 @@ class DataSynchronizer
             return $sfResponse;
         }
 
-        $dbResponse = $this->mysql->updateAdminDetails($accountID, $request['adminDetails'], true);
+        $dbResponse = $this->mysql->updateAdminDetails($contactID, $request['adminDetails'], true);
         if (!$dbResponse) {
             return MessageResult::error('Error on updating admin details');
         }

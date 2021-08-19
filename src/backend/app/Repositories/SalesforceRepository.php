@@ -115,6 +115,35 @@ class SalesforceRepository
         }
     }
 
+    public function createContact($newValues)
+    {
+        try {
+            $oResponse = $this->oClient->post(
+                env('SALESFORCE_HOST') . '/services/data/v34.0/sobjects/contact',
+                [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                        'Authorization' => 'Bearer ' . $this->tokens['access_token'],
+                    ],
+                    'json' => $newValues,
+                ]
+            );
+
+            if ($oResponse->getStatusCode() == 204 || $oResponse->getStatusCode() == 201) {
+                return true;
+            }
+            return false;
+        } catch (ClientException $reqExcep) {
+            $statusCode = $reqExcep->getResponse()->getStatusCode();
+            if ($statusCode === 401) {
+                $this->tokens = (new AccessToken())->getToken();
+                return $this->createContact($newValues);
+            }
+            return false;
+        }
+    }
+
+
     /**
      * Getting Company Admin Details by email
      * @param $email string
@@ -212,7 +241,7 @@ class SalesforceRepository
         }
     }
 
-    public function updateAdminDetails($newValues, $accountID)
+    public function updateAdminDetails($newValues, $contactID)
     {
         try {
             $data = [
@@ -224,7 +253,7 @@ class SalesforceRepository
             ];
 
             $oResponse = $this->oClient->patch(
-                env('SALESFORCE_HOST') . "/services/data/v34.0/sobjects/contact/{$accountID}",
+                env('SALESFORCE_HOST') . "/services/data/v34.0/sobjects/contact/{$contactID}",
                 [
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -244,7 +273,7 @@ class SalesforceRepository
             if ($statusCode === 401) {
                 $this->tokens = (new AccessToken())->getToken();
 
-                return $this->updateAdminDetails($newValues, $accountID);
+                return $this->updateAdminDetails($newValues, $contactID);
             }
 
             return MessageResult::error('Error while updating admin details in Salesforce.');

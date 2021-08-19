@@ -101,7 +101,6 @@ const AccountsList = () => {
 
   useEffect(() => {
     if (!_.isEmpty(state.params.id)) {
-      console.log(state.params.id)
       setState((prevState) => {
         return {
           ...prevState,
@@ -181,8 +180,6 @@ const AccountsList = () => {
     axios
       .get(`/company/findInSFByEmail?email=${email}`)
       .then((response) => {
-        // console.log(response.status)
-        // const admin = response.data
         setState((prevState) => {
           return {
             ...prevState,
@@ -204,8 +201,6 @@ const AccountsList = () => {
       .catch(function (error) {
         if (error.response) {
           // const admin = state.foundAccount
-          // console.log('search result')
-          // console.log(admin)
           setState((prevState) => {
             return {
               ...prevState,
@@ -223,7 +218,6 @@ const AccountsList = () => {
   }
 
   const handleDisplayAddedAdmin = (user) => {
-    console.log('adding user')
     if (user.source != 'salesforce') {
       const fullName = user.fullName
       let arr = []
@@ -235,8 +229,6 @@ const AccountsList = () => {
     } else {
       user.isPartial = 0
     }
-
-    console.log(user)
 
     setState((prevState) => {
       return {
@@ -267,7 +259,6 @@ const AccountsList = () => {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response.status)
           setState((prevState) => {
             return {
               ...prevState,
@@ -295,7 +286,6 @@ const AccountsList = () => {
         state.adminList.splice(state.accountToDeleteIndex, 1)
         if (data.status == 200) {
           setState((prevState) => {
-            console.log(prevState.adminList)
             return {
               ...prevState,
               showPopupDelete: false,
@@ -306,7 +296,6 @@ const AccountsList = () => {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response.status)
           setState({
             deletedAccount: null
           })
@@ -324,7 +313,6 @@ const AccountsList = () => {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response.status)
           setState({
             deletedAccount: null
           })
@@ -333,8 +321,6 @@ const AccountsList = () => {
   }
 
   const handleDisplayDelete = (account, i) => {
-    console.log(account)
-    console.log(i)
     setState((prevState) => {
       return {
         ...prevState,
@@ -346,7 +332,6 @@ const AccountsList = () => {
   }
 
   const handleDisplayUpdate = (account, index) => {
-    console.log(account)
     setState((prevState) => {
       return {
         ...prevState,
@@ -411,13 +396,11 @@ const AccountsList = () => {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response.status)
         }
       })
   }
 
   const handleCloseDeleteConfirmation = () => {
-    console.log('handleCloseDeleteConfirmation')
     setState((prevState) => {
       return {
         ...prevState,
@@ -427,7 +410,6 @@ const AccountsList = () => {
   }
 
   const handleCloseMessageDialog = () => {
-    console.log('handleCloseMessageDialog')
     setState((prevState) => {
       return {
         ...prevState,
