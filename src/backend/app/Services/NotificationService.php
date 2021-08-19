@@ -1,17 +1,16 @@
 <?php
 namespace App\Services;
 
-use App\Repositories\ZendeskRepository;
 use App\Services\Utilities\DateManager;
 use App\Repositories\DatabaseRepository;
 use Illuminate\Support\Facades\Cache;
+use App\Services\API\Zendesk\Model\Article;
 
 class NotificationService
 {
     public function __construct()
     {
         $this->database = new DatabaseRepository();
-        $this->zendesk = new ZendeskRepository();
         $this->dateManager = new DateManager();
     }
 
@@ -32,16 +31,12 @@ class NotificationService
         return $allNotif;
     }
 
+
     public function getFromZendesk($accountID)
     {
         $currentYear = $this->dateManager->getCurrentYear();
         $articles = Cache::remember("{$accountID}:notifications", now()->addHours(3), function () use ($currentYear) {
-            $article = $this->zendesk->getArticlesFromTA($currentYear)['results'];
-            $article = array_merge($article, $this->zendesk->getArticlesFromSL($currentYear)['results']);
-            $article = array_merge($article, $this->zendesk->getArticlesFromDA($currentYear)['results']);
-            $article = array_merge($article, $this->zendesk->getArticlesFromHR($currentYear)['results']);
-
-            return $article;
+            return (new Article)->all($currentYear);
         });
         $seenNotif = $this->database->getZendeskSeenNotif($accountID);
         $articles = $this->addCategoryName($articles);
