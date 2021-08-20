@@ -35,7 +35,6 @@ const App = () => {
   })
 
   const handleDisplayAddedCompany = (company) => {
-    // console.log(company)
     setState((prevState) => {
       return {
         ...prevState,
@@ -57,26 +56,24 @@ const App = () => {
       }
     })
 
-    fetch('/admin/company/searchCompanyId', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        code: selectedItem.companyCode,
-        company_id: selectedItem.id,
-        _token: state.token
-      })
-    })
-      .then((response) => {
-        if (response.ok) return response.json()
-        return { success: false }
-      })
+    axios
+      .post(
+        `/admin/company/searchCompanyId`,
+        {
+          code: selectedItem.companyCode,
+          company_id: selectedItem.id,
+          _token: state.token
+        },
+        {
+          'Content-Type': 'application/json'
+        }
+      )
       .then((data) => {
-        if (data.success !== undefined && data.success === true) {
-          console.log(data)
+        if (data.data.success !== undefined && data.data.success === true) {
           setState((prevState) => {
             return {
               ...prevState,
-              addedCompany: data.data,
+              addedCompany: data.data.data,
               isEditingProfile: true,
               formState: 'edit form',
               redirectToProfile: true,
@@ -108,24 +105,18 @@ const App = () => {
   }
 
   const handleUpdateList = () => {
-    fetch('/admin/company', {
-      method: 'get',
-      headers: { 'Content-Type': 'application/json' }
+    axios.get(`/admin/company`).then((data) => {
+      if (data.data.success !== undefined && data.data.success === true) {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            accountList: data.data.data,
+            redirectToAccountList: true,
+            redirectToProfile: false
+          }
+        })
+      }
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data)
-        if (data.success !== undefined && data.success === true) {
-          setState((prevState) => {
-            return {
-              ...prevState,
-              accountList: data.data,
-              redirectToAccountList: true,
-              redirectToProfile: false
-            }
-          })
-        }
-      })
   }
 
   const handleCloseProfile = () => {

@@ -66,7 +66,7 @@ class LoginController extends Controller
         if (! Auth::user()) {
             if (isset($_GET['invite_token'])) {
                 $user = User::with('company')->where('email_verified_at', '=', null)->where('invite_token', '=', $_GET['invite_token'])->first();
-                if ($user && $user['user_type_id'] == 4 && $user['user_status_id'] === 5) {
+                if ($user && ($user['user_type_id'] == 4 || $user['user_type_id'] == 3) && $user['user_status_id'] === 5) {
                     $salesforceFormat = [
                         'FirstName' => $user['first_name'],
                         'LastName' => $user['last_name'],

@@ -11,6 +11,7 @@ import MessageDialog from './MessageDialog'
 import _ from 'lodash'
 import Select from 'react-select'
 import queryString from 'query-string'
+import axios from 'axios'
 // eslint-disable-next-line
 let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
 
@@ -184,17 +185,12 @@ const AccountProfile = (props) => {
     let account = state.company
     account._token = props.token
 
-    fetch('/admin/company/saveAddedCompany', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(account)
-    })
-      .then((response) => {
-        if (response.ok) return response.json()
-        return { success: false }
+    axios
+      .post(`/admin/company/saveAddedCompany`, account, {
+        'Content-Type': 'application/json'
       })
       .then((data) => {
-        if (data.success !== undefined && data.success === true) {
+        if (data.data.success !== undefined && data.data.success === true) {
           setState((prevState) => {
             return {
               ...prevState,
@@ -207,7 +203,6 @@ const AccountProfile = (props) => {
             }
           })
         } else {
-          console.log(data)
           setState((prevState) => {
             return {
               ...prevState,
@@ -261,19 +256,13 @@ const AccountProfile = (props) => {
 
     let account = state.company
     account._token = props.token
-    // account.isPullFromSf = props.isPullFromSf
 
-    fetch('/admin/company/updateSaveAccount', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(account)
-    })
-      .then((response) => {
-        if (response.ok) return response.json()
-        return { success: false }
+    axios
+      .post(`/admin/company/updateSaveAccount`, account, {
+        'Content-Type': 'application/json'
       })
       .then((data) => {
-        if (data.success !== undefined && data.success === true) {
+        if (data.data.success !== undefined && data.data.success === true) {
           setState((prevState) => {
             return {
               ...prevState,
@@ -355,29 +344,27 @@ const AccountProfile = (props) => {
 
   useEffect(() => {
     if (_.isEmpty(props.company)) {
-      console.log('props is empty')
       let params = queryString.parse(location.search)
-      fetch('/admin/company/searchCompanyId', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          company_id: params.id,
-          _token: document
-            .querySelector('meta[name="csrf-token"]')
-            .getAttribute('content')
-        })
-      })
-        .then((response) => {
-          if (response.ok) return response.json()
-          return { success: false }
-        })
+
+      axios
+        .post(
+          `/admin/company/searchCompanyId`,
+          {
+            company_id: params.id,
+            _token: document
+              .querySelector('meta[name="csrf-token"]')
+              .getAttribute('content')
+          },
+          {
+            'Content-Type': 'application/json'
+          }
+        )
         .then((data) => {
-          if (data.success !== undefined && data.success === true) {
-            console.log(data)
+          if (data.data.success !== undefined && data.data.success === true) {
             setState((prevState) => {
               return {
                 ...prevState,
-                company: data.data
+                company: data.data.data
               }
             })
           } else {

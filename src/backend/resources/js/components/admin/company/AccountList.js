@@ -7,6 +7,7 @@ import MessageDialog from './MessageDialog'
 import Pagination from '../../Pagination'
 import waitingIcon from '../../../../img/loading-spinner.gif'
 import _ from 'lodash'
+import axios from 'axios'
 
 const AccountList = (props) => {
   const [state, setState] = useState({
@@ -32,7 +33,6 @@ const AccountList = (props) => {
   })
 
   const togglePopupNewAccount = () => {
-    console.log('togglePopupNewAccount')
     setState((prevState) => {
       return {
         ...prevState,
@@ -62,25 +62,24 @@ const AccountList = (props) => {
       }
     })
 
-    fetch('/admin/company/searchCompanyCode', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        code: code,
-        _token: props.token
-      })
-    })
-      .then((response) => {
-        if (response.ok) return response.json()
-        return { success: false }
-      })
+    axios
+      .post(
+        `/admin/company/searchCompanyCode`,
+        {
+          code: code,
+          _token: props.token
+        },
+        {
+          'Content-Type': 'application/json'
+        }
+      )
       .then((data) => {
-        if (data.success !== undefined && data.success === true) {
+        if (data.data.success !== undefined && data.data.success === true) {
           setState((prevState) => {
             return {
               ...prevState,
               companyCode: code,
-              foundCompany: data.data,
+              foundCompany: data.data.data,
               isLoading: false,
               searchResult: ''
             }
@@ -99,7 +98,6 @@ const AccountList = (props) => {
   }
 
   function handleResendEmailInvite(userId) {
-    console.log('handleResendEmailInvite')
     setState((prevState) => {
       return {
         ...prevState,
@@ -107,20 +105,20 @@ const AccountList = (props) => {
       }
     })
 
-    fetch('/admin/company/resendEmailInvite', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user_id: userId,
-        _token: props.token
-      })
-    })
-      .then((response) => {
-        if (response.ok) return response.json()
-        return { success: false }
-      })
+    document.getElementById('spin_' + userId).classList.remove('hidden')
+    axios
+      .post(
+        `/admin/company/resendEmailInvite`,
+        {
+          user_id: userId,
+          _token: props.token
+        },
+        {
+          'Content-Type': 'application/json'
+        }
+      )
       .then((data) => {
-        if (data.success !== undefined && data.success === true) {
+        if (data.data.success !== undefined && data.data.success === true) {
           setState((prevState) => {
             return {
               ...prevState,
@@ -139,6 +137,7 @@ const AccountList = (props) => {
             }
           })
         }
+        document.getElementById('spin_' + userId).classList.add('hidden')
       })
   }
 
@@ -325,7 +324,6 @@ const AccountList = (props) => {
               {state.sortedAccountList.map((item, index) => {
                 let txtcolor =
                   item.status === 'Pending' ? 'text-red-500' : 'text-gray-900'
-
                 let actionButton =
                   item.admin.length &&
                   item.admin[0].emailVerifiedAt === null ? (
@@ -337,13 +335,6 @@ const AccountList = (props) => {
                         }
                       >
                         更新 &nbsp;&nbsp;
-                        <img
-                          src={waitingIcon}
-                          className={
-                            (state.isLoadingPullSf ? ' ' : ' hidden ') +
-                            ' w-8 inline '
-                          }
-                        />
                       </a>
                       <a
                         className="cursor-pointer"
@@ -355,11 +346,9 @@ const AccountList = (props) => {
                       >
                         招待を再送
                         <img
+                          id={`spin_` + item.admin[0].id}
                           src={waitingIcon}
-                          className={
-                            (state.isLoadingResendEmail ? ' ' : ' hidden ') +
-                            ' w-8 inline '
-                          }
+                          className={'hidden w-8 inline'}
                         />
                       </a>
                     </div>
