@@ -272,7 +272,7 @@ const CompanyProfile = () => {
                 isSaving: false
               }
             })
-            alert('The information has been updated.')
+            alert('入力内容を更新しました.')
             window.document.getElementById('iconContainer').src = saveIcon
             window.document.getElementById('iconContainer').disabled = false
             location.reload()
