@@ -128,9 +128,7 @@ const AccountProfileEdit = (props) => {
   const handleUpdateSave = () => {
     console.log('handleUpdateSave')
 
-    if (confirm('Are you sure do you want to update this data?')) {
-      console.log(state.account)
-
+    if (confirm('本当にこのデータを更新してもよろしいですか？')) {
       setState((prevState) => {
         return {
           ...prevState,
