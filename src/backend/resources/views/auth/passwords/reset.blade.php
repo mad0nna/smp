@@ -25,12 +25,10 @@
 
                         <div class="form-group flex flex-wrap flex-col gap-0 w-full justify-center">   
                             <input id="password" placeholder="新しいパスワードを入力してください" type="password" class="form-control @error('password') is-invalid @enderror px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none mx-auto w-7/12" name="password" value="{{old('password')}}" required autocomplete="new-password">
-
                         </div>
 
                         <div class="form-group flex flex-wrap flex-col gap-0 w-full justify-center">
-
-                            <input id="password-confirm" type="password" placeholder="新しいパスワードを再入力してください。" class="form-control px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none mx-auto w-7/12" name="password_confirmation" value="{{old('password_confirmation')}}" required autocomplete="new-password">
+                            <input id="password-confirm" type="password" placeholder="新しいパスワードを再入力してください。" class="form-control px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none mx-auto w-7/12 mb-3" name="password_confirmation" value="{{old('password_confirmation')}}" required autocomplete="new-password">
                         </div>
                         @error('password')
                                 <span class="invalid-feedback text-xs text-center mt-3" role="alert">

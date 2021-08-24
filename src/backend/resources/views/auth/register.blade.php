@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="email" class="text-muted text-uppercase font-weight-bold">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="text-muted text-uppercase font-weight-bold">{{ __('電子メールアドレス') }}</label>
 
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password" class="text-muted text-uppercase font-weight-bold">{{ __('Password') }}</label>
+                            <label for="password" class="text-muted text-uppercase font-weight-bold">{{ __('パスワード') }}</label>
 
                             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
@@ -58,14 +58,14 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm" class="text-muted text-uppercase font-weight-bold">{{ __('Confirm Password') }}</label>
+                            <label for="password-confirm" class="text-muted text-uppercase font-weight-bold">{{ __('パスワードを認証する') }}</label>
 
                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                         </div>
 
                         <div class="form-group mb-0">
                             <button type="submit" class="btn btn-primary btn-block">
-                                {{ __('Register') }}
+                                {{ __('登録') }}
                             </button>
                         </div>
                     </form>

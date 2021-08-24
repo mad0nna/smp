@@ -41,7 +41,7 @@ class RegisterUserTest extends TestCase
         $this->assertEquals(422, $response->getStatusCode());
 
         $this->assertTrue(
-            in_array('The password field is required.', $result->error->password)
+            in_array('パスワードフィールドは必須です。', $result->error->password)
         );
     }
 

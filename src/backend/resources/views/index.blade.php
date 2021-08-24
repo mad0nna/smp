@@ -59,11 +59,11 @@
                                     value="{{old('password')}}"
                                     placeholder="パスワード"
                                     class=
-                                    "w-full px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-gray-300 outline-none rounded-t-none"
+                                    "w-full px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-gray-300 outline-none rounded-t-none mb-3"
                                 />
                                 @error('password')
                                     <span class="text-blueGray-400 text-xs" role="alert">
-                                        <strong>@if ($message==='The password field is required.') 'パスワードを入力してください。' @else {{$message}} @endif</strong>
+                                        <strong>@if ($message==='パスワードフィールドは必須です。.') 'パスワードを入力してください。' @else {{$message}} @endif</strong>
                                     </span>
                                 @enderror
                                 @if (session('status'))
