@@ -38,7 +38,7 @@ const Products = () => {
   ]
 
   return (
-    <div className="dashboard-widget-list w-full h-full relative group font-meiryo overflow-hidden rounded-lg">
+    <div className="dashboard-widget-list w-full h-full relative group font-meiryo overflow-hidden rounded-lg shadow-xl">
       <div className="relative gap-1 w-full h-full bg-white shadow-xl group">
         <div id="widget-header" className="relative box-border p-3 bg-white">
           <div>
