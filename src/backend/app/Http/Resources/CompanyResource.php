@@ -72,7 +72,9 @@ class CompanyResource extends JsonResource
     public static function filterFromSFToFront($data, $company_code = '')
     {
         return [
-            'id' => '',
+            'id' => $data['Id'] ?? '',
+            'companyID' => $data['Id'] ?? '',
+            'contactID' => $data['contact']['Id'] ?? '',
             'companyCode' => $company_code,
             'name' => $data['Name'],
             'contactNum' => $data['Phone'],

@@ -98,8 +98,7 @@ class CompanyController extends Controller
 
         try {
             $result = $companyService->getAllDetailsInSFByID($request->code);
-
-            if (!$result) {
+            if ($result === false || !$result) {
                 throw new NotFoundHttpException('No records found.');
             }
 
@@ -118,7 +117,6 @@ class CompanyController extends Controller
     public function searchCompanyId(Request $request, CompanyService $companyService)
     {
         $code = 200;
-
         try {
             if ($request->code) {
                 $result = $companyService->getAllDetailsInSFByID($request->code);
@@ -158,7 +156,6 @@ class CompanyController extends Controller
           'companyCode' => ['required', 'unique:companies,company_code'],
           'name' => ['required'],
       ]);
-
         $formData = $this->getRecord($request);
         $result = $companyService->addCompanyToDB($formData);
 
@@ -176,7 +173,6 @@ class CompanyController extends Controller
         $admin = $this->getAdminRecord(isset($request['admin'][0]) ? array_values($request['admin'])[0] : []);
         $sf_id = $this->getSfId($request['sfRecords']);
         $sf_record = $request['sfRecords'];
-        // dd($formData);
 
         $formData['number_of_employees'] = $request['sfRecords']['numberofemployees'];
 
@@ -258,6 +254,9 @@ class CompanyController extends Controller
     {
         return [
         'company_code' => $request['companyCode'] ?? '',
+        'companyID' => $request['companyID'] ??  '',
+        'account_id' => $request['companyID'] ?? '',
+        'account_code' => $request['contactID'] ?? '',
         'name' => $request['name'] ?? '',
         'contact_num' => $request['contactNum'] ?? '',
         'website' => $request['website'] ?? '',
@@ -277,7 +276,6 @@ class CompanyController extends Controller
         'contact_last_name' => $request['sfRecords']['contact']['lastname'] ?? '',
         'contact_email' => $request['sfRecords']['contact']['email'] ?? '',
         'contact_contact_num' => $request['sfRecords']['contact']['mobilephone'] ?? '',
-        'account_id' => $request['accountId'] ?? '',
         'negotiate_code' => $request['negotiateCode'] ?? '',
         'company_code' => $request['companyCode'] ?? '',
         'record_type_code' => $request['recordTypeCode'] ?? '',
@@ -286,8 +284,6 @@ class CompanyController extends Controller
         'payment_method' => $request['paymentMethod'] ?? '',
         'opportunity_code' => $request['opportunityCode'] ?? '',
         'opportunity' => $request['sfRecords']['opportunity'] ?? [],
-        'sf_records' => isset($request['sfRecords']) ? json_encode($request['sfRecords']) : [],
-
       ];
     }
 

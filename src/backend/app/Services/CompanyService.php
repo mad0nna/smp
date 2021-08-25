@@ -205,6 +205,7 @@ class CompanyService
                 'temp_pw' => $pw,
                 'invite_token' => $invite_token,
                 'company_name' => $data['name'],
+                'account_code' => $data['account_code']
             ];
             $_user = $user->create($formData);
             $this->mysql->makeUserWidgetSettings($_user->id);
