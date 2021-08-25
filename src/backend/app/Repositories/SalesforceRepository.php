@@ -52,7 +52,7 @@ class SalesforceRepository
         try {
             $oResponse = $this->oClient->get(
                 env('SALESFORCE_HOST') . "/services/data/v34.0/query/?q=SELECT+Name, Id, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c,
-                field41__c, kot_sales_phase__c, ServerName__c, HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId+from+Account+WHERE+KotCompanyCode__c='" . $sfCompanyID . "'+LIMIT+200",
+                Field41__c, kot_sales_phase__c, ServerName__c, HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId+from+Account+WHERE+KotCompanyCode__c='" . $sfCompanyID . "'+LIMIT+200",
                 [
                     'headers' => [
                         'Content-Type' => 'application/json',

@@ -98,7 +98,7 @@ class CompanyController extends Controller
 
         try {
             $result = $companyService->getAllDetailsInSFByID($request->code);
-            if ($result === false || !$result) {
+            if (!$result) {
                 throw new NotFoundHttpException('No records found.');
             }
 
@@ -256,6 +256,7 @@ class CompanyController extends Controller
         'company_code' => $request['companyCode'] ?? '',
         'companyID' => $request['companyID'] ??  '',
         'account_id' => $request['companyID'] ?? '',
+        'kot_billing_start_date' => $result['kot_billing_start_date'] ?? '',
         'account_code' => $request['contactID'] ?? '',
         'name' => $request['name'] ?? '',
         'contact_num' => $request['contactNum'] ?? '',
