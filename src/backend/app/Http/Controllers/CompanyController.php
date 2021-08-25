@@ -256,7 +256,7 @@ class CompanyController extends Controller
         'company_code' => $request['companyCode'] ?? '',
         'companyID' => $request['companyID'] ??  '',
         'account_id' => $request['companyID'] ?? '',
-        'kot_billing_start_date' => $result['kot_billing_start_date'] ?? '',
+        'kot_billing_start_date' => $request['kot_billing_start_date'] ?? '',
         'account_code' => $request['contactID'] ?? '',
         'name' => $request['name'] ?? '',
         'contact_num' => $request['contactNum'] ?? '',
