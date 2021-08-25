@@ -3,22 +3,33 @@ import React, { useEffect, useState } from 'react'
 const AdminsList = (props) => {
   const [state, setState] = useState({
     sorted: [],
-    loggedUser: props.admins.loggedUser
+    loggedUser: props.admins.loggedUser,
+    orderAsc: false
   })
   const sortArray = (type) => {
     const types = {
-      name: 'name',
-      companyCode: 'email'
+      fullName: 'fullName',
+      email: 'email'
     }
+
     const sortProperty = types[type]
-    const sort = state.sorted.sort((a, b) =>
-      b[sortProperty] - a[sortProperty] ? 1 : -1
-    )
+    const sort = state.sorted.sort((a, b) => {
+      if (state.orderAsc) {
+        return b[sortProperty].toLowerCase() > a[sortProperty].toLowerCase()
+          ? 1
+          : -1
+      } else {
+        return b[sortProperty].toLowerCase() > a[sortProperty].toLowerCase()
+          ? -1
+          : 1
+      }
+    })
 
     setState((prevState) => {
       return {
         ...prevState,
-        sorted: sort
+        sorted: sort,
+        orderAsc: !prevState.orderAsc
       }
     })
   }
@@ -43,7 +54,7 @@ const AdminsList = (props) => {
       <thead className="bg-gray-50 border-b border-t border-gray-200">
         <tr className="h-11 text-xs text-gray-500 text-shadow-none">
           <th>
-            <span id="num" onClick={() => sortArray('name')}>
+            <span id="fullName" onClick={() => sortArray('fullName')}>
               名前&nbsp;
               <div
                 className={

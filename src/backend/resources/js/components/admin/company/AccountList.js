@@ -39,7 +39,8 @@ const AccountList = (props) => {
         showPopupNewAccount: !prevState.showPopupNewAccount,
         companyCode: '',
         foundCompany: null,
-        isLoading: false
+        isLoading: false,
+        orderAsc: false
       }
     })
   }
@@ -156,14 +157,24 @@ const AccountList = (props) => {
       companyCode: 'companyCode'
     }
     const sortProperty = types[type]
-    const sorted = props.data.accountList.sort((a, b) =>
-      b[sortProperty] - a[sortProperty] ? 1 : -1
-    )
+
+    const sorted = props.data.accountList.sort((a, b) => {
+      if (state.orderAsc) {
+        return b[sortProperty].toLowerCase() > a[sortProperty].toLowerCase()
+          ? 1
+          : -1
+      } else {
+        return b[sortProperty].toLowerCase() > a[sortProperty].toLowerCase()
+          ? -1
+          : 1
+      }
+    })
 
     setState((prevState) => {
       return {
         ...prevState,
-        sortedAccountList: sorted
+        sortedAccountList: sorted,
+        orderAsc: !prevState.orderAsc
       }
     })
   }
