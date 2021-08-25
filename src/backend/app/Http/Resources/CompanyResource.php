@@ -74,7 +74,7 @@ class CompanyResource extends JsonResource
         return [
             'id' => $data['Id'] ?? '',
             'companyID' => $data['Id'] ?? '',
-            'account_code' => $data['contact']['Id'] ?? '',
+            'contactID' => $data['contact']['Id'] ?? '',
             'kot_billing_start_date' => $data['Field41__c'] ?? '',
             'companyCode' => $company_code,
             'name' => $data['Name'],
