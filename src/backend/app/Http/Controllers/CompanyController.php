@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Resources\CompanyResource;
 use App\Http\Requests\SearchCompanyRequest;
+use Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CompanyController extends Controller
@@ -94,23 +95,32 @@ class CompanyController extends Controller
 
     public function searchCompanyCode(Request $request, CompanyService $companyService)
     {
-        $code = 200;
-
         try {
+            $isExistinIdaten = $companyService->getCompanyByCode($request->code)->toArray();
+            if (!empty($isExistinIdaten)) {
+                return response()->json([
+                    'success' => true,
+                    'exists' => true,
+                    'data' => 'ご入力された顧客企業コードは既に登録されています。',
+                  ]);
+            }
             $result = $companyService->getAllDetailsInSFByID($request->code);
             if (!$result) {
-                throw new NotFoundHttpException('No records found.');
+                throw new Exception('コードが見つかりません');
             }
+            return response()->json([
+                'success' => true,
+                'exists' => false,
+                'data' => CompanyResource::filterFromSFToFront($result, $request->code),
+              ]);
 
-            $this->response = [
-          'success' => true,
-          'data' => CompanyResource::filterFromSFToFront($result, $request->code),
-        ];
         } catch (\Exception $e) {
-            $code = ($e instanceof NotFoundHttpException) ? 404 : 500;
+            return response()->json([
+                'success' => false,
+                'exists' => false,
+                'data' => $e->getMessage(),
+              ]);
         }
-
-        return response()->json($this->response, $code);
     }
 
     //should accept company id and company code

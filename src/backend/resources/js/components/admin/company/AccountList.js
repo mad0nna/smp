@@ -75,12 +75,22 @@ const AccountList = (props) => {
         }
       )
       .then((data) => {
-        if (data.data.success !== undefined && data.data.success === true) {
+        let result = data.data
+        if (result.exists && result.success) {
           setState((prevState) => {
             return {
               ...prevState,
               companyCode: code,
-              foundCompany: data.data.data,
+              isLoading: false,
+              searchResult: result.data
+            }
+          })
+        } else if (result.success && !result.exists) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              companyCode: code,
+              foundCompany: result.data,
               isLoading: false,
               searchResult: ''
             }
@@ -91,7 +101,7 @@ const AccountList = (props) => {
               ...prevState,
               companyCode: code,
               isLoading: false,
-              searchResult: 'コードが見つかりません'
+              searchResult: result.data
             }
           })
         }
