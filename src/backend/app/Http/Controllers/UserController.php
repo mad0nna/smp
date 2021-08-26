@@ -95,10 +95,9 @@ class UserController extends Controller
                 'limit' => $request->getLimit(),
             ];
             $results = $this->userService->search($conditions, Auth::user()->company_id);
-
             $this->response = [
                 'success' => true,
-                'data' => UserResource::collection($results),
+                'data' => $results->items(),
                 'pageCount' => $results->total(),
                 'lastPage' => $results->lastPage(),
                 'message' => 'Company admin retrieved successfully.',

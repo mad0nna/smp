@@ -36,8 +36,8 @@ class UserRepository implements UserRepositoryInterface
         $this->request = $request;
 
         $this->statusError = [
-            config('user.statuses.pending') => new UserPendingException,
-            config('user.statuses.locked') => new UserLockedException,
+            config('user.statuses.pending.name') => new UserPendingException,
+            config('user.statuses.locked.name') => new UserLockedException,
         ];
     }
 

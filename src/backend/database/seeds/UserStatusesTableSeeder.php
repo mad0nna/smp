@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\UserStatus;
-use App\Models\UserType;
 
 class UserStatusesTableSeeder extends Seeder
 {
@@ -15,18 +14,10 @@ class UserStatusesTableSeeder extends Seeder
     {
         $statuses = [];
 
-        foreach (config('user.statuses') as $key => $value) {
-            $statuses[] = ['name' => $value];
+        foreach (config('user.statuses') as $status) {
+            $statuses[] = $status;
         }
 
         UserStatus::insert($statuses);
-
-        $types = [];
-
-        foreach (config('user.types') as $type) {
-            $types[] = $type;
-        }
-
-        UserType::insert($types);
     }
 }

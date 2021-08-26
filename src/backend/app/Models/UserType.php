@@ -14,7 +14,7 @@ class UserType extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'type_alias'];
 
     /**
      * Check if type is admin

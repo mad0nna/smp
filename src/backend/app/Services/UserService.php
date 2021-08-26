@@ -21,7 +21,6 @@ use App\Traits\Uploadable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Application;
 
 class UserService
 {
@@ -43,7 +42,7 @@ class UserService
      *
      * @param App\Models\User $user
      */
-    public function __construct(User $user, Application $app)
+    public function __construct(User $user)
     {
         $this->user = $user;
         $this->salesForce = new SalesforceRepository();
@@ -70,44 +69,24 @@ class UserService
         }
 
         $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
-
-        // initialize query
-        $query = $this->user;
-
-        if ($company_id) {
-            $query = $query->where(function ($query) use ($company_id) {
-                $query->select('company_id')->where('company_id', $company_id);
-            })->where(function ($query) use ($conditions) {
+            return User::with('company')->join('user_types', 'user_types.id', '=', 'user_type_id')
+        ->join('user_statuses', 'user_statuses.id', '=', 'user_status_id')
+                ->where('company_id', '=', $company_id)
+                ->where(function($query) use($conditions){
                 $query->where('first_name', 'LIKE', "%{$conditions['keyword']}%")
                 ->orWhere('last_name', 'LIKE', "%{$conditions['keyword']}%")
                 ->orWhere('username', 'LIKE', "%{$conditions['keyword']}%")
                 ->orWhere('account_code', 'LIKE', "%{$conditions['keyword']}%")
-                ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%");
-            });
-        } else {
-            // if keyword is provided
-            if (array_key_exists('keyword', $conditions)) {
-                $query = $query->where('first_name', 'LIKE', "%{$conditions['keyword']}%")
-                            ->orWhere('last_name', 'LIKE', "%{$conditions['keyword']}%")
-                            ->orWhere('username', 'LIKE', "%{$conditions['keyword']}%")
-                            ->orWhere('account_code', 'LIKE', "%{$conditions['keyword']}%")
-                            ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%");
-            }
-        }
-
-        // perform user search
-        $results = $query->skip($skip)
-                        ->orderBy('id', 'DESC')
-                        ->paginate($limit);
-
-        //append query to pagination routes
-        $results->withPath('/company/accountslist?' . http_build_query([
-                        'keyword' => $conditions['keyword'],
-                        'limit' => $limit,
-                    ])
-                );
-
-        return $results;
+                ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%")
+                ->orWhere('title', 'LIKE', "%{$conditions['keyword']}%")
+                ->orWhere('user_types.type_alias', 'LIKE', "%{$conditions['keyword']}%")
+                ->orWhere('user_statuses.status_alias', 'LIKE', "%{$conditions['keyword']}%")
+                ->orWhere('contact_num', 'LIKE', "%{$conditions['keyword']}%");
+                })->skip($skip)->orderBy('users.id', 'DESC')->paginate($limit)
+            ->withPath('/company/accountslist?' . http_build_query([
+                'keyword' => $conditions['keyword'],
+                'limit' => $limit,
+            ]));
     }
 
     /**

@@ -35,18 +35,13 @@ const AdminsList = (props) => {
   }
 
   useEffect(() => {
-    if (
-      props.admins.adminList !== undefined &&
-      props.admins.adminList.length > 0
-    ) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          sorted: props.admins.adminList,
-          loggedUser: props.admins.loggedUser
-        }
-      })
-    }
+    setState((prevState) => {
+      return {
+        ...prevState,
+        sorted: props.admins.adminList,
+        loggedUser: props.admins.loggedUser
+      }
+    })
   }, [props.admins])
 
   return (

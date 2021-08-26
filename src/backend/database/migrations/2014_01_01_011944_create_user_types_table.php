@@ -16,6 +16,7 @@ class CreateUserTypesTable extends Migration
         Schema::create('user_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('type_alias')->nullable();
             $table->string('dashboard_url');
             $table->timestamps();
         });

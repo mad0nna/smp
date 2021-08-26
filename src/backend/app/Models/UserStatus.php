@@ -11,7 +11,7 @@ class UserStatus extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'status_alias'];
 
     /**
      * Retrieve all Users under this status
