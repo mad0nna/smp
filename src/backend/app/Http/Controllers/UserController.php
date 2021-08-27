@@ -66,7 +66,7 @@ class UserController extends Controller
     {
         try {
             $result = $this->userService->findById($request->id);
-            $user = $this->userService->findInSFByEmail($result['email']);
+            $user = $this->userService->findInSFById($result['account_code']);
             $this->response['data'] = $this->getSFResource($user);
         } catch (Exception $e) {
             $this->response = [

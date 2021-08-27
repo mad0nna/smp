@@ -69,9 +69,10 @@ class UserService
         }
 
         $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
-            return User::with('company')->join('user_types', 'user_types.id', '=', 'user_type_id')
+            return User::join('companies', 'companies.id', '=', 'company_id')->join('user_types', 'user_types.id', '=', 'user_type_id')
         ->join('user_statuses', 'user_statuses.id', '=', 'user_status_id')
                 ->where('company_id', '=', $company_id)
+                ->select('companies.*', 'companies.id as company_id' , 'user_types.*', 'user_types.id as type_id', 'user_statuses.*', 'user_statuses.id as status_id', 'users.*')
                 ->where(function($query) use($conditions){
                 $query->where('first_name', 'LIKE', "%{$conditions['keyword']}%")
                 ->orWhere('last_name', 'LIKE', "%{$conditions['keyword']}%")
@@ -81,8 +82,11 @@ class UserService
                 ->orWhere('title', 'LIKE', "%{$conditions['keyword']}%")
                 ->orWhere('user_types.type_alias', 'LIKE', "%{$conditions['keyword']}%")
                 ->orWhere('user_statuses.status_alias', 'LIKE', "%{$conditions['keyword']}%")
-                ->orWhere('contact_num', 'LIKE', "%{$conditions['keyword']}%");
-                })->skip($skip)->orderBy('users.id', 'DESC')->paginate($limit)
+                ->orWhere('users.contact_num', 'LIKE', "%{$conditions['keyword']}%");
+                })
+                ->skip($skip)
+                ->orderBy('users.id', 'DESC')
+                ->paginate($limit)
             ->withPath('/company/accountslist?' . http_build_query([
                 'keyword' => $conditions['keyword'],
                 'limit' => $limit,
@@ -269,7 +273,21 @@ class UserService
     public function findInSFByEmail($email)
     {
         try {
-            $companyAdmin = $this->salesForce->getCompanyAdminDetailsbyEmail($email);
+            $companyAdmin = $this->salesForce->getCompanyAdminDetailsByEmail($email);
+            if (isset($companyAdmin['status']) && !$companyAdmin['status']) {
+                return json_encode($companyAdmin);
+            }
+
+            return $companyAdmin;
+        } catch (UserNotFoundException $e) {
+            throw new UserNotFoundException;
+        }
+    }
+
+    public function findInSFById($contactID) 
+    {
+        try {
+            $companyAdmin = $this->salesForce->getCompanyAdminById($contactID);
             if (isset($companyAdmin['status']) && !$companyAdmin['status']) {
                 return json_encode($companyAdmin);
             }

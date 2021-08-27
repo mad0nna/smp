@@ -115,6 +115,38 @@ class SalesforceRepository
         }
     }
 
+    public function getCompanyAdminById($contactID) {
+        try {
+            $oResponse = $this->oClient->get(
+                env('SALESFORCE_HOST') . "/services/data/v34.0/query/?q=SELECT+Name, Id, FirstName, LastName, Email, Title, MobilePhone, section__c, admin__c, CreatedDate+from+Contact+WHERE+Id='" . $contactID . "'+LIMIT+1",
+                [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                        'Authorization' => 'Bearer ' . $this->tokens['access_token'],
+                    ],
+                    'synchronous' => true,
+                ]
+            );
+
+            $oBody = $oResponse->getBody();
+            $adminDetails = json_decode($oBody->getContents(), true);
+            if (isset($adminDetails['status']) && !$adminDetails['status']) {
+                return $adminDetails;
+            }
+
+            return reset($adminDetails['records']);
+        } catch (ClientException $reqExcep) {
+            $statusCode = $reqExcep->getResponse()->getStatusCode();
+            if ($statusCode === 401) {
+                $this->tokens = (new AccessToken())->getToken();
+
+                return $this->getCompanyAdminDetails($sfCompanyID);
+            }
+
+            return MessageResult::error('Error while requesting company admin details from Salesforce.');
+        }
+    }
+
     public function createContact($newValues)
     {
         try {
