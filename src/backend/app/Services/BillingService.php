@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Services\API\Zuora\Model\Account;
 use App\Services\API\Zuora\Model\Invoice;
 use App\Services\API\Zuora\Model\Usage;
-
+use Illuminate\Support\Carbon;
 class BillingService
 {
     public function __construct()
@@ -27,7 +27,7 @@ class BillingService
             MessageResult::error('There something wrong while getting invoices');
         }
         foreach ($invoices as $key => $invoiceItem) {
-            $invoices[$key]['dueDate'] = (new DateManager)->getLastDayOFNextMonth($invoiceItem['dueDate']);
+            $invoices[$key]['dueDate'] = Carbon::createFromFormat('Y-m-d', $invoiceItem['dueDate'])->format('Y年m月d日');
             $invoices[$key]['invoiceDate'] = (new DateManager)->toJP($invoiceItem['invoiceDate']);
             $invoices[$key]['amount'] = number_format($invoiceItem['amount']);
             $invoices[$key]['paymentDate'] = '未払い';
