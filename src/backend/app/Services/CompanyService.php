@@ -247,14 +247,14 @@ class CompanyService
         return $company;
     }
 
-    public function updateSaveAccount($id, $sf_id, $data, $sf_record)
+    public function updateSaveAccount($id, $sf_id, $data, $sf_record = null)
     {
         DB::beginTransaction();
 
         try {
             $company = Company::findOrfail($id)->update($data);
-            if ($sf_id['account_id']) {
-                $r1 = $this->salesForce->updateCompanyDetails($data, $sf_id['account_id'], false); //default true to use sf column format, false for db column format.
+            if ($sf_id) {
+                $r1 = $this->salesForce->updateCompanyDetails($data, $sf_id, false); //default true to use sf column format, false for db column format.
             }
 
             DB::commit();

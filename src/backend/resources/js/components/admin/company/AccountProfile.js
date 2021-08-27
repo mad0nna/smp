@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-// import ReactDOM from 'react-dom'
-
 import profileIcon from '../../../../img/customer-company-profile.png'
 import editIcon from '../../../../img/edit-icon.png'
 import saveIcon from '../../../../img/Icon awesome-save.png'
@@ -11,6 +9,7 @@ import MessageDialog from './MessageDialog'
 import _ from 'lodash'
 import Select from 'react-select'
 import queryString from 'query-string'
+import axios from 'axios'
 // eslint-disable-next-line
 let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
 
@@ -183,17 +182,13 @@ const AccountProfile = (props) => {
 
     let account = state.company
     account._token = props.token
-    fetch('/admin/company/saveAddedCompany', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(account)
-    })
-      .then((response) => {
-        if (response.ok) return response.json()
-        return { success: false }
+
+    axios
+      .post(`/admin/company/saveAddedCompany`, account, {
+        'Content-Type': 'application/json'
       })
       .then((data) => {
-        if (data.success !== undefined && data.success === true) {
+        if (data.data.success !== undefined && data.data.success === true) {
           setState((prevState) => {
             return {
               ...prevState,
@@ -259,19 +254,13 @@ const AccountProfile = (props) => {
 
     let account = state.company
     account._token = props.token
-    // account.isPullFromSf = props.isPullFromSf
 
-    fetch('/admin/company/updateSaveAccount', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(account)
-    })
-      .then((response) => {
-        if (response.ok) return response.json()
-        return { success: false }
+    axios
+      .post(`/admin/company/updateSaveAccount`, account, {
+        'Content-Type': 'application/json'
       })
       .then((data) => {
-        if (data.success !== undefined && data.success === true) {
+        if (data.data.success !== undefined && data.data.success === true) {
           setState((prevState) => {
             return {
               ...prevState,
@@ -334,7 +323,7 @@ const AccountProfile = (props) => {
 
   const handleTextChangeNumberofemployees = (e) => {
     const value = e.target.value
-    state.company.sfRecords.numberofemployees = value
+    // state.company.sfRecords.numberofemployees = value
     setState((prevState) => {
       return {
         ...prevState
@@ -353,29 +342,39 @@ const AccountProfile = (props) => {
 
   useEffect(() => {
     if (_.isEmpty(props.company)) {
-      console.log('props is empty')
       let params = queryString.parse(location.search)
-      fetch('/admin/company/searchCompanyId', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          company_id: params.id,
+      let url = ''
+      let id = null
+      let code = null
+      let isEditingProfile = false
+
+      if (params.id) {
+        url = '/admin/company/searchCompanyId'
+        id = params.id
+        isEditingProfile = true
+      } else if (params.code) {
+        url = '/admin/company/searchCompanyCode'
+        code = params.code
+      } else {
+        alert('レコードが見つかりませんでした')
+        return
+      }
+
+      axios
+        .post(url, {
+          company_id: id,
+          code: code,
           _token: document
             .querySelector('meta[name="csrf-token"]')
             .getAttribute('content')
         })
-      })
-        .then((response) => {
-          if (response.ok) return response.json()
-          return { success: false }
-        })
         .then((data) => {
-          if (data.success !== undefined && data.success === true) {
-            console.log(data)
+          if (data.data.success !== undefined && data.data.success === true) {
             setState((prevState) => {
               return {
                 ...prevState,
-                company: data.data
+                company: data.data.data,
+                isEditingProfile: isEditingProfile
               }
             })
           } else {
@@ -647,7 +646,7 @@ const AccountProfile = (props) => {
               </div>
             </div>
 
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+            <div className="hidden">
               <div className="mb-1 md:mb-0 md:w-1/5">
                 <label className="text-sm text-gray-400">従業員数 :</label>
               </div>
@@ -657,16 +656,13 @@ const AccountProfile = (props) => {
                     (state.isEditingProfile ? ' hidden ' : '') +
                     ' text-sm text-black w-full h-8 px-3 leading-8'
                   }
-                >
-                  {state.company.sfRecords.numberofemployees}
-                </label>
+                ></label>
                 <input
                   className={
                     (state.isEditingProfile ? '' : ' hidden ') +
                     ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                   }
                   name="industrySub2"
-                  defaultValue={state.company.sfRecords.numberofemployees}
                   type="text"
                   onChange={handleTextChangeNumberofemployees}
                 />
@@ -715,7 +711,7 @@ const AccountProfile = (props) => {
                 <label
                   className={' text-sm text-black w-full h-8 px-3 leading-8'}
                 >
-                  {state.company.sfRecords.kotcompanycode__c}
+                  {state.company.companyCode}
                 </label>
               </div>
             </div>
@@ -725,7 +721,7 @@ const AccountProfile = (props) => {
         <div className="my-4 ml-6 mr-10 py-5 px-6 mt-0 pt-3 ">
           <button
             onClick={
-              props.formState === 'add form'
+              state.isEditingProfile === false
                 ? handleShowAddToken
                 : handleShowUpdateSaveDialog
             }
@@ -735,7 +731,7 @@ const AccountProfile = (props) => {
               className="inline mr-2"
               src={state.company.isEditingProfile ? saveIcon : editIcon}
             />
-            {props.formState === 'add form'
+            {state.isEditingProfile === false
               ? '追加'
               : state.company.isEditingProfile
               ? '編集する'

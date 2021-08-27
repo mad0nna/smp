@@ -242,7 +242,6 @@ class SalesforceRepository
                     'BillingState' => $newValues['billing_state'],
                     'BillingCountry' => $newValues['billing_country'],
                     'Website' => $newValues['website'],
-                    'NumberOfEmployees' => $newValues['number_of_employees'],
                 ];
             }
 

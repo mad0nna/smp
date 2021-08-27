@@ -128,31 +128,20 @@ class CompanyController extends Controller
     {
         $code = 200;
         try {
-            if ($request->code) {
-                $result = $companyService->getAllDetailsInSFByID($request->code);
-            } elseif ($request->company_id) {
-                $company = $companyService->getCompanyById($request->company_id);
-                $result = $companyService->getAllDetailsInSFByID($company['account_id']);
-            } else {
-                throw new NotFoundHttpException('Incorrect parameter given.');
-            }
-
+            $company = $companyService->getCompanyById($request->company_id);
+            $result = $companyService->getAllDetailsInSFByID($company['company_code']);
 
             if ($result) {
                 $data = $this->parseSfToDbColumn($result);
-                $companyService->updateTableFromSf($request->company_id, $data);
+                $companyService->updateTableFromSf($request->company_id, $data);  
                 $data['id'] = $request->company_id;
-                $data['company_code'] = $request->code;
-
                 $result = (new CompanyResource([]))->filterFromDbToFront($data);
-            } else {
-                $result = CompanyResource::collection([$company])[0];
             }
 
             $this->response = [
-          'success' => true,
-          'data' => $result,
-        ];
+                'success' => true,
+                'data' => $result,
+            ];
         } catch (\Exception $e) {
             $code = ($e instanceof NotFoundHttpException) ? 404 : 500;
         }
@@ -165,7 +154,7 @@ class CompanyController extends Controller
         $formData = $request->validate([
           'companyCode' => ['required', 'unique:companies,company_code'],
           'name' => ['required'],
-      ]);
+        ]);
         $formData = $this->getRecord($request);
         $result = $companyService->addCompanyToDB($formData);
 
@@ -180,13 +169,8 @@ class CompanyController extends Controller
     {
         $id = $request['id'];
         $formData = $this->getRecord($request);
-        $admin = $this->getAdminRecord(isset($request['admin'][0]) ? array_values($request['admin'])[0] : []);
-        $sf_id = $this->getSfId($request['sfRecords']);
-        $sf_record = $request['sfRecords'];
-
-        $formData['number_of_employees'] = $request['sfRecords']['numberofemployees'];
-
-        $result = $companyService->updateSaveAccount($id, $sf_id, $formData, $sf_record);
+        $admin = $this->getAdminRecord(isset($request['admin'][0]) ? array_values($request['admin'])[0] : []);        
+        $result = $companyService->updateSaveAccount($id,$formData['accountId'], $formData);
 
         $response = [
         'success' => $result,
@@ -210,6 +194,7 @@ class CompanyController extends Controller
     private function parseSfToDbColumn($data)
     {
         return [
+        'company_code' => $data['KotCompanyCode__c'],
         'account_id' => $data['Id'],
         'name' => $data['Name'],
         'contact_num' => $data['Phone'],
@@ -229,7 +214,7 @@ class CompanyController extends Controller
         'industry_sub2' => $data['Field20__c'],
         'record_type_code' => $data['Field35__c'],
         'kot_billing_start_date' => $data['Field41__c'],
-        'sf_records' => $this->convertToLowerCase($data),
+        // 'sf_records' => $this->convertToLowerCase($data),
       ];
     }
 
@@ -263,9 +248,9 @@ class CompanyController extends Controller
     private function getRecord($request)
     {
         return [
+        'accountId' => $request['accountId'] ?? '',
         'company_code' => $request['companyCode'] ?? '',
-        'companyID' => $request['companyID'] ??  '',
-        'account_id' => $request['companyID'] ?? '',
+        'companyID' => $request['companyID'] ?? '',
         'kot_billing_start_date' => $request['kot_billing_start_date'] ?? '',
         'account_code' => $request['contactID'] ?? '',
         'name' => $request['name'] ?? '',

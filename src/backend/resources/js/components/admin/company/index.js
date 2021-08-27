@@ -168,9 +168,19 @@ const App = () => {
   return (
     <div className="relative px-10 py-5 bg-mainbg fixed">
       <Router>
-        {state.redirectToProfile ? (
+        {state.redirectToProfile && state.isEditingProfile === true ? (
           <Redirect
             to={'/admin/accounts/profile?id=' + state.addedCompany.id}
+          />
+        ) : (
+          ''
+        )}
+
+        {state.redirectToProfile && state.isEditingProfile === false ? (
+          <Redirect
+            to={
+              '/admin/accounts/profile?code=' + state.addedCompany.companyCode
+            }
           />
         ) : (
           ''
