@@ -107,6 +107,6 @@ class PasswordController extends Controller
             return redirect()->back()->with('status', 'パスワードの更新に成功しました。新しいパスワードを使用し、ログインしてください。');
         }
 
-        return redirect()->back()->with('status', $this->response['code'] . $this->response['error']);
+        return redirect()->back()->with('status', $this->response['error']);
     }
 }

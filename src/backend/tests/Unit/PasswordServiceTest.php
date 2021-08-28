@@ -56,7 +56,7 @@ class PasswordServiceTest extends TestCase
     public function testforgotWithInvalidEmail()
     {
         $this->expectException('InvalidArgumentException');
-        $this->expectExceptionMessage('Invalid email address.');
+        $this->expectExceptionMessage('無効なメールアドレス。');
 
         $this->passwordService->forgot('notAnEmail');
     }
@@ -64,7 +64,7 @@ class PasswordServiceTest extends TestCase
     public function testforgotWithNonExistingUser()
     {
         $this->expectException('App\Exceptions\UserNotFoundException');
-        $this->expectExceptionMessage('Unable to retrieve user.');
+        $this->expectExceptionMessage('ユーザーを取得できません。');
 
         $this->passwordService->forgot('me@test.com');
     }
@@ -87,7 +87,7 @@ class PasswordServiceTest extends TestCase
     public function testResetMissingTokenParam()
     {
         $this->expectException('InvalidArgumentException');
-        $this->expectExceptionMessage('Missing required token field.');
+        $this->expectExceptionMessage('必須トークンフィールドがありません。');
 
         $this->passwordService->reset(['password' => 'a']);
     }
@@ -95,7 +95,7 @@ class PasswordServiceTest extends TestCase
     public function testResetMissingPasswordParam()
     {
         $this->expectException('InvalidArgumentException');
-        $this->expectExceptionMessage('Missing required password field.');
+        $this->expectExceptionMessage('必須のパスワードフィールドがありません。');
 
         $this->passwordService->reset(['token' => 'a']);
     }
@@ -103,7 +103,7 @@ class PasswordServiceTest extends TestCase
     public function testResetInvalidExpiredToken()
     {
         $this->expectException('App\Exceptions\InvalidPasswordResetTokenException');
-        $this->expectExceptionMessage('Invalid/Expired Password Reset Token.');
+        $this->expectExceptionMessage(' 無効/期限切れパスワードのリセットトークン');
 
         $this->passwordService->reset([
             'token' => '12345adsfr1234',
