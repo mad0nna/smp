@@ -8,20 +8,16 @@ const AdminsList = (props) => {
   })
   const sortArray = (type) => {
     const types = {
-      fullName: 'fullName',
+      first_name: 'first_name',
       email: 'email'
     }
 
     const sortProperty = types[type]
     const sort = state.sorted.sort((a, b) => {
       if (state.orderAsc) {
-        return b[sortProperty].toLowerCase() > a[sortProperty].toLowerCase()
-          ? 1
-          : -1
+        return b[sortProperty] > a[sortProperty] ? 1 : -1
       } else {
-        return b[sortProperty].toLowerCase() > a[sortProperty].toLowerCase()
-          ? -1
-          : 1
+        return b[sortProperty] > a[sortProperty] ? -1 : 1
       }
     })
 
@@ -49,7 +45,7 @@ const AdminsList = (props) => {
       <thead className="bg-gray-50 border-b border-t border-gray-200">
         <tr className="h-11 text-xs text-gray-500 text-shadow-none">
           <th>
-            <span id="fullName" onClick={() => sortArray('fullName')}>
+            <span id="fullName" onClick={() => sortArray('first_name')}>
               名前&nbsp;
               <div
                 className={
