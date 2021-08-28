@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import GraphIcon from '../../../img/admin/graph-icon.png'
+// import GraphIcon from '../../../img/admin/graph-icon.png'
 import Ellipsis from '../../../img/ellipsis.png'
 
-const MonthlyAccountRegistration = (props) => {
-  let showMoveButton = ''
-  if (typeof props.interActivePages != 'undefined') {
-    showMoveButton = props.interActivePages.includes(location.pathname)
-      ? 'group-hover:block'
-      : ''
-  }
+// const MonthlyAccountRegistration = (props) => {
+const MonthlyAccountRegistration = () => {
+  //   let showMoveButton = ''
+  //   if (typeof props.interActivePages != 'undefined') {
+  //     showMoveButton = props.interActivePages.includes(location.pathname)
+  //       ? 'group-hover:block'
+  //       : ''
+  //   }
   let [state, setState] = useState({
     graphType: 'pieChart'
   })
@@ -63,19 +64,170 @@ const MonthlyAccountRegistration = (props) => {
               fill="#fff"
             />
           </g>
+
+          {/* <g id="Ellipse_2" data-name="Ellipse 2" transform="translate(20 87.114)" fill="#1ace74" stroke="#1ace74" strokeWidth="1">
+            <circle cx="4.5" cy="4.5" r="4.5" stroke="none" />
+            <circle cx="4.5" cy="4.5" r="4" fill="none" />
+          </g>           */}
+
+          {/* King of Time */}
+          <text
+            id="_700_1000"
+            data-name="700 / 1,000"
+            fontSize="12px"
+            transform="translate(518 33)"
+            fontFamily="Meiryo-UI"
+            opacity="0.5"
+          >
+            <tspan x="0" y="0">
+              700{' '}
+            </tspan>
+            <tspan opacity="0.5">/ 1,000</tspan>
+          </text>
+          <text
+            id="顧客企業数"
+            transform="translate(20 33)"
+            fontSize="13px"
+            fontFamily="YuGothicUI-Regular, Yu Gothic UI"
+            opacity="0.6"
+          >
+            <tspan x="0" y="0">
+              King of Time
+            </tspan>
+          </text>
+          {/* King of Time Progress Line */}
           <rect
-            id="Rectangle_283"
-            data-name="Rectangle 283"
-            width="161"
+            id="Rectangle_282-2"
+            data-name="Rectangle 282"
+            width="580"
             height="5"
             rx="2.5"
-            transform="translate(207.714 292.114)"
-            fill="#c2e5d3"
+            transform="translate(20 40)"
+            fill="#f5f5f5"
           />
+          <rect
+            id="Rectangle_2157"
+            data-name="Rectangle 2157"
+            width="400"
+            height="5"
+            rx="2.5"
+            transform="translate(20 40)"
+            fill="#1d9e48"
+          />
+
+          {/* Freee */}
+          <text
+            id="_200_1000"
+            data-name="200 / 1,000"
+            fontSize="12px"
+            transform="translate(518 94)"
+            fontFamily="Meiryo-UI"
+            opacity="0.5"
+          >
+            <tspan x="0" y="0">
+              200{' '}
+            </tspan>
+            <tspan opacity="0.5">/ 1,000</tspan>
+          </text>
+          <text
+            id="顧客企業数"
+            transform="translate(20 94)"
+            fontSize="13px"
+            fontFamily="YuGothicUI-Regular, Yu Gothic UI"
+            opacity="0.6"
+          >
+            <tspan x="0" y="0">
+              Freee
+            </tspan>
+          </text>
+          {/* Freee Progress Line */}
+          <rect
+            id="Rectangle_2158"
+            data-name="Rectangle 2158"
+            width="580"
+            height="5"
+            rx="2.5"
+            transform="translate(20 101)"
+            fill="#f5f5f5"
+          />
+          <rect
+            id="Rectangle_2159"
+            data-name="Rectangle 2159"
+            width="116"
+            height="5"
+            rx="2.5"
+            transform="translate(20 101)"
+            fill="#5490de"
+          />
+
+          {/* SmartHR */}
+          <text
+            id="_300_1000"
+            data-name="300 / 1,000"
+            fontSize="12px"
+            transform="translate(518 157)"
+            fontFamily="Meiryo-UI"
+            opacity="0.5"
+          >
+            <tspan x="0" y="0">
+              300{' '}
+            </tspan>
+            <tspan opacity="0.5">/ 1,000</tspan>
+          </text>
+          <text
+            id="顧客企業数"
+            transform="translate(20 157)"
+            fontSize="13px"
+            fontFamily="YuGothicUI-Regular, Yu Gothic UI"
+            opacity="0.6"
+          >
+            <tspan x="0" y="0">
+              SmartHR
+            </tspan>
+          </text>
+          {/* SmartHR Progress Line */}
+          <rect
+            id="Rectangle_2158"
+            data-name="Rectangle 2158"
+            width="580"
+            height="5"
+            rx="2.5"
+            transform="translate(20 164)"
+            fill="#f5f5f5"
+          />
+          <rect
+            id="Rectangle_2159"
+            data-name="Rectangle 2159"
+            width="174"
+            height="5"
+            rx="2.5"
+            transform="translate(20 164)"
+            fill="#56dce1"
+          />
+
+          {/* Freee Circle Point */}
+          {/* <circle id="Ellipse_3" data-name="Ellipse 3" cx="4.5" cy="4.5" r="4.5" transform="translate(211.714 260.114)" fill="#56dce1" />
+          <text id="_200_1000" data-name="200 / 1,000" transform="translate(228.714 274.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7">
+            <tspan x="0" y="0">200 / 1,000</tspan>
+          </text>
+          <text id="販売代理店数" transform="translate(252.714 287.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7">
+            <tspan x="0" y="0">販売代理店数 (number of client companies)</tspan>
+          </text>
+          
+          <text id="_300_1000" data-name="300 / 1,000" transform="translate(232.714 444.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7">
+            <tspan x="0" y="0">300 / 1,000</tspan>
+          </text>
+          <circle id="Ellipse_4" data-name="Ellipse 4" cx="4.5" cy="4.5" r="4.5" transform="translate(215.714 431.114)" fill="#5490de" />
+          
+          <text id="販売代理店数-2" data-name="販売代理店数" transform="translate(252.714 459.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7">
+            <tspan x="0" y="0">販売代理店数 (number of client companies SmartHR)</tspan>
+          </text> */}
+
+          {/* King of Time Circle Graph */}
           <g
             id="Ring_Chart5"
             data-name="Ring Chart5"
-            transform="translate(420.214 13.616)"
+            transform="translate(20 260)"
           >
             <path
               id="Path_3516"
@@ -89,7 +241,7 @@ const MonthlyAccountRegistration = (props) => {
               data-name="Path 3517"
               d="M18.429,75.277a77.5,77.5,0,0,1-78.3-26.066A77.5,77.5,0,0,1-70.285-32.653,77.5,77.5,0,0,1-1.006-77.493v16A61.5,61.5,0,0,0-55.8-25.849,61.5,61.5,0,0,0-47.554,39,61.5,61.5,0,0,0,14.422,59.785Z"
               transform="translate(77.501 77.493)"
-              fill="#5edf89"
+              fill="#f5f5f5"
             />
             <text
               id="_70_"
@@ -104,42 +256,12 @@ const MonthlyAccountRegistration = (props) => {
               </tspan>
             </text>
           </g>
-          <g
-            id="Ring_Chart5-2"
-            data-name="Ring Chart5"
-            transform="translate(24.214 182.822)"
-          >
-            <path
-              id="Path_3516-2"
-              data-name="Path 3516"
-              d="M1.006-77.493A77.5,77.5,0,0,1,76.88-9.78a77.5,77.5,0,0,1-56.5,84.554L16.371,59.281A61.5,61.5,0,0,0,61.008-7.761a61.5,61.5,0,0,0-60-53.73Z"
-              transform="translate(77.501 77.493)"
-              fill="#56dce1"
-            />
-            <path
-              id="Path_3517-2"
-              data-name="Path 3517"
-              d="M18.429,75.277a77.5,77.5,0,0,1-78.3-26.066A77.5,77.5,0,0,1-70.285-32.653,77.5,77.5,0,0,1-1.006-77.493v16A61.5,61.5,0,0,0-55.8-25.849,61.5,61.5,0,0,0-47.554,39,61.5,61.5,0,0,0,14.422,59.785Z"
-              transform="translate(77.501 77.493)"
-              fill="#c2e5d3"
-            />
-            <text
-              id="_20_"
-              data-name="20%"
-              transform="translate(77.501 89.056)"
-              fill="#1f78b4"
-              fontSize="34.875"
-              fontFamily="ArialMT, Arial"
-            >
-              <tspan x="-34.901" y="0">
-                20%
-              </tspan>
-            </text>
-          </g>
+
+          {/* Freee Circle Graph */}
           <g
             id="Ring_Chart5-3"
             data-name="Ring Chart5"
-            transform="translate(420.214 347.612)"
+            transform="translate(232 260)"
           >
             <path
               id="Path_3516-3"
@@ -153,7 +275,7 @@ const MonthlyAccountRegistration = (props) => {
               data-name="Path 3517"
               d="M18.429,75.277a77.5,77.5,0,0,1-78.3-26.066A77.5,77.5,0,0,1-70.285-32.653,77.5,77.5,0,0,1-1.006-77.493v16A61.5,61.5,0,0,0-55.8-25.849,61.5,61.5,0,0,0-47.554,39,61.5,61.5,0,0,0,14.422,59.785Z"
               transform="translate(77.501 77.493)"
-              fill="#9bc5d8"
+              fill="#f5f5f5"
             />
             <text
               id="_30_"
@@ -168,155 +290,40 @@ const MonthlyAccountRegistration = (props) => {
               </tspan>
             </text>
           </g>
-          <text
-            id="_700_1000"
-            data-name="700 / 1,000"
-            transform="translate(228.714 102.114)"
-            fontSize="30"
-            fontFamily="SegoeUI-Semibold, Segoe UI"
-            fontWeight="600"
-            opacity="0.9"
-          >
-            <tspan x="0" y="0">
-              700 / 1,000
-            </tspan>
-          </text>
+
+          {/* SmartHR Circle Graph */}
           <g
-            id="Ellipse_2"
-            data-name="Ellipse 2"
-            transform="translate(211.714 87.114)"
-            fill="#1ace74"
-            stroke="#1ace74"
-            strokeWidth="1"
+            id="Ring_Chart5-2"
+            data-name="Ring Chart5"
+            transform="translate(442 260)"
           >
-            <circle cx="4.5" cy="4.5" r="4.5" stroke="none" />
-            <circle cx="4.5" cy="4.5" r="4" fill="none" />
-          </g>
-          <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Rectangle_282)">
-            <rect
-              id="Rectangle_282-2"
-              data-name="Rectangle 282"
-              width="161"
-              height="5"
-              rx="2.5"
-              transform="translate(207.71 121.11)"
-              fill="#78db6d"
+            <path
+              id="Path_3516-2"
+              data-name="Path 3516"
+              d="M1.006-77.493A77.5,77.5,0,0,1,76.88-9.78a77.5,77.5,0,0,1-56.5,84.554L16.371,59.281A61.5,61.5,0,0,0,61.008-7.761a61.5,61.5,0,0,0-60-53.73Z"
+              transform="translate(77.501 77.493)"
+              fill="#56dce1"
             />
+            <path
+              id="Path_3517-2"
+              data-name="Path 3517"
+              d="M18.429,75.277a77.5,77.5,0,0,1-78.3-26.066A77.5,77.5,0,0,1-70.285-32.653,77.5,77.5,0,0,1-1.006-77.493v16A61.5,61.5,0,0,0-55.8-25.849,61.5,61.5,0,0,0-47.554,39,61.5,61.5,0,0,0,14.422,59.785Z"
+              transform="translate(77.501 77.493)"
+              fill="#f5f5f5"
+            />
+            <text
+              id="_20_"
+              data-name="20%"
+              transform="translate(77.501 89.056)"
+              fill="#1f78b4"
+              fontSize="34.875"
+              fontFamily="ArialMT, Arial"
+            >
+              <tspan x="-34.901" y="0">
+                20%
+              </tspan>
+            </text>
           </g>
-          <text
-            id="顧客企業数"
-            transform="translate(258.714 116.114)"
-            fontSize="12"
-            fontFamily="YuGothicUI-Regular, Yu Gothic UI"
-            opacity="0.7"
-          >
-            <tspan x="0" y="0">
-              顧客企業数
-            </tspan>
-          </text>
-          <text
-            id="_200_1000"
-            data-name="200 / 1,000"
-            transform="translate(228.714 274.114)"
-            fontSize="30"
-            fontFamily="SegoeUI-Semibold, Segoe UI"
-            fontWeight="600"
-            opacity="0.7"
-          >
-            <tspan x="0" y="0">
-              200 / 1,000
-            </tspan>
-          </text>
-          <circle
-            id="Ellipse_3"
-            data-name="Ellipse 3"
-            cx="4.5"
-            cy="4.5"
-            r="4.5"
-            transform="translate(211.714 260.114)"
-            fill="#56dce1"
-          />
-          <rect
-            id="Rectangle_284"
-            data-name="Rectangle 284"
-            width="127"
-            height="5"
-            rx="2.5"
-            transform="translate(207.714 292.114)"
-            fill="#56dce1"
-          />
-          <text
-            id="販売代理店数"
-            transform="translate(252.714 287.114)"
-            fontSize="12"
-            fontFamily="YuGothicUI-Regular, Yu Gothic UI"
-            opacity="0.7"
-          >
-            <tspan x="0" y="0">
-              販売代理店数
-            </tspan>
-          </text>
-          <rect
-            id="Rectangle_2157"
-            data-name="Rectangle 2157"
-            width="127"
-            height="5"
-            rx="2.5"
-            transform="translate(207.714 121.114)"
-            fill="#1d9e48"
-          />
-          <rect
-            id="Rectangle_2158"
-            data-name="Rectangle 2158"
-            width="161"
-            height="5"
-            rx="2.5"
-            transform="translate(211.714 462.114)"
-            fill="#9bc5d8"
-          />
-          <text
-            id="_300_1000"
-            data-name="300 / 1,000"
-            transform="translate(232.714 444.114)"
-            fontSize="30"
-            fontFamily="SegoeUI-Semibold, Segoe UI"
-            fontWeight="600"
-            opacity="0.7"
-          >
-            <tspan x="0" y="0">
-              300 / 1,000
-            </tspan>
-          </text>
-          <circle
-            id="Ellipse_4"
-            data-name="Ellipse 4"
-            cx="4.5"
-            cy="4.5"
-            r="4.5"
-            transform="translate(215.714 431.114)"
-            fill="#5490de"
-          />
-          <rect
-            id="Rectangle_2159"
-            data-name="Rectangle 2159"
-            width="127"
-            height="5"
-            rx="2.5"
-            transform="translate(211.714 462.114)"
-            fill="#5490de"
-          />
-          <text
-            id="販売代理店数-2"
-            data-name="販売代理店数"
-            transform="translate(252.714 459.114)"
-            fontSize="12"
-            fontFamily="YuGothicUI-Regular, Yu Gothic UI"
-            opacity="0.7"
-          >
-            <tspan x="0" y="0">
-              販売代理店数
-            </tspan>
-          </text>
         </g>
       </svg>
     )
@@ -1349,8 +1356,8 @@ const MonthlyAccountRegistration = (props) => {
     })
   }
   const setActiveChart = (type) => {
-    let activeClasses = 'bg-greenOld text-white'
-    let inactiveClasses = 'bg-gray-200 text-gray-700 '
+    let activeClasses = 'bg-gray-100 text-gray-600 border-l border-r'
+    let inactiveClasses = 'bg-white text-gray-400 '
     if (state.graphType === type) {
       return activeClasses
     }
@@ -1358,33 +1365,27 @@ const MonthlyAccountRegistration = (props) => {
   }
   return (
     <div className="w-full h-full relative group">
-      <div
-        className={
-          'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' +
-          showMoveButton
-        }
-      >
-        Move
-      </div>
-      <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 bg-white">
-        <img
-          className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block"
-          src={Ellipsis}
-        />
+      <div className="w-full h-full overflow-hidden relative  rounded-lg bg-white shadow-xl">
         <div
-          id="contact-logo-container"
-          className="h-16 flex mb-2 px-4 pb-2 pt-5 "
+          id="widget-header"
+          className="bg-white box-border p-3 pb-6 relative"
         >
-          <img src={GraphIcon} alt="" className="h-8 w-8 pt-1" />
-          <p className="text-primary-200 text-lg font-bold pt-1 ml-2 ">
-            月次アカウント登録
-          </p>
+          <div>
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+              <h2 className="text-green-800 text-lg font-bold">
+                月次アカウント登録
+              </h2>
+            </div>
+          </div>
+          <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
+            <img src={Ellipsis} />
+          </div>
         </div>
-        <div className="relative">
-          <div className="absolute top-0 right-0 w-64 h-12 text-center">
+        <div id="widget-body" className="w-full px-3 text-gray-500 text-xs">
+          <div className="w-64 h-12 text-center float-right">
             <div
               className={
-                'w-16 h-6 leading-3 p-1 align-middle inline-block border-greenOld border-l-2 border-r-2 border-b-2 border-t-2 cursor-pointer ' +
+                'leading-3 align-middle inline-block px-6 py-3 border-gray-200 border-t border-b border-l cursor-pointer ' +
                 setActiveChart('pieChart')
               }
               onClick={() => changeChart('pieChart')}
@@ -1393,7 +1394,7 @@ const MonthlyAccountRegistration = (props) => {
             </div>
             <div
               className={
-                'w-16 h-6 leading-3 p-1 align-middle inline-block border-greenOld border-r-2 border-b-2 border-t-2 cursor-pointer ' +
+                'leading-3 p-1 align-middle inline-block px-6 py-3 border-gray-200 border-t border-b border-r border-l cursor-pointer ' +
                 setActiveChart('lineChart')
               }
               onClick={() => changeChart('lineChart')}
@@ -1402,7 +1403,7 @@ const MonthlyAccountRegistration = (props) => {
             </div>
             <div
               className={
-                'w-16 h-6 leading-3 p-1 align-middle inline-block border-greenOld border-r-2 border-b-2 border-t-2 cursor-pointer ' +
+                'leading-3 p-1 align-middle inline-block px-6 py-3 border-gray-200 border-t border-b border-r cursor-pointer ' +
                 setActiveChart('barChart')
               }
               onClick={() => changeChart('barChart')}

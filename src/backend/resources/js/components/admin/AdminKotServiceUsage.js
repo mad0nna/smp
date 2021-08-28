@@ -1,57 +1,69 @@
 import React from 'react'
 import Ellipsis from '../../../img/ellipsis.png'
-import KotBadge from '../../../img/admin/kot-icon.png'
-import KotBanner from '../../../img/KOT-menu-logo.png'
+// import KotBadge from '../../../img/admin/kot-icon.png'
+// import KotBanner from '../../../img/KOT-menu-logo.png'
+import widgetBackground from '../../../img/admin/widget-bg.png'
+import KoTlogo from '../../../img/admin/king-of-time-logo.png'
 
-const AdminKotServiceUsage = (props) => {
-  let showMoveButton = ''
-  if (typeof props.interActivePages != 'undefined') {
-    showMoveButton = props.interActivePages.includes(location.pathname)
-      ? 'group-hover:block'
-      : ''
-  }
+// const AdminKotServiceUsage = (props) => {
+const AdminKotServiceUsage = () => {
+  //   let showMoveButton = ''
+  //   if (typeof props.interActivePages != 'undefined') {
+  //     showMoveButton = props.interActivePages.includes(location.pathname)
+  //       ? 'group-hover:block'
+  //       : ''
+  //   }
+
   return (
-    <div className="w-full h-full relative group font-meiryo">
+    <div className="w-full h-full relative group">
       <div
-        className={
-          'absolute w-12 h-5 -top-4 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-md border-gray-200 border-2 cursor-move hidden ' +
-          showMoveButton
-        }
+        className="w-full h-full overflow-hidden rounded-lg bg-white shadow-xl"
+        style={{
+          backgroundImage: `url(${widgetBackground})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'top right'
+        }}
       >
-        Move
-      </div>
-      <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 bg-white">
-        <img
-          className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block"
-          src={Ellipsis}
-        />
-        <div className="table absolute top-0 left-0 h-full w-full px-10 overflow-hidden">
-          <div className="table-cell align-middle">
-            <div className="mx-0 my-auto relative flex">
-              <div className="w-44 my-auto">
-                <img src={KotBadge} className="h-24 my-auto" />
+        <div id="widget-header" className="box-border p-3 pb-6">
+          <div>
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+              <h2 className="text-green-800 text-lg font-bold">システム利用</h2>
+            </div>
+          </div>
+          <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
+            <img src={Ellipsis} />
+          </div>
+        </div>
+        <div id="widget-body" className="w-full px-3 text-gray-500">
+          <div className="flex pl-1">
+            <div className="flex-grow text-gray-400">
+              <div>
+                <h1 className="font-semibold 2xl:text-3xl xl:3xl lg:text-xl md:text-xs sm:text-xs text-gray-500 font-sans leading-2 tracking-tighter">
+                  10,000
+                  <span className="font-normal 2xl:text-xs xl:text-xs lg:text-xs  xs:text-xxs text-gray-400 font-sans tracking-normal">
+                    {' '}
+                    / 20,000
+                  </span>
+                </h1>{' '}
               </div>
-              <div className="block w-full">
-                <div className="text-center mx-auto">
-                  <img src={KotBanner} className="w-24 h-auto inline " />
-                  <p className="text-xs text-primary-200 font-bold inline ml-1">
-                    システム利用
-                  </p>
-                </div>
-                <div className="text-center mt-2">
-                  <p className="2xl:text-4xl lg:text-2xl text-cyan font-black font-meiryo">
-                    10,000 / 20,000
-                  </p>
-                </div>
-                <div className="text-center border-2 border-primary-200 rounded-2xl h-8 w-24 mx-auto mt-1">
-                  <p className="text-sm text-primary-200 font-bold mt-1">
-                    詳細を確認
-                  </p>
-                </div>
+              <div className="2xl:text-xs xl:text-xs lg:text-xs  xs:text-xxs text-gray-400 font-sans">
+                King of Time システム利用
               </div>
+              <div className="mt-4">
+                <a
+                  href="#"
+                  className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter px-2"
+                >
+                  詳細を確認
+                </a>
+              </div>
+            </div>
+            <div className="flex-none">
+              <img src={KoTlogo} className="h-24 my-auto mr-9" />
             </div>
           </div>
         </div>
+        <div id="widget-footer" className="w-full px-3 text-gray-500"></div>
       </div>
     </div>
   )

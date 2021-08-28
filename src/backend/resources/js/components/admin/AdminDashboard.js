@@ -27,7 +27,7 @@ const AdminDashboard = () => {
       x: 0,
       y: 0,
       w: 4,
-      h: 1,
+      h: 1.3,
       isResizable: customizableStatus
     },
     {
@@ -40,7 +40,7 @@ const AdminDashboard = () => {
       x: 4,
       y: 0,
       w: 4,
-      h: 1,
+      h: 1.3,
       isResizable: customizableStatus
     },
     {
@@ -55,7 +55,7 @@ const AdminDashboard = () => {
       x: 8,
       y: 0,
       w: 4,
-      h: 1,
+      h: 1.3,
       isResizable: customizableStatus
     },
     {
@@ -68,7 +68,7 @@ const AdminDashboard = () => {
       className: 'relative',
       state: true,
       x: 0,
-      y: 1,
+      y: 1.3,
       w: 4,
       h: 1,
       isResizable: customizableStatus
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
       className: 'relative',
       state: true,
       x: 4,
-      y: 1,
+      y: 1.3,
       w: 4,
       h: 1,
       isResizable: customizableStatus
@@ -94,9 +94,9 @@ const AdminDashboard = () => {
       className: 'relative',
       state: true,
       x: 0,
-      y: 2,
+      y: 2.3,
       w: 8,
-      h: 2.5,
+      h: 2.8,
       isResizable: customizableStatus
     },
     {
@@ -109,9 +109,9 @@ const AdminDashboard = () => {
       className: 'relative',
       state: true,
       x: 8,
-      y: 1,
+      y: 1.3,
       w: 4,
-      h: 3.5,
+      h: 3.8,
       isResizable: customizableStatus
     }
   ]
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
         breakpoints={{ lg: 1200, md: 768, sm: 640, xs: 480 }}
         cols={{ lg: 12, md: 12, sm: 6, xs: 1 }}
         draggableCancel=".staticWidgets"
-        margin={[40, 40]}
+        margin={[26, 26]}
         containerPadding={[10, 20]}
         isBounded={true}
         useCSSTransforms={true}
