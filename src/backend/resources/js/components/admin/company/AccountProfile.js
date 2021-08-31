@@ -321,8 +321,8 @@ const AccountProfile = (props) => {
     })
   }
 
-  const handleTextChangeNumberofemployees = (e) => {
-    const value = e.target.value
+  const handleTextChangeNumberofemployees = () => {
+    // const value = e.target.value
     // state.company.sfRecords.numberofemployees = value
     setState((prevState) => {
       return {
