@@ -16,7 +16,7 @@ class ZuoraApi
     public function handle($request, Closure $next)
     {
         // requests authorization and bearer token check
-        if (!$request->hasHeader('Authorization') || $request->bearerToken() !== config('app.zuora_api_token')) {
+        if (!$request->hasHeader('authorization-zuora') || $request->header('authorization-zuora') !== config('app.zuora_api_token')) {
             abort(403, "You don't have permission to access this resource.");
         }
 
