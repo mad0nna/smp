@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use Firebase\JWT\JWT;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class LoginController extends Controller
@@ -116,7 +117,9 @@ class LoginController extends Controller
                 return redirect()->back()->with('status', '招待メール記載の利用開始ボタンよりログインしてください。');
             }
             Session::put('salesforceCompanyID', Auth::user()->company->account_id);
+            Session::put('email', Auth::user()->email);
             Session::put('salesforceContactID', Auth::user()->account_code);
+            Session::put('CompanyContactFirstname', Auth::user()->first_name);
             Session::put('CompanyContactLastname', Auth::user()->last_name);
             Session::put('companyName', Auth::user()->company->name);
             Session::put('kotToken', Auth::user()->company->token);
@@ -143,15 +146,39 @@ class LoginController extends Controller
             Session::forget('companyName');
             Session::forget('kotToken');
             Session::forget('kotStartDate');
+            Session::forget('email');
             session()->invalidate();
             session()->regenerateToken();
 
             return redirect('/');
-        } catch (Exception $e) { // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
             $this->response = [
                 'code' => 500,
                 'error' => $e->getMessage(),
             ];
-        } // @codeCoverageIgnoreEnd
+        }
+    }
+
+    public function zendeskSSO() {
+        if (empty(Session::get('email'))) {
+            redirect("404");
+        }
+        $now = time();
+
+        $token = array(
+          "jti"   => md5($now . rand()),
+          "iat"   => $now,
+          "email" => Session::get('email'),
+          "name"  => Session::get('CompanyContactFirstname') . ' ' . Session::get('CompanyContactLastname'),
+          "organization" => Session::get('companyName'),
+        );
+        $jwt = JWT::encode($token, env('ZENDESK_SSO_SECRET'));
+
+        $location = env('ZENDESK_SSO_HOST')."/access/jwt?jwt=" . $jwt;
+        if(isset($_GET["return_to"])) {
+          $location .= "&return_to=" . urlencode($_GET["return_to"]);
+        }
+        
+        header("Location: " . $location);
     }
 }

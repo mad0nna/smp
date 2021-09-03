@@ -97,7 +97,14 @@ const Navigation = () => {
             iconNormal: 'bg-call-icon-white',
             iconHover: '',
             iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
+            extraStyle: 'cursor-pointer',
+            function: (e) => {
+              e.preventDefault()
+              window.open(
+                'https://test-support.ta.kingoftime.jp/hc/ja/requests/new',
+                '_blank'
+              )
+            }
           },
           {
             label: 'アカウント設定',

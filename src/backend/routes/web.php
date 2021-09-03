@@ -98,3 +98,7 @@ Route::prefix('salesforce')->group(function () {
       Route::post('company/updateSaveAccount', 'CompanyController@updateSaveAccount');
       Route::post('company/resendEmailInvite', 'CompanyController@resendEmailInvite');
   });
+
+  Route::group(['prefix' => 'sso'], function () {
+    Route::get('zendesk/login', 'Auth\LoginController@zendeskSSO');
+  });
