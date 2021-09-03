@@ -29,6 +29,11 @@ class Company extends Model
         return $this->hasMany(Opportunity::class);
     }
 
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
     public function salesforceFormat()
     {
         return [

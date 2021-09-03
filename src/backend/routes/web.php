@@ -13,6 +13,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::group(['middleware' => 'zuora.api'], function () {
+    Route::post('/zuora', 'FileController@upload');
+});
+
 Route::get('/', 'Auth\LoginController@login')->name('login');
 Route::post('/', 'Auth\LoginController@authenticate')->name('auth');
 Route::get('/logout', 'Auth\LoginController@logout');
@@ -58,6 +62,7 @@ Route::prefix('salesforce')->group(function () {
       Route::get('/getBilling', 'BillingController@index');
       Route::post('/getInvoicePDF', 'BillingController@getInvoicePDF');
       Route::get('/getUsage', 'BillingController@getAccountUsageData');
+      Route::get('downloadBillingHistoryCSV/{id}', 'FileController@downloadBillingHistoryCSV');
   });
 
   Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {

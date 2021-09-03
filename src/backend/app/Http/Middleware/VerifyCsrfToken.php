@@ -21,6 +21,9 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         //
         'salesforce/*',
+        'zuora',
+        '/zuora',
+        'zuora/*',
         // 'company/saveCoordinates',
         // 'company/resetCoordinates'
     ];

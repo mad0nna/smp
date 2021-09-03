@@ -60,7 +60,11 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'storage_disk' => env('STORAGE_DISK', 'public'),
+
     'storage_disk_url' => env('STORAGE_DISK_URL', null),
+
+    'zuora_api_token' => env('ZUORA_API_TOKEN', null),
 
     /*
     |--------------------------------------------------------------------------
