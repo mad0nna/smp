@@ -6,7 +6,9 @@ namespace App\Http\Controllers;
 use App\Services\FileService;
 use App\Http\Resources\FileResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\UploadFileRequest;
+use App\Http\Requests\DownloadFileRequest;
 
 class FileController extends Controller
 {
@@ -22,13 +24,15 @@ class FileController extends Controller
     /**
      * Retrieves file and returns download stream.
      *
-     * @param int $id Invoice ID
+     * @param App\Http\Requests\DownloadFileRequest $request
      * @return mixed
      */
-    public function downloadBillingHistoryCSV(int $id)
+    public function downloadBillingHistoryCSV(DownloadFileRequest $request)
     {
+        $request->validated();
+
         try {
-            $file = $this->fileService->getFile($id);
+            $file = $this->fileService->getFile($request->getId(), Session::get('salesforceCompanyID'));
             $fileLocation = Storage::disk(config('app.storage_disk'))->get($file->file_path);
 
             $headers = [

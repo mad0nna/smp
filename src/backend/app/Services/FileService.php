@@ -50,11 +50,22 @@ class FileService
      * Retrieves the file from its file path
      *
      * @param int $id File ID
+     * @param mixed $companyAccountID Company Account ID
      * @return App\Models\File $file
      */
-    public function getFile(int $id)
+    public function getFile(int $id, $companyAccountID)
     {
         $file = $this->show($id);
+
+        $company = $this->company->where('account_id', $companyAccountID)->first();
+
+        if (!($company instanceof Company)) {
+            throw new RuntimeException('Company does not exist given account ID.');
+        }
+
+        if ($file->company_id !== $company->id) {
+            throw new RuntimeException('User does not have the rights to access file.');
+        }
 
         try {
             $file_exists = Storage::disk(config('app.storage_disk'))->exists($file->file_path);
@@ -90,7 +101,7 @@ class FileService
 
             // File naming convention with s3
             $fileUrl = 'BillingCSVs/';
-            $fileName = $data['month_of_billing'] . '_company_'. $company->id . '.csv';
+            $fileName = $data['month_of_billing'] . '-'. $company->account_id . '.csv';
             $filePath = $fileUrl . $fileName ;
 
             // Form data for DB record

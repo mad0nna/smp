@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import PdfIcon from '../../img/pdf2-icon.png'
+import CsvIcon from '../../img/csv-icon.png'
 import Ellipsis from '../../img/ellipsis.png'
+import axios from 'axios'
+
+const CancelToken = axios.CancelToken
+const source = CancelToken.source()
 
 const CompanyBilling = () => {
   const [state, setState] = useState({
@@ -107,6 +112,35 @@ const CompanyBilling = () => {
         link.download = data + '.pdf'
         document.body.append(link)
         link.click()
+      })
+  }
+
+  const getBillingCSVFile = (billingCSVFileId, billingCSVFileName = '') => {
+    const cancelToken = source.token
+    const url = `/company/downloadBillingHistoryCSV`
+
+    const body = {
+      id: billingCSVFileId
+    }
+
+    axios
+      .post(url, body, {
+        cancelToken,
+        responseType: 'blob'
+      })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]), {
+          type: response.headers['content-type']
+        })
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', billingCSVFileName)
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+      })
+      .catch((error) => {
+        console.log(error)
       })
   }
 
@@ -265,6 +299,18 @@ const CompanyBilling = () => {
                             )
                           }}
                         />{' '}
+                        {item.billingCSVFileId !== null && (
+                          <img
+                            src={CsvIcon}
+                            className="mx-auto w-6 h-auto cursor-pointer"
+                            onClick={() => {
+                              getBillingCSVFile(
+                                item.billingCSVFileId,
+                                item.billingCSVFileName
+                              )
+                            }}
+                          />
+                        )}
                       </td>
                     </tr>
                   )

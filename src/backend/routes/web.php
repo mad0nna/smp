@@ -62,7 +62,7 @@ Route::prefix('salesforce')->group(function () {
       Route::get('/getBilling', 'BillingController@index');
       Route::post('/getInvoicePDF', 'BillingController@getInvoicePDF');
       Route::get('/getUsage', 'BillingController@getAccountUsageData');
-      Route::get('downloadBillingHistoryCSV/{id}', 'FileController@downloadBillingHistoryCSV');
+      Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
   });
 
   Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
