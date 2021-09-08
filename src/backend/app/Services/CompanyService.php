@@ -40,15 +40,15 @@ class CompanyService
     
                 if (date("Y-m-d") === date("Y-m-d", strtotime("first day of this month")) && (int)date("H") < 10) {       
                     $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getAllQtyEmployees($kotToken, date("Y-m-d", strtotime('-2 month')));
-                    $billing = (new BillingController)->getLastMonthAccountUsage($companyID, date("Y-m", strtotime('-2 month')));
-                
+                    $billing = (new BillingController)->getAccountUsage($companyID, date("Y-m", strtotime('-2 month')));
+                    
                     if ($billing) {
                         $usageData['numberOfEmployees'] = $billing['quantity'];
                     }
                 } else {
                     $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getAllQtyEmployees($kotToken, date("Y-m-d", strtotime("last day of previous month")));
-                    $billing = (new BillingController)->getLastMonthAccountUsage($companyID);
-                
+                    $billing = (new BillingController)->getAccountUsage($companyID, date("Y-m", strtotime("last day of previous month")));
+
                     if ($billing) {
                         $usageData['numberOfEmployees'] = $billing['quantity'];
                     }

@@ -89,15 +89,36 @@ class BillingService
     public function getAccountUsageData($companyID)
     {
         $accountInfo = $this->getAccountInfo($companyID);
+        
         if (!$accountInfo) {
             MessageResult::error("The company id doesn't exist!");
         }
+
         $accountID = $accountInfo['id'];
-        $usage = (new Usage)->findByAccountId($accountID);
+        $usage = null;
+        $data_usage = [];
+        $i = 0;
+
+        do {
+
+            $usage = $this->getUsage($accountID, $i);
+
+            if (count($usage)) {
+                $data_usage = array_merge($data_usage, $usage['usage']);         
+            }
+            $i++;
+        } while ($usage === false || (count($usage) && isset($usage['nextPage']) !== false));
+
+        return $data_usage;
+    }
+
+    private function getUsage($accountID, $page) {
+        $usage = (new Usage)->findByAccountId($accountID, $page);
+
         if (!$usage['success']) {
             return false;
         }
 
-        return $usage['usage'];
+        return $usage;
     }
 }

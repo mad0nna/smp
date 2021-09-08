@@ -89,7 +89,7 @@ const AdminsList = (props) => {
               key={admin.id}
             >
               <td className="text-center capitalize">
-                {admin.first_name} {admin.last_name}
+                {admin.last_name} {admin.first_name}
               </td>
               <td className="text-center">{admin.title}</td>
               <td className="text-center">

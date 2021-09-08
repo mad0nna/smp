@@ -49,18 +49,12 @@ class BillingController extends Controller
         return $billingService->getAccountUsageData(Session::get('salesforceCompanyID'));
     }
 
-    public function getAccountUsage($company_account_id)
-    {
-        $billingService = new BillingService;
-
-        return $billingService->getAccountUsageData($company_account_id);
-    }
-
-    public static function getLastMonthAccountUsage($company_account_id, $date = null) {
+    public function getAccountUsage($company_account_id, $date = null) {
         $billingService = new BillingService;
         $data = $billingService->getAccountUsageData($company_account_id);
-
+        
         if (count($data)) {
+            $data = array_reverse($data, true);
             foreach ($data as $d) {
                 if ($date) {
                     $bill_date = $date;
@@ -70,7 +64,7 @@ class BillingController extends Controller
                 
                 $_date = date('Y-m', strtotime($d['startDateTime']));
 
-                if ($_date === $bill_date) {                    
+                if ($_date === $bill_date) {
                     return $d;
                 }
             }
