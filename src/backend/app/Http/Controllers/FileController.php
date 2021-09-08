@@ -67,6 +67,7 @@ class FileController extends Controller
             $data = [
                 'file' => $request->getFile(),
                 'month_of_billing' => $request->getMonthOfBilling(),
+                'salesforce_id' => $request->getSalesForceId(),
             ];
 
             $file = $this->fileService->uploadToS3($data);

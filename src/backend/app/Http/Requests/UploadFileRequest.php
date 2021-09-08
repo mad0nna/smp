@@ -16,6 +16,7 @@ class UploadFileRequest extends FormRequest
         return [
             'file' => ['required', 'file', 'mimes:csv,txt'],
             'month_of_billing' => ['required', 'date_format:Y-m'],
+            'salesforce_id' => ['required', 'exists:companies,account_id'],
         ];
     }
 
@@ -27,5 +28,10 @@ class UploadFileRequest extends FormRequest
     public function getMonthOfBilling()
     {
         return $this->input('month_of_billing', null);
+    }
+
+    public function getSalesForceId()
+    {
+        return $this->input('salesforce_id', null);
     }
 }

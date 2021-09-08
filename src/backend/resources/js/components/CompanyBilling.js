@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import PdfIcon from '../../img/pdf2-icon.png'
-import CsvIcon from '../../img/csv-icon.png'
 import Ellipsis from '../../img/ellipsis.png'
 import axios from 'axios'
 
@@ -287,10 +285,9 @@ const CompanyBilling = () => {
                       <td className="text-right">¥ {item.amount}</td>
                       <td className="text-center">{item.paymentDate}</td>
                       <td className={txtcolor + ' text-center'}>-</td>
-                      <td className="text-center">
-                        <img
-                          src={PdfIcon}
-                          className="mx-auto w-6 h-auto cursor-pointer"
+                      <td className="text-center text-primary-200">
+                        <div
+                          className="inline-block cursor-pointer"
                           onClick={() => {
                             getInvoiceFile(
                               item.body,
@@ -298,18 +295,21 @@ const CompanyBilling = () => {
                               item.accountNumber
                             )
                           }}
-                        />{' '}
+                        >
+                          請求書&nbsp;
+                        </div>{' '}
                         {item.billingCSVFileId !== null && (
-                          <img
-                            src={CsvIcon}
-                            className="mx-auto w-6 h-auto cursor-pointer"
+                          <div
+                            className="inline-block cursor-pointer"
                             onClick={() => {
                               getBillingCSVFile(
                                 item.billingCSVFileId,
                                 item.billingCSVFileName
                               )
                             }}
-                          />
+                          >
+                            請求明細&nbsp;
+                          </div>
                         )}
                       </td>
                     </tr>

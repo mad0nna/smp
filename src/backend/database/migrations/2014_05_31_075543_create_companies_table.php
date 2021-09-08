@@ -27,7 +27,7 @@ class CreateCompaniesTable extends Migration
             $table->string('billing_country')->nullable();
             $table->string('zen_org_name')->nullable();
             $table->string('kot_billing_start_date')->nullable();
-            $table->string('account_id')->nullable();
+            $cs = $table->string('account_id')->charset('utf8')->collate('utf8_cs')->unique()->nullable();
             $table->string('industry_sub')->nullable();
             $table->string('industry_sub2')->nullable();
             $table->string('paymentMethod')->nullable();
@@ -37,9 +37,9 @@ class CreateCompaniesTable extends Migration
             $table->string('payment_method')->nullable();
             $table->json('sf_records')->nullable();
             $table->timestamps();
-            
+
             $table->unique('company_code');
-            $table->unique('account_id');
+            $cs->collation = 'utf8_bin';
         });
     }
 

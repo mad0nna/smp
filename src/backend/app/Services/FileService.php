@@ -91,12 +91,11 @@ class FileService
         DB::beginTransaction();
 
         try {
-            // Company Machida default id
-            $companyId = 3;
-            $company = $this->company->find($companyId);
+            // Find company given salesforce account id
+            $company = $this->company->where('account_id', $data['salesforce_id'])->first();
 
-            if (!$company instanceof Company) {
-                throw new RuntimeException('Company not found.');
+            if (!($company instanceof Company)) {
+                throw new RuntimeException('Company not found given salesforce id.');
             }
 
             // File naming convention with s3
@@ -109,7 +108,7 @@ class FileService
             $formData['file_path'] = $filePath;
             $formData['name'] = $fileName;
             $formData['file_type'] = 'csv';
-            $formData['company_id'] = $companyId;
+            $formData['company_id'] = $company->id;
             $formData['month_of_billing'] = $monthOfBilling;
 
             // Saves file to selected local or s3 disk
@@ -121,7 +120,7 @@ class FileService
 
             // Creates or updates a new record in DB
             $where = [
-                'company_id' => $companyId,
+                'company_id' => $company->id,
                 'month_of_billing' => $monthOfBilling
             ];
 
