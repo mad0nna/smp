@@ -28,7 +28,7 @@ class CompanyResource extends JsonResource
             'accountId' => $this->account_id,
             'negotiateCode' => isset($this->opportunities[0]) ? $this->opportunities[0]['negotiate_code'] : '',
             'opportunityCode' => isset($this->opportunities[0]) ? $this->opportunities[0]['opportunity_code'] : '',
-            'recordTypeCode' => strlen($this->sf_records) > 2 ? json_decode($this->sf_records)->field35__c : '',
+            'recordTypeCode' => isset($this->record_type_code) ? $this->record_type_code : '',
             'type' => isset($this->opportunities[0]) ? $this->opportunities[0]['type'] : '',
             'industrySub' => $this->industry_sub,
             'industrySub2' => $this->industry_sub2,
@@ -37,8 +37,7 @@ class CompanyResource extends JsonResource
             'createdAt' => $this->created_at->format('d/m/Y'),
             'updatedAt' => $this->updated_at->format('d/m/Y'),
             'admin' => UserResource::collection($this->users),
-            'opportunity' => OpportunityResource::collection($this->opportunities),
-            'sfRecords' => json_decode($this->sf_records),
+            'opportunity' => OpportunityResource::collection($this->opportunities)
         ];
     }
 
@@ -65,7 +64,7 @@ class CompanyResource extends JsonResource
             'kotTransType' => $data['kot_trans_type'] ?? '',
             'paymentMethod' => $data['payment_method'] ?? '',
             'sfRecords' => $data['sf_records'] ?? [],
-            'recordTypeCode' => $data['record_type_code'],
+            'recordTypeCode' => $data['record_type_code'] ?? '',
         ];
     }
 
@@ -157,7 +156,6 @@ class CompanyResource extends JsonResource
         'industry_sub' => $data['Field19__c'],
         'industry_sub2' => $data['Field20__c'],
         'record_type_code' => $data['Field35__c'],
-        'sf_records' => self::convertToLowerCase($data),
       ];
     }
 }

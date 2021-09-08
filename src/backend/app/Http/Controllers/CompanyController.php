@@ -152,8 +152,7 @@ class CompanyController extends Controller
     public function saveAddedCompany(Request $request, CompanyService $companyService)
     {
         $formData = $request->validate([
-          'companyCode' => ['required', 'unique:companies,company_code'],
-          'name' => ['required'],
+          'companyCode' => ['required', 'unique:companies,company_code']
         ]);
         $formData = $this->getRecord($request);
         $result = $companyService->addCompanyToDB($formData);
@@ -214,7 +213,6 @@ class CompanyController extends Controller
         'industry_sub2' => $data['Field20__c'],
         'record_type_code' => $data['Field35__c'],
         'kot_billing_start_date' => $data['Field41__c'],
-        // 'sf_records' => $this->convertToLowerCase($data),
       ];
     }
 
@@ -268,10 +266,10 @@ class CompanyController extends Controller
         'license_version' => $request['licenseVersion'] ?? '',
         'billing_address' => $request['billingAddress'] ?? '',
         'token' => $request['token'] ?? '',
-        'contact_first_name' => $request['sfRecords']['contact']['firstname'] ?? '',
-        'contact_last_name' => $request['sfRecords']['contact']['lastname'] ?? '',
-        'contact_email' => $request['sfRecords']['contact']['email'] ?? '',
-        'contact_contact_num' => $request['sfRecords']['contact']['mobilephone'] ?? '',
+        'contact_first_name' => $request['admin'][0]['firstName'] ?? '',
+        'contact_last_name' => $request['admin'][0]['lastName'] ?? '',
+        'contact_email' => $request['admin'][0]['email'] ?? '',
+        'contact_contact_num' => $request['admin'][0]['contactNum'] ?? '',
         'negotiate_code' => $request['negotiateCode'] ?? '',
         'company_code' => $request['companyCode'] ?? '',
         'record_type_code' => $request['recordTypeCode'] ?? '',

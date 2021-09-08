@@ -35,7 +35,7 @@ class CreateCompaniesTable extends Migration
             $table->string('token')->nullable();
             $table->string('kot_trans_type')->nullable();
             $table->string('payment_method')->nullable();
-            $table->json('sf_records')->nullable();
+            $table->string('record_type_code')->nullable();
             $table->timestamps();
 
             $table->unique('company_code');

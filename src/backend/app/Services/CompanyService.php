@@ -153,16 +153,27 @@ class CompanyService
         $query = $this->company;
 
         // if keyword is provided
-        if (array_key_exists('keyword', $conditions)) {
+        if (array_key_exists('keyword', $conditions) && strlen($conditions['keyword'])) {
+            $query = $query->join('users', function ($join) use ($conditions) {                
+                $join->on('users.company_id', '=', 'companies.id');
+            }); 
+            
             $query = $query->where('name', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('company_code', 'LIKE', "%{$conditions['keyword']}%")
-                        ->orWhere('contact_num', 'LIKE', "%{$conditions['keyword']}%");
-        };
+                        ->orWhere('industry', 'LIKE', "%{$conditions['keyword']}%")
+                        ->orWhere('companies.contact_num', 'LIKE', "%{$conditions['keyword']}%")
+                        ->orWhere('users.email', 'LIKE', "%{$conditions['keyword']}%")
+                        ->select(['users.id AS user_id', 'users.contact_num as user_contact_num', 'companies.*']);
 
-        // perform user search
-        $results = $query->with('opportunities')->with(['users' => function ($query) {
-            $query->where('user_type_id', '=', 3)->get();
-        }])->skip($skip)->orderBy('id', 'desc')->paginate($limit);
+            $results = $query->with(['users' => function ($query) {            
+                $query->where('user_type_id', '=', 3);
+            }])->skip($skip)->orderBy('companies.id', 'desc')->paginate($limit);
+
+        } else {
+            $results = $query->with(['users' => function ($query) use ($conditions) {            
+                $query->where('user_type_id', '=', 3);
+            }])->skip($skip)->orderBy('companies.id', 'desc')->paginate($limit);
+        }     
 
         // append query to pagination routes
         $results->withPath('/admin/accounts?' . http_build_query([

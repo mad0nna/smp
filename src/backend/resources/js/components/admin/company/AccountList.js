@@ -46,7 +46,7 @@ const AccountList = (props) => {
   }
 
   const handleKeywordChange = (e) => {
-    if (e.target.value.length > 2) {
+    if (e.target.value.length > 1) {
       props.handleFilter(e.target.value)
     } else if (e.target.value.length == 0) {
       props.handleFilter('')
@@ -392,7 +392,9 @@ const AccountList = (props) => {
                     <td className="text-left pl-4 ">{item.name}</td>
                     <td className="text-left pl-4">{item.companyCode}</td>
                     <td className="text-left pl-4">{item.industry}</td>
-                    <td className="text-left pl-4">{item.email}</td>
+                    <td className="text-left pl-4">
+                      {!_.isEmpty(item.admin[0]) ? item.admin[0].email : ''}
+                    </td>
                     <td className="text-left pl-4">{item.contactNum}</td>
                     <td className={txtcolor + ' text-left pl-4'}>{status}</td>
                     <td className="text-left text-primary-200">
