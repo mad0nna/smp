@@ -58,7 +58,7 @@ const CompanyBilling = () => {
       let values = Object.values(searchableKeys)
       values.filter((value) => {
         if (typeof value === 'string') {
-          if (value.indexOf(text) > -1) {
+          if (value.indexOf(text.trim()) > -1) {
             if (!checkIfExist(item, results)) {
               results.push(item)
             }
