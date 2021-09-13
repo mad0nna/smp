@@ -133,9 +133,9 @@ class CompanyController extends Controller
 
             if ($result) {
                 $data = $this->parseSfToDbColumn($result);
-                $companyService->updateTableFromSf($request->company_id, $data);  
-                $data['id'] = $request->company_id;
-                $result = (new CompanyResource([]))->filterFromDbToFront($data);
+                $companyService->updateTableFromSf($request->company_id, $data); 
+                $company = $companyService->getCompanyById($request->company_id); 
+                $result = (new CompanyResource([]))->filterFromDbToFront($company);
             }
 
             $this->response = [
@@ -278,6 +278,8 @@ class CompanyController extends Controller
         'payment_method' => $request['paymentMethod'] ?? '',
         'opportunity_code' => $request['opportunityCode'] ?? '',
         'opportunity' => $request['sfRecords']['opportunity'] ?? [],
+        'token' => $request['token'] ?? '',
+        'kot_billing_start_date' => $request['kotBillingStartDate'] ?? '',
       ];
     }
 

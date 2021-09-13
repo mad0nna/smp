@@ -108,7 +108,7 @@ const AdminsList = (props) => {
                       className="cursor-pointer"
                       onClick={() => props.handleDisplayView(admin)}
                     >
-                      見る&nbsp;
+                      詳細&nbsp;
                     </div>
                   ) : null}
                   {(admin.user_type_id === 4 && admin.user_status_id != 5) ||

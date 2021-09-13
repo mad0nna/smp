@@ -65,6 +65,8 @@ class CompanyResource extends JsonResource
             'paymentMethod' => $data['payment_method'] ?? '',
             'sfRecords' => $data['sf_records'] ?? [],
             'recordTypeCode' => $data['record_type_code'] ?? '',
+            'token' => $data['token'] ?? '',
+            'kotBillingStartDate' => $data['kot_billing_start_date'] ?? '',
         ];
     }
 

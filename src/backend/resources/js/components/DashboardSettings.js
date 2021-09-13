@@ -1,17 +1,9 @@
 import React from 'react'
-import imgMethPayment from './../../img/company/meth-payment.png'
 import imgSupport from './../../img/company/support.png'
 import Ellipsis from './../../img/ellipsis.png'
 
 const DashboardSettings = () => {
   const buttons = [
-    {
-      label: '支払い方法',
-      onClick: '',
-      font: '3xl:text-lg 2xl:text-md xl:text-sm lg:text-xs md: text-xxs ',
-      url: '#',
-      photo: imgMethPayment
-    },
     {
       label: 'サポート',
       onClick: '',

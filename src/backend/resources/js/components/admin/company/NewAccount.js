@@ -36,7 +36,7 @@ const NewAccount = (props) => {
             onClick={() => props.searchCompanyCode(state.code)}
             className="w-24 cursor-pointer  text-bold   text-primary-200   bg-white rounded p-1 text-sm"
           >
-            &nbsp; 探す
+            &nbsp; 検索
             <img
               src={waitingIcon}
               className={(props.isLoading ? ' ' : ' hidden ') + ' w-7 inline '}
