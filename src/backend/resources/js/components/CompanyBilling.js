@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import Ellipsis from '../../img/ellipsis.png'
+import PdfIcon from '../../img/pdf2-icon.png'
 import axios from 'axios'
 
 const CancelToken = axios.CancelToken
@@ -10,6 +11,9 @@ const CompanyBilling = () => {
   const [state, setState] = useState({
     loading: true,
     currentPage: 1,
+    displayCount: 10,
+    maxId: 10,
+    minId: 0,
     masterList: [],
     billingList: []
   })
@@ -21,9 +25,9 @@ const CompanyBilling = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        let maxId = Math.ceil(state.currentPage * 10)
-        let minId = maxId - 10
         setState((prevState) => {
+          let maxItemId = prevState.currentPage * prevState.displayCount
+          let minItemId = prevState.maxId - prevState.displayCount
           return {
             ...prevState,
             loading: false,
@@ -31,12 +35,12 @@ const CompanyBilling = () => {
             masterList: data,
             currentPage: prevState.currentPage,
             numberOfPages: Math.ceil(data.length / 10),
-            maxId: maxId,
-            minId: minId
+            maxId: maxItemId,
+            minId: minItemId
           }
         })
       })
-  }, [state.currentPage])
+  }, [])
 
   const search = (text) => {
     let results = []
@@ -73,6 +77,7 @@ const CompanyBilling = () => {
       }
     })
   }
+
   const checkIfExist = (newItem, source) => {
     let indicator = false
     source.map((item) => {
@@ -113,6 +118,54 @@ const CompanyBilling = () => {
       })
   }
 
+  const nextPage = () => {
+    if (state.currentPage === state.numberOfPages) {
+      return
+    }
+    setState((prevState) => {
+      let maxItemId = (prevState.currentPage + 1) * prevState.displayCount
+      let minItemId = prevState.maxId
+      let newPage = prevState.currentPage + 1
+      return {
+        ...prevState,
+        currentPage: newPage,
+        maxId: maxItemId,
+        minId: minItemId
+      }
+    })
+  }
+
+  const prevPage = () => {
+    if (state.currentPage <= 1) {
+      return
+    }
+
+    setState((prevState) => {
+      let maxItemId = (prevState.currentPage - 1) * prevState.displayCount
+      let minItemId = prevState.minId - prevState.displayCount
+      let newPage = prevState.currentPage - 1
+      return {
+        ...prevState,
+        currentPage: newPage,
+        maxId: maxItemId,
+        minId: minItemId
+      }
+    })
+  }
+
+  const togglePage = (index) => {
+    setState((prevState) => {
+      let maxItemId = index * prevState.displayCount
+      let minItemId = maxItemId - prevState.displayCount
+      let newPage = index
+      return {
+        ...prevState,
+        currentPage: newPage,
+        maxId: maxItemId,
+        minId: minItemId
+      }
+    })
+  }
   const getBillingCSVFile = (billingCSVFileId, billingCSVFileName = '') => {
     const cancelToken = source.token
     const url = `/company/downloadBillingHistoryCSV`
@@ -149,15 +202,7 @@ const CompanyBilling = () => {
       src="/images/pagination-prev.png?1ac337e7f7bfaacab64ea9a2369b5930"
       className=" inline-block w-8 h-auto mr-1 cursor-pointer"
       onClick={() => {
-        if (state.currentPage <= 1) {
-          return
-        }
-        setState((prevState) => {
-          return {
-            ...prevState,
-            currentPage: prevState.currentPage - 1
-          }
-        })
+        prevPage()
       }}
     />
   )
@@ -171,9 +216,7 @@ const CompanyBilling = () => {
         key={index}
         className={activeStyle + 'rounded-3xl px-3 py-1'}
         onClick={() => {
-          setState((prevState) => {
-            return { ...prevState, currentPage: index }
-          })
+          togglePage(index)
         }}
       >
         {index}
@@ -185,15 +228,7 @@ const CompanyBilling = () => {
       src="/images/pagination-next.png?831991390ac360b1b03a00cdcd915ec5"
       className=" inline-block  w-8 h-auto ml-1 cursor-pointer"
       onClick={() => {
-        if (state.currentPage === state.numberOfPages) {
-          return
-        }
-        setState((prevState) => {
-          return {
-            ...prevState,
-            currentPage: prevState.currentPage + 1
-          }
-        })
+        nextPage()
       }}
     />
   )
@@ -284,10 +319,13 @@ const CompanyBilling = () => {
                       <td className="text-center">{item.dueDate}</td>
                       <td className="text-right">¥ {item.amount}</td>
                       <td className="text-center">{item.paymentDate}</td>
-                      <td className={txtcolor + ' text-center'}>-</td>
-                      <td className="text-center text-primary-200">
-                        <div
-                          className="inline-block cursor-pointer"
+                      <td className={txtcolor + ' text-center'}>
+                        {item.status}
+                      </td>
+                      <td className="text-center">
+                        <img
+                          src={PdfIcon}
+                          className="mx-auto w-6 h-auto cursor-pointer"
                           onClick={() => {
                             getInvoiceFile(
                               item.body,
@@ -295,9 +333,8 @@ const CompanyBilling = () => {
                               item.accountNumber
                             )
                           }}
-                        >
-                          請求書&nbsp;
-                        </div>{' '}
+                        />
+                        請求書&nbsp;{' '}
                         {item.billingCSVFileId !== null && (
                           <div
                             className="inline-block cursor-pointer"
