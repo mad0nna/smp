@@ -18,7 +18,7 @@ const DashboardSettings = () => {
       <div className="relative gap-3 bg-white rounded-lg shadow-xl w-full h-full">
         <div
           id="widget-header"
-          className="relative box-border pt-3 pl-3 pr-3 pb-2"
+          className="relative box-border pt-3 pl-3 pr-3 pb-7"
         >
           <div>
             <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
