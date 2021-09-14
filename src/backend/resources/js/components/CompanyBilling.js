@@ -14,7 +14,10 @@ const CompanyBilling = () => {
     maxId: 10,
     minId: 0,
     masterList: [],
-    billingList: []
+    billingList: [],
+    searchMode: false,
+    searchText: '',
+    numberOfPages: 0
   })
 
   useEffect(() => {
@@ -47,7 +50,26 @@ const CompanyBilling = () => {
       setState((prevState) => {
         return {
           ...prevState,
-          billingList: state.masterList
+          billingList: state.masterList,
+          searchMode: false,
+          searchText: ''
+        }
+      })
+    }
+    setState((prevState) => {
+      return {
+        ...prevState,
+        searchText: text,
+        searchMode: true
+      }
+    })
+    if (state.currentPage != 1) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          currentPage: 1,
+          maxId: 10,
+          minId: 0
         }
       })
     }
@@ -72,7 +94,8 @@ const CompanyBilling = () => {
     setState((prevState) => {
       return {
         ...prevState,
-        billingList: results
+        billingList: results,
+        numberOfPages: Math.ceil(results.length / 10)
       }
     })
   }
@@ -194,7 +217,7 @@ const CompanyBilling = () => {
       })
   }
 
-  let numberOFPages = Math.ceil(state.masterList.length / 10)
+  let numberOFPages = Math.ceil(state.billingList.length / 10)
   let pageNumbers = []
   pageNumbers.push(
     <img
@@ -272,6 +295,7 @@ const CompanyBilling = () => {
                   id="billingSearch"
                   className="h-full w-80 bg-gray-100 custom-outline-none"
                   placeholder="検索"
+                  value={state.searchText}
                   onChange={(e) => {
                     search(e.target.value)
                   }}
@@ -297,7 +321,7 @@ const CompanyBilling = () => {
                 <th>請求日</th>
                 <th>支払期限</th>
                 <th className="text-right">請求額</th>
-                <th>状態</th>
+                {/* <th>状態</th> */}
                 <th>操作</th>
               </tr>
             </thead>
@@ -316,7 +340,7 @@ const CompanyBilling = () => {
                       <td className="text-center"> {item.invoiceDate}</td>
                       <td className="text-center">{item.dueDate}</td>
                       <td className="text-right">¥ {item.amount}</td>
-                      <td className={txtcolor + ' text-center'}>-</td>
+                      {/* <td className={txtcolor + ' text-center'}>-</td> */}
                       <td className="text-center text-primary-200">
                         <div
                           className="inline-block cursor-pointer"

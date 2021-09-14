@@ -5,29 +5,7 @@ import spinner from '../../img/spinner.gif'
 const BillingHistory = () => {
   const [state, setState] = useState({
     loading: true,
-    billingHistory: [
-      {
-        amount: '10,890',
-        dueDate: '2021年5月31日',
-        invoiceNumber: 'INV00024143',
-        invoiceDate: '2021年5月1日',
-        paymentDate: '未払い'
-      },
-      {
-        amount: '11,220',
-        dueDate: '2021年4月30日',
-        invoiceNumber: 'INV00024011',
-        invoiceDate: '2021年4月1日',
-        paymentDate: '2021年4月30日'
-      },
-      {
-        amount: '10,890',
-        dueDate: '2021年3月31日',
-        invoiceNumber: 'INV00023561',
-        invoiceDate: '2021年3月1日',
-        paymentDate: '2021年3月31日'
-      }
-    ]
+    billingHistory: []
   })
 
   useEffect(() => {
