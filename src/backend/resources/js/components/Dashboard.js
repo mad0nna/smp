@@ -6,10 +6,10 @@ import { Responsive, WidthProvider } from 'react-grid-layout'
 import Welcome from './Welcome'
 import Notification from './Notification'
 import ServiceUsage from './ServiceUsage'
-import Purchase from './PurchaseHistory'
+// import Purchase from './PurchaseHistory'
 import BillingHistory from './BillingHistory'
 import Settings from './DashboardSettings'
-import Products from './Products'
+// import Products from './Products'
 import CompanyDashboardPieChart from './CompanyDashboardPieChart'
 import resize from '../../img/resize.png'
 import { findMissingWidget } from '../utilities/constants'
@@ -30,11 +30,11 @@ const Dashboard = () => {
       { component: <Welcome /> },
       { component: <CompanyDashboardPieChart /> },
       { component: <ServiceUsage /> },
-      { component: <Products /> },
+      // { component: <Products /> },
       { component: <BillingHistory /> },
       { component: <Notification /> },
-      { component: <Settings /> },
-      { component: <Purchase /> }
+      { component: <Settings /> }
+      // { component: <Purchase /> }
     ]
     getCoordinates()
     function getCoordinates() {
