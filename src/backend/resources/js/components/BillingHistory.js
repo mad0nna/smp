@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Ellipsis from '../../img/ellipsis.png'
-import PdfIcon from '../../img/pdf-icon.png'
 import spinner from '../../img/spinner.gif'
 
 const BillingHistory = () => {
@@ -55,20 +54,9 @@ const BillingHistory = () => {
               <div>
                 <h2 className="text-green-800 text-lg font-bold">請求書</h2>
               </div>
-              <div>
-                <a href="/company/billing">
-                  <div
-                    id="widget-name"
-                    className="p-1 bg-gray-100 float-right "
-                  >
-                    <p className="text-gray-400 text-xxs font-sans">Download</p>
-                  </div>
-                  <img src={PdfIcon} className="w-5 h-5 float-right" />
-                </a>
-              </div>
             </div>
           </div>
-          <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
+          <div className="absolute w-5 h-1 -top-1 -right-1 hidden group-hover:block">
             <img src={Ellipsis} />
           </div>
         </div>
