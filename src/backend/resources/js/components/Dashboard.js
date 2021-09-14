@@ -204,9 +204,17 @@ const Dashboard = () => {
                         'absolute test w-12 h-4 -top-3.5 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-tl-md rounded-tr-md border-gray-200 cursor-move hidden group-hover:block'
                       }
                     >
-                      Move
+                      Unlocked
                     </div>
-                  ) : null}
+                  ) : (
+                    <div
+                      className={
+                        'absolute test w-12 h-4 -top-3.5 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-tl-md rounded-tr-md border-gray-200 cursor-move hidden group-hover:block'
+                      }
+                    >
+                      Locked
+                    </div>
+                  )}
                 </div>
               )
             })}
