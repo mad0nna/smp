@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import Ellipsis from '../../img/ellipsis.png'
-import PdfIcon from '../../img/pdf2-icon.png'
 import axios from 'axios'
 
 const CancelToken = axios.CancelToken
