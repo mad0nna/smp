@@ -298,7 +298,6 @@ const CompanyBilling = () => {
                 <th>請求日</th>
                 <th>支払期限</th>
                 <th className="text-right">請求額</th>
-                <th>支払日</th>
                 <th>状態</th>
                 <th>操作</th>
               </tr>
@@ -318,14 +317,10 @@ const CompanyBilling = () => {
                       <td className="text-center"> {item.invoiceDate}</td>
                       <td className="text-center">{item.dueDate}</td>
                       <td className="text-right">¥ {item.amount}</td>
-                      <td className="text-center">{item.paymentDate}</td>
-                      <td className={txtcolor + ' text-center'}>
-                        {item.status}
-                      </td>
-                      <td className="text-center">
-                        <img
-                          src={PdfIcon}
-                          className="mx-auto w-6 h-auto cursor-pointer"
+                      <td className={txtcolor + ' text-center'}>-</td>
+                      <td className="text-center text-primary-200">
+                        <div
+                          className="inline-block cursor-pointer"
                           onClick={() => {
                             getInvoiceFile(
                               item.body,

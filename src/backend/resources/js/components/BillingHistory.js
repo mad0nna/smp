@@ -120,14 +120,6 @@ const BillingHistory = () => {
                         {item.invoiceDate}
                       </div>
                     </div>
-                    <div className="block w-full h-auto 2xl:px-2 xl:px:2 lg:px-1 sm:px-1">
-                      <div className="text-gray-400 inline-block 2xl:text-xs xl:text-xs lg:text-xs sm:text-xxs mr-3 tracking-widest">
-                        支払日{' '}
-                      </div>
-                      <div className="orange bg-gray-200 py-1 px-2 rounded-md inline-block 2xl:text-xs xl:text-xs lg:text-xs sm:text-xxs tracking-wider">
-                        {item.paymentDate}
-                      </div>
-                    </div>
                   </div>
                 </div>
               )
