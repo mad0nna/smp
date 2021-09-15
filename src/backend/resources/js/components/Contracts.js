@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
 import Settings from './DashboardSettings'
-import Purchase from './PurchaseHistory'
 import Pagination from './Pagination'
 import _ from 'lodash'
 
@@ -166,9 +165,6 @@ const Contracts = () => {
       <div className="w-full align-top grid grid-cols-1 justify-center gap-6">
         <div className="h-40">
           <Settings />
-        </div>
-        <div className="h-96">
-          <Purchase />
         </div>
       </div>
     </div>
