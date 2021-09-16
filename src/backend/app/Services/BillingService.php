@@ -38,19 +38,41 @@ class BillingService
             MessageResult::error("The company id doesn't exist!");
         }
 
-        foreach ($invoices as $key => $invoiceItem) {
-            $file = $company->files()->where('month_of_billing', $invoiceItem['invoiceDate'])->first();
+        $list = [];
 
-            $invoices[$key]['billingCSVFileId'] = $file === null ? null : $file->id;
-            $invoices[$key]['billingCSVFileName'] = $file === null ? null : $file->name;
-            $invoices[$key]['dueDate'] = Carbon::createFromFormat('Y-m-d', $invoiceItem['dueDate'])->format('Y年m月d日');
-            $invoices[$key]['invoiceDate'] = (new DateManager)->toJP($invoiceItem['invoiceDate']);
-            $invoices[$key]['amount'] = number_format($invoiceItem['amount']);
-            $invoices[$key]['paymentDate'] = '未払い';
-            $invoices[$key]['invoicePDF'] = env('ZUORA_HOST') . $invoiceItem['body'];
+        foreach ($invoices as $key => $invoiceItem) {
+
+            if (strtolower($invoiceItem['status']) === "posted") {
+                $bill_data = $invoices[$key]['invoiceDate'];
+                $file = $company->files()->where('month_of_billing', $invoiceItem['invoiceDate'])->first();
+
+                $invoices[$key]['billingCSVFileId'] = $file === null ? null : $file->id;
+                $invoices[$key]['billingCSVFileName'] = $file === null ? null : $file->name;
+                $invoices[$key]['dueDate'] = Carbon::createFromFormat('Y-m-d', $invoiceItem['dueDate'])->format('Y年m月d日');
+                $invoices[$key]['invoiceDate'] = (new DateManager)->toJP($invoiceItem['invoiceDate']);
+                $invoices[$key]['amount'] = number_format($invoiceItem['amount']);
+                $invoices[$key]['paymentDate'] = '未払い';
+                $invoices[$key]['invoicePDF'] = env('ZUORA_HOST') . $invoiceItem['body'];
+
+                //$invoice = $this->getInvoiceDetails($invoiceItem['id']);
+                //$invoices[$key]['subscriptionName'] = $invoice['subscriptionName'];
+                //$invoices[$key]['quantity'] = $invoice['quantity'];
+
+                array_push($list, $invoices[$key]);
+            }
+        }
+        return $list;
+    }
+
+    public function getLatestInvoiceDetails($accountID)
+    {
+        $invoices = $this->getInvoices($accountID);
+        
+        if (count($invoices)) {
+            return $this->getInvoiceDetails($invoices[0]['id']);
         }
 
-        return $invoices;
+        return false;        
     }
 
     public function getAccountInfo($companyID)
@@ -84,6 +106,22 @@ class BillingService
         });
 
         return $invoiceList;
+    }
+
+    private function getInvoiceDetails($invoiceId)
+    {
+        $invoice = (new Invoice)->getInvoiceDetails($invoiceId);
+        if (!$invoice['success']) {
+            return false;
+        }
+
+        foreach ($invoice['invoiceItems'] as $item) {
+            if ($item['productName'] === "KING OF TIME") {
+                return $item;
+            }
+        }
+
+        return false;
     }
 
     public function getAccountUsageData($companyID)

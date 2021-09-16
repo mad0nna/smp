@@ -37,22 +37,13 @@ class CompanyService
             try {
                 $usageData['serviceUsageDate'] = $kotUsageData;
                 $usageData['numberOfSubscribers'] = $this->getNumberSubscribers($companyID);
-    
-                if (date("Y-m-d") === date("Y-m-d", strtotime("first day of this month")) && (int)date("H") < 10) {       
-                    $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getAllQtyEmployees($kotToken, date("Y-m-d", strtotime('-2 month')));
-                    $billing = (new BillingController)->getAccountUsage($companyID, date("Y-m", strtotime('-2 month')));
-                    
-                    if ($billing) {
-                        $usageData['numberOfEmployees'] = $billing['quantity'];
-                    }
-                } else {
-                    $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getAllQtyEmployees($kotToken, date("Y-m-d", strtotime("last day of previous month")));
-                    $billing = (new BillingController)->getAccountUsage($companyID, date("Y-m", strtotime("last day of previous month")));
+                
+                $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getAllQtyEmployees($kotToken, date("Y-m-d", strtotime("last day of previous month")));
+                $invoice = (new BillingController)->getLatestInvoiceDetails($companyID);
 
-                    if ($billing) {
-                        $usageData['numberOfEmployees'] = $billing['quantity'];
-                    }
-                }
+                if ($invoice) {
+                    $usageData['numberOfEmployees'] = $invoice['quantity'];
+                }             
 
                 return $usageData;
 

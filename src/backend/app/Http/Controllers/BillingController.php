@@ -16,6 +16,12 @@ class BillingController extends Controller
         return $billingService->getBilling(Session::get('salesforceCompanyID'));
     }
 
+    public function getLatestInvoiceDetails($companyID) {   
+        $billingService = new BillingService;
+        $zuoraInfo =  $billingService->getAccountInfo($companyID); 
+        return $billingService->getLatestInvoiceDetails($zuoraInfo['id']);
+    }
+
     public function list()
     {
         $user = User::with(['company'])->find(Auth::user()->id);
@@ -47,30 +53,6 @@ class BillingController extends Controller
     public function getAccountUsageData(BillingService $billingService)
     {
         return $billingService->getAccountUsageData(Session::get('salesforceCompanyID'));
-    }
-
-    public function getAccountUsage($company_account_id, $date = null) {
-        $billingService = new BillingService;
-        $data = $billingService->getAccountUsageData($company_account_id);
-        
-        if (count($data)) {
-            $data = array_reverse($data, true);
-            foreach ($data as $d) {
-                if ($date) {
-                    $bill_date = $date;
-                } else {
-                    $bill_date = date('Y-m');
-                }
-                
-                $_date = date('Y-m', strtotime($d['startDateTime']));
-
-                if ($_date === $bill_date) {
-                    return $d;
-                }
-            }
-        } else {
-            return false;
-        }
     }
 
 }
