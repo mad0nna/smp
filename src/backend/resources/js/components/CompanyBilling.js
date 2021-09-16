@@ -328,8 +328,8 @@ const CompanyBilling = () => {
             <tbody>
               {state.billingList.map((item, index) => {
                 if (index >= state.minId && index <= state.maxId - 1) {
-                  let txtcolor =
-                    item.status === '未払い' ? 'orange' : 'text-gray-500'
+                  // let txtcolor =
+                  //   item.status === '未払い' ? 'orange' : 'text-gray-500'
                   return (
                     <tr
                       className="table-row h-16 text-sm text-gray-500 hover:bg-gray-50 border-b border-gray-100"
