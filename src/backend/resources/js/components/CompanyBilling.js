@@ -351,8 +351,9 @@ const CompanyBilling = () => {
                               item.accountNumber
                             )
                           }}
-                        />
-                        請求書&nbsp;{' '}
+                        >
+                          請求書&nbsp;
+                        </div>{' '}
                         {item.billingCSVFileId !== null && (
                           <div
                             className="inline-block cursor-pointer"
