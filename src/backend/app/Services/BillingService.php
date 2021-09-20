@@ -43,7 +43,6 @@ class BillingService
         foreach ($invoices as $key => $invoiceItem) {
 
             if (strtolower($invoiceItem['status']) === "posted") {
-                $bill_data = $invoices[$key]['invoiceDate'];
                 $file = $company->files()->where('month_of_billing', $invoiceItem['invoiceDate'])->first();
 
                 $invoices[$key]['billingCSVFileId'] = $file === null ? null : $file->id;
@@ -53,11 +52,6 @@ class BillingService
                 $invoices[$key]['amount'] = number_format($invoiceItem['amount']);
                 $invoices[$key]['paymentDate'] = '未払い';
                 $invoices[$key]['invoicePDF'] = env('ZUORA_HOST') . $invoiceItem['body'];
-
-                //$invoice = $this->getInvoiceDetails($invoiceItem['id']);
-                //$invoices[$key]['subscriptionName'] = $invoice['subscriptionName'];
-                //$invoices[$key]['quantity'] = $invoice['quantity'];
-
                 array_push($list, $invoices[$key]);
             }
         }
