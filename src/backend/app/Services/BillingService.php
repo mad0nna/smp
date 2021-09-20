@@ -110,7 +110,7 @@ class BillingService
 
     private function getInvoiceDetails($invoiceId)
     {
-        $invoice = (new Invoice)->getInvoiceDetails($invoiceId);
+        $invoice = (new Invoice)->getInvoiceDetail($invoiceId);
         if (!$invoice['success']) {
             return false;
         }
