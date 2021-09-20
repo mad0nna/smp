@@ -3,6 +3,8 @@ namespace App\Services;
 
 use App\Repositories\SalesforceRepository;
 use App\Repositories\DatabaseRepository;
+use App\Services\API\Salesforce\Model\Account;
+use App\Services\API\Salesforce\Model\Contact;
 use App\Services\Utilities\MessageResult;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
@@ -20,22 +22,35 @@ class DataSynchronizer
         if (empty($companyID) || empty($contactID)) {
             return $request;
         }
-
-        $sfResponse = $this->salesForce->updateAdminDetails($request['adminDetails'], $contactID);
-        if (isset($companyInformation['status']) && !$companyInformation['status']) {
-            $this->salesForce->updateCompanyDetails($request['companyDetails'], $companyID);
-
-            return $sfResponse;
-        }
-
-        $sfResponse = $this->salesForce->updateCompanyDetails($request['companyDetails'], $companyID, true);
-        if (isset($companyInformation['status']) && !$companyInformation['status']) {
-            return $sfResponse;
+        $formattedData = $request['adminDetails'];
+        unset($formattedData['Id']);
+        unset($formattedData['CreatedDate']);
+        unset($formattedData['Name']);
+        $sfResponse = (new Contact)->update($formattedData, $contactID);
+        if (isset($sfResponse['status']) && !$sfResponse['status']) {
+            return MessageResult::error('Error on updating admin details');
         }
 
         $dbResponse = $this->mysql->updateAdminDetails($contactID, $request['adminDetails'], true);
         if (!$dbResponse) {
             return MessageResult::error('Error on updating admin details');
+        }
+
+        $sfResponse = $this->salesForce->updateCompanyDetails($request['companyDetails'], $companyID, true);
+        $formattedData = [
+            'Name' => $request['companyDetails']['companyName'],
+            'Phone' => $request['companyDetails']['contactNumber'],
+            'Website' => $request['companyDetails']['website'],
+            'Industry' => $request['companyDetails']['industry'],
+            'BillingPostalCode' => $request['companyDetails']['postalCode'],
+            'BillingStreet' => $request['companyDetails']['street'],
+            'BillingCity' => $request['companyDetails']['city'],
+            'BillingState' => $request['companyDetails']['state'],
+            'BillingCountry' => $request['companyDetails']['country'],
+        ];
+        $sfResponse = (new Account)->update($formattedData, $companyID);
+        if (isset($companyInformation['status']) && !$companyInformation['status']) {
+            return $sfResponse;
         }
 
         $dbResponse = $this->mysql->updateCompanyDetails($companyID, $request['companyDetails'], true);
@@ -54,9 +69,8 @@ class DataSynchronizer
 
     public function getUpdatedDataForEditCompanyDetails($companyID)
     {
-        $companyInformation = $this->salesForce->getCompanyDetailsByCompanyID($companyID);
-        $adminInformation = $this->salesForce->getCompanyAdminDetails($companyID);
-
+        $companyInformation = (new Account)->findByID($companyID);
+        $adminInformation =(new Contact)->getAdminByAccountId($companyID);
         return [
             'company' => $companyInformation,
             'admin' => $adminInformation,

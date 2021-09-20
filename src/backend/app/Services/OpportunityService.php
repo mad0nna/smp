@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\SalesforceRepository;
 use App\Repositories\DatabaseRepository;
+use App\Services\API\Salesforce\Model\Opportunity;
 use Illuminate\Support\Facades\Cache;
 
 class OpportunityService
@@ -21,8 +22,7 @@ class OpportunityService
             if (!empty($opportunityDetail)) {
                 return reset($opportunityDetail);
             }
-
-            return $this->salesForce->getLatestKOTOpportunityDetails($companyID);
+            return (new Opportunity)->getLatest($companyID);
         });
 
         return json_encode($opportunity);

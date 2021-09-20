@@ -20,14 +20,13 @@ class Salesforce
 
     public function __construct()
     {
-        $this->host = env('SALESFORCE_HOST', 'https://cs58.salesforce.com');
+        $this->host = env('SALESFORCE_HOST', null);
         $this->key = env('SALESFORCE_KEY', null);
         $this->secret = env('SALESFORCE_SECRET', null);
         $this->username = env('SALESFORCE_USERNAME', null);
         $this->password = env('SALESFORCE_PASSWORD', null);
         $this->security_token = env('SALESFORCE_SECURITY_TOKEN');
         $this->client = new Client(['base_uri' => $this->host]);
-
         if (!Session::get('salesforce-accessToken')) {
             $this->authenticate();
         } else {
@@ -63,7 +62,6 @@ class Salesforce
                         $headers
                     ),
                     'form_params' => $data,
-                    'json' => $data,
                     'synchronous' => true,
                 ]
             );
@@ -142,21 +140,28 @@ class Salesforce
                 [
                     'headers' => array_merge(
                         [
-                            'Content-Type' => 'application/x-www-form-urlencoded',
-                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $this->access_token
                         ],
                         $headers
                     ),
-                    'form_params' => $data,
                     'json' => $data,
                 ]
             );
 
-            return json_decode($request->getBody()->getContents(), true);
+            if ($request->getStatusCode() == 204 || $request->getStatusCode() == 201) {
+                return [
+                    'status' => true,
+                    'message' => 'Successfully updated'
+                ];
+            }
+            return [
+                'status' => false
+            ];
         } catch (ClientException $e) {
+            dd($e);
             $code = $e->getResponse()->getStatusCode();
             $response = json_decode($e->getResponse()->getBody()->getContents(), true);
-
             if (in_array($code, [400, 401])) {
                 $this->retries++;
 
@@ -166,7 +171,7 @@ class Salesforce
                     $this->authenticate();
 
                     // retry the failed request
-                    return $this->delete($path, $headers);
+                    return $this->patch($path, $data, $headers);
                 }
 
                 throw new UnauthorizedAccessException($response['message']);
@@ -198,7 +203,6 @@ class Salesforce
         } catch (ClientException $e) {
             $code = $e->getResponse()->getStatusCode();
             $response = json_decode($e->getResponse()->getBody()->getContents(), true);
-
             if (in_array($code, [400, 401])) {
                 $this->retries++;
 

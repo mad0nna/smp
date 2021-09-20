@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\SalesforceRepository;
 use App\Repositories\DatabaseRepository;
+use App\Services\API\Salesforce\Model\Contact;
 use Illuminate\Support\Facades\Cache;
 
 class ContactService
@@ -24,7 +25,7 @@ class ContactService
 
                 return $adminDetails;
             }
-            $adminDetails = $this->salesForce->getCompanyAdminDetails($companyID);
+            $adminDetails = (new Contact)->getAdminByAccountId($companyID);
             $adminDetails['ableToEdit'] = $accountID === $adminDetails['Id'];
 
             return json_encode($adminDetails);

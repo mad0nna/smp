@@ -20,7 +20,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        'salesforce/*',
+        // 'salesforce/*',
         'zuora',
         '/zuora',
         'zuora/*',

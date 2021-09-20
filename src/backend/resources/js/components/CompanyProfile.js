@@ -59,7 +59,7 @@ const CompanyProfile = () => {
 
   useEffect(() => {
     axios
-      .post('/salesforce/getCompanyDetails', [], {
+      .post('/company/getCompanyDetails', [], {
         'Content-Type': 'application/json'
       })
       .then((response) => {
@@ -97,7 +97,7 @@ const CompanyProfile = () => {
       })
 
     axios
-      .post('/salesforce/getCompanyAdminDetails', [], {
+      .post('/company/getCompanyAdminDetails', [], {
         'Content-Type': 'application/json'
       })
       .then((response) => {
@@ -122,7 +122,7 @@ const CompanyProfile = () => {
       })
 
     axios
-      .post('/salesforce/getOpportunityDetails', [], {
+      .post('/company/getOpportunityDetails', [], {
         'Content-Type': 'application/json'
       })
       .then((response) => {
@@ -181,7 +181,7 @@ const CompanyProfile = () => {
       }
     })
     axios
-      .post('/salesforce/getUpdatedDataForEditCompanyDetails', [], {
+      .post('/company/getUpdatedDataForEditCompanyDetails', [], {
         'Content-Type': 'application/json'
       })
       .then((response) => {
@@ -253,7 +253,7 @@ const CompanyProfile = () => {
       window.document.getElementById('iconContainer').src = spinner
       axios
         .post(
-          '/salesforce/updateCompanyDetails',
+          '/company/updateCompanyDetails',
           {
             companyDetails: state.companyEditValues,
             adminDetails: state.adminDetailsEditValues

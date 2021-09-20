@@ -10,9 +10,9 @@ use App\Repositories\KOTRepository;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Company;
 use App\Models\User;
-use App\Models\Opportunity;
 use App\Mail\NotifyAddedCompanySuperAdminUser;
 use App\Http\Controllers\BillingController;
+use App\Services\API\Salesforce\Model\Opportunity;
 use Exception;
 
 class CompanyService
@@ -48,7 +48,7 @@ class CompanyService
                 return $usageData;
 
             } catch(Exception $e) {
-                return $usageData;
+                return $e->getMessage();
             } 
             
         });
@@ -59,7 +59,7 @@ class CompanyService
     public function getNumberSubscribers($companyID)
     {
         $subscribersCount = Cache::remember("{$companyID}:subscribersCount:data", now()->addHour(), function () use ($companyID) {
-            $companySubscription = (new SalesforceRepository)->getCompanyTAContract($companyID);
+            $companySubscription = (new Opportunity)->getNumberOfSubscriber($companyID);
             if (empty($companySubscription)) {
                 return false;
             }
@@ -79,8 +79,7 @@ class CompanyService
             if (!empty($companyInformation)) {
                 return reset($companyInformation);
             }
-
-            return $this->salesForce->getCompanyDetailsByCompanyID($companyID);
+            return (new Account)->findByID($companyID);
         });
 
         return json_encode($companyDetails);

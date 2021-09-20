@@ -17,6 +17,7 @@ use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserNotCreatedException;
 use App\Exceptions\UserStatusNotFoundException;
 use App\Exceptions\ActivationTokenNotFoundException;
+use App\Services\API\Salesforce\Model\Contact;
 use App\Traits\Uploadable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\UploadedFile;
@@ -287,12 +288,7 @@ class UserService
     public function findInSFById($contactID) 
     {
         try {
-            $companyAdmin = $this->salesForce->getCompanyAdminById($contactID);
-            if (isset($companyAdmin['status']) && !$companyAdmin['status']) {
-                return json_encode($companyAdmin);
-            }
-
-            return $companyAdmin;
+            return (new Contact)->findById($contactID);
         } catch (UserNotFoundException $e) {
             throw new UserNotFoundException;
         }

@@ -22,17 +22,17 @@ Route::post('/', 'Auth\LoginController@authenticate')->name('auth');
 Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::prefix('salesforce')->group(function () {
-    Route::post('getCompanyDetails', 'CompanyController@getCompanyDetails');
-    Route::post('getCompanyAdminDetails', 'CompanyController@getCompanyAdminDetails');
     Route::get('getCompanyAdminDetailsbyEmail', 'UserController@searchSF');
-    Route::post('getUpdatedDataForEditCompanyDetails', 'CompanyController@getUpdatedDataForEditCompanyDetails');
     Route::put('updateAdminByEmail', 'UserController@updateAdminByEmail');
     Route::delete('deleteSFAdmin', 'UserController@destroyInSF');
-    Route::post('updateCompanyDetails', 'CompanyController@updateCompanyDetails');
-    Route::post('getOpportunityDetails', 'CompanyController@getOpportunityDetails');
 });
 
   Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
+    Route::post('getCompanyDetails', 'CompanyController@getCompanyDetails');
+    Route::post('getCompanyAdminDetails', 'CompanyController@getCompanyAdminDetails');
+    Route::post('getOpportunityDetails', 'CompanyController@getOpportunityDetails');
+    Route::post('getUpdatedDataForEditCompanyDetails', 'CompanyController@getUpdatedDataForEditCompanyDetails');
+    Route::post('updateCompanyDetails', 'CompanyController@updateCompanyDetails');
       Route::view('/widgetSettings', 'widgetSettings');
       Route::get('/getCoordinates', 'WidgetController@getCompanyCoordinates');
       Route::post('/saveCoordinates', 'WidgetController@saveCoordinates');

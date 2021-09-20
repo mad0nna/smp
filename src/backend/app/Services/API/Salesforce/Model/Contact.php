@@ -29,7 +29,7 @@ class Contact extends Model
         return reset($adminDetails['records']);
     }
 
-    public function getAllAdminByAccountId($accountId) {
+    public function getAdminByAccountId($accountId) {
         $adminDetails = $this->client->get("/services/data/v34.0/query/?q=SELECT+Name, Id, FirstName, LastName, Email, Title, MobilePhone, section__c, admin__c, CreatedDate+from+Contact+WHERE+AccountId='" . $accountId . "'+And+admin__c=true+Order+By+CreatedDate+ASC+LIMIT+1");
         if (isset($adminDetails['status']) && !$adminDetails['status']) {
             return $adminDetails;
