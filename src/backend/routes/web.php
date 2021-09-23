@@ -58,7 +58,7 @@ Route::prefix('salesforce')->group(function () {
       Route::get('getLoggedUserInfo', 'UserController@userinfo');
       Route::get('findInSFByEmail', 'UserController@findInSFByEmail');
       Route::view('/notifications', 'notifications');
-      Route::get('/searchSFContactByUserId', 'UserController@searchSFContactByUserId');
+      Route::get('/getContactDetails', 'UserController@getContactDetails');
       Route::get('/getBilling', 'BillingController@index');
       Route::post('/getInvoicePDF', 'BillingController@getInvoicePDF');
       Route::get('/getUsage', 'BillingController@getAccountUsageData');

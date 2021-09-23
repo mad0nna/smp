@@ -62,7 +62,7 @@ class UserController extends Controller
         return response()->json($this->response, $this->response['code']);
     }
 
-    public function searchSFContactByUserId(Request $request)
+    public function getContactDetails(Request $request)
     {
         try {
             $result = $this->userService->findById($request->id);

@@ -22,6 +22,7 @@ use App\Traits\Uploadable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Session;
 
 class UserService
 {
@@ -304,7 +305,7 @@ class UserService
     {
         try {
             // retrieve the user
-            $user = $this->user->findOrFail($id);
+            $user = $this->user->where('id', '=', $id)->where('company_id', '=', Session::get('companyID'))->first();
         } catch (ModelNotFoundException $e) {
             throw new UserNotFoundException;
         }

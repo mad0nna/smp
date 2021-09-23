@@ -126,8 +126,6 @@ const AccountProfileEdit = (props) => {
   }
 
   const handleUpdateSave = () => {
-    console.log('handleUpdateSave')
-
     if (confirm('本当にこのデータを更新してもよろしいですか？')) {
       setState((prevState) => {
         return {
@@ -147,7 +145,7 @@ const AccountProfileEdit = (props) => {
         username: state.account.email,
         Id: state.account.account_code
       }
-      console.log(_accountSFValues)
+
       axios
         .put('/salesforce/updateAdminByEmail', _accountSFValues, {
           'Content-Type': 'application/json'
@@ -172,12 +170,10 @@ const AccountProfileEdit = (props) => {
   }
 
   const handleClose = () => {
-    console.log('handleClose')
     props.handleDisplayList()
   }
 
   const handleCloseMessageDialog = () => {
-    console.log('handleCloseMessageDialog')
     setState((prevState) => {
       return {
         ...prevState,
@@ -197,11 +193,9 @@ const AccountProfileEdit = (props) => {
     }
 
     axios
-      .get(`/company/searchSFContactByUserId?id=${id}`)
+      .get(`/company/getContactDetails?id=${id}`)
       .then((response) => {
         let data = response.data.data
-        console.log('request respond')
-        console.log(data)
         let acct = {}
         acct.username = data.email
         acct.name = data.FullName
@@ -221,10 +215,8 @@ const AccountProfileEdit = (props) => {
           }
         })
       })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response.status)
-        }
+      .catch(function () {
+        alert('記録が見当たりませんでした')
       })
   }, [props.account])
 
