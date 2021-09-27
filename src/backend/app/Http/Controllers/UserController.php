@@ -71,6 +71,8 @@ class UserController extends Controller
             $result = $this->userService->findById($request->id);
             $user = (new Contact)->findByAccountID($result['account_code']);
             $this->response['data'] = $this->getSFResource($user);
+            $this->response['data']['canEdit'] = Auth::user()->user_type_id === 3 || Auth::user()->account_code === $user['Id'];
+            $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3 && !$user['admin__c'];
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
@@ -101,6 +103,8 @@ class UserController extends Controller
             $this->response = [
                 'success' => true,
                 'data' => $results->items(),
+                'isSuperAdmin' => (Auth::user()->user_type_id === 3) ? true : false,
+                'adminID' => Auth::user()->id,
                 'pageCount' => $results->total(),
                 'lastPage' => $results->lastPage(),
                 'message' => 'Company admin retrieved successfully.',
@@ -140,7 +144,6 @@ class UserController extends Controller
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
             $company = Auth::user()->company_id;
-
             if ($sf['isPartial']) {
                 $formData = [
                     'username' => $sf['email'] ? $sf['email'] : '',
@@ -299,6 +302,14 @@ class UserController extends Controller
             $response = (new Contact)->update($salesforceData, $data['Id']);
             if (!$response['status']) {
                 return $response;
+            }
+
+            if ($data['admin__c'] == 3) {
+                $removeAdmin = (new Contact)->update(['admin__c' => false], Auth::user()->account_code);
+                if (!$removeAdmin['status']) {
+                    return $response;
+                }
+                $this->userService->removeAdminPermission(Auth::user()->account_code);
             }
             $formData = [
                 'first_name' => $data['FirstName'] ? $data['FirstName'] : '',

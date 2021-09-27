@@ -70,7 +70,7 @@ const Navigation = () => {
         {
           label: 'アカウント',
           url: '/company/accountslist',
-          childUrl: [],
+          childUrl: ['/company/account/profile/'],
           iconNormal: 'bg-account-list-icon',
           iconHover: 'group-hover:bg-account-list-icon-hover',
           iconActive: 'bg-account-list-icon-hover',

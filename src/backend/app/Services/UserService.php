@@ -169,6 +169,11 @@ class UserService
         return ['status' => false];
     }
 
+    public function removeAdminPermission($account_code) {
+        $user = $this->user->where('account_code', $account_code);
+        return $user->update(['user_type_id' => 4]);
+    }
+
     /**
      * Updates user in the Salesforce
      *

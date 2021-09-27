@@ -1,14 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import _ from 'lodash'
 import waitingIcon from '../../img/loading-spinner.gif'
+import axios from 'axios'
 
-const NewAccount = (props) => {
+const NewAccount = () => {
   const [state, setState] = useState({
     addingAccount: '',
     email: '',
     fullName: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
+    isLoading: false,
+    isLoadingOfAddingContact: false,
+    source: '',
+    foundAccount: {
+      first_name: '',
+      last_name: '',
+      contact_num: '',
+      title: '',
+      account_code: ''
+    }
   })
   const handleNameChange = (e) => {
     setState((prevState) => {
@@ -26,28 +37,111 @@ const NewAccount = (props) => {
       }
     })
   }
+  const searchAdminByEmail = (email) => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        isLoading: true,
+        searchResult: ''
+      }
+    })
 
-  useEffect(() => {
-    if (!_.isEmpty(props.foundAccount)) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          email: props.foundAccount.email,
-          fullName: props.foundAccount.fullName,
-          addingAccount: props.foundAccount
+    axios
+      .get(`/company/findInSFByEmail?email=${email}`)
+      .then((response) => {
+        setState((prevState) => {
+          let foundAccount = response.data.data
+          return {
+            ...prevState,
+            // showPopupNewAccount: true,
+            isLoading: false,
+            foundAccount: foundAccount,
+            source: 'salesforce',
+            // : '',
+            searchResult:
+              foundAccount.source === 'salesforce'
+                ? 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？'
+                : '既に追加されているユーザーです。アカウント一覧をご確認ください',
+            email: email,
+            fullName: foundAccount.fullName,
+            firstName: foundAccount.first_name,
+            lastName: foundAccount.last_name,
+            contact_num: foundAccount.contact_num,
+            title: foundAccount.title,
+            account_code: foundAccount.account_code
+          }
+        })
+      })
+      .catch(function (error) {
+        if (error.response) {
+          // const admin = state.foundAccount
+          setState((prevState) => {
+            return {
+              ...prevState,
+              isLoading: false,
+              foundAccount: '',
+              searchResult:
+                '未登録のユーザーです。名前を入力して招待を送信してください。'
+            }
+          })
         }
       })
+  }
+
+  const handleDisplayAddedAdmin = (user) => {
+    if (user.source != 'salesforce') {
+      const fullName = user.fullName
+      let arr = []
+      arr = fullName.split(' ')
+      user.firstname = arr[1] ? arr[1] : ''
+      user.lastname = arr[0] ? arr[0] : ''
+      user.firstname = user.first_name ? user.last_name : '-'
+      user.isPartial = 1
     } else {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          // email: '',
-          fullName: '',
-          addingAccount: ''
+      user.isPartial = 0
+    }
+
+    setState((prevState) => {
+      return {
+        ...prevState,
+        isLoadingOfAddingContact: true
+      }
+    })
+
+    axios
+      .post('/company/addCompanyAdmin', user, {
+        'Content-Type': 'application/json'
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          console.log(response)
+          setState((prevState) => {
+            return {
+              ...prevState,
+              showPopupNewAccount: false,
+              isLoadingOfAddingContact: false,
+              showPopupMessageDialog: true,
+              dialogMessage:
+                '管理者が追加されました。 \n 追加された管理者に招待メールが送信されます。'
+            }
+          })
+          location.reload()
         }
       })
-    }
-  }, [props.foundAccount])
+      .catch(function (error) {
+        if (error.response) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              isLoadingOfAddingContact: false,
+              showPopupNewAccount: false,
+              showPopupMessageDialog: true,
+              dialogMessage: '正しいメールアドレスを入力してください。'
+            }
+          })
+        }
+      })
+  }
 
   return (
     <div className="rounded-lg border-2 border-gray-200 absolute inset-1/3 h-80 top-48 m-auto bg-primary-200 opacity-85 ">
@@ -64,15 +158,15 @@ const NewAccount = (props) => {
               onChange={handleEmailChange}
             />
             <button
-              disabled={props.isLoading}
-              onClick={() => props.searchAdminByEmail(state.email)}
+              disabled={state.isLoading}
+              onClick={() => searchAdminByEmail(state.email)}
               className="w-24 xl:w-24 lg:w-24 cursor-pointer col-span-1 text-bold   text-primary-200   bg-white rounded p-1 text-sm"
             >
               検索する
               <img
                 src={waitingIcon}
                 className={
-                  (props.isLoading ? ' ' : ' hidden ') + ' w-7 inline '
+                  (state.isLoading ? ' ' : ' hidden ') + ' w-7 inline '
                 }
               />
             </button>
@@ -90,18 +184,12 @@ const NewAccount = (props) => {
             <input
               className=" text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
               onChange={handleNameChange}
-              value={
-                !_.isEmpty(props.foundAccount)
-                  ? props.foundAccount.first_name +
-                    ' ' +
-                    props.foundAccount.last_name
-                  : state.fullName
-              }
+              value={state.fullName}
               type="text"
             />
           </div>
           <p className="text-sm inline-block text-white w-full h-8 leading-8 text-left pl-10">
-            {!_.isEmpty(props.searchResult) ? props.searchResult : ''}
+            {!_.isEmpty(state.searchResult) ? state.searchResult : ''}
           </p>
         </div>
       </div>
@@ -114,39 +202,30 @@ const NewAccount = (props) => {
 
       <div className="flex flex-wrap gap-0 w-full justify-center mt-4">
         <button
-          disabled={
-            (!_.isEmpty(props.foundAccount) &&
-              props.foundAccount.source === 'database') ||
-            state.email.length === 0 ||
-            state.fullName.length === 0
-              ? 'disabled'
-              : ''
-          }
-          onClick={() =>
-            props.handleDisplayAddedAdmin(
-              // {
-              // email: state.email,
-              // fullName: state.fullName
-              // }
-
-              state.addingAccount
-                ? state.addingAccount
-                : { email: state.email, fullName: state.fullName }
-            )
-          }
+          onClick={() => {
+            handleDisplayAddedAdmin({
+              source: state.source,
+              email: state.email,
+              first_name: state.firstName,
+              last_name: state.lastName,
+              contact_num: state.foundAccount.contact_num,
+              title: state.foundAccount.title,
+              account_code: state.foundAccount.account_code
+            })
+          }}
           className="rounded-xl cursor-pointer  font-extrabold w-40 py-2 px-3 mr-4 text-primary-200  tracking-tighter bg-white"
         >
           招待を送信 &nbsp;
           <img
             src={waitingIcon}
             className={
-              (props.isLoadingOfAddingContact ? ' ' : ' hidden ') +
+              (state.isLoadingOfAddingContact ? ' ' : ' hidden ') +
               ' w-7 inline '
             }
           />
         </button>
         <button
-          onClick={props.closePopup}
+          onClick={state.closePopup}
           className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-primary-200  tracking-tighter bg-white mr-4"
         >
           キャンセル

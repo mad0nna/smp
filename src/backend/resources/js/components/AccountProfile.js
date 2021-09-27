@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react'
+import ReactDom from 'react-dom'
 import axios from 'axios'
 import MessageDialog from './MessageDialog'
 import waitingIcon from '../../img/loading-spinner.gif'
-import _ from 'lodash'
-import queryString from 'query-string'
-// eslint-disable-next-line
-let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
-
-const AccountProfileEdit = (props) => {
+// import queryString from 'query-string'
+const AccountProfileEdit = () => {
   const [state, setState] = useState({
-    mode: props.mode,
-    dataEmpty: _.isEmpty(props.account) ? true : false,
-    loggedUser: props.loggedUser,
-    account: initAccount(),
+    mode: 'view',
+    account: {
+      username: '',
+      name: '',
+      lastname: '',
+      firstname: '',
+      position: '',
+      phone: '',
+      email: '',
+      userTypeId: ''
+    },
     accountSFValues: {
       Firstname: '',
       Lastname: '',
@@ -24,39 +28,15 @@ const AccountProfileEdit = (props) => {
     },
     showPopupMessageDialog: false,
     dialogMessage: '',
-    isEditingProfile: props.mode === 'edit' ? true : false,
     userTypes: [
       { name: 'Sub Company Admin', value: 4 },
       { name: 'Company Admin', value: 3 }
     ],
     isLoading: false,
+    isEditingProfile: false,
+    authorityTransfer: false,
     updatedAccount: {}
   })
-
-  function initAccount() {
-    let acct = {}
-    if (props.account) {
-      acct.username = props.account.username
-      acct.name = props.account.Name
-      acct.lastname = props.account.last_name
-      acct.firstname = props.account.first_name
-      acct.position = props.account.title
-      acct.phone = props.account.contact_num
-      acct.email = props.account.email
-      acct.userTypeId = props.account.user_type_id
-    } else {
-      acct.username = ''
-      acct.name = ''
-      acct.lastname = ''
-      acct.firstname = ''
-      acct.position = ''
-      acct.phone = ''
-      acct.email = ''
-      acct.userTypeId = ''
-    }
-
-    return acct
-  }
 
   function handleNumberChange(evt) {
     evt = evt ? evt : window.event
@@ -183,7 +163,7 @@ const AccountProfileEdit = (props) => {
   }
 
   const handleClose = () => {
-    props.handleDisplayList()
+    location.replace('/company/accountslist')
   }
 
   const handleCloseMessageDialog = () => {
@@ -193,21 +173,21 @@ const AccountProfileEdit = (props) => {
         showPopupMessageDialog: false
       }
     })
-    props.handleDisplayList(state.updatedAccount, props.accountToUpdateIndex)
+    location.replace('/company/accountslist')
   }
 
   useEffect(() => {
-    let id = ''
-    if (!_.isEmpty(props.account)) {
-      id = props.account.id
-    } else {
-      let params = queryString.parse(location.search)
-      id = params.id
+    let urlParams = new URLSearchParams(location.search)
+    let id = urlParams.get('id')
+    let digitOnly = /^\d+$/
+    if (!digitOnly.test(id)) {
+      alert('記録が見当たりませんでした')
+      location.replace('/company/accountslist')
     }
-
     axios
-      .get(`/company/getContactDetails?id=${id}`)
+      .post(`/company/getContactDetails`, { id: id })
       .then((response) => {
+        console.log(response.data.data)
         let data = response.data.data
         let acct = {}
         acct.username = data.email
@@ -219,302 +199,349 @@ const AccountProfileEdit = (props) => {
         acct.email = data.email
         acct.userTypeId = data.user_type_id
         acct.account_code = data.account_code
-
         setState((prevState) => {
           return {
             ...prevState,
             account: acct,
-            dataEmpty: false
+            dataEmpty: false,
+            isEditingProfile: data.canEdit,
+            mode: data.canEdit ? 'edit' : 'view',
+            authorityTransfer: data.authorityTransfer
           }
         })
       })
       .catch(function () {
         alert('記録が見当たりませんでした')
       })
-  }, [props.account])
+  }, [])
 
   return (
-    <div className="w-full">
-      <div className="align-top inline-block w-6/12 rounded-xl border-gray-200 border h-96 bg-white my-4 ml-5 mr-5 py-5 px-6">
-        <div className="mx-10 mt-11 mb-2">
-          <div className="flex flex-wrap gap-0 w-full justify-center mt-4 text-primary-200 text-xl">
-            アカウントを更新
-          </div>
-          <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 md:w-1/3">
-                <label className="text-sm text-gray-400">
-                  ファーストネーム :
-                </label>
-              </div>
-              <div className="md:w-2/3 flex-grow">
-                <label
-                  className={
-                    (state.isEditingProfile ? 'hidden' : '') +
-                    ' text-sm text-black w-full h-8 px-3 leading-8'
-                  }
-                >
-                  {state.account.firstname}
-                </label>
-                <input
-                  className={
-                    (state.isEditingProfile ? '' : 'hidden') +
-                    ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  defaultValue={state.account.firstname}
-                  type="text"
-                  name="FirstName"
-                  placeholder="ファーストネーム"
-                  onChange={(e) =>
-                    handleTextChange('firstname', e.target.value)
-                  }
-                />
-              </div>
+    <div className="relative px-10 py-5 bg-mainbg ">
+      <div className="bg-mainbg grid grid-cols-3 font-meiryo gap-6">
+        <div className="col-span-3 w-full rounded-lg shadow-xl bg-white mb-10 border-primary-100">
+          <div className="px-3 pt-3 pb-10">
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+              <h2 className="text-green-800 text-lg font-bold">
+                ユーザーアカウント一覧
+              </h2>
             </div>
           </div>
-          <div className="flex flex-wrap gap-0 w-full justify-start">
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 md:w-1/3">
-                <label className="text-sm text-gray-400">苗字 :</label>
-              </div>
-              <div className="md:w-2/3 flex-grow">
-                <label
-                  className={
-                    (state.isEditingProfile ? 'hidden' : '') +
-                    ' text-sm text-black w-full h-8 px-3 leading-8'
-                  }
-                >
-                  {state.account.lastname}
-                </label>
-                <input
-                  className={
-                    (state.isEditingProfile ? '' : 'hidden') +
-                    ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  defaultValue={state.account.lastname}
-                  type="text"
-                  name="LastName"
-                  placeholder="苗字"
-                  onChange={(e) => handleTextChange('lastname', e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-0 w-full justify-start">
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 md:w-1/3">
-                <label className="text-sm text-gray-400">役職 :</label>
-              </div>
-              <div className="md:w-2/3 md:flex-grow">
-                <label
-                  className={
-                    (state.isEditingProfile ? 'hidden' : '') +
-                    ' text-sm text-black w-full h-8 px-3 leading-8'
-                  }
-                >
-                  {state.account.position}
-                </label>
-                <input
-                  className={
-                    (state.isEditingProfile ? '' : 'hidden') +
-                    ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  type="text"
-                  name="position"
-                  defaultValue={state.account.position}
-                  placeholder="役職"
-                  onChange={(e) => handleTextChange('position', e.target.value)}
-                />
-              </div>
-            </div>
+          <div className="px-3">
+            <div className="w-full">
+              <div className="align-top inline-block w-6/12 rounded-xl border-gray-200 border h-96 bg-white my-4 ml-5 mr-5 py-5 px-6">
+                <div className="mx-10 mt-11 mb-2">
+                  <div className="flex flex-wrap gap-0 w-full justify-center mt-4 text-primary-200 text-xl">
+                    アカウントを更新
+                  </div>
+                  <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
+                    <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+                      <div className="mb-1 md:mb-0 md:w-1/3">
+                        <label className="text-sm text-gray-400">
+                          ファーストネーム :
+                        </label>
+                      </div>
+                      <div className="md:w-2/3 flex-grow">
+                        <label
+                          className={
+                            (state.isEditingProfile ? 'hidden' : '') +
+                            ' text-sm text-black w-full h-8 px-3 leading-8'
+                          }
+                        >
+                          {state.account.firstname}
+                        </label>
+                        <input
+                          className={
+                            (state.isEditingProfile ? '' : 'hidden') +
+                            ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                          }
+                          defaultValue={state.account.firstname}
+                          type="text"
+                          name="FirstName"
+                          placeholder="ファーストネーム"
+                          onChange={(e) =>
+                            handleTextChange('firstname', e.target.value)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-0 w-full justify-start">
+                    <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+                      <div className="mb-1 md:mb-0 md:w-1/3">
+                        <label className="text-sm text-gray-400">苗字 :</label>
+                      </div>
+                      <div className="md:w-2/3 flex-grow">
+                        <label
+                          className={
+                            (state.isEditingProfile ? 'hidden' : '') +
+                            ' text-sm text-black w-full h-8 px-3 leading-8'
+                          }
+                        >
+                          {state.account.lastname}
+                        </label>
+                        <input
+                          className={
+                            (state.isEditingProfile ? '' : 'hidden') +
+                            ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                          }
+                          defaultValue={state.account.lastname}
+                          type="text"
+                          name="LastName"
+                          placeholder="苗字"
+                          onChange={(e) =>
+                            handleTextChange('lastname', e.target.value)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-0 w-full justify-start">
+                    <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+                      <div className="mb-1 md:mb-0 md:w-1/3">
+                        <label className="text-sm text-gray-400">役職 :</label>
+                      </div>
+                      <div className="md:w-2/3 md:flex-grow">
+                        <label
+                          className={
+                            (state.isEditingProfile ? 'hidden' : '') +
+                            ' text-sm text-black w-full h-8 px-3 leading-8'
+                          }
+                        >
+                          {state.account.position}
+                        </label>
+                        <input
+                          className={
+                            (state.isEditingProfile ? '' : 'hidden') +
+                            ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                          }
+                          type="text"
+                          name="position"
+                          defaultValue={state.account.position}
+                          placeholder="役職"
+                          onChange={(e) =>
+                            handleTextChange('position', e.target.value)
+                          }
+                        />
+                      </div>
+                    </div>
 
-            <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-              <div className="mb-1 md:mb-0 md:w-1/3">
-                <label className="text-sm text-gray-400">電話番号 :</label>
-              </div>
-              <div className="md:w-2/3 md:flex-grow">
-                <label
-                  className={
-                    (state.isEditingProfile ? 'hidden' : '') +
-                    ' text-sm text-black w-full h-8 px-3 leading-8'
-                  }
-                >
-                  {state.account.phone}
-                </label>
-                <input
-                  className={
-                    (state.isEditingProfile ? '' : 'hidden') +
-                    ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  type="text"
-                  name="phone"
-                  defaultValue={state.account.phone}
-                  placeholder="電話番号"
-                  onChange={(e) => handleTextChange('phone', e.target.value)}
-                  onKeyPress={(e) => {
-                    return handleNumberChange(e)
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="align-top inline-block w-5/12  h-80">
-        <div className="align-top inline-block w-full rounded-xl border-gray-200 border h-48 bg-white my-4 py-5 ml-10">
-          <div className="mx-10 mb-2">
-            <div className="flex flex-wrap gap-0 w-full justify-center text-primary-200 text-xl">
-              ログイン情報
-            </div>
-            <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
-              <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center">
-                <div className="mb-1 md:mb-0 md:w-1/3">
-                  <label className="text-sm text-gray-400">
-                    メールアドレス:{' '}
-                  </label>
-                </div>
-                <div className="md:w-2/3 flex-grow">
-                  <label
-                    className={
-                      (state.isEditingProfile ? 'hidden' : '') +
-                      ' text-sm text-black w-full h-8 px-3 leading-8'
-                    }
-                  >
-                    {state.account.email}
-                  </label>
-                  <input
-                    className={
-                      (state.isEditingProfile ? '' : 'hidden') +
-                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                    }
-                    defaultValue={state.account.email}
-                    type="text"
-                    name="email"
-                    placeholder="会社名"
-                    onChange={handleTextChange}
-                    disabled
-                  />
+                    <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+                      <div className="mb-1 md:mb-0 md:w-1/3">
+                        <label className="text-sm text-gray-400">
+                          電話番号 :
+                        </label>
+                      </div>
+                      <div className="md:w-2/3 md:flex-grow">
+                        <label
+                          className={
+                            (state.isEditingProfile ? 'hidden' : '') +
+                            ' text-sm text-black w-full h-8 px-3 leading-8'
+                          }
+                        >
+                          {state.account.phone}
+                        </label>
+                        <input
+                          className={
+                            (state.isEditingProfile ? '' : 'hidden') +
+                            ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                          }
+                          type="text"
+                          name="phone"
+                          defaultValue={state.account.phone}
+                          placeholder="電話番号"
+                          onChange={(e) =>
+                            handleTextChange('phone', e.target.value)
+                          }
+                          onKeyPress={(e) => {
+                            return handleNumberChange(e)
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex flex-wrap gap-0 w-full justify-start">
-              <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-4">
-                <div className="mb-1 md:mb-0 md:w-1/3">
-                  <label className="text-sm text-gray-400">パスワード: </label>
-                </div>
-                <div className="md:w-2/3 md:flex-grow">
-                  <label
-                    className={
-                      (state.isEditingProfile ? 'hidden' : '') +
-                      ' text-sm text-black w-full h-8 px-3 leading-8'
-                    }
-                  >
-                    ********
-                  </label>
-                  <input
-                    className={
-                      (state.isEditingProfile ? '' : 'hidden') +
-                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                    }
-                    type="password"
-                    name="pw"
-                    defaultValue="********"
-                    placeholder="電話番号"
-                    onChange={handleTextChange}
-                    disabled
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="align-top inline-block w-full rounded-xl border-gray-200 border h-40 bg-white mr-5 py-5 px-6 mt-4 ml-10">
-          <div className="mx-10  mb-2">
-            <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
-              <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-                <div className="mb-1 md:mb-0 md:w-1/3">
-                  <label className="text-sm text-gray-400">権限 :</label>
-                </div>
-                <div className="md:w-2/3 flex-grow">
-                  <label
-                    className={
-                      (state.isEditingProfile ? 'hidden' : '') +
-                      ' text-sm text-black w-full h-8 px-3 leading-8'
-                    }
-                  >
-                    {state.account.userTypeId === 3
-                      ? 'Company Admin'
-                      : 'Sub Company Admin'}
-                  </label>
-                  {
-                    <select
-                      disabled={
-                        state.loggedUser.userTypeId === 3 ? `` : `disabled`
-                      }
-                      style={{
-                        display: state.isEditingProfile ? 'block' : 'none'
-                      }}
-                      value={state.account.userTypeId}
-                      name="select"
-                      onChange={(event) => userTypesChange(event.target.value)}
-                    >
-                      {state.userTypes.map(function (t) {
-                        return (
-                          <option
-                            key={t.value}
-                            value={t.value}
-                            defaultValue={
-                              state.account.userTypeId === 3
-                                ? 'Company Admin'
-                                : 'Sub Company Admin'
+              <div className="align-top inline-block w-5/12  h-80">
+                <div className="align-top inline-block w-full rounded-xl border-gray-200 border h-48 bg-white my-4 py-5 ml-10">
+                  <div className="mx-10 mb-2">
+                    <div className="flex flex-wrap gap-0 w-full justify-center text-primary-200 text-xl">
+                      ログイン情報
+                    </div>
+                    <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
+                      <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center">
+                        <div className="mb-1 md:mb-0 md:w-1/3">
+                          <label className="text-sm text-gray-400">
+                            メールアドレス:{' '}
+                          </label>
+                        </div>
+                        <div className="md:w-2/3 flex-grow">
+                          <label
+                            className={
+                              (state.isEditingProfile ? 'hidden' : '') +
+                              ' text-sm text-black w-full h-8 px-3 leading-8'
                             }
                           >
-                            {t.name}
-                          </option>
-                        )
-                      })}
-                    </select>
-                  }
+                            {state.account.email}
+                          </label>
+                          <input
+                            className={
+                              (state.isEditingProfile ? '' : 'hidden') +
+                              ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                            }
+                            defaultValue={state.account.email}
+                            type="text"
+                            name="email"
+                            placeholder="会社名"
+                            onChange={handleTextChange}
+                            disabled
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-0 w-full justify-start">
+                      <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-4">
+                        <div className="mb-1 md:mb-0 md:w-1/3">
+                          <label className="text-sm text-gray-400">
+                            パスワード:{' '}
+                          </label>
+                        </div>
+                        <div className="md:w-2/3 md:flex-grow">
+                          <label
+                            className={
+                              (state.isEditingProfile ? 'hidden' : '') +
+                              ' text-sm text-black w-full h-8 px-3 leading-8'
+                            }
+                          ></label>
+                          <input
+                            className={
+                              (state.isEditingProfile ? '' : 'hidden') +
+                              ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                            }
+                            type="password"
+                            name="pw"
+                            defaultValue=""
+                            placeholder="電話番号"
+                            onChange={handleTextChange}
+                            disabled
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="align-top inline-block w-full rounded-xl border-gray-200 border h-40 bg-white mr-5 py-5 px-6 mt-4 ml-10">
+                  <div className="mx-10  mb-2">
+                    <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
+                      <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+                        <div className="mb-1 md:mb-0 md:w-1/3">
+                          <label className="text-sm text-gray-400">
+                            権限 :
+                          </label>
+                        </div>
+                        <div className="md:w-2/3 flex-grow">
+                          <label
+                            style={{
+                              display: state.isEditingProfile
+                                ? state.authorityTransfer
+                                  ? 'none'
+                                  : 'block'
+                                : 'block'
+                            }}
+                            className={
+                              'text-sm text-black w-full h-8 px-3 leading-8'
+                            }
+                          >
+                            {state.account.userTypeId === 3
+                              ? 'Company Admin'
+                              : 'Sub Company Admin'}
+                          </label>
+                          {
+                            <select
+                              style={{
+                                display: state.isEditingProfile
+                                  ? state.authorityTransfer
+                                    ? 'block'
+                                    : 'none'
+                                  : 'none'
+                              }}
+                              value={state.account.userTypeId}
+                              name="select"
+                              onChange={(event) =>
+                                userTypesChange(event.target.value)
+                              }
+                            >
+                              {state.userTypes.map(function (t) {
+                                return (
+                                  <option
+                                    key={t.value}
+                                    value={t.value}
+                                    defaultValue={
+                                      state.account.userTypeId === 3
+                                        ? 'Company Admin'
+                                        : 'Sub Company Admin'
+                                    }
+                                  >
+                                    {t.name}
+                                  </option>
+                                )
+                              })}
+                            </select>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+
+              <div className="my-4 ml-6 mr-32 py-5 px-6 mt-0 pt-3 pl-0 text-center">
+                <button
+                  onClick={handleUpdateSave}
+                  className="
+              bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm mr-5 space-x-2"
+                  style={{
+                    display: state.isEditingProfile ? '' : 'none'
+                  }}
+                >
+                  {state.isEditingProfile ? '編集する' : '変更を保存'}&nbsp;
+                  <img
+                    src={waitingIcon}
+                    className={
+                      (state.isLoading ? ' ' : ' hidden ') + ' w-8 inline '
+                    }
+                  />
+                </button>
+
+                <button
+                  onClick={handleClose}
+                  style={{
+                    display: state.isEditingProfile ? '' : 'none'
+                  }}
+                  className="bg-primary-200 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
+                >
+                  <img className="inline mr-2" />
+                  キャンセル
+                </button>
+              </div>
+              {state.showPopupMessageDialog ? (
+                <MessageDialog
+                  handleCloseMessageDialog={handleCloseMessageDialog}
+                  message={state.dialogMessage}
+                />
+              ) : null}
             </div>
           </div>
         </div>
       </div>
-
-      <div className="my-4 ml-6 mr-32 py-5 px-6 mt-0 pt-3 pl-0 text-center">
-        <button
-          onClick={handleUpdateSave}
-          className="
-              bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm mr-5 space-x-2"
-          style={{
-            display: state.isEditingProfile ? '' : 'none'
-          }}
-        >
-          {state.isEditingProfile ? '編集する' : '変更を保存'}&nbsp;
-          <img
-            src={waitingIcon}
-            className={(state.isLoading ? ' ' : ' hidden ') + ' w-8 inline '}
-          />
-        </button>
-
-        <button
-          onClick={handleClose}
-          className="bg-primary-200 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
-        >
-          <img className="inline mr-2" />
-          キャンセル
-        </button>
-      </div>
-      {state.showPopupMessageDialog ? (
-        <MessageDialog
-          handleCloseMessageDialog={handleCloseMessageDialog}
-          message={state.dialogMessage}
-        />
-      ) : null}
     </div>
   )
 }
 
 export default AccountProfileEdit
+if (document.getElementById('company-accounts-profile')) {
+  ReactDom.render(
+    <AccountProfileEdit />,
+    document.getElementById('company-accounts-profile')
+  )
+}
