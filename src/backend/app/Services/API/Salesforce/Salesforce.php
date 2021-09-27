@@ -91,23 +91,80 @@ class Salesforce
         }
     }
 
-    public function delete($path, $headers = [])
+    public function create($path, $data, $headers = []) 
     {
         try {
             $request = $this->client->post(
+            $path,
+            [
+                'headers' => array_merge(
+                    [
+                        'Content-Type' => 'application/json',
+                        'Authorization' => 'Bearer ' . $this->access_token,
+                    ],
+                    $headers
+                ),
+                'json' => $data,
+            ]
+        );
+        if ($request->getStatusCode() == 204 || $request->getStatusCode() == 201) {
+            return [
+                'status' => true,
+                'message' => 'Successfully updated'
+            ];
+        }
+        return [
+            'status' => false
+        ];
+        }catch (ClientException $e) {
+            dd($e);
+            $code = $e->getResponse()->getStatusCode();
+            $response = json_decode($e->getResponse()->getBody()->getContents(), true);
+            if (in_array($code, [400, 401])) {
+                $this->retries++;
+
+                // prevent infinite retries/loop
+                if ($this->retries < $this->max_retries) {
+                    // attempt to get new token
+                    $this->authenticate();
+
+                    // retry the failed request
+                    return $this->patch($path, $data, $headers);
+                }
+
+                throw new UnauthorizedAccessException($response['message']);
+            }
+
+            // Other Exceptions aside from Authentication
+            throw new Exception($response['message']);
+        }
+    }
+
+    public function delete($path, $headers = [])
+    {
+        try {
+            $request = $this->client->delete(
                 $path,
                 [
                     'headers' => array_merge(
                         [
-                            'Content-Type' => 'application/x-www-form-urlencoded',
-                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $this->access_token,
                         ],
                         $headers
                     )
                 ]
             );
 
-            return json_decode($request->getBody()->getContents(), true);
+            if ($request->getStatusCode() == 204 || $request->getStatusCode() == 201) {
+                return [
+                    'status' => true,
+                    'message' => 'Successfully deleted'
+                ];
+            }
+            return [
+                'status' => false
+            ];
         } catch (ClientException $e) {
             $code = $e->getResponse()->getStatusCode();
             $response = json_decode($e->getResponse()->getBody()->getContents(), true);
@@ -191,6 +248,7 @@ class Salesforce
                     'headers' => array_merge(
                         $headers,
                         [
+                            'Content-Type' => 'application/json',
                             'Accept' => 'application/json',
                             'Authorization' => "Bearer {$this->access_token}",
                         ]

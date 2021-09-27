@@ -163,9 +163,10 @@ class UserService
         // }
 
         // perform update
-        $user->update($params);
-
-        return $user;
+        if ($user->update($params)) {
+            return ['status' => true, 'data' => $user];
+        }
+        return ['status' => false];
     }
 
     /**
@@ -275,7 +276,7 @@ class UserService
     public function findInSFByEmail($email)
     {
         try {
-            $companyAdmin = $this->salesForce->getCompanyAdminDetailsByEmail($email);
+            $companyAdmin = (new Contact)->findByEmail($email);
             if (isset($companyAdmin['status']) && !$companyAdmin['status']) {
                 return json_encode($companyAdmin);
             }
@@ -357,18 +358,18 @@ class UserService
 
     public function contactVerification($user, $companyID)
     {
-        $exisitngData = $this->salesForce->getCompanyAdminDetailsbyEmail($user['Email']);
+        $exisitngData = (new Contact)->findByEmail($user['Email']);
         if ($exisitngData === false) {
             $user['AccountId'] = $companyID;
-            $creationStatus = $this->salesForce->createContact($user);
+            $creationStatus = (new Contact)->create($user);
             if ($creationStatus) {
                 return $exisitngData;
             }
             return false;
         }
         $contactID = $exisitngData['Id'];
-        $result = json_decode($this->salesForce->updateAdminDetails($user, $contactID));
-        if ($result->status) {
+        $result = (new Contact)->update($user, $contactID);
+        if ($result['status']) {
             return $exisitngData;
         }
         return false;

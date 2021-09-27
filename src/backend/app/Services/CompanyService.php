@@ -12,6 +12,7 @@ use App\Models\Company;
 use App\Models\User;
 use App\Mail\NotifyAddedCompanySuperAdminUser;
 use App\Http\Controllers\BillingController;
+use App\Services\API\Salesforce\Model\Account;
 use App\Services\API\Salesforce\Model\Opportunity;
 use Exception;
 

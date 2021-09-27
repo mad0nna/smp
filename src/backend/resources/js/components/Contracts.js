@@ -37,7 +37,7 @@ const Contracts = () => {
 
   useEffect(() => {
     axios
-      .get(
+      .post(
         `/company/contractslist?page=${pagingConditions.page}&limit=${pagingConditions.limit}&keyword=${pagingConditions.keyword}`
       )
       .then((response) => {

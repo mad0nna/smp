@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Repositories\SalesforceRepository;
 use App\Repositories\DatabaseRepository;
+use App\Services\API\Salesforce\Model\Contact;
+use App\Services\API\Zuora\Exceptions\UnauthorizedAccessException;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -50,7 +53,7 @@ class UserController extends Controller
     public function findInSFByEmail(SearchUserInSFRequest $request)
     {
         try {
-            $user = $this->userService->findInSFByEmail($request->email);
+            $user = (new Contact)->findByEmail($request->email);
             $this->response['data'] = $this->getSFResource($user);
         } catch (Exception $e) {
             $this->response = [
@@ -66,7 +69,7 @@ class UserController extends Controller
     {
         try {
             $result = $this->userService->findById($request->id);
-            $user = $this->userService->findInSFById($result['account_code']);
+            $user = (new Contact)->findByAccountID($result['account_code']);
             $this->response['data'] = $this->getSFResource($user);
         } catch (Exception $e) {
             $this->response = [
@@ -285,9 +288,18 @@ class UserController extends Controller
     {
         try {
             $data = $request->all();
-            $email = $data['Email'];
-            $response = json_decode($this->salesForce->updateAdminDetails($data, $data['Id']));
-
+            $salesforceData = [
+                'Email' => $data['Email'],
+                'FirstName' => $data['FirstName'],
+                'LastName' => $data['LastName'],
+                'MobilePhone' => $data['MobilePhone'],
+                'Title' => $data['Title'],
+                'admin__c' => $data['admin__c'] === 4 ? false : true
+            ];
+            $response = (new Contact)->update($salesforceData, $data['Id']);
+            if (!$response['status']) {
+                return $response;
+            }
             $formData = [
                 'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
                 'last_name' => $data['LastName'] ? $data['LastName'] : '',
@@ -298,10 +310,10 @@ class UserController extends Controller
                 'username' => $data['username'] ? $data['username'] : '',
             ];
 
-            $user = $this->userService->update($formData);
-            $this->response['data'] = new UserResource($user);
+            return $this->userService->update($formData);
         } catch (Exception $e) {
             $this->response = [
+                'status' => false,
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
@@ -321,6 +333,9 @@ class UserController extends Controller
     {
         try {
             $user = $request->all();
+            if (Session::get('companyID') === '') {
+                throw new UnauthorizedAccessException();
+            }
 
             $id = $user['admin']['id'];
             // perform delete
@@ -345,14 +360,14 @@ class UserController extends Controller
     {
         try {
             $data = $request->all();
-
-            //check record in Salesforce
-            $email = $data['admin']['email'];
-
-            $adminInformation = $this->salesForce->getCompanyAdminDetailsbyEmail($email);
-            $accountID = $adminInformation['Id'];
-            // perform delete
-            $response = $this->salesForce->deleteAdmin($accountID);
+            if (Session::get('companyID') === '') {
+                throw new UnauthorizedAccessException();
+            }
+            $result = (new Contact)->delete($data['admin']['account_code']);
+            if ($result['status']) {
+                return ['status' => true];
+            };
+            return ['status' => false];
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),

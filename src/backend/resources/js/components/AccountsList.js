@@ -303,7 +303,7 @@ const AccountsList = () => {
       })
 
     axios
-      .delete('/salesforce/deleteSFAdmin?admin=', {
+      .delete('/company/deleteSFAdmin?admin=', {
         headers: {
           'Content-Type': 'application/json'
         },

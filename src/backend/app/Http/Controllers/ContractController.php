@@ -8,6 +8,7 @@ use App\Services\ContractService;
 use App\Http\Requests\ContractsRequest;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use App\Services\API\Salesforce\Model\Opportunity;
 
 class ContractController extends Controller
 {
@@ -41,7 +42,7 @@ class ContractController extends Controller
                 'page' => $request->getPage(),
                 'limit' => $request->getLimit(),
             ];
-            $allresults = $this->salesForce->getContracts(Session::get('salesforceCompanyID'), 0, 200);
+            $allresults = (new Opportunity)->findByAccountID(Session::get('salesforceCompanyID'), 0, 200);
             $total = count($allresults);
 
             $results = $this->contractService->search($conditions);

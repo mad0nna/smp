@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\SalesforceRepository;
 use App\Exceptions\ContractsNotFoundException;
+use App\Services\API\Salesforce\Model\Opportunity;
 use Illuminate\Support\Facades\Session;
 
 class ContractService
@@ -34,8 +35,7 @@ class ContractService
             }
 
             $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
-
-            $results = $this->salesForce->getContracts(Session::get('salesforceCompanyID'), $skip, $limit);
+            $results = (new Opportunity)->findByAccountID(Session::get('salesforceCompanyID'), $skip, $limit);
 
             return $results;
         } catch (ContractsNotFoundException $e) {

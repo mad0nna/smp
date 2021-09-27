@@ -18,7 +18,7 @@ class Contact extends Model
         if (isset($contacts['status']) && !$contacts['status']) {
             return $contacts;
         }
-        return $contacts['records'];
+        return $contacts;
     }
 
     public function findByEmail($email) {
@@ -38,7 +38,7 @@ class Contact extends Model
     }
 
     public function create($data) {
-        return $this->client->post('/services/data/v34.0/sobjects/contact', $data);
+        return $this->client->create('/services/data/v34.0/sobjects/contact', $data);
     }
 
     public function update($data, $contactID) {

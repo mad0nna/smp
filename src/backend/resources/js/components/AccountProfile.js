@@ -145,12 +145,25 @@ const AccountProfileEdit = (props) => {
         username: state.account.email,
         Id: state.account.account_code
       }
-
       axios
-        .put('/salesforce/updateAdminByEmail', _accountSFValues, {
+        .put('/company/updateAdminByEmail', _accountSFValues, {
           'Content-Type': 'application/json'
         })
         .then((response) => {
+          if (
+            !response['data']['status'] ||
+            response['data']['status'] === undefined
+          ) {
+            setState((prevState) => {
+              return {
+                ...prevState,
+                isLoading: false,
+                showPopupMessageDialog: true,
+                dialogMessage: 'Customer company information failed to update!'
+              }
+            })
+            return
+          }
           setState((prevState) => {
             return {
               ...prevState,
