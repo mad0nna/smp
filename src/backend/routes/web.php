@@ -40,7 +40,7 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::get('/getLoggedinUser/{field}', 'CompanyController@getLoggedinUser');
     Route::view('/dashboard', 'dashboard');
     Route::get('/contracts', 'ContractController@list');
-    Route::get('/contractslist', 'ContractController@index');
+    Route::post('/contractslist', 'ContractController@index');
     Route::get('/billing', 'BillingController@list');
     Route::get('/accountslist', 'UserController@list');
     Route::get('/accountslist/profile', 'UserController@list');
