@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Mail\NotifyAddedCompanySuperAdminUser;
 use App\Http\Controllers\BillingController;
 use App\Services\API\Salesforce\Model\Account;
+use App\Services\API\Salesforce\Model\Contact;
 use App\Services\API\Salesforce\Model\Opportunity;
 use Exception;
 
@@ -99,11 +100,10 @@ class CompanyService
 
     public function getAllDetailsInSFByID($companyID)
     {
-        $companyInformation = $this->salesForce->getCompanyDetailsByID($companyID);
-
+        $companyInformation = (new Account)->findByCompanyCode($companyID);
         if ($companyInformation) {
-            $adminDetails = $this->salesForce->getCompanyAdminDetails($companyInformation['Id']);
-            $opportunity = $this->salesForce->getCompanyTAContract($companyInformation['Id']);
+            $adminDetails = (new Contact)->getAdminByAccountId($companyInformation['Id']);
+            $opportunity = (new Opportunity)->getNumberOfSubscriber($companyInformation['Id']);
 
             $companyInformation['contact'] = $adminDetails;
             $companyInformation['opportunity'] = $opportunity;
@@ -256,7 +256,18 @@ class CompanyService
         try {
             $company = Company::findOrfail($id)->update($data);
             if ($sf_id) {
-                $r1 = $this->salesForce->updateCompanyDetails($data, $sf_id, false); //default true to use sf column format, false for db column format.
+                $formattedData = [
+                    'Name' => $data['name'],
+                    'Phone' => $data['contact_num'],
+                    'Website' => $data['website'],
+                    'Industry' => $data['industry'],
+                    'BillingPostalCode' => $data['billing_postal_code'],
+                    'BillingStreet' => $data['billing_street'],
+                    'BillingCity' => $data['billing_city'],
+                    'BillingState' => $data['billing_state'],
+                    'BillingCountry' => $data['billing_country'],
+                ];
+                (new Account)->update($formattedData, $sf_id);
             }
 
             DB::commit();

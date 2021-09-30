@@ -21,6 +21,7 @@ class Account extends Model
             return $companyInformation;
         }
         unset($companyInformation['records'][0]['attributes']);
+        return $companyInformation['records'][0];
     }
 
     public function update($companyData, $accountId) {

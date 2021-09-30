@@ -73,6 +73,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/accounts/company/detail', function () {
         return view('admin.companyDetail');
     });
+    Route::get('company', 'CompanyController@index');
+    Route::post('company/searchCompanyCode', 'CompanyController@searchCompanyCode');
+    Route::post('company/searchCompanyId', 'CompanyController@searchCompanyId');
+    Route::post('company/saveAddedCompany', 'CompanyController@saveAddedCompany');
+    Route::post('company/updateSaveAccount', 'CompanyController@updateSaveAccount');
+    Route::post('company/resendEmailInvite', 'CompanyController@resendEmailInvite');
 });
 
 Route::prefix('sales')->group(function () {
@@ -90,15 +96,6 @@ Route::prefix('password')->group(function () {
     Route::post('email', 'Auth\PasswordController@email')->name('password.email');
     Route::post('reset', 'Auth\PasswordController@update')->name('password.update');
     Route::get('reset', 'Auth\PasswordController@reset')->middleware('guest');
-});
-
-Route::group(['prefix' => 'admin',  'middleware' => 'admin'], function () {
-    Route::get('company', 'CompanyController@index');
-    Route::post('company/searchCompanyCode', 'CompanyController@searchCompanyCode');
-    Route::post('company/searchCompanyId', 'CompanyController@searchCompanyId');
-    Route::post('company/saveAddedCompany', 'CompanyController@saveAddedCompany');
-    Route::post('company/updateSaveAccount', 'CompanyController@updateSaveAccount');
-    Route::post('company/resendEmailInvite', 'CompanyController@resendEmailInvite');
 });
 
 Route::group(['prefix' => 'sso'], function () {
