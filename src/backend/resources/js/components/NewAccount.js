@@ -95,7 +95,6 @@ const NewAccount = () => {
       arr = fullName.split(' ')
       user.firstname = arr[1] ? arr[1] : ''
       user.lastname = arr[0] ? arr[0] : ''
-      user.firstname = user.first_name ? user.last_name : '-'
       user.isPartial = 1
     } else {
       user.isPartial = 0
@@ -208,6 +207,7 @@ const NewAccount = () => {
               email: state.email,
               first_name: state.firstName,
               last_name: state.lastName,
+              fullName: state.fullName,
               contact_num: state.foundAccount.contact_num,
               title: state.foundAccount.title,
               account_code: state.foundAccount.account_code
