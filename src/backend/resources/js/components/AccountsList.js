@@ -187,7 +187,7 @@ const AccountList = () => {
 
   const handleDeleteConfirmation = (admin) => {
     axios
-      .delete('/company/deleteAdmin?admin=', {
+      .delete('/company/deleteAdmin', {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -216,7 +216,7 @@ const AccountList = () => {
       })
 
     axios
-      .delete('/company/deleteSFAdmin?admin=', {
+      .delete('/company/deleteSFAdmin', {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -392,20 +392,7 @@ const AccountList = () => {
                         </td>
                         <td className=" grid-flow-row text-center">
                           <a className="grid-flow-row inline text-primary-200">
-                            {state.isSuperAdmin === false &&
-                            state.adminID !== admin.id ? (
-                              <div
-                                className="cursor-pointer"
-                                onClick={() =>
-                                  handleDisplayUpdateOrView(admin.id)
-                                }
-                                // view
-                              >
-                                詳細&nbsp;
-                              </div>
-                            ) : null}
-                            {state.isSuperAdmin ||
-                            state.adminID === admin.id ? (
+                            {admin.user_status_id === 1 ? (
                               <span
                                 className="cursor-pointer"
                                 onClick={() =>
@@ -416,7 +403,19 @@ const AccountList = () => {
                                 更新 &nbsp;
                               </span>
                             ) : null}
-                            {state.isSuperAdmin ? (
+
+                            {admin.user_status_id === 5 ? (
+                              <span
+                                className="cursor-pointer"
+                                onClick={() => handleResendEmailInvite(admin)}
+                                // resend email
+                              >
+                                招待状再送信 &nbsp;
+                              </span>
+                            ) : null}
+
+                            {state.isSuperAdmin === true &&
+                            state.adminID !== admin.id ? (
                               <span
                                 className="cursor-pointer"
                                 onClick={() => handleDisplayDelete(admin, i)}
@@ -424,16 +423,6 @@ const AccountList = () => {
                               >
                                 削除 &nbsp;
                               </span>
-                            ) : null}
-                            {state.isSuperAdmin &&
-                            admin.user_status_id === 5 ? (
-                              <div
-                                className="cursor-pointer"
-                                onClick={() => handleResendEmailInvite(admin)}
-                                // resend email
-                              >
-                                招待状再送信
-                              </div>
                             ) : null}
                           </a>
                         </td>

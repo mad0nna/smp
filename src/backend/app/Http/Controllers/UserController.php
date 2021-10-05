@@ -17,6 +17,7 @@ use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Contact;
 use App\Services\API\Zuora\Exceptions\UnauthorizedAccessException;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -71,7 +72,7 @@ class UserController extends Controller
             $result = $this->userService->findById($request->id);
             $user = (new Contact)->findByAccountID($result['account_code']);
             $this->response['data'] = $this->getSFResource($user);
-            $this->response['data']['canEdit'] = Auth::user()->user_type_id === 3 || Auth::user()->account_code === $user['Id'];
+            $this->response['data']['canEdit'] = true;
             $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3 && !$user['admin__c'];
         } catch (Exception $e) {
             $this->response = [
@@ -374,6 +375,11 @@ class UserController extends Controller
             if (Session::get('companyID') === '') {
                 throw new UnauthorizedAccessException();
             }
+
+            if ($data['admin']['account_code'] === null) {
+                return ['status' => false];
+            }
+
             $result = (new Contact)->delete($data['admin']['account_code']);
             if ($result['status']) {
                 return ['status' => true];
