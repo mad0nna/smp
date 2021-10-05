@@ -100,10 +100,7 @@ const Navigation = () => {
             extraStyle: 'cursor-pointer',
             function: (e) => {
               e.preventDefault()
-              window.open(
-                'https://test-support.ta.kingoftime.jp/hc/ja/requests/new',
-                '_blank'
-              )
+              window.open('/sso/zendesk', '_blank')
             }
           },
           {

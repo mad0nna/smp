@@ -102,5 +102,5 @@ Route::group(['prefix' => 'admin',  'middleware' => 'admin'], function () {
 });
 
 Route::group(['prefix' => 'sso'], function () {
-    Route::get('zendesk/login', 'Auth\LoginController@zendeskSSO');
+    Route::get('zendesk', 'Auth\LoginController@zendeskSSO');
 });

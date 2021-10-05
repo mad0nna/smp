@@ -175,11 +175,14 @@ class LoginController extends Controller
         );
         $jwt = JWT::encode($token, env('ZENDESK_SSO_SECRET'));
 
-        $location = env('ZENDESK_SSO_HOST')."/access/jwt?jwt=" . $jwt;
-        if(isset($_GET["return_to"])) {
-          $location .= "&return_to=" . urlencode($_GET["return_to"]);
-        }
-        
+        $newRequest = env('ZENDESK_SSO_HOST') . '/hc/ja/requests/new';
+
+        $params = http_build_query([
+            'jwt' => $jwt,
+            'return_to' => $newRequest,
+        ]);
+
+        $location = env('ZENDESK_SSO_HOST') . "/access/jwt?" . $params;
         header("Location: " . $location);
     }
 }
