@@ -12,7 +12,6 @@ use App\Http\Requests\SearchUserInSFRequest;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
-use App\Repositories\SalesforceRepository;
 use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Contact;
 use App\Services\API\Zuora\Exceptions\UnauthorizedAccessException;
@@ -32,7 +31,6 @@ class UserController extends Controller
     public function __construct(UserService $userService)
     {
         parent::__construct();
-        $this->salesForce = new SalesforceRepository();
         $this->userService = $userService;
         $this->dbRepo = new DatabaseRepository();
 

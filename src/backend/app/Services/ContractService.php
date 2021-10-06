@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Repositories\SalesforceRepository;
 use App\Exceptions\ContractsNotFoundException;
 use App\Services\API\Salesforce\Model\Opportunity;
 use Illuminate\Support\Facades\Session;
@@ -14,7 +13,6 @@ class ContractService
      */
     public function __construct()
     {
-        $this->salesForce = new SalesforceRepository();
     }
 
     /**

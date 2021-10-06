@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Repositories\SalesforceRepository;
 use App\Services\ContractService;
 use App\Http\Requests\ContractsRequest;
 use Illuminate\Support\Facades\Session;
@@ -18,7 +17,6 @@ class ContractController extends Controller
     public function __construct(ContractService $contractService)
     {
         parent::__construct();
-        $this->salesForce = new SalesforceRepository();
         $this->contractService = $contractService;
     }
 

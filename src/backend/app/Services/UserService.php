@@ -12,7 +12,6 @@ use App\Models\User;
 use App\Models\ActivationToken;
 use App\Models\UserStatus;
 use App\Mail\InviteUser;
-use App\Repositories\SalesforceRepository;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserNotCreatedException;
 use App\Exceptions\UserStatusNotFoundException;
@@ -47,7 +46,6 @@ class UserService
     public function __construct(User $user)
     {
         $this->user = $user;
-        $this->salesForce = new SalesforceRepository();
     }
 
     /**

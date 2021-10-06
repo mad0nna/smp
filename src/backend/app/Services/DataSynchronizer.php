@@ -1,7 +1,6 @@
 <?php
 namespace App\Services;
 
-use App\Repositories\SalesforceRepository;
 use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Account;
 use App\Services\API\Salesforce\Model\Contact;
@@ -13,7 +12,6 @@ class DataSynchronizer
 {
     public function __construct()
     {
-        $this->salesForce = new SalesforceRepository();
         $this->mysql = new DatabaseRepository();
     }
 
@@ -36,7 +34,6 @@ class DataSynchronizer
             return MessageResult::error('Error on updating admin details');
         }
 
-        $sfResponse = $this->salesForce->updateCompanyDetails($request['companyDetails'], $companyID, true);
         $formattedData = [
             'Name' => $request['companyDetails']['companyName'],
             'Phone' => $request['companyDetails']['contactNumber'],

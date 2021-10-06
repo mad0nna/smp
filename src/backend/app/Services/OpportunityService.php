@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Repositories\SalesforceRepository;
 use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Opportunity;
 use Illuminate\Support\Facades\Cache;
@@ -11,7 +10,6 @@ class OpportunityService
 {
     public function __construct()
     {
-        $this->salesForce = new SalesforceRepository();
         $this->mysql = new DatabaseRepository();
     }
 

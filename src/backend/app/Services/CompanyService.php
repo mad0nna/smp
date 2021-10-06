@@ -4,7 +4,6 @@ namespace App\Services;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
-use App\Repositories\SalesforceRepository;
 use App\Repositories\DatabaseRepository;
 use App\Repositories\KOTRepository;
 use Illuminate\Support\Facades\Cache;
@@ -21,7 +20,6 @@ class CompanyService
 {
     public function __construct()
     {
-        $this->salesForce = new SalesforceRepository();
         $this->mysql = new DatabaseRepository();
         $this->company = new Company();
     }
@@ -85,17 +83,6 @@ class CompanyService
         });
 
         return json_encode($companyDetails);
-    }
-
-    public function getDetailsInSFByID($companyID)
-    {
-        $companyInformation = json_decode($this->salesForce->getCompanyDetailsByID($companyID), true);
-        if (isset($companyInformation['status']) && !$companyInformation['status']) {
-            return $companyInformation;
-        }
-        unset($companyInformation['attributes']);
-
-        return $companyInformation;
     }
 
     public function getAllDetailsInSFByID($companyID)

@@ -7,7 +7,9 @@ use App\Models\Company;
 use App\Models\User;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\UserResource;
-use App\Repositories\SalesforceRepository;
+use App\Services\API\Salesforce\Model\Account;
+use App\Services\API\Salesforce\Model\Contact;
+use App\Services\API\Salesforce\Model\Opportunity;
 
 class SalesforceSync extends Command
 {
@@ -40,7 +42,7 @@ class SalesforceSync extends Command
      *
      * @return mixed
      */
-    public function handle(Company $company, SalesforceRepository $salesForce)
+    public function handle(Company $company)
     {
         $companies = $company->with(['users' => function ($query) {
             $query->where('user_type_id', '>', 2)->where('user_status_id', '=', 1)->get();
@@ -48,11 +50,11 @@ class SalesforceSync extends Command
 
         try {
             foreach ($companies as $c) {
-                $company = $salesForce->getCompanyDetailsByCompanyID($c['account_id']);
+                $company = (new Account)->findByID($c['account_id']);
 
                 if (is_array($company)) {
-                    $adminDetails = $salesForce->getCompanyAdminDetails($company['Id']);
-                    $opportunity = $salesForce->getCompanyTAContract($company['Id']);
+                    $adminDetails = (new Contact)->getAdminByAccountId($company['Id']);
+                    $opportunity = (new Opportunity)->getNumberOfSubscriber($company['Id']);
 
                     if (is_array($adminDetails)) {
                         $company['contact'] = $adminDetails;
@@ -66,7 +68,7 @@ class SalesforceSync extends Command
 
                     foreach ($c['users'] as $u) {
                         if ($u['account_code']) {
-                            $user = $salesForce->getContact($u['account_code']);
+                            $user = (new Contact)->findByAccountID($u['account_code']);
                             if ($user) {
                                 $_user = UserResource::parseSfContactColumnToDbColumn($user);
                                 $result2 = User::find($u['id'])->update($_user);
