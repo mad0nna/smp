@@ -10,8 +10,12 @@ class SalesforceRepository
 {
     public function __construct()
     {
-        $this->tokens = (new AccessToken())->getToken();
-        $this->oClient = new Client();
+        try {
+            $this->tokens = (new AccessToken())->getToken();
+            $this->oClient = new Client();
+        } catch (ClientException $reqExcep) {
+            return MessageResult::error('Error while connecting to Salesforce.');
+        }
     }
 
     public function getCompanyDetailsByCompanyID($sfCompanyID)
