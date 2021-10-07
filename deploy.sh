@@ -78,7 +78,7 @@ fi
 # Run Laravel migration without dropping tables
 if [ "$RUN_LARAVEL_MIGRATION" = true ] ; then
     echo "Running Laravel Database Migration ..."
-    docker-compose run --rm php php artisan migrate
+    docker-compose run --rm php php artisan migrate --force
 fi
 
 # Run all database seeders
