@@ -246,7 +246,7 @@ class CompanyController extends Controller
     private function getRecord($request)
     {
         return [
-        'accountId' => $request['accountId'] ?? '',
+        'accountId' => $request['id'] ?? '',
         'company_code' => $request['companyCode'] ?? '',
         'companyID' => $request['companyID'] ?? '',
         'kot_billing_start_date' => $request['kot_billing_start_date'] ?? '',
