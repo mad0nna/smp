@@ -16,11 +16,12 @@
         "laravel/passport": "^9.3",
         "laravel/tinker": "^2.0",
         "league/flysystem-aws-s3-v3": "~1.0",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "aws/aws-sdk-php": "~3.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
-        "fzaninotto/faker": "^1.9.1",
+        "fakerphp/faker": "^1.14.1",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "^8.0"
@@ -28,7 +29,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "7.4.13"
+        }
     },
     "extra": {
         "laravel": {
