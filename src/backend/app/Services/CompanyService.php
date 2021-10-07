@@ -168,13 +168,13 @@ class CompanyService
     {
         $user = new User();
         $opportunity = new Opportunity();
-
+        $company = new Company();
         DB::beginTransaction();
 
         try {
             $data['status'] = 'active';
-            $data['account_id'] = $data['accountId'];
-            $_company = $this->company->create($data);
+            $data['account_id'] = $data["accountId"];
+            $_company = $company->create($data);
             $pw = substr(md5(microtime()), rand(0, 26), 8);
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
@@ -182,7 +182,7 @@ class CompanyService
             if (!$data['contact_email']) {
                 return false;
             }
-            $formData = [
+            $userData = [
                 'company_id' => $_company->id,
                 'username' => $data['contact_email'],
                 'email' => $data['contact_email'],
@@ -197,9 +197,9 @@ class CompanyService
                 'company_name' => $data['name'],
                 'account_code' => $data['account_code']
             ];
-            $_user = $user->create($formData);
+            $_user = $user->create($userData);
             $this->mysql->makeUserWidgetSettings($_user->id);
-            Mail::to($data['contact_email'])->send(new NotifyAddedCompanySuperAdminUser($formData, $pw, $invite_token));
+            Mail::to($data['contact_email'])->send(new NotifyAddedCompanySuperAdminUser($userData, $pw, $invite_token));
 
             if (isset($data['opportunity']) && $data['opportunity_code'] && $data['negotiate_code']) {
                 $formDataOpportunity = [
