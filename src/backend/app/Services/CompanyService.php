@@ -173,6 +173,7 @@ class CompanyService
 
         try {
             $data['status'] = 'active';
+            $data['account_id'] = $data['accountId'];
             $_company = $this->company->create($data);
             $pw = substr(md5(microtime()), rand(0, 26), 8);
             $pw_hash = Hash::make($pw);
