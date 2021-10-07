@@ -15,6 +15,7 @@ use App\Services\API\Salesforce\Model\Account;
 use App\Services\API\Salesforce\Model\Contact;
 use App\Services\API\Salesforce\Model\Opportunity;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class CompanyService
 {
@@ -43,7 +44,7 @@ class CompanyService
 
                 if ($invoice) {
                     $usageData['numberOfEmployees'] = $invoice['quantity'];
-                }             
+                }
 
                 return $usageData;
 
@@ -61,6 +62,7 @@ class CompanyService
         $subscribersCount = Cache::remember("{$companyID}:subscribersCount:data", now()->addHour(), function () use ($companyID) {
             $companySubscription = (new Opportunity)->getNumberOfSubscriber($companyID);
             if (empty($companySubscription)) {
+                Log::error('Did not find Opportunity type KING OF TIME 勤怠管理  in salesforce');
                 return false;
             }
             $companySubscription = reset($companySubscription);
@@ -168,12 +170,13 @@ class CompanyService
     {
         $user = new User();
         $opportunity = new Opportunity();
-
+        $company = new Company();
         DB::beginTransaction();
 
         try {
             $data['status'] = 'active';
-            $_company = $this->company->create($data);
+            $data['account_id'] = $data["companyID"];
+            $_company = $company->create($data);
             $pw = substr(md5(microtime()), rand(0, 26), 8);
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
@@ -181,7 +184,7 @@ class CompanyService
             if (!$data['contact_email']) {
                 return false;
             }
-            $formData = [
+            $userData = [
                 'company_id' => $_company->id,
                 'username' => $data['contact_email'],
                 'email' => $data['contact_email'],
@@ -196,9 +199,9 @@ class CompanyService
                 'company_name' => $data['name'],
                 'account_code' => $data['account_code']
             ];
-            $_user = $user->create($formData);
+            $_user = $user->create($userData);
             $this->mysql->makeUserWidgetSettings($_user->id);
-            Mail::to($data['contact_email'])->send(new NotifyAddedCompanySuperAdminUser($formData, $pw, $invite_token));
+            Mail::to($data['contact_email'])->send(new NotifyAddedCompanySuperAdminUser($userData, $pw, $invite_token));
 
             if (isset($data['opportunity']) && $data['opportunity_code'] && $data['negotiate_code']) {
                 $formDataOpportunity = [
@@ -236,13 +239,14 @@ class CompanyService
         return $company;
     }
 
-    public function updateSaveAccount($id, $sf_id, $data, $sf_record = null)
+    public function updateSaveAccount($dbId, $data)
     {
         DB::beginTransaction();
 
         try {
-            $company = Company::findOrfail($id)->update($data);
-            if ($sf_id) {
+            $status = ['status' => false];
+            $company = Company::findOrfail($dbId)->update($data);
+            if ($data['sfAccountId'] && $company) {
                 $formattedData = [
                     'Name' => $data['name'],
                     'Phone' => $data['contact_num'],
@@ -254,10 +258,11 @@ class CompanyService
                     'BillingState' => $data['billing_state'],
                     'BillingCountry' => $data['billing_country'],
                 ];
-                (new Account)->update($formattedData, $sf_id);
+                $status = (new Account)->update($formattedData, $data['sfAccountId']);
             }
 
             DB::commit();
+            return $status;
         } catch (Exception $e) {
             DB::rollback();
 

@@ -21,6 +21,10 @@ const BillingHistory = () => {
           billingHistory: data
         })
       })
+      .catch(() => {
+        document.getElementsByClassName('billing-loading')[0].style.display =
+          'none'
+      })
   }, [])
 
   return (
@@ -41,7 +45,7 @@ const BillingHistory = () => {
         <div id="widget-body" className="w-full">
           {state.loading === true ? (
             <div className="w-full relative mt-24 h-24 dashboard-widget-list overflow-hidden">
-              <div className="mx-auto absolute bottom-1 w-full text-center">
+              <div className="mx-auto absolute bottom-1 w-full text-center billing-loading">
                 請求書を読み込み中です
                 <img className="mx-auto h-12 mt-5" src={spinner}></img>
               </div>
