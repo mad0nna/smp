@@ -239,13 +239,13 @@ class CompanyService
         return $company;
     }
 
-    public function updateSaveAccount($data)
+    public function updateSaveAccount($dbId, $data)
     {
         DB::beginTransaction();
 
         try {
             $status = ['status' => false];
-            $company = Company::findOrfail($data['dbAccountId'])->update($data);
+            $company = Company::findOrfail($dbId)->update($data);
             if ($data['sfAccountId'] && $company) {
                 $formattedData = [
                     'Name' => $data['name'],

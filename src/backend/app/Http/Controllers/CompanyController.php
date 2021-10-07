@@ -167,8 +167,9 @@ class CompanyController extends Controller
 
     public function updateSaveAccount(Request $request, CompanyService $companyService)
     {
+        $dbId = $request->get('id');
         $formData = $this->getRecord($request);
-        $result = $companyService->updateSaveAccount($formData);
+        $result = $companyService->updateSaveAccount($dbId, $formData);
         $response = [
         'success' => $result,
       ];
