@@ -15,6 +15,7 @@ use App\Services\API\Salesforce\Model\Account;
 use App\Services\API\Salesforce\Model\Contact;
 use App\Services\API\Salesforce\Model\Opportunity;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class CompanyService
 {
@@ -43,7 +44,7 @@ class CompanyService
 
                 if ($invoice) {
                     $usageData['numberOfEmployees'] = $invoice['quantity'];
-                }             
+                }
 
                 return $usageData;
 
@@ -61,6 +62,7 @@ class CompanyService
         $subscribersCount = Cache::remember("{$companyID}:subscribersCount:data", now()->addHour(), function () use ($companyID) {
             $companySubscription = (new Opportunity)->getNumberOfSubscriber($companyID);
             if (empty($companySubscription)) {
+                Log::error('Did not find Opportunity type KING OF TIME 勤怠管理  in salesforce');
                 return false;
             }
             $companySubscription = reset($companySubscription);

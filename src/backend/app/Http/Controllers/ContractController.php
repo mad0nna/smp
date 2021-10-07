@@ -40,7 +40,7 @@ class ContractController extends Controller
                 'page' => $request->getPage(),
                 'limit' => $request->getLimit(),
             ];
-            $allresults = (new Opportunity)->findByAccountID(Session::get('salesforceCompanyID'), 0, 200);
+            $allresults = (new Opportunity)->findByAccountID(Session::get('salesforceCompanyID'), 200, 0);
             $total = count($allresults);
 
             $results = $this->contractService->search($conditions);
