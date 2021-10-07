@@ -33,7 +33,7 @@ class ContractService
             }
 
             $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
-            $results = (new Opportunity)->findByAccountID(Session::get('salesforceCompanyID'), $skip, $limit);
+            $results = (new Opportunity)->findByAccountID(Session::get('salesforceCompanyID'), $limit, $skip);
 
             return $results;
         } catch (ContractsNotFoundException $e) {
