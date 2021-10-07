@@ -18,7 +18,7 @@ class Opportunity extends Model
     }
 
     public function findByAccountID($accountID, $limit = '', $skip = '') {
-        $opportunity = $this->client->get("/services/data/v34.0/query/?q=SELECT+Field133__c,Field141__c,ApplicationDay__c,KoT_startBillingMonth__c,KoT_shiharaihouhou__c,KoT_hanbaikeiro__c,AccountId+from+Opportunity+WHERE+AccountId='" . $accountID . "'+And+(StageName='成立'+or+StageName='展開中')+LIMIT+" . $limit . '+offset+' . $skip);
+        $opportunity = $this->client->get("/services/data/v34.0/query/?q=SELECT+Field133__c,Field141__c,ApplicationDay__c,KoT_startBillingMonth__c,KoT_shiharaihouhou__c,KoT_hanbaikeiro__c,AccountId+from+Opportunity+WHERE+AccountId='" . $accountID . "'+LIMIT+" . $limit . '+offset+' . $skip);
         if (isset($opportunity['status']) && !$opportunity['status']) {
             return $opportunity;
         }
