@@ -68,6 +68,7 @@ class Salesforce
 
             return json_decode($request->getBody()->getContents(), true);
         } catch (ClientException $e) {
+            dd($e);
             $code = $e->getResponse()->getStatusCode();
             $response = json_decode($e->getResponse()->getBody()->getContents(), true);
 
@@ -215,6 +216,7 @@ class Salesforce
                 'status' => false
             ];
         } catch (ClientException $e) {
+            dd($e);
             $code = $e->getResponse()->getStatusCode();
             $response = json_decode($e->getResponse()->getBody()->getContents(), true);
             if (in_array($code, [400, 401])) {

@@ -175,7 +175,7 @@ class CompanyService
 
         try {
             $data['status'] = 'active';
-            $data['account_id'] = $data["accountId"];
+            $data['account_id'] = $data["companyID"];
             $_company = $company->create($data);
             $pw = substr(md5(microtime()), rand(0, 26), 8);
             $pw_hash = Hash::make($pw);
@@ -239,13 +239,14 @@ class CompanyService
         return $company;
     }
 
-    public function updateSaveAccount($id, $sf_id, $data, $sf_record = null)
+    public function updateSaveAccount($data)
     {
         DB::beginTransaction();
 
         try {
-            $company = Company::findOrfail($id)->update($data);
-            if ($sf_id) {
+            $status = ['status' => false];
+            $company = Company::findOrfail($data['dbAccountId'])->update($data);
+            if ($data['sfAccountId'] && $company) {
                 $formattedData = [
                     'Name' => $data['name'],
                     'Phone' => $data['contact_num'],
@@ -257,10 +258,11 @@ class CompanyService
                     'BillingState' => $data['billing_state'],
                     'BillingCountry' => $data['billing_country'],
                 ];
-                (new Account)->update($formattedData, $sf_id);
+                $status = (new Account)->update($formattedData, $data['sfAccountId']);
             }
 
             DB::commit();
+            return $status;
         } catch (Exception $e) {
             DB::rollback();
 
