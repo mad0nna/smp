@@ -448,7 +448,9 @@ const AccountList = () => {
           />
         </div>
       ) : null}
-      {state.showPopupNewAccount ? <NewAccount /> : null}
+      {state.showPopupNewAccount ? (
+        <NewAccount closePopup={togglePopupNewAccount} />
+      ) : null}
       {state.showPopupDelete ? (
         <DeleteConfirmation
           accountToDelete={state.accountToDelete}

@@ -3,7 +3,7 @@ import _ from 'lodash'
 import waitingIcon from '../../img/loading-spinner.gif'
 import axios from 'axios'
 
-const NewAccount = () => {
+const NewAccount = (props) => {
   const [state, setState] = useState({
     addingAccount: '',
     email: '',
@@ -225,7 +225,7 @@ const NewAccount = () => {
           />
         </button>
         <button
-          onClick={state.closePopup}
+          onClick={props.closePopup}
           className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-primary-200  tracking-tighter bg-white mr-4"
         >
           キャンセル
