@@ -260,7 +260,10 @@ const AccountProfile = (props) => {
         'Content-Type': 'application/json'
       })
       .then((data) => {
-        if (data.data.success !== undefined && data.data.success === true) {
+        if (
+          data.data.success.status !== undefined &&
+          data.data.success.status === true
+        ) {
           setState((prevState) => {
             return {
               ...prevState,
