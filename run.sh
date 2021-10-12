@@ -11,7 +11,7 @@ aws s3 cp s3://idaten-creds/backend/.env /home/ec2-user/idaten/src/backend/.env
 # docker-compose build --no-cache
 
 # Install Composer Packages
-# docker-compose run --rm composer update
+docker-compose run --rm composer update
 
 # Build Frontend JS files
 docker-compose run --rm node npm run prod
