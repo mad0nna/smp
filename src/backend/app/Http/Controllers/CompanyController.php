@@ -118,7 +118,7 @@ class CompanyController extends Controller
             return response()->json([
                 'success' => false,
                 'exists' => false,
-                'data' => $e->getMessage(),
+                'data' => 'コードが見つかりません',
               ]);
         }
     }
