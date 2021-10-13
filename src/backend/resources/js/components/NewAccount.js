@@ -38,108 +38,132 @@ const NewAccount = (props) => {
     })
   }
   const searchAdminByEmail = (email) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        isLoading: true,
-        searchResult: ''
-      }
-    })
-
-    axios
-      .get(`/company/findInSFByEmail?email=${email}`)
-      .then((response) => {
-        setState((prevState) => {
-          let foundAccount = response.data.data
-          return {
-            ...prevState,
-            // showPopupNewAccount: true,
-            isLoading: false,
-            foundAccount: foundAccount,
-            source: 'salesforce',
-            // : '',
-            searchResult:
-              foundAccount.source === 'salesforce'
-                ? 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？'
-                : '既に追加されているユーザーです。アカウント一覧をご確認ください',
-            email: email,
-            fullName: foundAccount.fullName,
-            firstName: foundAccount.first_name,
-            lastName: foundAccount.last_name,
-            contact_num: foundAccount.contact_num,
-            title: foundAccount.title,
-            account_code: foundAccount.account_code
-          }
-        })
-      })
-      .catch(function (error) {
-        if (error.response) {
-          // const admin = state.foundAccount
-          setState((prevState) => {
-            return {
-              ...prevState,
-              isLoading: false,
-              foundAccount: '',
-              searchResult:
-                '未登録のユーザーです。名前を入力して招待を送信してください。'
-            }
-          })
+    if (validateEmail(email)) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          isLoading: true,
+          searchResult: ''
         }
       })
+
+      axios
+        .get(`/company/findInSFByEmail?email=${email}`)
+        .then((response) => {
+          setState((prevState) => {
+            let foundAccount = response.data.data
+            return {
+              ...prevState,
+              // showPopupNewAccount: true,
+              isLoading: false,
+              foundAccount: foundAccount,
+              source: 'salesforce',
+              // : '',
+              searchResult:
+                foundAccount.source === 'salesforce'
+                  ? 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？'
+                  : '既に追加されているユーザーです。アカウント一覧をご確認ください',
+              email: email,
+              fullName: foundAccount.fullName,
+              firstName: foundAccount.first_name,
+              lastName: foundAccount.last_name,
+              contact_num: foundAccount.contact_num,
+              title: foundAccount.title,
+              account_code: foundAccount.account_code
+            }
+          })
+        })
+        .catch(function (error) {
+          if (error.response) {
+            // const admin = state.foundAccount
+            setState((prevState) => {
+              return {
+                ...prevState,
+                isLoading: false,
+                foundAccount: '',
+                searchResult:
+                  '未登録のユーザーです。名前を入力して招待を送信してください。'
+              }
+            })
+          }
+        })
+    } else {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          searchResult: '有効なメールアドレスを入力してください'
+        }
+      })
+    }
+  }
+
+  function validateEmail(email) {
+    var re = /\S+@\S+\.\S+/
+    return re.test(email)
   }
 
   const handleDisplayAddedAdmin = (user) => {
-    if (user.source != 'salesforce') {
-      const fullName = user.fullName
-      let arr = []
-      arr = fullName.split(' ')
-      user.firstname = arr[1] ? arr[1] : ''
-      user.lastname = arr[0] ? arr[0] : ''
-      user.isPartial = 1
-    } else {
-      user.isPartial = 0
-    }
-
-    setState((prevState) => {
-      return {
-        ...prevState,
-        isLoadingOfAddingContact: true
+    if (validateEmail(user.email)) {
+      if (user.source != 'salesforce') {
+        const fullName = user.fullName
+        let arr = []
+        arr = fullName.split(' ')
+        user.firstname = arr[1] ? arr[1] : ''
+        user.lastname = arr[0] ? arr[0] : ''
+        user.isPartial = 1
+      } else {
+        user.isPartial = 0
       }
-    })
 
-    axios
-      .post('/company/addCompanyAdmin', user, {
-        'Content-Type': 'application/json'
-      })
-      .then((response) => {
-        if (response.status == 200) {
-          console.log(response)
-          setState((prevState) => {
-            return {
-              ...prevState,
-              showPopupNewAccount: false,
-              isLoadingOfAddingContact: false,
-              showPopupMessageDialog: true,
-              dialogMessage:
-                '管理者が追加されました。 \n 追加された管理者に招待メールが送信されます。'
-            }
-          })
-          location.reload()
+      setState((prevState) => {
+        return {
+          ...prevState,
+          isLoadingOfAddingContact: true,
+          searchResult: ''
         }
       })
-      .catch(function (error) {
-        if (error.response) {
-          setState((prevState) => {
-            return {
-              ...prevState,
-              isLoadingOfAddingContact: false,
-              showPopupNewAccount: false,
-              showPopupMessageDialog: true,
-              dialogMessage: '正しいメールアドレスを入力してください。'
-            }
-          })
+
+      axios
+        .post('/company/addCompanyAdmin', user, {
+          'Content-Type': 'application/json'
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            console.log(response)
+            setState((prevState) => {
+              return {
+                ...prevState,
+                showPopupNewAccount: false,
+                isLoadingOfAddingContact: false,
+                showPopupMessageDialog: true,
+                dialogMessage:
+                  '管理者が追加されました。 \n 追加された管理者に招待メールが送信されます。'
+              }
+            })
+            location.reload()
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            setState((prevState) => {
+              return {
+                ...prevState,
+                isLoadingOfAddingContact: false,
+                showPopupNewAccount: false,
+                showPopupMessageDialog: true,
+                dialogMessage: '正しいメールアドレスを入力してください。'
+              }
+            })
+          }
+        })
+    } else {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          searchResult: '有効なメールアドレスを入力してください'
         }
       })
+    }
   }
 
   return (
