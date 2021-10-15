@@ -7,6 +7,7 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use App\Services\API\Zuora\Exceptions\UnauthorizedAccessException;
+use Illuminate\Support\Facades\Log;
 
 class Salesforce
 {
@@ -68,7 +69,6 @@ class Salesforce
 
             return json_decode($request->getBody()->getContents(), true);
         } catch (ClientException $e) {
-            dd($e);
             $code = $e->getResponse()->getStatusCode();
             $response = json_decode($e->getResponse()->getBody()->getContents(), true);
 
@@ -88,7 +88,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 
@@ -136,7 +136,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 
@@ -185,7 +185,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 
@@ -216,7 +216,6 @@ class Salesforce
                 'status' => false
             ];
         } catch (ClientException $e) {
-            dd($e);
             $code = $e->getResponse()->getStatusCode();
             $response = json_decode($e->getResponse()->getBody()->getContents(), true);
             if (in_array($code, [400, 401])) {
@@ -235,7 +234,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 
@@ -277,7 +276,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 
@@ -319,7 +318,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 }
