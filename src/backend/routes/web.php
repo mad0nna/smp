@@ -101,3 +101,7 @@ Route::prefix('password')->group(function () {
 Route::group(['prefix' => 'sso'], function () {
     Route::get('zendesk', 'Auth\LoginController@zendeskSSO');
 });
+
+Route::group(['prefix' => 'payment'], function() {
+    Route::get('status', 'PaymentController@getResult');
+});
