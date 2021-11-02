@@ -3,6 +3,9 @@ FROM adhocore/lemp:8.0
 # Disable unnecessary services of the image
 ENV DISABLE=adminer,beanstalkd,elasticsearch,mailcatcher,pgsql
 
+ARG ENVIRONMENT
+ARG APP_DOMAIN
+
 ###########################
 ## NGINX CONFIGURATION   ##
 ###########################
