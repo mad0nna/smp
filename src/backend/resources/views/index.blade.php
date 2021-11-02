@@ -88,8 +88,6 @@
             </div>
         </div>
     </div>
-
-    <p class="mt-4 text-center text-red-500 font-bold">Some Changes for auto deploy</p>
 </div>
 
 </main>
