@@ -50,6 +50,9 @@ COPY --chown=www-data src/backend /var/www/backend/
 RUN rm -rf /var/www/backend/vendor /var/www/backend/composer.lock
 RUN composer install
 
+# Generate passport keys
+RUN php artisan passport:keys
+
 # Build NPM Production
 RUN rm -rf /var/www/backend/node_modules /var/www/backend/package-lock.json
 RUN npm install
