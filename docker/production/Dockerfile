@@ -17,6 +17,11 @@ ADD ./docker/production/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD ./docker/production/nginx/php_fastcgi.conf /etc/nginx/php_fastcgi.conf
 ADD ./docker/production/nginx/security.conf /etc/nginx/security.conf
 ADD ./docker/production/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
+# Add SSL Certificates Directory & Copy Files
+RUN mkdir -p /etc/nginx/certificates
+# Copied from S3 on Codebuild prebuild stage
+ADD ./fullchain.pem /etc/nginx/certificates/fullchain.pem
+ADD ./privkey.pem /etc/nginx/certificates/privkey.pem
 
 ####################################
 ## SUPERVISOR.D CONFIGURATION     ##
