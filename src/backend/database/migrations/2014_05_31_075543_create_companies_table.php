@@ -30,7 +30,10 @@ class CreateCompaniesTable extends Migration
             $cs = $table->string('account_id')->charset('utf8')->collate('utf8_cs')->unique()->nullable();
             $table->string('industry_sub')->nullable();
             $table->string('industry_sub2')->nullable();
-            $table->string('paymentMethod')->nullable();
+            $table->string('card_brand')->nullable();
+            $table->string('last_four_digit')->nullable();
+            $table->integer('expmm')->nullable();
+            $table->integer('expyr')->nullable();
             $table->string('status')->nullable();
             $table->string('token')->nullable();
             $table->string('kot_trans_type')->nullable();

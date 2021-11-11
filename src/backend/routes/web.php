@@ -61,6 +61,7 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('/getInvoicePDF', 'BillingController@getInvoicePDF');
     Route::get('/getUsage', 'BillingController@getAccountUsageData');
     Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
+    Route::view('/methodofpayment', 'methodOfPayment');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
@@ -104,4 +105,7 @@ Route::group(['prefix' => 'sso'], function () {
 
 Route::group(['prefix' => 'payment'], function() {
     Route::get('status', 'PaymentController@getResult');
+    Route::get('setMethodCreditCard', 'PaymentController@changeMethodToCard');
+    Route::post('setMethodBankTransfer', 'PaymentController@changeMethodToBank');
+    Route::post('getPaymentMethod', 'CompanyController@getCompanyDetails');
 });
