@@ -11,6 +11,7 @@ use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Support\Facades\Cache;
 class PaymentController extends Controller
 {
+    private $failed = 'NG';
     public function getResult(Request $request, PaymentService $paymentService) {
         Log::info('payment test', $request->all());
         $cgiResult = $request->all();
