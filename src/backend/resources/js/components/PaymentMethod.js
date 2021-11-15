@@ -118,7 +118,7 @@ const PaymentMethod = () => {
               </span>
             </div>
             <div className="pl-20">
-              {state.method === '90：クレジット' ? (
+              {state.method === '90：クレジット' && state.lastDigits != null ? (
                 <img
                   className="w-10 h-10 inline-block"
                   src={state.cardLogo}
