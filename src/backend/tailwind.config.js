@@ -40,11 +40,11 @@ module.exports = {
                 'company-icon-white': "url('/images/company-icon-white.png')",
                 'all-accounts-icon-white': "url('/images/all-accounts-icon.png')",
                 'widget-settings-icon': "url('/images/widget-settings.png')",
-                'card-VISA-icon': "url('/images/visa.png')",
-                'card-MasterCard-icon': "url('/images/mastercard.png')",
-                'card-JCB-icon': "url('/images/jcb.png')",
-                'card-AMEX-icon': "url('/images/amex.png')",
-                'card-Diners-icon': "url('/images/diners.png')"
+                'card-visa-icon': "url('/images/visa.png')",
+                'card-mastercard-icon': "url('/images/mastercard.png')",
+                'card-jcb-icon': "url('/images/jcb.png')",
+                'card-amex-icon': "url('/images/amex.png')",
+                'card-diners-icon': "url('/images/diners.png')"
             },
             colors:{
                 mainbg: '#F2F2F2',
