@@ -21,6 +21,7 @@ const PaymentMethod = () => {
       })
       .then((response) => {
         if (response.status == 200) {
+          console.log(response.data)
           if (response.data) {
             setState((prevState) => {
               return {
@@ -74,7 +75,7 @@ const PaymentMethod = () => {
                 (state.lastDigits != ''
                   ? 'text-primary-200'
                   : 'text-secondary-200') +
-                'font-black pl-20'
+                ' font-black pl-20'
               }
             >
               {state.method === '1：振込' || state.method === ''
