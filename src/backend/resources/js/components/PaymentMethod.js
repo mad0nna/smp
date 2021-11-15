@@ -4,6 +4,11 @@ import Welcome from './Welcome'
 import PaymentSelection from './PaymentSelection'
 import axios from 'axios'
 import waitingIcon from '../../img/loading-spinner.gif'
+import visa from '../../img/visa.png'
+import MasterCard from '../../img/mastercard.png'
+import JCB from '../../img/jcb.png'
+import amex from '../../img/amex.png'
+import Diners from '../../img/diners.png'
 const PaymentMethod = () => {
   const [state, setState] = useState({
     modalDisplay: false,
@@ -21,7 +26,25 @@ const PaymentMethod = () => {
       })
       .then((response) => {
         if (response.status == 200) {
-          console.log(response.data)
+          let cardLogo = ''
+          switch (response.data.card_brand) {
+            case 'VISA':
+              cardLogo = visa
+              break
+            case 'MasterCard':
+              cardLogo = MasterCard
+              break
+            case 'JCB':
+              cardLogo = JCB
+              break
+            case 'Amex':
+              cardLogo = amex
+              break
+            case 'Diners':
+              cardLogo = Diners
+              break
+            default:
+          }
           if (response.data) {
             setState((prevState) => {
               return {
@@ -30,7 +53,7 @@ const PaymentMethod = () => {
                 cardBrand: response.data.card_brand,
                 lastDigits: response.data.last_four_digit,
                 method: response.data.PaymentMethod__c,
-                cardLogo: 'bg-card-' + response.data.card_brand + '-icon'
+                cardLogo: cardLogo
               }
             })
             return
@@ -96,13 +119,17 @@ const PaymentMethod = () => {
             </div>
             <div className="pl-20">
               {state.method === '90：クレジット' ? (
-                <div
-                  className={
-                    state.cardLogo +
-                    ' bg-cover bg-no-repeat h-8 w-9 inline-block'
-                  }
-                ></div>
+                <img
+                  className="w-10 h-10 inline-block"
+                  src={state.cardLogo}
+                ></img>
               ) : (
+                // <div
+                //   className={
+                //     state.cardLogo +
+                //     ' bg-cover bg-no-repeat h-8 w-9 inline-block'
+                //   }
+                // ></div>
                 ''
               )}
               <div
