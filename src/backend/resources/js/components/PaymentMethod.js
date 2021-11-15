@@ -72,7 +72,7 @@ const PaymentMethod = () => {
             <div
               className={
                 'text-2xl ' +
-                (state.lastDigits != ''
+                (state.lastDigits != null
                   ? 'text-primary-200'
                   : 'text-secondary-200') +
                 ' font-black pl-20'
@@ -80,7 +80,7 @@ const PaymentMethod = () => {
             >
               {state.method === '1：振込' || state.method === ''
                 ? 'Bank Transfer'
-                : state.lastDigits != ''
+                : state.lastDigits != null
                 ? 'Credit Card Ending in '
                 : 'Please update your Credit Card details'}
               <span
