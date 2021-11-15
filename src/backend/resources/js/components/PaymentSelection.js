@@ -102,7 +102,7 @@ const PaymentSelection = (props) => {
               </button>
               <button
                 className={
-                  'bg-primary-200 text-white w-26 h-14 rounded-3xl ' +
+                  'bg-primary-200 text-white w-24 h-14 rounded-3xl ' +
                   (state.method === '90：クレジット' ? 'inline' : 'hidden')
                 }
                 onClick={() => openZeusFormChangeMethod()}
@@ -111,7 +111,7 @@ const PaymentSelection = (props) => {
               </button>
               <button
                 className={
-                  'bg-primary-200 text-white w-26 h-14 rounded-3xl ' +
+                  'bg-primary-200 text-white w-24 h-14 rounded-3xl ' +
                   (state.method === '1：振込' || state.method === ''
                     ? 'inline'
                     : 'hidden')
