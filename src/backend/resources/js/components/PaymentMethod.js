@@ -4,11 +4,6 @@ import Welcome from './Welcome'
 import PaymentSelection from './PaymentSelection'
 import axios from 'axios'
 import waitingIcon from '../../img/loading-spinner.gif'
-import visa from '../../img/visa.png'
-import MasterCard from '../../img/mastercard.png'
-import JCB from '../../img/jcb.png'
-import amex from '../../img/amex.png'
-import Diners from '../../img/diners.png'
 const PaymentMethod = () => {
   const [state, setState] = useState({
     modalDisplay: false,
@@ -20,7 +15,6 @@ const PaymentMethod = () => {
   })
 
   useEffect(() => {
-    console.log(visa, MasterCard, JCB, amex, Diners)
     axios
       .post('/payment/getPaymentMethod', [], {
         'Content-Type': 'application/json'
