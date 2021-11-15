@@ -32,8 +32,8 @@ class CreateCompaniesTable extends Migration
             $table->string('industry_sub2')->nullable();
             $table->string('card_brand')->nullable();
             $table->string('last_four_digit')->nullable();
-            $table->integer('expmm')->nullable();
-            $table->integer('expyr')->nullable();
+            $table->string('expmm')->nullable();
+            $table->string('expyr')->nullable();
             $table->string('status')->nullable();
             $table->string('token')->nullable();
             $table->string('kot_trans_type')->nullable();

@@ -4,7 +4,6 @@ import Welcome from './Welcome'
 import PaymentSelection from './PaymentSelection'
 import axios from 'axios'
 import waitingIcon from '../../img/loading-spinner.gif'
-
 const PaymentMethod = () => {
   const [state, setState] = useState({
     modalDisplay: false,
@@ -69,10 +68,20 @@ const PaymentMethod = () => {
             />
           </div>
           <div className={state.loading ? ' hidden ' : '  '}>
-            <div className="text-2xl text-primary-200 font-black pl-20">
+            <div
+              className={
+                'text-2xl ' +
+                (state.lastDigits != ''
+                  ? 'text-primary-200'
+                  : 'text-secondary-200') +
+                'font-black pl-20'
+              }
+            >
               {state.method === '1：振込' || state.method === ''
                 ? 'Bank Transfer'
-                : 'Credit Card Ending in '}
+                : state.lastDigits != ''
+                ? 'Credit Card Ending in '
+                : 'Please update your Credit Card details'}
               <span
                 id="lastdigits"
                 className={
