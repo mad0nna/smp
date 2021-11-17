@@ -4,7 +4,6 @@ namespace App\Services;
 use App\Models\Company;
 use App\Models\Opportunity;
 use App\Repositories\DatabaseRepository;
-use App\Services\API\Salesforce\Model\Account;
 use App\Services\API\Salesforce\Model\Opportunity as ModelOpportunity;
 use Illuminate\Support\Facades\Cache;
 class PaymentService {

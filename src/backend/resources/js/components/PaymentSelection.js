@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 const PaymentSelection = (props) => {
   const [state, setState] = useState({
-    method: 'クレジット',
+    method: '',
     processed: false,
     message: ''
   })
@@ -49,7 +49,8 @@ const PaymentSelection = (props) => {
       })
   }
 
-  const selectMethod = (method) => {
+  const selectMethod = (e, method) => {
+    e.target.checked = true
     setState((prevState) => {
       return {
         ...prevState,
@@ -78,18 +79,38 @@ const PaymentSelection = (props) => {
                 name="newMethod"
                 value="クレジット"
                 required
-                onChange={() => selectMethod('クレジット')}
+                defaultChecked={props.method === 'クレジット'}
+                onClick={(e) => {
+                  selectMethod(e, 'クレジット')
+                }}
               />
               <label>Credit Card</label>
             </div>
-            <div className="w-full space-x-5">
+            <div
+              className={
+                'w-full space-x-5 ' +
+                (props.method === '' || props.method === 'クレジット'
+                  ? 'hidden'
+                  : '')
+              }
+            >
               <input
                 type="radio"
-                className="text-center text-secondary-200 font-black"
+                className={
+                  'text-center text-secondary-200 font-black ' +
+                    props.method ===
+                  ''
+                    ? 'hidden'
+                    : ''
+                }
                 name="newMethod"
                 value="口座振替"
                 required
-                onChange={() => selectMethod('口座振替')}
+                defaultChecked={props.method === '口座振替'}
+                disabled={state.method === 'クレジット'}
+                onClick={(e) => {
+                  selectMethod(e, '口座振替')
+                }}
               />
               <label>Bank Transfer</label>
             </div>
@@ -106,6 +127,7 @@ const PaymentSelection = (props) => {
                   (state.method === 'クレジット' ? 'inline' : 'hidden')
                 }
                 onClick={() => openZeusFormChangeMethod()}
+                disabled={state.method === ''}
               >
                 Proceed
               </button>
@@ -116,6 +138,7 @@ const PaymentSelection = (props) => {
                     ? 'inline'
                     : 'hidden')
                 }
+                disabled={state.method === ''}
                 onClick={() => {
                   setBankTransferMethod()
                 }}

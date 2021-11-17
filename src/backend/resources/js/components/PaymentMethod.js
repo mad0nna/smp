@@ -17,7 +17,8 @@ const PaymentMethod = () => {
     method: '',
     lastDigits: '',
     cardBrand: '',
-    cardLogo: ''
+    cardLogo: '',
+    message: ''
   })
 
   useEffect(() => {
@@ -46,6 +47,23 @@ const PaymentMethod = () => {
               break
             default:
           }
+
+          let message = ''
+          switch (response.data.payment_method) {
+            case '口座振替':
+              message = 'Bank Transfer'
+              break
+            case 'クレジット':
+              message = !_.isEmpty(response.data.last_four_digit)
+                ? 'Credit Card Ending in '
+                : 'Please update your Credit Card details'
+              break
+            case '':
+              message = 'No Payment Method selected yet'
+              break
+            default:
+          }
+
           if (response.data) {
             setState((prevState) => {
               return {
@@ -54,7 +72,8 @@ const PaymentMethod = () => {
                 cardBrand: response.data.card_brand,
                 lastDigits: response.data.last_four_digit,
                 method: response.data.payment_method,
-                cardLogo: cardLogo
+                cardLogo: cardLogo,
+                message: message
               }
             })
             return
@@ -101,11 +120,7 @@ const PaymentMethod = () => {
                 //   : 'text-secondary-200')
               }
             >
-              {state.method === '口座振替' || state.method === ''
-                ? 'Bank Transfer'
-                : !_.isEmpty(state.lastDigits)
-                ? 'Credit Card Ending in '
-                : 'Please update your Credit Card details'}
+              {state.message}
               <span
                 id="lastdigits"
                 className={
