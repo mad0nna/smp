@@ -2,7 +2,10 @@
 namespace App\Services;
 
 use App\Models\Company;
+use App\Models\Opportunity;
+use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Account;
+use App\Services\API\Salesforce\Model\Opportunity as ModelOpportunity;
 use Illuminate\Support\Facades\Cache;
 class PaymentService {
     
@@ -16,14 +19,14 @@ class PaymentService {
         'P' => 'Proper Card'
     ];
     private $method = [
-        'credit_card' => '90：クレジット',
-        'bank_transfer' => '1：振込'
+        'credit_card' => 'クレジット',
+        'bank_transfer' => '口座振替'
     ];
-    public function setCreditCardMethod($cardInfo) {
+    public function setCreditCardMethod($cardInfo, $companyID) {
         if ($cardInfo['result'] != $this->success) {
             return;
         }
-        $companyID = $cardInfo['sendpoint'];
+        $salesforceCompanyID = $cardInfo['sendpoint'];
         $exp = $cardInfo['yuko'];
         $data = [
             'payment_method' => $this->method['credit_card'],
@@ -32,14 +35,16 @@ class PaymentService {
             'expmm' => $exp[0] . $exp[1],
             'expyr' => $exp[2] . $exp[3]
         ];
-        $result = Company::where('account_id' , $companyID)->update($data);
+        $result = Opportunity::where('company_id', $companyID)->update($data);
         if ($result) {
-            return $this->changePaymentMethodInSF('90：クレジット', $companyID);
+            $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
+            Cache::forget($salesforceCompanyID.":company:details");
+            return $this->changePaymentMethodInSF($this->method['credit_card'], $opportunity[0]['opportunity_code']);
         }
         return ['status' => false];
     }
 
-    public function setBankTransferMethod($salesforceCompanyID) {
+    public function setBankTransferMethod($salesforceCompanyID, $companyID) {
         $data = [
             'payment_method' => $this->method['bank_transfer'],
             'card_brand' => '',
@@ -47,20 +52,26 @@ class PaymentService {
             'expmm' => '',
             'expyr' => ''
         ];
-        $result = Company::where('account_id', $salesforceCompanyID)->update($data);
+        $result = Opportunity::where('company_id', $companyID)->update($data);
         if ($result) {
+            $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
             Cache::forget($salesforceCompanyID.":company:details");
-            return $this->changePaymentMethodInSF($this->method['bank_transfer'], $salesforceCompanyID);
+            return $this->changePaymentMethodInSF($this->method['bank_transfer'], $opportunity[0]['opportunity_code']);
         }
         return ['status' => true];
     }
 
-    private function changePaymentMethodInSF($method, $salesforceCompanyID) {
-        $company = new Account();
-        if ($company->update(['PaymentMethod__c' => $method], $salesforceCompanyID)) {
+    private function changePaymentMethodInSF($method, $salesforceOpportunityID) {
+        $opportunity = new ModelOpportunity();
+        if ($opportunity->update($salesforceOpportunityID, ['KoT_shiharaihouhou__c' => $method])) {
             return ['status' => true];
         }
         return ['status' => false];
+    }
+
+    public function getPaymentMethodDetails($salesforceCompanyID) {
+        $dbRepository = new DatabaseRepository();
+        return $dbRepository->getPaymentMethod($salesforceCompanyID);
     }
 }
 ?>

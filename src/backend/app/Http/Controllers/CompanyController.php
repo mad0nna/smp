@@ -155,7 +155,6 @@ class CompanyController extends Controller
           'companyCode' => ['required', 'unique:companies,company_code']
         ]);
         $formData = $this->getRecord($request);
-
         $result = $companyService->addCompanyToDB($formData);
 
         $response = [
@@ -247,9 +246,8 @@ class CompanyController extends Controller
         'record_type_code' => $request['recordTypeCode'] ?? '',
         'type' => $request['type'] ?? '',
         'kot_trans_type' => $request['kotTransType'] ?? '',
-        'payment_method' => $request['paymentMethod'] ?? '',
         'opportunity_code' => $request['opportunityCode'] ?? '',
-        'opportunity' => $request['sfRecords']['opportunity'] ?? [],
+        'opportunity' => $request['opportunity'] ?? [],
         'token' => $request['token'] ?? '',
         'kot_billing_start_date' => $request['kotBillingStartDate'] ?? '',
       ];

@@ -107,5 +107,5 @@ Route::group(['prefix' => 'payment'], function() {
     Route::get('status', 'PaymentController@getResult');
     Route::get('setMethodCreditCard', 'PaymentController@changeMethodToCard');
     Route::post('setMethodBankTransfer', 'PaymentController@changeMethodToBank');
-    Route::post('getPaymentMethod', 'CompanyController@getCompanyDetails');
+    Route::post('getPaymentMethod', 'PaymentController@getPaymentMethodDetails');
 });

@@ -16,9 +16,8 @@ class PaymentController extends Controller
         Log::info('payment test', $request->all());
         $cgiResult = $request->all();
         if ($cgiResult['result'] != $this->failed) {
-
+            $paymentService->setCreditCardMethod($request->all(), Session::get('companyID'));
         }
-        $paymentService->setCreditCardMethod($request->all());
     }
 
     public function changeMethodToCard() {
@@ -36,7 +35,15 @@ class PaymentController extends Controller
 
     public function changeMethodToBank(PaymentService $paymentService) {
         try {
-            return $paymentService->setBankTransferMethod(Session::get('salesforceCompanyID'));
+            return $paymentService->setBankTransferMethod(Session::get('salesforceCompanyID'), Session::get('companyID'));
+        } catch(UnauthorizedException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function getPaymentMethodDetails(PaymentService $paymentService) {
+        try {
+            return $paymentService->getPaymentMethodDetails(Session::get('salesforceCompanyID'));
         } catch(UnauthorizedException $e) {
             return $e->getMessage();
         }

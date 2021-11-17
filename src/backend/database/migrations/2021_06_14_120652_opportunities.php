@@ -25,6 +25,11 @@ class Opportunities extends Migration
             $table->string('name');
             $table->string('stage');
             $table->string('zen_negotiate_owner')->nullable();
+            $table->string('payment_method')->nullable();
+            $table->string('card_brand')->nullable();
+            $table->string('last_four_digit')->nullable();
+            $table->string('expmm')->nullable();
+            $table->string('expyr')->nullable();
             $table->timestamp('sf_created_date');
             $table->timestamps();
 

@@ -18,6 +18,11 @@ class Opportunity extends Model
         'stage',
         'zen_negotiate_owner',
         'sf_created_date',
+        'payment_method',
+        'card_brand',
+        'last_four_digit',
+        'expmm',
+        'expyr'
     ];
 
     public function salesforceFormat()

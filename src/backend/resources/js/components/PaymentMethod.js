@@ -9,6 +9,7 @@ import MasterCard from '../../img/mastercard.png'
 import JCB from '../../img/jcb.png'
 import amex from '../../img/amex.png'
 import Diners from '../../img/diners.png'
+import _ from 'lodash'
 const PaymentMethod = () => {
   const [state, setState] = useState({
     modalDisplay: false,
@@ -52,7 +53,7 @@ const PaymentMethod = () => {
                 loading: false,
                 cardBrand: response.data.card_brand,
                 lastDigits: response.data.last_four_digit,
-                method: response.data.PaymentMethod__c,
+                method: response.data.payment_method,
                 cardLogo: cardLogo
               }
             })
@@ -94,22 +95,21 @@ const PaymentMethod = () => {
           <div className={state.loading ? ' hidden ' : '  '}>
             <div
               className={
-                'text-2xl ' +
-                (state.lastDigits != null
-                  ? 'text-primary-200'
-                  : 'text-secondary-200') +
-                ' font-black pl-20'
+                'text-2xl font-black pl-20 text-primary-200'
+                // + (!_.isEmpty(state.lastDigits || state.method === '口座振替')
+                //   ? 'text-primary-200'
+                //   : 'text-secondary-200')
               }
             >
-              {state.method === '1：振込' || state.method === ''
+              {state.method === '口座振替' || state.method === ''
                 ? 'Bank Transfer'
-                : state.lastDigits != null
+                : !_.isEmpty(state.lastDigits)
                 ? 'Credit Card Ending in '
                 : 'Please update your Credit Card details'}
               <span
                 id="lastdigits"
                 className={
-                  state.method == '1：振込' || state.method == ''
+                  state.method == '口座振替' || state.method == ''
                     ? 'hidden'
                     : 'inline-block'
                 }
@@ -118,18 +118,12 @@ const PaymentMethod = () => {
               </span>
             </div>
             <div className="pl-20">
-              {state.method === '90：クレジット' && state.lastDigits != null ? (
+              {state.method === 'クレジット' && !_.isEmpty(state.lastDigits) ? (
                 <img
                   className="w-10 h-10 inline-block"
                   src={state.cardLogo}
                 ></img>
               ) : (
-                // <div
-                //   className={
-                //     state.cardLogo +
-                //     ' bg-cover bg-no-repeat h-8 w-9 inline-block'
-                //   }
-                // ></div>
                 ''
               )}
               <div

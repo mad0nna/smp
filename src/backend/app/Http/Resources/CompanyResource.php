@@ -97,7 +97,7 @@ class CompanyResource extends JsonResource
             'industrySub2' => $data['Field20__c'],
             'kotTransType' => $data['KOT_shubetsu__c'],
             'paymentMethod' => $data['PaymentMethod__c'],
-            'accountId' => ($data['opportunity'] && $data['opportunity'][0]['AccountId']) ? $data['opportunity'][0]['AccountId'] : '',
+            'accountId' => $data['Id'],
             'admin' => [[
                 'contactId' => $data['contact']['Id'] ?? '',
                 'email' => $data['contact']['Email'] ?? '',
@@ -105,7 +105,7 @@ class CompanyResource extends JsonResource
                 'lastName' => $data['contact']['LastName'] ?? '',
                 'contactNum' => $data['contact']['MobilePhone'] ?? '',
                 ]],
-            'sfRecords' => self::convertToLowerCase($data),
+            'opportunity' => $data['opportunity']
         ];
     }
 

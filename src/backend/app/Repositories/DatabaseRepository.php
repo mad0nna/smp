@@ -29,6 +29,14 @@ class DatabaseRepository
         ->toArray();
     }
 
+    public function getPaymentMethod($sfCompanyID) {
+        return Opportunity::leftjoin('companies', 'companies.id', '=', 'company_id')
+        ->select('opportunities.*')
+        ->where('companies.account_id', $sfCompanyID)
+        ->get()
+        ->toArray()[0];
+    }
+
     public function updateCompanyDetails($companyID, $companyData)
     {
         return Company::where('account_id', $companyID)
