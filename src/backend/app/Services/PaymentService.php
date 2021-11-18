@@ -36,8 +36,8 @@ class PaymentService {
             'expmm' => $exp[0] . $exp[1],
             'expyr' => $exp[2] . $exp[3]
         ];
-        $companyInfo = Company::where('account_id', $salesforceCompanyID)->get();
-        Log::info('payment test', ['test' => $companyInfo->id]);
+        $companyInfo = Company::where('account_id', $salesforceCompanyID)->get()->toArray();
+        Log::info('payment test', ['test' => $companyInfo[0]['id']]);
         // $result = Opportunity::where('company_id', $companyID)->get()->toArray();
         // if ($result) {
         //     $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
