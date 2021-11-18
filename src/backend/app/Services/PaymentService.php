@@ -6,6 +6,8 @@ use App\Models\Opportunity;
 use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Opportunity as ModelOpportunity;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+
 class PaymentService {
     
     private $success = 'OK';
@@ -35,6 +37,7 @@ class PaymentService {
             'expyr' => $exp[2] . $exp[3]
         ];
         $result = Opportunity::where('company_id', $companyID)->update($data);
+        Log::info('test', Opportunity::where('company_id', $companyID));
         if ($result) {
             $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
             Cache::forget($salesforceCompanyID.":company:details");
