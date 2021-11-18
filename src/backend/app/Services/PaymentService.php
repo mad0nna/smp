@@ -1,7 +1,6 @@
 <?php
 namespace App\Services;
 
-use App\Models\Company;
 use App\Models\Opportunity;
 use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Opportunity as ModelOpportunity;
@@ -37,7 +36,7 @@ class PaymentService {
             'expyr' => $exp[2] . $exp[3]
         ];
         $result = Opportunity::where('company_id', $companyID)->update($data);
-        Log::info('test', Opportunity::where('company_id', $companyID));
+        Log::info('test', Opportunity::where('company_id', $companyID)->get()->toArray());
         if ($result) {
             $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
             Cache::forget($salesforceCompanyID.":company:details");
