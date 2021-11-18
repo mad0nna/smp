@@ -16,7 +16,7 @@ class PaymentController extends Controller
         Log::info('payment test', $request->all());
         $cgiResult = $request->all();
         if ($cgiResult['result'] != $this->failed) {
-            $paymentService->setCreditCardMethod($request->all(), Session::get('companyID'));
+            $paymentService->setCreditCardMethod($request->all());
         }
     }
 
