@@ -42,8 +42,6 @@ class PaymentService {
         if ($result) {
             $opportunity = Opportunity::where('company_id', $companyInfo[0]['id'])->get()->toArray();
             Cache::forget($salesforceCompanyID.":company:details");
-            $opportunity = new ModelOpportunity();
-            Log::info('test', $opportunity[0]['opportunity_code']);
             if ($opportunity->update($opportunity[0]['opportunity_code'], ['KoT_shiharaihouhou__c' => $this->method['credit_card']])) {
                 (new Account)->update(['KotCompanyCode__c' => $companyInfo[0]['company_code']], $companyInfo[0]['account_id']);
                 return ['status' => true];
