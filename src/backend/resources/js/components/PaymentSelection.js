@@ -129,7 +129,7 @@ const PaymentSelection = (props) => {
                 onClick={() => openZeusFormChangeMethod()}
                 disabled={
                   (state.method === '' && props.method === '') ||
-                  props.method === 'クレジット'
+                  props.method !== 'クレジット'
                 }
               >
                 Proceed
