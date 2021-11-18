@@ -36,7 +36,7 @@ class PaymentService {
             'expyr' => $exp[2] . $exp[3]
         ];
         $result = Opportunity::where('company_id', $companyID)->get()->toArray();
-        Log::info('test', json_encode($result));
+        Log::info('test', $result);
         if ($result) {
             $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
             Cache::forget($salesforceCompanyID.":company:details");
