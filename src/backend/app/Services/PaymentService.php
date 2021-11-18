@@ -37,14 +37,13 @@ class PaymentService {
             'expyr' => $exp[2] . $exp[3]
         ];
         $companyInfo = Company::where('account_id', $salesforceCompanyID)->get()->toArray();
-        Log::info('payment test', ['test' => $companyInfo[0]['id']]);
-        // $result = Opportunity::where('company_id', $companyID)->get()->toArray();
-        // if ($result) {
-        //     $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
-        //     Cache::forget($salesforceCompanyID.":company:details");
-        //     return $this->changePaymentMethodInSF($this->method['credit_card'], $opportunity[0]['opportunity_code']);
-        // }
-        // return ['status' => false];
+        $result = Opportunity::where('company_id', $companyInfo[0]['id'])->update($data);
+        if ($result) {
+            $opportunity = Opportunity::where('company_id', $companyInfo[0]['id'])->get()->toArray();
+            Cache::forget($salesforceCompanyID.":company:details");
+            return $this->changePaymentMethodInSF($this->method['credit_card'], $opportunity[0]['opportunity_code']);
+        }
+        return ['status' => false];
     }
 
     public function setBankTransferMethod($salesforceCompanyID, $companyID) {
