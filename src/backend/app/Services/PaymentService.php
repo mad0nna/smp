@@ -35,10 +35,9 @@ class PaymentService {
             'expmm' => $exp[0] . $exp[1],
             'expyr' => $exp[2] . $exp[3]
         ];
-        $result = Opportunity::where('company_id', $companyID);
-        Log::log('test', $result);
+        $result = Opportunity::where('company_id', $companyID)->get()->toArray();
+        Log::info('test', json_encode($result));
         if ($result) {
-            Log::info('test', $companyID);
             $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
             Cache::forget($salesforceCompanyID.":company:details");
             return $this->changePaymentMethodInSF($this->method['credit_card'], $opportunity[0]['opportunity_code']);
