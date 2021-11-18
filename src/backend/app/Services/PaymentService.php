@@ -36,7 +36,7 @@ class PaymentService {
             'expyr' => $exp[2] . $exp[3]
         ];
         $result = Opportunity::where('company_id', $companyID);
-        Log::info('test', $result);
+        Log::log('test', $result);
         if ($result) {
             Log::info('test', $companyID);
             $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
