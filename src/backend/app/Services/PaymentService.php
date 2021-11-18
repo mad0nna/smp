@@ -41,11 +41,14 @@ class PaymentService {
         $result = Opportunity::where('company_id', $companyInfo[0]['id'])->update($data);
         if ($result) {
             $opportunity = Opportunity::where('company_id', $companyInfo[0]['id'])->get()->toArray();
-            (new Account)->update(['KotCompanyCode__c' => $companyInfo[0]['company_code']], $companyInfo[0]['account_id']);
             Cache::forget($salesforceCompanyID.":company:details");
-            return $this->changePaymentMethodInSF($this->method['credit_card'], $opportunity[0]['opportunity_code']);
+            $opportunity = new ModelOpportunity();
+        if ($opportunity->update($opportunity[0]['opportunity_code'], ['KoT_shiharaihouhou__c' => $this->method['credit_card']])) {
+            (new Account)->update(['KotCompanyCode__c' => $companyInfo[0]['company_code']], $companyInfo[0]['account_id']);
+            return ['status' => true];
         }
         return ['status' => false];
+        }
     }
 
     public function setBankTransferMethod($salesforceCompanyID, $companyID) {
@@ -56,22 +59,18 @@ class PaymentService {
             'expmm' => '',
             'expyr' => ''
         ];
+        $companyInfo = Company::where('account_id', $salesforceCompanyID)->get()->toArray();
         $result = Opportunity::where('company_id', $companyID)->update($data);
         if ($result) {
             $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
             Cache::forget($salesforceCompanyID.":company:details");
-            return $this->changePaymentMethodInSF($this->method['bank_transfer'], $opportunity[0]['opportunity_code']);
-        }
-        return ['status' => true];
-    }
-
-    private function changePaymentMethodInSF($method, $salesforceOpportunityID) {
-        $opportunity = new ModelOpportunity();
-        if ($opportunity->update($salesforceOpportunityID, ['KoT_shiharaihouhou__c' => $method])) {
-            return ['status' => true];
+            if ($opportunity->update($opportunity[0]['opportunity_code'], ['KoT_shiharaihouhou__c' => $this->method['bank_transfer']])) {
+                (new Account)->update(['KotCompanyCode__c' => $companyInfo[0]['company_code']], $companyInfo[0]['account_id']);
+                return ['status' => true];
+            }
         }
         return ['status' => false];
-    }
+        }
 
     public function getPaymentMethodDetails($salesforceCompanyID) {
         $dbRepository = new DatabaseRepository();
