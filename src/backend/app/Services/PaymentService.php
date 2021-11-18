@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Company;
 use App\Models\Opportunity;
 use App\Repositories\DatabaseRepository;
+use App\Services\API\Salesforce\Model\Account;
 use App\Services\API\Salesforce\Model\Opportunity as ModelOpportunity;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -40,6 +41,7 @@ class PaymentService {
         $result = Opportunity::where('company_id', $companyInfo[0]['id'])->update($data);
         if ($result) {
             $opportunity = Opportunity::where('company_id', $companyInfo[0]['id'])->get()->toArray();
+            (new Account)->update(['KotCompanyCode__c' => $companyInfo[0]['company_code']], $companyInfo[0]['account_id']);
             Cache::forget($salesforceCompanyID.":company:details");
             return $this->changePaymentMethodInSF($this->method['credit_card'], $opportunity[0]['opportunity_code']);
         }
