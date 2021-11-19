@@ -13,7 +13,7 @@ const PaymentSelection = (props) => {
       return {
         ...prevState,
         processed: true,
-        message: 'Refresh the page after filling up in Zeus form'
+        message: 'ゼウスで必要項目をご入力後に更新を行ってください'
       }
     })
   }
@@ -69,7 +69,7 @@ const PaymentSelection = (props) => {
           }
         >
           <div className="text-center w-full text-secondary-200 font-black mb-6">
-            Change Payment Method
+            お支払い方法を変更する
           </div>
           <div className="text-center w-full space-y-5">
             <div
@@ -89,7 +89,7 @@ const PaymentSelection = (props) => {
                   selectMethod(e, 'クレジット')
                 }}
               />
-              <label>Credit Card</label>
+              <label>クレジットカード</label>
             </div>
             <div
               className={
@@ -117,14 +117,14 @@ const PaymentSelection = (props) => {
                   selectMethod(e, '口座振替')
                 }}
               />
-              <label>Bank Transfer</label>
+              <label>銀行振込</label>
             </div>
             <div className="space-x-5">
               <button
                 className="bg-gray-400 w-24 h-14 rounded-3xl text-white"
                 onClick={() => props.handleCloseModal()}
               >
-                Cancel
+                キャンセル
               </button>
               <button
                 className={
@@ -134,7 +134,7 @@ const PaymentSelection = (props) => {
                 onClick={() => openZeusFormChangeMethod()}
                 disabled={state.method === '' && props.method !== 'クレジット'}
               >
-                Proceed
+                変更手続きへ
               </button>
               <button
                 className={
@@ -148,7 +148,7 @@ const PaymentSelection = (props) => {
                   setBankTransferMethod()
                 }}
               >
-                Proceed
+                変更手続きへ
               </button>
             </div>
           </div>
@@ -169,7 +169,7 @@ const PaymentSelection = (props) => {
               className="bg-gray-400 w-24 h-14 rounded-3xl text-white"
               onClick={() => props.handleCloseModal()}
             >
-              Close
+              閉じる
             </button>
           </div>
         </div>

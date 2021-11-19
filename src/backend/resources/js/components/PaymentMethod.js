@@ -53,15 +53,15 @@ const PaymentMethod = () => {
           let message = ''
           switch (response.data.payment_method) {
             case '口座振替':
-              message = 'Bank Transfer'
+              message = '銀行振込'
               break
             case 'クレジット':
               message = !_.isEmpty(response.data.last_four_digit)
                 ? 'Credit Card Ending in '
-                : 'Please update your Credit Card details'
+                : 'クレジットカード情報を更新してください'
               break
             case '':
-              message = 'No Payment Method selected  yet'
+              message = 'お支払い方法が選択されていません'
               break
             default:
           }
@@ -107,7 +107,7 @@ const PaymentMethod = () => {
       <div className="bg-white font-meiryo px-24 py-12 mx-40 mt-12 justify-items-center items-center">
         <div className="relative">
           <div className="text-xl mb-10 font-semibold text-customGray">
-            Payment Method
+            お支払い方法
           </div>
           <div>
             <img
@@ -150,7 +150,7 @@ const PaymentMethod = () => {
                 className="text-md text-secondary-200 font-black inline-block cursor-pointer pl-4"
                 onClick={() => openModal()}
               >
-                (Change)
+                変更する
               </div>
             </div>
           </div>
