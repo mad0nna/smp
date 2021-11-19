@@ -126,7 +126,9 @@ const PaymentMethod = () => {
                     : 'inline-block'
                 }
               >
-                {state.lastDigits})
+                {state.lastDigits !== '' && state.lastDigits !== null
+                  ? state.lastDigits + ')'
+                  : ''}
               </span>
             </div>
             <div
@@ -135,7 +137,9 @@ const PaymentMethod = () => {
                 ' text-lg font-black pl-20 text-primary-200 mb-5'
               }
             >
-              有効期限日： {state.expmm}/{state.expyr}
+              {state.lastDigits !== '' && state.lastDigits !== null
+                ? '有効期限日：' + state.expmm + '/' + state.expyr
+                : ''}
             </div>
             <div className="pl-20">
               {state.method === 'クレジット' && !_.isEmpty(state.lastDigits) ? (

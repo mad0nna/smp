@@ -91,28 +91,14 @@ const PaymentSelection = (props) => {
               />
               <label>クレジットカード</label>
             </div>
-            <div
-              className={
-                'w-full space-x-5 ' +
-                (props.method === '' || props.method === 'クレジット'
-                  ? 'hidden'
-                  : '')
-              }
-            >
+            <div className={'w-full space-x-5 '}>
               <input
                 type="radio"
-                className={
-                  'text-center text-secondary-200 font-black ' +
-                    props.method ===
-                  ''
-                    ? 'hidden'
-                    : ''
-                }
+                className={'text-center text-secondary-200 font-black '}
                 name="newMethod"
                 value="口座振替"
                 required
                 defaultChecked={props.method === '口座振替'}
-                disabled={state.method === 'クレジット'}
                 onClick={(e) => {
                   selectMethod(e, '口座振替')
                 }}
