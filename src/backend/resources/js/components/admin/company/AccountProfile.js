@@ -214,6 +214,21 @@ const AccountProfile = (props) => {
           })
         }
       })
+      .catch((error) => {
+        if (error.response.status == 500) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              dialogMessage:
+                'データの保存に失敗しました。\n メールがまだ使用されていないことを確認してください。 または、会社のアカウントがすでに追加されている可能性があります。',
+              showPopupAddAccountToken: false,
+              showPopupMessageDialog: !prevState.showPopupMessageDialog,
+              redirectAfterSuccess: false,
+              isLoading: false
+            }
+          })
+        }
+      })
   }
 
   const closeConfirmDialog = (name) => {
