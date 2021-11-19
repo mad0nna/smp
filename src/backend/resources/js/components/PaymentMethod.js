@@ -57,7 +57,7 @@ const PaymentMethod = () => {
               break
             case 'クレジット':
               message = !_.isEmpty(response.data.last_four_digit)
-                ? 'Credit Card Ending in '
+                ? 'クレジットカード (末尾'
                 : 'クレジットカード情報を更新してください'
               break
             case '':
@@ -126,7 +126,7 @@ const PaymentMethod = () => {
                     : 'inline-block'
                 }
               >
-                {state.lastDigits}
+                {state.lastDigits})
               </span>
             </div>
             <div
@@ -135,7 +135,7 @@ const PaymentMethod = () => {
                 ' text-lg font-black pl-20 text-primary-200 mb-5'
               }
             >
-              Expiration Date: {state.expmm}/{state.expyr}
+              有効期限日： {state.expmm}/{state.expyr}
             </div>
             <div className="pl-20">
               {state.method === 'クレジット' && !_.isEmpty(state.lastDigits) ? (
