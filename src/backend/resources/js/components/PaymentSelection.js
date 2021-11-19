@@ -72,7 +72,12 @@ const PaymentSelection = (props) => {
             Change Payment Method
           </div>
           <div className="text-center w-full space-y-5">
-            <div className="w-full space-x-5">
+            <div
+              className={
+                'w-full space-x-5 ' +
+                (props.method === '口座振替' ? 'pr-5' : '')
+              }
+            >
               <input
                 type="radio"
                 className="text-center text-secondary-200 font-black"

@@ -18,6 +18,8 @@ const PaymentMethod = () => {
     lastDigits: '',
     cardBrand: '',
     cardLogo: '',
+    expmm: '',
+    expyr: '',
     message: ''
   })
 
@@ -59,7 +61,7 @@ const PaymentMethod = () => {
                 : 'Please update your Credit Card details'
               break
             case '':
-              message = 'No Payment Method selected yet'
+              message = 'No Payment Method selected  yet'
               break
             default:
           }
@@ -72,6 +74,8 @@ const PaymentMethod = () => {
                 cardBrand: response.data.card_brand,
                 lastDigits: response.data.last_four_digit,
                 method: response.data.payment_method,
+                expmm: response.data.expmm,
+                expyr: response.data.expyr,
                 cardLogo: cardLogo,
                 message: message
               }
@@ -112,14 +116,7 @@ const PaymentMethod = () => {
             />
           </div>
           <div className={state.loading ? ' hidden ' : '  '}>
-            <div
-              className={
-                'text-2xl font-black pl-20 text-primary-200'
-                // + (!_.isEmpty(state.lastDigits || state.method === '口座振替')
-                //   ? 'text-primary-200'
-                //   : 'text-secondary-200')
-              }
-            >
+            <div className={'text-2xl font-black pl-20 text-primary-200 mb-5'}>
               {state.message}
               <span
                 id="lastdigits"
@@ -131,6 +128,14 @@ const PaymentMethod = () => {
               >
                 {state.lastDigits}
               </span>
+            </div>
+            <div
+              className={
+                (state.method === 'クレジット' ? '' : 'hidden') +
+                ' text-lg font-black pl-20 text-primary-200 mb-5'
+              }
+            >
+              Expiration Date: {state.expmm}/{state.expyr}
             </div>
             <div className="pl-20">
               {state.method === 'クレジット' && !_.isEmpty(state.lastDigits) ? (
@@ -150,17 +155,7 @@ const PaymentMethod = () => {
             </div>
           </div>
 
-          <div className="space-x-4 mt-24">
-            <div className="inline-block py-3 w-54 text-center align-middle text-primary-200 text-sm underline">
-              Privacy Policy
-            </div>
-            <div className="inline-block py-3 w-54 text-center align-middle text-primary-200 text-sm underline">
-              Terms and Conditions
-            </div>
-            <div className="inline-block py-3 w-54 text-center align-middle text-primary-200 text-sm underline">
-              View Billing History
-            </div>
-          </div>
+          <div className="space-x-4 mt-24"></div>
         </div>
       </div>
       {state.modalDisplay ? (
