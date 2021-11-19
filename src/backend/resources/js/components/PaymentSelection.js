@@ -72,12 +72,7 @@ const PaymentSelection = (props) => {
             お支払い方法を変更する
           </div>
           <div className="text-center w-full space-y-5">
-            <div
-              className={
-                'w-full space-x-5 ' +
-                (props.method === '口座振替' ? 'pr-5' : '')
-              }
-            >
+            <div className={'w-full space-x-5'}>
               <input
                 type="radio"
                 className="text-center text-secondary-200 font-black"
@@ -91,7 +86,7 @@ const PaymentSelection = (props) => {
               />
               <label>クレジットカード</label>
             </div>
-            <div className={'w-full space-x-5 '}>
+            <div className={'w-full space-x-5 pr-8'}>
               <input
                 type="radio"
                 className={'text-center text-secondary-200 font-black '}
