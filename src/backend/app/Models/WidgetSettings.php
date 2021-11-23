@@ -90,7 +90,7 @@ class WidgetSettings extends Model
                 'static' => false,
                 'w' => 2,
                 'x' => 8,
-                'y' => 4,
+                'y' => 5,
                 'state' => true,
                 'className' => 'relative',
             ],
@@ -156,7 +156,7 @@ class WidgetSettings extends Model
             ],
             6 => [
                 'label' => 'クイックリンク',
-                'h' => 3,
+                'h' => 4,
                 'id' => 6,
                 'isBounded' => null,
                 'isDraggable' => null,

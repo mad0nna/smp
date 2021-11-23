@@ -118,7 +118,7 @@ class CompanyController extends Controller
             return response()->json([
                 'success' => false,
                 'exists' => false,
-                'data' => $e->getMessage(),
+                'data' => 'コードが見つかりません',
               ]);
         }
     }
@@ -166,11 +166,9 @@ class CompanyController extends Controller
 
     public function updateSaveAccount(Request $request, CompanyService $companyService)
     {
-        $id = $request['id'];
+        $dbId = $request->get('id');
         $formData = $this->getRecord($request);
-        $admin = $this->getAdminRecord(isset($request['admin'][0]) ? array_values($request['admin'])[0] : []);        
-        $result = $companyService->updateSaveAccount($id,$formData['accountId'], $formData);
-
+        $result = $companyService->updateSaveAccount($dbId, $formData);
         $response = [
         'success' => $result,
       ];
@@ -216,37 +214,10 @@ class CompanyController extends Controller
       ];
     }
 
-    private function convertToLowerCase($data)
-    {
-        $items = [];
-        foreach ($data as $col => $val) {
-            if ($col == 'opportunity' && is_array($val)) { //to case items in opportunity
-                foreach ($val as $c => $v) {
-                    $items['opportunity'][strtolower($c)] = $v;
-                }
-            } elseif ($col == 'contact' && is_array($val)) {  //to case items in contact
-                foreach ($val as $c => $v) {
-                    $items['contact'][strtolower($c)] = $v;
-                }
-            } else {
-                $items[strtolower($col)] = $val;
-            }
-        }
-
-        if (isset($items['opportunity']['attributes'])) {
-            unset($items['opportunity']['attributes']);
-        }
-        if (isset($items['contact']['attributes'])) {
-            unset($items['contact']['attributes']);
-        }
-
-        return $items;
-    }
-
     private function getRecord($request)
     {
         return [
-        'accountId' => $request['accountId'] ?? '',
+        'sfAccountId' => $request['accountId'] ?? '',
         'company_code' => $request['companyCode'] ?? '',
         'companyID' => $request['companyID'] ?? '',
         'kot_billing_start_date' => $request['kot_billing_start_date'] ?? '',
@@ -275,34 +246,10 @@ class CompanyController extends Controller
         'record_type_code' => $request['recordTypeCode'] ?? '',
         'type' => $request['type'] ?? '',
         'kot_trans_type' => $request['kotTransType'] ?? '',
-        'payment_method' => $request['paymentMethod'] ?? '',
         'opportunity_code' => $request['opportunityCode'] ?? '',
-        'opportunity' => $request['sfRecords']['opportunity'] ?? [],
+        'opportunity' => $request['opportunity'] ?? [],
         'token' => $request['token'] ?? '',
         'kot_billing_start_date' => $request['kotBillingStartDate'] ?? '',
       ];
-    }
-
-    private function getAdminRecord($request)
-    {
-        return [
-          'contact_num' => $request['contactNum'] ?? '',
-          'email' => $request['email'] ?? '',
-          'full_name' => $request['fullName'] ?? '',
-          'first_name' => $request['firstName'] ?? '',
-          'last_name' => $request['lastName'] ?? '',
-          'username' => $request['username'] ?? '',
-          'user_type_id' => $request['userTypeId'] ?? '',
-          'user_status_id' => $request['userStatusId'] ?? '',
-        ];
-    }
-
-    private function getSfId($request)
-    {
-        return [
-          'account_id' => $request['id'] ?? '',
-          'contact_id' => $request['contact']['id'] ?? '',
-          'opportunity_id' => $request['opportunity']['id'] ?? '',
-        ];
     }
 }

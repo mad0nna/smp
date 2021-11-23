@@ -10,6 +10,7 @@ use App\Http\Resources\UserResource;
 use App\Services\API\Salesforce\Model\Account;
 use App\Services\API\Salesforce\Model\Contact;
 use App\Services\API\Salesforce\Model\Opportunity;
+use Illuminate\Support\Facades\Log;
 
 class SalesforceSync extends Command
 {
@@ -50,38 +51,44 @@ class SalesforceSync extends Command
 
         try {
             foreach ($companies as $c) {
-                $company = (new Account)->findByID($c['account_id']);
+                try {
+                    if ($c['account_id']) {
+                        $company = (new Account)->findByID($c['account_id']);
 
-                if (is_array($company)) {
-                    $adminDetails = (new Contact)->getAdminByAccountId($company['Id']);
-                    $opportunity = (new Opportunity)->getNumberOfSubscriber($company['Id']);
+                        if (is_array($company)) {
+                    
+                            $adminDetails = (new Contact)->getAdminByAccountId($company['Id']);
+                            $opportunity = (new Opportunity)->getNumberOfSubscriber($company['Id']);
 
-                    if (is_array($adminDetails)) {
-                        $company['contact'] = $adminDetails;
-                    }
-
-                    if (is_array($opportunity)) {
-                        $company['opportunity'] = $opportunity;
-                    }
-                    $_company = CompanyResource::parseSfCompanyColumnToDbColumn($company);
-                    $result1 = Company::find($c['id'])->update($_company);
-
-                    foreach ($c['users'] as $u) {
-                        if ($u['account_code']) {
-                            $user = (new Contact)->findByAccountID($u['account_code']);
-                            if ($user) {
-                                $_user = UserResource::parseSfContactColumnToDbColumn($user);
-                                $result2 = User::find($u['id'])->update($_user);
+                            if (is_array($adminDetails)) {
+                                $company['contact'] = $adminDetails;
                             }
+
+                            if (is_array($opportunity)) {
+                                $company['opportunity'] = $opportunity;
+                            }
+                            $_company = CompanyResource::parseSfCompanyColumnToDbColumn($company);
+                            $result1 = Company::find($c['id'])->update($_company);
+
+                            foreach ($c['users'] as $u) {
+                                if ($u['account_code']) {
+                                    $user = (new Contact)->findByAccountID($u['account_code']);
+                                    if ($user) {
+                                        $_user = UserResource::parseSfContactColumnToDbColumn($user);
+                                        $result2 = User::find($u['id'])->update($_user);
+                                    }
+                                }
+                            }
+                    
                         }
                     }
+                } catch (\Exception $e) {
+                    Log::error('Error while requesting to sf the account of '.$c['account_id'].' Error: '.$e->getMessage());
                 }
             }
             $this->info('Database successfully sync from salesforce pulled records.');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->info('Error while syncing records.');
-
-            throw $e;
         }
     }
 }

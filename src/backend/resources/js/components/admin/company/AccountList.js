@@ -40,7 +40,8 @@ const AccountList = (props) => {
         companyCode: '',
         foundCompany: null,
         isLoading: false,
-        orderAsc: false
+        orderAsc: false,
+        searchResult: ''
       }
     })
   }
@@ -54,6 +55,10 @@ const AccountList = (props) => {
   }
 
   const searchCompanyCode = (code) => {
+    code = code.trim()
+    if (code === '') {
+      return
+    }
     setState((prevState) => {
       return {
         ...prevState,
@@ -156,7 +161,8 @@ const AccountList = (props) => {
     setState((prevState) => {
       return {
         ...prevState,
-        showPopupMessageDialog: !prevState.showPopupMessageDialog
+        showPopupMessageDialog: !prevState.showPopupMessageDialog,
+        searchResult: ''
       }
     })
   }
@@ -223,8 +229,6 @@ const AccountList = (props) => {
       })
 
       const list = <ul id="page-numbers">{renderPageNumbers}</ul>
-      console.log('list')
-      console.log(list)
       setState((prevState) => {
         return {
           ...prevState,

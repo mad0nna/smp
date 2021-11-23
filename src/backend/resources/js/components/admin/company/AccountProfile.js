@@ -214,6 +214,21 @@ const AccountProfile = (props) => {
           })
         }
       })
+      .catch((error) => {
+        if (error.response.status == 500) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              dialogMessage:
+                'データの保存に失敗しました。\n メールがまだ使用されていないことを確認してください。 または、会社のアカウントがすでに追加されている可能性があります。',
+              showPopupAddAccountToken: false,
+              showPopupMessageDialog: !prevState.showPopupMessageDialog,
+              redirectAfterSuccess: false,
+              isLoading: false
+            }
+          })
+        }
+      })
   }
 
   const closeConfirmDialog = (name) => {
@@ -260,7 +275,10 @@ const AccountProfile = (props) => {
         'Content-Type': 'application/json'
       })
       .then((data) => {
-        if (data.data.success !== undefined && data.data.success === true) {
+        if (
+          data.data.success.status !== undefined &&
+          data.data.success.status === true
+        ) {
           setState((prevState) => {
             return {
               ...prevState,

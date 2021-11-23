@@ -1,15 +1,23 @@
 import React from 'react'
-import imgSupport from './../../img/company/support.png'
 import Ellipsis from './../../img/ellipsis.png'
 
 const DashboardSettings = () => {
   const buttons = [
     {
+      label: 'お支払い方法',
+      onClick: '',
+      font: '3xl:text-lg 2xl:text-md xl:text-sm lg:text-xs md: text-xxs',
+      url: '/company/methodofpayment/',
+      photo: '',
+      newTab: false
+    },
+    {
       label: 'サポート',
       onClick: '',
       font: '3xl:text-lg 2xl:text-md xl:text-sm lg:text-xs md: text-xxs',
       url: 'https://support.ta.kingoftime.jp/hc/ja',
-      photo: imgSupport
+      photo: '',
+      newTab: true
     }
   ]
 
@@ -47,7 +55,11 @@ const DashboardSettings = () => {
                         button.font
                       }
                       onClick={() => {
-                        window.open(button.url, '_blank')
+                        if (button.newTab) {
+                          window.open(button.url, '_blank')
+                        } else {
+                          location.replace(button.url)
+                        }
                       }}
                     >
                       {button.label}

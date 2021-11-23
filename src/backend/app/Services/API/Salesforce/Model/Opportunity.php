@@ -18,7 +18,7 @@ class Opportunity extends Model
     }
 
     public function findByAccountID($accountID, $limit = '', $skip = '') {
-        $opportunity = $this->client->get("/services/data/v34.0/query/?q=SELECT+Field133__c,Field141__c,ApplicationDay__c,KoT_startBillingMonth__c,KoT_shiharaihouhou__c,KoT_hanbaikeiro__c,AccountId+from+Opportunity+WHERE+AccountId='" . $accountID . "'+And+(StageName='成立'+or+StageName='展開中')+LIMIT+" . $limit . '+offset+' . $skip);
+        $opportunity = $this->client->get("/services/data/v34.0/query/?q=SELECT+Field133__c,Field141__c,KoT_regardingusercount__c,ApplicationDay__c,KoT_startBillingMonth__c,KoT_shiharaihouhou__c,KoT_hanbaikeiro__c,AccountId+from+Opportunity+WHERE+AccountId='" . $accountID . "'+LIMIT+" . $limit . '+offset+' . $skip);
         if (isset($opportunity['status']) && !$opportunity['status']) {
             return $opportunity;
         }
@@ -26,7 +26,7 @@ class Opportunity extends Model
     }
     
     public function getNumberOfSubscriber($accountId) {
-        $subscriberData = $this->client->get("/services/data/v34.0/query/?q=SELECT+Field133__c,Field141__c,KoT_regardingusercount__c,ApplicationDay__c,KoT_startBillingMonth__c, KoT_shiharaihouhou__c,KoT_hanbaikeiro__c,AccountId+from+Opportunity+WHERE+AccountId='" . $accountId . "'+And+TYPE='KOT - ASP'+order by+CloseDate+desc+LIMIT+1");
+        $subscriberData = $this->client->get("/services/data/v34.0/query/?q=SELECT+Id,ID__c, Name,Type, RecordTypeId, Amount, Field141__c, ApplicationDay__c, KoT_startBillingMonth__c, StageName, Zen__c, KoT_shiharaihouhou__c,KoT_regardingusercount__c,KoT_hanbaikeiro__c,CreatedDate, AccountId+from+Opportunity+WHERE+AccountId='".$accountId."'+And+Field141__c='KING OF TIME 勤怠管理'+order by+CloseDate+desc+LIMIT+1");
         if (isset($subscriberData['status']) && !$subscriberData['status']) {
             return $subscriberData;
         }

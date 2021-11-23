@@ -48,6 +48,12 @@ class Company extends Model
             'BillingCountry' => $this->billing_country,
             'Id' => $this->company_code,
             'Zendeskaccount__c' => $this->zen_org_name,
+            'PaymentMethod__c' => $this->payment_method,
+            'card_brand' => $this->card_brand,
+            'last_four_digit' => $this->last_four_digit,
+            'expmm' => $this->expmm,
+            'expyr' => $this->expyr,
+
         ];
     }
 }

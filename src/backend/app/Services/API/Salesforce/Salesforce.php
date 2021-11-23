@@ -7,6 +7,7 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use App\Services\API\Zuora\Exceptions\UnauthorizedAccessException;
+use Illuminate\Support\Facades\Log;
 
 class Salesforce
 {
@@ -87,7 +88,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 
@@ -135,7 +136,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 
@@ -184,7 +185,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 
@@ -233,7 +234,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 
@@ -275,7 +276,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 
@@ -317,7 +318,7 @@ class Salesforce
             }
 
             // Other Exceptions aside from Authentication
-            throw new Exception($response['message']);
+            throw new Exception($response[0]['message']);
         }
     }
 }

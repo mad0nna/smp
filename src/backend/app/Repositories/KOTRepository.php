@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Log;
 
 class KOTRepository {
 
@@ -28,6 +29,7 @@ class KOTRepository {
       return $qty;
 
     } catch(ClientException $reqExcep) {
+      Log::error('Cannot connect to KOT service');
       return false;
     }
   }
