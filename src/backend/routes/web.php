@@ -18,8 +18,10 @@ Route::group(['middleware' => 'zuora.api'], function () {
 });
 
 Route::get('/', 'Auth\LoginController@login')->name('login');
-Route::post('/', 'Auth\LoginController@authenticate')->name('auth');
-Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/login', 'Auth\LoginController@login')->name('login');
+Route::post('/login', 'Auth\LoginController@authenticate')->name('auth');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('getCompanyDetails', 'CompanyController@getCompanyDetails');
@@ -62,6 +64,9 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::get('/getUsage', 'BillingController@getAccountUsageData');
     Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
     Route::view('/methodofpayment', 'methodOfPayment');
+
+    Route::post('/upload_new_product_inventory_csv', 'ShoppingController@upload_new_product_inventory_csv');
+    Route::post('/upload_update_stock_inventory_csv', 'ShoppingController@upload_update_stock_inventory_csv');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {

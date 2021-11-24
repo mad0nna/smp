@@ -1,0 +1,59 @@
+.app-menu {
+    background: white;
+}
+
+p.upload-csv {
+  position: relative;
+  overflow: hidden;
+}
+p.upload-csv input {
+  position: absolute;
+  font-size: 50px;
+  opacity: 0;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+.bg-dashboard-icon {
+  background-image: url('/images/dashboard-normal.png');
+}
+
+.bg-dashboard-icon-hover {
+  background-image: url('/images/dashboard-hover.png');
+}
+
+.bg-account-list-icon {
+  background-image: url('/images/AccountList-normal.png');
+}
+
+.bg-account-list-icon-hover {
+  background-image: url('/images/AccountList-hover.png');
+}
+
+
+.bg-document-icon {
+background-image: url('/images/document-normal.png');
+}
+
+.bg-document-icon-hover {
+background-image: url('/images/document-hover.png');
+}
+
+.bg-billing-icon {
+  background-image: url('/images/billing-normal.png');
+}
+
+.bg-billing-icon-hover {
+  background-image: url('/images/billing-hover.png');
+}
+
+.btn-theme {
+  background-color: #1D9E48;
+}
+
+.btn-theme:hover {
+  background-color: #198754;
+}
+
+ 
