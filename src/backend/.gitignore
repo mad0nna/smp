@@ -3,6 +3,8 @@
 /public/storage
 /storage/*.key
 /vendor
+/ext/ai-client-html
+/ext/ai-controller-jobs
 .env
 .env.backup
 .phpunit.result.cache
