@@ -150,4 +150,8 @@ class ShoppingController extends Controller
                 ]);
         }
     }
+
+    public function productDetail() {
+        return view('companyProductDetail');
+    }
 }
