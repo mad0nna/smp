@@ -30,7 +30,7 @@ const NotificationPage = () => {
                   : zendeskNotifs[i].title,
               link:
                 zendeskNotifs[i].notification_type === 'payment'
-                  ? './company/methodofpayment/'
+                  ? '/company/methodofpayment/'
                   : zendeskNotifs[i].html_url,
               newTab: true,
               status: zendeskNotifs[i].seen ? '既読' : '未読',
