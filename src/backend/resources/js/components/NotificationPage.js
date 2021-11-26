@@ -24,7 +24,7 @@ const NotificationPage = () => {
             notifs.push({
               header: 'お知らせ',
               type: zendeskNotifs[i].notification_type,
-              zendeskNotifs:
+              message:
                 zendeskNotifs[i].notification_type === 'payment'
                   ? zendeskNotifs[i].message
                   : zendeskNotifs[i].title,
