@@ -16,7 +16,6 @@ const NotificationPage = () => {
       .then((response) => response.json())
       .then((data) => {
         let zendeskNotifs = data
-        console.log(zendeskNotifs)
         let notifs = []
         let maxId = Math.ceil(state.currentPage * 10)
         let minId = maxId - 10
@@ -25,7 +24,7 @@ const NotificationPage = () => {
             notifs.push({
               header: 'お知らせ',
               type: zendeskNotifs[i].notification_type,
-              message:
+              zendeskNotifs:
                 zendeskNotifs[i].notification_type === 'payment'
                   ? zendeskNotifs[i].message
                   : zendeskNotifs[i].title,
@@ -189,11 +188,11 @@ const NotificationPage = () => {
                         key={index}
                         onClick={(e) => {
                           e.preventDefault()
-                          item.type === 'zendesk'
+                          item.type === 'article'
                             ? seenNotif(
                                 index,
                                 item.id,
-                                'zendesk',
+                                'article',
                                 item.link,
                                 item.newTab
                               )
@@ -202,7 +201,7 @@ const NotificationPage = () => {
                       >
                         <td className="w-2">{item.header}</td>
                         <td className="w-8">{item.message}</td>
-                        <td className="w-2">{item.category_name}</td>
+                        <td className="w-2">{item.type}</td>
                       </tr>
                     )
                   }
