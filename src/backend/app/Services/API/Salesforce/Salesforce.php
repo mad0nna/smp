@@ -216,6 +216,7 @@ class Salesforce
                 'status' => false
             ];
         } catch (ClientException $e) {
+            Log::info('test2', ['test4' => $e]);
             $code = $e->getResponse()->getStatusCode();
             $response = json_decode($e->getResponse()->getBody()->getContents(), true);
             if (in_array($code, [400, 401])) {
