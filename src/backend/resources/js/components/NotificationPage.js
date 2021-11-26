@@ -30,7 +30,7 @@ const NotificationPage = () => {
                   : zendeskNotifs[i].title,
               link:
                 zendeskNotifs[i].notification_type === 'payment'
-                  ? '/company/methodofpayment/'
+                  ? './company/methodofpayment/'
                   : zendeskNotifs[i].html_url,
               newTab: true,
               status: zendeskNotifs[i].seen ? '既読' : '未読',
@@ -188,15 +188,13 @@ const NotificationPage = () => {
                         key={index}
                         onClick={(e) => {
                           e.preventDefault()
-                          item.type === 'article'
-                            ? seenNotif(
-                                index,
-                                item.id,
-                                'article',
-                                item.link,
-                                item.newTab
-                              )
-                            : ''
+                          seenNotif(
+                            index,
+                            item.id,
+                            item.notification_type,
+                            item.link,
+                            item.newTab
+                          )
                         }}
                       >
                         <td className="w-2">{item.header}</td>
