@@ -13,12 +13,12 @@ body {
 	--bs-line: #BBBBBB;
 	--bs-line-light: #DEE2E6;
 	--bs-menu: #FFFFFF;
-	--bs-menu-bg: #30A0E0;
+	--bs-menu-bg: #1D9E48;
 	--bs-menu-alt: #707880;
-	--bs-menu-alt-bg: #00B0A0;
-	--bs-primary: #30A0E0;
-	--bs-primary-dark: #2093D5;
-	--bs-primary-light: #5BB3E6;
+	--bs-menu-alt-bg: #c5e7c8;
+	--bs-primary: #1D9E48;
+	--bs-primary-dark: #177737;
+	--bs-primary-light: #26c95c;
 	--bs-primary-alt: #00B0A0;
 	--bs-primary-alt-dark: #00998C;
 	--bs-primary-alt-light: #00CCBB;

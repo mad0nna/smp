@@ -510,7 +510,11 @@ $delConfig = $this->config( 'admin/jqadm/url/delete/config', [] );
  * @category Developer
  */
 $default = $this->config( 'admin/jqadm/product/fields', ['image', 'product.id', 'product.status', 'product.type', 'product.code', 'product.label'] );
-$fields = $this->session( 'aimeos/admin/jqadm/product/fields', $default );
+
+// Change order of columns to match current design
+$customForDx = $this->config( 'admin/jqadm/product/fields', ['image', 'product.code', 'product.label', 'product.instock', 'product.price', 'product.status', 'product.action'] );
+// Changed to $customForDx instead of $default
+$fields = $this->session( 'aimeos/admin/jqadm/product/fields', $customForDx );
 
 $searchParams = $params = $this->get( 'pageParams', [] );
 $searchParams['page']['start'] = 0;
@@ -545,6 +549,11 @@ $columnList = [
 	'product.editor' => $this->translate( 'admin', 'Editor' ),
 	'product.rating' => $this->translate( 'admin', 'Rating' ),
 	'product.ratings' => $this->translate( 'admin', 'Total ratings' ),
+	// Custom added for DX
+	'product.instock' => "Stock",
+	'product.price' =>  "Price",
+	'product.action' => "Action",
+	// End
 ];
 
 
@@ -560,19 +569,6 @@ $columnList = [
 	data-siteid="<?= $enc->attr( $this->site()->siteid() ) ?>"
 	data-filter="<?= $enc->attr( $this->session( 'aimeos/admin/jqadm/product/filter', new \stdClass ) ) ?>"
 	data-items="<?= $enc->attr( $this->get( 'items', map() )->call( 'toArray', [true] )->all() ) ?>">
-
-	<nav class="main-navbar">
-
-		<span class="navbar-brand">
-			<?= $enc->html( $this->translate( 'admin', 'Product' ) ) ?>
-			<span class="navbar-secondary">(<?= $enc->html( $this->site()->label() ) ?>)</span>
-		</span>
-
-		<div class="btn fa act-search" v-on:click="search = true"
-			title="<?= $enc->attr( $this->translate( 'admin', 'Show search form' ) ) ?>"
-			aria-label="<?= $enc->attr( $this->translate( 'admin', 'Show search form' ) ) ?>">
-		</div>
-	</nav>
 
 	<?  if (session()->has('aimeos/admin/jqadm/product/notification-message')) {?>
 		<nav class="main-navbar">
@@ -601,7 +597,7 @@ $columnList = [
 	<div class="d-flex row justify-content-end">
 		<div class="p2"  >
 			<form id="form_upload_new_product" method="POST" action="/company/upload_new_product_inventory_csv" enctype="multipart/form-data">
-				<?= $this->csrf()->formfield() ?> 
+				<?= $this->csrf()->formfield() ?>
 				<p class="file btn btn-lg btn-theme text-white upload-csv float-end">
 					Upload New Products
 					<input id="input_upload_new_product" type="file" name="file" accept=".csv"   />
@@ -627,99 +623,45 @@ $columnList = [
 
 		<?= $this->csrf()->formfield() ?>
 
-		<column-select tabindex="<?= $this->get( 'tabindex', 1 ) ?>"
-			name="<?= $enc->attr( $this->formparam( ['fields', ''] ) ) ?>"
-			v-bind:titles="<?= $enc->attr( $columnList ) ?>"
-			v-bind:fields="<?= $enc->attr( $fields ) ?>"
-			v-bind:show="columns"
-			v-on:close="columns = false">
-		</column-select>
+		<ul class="nav nav-pills nav-justified product">
+			<li class="nav-item">
+				<a class="nav-link active" aria-current="page" href="#">All</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Active</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Draft</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Archived</a>
+			</li>
+		</ul>
+
+		<div class="linebreak"></div>
 
 		<div class="table-responsive">
-			<table class="list-items table table-hover table-striped">
+			<table class="list-items table table-hover">
 				<thead class="list-header">
 					<tr>
-						<th class="select">
-							<a href="#" class="btn act-delete fa" tabindex="1"
-								v-on:click.prevent.stop="askDelete()"
-								title="<?= $enc->attr( $this->translate( 'admin', 'Delete selected entries' ) ) ?>"
-								aria-label="<?= $enc->attr( $this->translate( 'admin', 'Delete' ) ) ?>">
-							</a>
-						</th>
-
-						<?= $this->partial(
-								$this->config( 'admin/jqadm/partial/listhead', 'common/partials/listhead-standard' ),
-								['fields' => $fields, 'params' => $params, 'data' => $columnList,
-								'sort' => $this->session( 'aimeos/admin/jqadm/product/sort', 'product.id' )]
-							);
-						?>
-
-						<th class="actions">
-							<a class="btn fa act-add" tabindex="1"
-								href="<?= $enc->attr( $this->url( $newTarget, $newCntl, $newAction, $params, [], $newConfig ) ) ?>"
-								title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)' ) ) ?>"
-								aria-label="<?= $enc->attr( $this->translate( 'admin', 'Add' ) ) ?>">
-							</a>
-
-							<a class="btn act-columns fa" href="#" tabindex="<?= $this->get( 'tabindex', 1 ) ?>"
-								title="<?= $enc->attr( $this->translate( 'admin', 'Columns' ) ) ?>"
-								v-on:click.prevent.stop="columns = true">
-							</a>
-						</th>
+						<th class="product-table-column"></th>
+						<th class="product-table-column">Product Number</th>
+						<th class="product-table-column">Product Name</th>
+						<th class="product-table-column">Stock</th>
+						<th class="product-table-column">Selling Price</th>
+						<th class="product-table-column">Sales Status</th>
+						<th class="product-table-column">Action</th>
 					</tr>
 				</thead>
 				<tbody>
-
-					<?= $this->partial(
-						$this->config( 'admin/jqadm/partial/listsearch', 'common/partials/listsearch-standard' ), [
-							'fields' => array_merge( $fields, ['select'] ), 'filter' => $this->session( 'aimeos/admin/jqadm/product/filter', [] ),
-							'data' => [
-								'image' => null,
-								'product.id' => ['op' => '=='],
-								'product.status' => ['op' => '==', 'type' => 'select', 'val' => [
-									'1' => $this->translate( 'mshop/code', 'status:1' ),
-									'0' => $this->translate( 'mshop/code', 'status:0' ),
-									'-1' => $this->translate( 'mshop/code', 'status:-1' ),
-									'-2' => $this->translate( 'mshop/code', 'status:-2' ),
-								]],
-								'product.type' => ['op' => '==', 'type' => 'select', 'val' => $typeList],
-								'product.code' => [],
-								'product.label' => [],
-								'product.datestart' => ['op' => '-', 'type' => 'datetime-local'],
-								'product.dateend' => ['op' => '-', 'type' => 'datetime-local'],
-								'product.dataset' => ['op' => '=~'],
-								'product.url' => ['op' => '=~'],
-								'product.scale' => [],
-								'product.target' => ['op' => '=~'],
-								'product.config' => ['op' => '~='],
-								'product.ctime' => ['op' => '-', 'type' => 'datetime-local'],
-								'product.mtime' => ['op' => '-', 'type' => 'datetime-local'],
-								'product.editor' => [],
-								'product.rating' => [],
-								'product.ratings' => [],
-							]
-						] );
-					?>
-
 					<?php foreach( $this->get( 'items', [] ) as $id => $item ) : ?>
 						<?php $url = $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['id' => $id] + $params, [], $getConfig ) ) ?>
 						<tr class="list-item <?= $this->site()->readonly( $item->getSiteId() ) ?>" data-label="<?= $enc->attr( $item->getLabel() ) ?>">
-							<td class="select">
-								<input class="form-check-input" type="checkbox" tabindex="1"
-									name="<?= $enc->attr( $this->formparam( ['id', ''] ) ) ?>"
-									value="<?= $enc->attr( $item->getId() ) ?>"
-									v-on:click="toggle(`<?= $enc->js( $id ) ?>`)"
-									v-bind:checked="checked(`<?= $enc->js( $id ) ?>`)"
-									v-bind:disabled="readonly(`<?= $enc->js( $id ) ?>`)" />
-							</td>
 							<?php if( in_array( 'image', $fields ) ) : $mediaItem = $item->getRefItems( 'media', 'default', 'default' )->first() ?>
 								<td class="image"><a class="items-field" href="<?= $url ?>" tabindex="1"><img class="image" src="<?= $mediaItem ? $enc->attr( $this->content( $mediaItem->getPreview() ) ) : '' ?>" /></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'product.id', $fields ) ) : ?>
 								<td class="product-id"><a class="items-field" href="<?= $url ?>" tabindex="1"><?= $enc->html( $item->getId() ) ?></a></td>
-							<?php endif ?>
-							<?php if( in_array( 'product.status', $fields ) ) : ?>
-								<td class="product-status"><a class="items-field" href="<?= $url ?>"><div class="fa status-<?= $enc->attr( $item->getStatus() ) ?>"></div></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'product.type', $fields ) ) : ?>
 								<td class="product-type"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getType() ) ?></a></td>
@@ -775,17 +717,28 @@ $columnList = [
 								<td class="product-ratings"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getRatings() ) ?></a></td>
 							<?php endif ?>
 
+							<!-- Custom added columns for idaten for DX -->
+							<?php if( in_array( 'product.instock', $fields ) ) : ?>
+								<!-- temporary static data -->
+								<td class="product-ratings"><a class="items-field" href="<?= $url ?>"> 100 </a></td>
+							<?php endif ?>
+							<?php if( in_array( 'product.price', $fields ) ) : ?>
+								<!-- temporary static data -->
+								<td class="product-ratings"><a class="items-field" href="<?= $url ?>"> 100,000 <i class="fa fa-jpy" aria-hidden="true"></i></a></td>
+							<?php endif ?>
+							<!-- End -->
+
+							<?php if( in_array( 'product.status', $fields ) ) : ?>
+								<td class="product-status"><a class="items-field" href="<?= $url ?>"><div class="fa status-<?= $enc->attr( $item->getStatus() ) ?>"></div></a></td>
+							<?php endif ?>
+
 							<td class="actions">
-								<a class="btn act-copy fa" tabindex="1"
-									href="<?= $enc->attr( $this->url( $copyTarget, $copyCntl, $copyAction, ['id' => $id] + $params, [], $copyConfig ) ) ?>"
-									title="<?= $enc->attr( $this->translate( 'admin', 'Copy this entry' ) ) ?>"
-									aria-label="<?= $enc->attr( $this->translate( 'admin', 'Copy' ) ) ?>">
-								</a>
 								<?php if( !$this->site()->readonly( $item->getSiteId() ) ) : ?>
-									<a class="btn act-delete fa" tabindex="1" href="#"
+									<a tabindex="1" href="#"
 										v-on:click.prevent.stop="askDelete(`<?= $enc->js( $id ) ?>`)"
 										title="<?= $enc->attr( $this->translate( 'admin', 'Delete this entry' ) ) ?>"
-										aria-label="<?= $enc->attr( $this->translate( 'admin', 'Delete' ) ) ?>">
+										aria-label="Delete">
+										Delete
 									</a>
 								<?php endif ?>
 							</td>

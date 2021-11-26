@@ -114,3 +114,5 @@ Route::group(['prefix' => 'payment'], function() {
     Route::post('setMethodBankTransfer', 'PaymentController@changeMethodToBank');
     Route::post('getPaymentMethod', 'PaymentController@getPaymentMethodDetails');
 });
+
+// test push branch, delete after
