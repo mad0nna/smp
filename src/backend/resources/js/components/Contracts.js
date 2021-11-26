@@ -163,7 +163,7 @@ const Contracts = () => {
         </div>
       </div>
       <div className="w-full align-top grid grid-cols-1 justify-center gap-6">
-        <div className="h-40">
+        <div className="h-44">
           <Settings />
         </div>
       </div>

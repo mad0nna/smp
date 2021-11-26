@@ -1,74 +1,63 @@
 import React, { useEffect, useState } from 'react'
 import Ellipsis from '../../img/ellipsis.png'
 import spinner from '../../img/spinner.gif'
-
+import axios from 'axios'
 const Notification = (props) => {
   let iconTypes = {
-    invoice: 'bg-notification-invoice',
+    payment: 'bg-notification-invoice',
     contract: 'bg-notification-active',
-    zendesk: 'bg-notification-normal'
+    article: 'bg-notification-normal'
   }
   let notifWithLink = ['請求', 'お知らせ']
   const [state, setState] = useState({
     loading: true,
     GeneralNotifs: [],
-    notificationItems: [
-      {
-        header: '請求',
-        type: 'invoice',
-        message: '5月度の請求書があります。',
-        link: '#',
-        newTab: false,
-        status: '未読'
-      },
-      {
-        header: '契約リマインダー ',
-        type: 'contract',
-        icon: '',
-        message: 'KOT - セキュアログインが30日後に失効します*',
-        link: '#',
-        newTab: false,
-        status: '未読'
-      },
-      {
-        header: 'お知らせ',
-        type: 'zendesk',
-        message: 'H&T 新規サービス',
-        link: '#',
-        newTab: false,
-        status: '既読'
-      }
-    ]
+    notificationItems: []
   })
 
   useEffect(() => {
-    fetch('/company/getNotification', {
-      method: 'get',
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        let zendeskNotifs = data.zendesk
-        let notifs = []
-        for (let i = 0; i < zendeskNotifs.length; i++) {
-          if (i > 8) {
-            continue
-          }
+    axios.get(`/company/getNotification`).then((data) => {
+      let notifs = []
+      let response = data.data
+      for (let i = 0; i < Object.keys(response).length; i++) {
+        if (i > 8) {
+          continue
+        }
+        if (response[i].notification_type === 'payment') {
           notifs.push({
             header: 'お知らせ',
-            type: 'zendesk',
-            message: zendeskNotifs[i].title,
-            link: zendeskNotifs[i].html_url,
+            type: response[i].notification_type,
+            message:
+              response[i].notification_type === 'payment'
+                ? response[i].message
+                : response[i].title,
+            link:
+              response[i].notification_type === 'payment'
+                ? '/company/methodofpayment/'
+                : response[i].html_url,
             newTab: true,
-            status: zendeskNotifs[i].seen ? '既読' : '未読',
-            id: zendeskNotifs[i].id
+            status: response[i].seen ? '既読' : '未読',
+            notif_id: response[i].notif_id
           })
         }
-        setState({ loading: false, notificationItems: notifs })
-      })
+        if (response[i].notification_type === 'article') {
+          notifs.push({
+            header: 'お知らせ',
+            type: response[i].notification_type,
+            message: response[i].title,
+            link: response[i].html_url,
+            newTab: true,
+            status: response[i].seen ? '既読' : '未読',
+            id: response[i].id
+          })
+        }
+      }
+      setState({ loading: false, notificationItems: notifs })
+    })
   }, [])
 
-  const seenNotif = (stateIndex, id, type, link, newTab = true) => {
+  const seenNotif = (stateIndex, id, type, link) => {
+    console.log(id)
     fetch('/company/seenNotification', {
       method: 'post',
       headers: {
@@ -86,10 +75,8 @@ const Notification = (props) => {
           notificationItems: notificationItems
         })
       })
-    if (newTab) {
-      window.open(link, '_blank')
-      window.focus()
-    }
+    window.open(link, '_blank')
+    window.focus()
   }
 
   let py = ''
@@ -157,15 +144,14 @@ const Notification = (props) => {
                     <a
                       onClick={(e) => {
                         e.preventDefault()
-                        item.type === 'zendesk'
-                          ? seenNotif(
+                        item.type === 'article'
+                          ? seenNotif(index, item.id, 'article', item.link)
+                          : seenNotif(
                               index,
-                              item.id,
-                              'zendesk',
-                              item.link,
-                              item.newTab
+                              item.notif_id,
+                              'payment',
+                              item.link
                             )
-                          : ''
                       }}
                       rel="noreferrer"
                       className="cursor-pointer"

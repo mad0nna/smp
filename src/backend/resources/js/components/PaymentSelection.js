@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 const PaymentSelection = (props) => {
   const [state, setState] = useState({
@@ -6,6 +6,15 @@ const PaymentSelection = (props) => {
     processed: false,
     message: ''
   })
+
+  useEffect(() => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        method: props.method
+      }
+    })
+  }, [props])
 
   const openZeusFormChangeMethod = () => {
     window.open('/payment/setMethodCreditCard/', '_blank').focus()
@@ -23,7 +32,7 @@ const PaymentSelection = (props) => {
       return {
         ...prevState,
         processed: true,
-        message: 'Changing the payment method to bank tranfer...'
+        message: 'お支払い方法を銀行振込に変更する'
       }
     })
 
@@ -37,7 +46,7 @@ const PaymentSelection = (props) => {
             setState((prevState) => {
               return {
                 ...prevState,
-                message: 'The payment method changed to bank transfer.'
+                message: 'お支払い方法を銀行振込に変更いたしました'
               }
             })
             setTimeout(() => {

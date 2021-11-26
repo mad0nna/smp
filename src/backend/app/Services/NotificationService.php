@@ -16,54 +16,47 @@ class NotificationService
 
     public function seenNotification($accountID, $notifDetail)
     {
-        if ($notifDetail['type'] === 'zendesk') {
-            return $this->database->seenZendeskNotif($accountID, $notifDetail['id'], $this->dateManager->getDateAndTime());
-        }
-    }
-
-    // As of now, there is no other type of notification aside from Zendesk
-    public function getAllNotification($accountID)
-    {
-        $allNotif = [
-            'zendesk' => $this->getFromZendesk($accountID),
-        ];
-
-        return $allNotif;
+        return $this->database->seenNotif($accountID, $notifDetail['id'], $notifDetail['type'],  $this->dateManager->getDateAndTime());
     }
 
 
-    public function getFromZendesk($accountID)
+    public function getAllNotification($contactID)
     {
         $currentYear = $this->dateManager->getCurrentYear();
-        $articles = Cache::remember("{$accountID}:notifications", now()->addHours(3), function () use ($currentYear) {
+        $articles = Cache::remember("{$contactID}:notifications", now()->addHours(3), function () use ($currentYear) {
             return (new Article)->all($currentYear);
         });
-        $seenNotif = $this->database->getZendeskSeenNotif($accountID);
-        $articles = $this->addCategoryName($articles);
-        if (!empty($seenNotif)) {
-            $articlesWithSeenKey = $this->markAll($articles, false);
-            $articleWithMixStatus = $this->addNotifStatus($articlesWithSeenKey, $seenNotif);
-            usort($articleWithMixStatus, function ($article1, $article2) {
-                if ($article1['seen'] == $article2['seen']) {
-                    return 0;
-                }
 
-                return ($article1['seen'] < $article2['seen']) ? -1 : 1;
-            });
-
-            return $articleWithMixStatus;
-        }
-
-        return $this->markAll($articles, false);
+        $articles = $this->addArticleCategoryName($articles);
+        $articles = $this->updateArticleDates($articles);
+        $notifications = $this->database->getNotificationsByContactID($contactID);
+        $notifications = array_merge($articles, $notifications);
+        $notifWithSeenKey = $this->markAll($notifications, false);
+        $notifWithMixStatus = $this->updateNotificationStatus($notifWithSeenKey);
+        usort($notifWithMixStatus, function ($notif1, $notif2) {
+            if ($notif1['seen'] === true && $notif2['seen'] === false) {
+                return 1;
+            }
+        });
+        return $notifWithMixStatus;
     }
 
-    private function addCategoryName($articles)
+    private function updateArticleDates($articles) {
+        foreach($articles as $key => $value) {
+            $articles[$key]['updated_at'] = $this->reFormatDate($value['updated_at'], true);
+            $articles[$key]['created_at'] = $this->reFormatDate($value['created_at'], true);
+        }
+        return $articles;
+    }
+
+    private function addArticleCategoryName($articles)
     {
         $categories = config('zendesk.categories');
         foreach ($articles as $key => $value) {
             foreach ($categories as $catKey => $catValues) {
                 if ($catValues['section'] === $value['section_id']) {
                     $articles[$key]['category_name'] = $catValues['name'];
+                    $articles[$key]["notification_type"] = 'article';
                 }
             }
         }
@@ -94,18 +87,28 @@ class NotificationService
         return $reformated;
     }
 
-    private function addNotifStatus($notifications, $seenNotif)
+    private function updateNotificationStatus($notifications)
     {
         foreach ($notifications as $notifKey => $notifValue) {
-            foreach ($seenNotif as $seenKey => $seenValue) {
-                $formattedUpdatedDate = $this->reFormatDate($notifValue['updated_at']);
-                if ((int) $seenValue['article_id'] === (int) $notifValue['id']) {
-                    if ($this->dateManager->compareDate($seenValue['article_seen_timestamp'], $formattedUpdatedDate) < 0) {
-                        $notifications[$notifKey]['seen'] = true;
+            // 
+
+            if ($notifValue['notification_type'] === 'article') {
+                foreach($notifications as $index => $item) {
+                    if ($index === $notifKey) {
+                        continue;
+                    }
+                    if (isset($item['result_type']) && isset($notifications[$notifKey]['article_id'])) {
+
+                        if ($item['id'] == $notifications[$notifKey]['article_id']) {
+                            $notifications[$index]['seen'] = true;
+                            unset($notifications[$notifKey]);
+                        }
+                        // break;
                     }
                 }
-                $notifications[$notifKey]['updated_at'] = $this->reFormatDate($formattedUpdatedDate, true);
-                $notifications[$notifKey]['created_at'] = $this->reFormatDate($notifValue['created_at'], true);
+            }
+            if ($notifValue['notification_type'] === 'payment') {
+                $notifications[$notifKey]['seen'] = !empty($notifValue['notification_seen_timestamp']) ? true : false;
             }
         }
 
