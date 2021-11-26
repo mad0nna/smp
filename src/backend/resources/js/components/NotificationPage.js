@@ -15,24 +15,40 @@ const NotificationPage = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        let zendeskNotifs = data.zendesk
+        let zendeskNotifs = data
+        console.log(zendeskNotifs)
         let notifs = []
         let maxId = Math.ceil(state.currentPage * 10)
         let minId = maxId - 10
         for (let i = 0; i < zendeskNotifs.length; i++) {
-          notifs.push({
-            header: 'お知らせ',
-            type: 'zendesk',
-            message: zendeskNotifs[i].title,
-            link: zendeskNotifs[i].html_url,
-            newTab: true,
-            status: zendeskNotifs[i].seen ? '既読' : '未読',
-            id: zendeskNotifs[i].id,
-            category_name:
-              zendeskNotifs[i].category_name !== undefined
-                ? zendeskNotifs[i].category_name
-                : ''
-          })
+          if (zendeskNotifs[i].notification_type === 'payment') {
+            notifs.push({
+              header: 'お知らせ',
+              type: zendeskNotifs[i].notification_type,
+              message:
+                zendeskNotifs[i].notification_type === 'payment'
+                  ? zendeskNotifs[i].message
+                  : zendeskNotifs[i].title,
+              link:
+                zendeskNotifs[i].notification_type === 'payment'
+                  ? '/company/methodofpayment/'
+                  : zendeskNotifs[i].html_url,
+              newTab: true,
+              status: zendeskNotifs[i].seen ? '既読' : '未読',
+              notif_id: zendeskNotifs[i].notif_id
+            })
+          }
+          if (zendeskNotifs[i].notification_type === 'article') {
+            notifs.push({
+              header: 'お知らせ',
+              type: zendeskNotifs[i].notification_type,
+              message: zendeskNotifs[i].title,
+              link: zendeskNotifs[i].html_url,
+              newTab: true,
+              status: zendeskNotifs[i].seen ? '既読' : '未読',
+              id: zendeskNotifs[i].id
+            })
+          }
         }
         setState((prevState) => {
           return {
