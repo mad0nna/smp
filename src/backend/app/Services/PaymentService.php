@@ -4,7 +4,6 @@ namespace App\Services;
 use App\Models\Company;
 use App\Models\Opportunity;
 use App\Repositories\DatabaseRepository;
-use App\Services\API\Salesforce\Model\Account;
 use App\Services\API\Salesforce\Model\Opportunity as ModelOpportunity;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -43,7 +42,6 @@ class PaymentService {
             $opportunity = Opportunity::where('company_id', $companyInfo[0]['id'])->get()->toArray();
             Cache::forget($salesforceCompanyID.":company:details");
             if ((new ModelOpportunity)->update($opportunity[0]['opportunity_code'], ['KoT_shiharaihouhou__c' => $this->method['credit_card']])) {
-                (new Account)->update(['KotCompanyCode__c' => $companyInfo[0]['company_code']], $companyInfo[0]['account_id']);
                 return ['status' => true];
             }
         return ['status' => false];
@@ -64,7 +62,6 @@ class PaymentService {
             $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
             Cache::forget($salesforceCompanyID.":company:details");
             if ((new ModelOpportunity)->update($opportunity[0]['opportunity_code'], ['KoT_shiharaihouhou__c' => $this->method['bank_transfer']])) {
-                (new Account)->update(['KotCompanyCode__c' => $companyInfo[0]['company_code']], $companyInfo[0]['account_id']);
                 return ['status' => true];
             }
         }
