@@ -23,15 +23,9 @@ const NotificationPage = () => {
           if (zendeskNotifs[i].notification_type === 'payment') {
             notifs.push({
               header: 'お知らせ',
-              type: zendeskNotifs[i].notification_type,
-              message:
-                zendeskNotifs[i].notification_type === 'payment'
-                  ? zendeskNotifs[i].message
-                  : zendeskNotifs[i].title,
-              link:
-                zendeskNotifs[i].notification_type === 'payment'
-                  ? '/company/methodofpayment/'
-                  : zendeskNotifs[i].html_url,
+              type: 'お支払い',
+              message: zendeskNotifs[i].message,
+              link: '/company/methodofpayment/',
               newTab: true,
               status: zendeskNotifs[i].seen ? '既読' : '未読',
               notif_id: zendeskNotifs[i].notif_id
@@ -40,7 +34,7 @@ const NotificationPage = () => {
           if (zendeskNotifs[i].notification_type === 'article') {
             notifs.push({
               header: 'お知らせ',
-              type: zendeskNotifs[i].notification_type,
+              type: '記事',
               message: zendeskNotifs[i].title,
               link: zendeskNotifs[i].html_url,
               newTab: true,
