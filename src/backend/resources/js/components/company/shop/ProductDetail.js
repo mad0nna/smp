@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 
-const ProductDetail = (props) => {
+const ProductDetail = () => {
   const location = useLocation()
   const history = useHistory()
 
