@@ -60,7 +60,7 @@ const ProductDetail = (props) => {
     })
   }
 
-  const handleChangeOrder = (n) => {
+  const handleOrderChange = (n) => {
     let count = n - 1 <= 0 ? 1 : n - 1
     // disable if stock is reach to limit
     if (state.stock - 1 <= 0 && count >= productDetail.defaultStock) {
@@ -84,7 +84,7 @@ const ProductDetail = (props) => {
     }
   }
 
-  const handBackRefresh = () => {
+  const handleProductListPage = () => {
     history.replace('/company/shop')
   }
 
@@ -126,7 +126,7 @@ const ProductDetail = (props) => {
               className="w-14 shadow-lg rounded tex-red-500 border px-1"
               value={state.orderNum}
               onChange={(e) => {
-                handleChangeOrder(e.target.value)
+                handleOrderChange(e.target.value)
               }}
             />
             <svg
@@ -216,7 +216,7 @@ const ProductDetail = (props) => {
                   <div className="space-x-5 w-full flex flex-row">
                     <button
                       className="bg-gray-400 h-14 shadow-xl w-3/5 rounded-3xl text-black font-semibold"
-                      onClick={handBackRefresh}
+                      onClick={handleProductListPage}
                     >
                       キャンセル
                     </button>
