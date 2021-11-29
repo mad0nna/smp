@@ -110,14 +110,13 @@ const ProductList = () => {
 
   const handleSearch = (text) => {
     if (text === '') {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          searchText: ''
-        }
+      setSearchItem({
+        ...searchItem,
+        searchText: ''
       })
     }
     setSearchItem({
+      ...searchItem,
       searchText: text
     })
   }
