@@ -29,8 +29,8 @@ const AccountProfileEdit = () => {
     showPopupMessageDialog: false,
     dialogMessage: '',
     userTypes: [
-      { name: 'Sub Company Admin', value: 4 },
-      { name: 'Company Admin', value: 3 }
+      { name: '副管理者', value: 4 },
+      { name: 'スーパー管理者​', value: 3 }
     ],
     isLoading: false,
     isEditingProfile: false,

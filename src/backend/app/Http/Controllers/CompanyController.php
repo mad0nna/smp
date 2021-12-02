@@ -244,7 +244,7 @@ class CompanyController extends Controller
         'opportunity_code' => $request['opportunityCode'] ?? '',
         'opportunity' => $request['opportunity'] ?? [],
         'token' => $request['token'] ?? '',
-        'kot_billing_start_date' => $request['kotBillingStartDate'] ?? '',
+        'kot_billing_start_date' => $request['kot_billing_start_date'] ?? '',
       ];
     }
 }
