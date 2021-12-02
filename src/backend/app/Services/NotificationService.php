@@ -27,19 +27,13 @@ class NotificationService
             return (new Article)->all($currentYear);
         });
 
-        $articles = $this->addArticleCategoryName($articles);
-        $articles = $this->updateArticleDates($articles);
         $status = $this->database->getNotificationsByContactID($contactID);
-        $articles = $this->markAll($articles, false);
-        $articles = $this->updateNotificationStatus($status);
+
+        $art = $this->addFieldsInArticle($articles);
+        $art = $this->updateArticleStatus($status, $art, 'Article');
 
         $notification = $this->markAll($status, false);
-        $notification = $this->updateNotificationStatus($status);
-
-
-        // $notifications = array_merge($articles, $notifications);
-        // $notifWithSeenKey = $this->markAll($notifications, false);
-        // $notifWithMixStatus = $this->updateNotificationStatus($notifWithSeenKey);
+        $notification = $this->updatePaymentNotif($notification);
 
         $topNotif = [];
         $belowNotif = [];
@@ -48,46 +42,14 @@ class NotificationService
             $notif['seen'] === false ? array_push($topNotif, $notif) : array_push($belowNotif, $notif);
         }
 
-        foreach($articles as $index => $article) {
+        foreach($art as $index => $article) {
             $article['seen'] === false ? array_push($topNotif, $article) : array_push($belowNotif, $article);
         }
-
-        // usort($notifWithMixStatus, function ($notif1, $notif2) {
-            
-        //     if ($notif1['seen'] === true && $notif1['notification_type'] === 'payment' && $notif2['seen'] === false && $notif2['notification_type'] === 'article') {
-        //         return 1;
-        //     } elseif (($notif1['seen'] === false && $notif1['notification_type'] === 'payment') && ($notif2['seen'] === false && $notif2['notification_type'] === 'article')) {
-        //         return -1;
-        //     }
-            // if (($notif1['seen'] === false && $notif1['notification_type'] === 'payment') && ($notif2['seen'] === true && $notif2['notification_type'] === 'article')) {
-            //     return -1;
-            // }
-            // if (($notif1['seen'] === true && $notif1['notification_type'] === 'payment') && ($notif2['seen'] === false && $notif2['notification_type'] === 'article')) {
-            //     return 1;
-            // }
-            // if (($notif1['seen'] === false && $notif1['notification_type'] === 'payment') && ($notif2['seen'] === false && $notif2['notification_type'] === 'article')) {
-            //     return 1;
-            // }
-        //     if ($notif1['seen'] === true && $notif2['seen'] === false) {
-        //         return 1;
-        //     }
-        //     return -1;
-        // });
         $arrangedNotif = array_merge($topNotif, $belowNotif);
         return $arrangedNotif;
-        // return $notifWithMixStatus;
     }
 
-
-    private function updateArticleDates($articles) {
-        foreach($articles as $key => $value) {
-            $articles[$key]['updated_at'] = $this->reFormatDate($value['updated_at'], true);
-            $articles[$key]['created_at'] = $this->reFormatDate($value['created_at'], true);
-        }
-        return $articles;
-    }
-
-    private function addArticleCategoryName($articles)
+    private function addFieldsInArticle($articles)
     {
         $categories = config('zendesk.categories');
         foreach ($articles as $key => $value) {
@@ -97,6 +59,9 @@ class NotificationService
                     $articles[$key]["notification_type"] = 'article';
                 }
             }
+            $articles[$key]['updated_at'] = $this->reFormatDate($value['updated_at'], true);
+            $articles[$key]['created_at'] = $this->reFormatDate($value['created_at'], true);
+            $articles[$key]['seen'] = false;
         }
 
         return $articles;
@@ -125,31 +90,29 @@ class NotificationService
         return $reformated;
     }
 
-    private function updateNotificationStatus($notifications)
+    private function updateArticleStatus($status, $notifTarget)
     {
-        foreach ($notifications as $notifKey => $notifValue) {
-            // 
-
-            if ($notifValue['notification_type'] === 'article') {
-                foreach($notifications as $index => $item) {
-                    if ($index === $notifKey) {
-                        continue;
-                    }
-                    if (isset($item['result_type']) && isset($notifications[$notifKey]['article_id'])) {
-
-                        if ($item['id'] == $notifications[$notifKey]['article_id']) {
-                            $notifications[$index]['seen'] = true;
-                            unset($notifications[$notifKey]);
-                        }
-                        // break;
-                    }
+        $articles = $notifTarget;
+        foreach ($articles as $key => $value) {
+            foreach($status as $statusKey => $statusValue) {
+                if ($value['id'] == $statusValue['article_id']) {
+                    $articles[$key]['seen'] = true;
                 }
             }
-            if ($notifValue['notification_type'] === 'payment') {
-                $notifications[$notifKey]['seen'] = !empty($notifValue['notification_seen_timestamp']) ? true : false;
+        }
+        return $articles;
+    }
+
+    private function updatePaymentNotif($paymentNotifs) {
+        foreach($paymentNotifs as $key => $value) {
+            if ($value['notification_type'] == 'article') {
+                unset($paymentNotifs[$key]);
+                continue;
+            }
+            if ($value['notification_seen_timestamp'] != null) {
+                $paymentNotifs[$key]['seen'] = true;
             }
         }
-
-        return $notifications;
+        return $paymentNotifs;
     }
 }
