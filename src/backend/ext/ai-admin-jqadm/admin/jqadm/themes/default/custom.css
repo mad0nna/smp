@@ -56,4 +56,39 @@ background-image: url('/images/document-hover.png');
   background-color: #198754;
 }
 
- 
+/* Upload Update Stock and Upload New Products */
+.p2 {
+  margin-top: 10px;
+}
+
+/* Products list table title */
+.navbar-brand {
+  color: #1D9E48
+}
+
+/* <--- Start of Product Table ---> */
+.nav.nav-pills.nav-justified.product {
+  border-bottom: 1px solid #22a144;
+  margin-bottom: 10px;
+}
+
+/* Active tab */
+.nav.nav-pills.nav-justified.product .nav-item .nav-link.active {
+  background-color: #c5e7c8;
+}
+
+/* Inactive tab */
+.nav.nav-pills.nav-justified.product .nav-item .nav-link {
+  background-color: #fff;
+  color: #22a144;
+}
+
+/* Table Columns */
+
+.product-table-column {
+  background-color: #fff !important;
+  color: #15742e !important;
+  font-size: 18px !important;
+}
+
+/* <------------ End -------------> */
