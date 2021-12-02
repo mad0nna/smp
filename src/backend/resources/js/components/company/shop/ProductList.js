@@ -237,8 +237,8 @@ const ProductList = () => {
             {loadedImage ? (
               <div></div>
             ) : (
-              <div className="bg-gray-800 h-full">
-                <div className="lg:w-full 2xl:h-50"></div>
+              <div className="bg-gray-400 h-full">
+                <div className="lg:w-full 2xl:h-100"></div>
               </div>
             )}
             <img

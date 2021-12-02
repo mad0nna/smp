@@ -61,9 +61,9 @@ const ProductDetail = () => {
   }
 
   const handleOrderChange = (n) => {
-    let count = n - 1 <= 0 ? 1 : n - 1
+    let currentOrder = n - 1 <= 0 ? 1 : n - 1
     // disable if stock is reach to limit
-    if (state.stock - 1 <= 0 && count >= productDetail.defaultStock) {
+    if (state.stock - 1 <= 0 && currentOrder >= productDetail.defaultStock) {
       return
     } else {
       // disable if order number is less than to zero
@@ -71,13 +71,13 @@ const ProductDetail = () => {
         return
       }
       setState((prevState) => {
-        let count =
+        let orderCount =
           prevState.orderNum >= n ? state.orderNum - 1 : state.orderNum + 1
         let prodStock =
           prevState.orderNum >= n ? state.stock + 1 : state.stock - 1
         return {
           ...prevState,
-          orderNum: count,
+          orderNum: orderCount,
           stock: prodStock
         }
       })
