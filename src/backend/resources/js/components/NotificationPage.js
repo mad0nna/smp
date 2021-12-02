@@ -24,6 +24,7 @@ const NotificationPage = () => {
             notifs.push({
               header: 'お知らせ',
               type: 'お支払い',
+              type_eng: 'payment',
               message: zendeskNotifs[i].message,
               link: '/company/methodofpayment/',
               newTab: true,
@@ -35,6 +36,7 @@ const NotificationPage = () => {
             notifs.push({
               header: 'お知らせ',
               type: '記事',
+              type_eng: 'article',
               message: zendeskNotifs[i].title,
               link: zendeskNotifs[i].html_url,
               newTab: true,
@@ -185,7 +187,7 @@ const NotificationPage = () => {
                           seenNotif(
                             index,
                             item.id,
-                            item.notification_type,
+                            item.type_eng,
                             item.link,
                             item.newTab
                           )

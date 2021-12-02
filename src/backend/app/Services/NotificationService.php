@@ -29,17 +29,55 @@ class NotificationService
 
         $articles = $this->addArticleCategoryName($articles);
         $articles = $this->updateArticleDates($articles);
-        $notifications = $this->database->getNotificationsByContactID($contactID);
-        $notifications = array_merge($articles, $notifications);
-        $notifWithSeenKey = $this->markAll($notifications, false);
-        $notifWithMixStatus = $this->updateNotificationStatus($notifWithSeenKey);
-        usort($notifWithMixStatus, function ($notif1, $notif2) {
-            if ($notif1['seen'] === true && $notif2['seen'] === false) {
-                return 1;
-            }
-        });
-        return $notifWithMixStatus;
+        $status = $this->database->getNotificationsByContactID($contactID);
+        $articles = $this->markAll($articles, false);
+        $articles = $this->updateNotificationStatus($status);
+
+        $notification = $this->markAll($status, false);
+        $notification = $this->updateNotificationStatus($status);
+
+
+        // $notifications = array_merge($articles, $notifications);
+        // $notifWithSeenKey = $this->markAll($notifications, false);
+        // $notifWithMixStatus = $this->updateNotificationStatus($notifWithSeenKey);
+
+        $topNotif = [];
+        $belowNotif = [];
+
+        foreach($notification as $index => $notif) {
+            $notif['seen'] === false ? array_push($topNotif, $notif) : array_push($belowNotif, $notif);
+        }
+
+        foreach($articles as $index => $article) {
+            $article['seen'] === false ? array_push($topNotif, $article) : array_push($belowNotif, $article);
+        }
+
+        // usort($notifWithMixStatus, function ($notif1, $notif2) {
+            
+        //     if ($notif1['seen'] === true && $notif1['notification_type'] === 'payment' && $notif2['seen'] === false && $notif2['notification_type'] === 'article') {
+        //         return 1;
+        //     } elseif (($notif1['seen'] === false && $notif1['notification_type'] === 'payment') && ($notif2['seen'] === false && $notif2['notification_type'] === 'article')) {
+        //         return -1;
+        //     }
+            // if (($notif1['seen'] === false && $notif1['notification_type'] === 'payment') && ($notif2['seen'] === true && $notif2['notification_type'] === 'article')) {
+            //     return -1;
+            // }
+            // if (($notif1['seen'] === true && $notif1['notification_type'] === 'payment') && ($notif2['seen'] === false && $notif2['notification_type'] === 'article')) {
+            //     return 1;
+            // }
+            // if (($notif1['seen'] === false && $notif1['notification_type'] === 'payment') && ($notif2['seen'] === false && $notif2['notification_type'] === 'article')) {
+            //     return 1;
+            // }
+        //     if ($notif1['seen'] === true && $notif2['seen'] === false) {
+        //         return 1;
+        //     }
+        //     return -1;
+        // });
+        $arrangedNotif = array_merge($topNotif, $belowNotif);
+        return $arrangedNotif;
+        // return $notifWithMixStatus;
     }
+
 
     private function updateArticleDates($articles) {
         foreach($articles as $key => $value) {

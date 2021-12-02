@@ -57,7 +57,6 @@ const Notification = (props) => {
   }, [])
 
   const seenNotif = (stateIndex, id, type, link) => {
-    console.log(id)
     fetch('/company/seenNotification', {
       method: 'post',
       headers: {
