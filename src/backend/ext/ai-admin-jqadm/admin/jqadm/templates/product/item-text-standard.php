@@ -53,7 +53,7 @@ $enc = $this->encoder();
 			<div is="draggable" v-model="items" group="text" handle=".act-move">
 				<div v-for="(item, idx) in items" v-bind:key="idx" class="group-item card">
 
-					<div v-bind:id="'item-text-group-item-' + idx" class="card-header header">
+					<div v-bind:id="'item-text-group-item-' + idx" class="card-header header d-none">
 						<div class="card-tools-start">
 							<div class="btn btn-card-header act-show fa" v-bind:class="item['_show'] ? 'show' : 'collapsed'" v-on:click="toggle('_show', idx)"
 								v-bind:data-bs-target="'#item-text-group-data-' + idx" data-bs-toggle="collapse"
@@ -113,7 +113,7 @@ $enc = $this->encoder();
 
 						<div class="col-xl-6">
 
-							<div class="form-group row mandatory">
+							<div class="form-group row mandatory d-none">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Status' ) ) ?></label>
 								<div class="col-sm-8">
 									<select class="form-select item-status" required="required" tabindex="<?= $this->get( 'tabindex' ) ?>"
@@ -138,10 +138,10 @@ $enc = $this->encoder();
 							</div>
 
 							<?php if( ( $languages = $this->get( 'pageLangItems', map() ) )->count() !== 1 ) : ?>
-								<div class="form-group row mandatory">
+								<div class="form-group row d-none">
 									<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Language' ) ) ?></label>
 									<div class="col-sm-8">
-										<select is="select-component" required class="form-select item-languageid" tabindex="<?= $enc->attr( $this->get( 'tabindex' ) ) ?>"
+										<select is="select-component" class="form-select item-languageid" tabindex="<?= $enc->attr( $this->get( 'tabindex' ) ) ?>"
 											v-bind:items="<?= $enc->attr( $languages->col( 'locale.language.label', 'locale.language.id' )->toArray() ) ?>"
 											v-bind:name="`<?= $enc->js( $this->formparam( ['text', '_idx_', 'text.languageid'] ) ) ?>`.replace('_idx_', idx)"
 											v-bind:text="`<?= $enc->js( $this->translate( 'admin', 'Please select' ) ) ?>`"
@@ -161,7 +161,7 @@ $enc = $this->encoder();
 							<?php endif ?>
 
 							<?php if( ( $textTypes = $this->get( 'textTypes', map() ) )->count() !== 1 ) : ?>
-								<div class="form-group row mandatory">
+								<div class="form-group row d-none">
 									<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Type' ) ) ?></label>
 									<div class="col-sm-8">
 										<select is="select-component" required class="form-select item-type" tabindex="<?= $enc->attr( $this->get( 'tabindex' ) ) ?>"
@@ -182,7 +182,7 @@ $enc = $this->encoder();
 									value="<?= $enc->attr( $textTypes->getCode()->first() ) ?>" />
 							<?php endif ?>
 
-							<div class="form-group row optional">
+							<div class="form-group row optional d-none">
 									<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Label' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" tabindex="<?= $this->get( 'tabindex' ) ?>"
@@ -199,7 +199,7 @@ $enc = $this->encoder();
 						</div>
 
 
-						<div v-on:click="toggle('_ext', idx)" class="col-xl-12 advanced" v-bind:class="{'collapsed': !item['_ext']}">
+						<div v-on:click="toggle('_ext', idx)" class="col-xl-12 advanced d-none" v-bind:class="{'collapsed': !item['_ext']}">
 							<div class="card-tools-start">
 								<div class="btn act-show fa" tabindex="<?= $this->get( 'tabindex' ) ?>"
 									title="<?= $enc->attr( $this->translate( 'admin', 'Show/hide advanced data' ) ) ?>">
@@ -208,7 +208,7 @@ $enc = $this->encoder();
 							<span class="header-label"><?= $enc->html( $this->translate( 'admin', 'Advanced' ) ) ?></span>
 						</div>
 
-						<div v-show="item['_ext']" class="col-xl-6 secondary">
+						<div v-show="item['_ext']" class="col-xl-12 secondary">
 
 							<?php if( ( $listTypes = $this->get( 'textListTypes', map() ) )->count() !== 1 ) : ?>
 								<div class="form-group row mandatory">

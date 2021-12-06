@@ -237,19 +237,11 @@ $statusList = [
 	data-filter="<?= $enc->attr( $this->session( 'aimeos/admin/jqadm/order/filter', new \stdClass ) ) ?>"
 	data-items="<?= $enc->attr( $this->get( 'items', map() )->call( 'toArray', [true] )->all() ) ?>">
 
-	<nav class="main-navbar">
-
-		<span class="navbar-brand">
-			<?= $enc->html( $this->translate( 'admin', 'Order' ) ) ?>
-			<span class="navbar-secondary">(<?= $enc->html( $this->site()->label() ) ?>)</span>
-		</span>
-
-		<div class="btn fa act-search" v-on:click="search = true"
-			title="<?= $enc->attr( $this->translate( 'admin', 'Show search form' ) ) ?>"
-			aria-label="<?= $enc->attr( $this->translate( 'admin', 'Show search form' ) ) ?>">
+	<div class="d-flex row justify-content-end">
+		<div class="p2" id="upload_csv_content" >
+			<p style="margin-bottom:2rem">&nbsp;</p>
 		</div>
-	</nav>
-
+	</div>
 	<nav-search v-bind:show="search" v-on:close="search = false"
 		v-bind:url="`<?= $enc->js( $this->link( 'admin/jqadm/url/search', map( $searchParams )->except( 'filter' )->all() ) ) ?>`"
 		v-bind:filter="<?= $enc->attr( (object) $this->session( 'aimeos/admin/jqadm/order/filter', new \stdClass ) ) ?>"

@@ -595,9 +595,9 @@ $columnList = [
 	?>
 
 	<div class="d-flex row justify-content-end">
-		<div class="p2"  >
-			<form id="form_upload_new_product" method="POST" action="/company/upload_new_product_inventory_csv" enctype="multipart/form-data">
-				<?= $this->csrf()->formfield() ?>
+		<div class="p2" id="upload_csv_content" >
+			<form id="form_upload_new_product" method="POST" action="/company/uploadNewProductInventoryCsv" enctype="multipart/form-data">
+				<?= $this->csrf()->formfield() ?> 
 				<p class="file btn btn-lg btn-theme text-white upload-csv float-end">
 					Upload New Products
 					<input id="input_upload_new_product" type="file" name="file" accept=".csv"   />
@@ -605,7 +605,7 @@ $columnList = [
 				<input id="btn_upload_new_product" type="submit" value="Upload" name="submit" style="display:none" >
 			</form>
 
-			<form id="form_upload_update_stock" method="POST" action="/company/upload_update_stock_inventory_csv" enctype="multipart/form-data">
+			<form id="form_upload_update_stock" method="POST" action="/company/uploadUpdateStockInventoryCsv" enctype="multipart/form-data">
 				<?= $this->csrf()->formfield() ?>
 				<p class="file btn btn-lg btn-theme text-white upload-csv float-end mx-2">
 					Upload Update Stock
