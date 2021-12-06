@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
-import { useCart } from 'react-use-cart'
+// import { useCart } from 'react-use-cart'
 import _ from 'lodash'
 
 const ProductDetail = () => {
   const location = useLocation()
   const history = useHistory()
-  const { addItem } = useCart()
+  // const { addItem } = useCart()
 
   const [state, setState] = useState({
     orderNum: 0,
@@ -97,11 +97,11 @@ const ProductDetail = () => {
     history.replace('/company/shop')
   }
 
-  const handleCartListPage = () => {
-    // create cart items
-    addItem(productDetail, state.orderNum)
-    history.replace('/company/cart')
-  }
+  // const handleCartListPage = () => {
+  //   // create cart items
+  //   addItem(productDetail, state.orderNum)
+  //   history.replace('/company/cart')
+  // }
 
   const productDetailItem = () => {
     return (
@@ -171,7 +171,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     parseProductData(location.state)
-  }, [])
+  })
 
   return (
     <div className="bg-mainbg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
@@ -211,7 +211,7 @@ const ProductDetail = () => {
                         <th className="p-4 font-semibold">
                           販売価格
                           <br />
-                          (小売価格 X　数量)
+                          (小売価格 X 数量)
                         </th>
                         <th className="p-4 font-semibold">在庫</th>
                         <th className="p-4 font-semibold">注文数</th>
