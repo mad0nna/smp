@@ -25,19 +25,19 @@ const ProductList = () => {
     selectedSortValue: '',
     sortDropdown: [
       {
-        label: 'Sort Name - Desc',
+        label: '名前で並び替え（降順)',
         value: 'name_desc'
       },
       {
-        label: 'Sort Name - Asc',
+        label: '名前で並び替え（昇順)',
         value: 'name_asc'
       },
       {
-        label: 'Sort Price - Desc',
+        label: '販売価格で並び替え（降順)',
         value: 'price_desc'
       },
       {
-        label: 'Sort Price - Asc',
+        label: '販売価格で並び替え（昇順)',
         value: 'price_asc'
       }
     ]
@@ -157,7 +157,7 @@ const ProductList = () => {
           // getting id from relationship media
           let prodMediaId = items.relationships.media.data[0]['id']
           // for long description
-          let prodTextId = items.relationships.text.data[2]['id']
+          let prodTextId = items.relationships.text.data[0]['id']
           //for price value
           let prodPriceId = items.relationships.price.data[0]['id']
           // for stock
@@ -232,12 +232,16 @@ const ProductList = () => {
   const productItem = (products) => {
     if (!_.isEmpty(products)) {
       return products.map((product, index) => {
+        let prodDescription = product.text['text.content'].replace(
+          /<[^>]+>/g,
+          ''
+        )
         return state.loaded ? (
           <div className="grid grid-flow-row mx-2" key={index}>
             {loadedImage ? (
               <div></div>
             ) : (
-              <div className="bg-gray-400 h-full">
+              <div className="bg-gray-100 h-full">
                 <div className="lg:w-full 2xl:h-100"></div>
               </div>
             )}
@@ -254,17 +258,15 @@ const ProductList = () => {
                 {product.product['product.label'] ?? ''}
               </div>
               <div className="text-red-500 font-bold text-right">
-                {`¥ ${product.price['price.value']}`}
+                {`¥ ${_.parseInt(product.price['price.value'])}`}
               </div>
-              <div className="text-gray-500 font-bold">Product Description</div>
-              <p className="text-gray-400 text-left h-26">
-                {product.text['text.content']}
-              </p>
+              <div className="text-gray-500 font-bold">商品說明</div>
+              <p className="text-gray-400 text-left h-26">{prodDescription}</p>
               <div
                 className="text-primary-200 underline font-bold text-sm mt-2 cursor-pointer"
                 onClick={() => handleDetailPageClick(product)}
               >
-                Add to cart
+                カートに追加
               </div>
             </div>
           </div>
@@ -283,9 +285,7 @@ const ProductList = () => {
           <div className="px-3 pt-3 pb-2">
             <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-4 items-center">
               <div className="bg-cart-icon h-10 w-8"></div>
-              <h2 className="text-green-800 text-lg font-bold">
-                Product Sales
-              </h2>
+              <h2 className="text-green-600 text-lg font-bold">物販</h2>
             </div>
           </div>
           <div

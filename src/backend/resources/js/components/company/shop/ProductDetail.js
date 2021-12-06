@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 import { useCart } from 'react-use-cart'
+import _ from 'lodash'
 
 const ProductDetail = () => {
   const location = useLocation()
@@ -25,11 +26,12 @@ const ProductDetail = () => {
 
   const parseProductData = (data) => {
     const { media, price, product, text, stock } = data
+    let prodDescription = text['text.content'].replace(/<[^>]+>/g, '')
     setProductDetail({
       ...productDetail,
       id: product['product.id'],
-      description: text['text.content'],
-      price: price['price.value'],
+      description: prodDescription,
+      price: _.parseInt(price['price.value']),
       title: product['product.label'],
       imgSrc: media['media.preview'],
       defaultStock: stock['stock.stocklevel'] ?? 0
@@ -105,7 +107,7 @@ const ProductDetail = () => {
           {productDetail.price}
           <br />
           <span className="text-gray-400  font-bold">
-            ({productDetail.price} * {state.orderNum == 0 ? 1 : state.orderNum})
+            ({productDetail.price} * {state.orderNum})
           </span>
         </td>
         <td className="text-center font-bold text-red-500 p-3">
@@ -175,9 +177,7 @@ const ProductDetail = () => {
           <div className="px-3 pt-3 pb-6">
             <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-4 items-center">
               <div className="bg-cart-icon h-10 w-8"></div>
-              <h2 className="text-green-800 text-lg font-bold">
-                Product Sales
-              </h2>
+              <h2 className="text-green-600 text-lg font-bold">物販</h2>
             </div>
           </div>
           <div className="p-6">
@@ -206,12 +206,12 @@ const ProductDetail = () => {
                     <thead className="bg-gray-50 border-b border-t border-gray-200">
                       <tr className="text-gray-500 text-shadow-none">
                         <th className="p-4 font-semibold">
-                          Selling Price
+                          販売価格
                           <br />
-                          (unit price x quantity)
+                          (小売価格 X　数量)
                         </th>
-                        <th className="p-4 font-semibold">stock</th>
-                        <th className="p-4 font-semibold">number of orders</th>
+                        <th className="p-4 font-semibold">在庫</th>
+                        <th className="p-4 font-semibold">注文数</th>
                       </tr>
                     </thead>
                     <tbody>{productDetailItem()}</tbody>
@@ -220,6 +220,7 @@ const ProductDetail = () => {
               </div>
               <div className="grid lg:grid-cols-1 col-span-1 grid-rows-2 gap-6">
                 <div className="tracking-tighter text-gray-400 text-lg mt-10">
+                  <div className="font-bold">商品説明</div>
                   {isLoaded ? productDetail.description : ''}
                 </div>
                 <div className="flex flex-wrap content-end space-x-5 row-span-5 text-center">
@@ -232,7 +233,9 @@ const ProductDetail = () => {
                     </button>
                     <button
                       className="bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold"
-                      onClick={handleCartListPage}
+                      onClick={() => {
+                        console.log('@item')
+                      }}
                     >
                       カートに追加
                     </button>
