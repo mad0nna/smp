@@ -171,7 +171,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     parseProductData(location.state)
-  })
+  }, [location])
 
   return (
     <div className="bg-mainbg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
