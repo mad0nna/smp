@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
-// import { useCart } from 'react-use-cart'
+import ReactDOM from 'react-dom'
+import axios from 'axios'
 import _ from 'lodash'
 
-const ProductDetail = () => {
-  const location = useLocation()
-  const history = useHistory()
-  // const { addItem } = useCart()
-
+const ProductDetail = (props) => {
   const [state, setState] = useState({
-    orderNum: 0,
+    orderNum: 1,
     stock: 0
   })
 
@@ -50,6 +46,10 @@ const ProductDetail = () => {
   }
 
   const handleIncrementOrder = () => {
+    if (state.stock - 1 <= 0 && state.orderNum >= productDetail.defaultStock) {
+      return
+    }
+
     setState((prevState) => {
       return {
         ...prevState,
@@ -60,6 +60,9 @@ const ProductDetail = () => {
   }
 
   const handleDecrementOrder = () => {
+    if (state.orderNum - 1 == 0) {
+      return
+    }
     setState((prevState) => {
       return {
         ...prevState,
@@ -114,7 +117,7 @@ const ProductDetail = () => {
           </span>
         </td>
         <td className="text-center font-bold text-red-500 p-3">
-          {state.stock}
+          {productDetail.defaultStock}
         </td>
         <td className="text-center font-bold p-3">
           <div className="flex m-auto justify-center space-x-3">
@@ -139,6 +142,7 @@ const ProductDetail = () => {
             <input
               type="number"
               className="w-14 shadow-lg rounded tex-red-500 border px-1"
+              min="1"
               value={state.orderNum}
               onChange={(e) => {
                 handleOrderChange(e.target.value)
@@ -151,7 +155,7 @@ const ProductDetail = () => {
               fill="currentColor"
               className={`bi bi-dash-circle text-gray-500 mt-1 font-semibold cursor-pointer
                 ${
-                  state.orderNum == 0
+                  state.orderNum == 1
                     ? 'opacity-50 cursor-not-allowed'
                     : 'cursor-pointer'
                 }`}
@@ -164,27 +168,98 @@ const ProductDetail = () => {
               <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
             </svg>
           </div>
+          {state.orderNum == productDetail.defaultStock ? (
+            <span className="flex justify-center items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+              注文可能数に達しました
+            </span>
+          ) : (
+            ''
+          )}
         </td>
       </tr>
     )
   }
 
   useEffect(() => {
-    parseProductData(location.state)
-  }, [location])
+    if (_.isEmpty(props)) {
+      let urlParams = new URLSearchParams(window.location.search)
+      let id = urlParams.get('id')
+      let digitOnly = /^\d+$/
+
+      if (!digitOnly.test(id) && urlParams !== '') {
+        alert('記録が見当たりませんでした')
+        window.location.replace('/company/shop')
+      }
+
+      axios({
+        url: `/jsonapi/product?id=${id}&include=media,text,price,stock`,
+        method: 'get',
+        responseType: 'json'
+      }).then((response) => {
+        if (!_.isEmpty(response.data)) {
+          let item = response.data
+
+          // getting id from relationship media
+          let prodMediaId = item.data.relationships.media.data[0]['id']
+          // for long description
+          let prodTextId = item.data.relationships.text.data[0]['id']
+          //for price value
+          let prodPriceId = item.data.relationships.price.data[0]['id']
+          // for stock
+          let prodStockId = item.data.relationships.stock.data[0]['id']
+
+          if (!_.isEmpty(item) || item !== undefined) {
+            let prodDetail = {
+              product: item.data.attributes,
+              media:
+                _.filter(item.included, (inc) => {
+                  return inc.type === 'media' && inc['id'] === prodMediaId
+                })[0].attributes ?? {},
+              text:
+                _.filter(item.included, (inc) => {
+                  return inc.type == 'text' && inc['id'] == prodTextId
+                })[0].attributes ?? {},
+              price:
+                _.filter(item.included, (inc) => {
+                  return inc.type === 'price' && inc['id'] === prodPriceId
+                })[0].attributes ?? {},
+              stock:
+                _.filter(item.included, (inc) => {
+                  return inc.type === 'stock' && inc['id'] == prodStockId
+                })[0].attributes ?? {}
+            }
+            parseProductData(prodDetail)
+          }
+        }
+      })
+    } else {
+      const { location } = props
+      parseProductData(location.detail)
+    }
+  }, [])
 
   return (
     <div className="bg-mainbg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
       <div className=" pb-5">
         <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
           <div className="px-3 pt-3 pb-6">
-            <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-4 items-center">
-              <div className="bg-cart-icon h-10 w-8"></div>
-              <h2 className="text-green-600 text-lg font-bold">物販</h2>
+            <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-2 items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 0 24 24"
+                width="24px"
+                fill="currentColor"
+                className="text-primary-200 h-10 w-8"
+              >
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z" />
+              </svg>
+              <h2 className="text-primary-200 text-lg font-bold">物販</h2>
             </div>
           </div>
           <div className="p-6">
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-6">
               <div className="grid col-span-2 gap-3">
                 <div className="grid grid-cols-2">
                   <div className="grid col-span-1 text-center flex content-center">
@@ -254,3 +329,9 @@ const ProductDetail = () => {
 }
 
 export default ProductDetail
+if (document.getElementById('companyProductDetail')) {
+  ReactDOM.render(
+    <ProductDetail />,
+    document.getElementById('companyProductDetail')
+  )
+}
