@@ -310,7 +310,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 											<?php endforeach ?>
 										</select>
 									</div>
-									<div class="col-sm-12 form-text text-muted help-text">
+									<div class="col-sm-12 form-text text-muted help-text d-none">
 										<?= $enc->html( $this->translate( 'admin', 'Depending on the selected data set, the list of shown fields for the product will be different' ) ) ?>
 									</div>
 								</div>
@@ -341,7 +341,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 							</div>
 							<?php if( ( $types = $this->get( 'itemTypes', map() )->col( 'product.type.label', 'product.type.code' ) )->count() !== 1 ) : ?>
 								<div class="form-group row mandatory">
-									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Type' ) ) ?></label>
+									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Category' ) ) ?></label>
 									<div class="col-sm-8">
 										<select is="select-component" class="form-select item-type" required v-bind:tabindex="'1'"
 											v-bind:readonly="`<?= $enc->js( $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ) ?>` ? true : false"
@@ -361,130 +361,77 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 									value="<?= $enc->attr( $types->firstKey() ) ?>" />
 							<?php endif ?>
 							<div class="form-group row mandatory">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'SKU' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Item Number' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-code" type="text" required="required" tabindex="1"
 										name="<?= $enc->attr( $this->formparam( array( 'item', 'product.code' ) ) ) ?>"
-										placeholder="<?= $enc->attr( $this->translate( 'admin', 'EAN, SKU or article number (required)' ) ) ?>"
+										placeholder="<?= $enc->attr( $this->translate( 'admin', '' ) ) ?>"
 										value="<?= $enc->attr( $this->get( 'itemData/product.code' ) ) ?>"
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
 								</div>
-								<div class="col-sm-12 form-text text-muted help-text">
-									<?= $enc->html( $this->translate( 'admin', 'Unique article code related to stock levels, e.g. from the ERP system, an EAN/GTIN number or self invented' ) ) ?>
-								</div>
 							</div>
 							<div class="form-group row mandatory">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Label' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Name' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" required="required" tabindex="1"
 										name="<?= $this->formparam( array( 'item', 'product.label' ) ) ?>"
-										placeholder="<?= $enc->attr( $this->translate( 'admin', 'Internal name (required)' ) ) ?>"
+										placeholder=""
 										value="<?= $enc->attr( $this->get( 'itemData/product.label' ) ) ?>"
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
 								</div>
-								<div class="col-sm-12 form-text text-muted help-text">
-									<?= $enc->html( $this->translate( 'admin', 'Internal article name, will be used on the web site and for searching only if no other product names in any language exist' ) ) ?>
-								</div>
 							</div>
-							<?php if( $this->get( 'itemData/product.ratings', 0 ) ) : ?>
-								<div class="form-group row">
-									<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Rating' ) ) ?></label>
-									<div class="col-sm-8">
-										<span class="form-control item-rating" readonly>
-											<?= $enc->html( $this->get( 'itemData/product.rating' ) . ' / ' . $this->get( 'itemData/product.ratings', 0 ) ) ?>
-										</span>
-									</div>
-									<div class="col-sm-12 form-text text-muted help-text">
-										<?= $enc->html( $this->translate( 'admin', 'Average product rating and total number of ratings by customers for this product' ) ) ?>
-									</div>
-								</div>
-							<?php endif ?>
-
-							<div class="separator"><i class="icon more"></i></div>
-
-							<div class="form-group row optional advanced">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'URL segment' ) ) ?></label>
+							<div class="form-group row">
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Barcode' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" tabindex="1"
-										name="<?= $this->formparam( array( 'item', 'product.url' ) ) ?>"
-										placeholder="<?= $enc->attr( $this->translate( 'admin', 'Name in URL (optional)' ) ) ?>"
-										value="<?= $enc->attr( $this->get( 'itemData/product.url' ) ) ?>"
+										name="<?= $this->formparam( array( 'item', 'barcode' ) ) ?>"
+										placeholder=""
+										value="<?= $this->get( 'itemData/barcode' ) ?>"
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
 								</div>
-								<div class="col-sm-12 form-text text-muted help-text">
-									<?= $enc->html( $this->translate( 'admin', 'The name of the product shown in the URL, will be used if no language specific URL segment exists' ) ) ?>
-								</div>
 							</div>
-							<div class="form-group row optional advanced">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Quantity scale' ) ) ?></label>
+							<div class="form-group row">
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Standard 1' ) ) ?></label>
 								<div class="col-sm-8">
-									<input class="form-control item-scale" type="number" tabindex="1" min="0.001" step="0.001"
-										name="<?= $enc->attr( $this->formparam( array( 'item', 'product.scale' ) ) ) ?>"
-										value="<?= $enc->attr( $this->datetime( $this->get( 'itemData/product.scale', 1 ) ) ) ?>"
+									<input class="form-control item-label" type="text" tabindex="1"
+										name="<?= $this->formparam( array( 'item', 'standard1' ) ) ?>"
+										placeholder=""
+										value="<?= $this->get( 'itemData/standard1' ) ?>"
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
 								</div>
-								<div class="col-sm-12 form-text text-muted help-text">
-									<?= $enc->html( $this->translate( 'admin', 'The step value allowed for quantities in the basket, e.g. "0.1" for fractional quantities or "5" for multiple of five articles' ) ) ?>
-								</div>
 							</div>
-							<div class="form-group row optional advanced">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Start date' ) ) ?></label>
+							<div class="form-group row">
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Standard 2' ) ) ?></label>
 								<div class="col-sm-8">
-									<input is="flat-pickr" class="form-control item-datestart select" type="datetime-local" tabindex="1"
-										name="<?= $enc->attr( $this->formparam( array( 'item', 'product.datestart' ) ) ) ?>"
-										placeholder="<?= $enc->attr( $this->translate( 'admin', 'YYYY-MM-DD hh:mm:ss (optional)' ) ) ?>"
-										v-bind:value="`<?= $enc->js( $this->datetime( $this->get( 'itemData/product.datestart' ) ) ) ?>`"
-										v-bind:disabled="`<?= $enc->js( $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ) ?>` !== ''"
-										v-bind:config="Aimeos.flatpickr.datetime" />
-								</div>
-								<div class="col-sm-12 form-text text-muted help-text">
-									<?= $enc->html( $this->translate( 'admin', 'The article is only shown on the web site after that date and time, useful or seasonal articles' ) ) ?>
-								</div>
-							</div>
-							<div class="form-group row optional advanced">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'End date' ) ) ?></label>
-								<div class="col-sm-8">
-									<input is="flat-pickr" class="form-control item-dateend select" type="datetime-local" tabindex="1"
-										name="<?= $enc->attr( $this->formparam( array( 'item', 'product.dateend' ) ) ) ?>"
-										placeholder="<?= $enc->attr( $this->translate( 'admin', 'YYYY-MM-DD hh:mm:ss (optional)' ) ) ?>"
-										v-bind:value="`<?= $enc->js( $this->datetime( $this->get( 'itemData/product.dateend' ) ) ) ?>`"
-										v-bind:disabled="`<?= $enc->js( $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ) ?>` !== ''"
-										v-bind:config="Aimeos.flatpickr.datetime" />
-								</div>
-								<div class="col-sm-12 form-text text-muted help-text">
-									<?= $enc->html( $this->translate( 'admin', 'The article is only shown on the web site until that date and time, useful or seasonal articles' ) ) ?>
-								</div>
-							</div>
-							<div class="form-group row optional advanced">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Created' ) ) ?></label>
-								<div class="col-sm-8">
-									<input is="flat-pickr" class="form-control item-ctime" type="datetime-local" tabindex="1"
-										name="<?= $enc->attr( $this->formparam( array( 'item', 'product.ctime' ) ) ) ?>"
-										placeholder="<?= $enc->attr( $this->translate( 'admin', 'YYYY-MM-DD hh:mm:ss (optional)' ) ) ?>"
-										v-bind:value="`<?= $enc->js( $this->datetime( $this->get( 'itemData/product.ctime' ) ) ) ?>`"
-										v-bind:disabled="`<?= $enc->js( $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ) ?>` !== ''"
-										v-bind:config="Aimeos.flatpickr.datetime" />
-								</div>
-								<div class="col-sm-12 form-text text-muted help-text">
-									<?= $enc->html( $this->translate( 'admin', 'Since when the product is available, used for sorting in the front-end' ) ) ?>
-								</div>
-							</div>
-							<div class="form-group row optional advanced warning">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'URL target' ) ) ?></label>
-								<div class="col-sm-8">
-									<input class="form-control item-target" type="text" tabindex="1"
-										name="<?= $enc->attr( $this->formparam( array( 'item', 'product.target' ) ) ) ?>"
-										placeholder="<?= $enc->attr( $this->translate( 'admin', 'Route or page ID (optional)' ) ) ?>"
-										value="<?= $enc->attr( $this->get( 'itemData/product.target' ) ) ?>"
+									<input class="form-control item-label" type="text" tabindex="1"
+										name="<?= $this->formparam( array( 'item', 'standard2' ) ) ?>"
+										placeholder=""
+										value="<?= $this->get( 'itemData/standard2' ) ?>"
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
 								</div>
-								<div class="col-sm-12 form-text text-muted help-text">
-									<?= $enc->html( $this->translate( 'admin', 'Route name or page ID of the product detail page if this product should shown on a different page' ) ) ?>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Delivery Slip Display' ) ) ?></label>
+								<div class="col-sm-8">
+									<input class="form-control item-label" type="text" tabindex="1"
+										name="<?= $this->formparam( array( 'item', 'delivery_slip_display' ) ) ?>"
+										placeholder=""
+										value="<?= $this->get( 'itemData/delivery_slip_display' ) ?>"
+										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
 								</div>
 							</div>
-						</div><!--
-
-						--><div class="col-xl-6 block vue <?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?>"
+							<div class="form-group row">
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Inventory Alert Qty' ) ) ?></label>
+								<div class="col-sm-8">
+									<input class="form-control item-label" type="text" tabindex="1"
+										name="<?= $this->formparam( array( 'item', 'inventory_alert_qty' ) ) ?>"
+										placeholder=""
+										value="<?= $this->get( 'itemData/inventory_alert_qty' ) ?>"
+										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 block vue <?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> d-none"
 							data-data="<?= $enc->attr( $this->get( 'itemData', new stdClass() ) ) ?>">
 
 							<config-table v-bind:tabindex="`<?= $enc->js( $this->get( 'tabindex' ) ) ?>`"
