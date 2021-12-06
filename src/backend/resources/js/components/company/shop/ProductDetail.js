@@ -27,11 +27,14 @@ const ProductDetail = () => {
   const parseProductData = (data) => {
     const { media, price, product, text, stock } = data
     let prodDescription = text['text.content'].replace(/<[^>]+>/g, '')
+    let prodPrice = _.parseInt(_.parseInt(price['price.value'])).toLocaleString(
+      'jp'
+    )
     setProductDetail({
       ...productDetail,
       id: product['product.id'],
       description: prodDescription,
-      price: _.parseInt(price['price.value']),
+      price: prodPrice,
       title: product['product.label'],
       imgSrc: media['media.preview'],
       defaultStock: stock['stock.stocklevel'] ?? 0

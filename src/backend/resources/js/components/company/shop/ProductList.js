@@ -236,6 +236,9 @@ const ProductList = () => {
           /<[^>]+>/g,
           ''
         )
+        let prodPrice = _.parseInt(product.price['price.value']).toLocaleString(
+          'jp'
+        )
         return state.loaded ? (
           <div className="grid grid-flow-row mx-2" key={index}>
             {loadedImage ? (
@@ -258,7 +261,7 @@ const ProductList = () => {
                 {product.product['product.label'] ?? ''}
               </div>
               <div className="text-red-500 font-bold text-right">
-                {`¥ ${_.parseInt(product.price['price.value'])}`}
+                {`¥ ${prodPrice}`}
               </div>
               <div className="text-gray-500 font-bold">商品說明</div>
               <p className="text-gray-400 text-left h-26">{prodDescription}</p>
