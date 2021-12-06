@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Pagination from '../../Pagination'
-import { useCart } from 'react-use-cart'
+// import { useCart } from 'react-use-cart'
 // temporary
 
 const CartList = () => {
-  const userData =
-    JSON.parse(document.getElementById('userData').textContent) || ''
-  const cartItems = (props) => {
-    const {
-      isEmpty,
-      cartTotal,
-      totalUniqueItems,
-      items,
-      updateItemQuantity,
-      removeItem,
-      emptyCart,
-      getItem
-    } = useCart()
+  // const userData =
+  //   JSON.parse(document.getElementById('userData').textContent) || ''
+  const cartItems = () => {
+    let items = []
+    // const {
+    //   // isEmpty,
+    //   // cartTotal,
+    //   // totalUniqueItems,
+    //   items
+    //   // updateItemQuantity,
+    //   // removeItem,
+    //   // emptyCart,
+    //   // getItem
+    // } = useCart()
 
     console.log('@items')
     return items.map((item) => {
