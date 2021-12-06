@@ -79,12 +79,12 @@ const Navigation = () => {
           extraStyle: ''
         },
         {
-          label: 'Shop',
+          label: 'ショップ',
           url: '/company/shop',
           childUrl: ['/company/productDetail'],
-          iconNormal: 'bg-account-list-icon',
-          iconHover: 'group-hover:bg-account-list-icon-hover',
-          iconActive: 'bg-account-list-icon-hover',
+          iconNormal: 'bg-cart-icon-icon',
+          iconHover: 'group-hover:bg-cart-icon-icon-hover',
+          iconActive: 'bg-cart-icon-icon-hover',
           iconSize: 'h-8 w-8',
           isActive: false,
           extraStyle: ''
