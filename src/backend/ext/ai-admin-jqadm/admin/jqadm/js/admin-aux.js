@@ -394,7 +394,7 @@ Aimeos.Price = {
 				entry['price.type'] = 'default';
 				entry['price.siteid'] = this.siteid;
 				entry['price.taxrates'] = {'': ''};
-				entry['price.currencyid'] = null;
+				entry['price.currencyid'] = 'JPY';
 				entry['price.rebate'] = '0.00';
 				entry['price.costs'] = '0.00';
 				entry['price.value'] = null;
@@ -904,7 +904,7 @@ Aimeos.Text = {
 				entry[this.domain + '.lists.dateend'] = null;
 
 				entry['text.id'] = null;
-				entry['text.type'] = null;
+				entry['text.type'] = 'long';
 				entry['text.languageid'] = '';
 				entry['text.siteid'] = this.siteid;
 				entry['text.content'] = '';

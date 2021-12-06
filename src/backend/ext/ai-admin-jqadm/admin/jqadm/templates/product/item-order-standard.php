@@ -61,7 +61,7 @@ $fields = $this->config( 'admin/jqadm/product/order/fields', $fields );
 								<?= $enc->html( $this->translate( 'admin', 'Language' ) ) ?>
 							</a>
 						</th>
-						<th v-if="fields.includes('order.base.currencyid')" class="order-base-currencyid">
+						<th v-if="fields.includes('order.base.currencyid')" class="order-base-currencyid d-none">
 							<a v-bind:class="sortclass('order.base.currencyid')" v-on:click.prevent="orderby('order.base.currencyid')"
 								tabindex="<?= $this->get( 'tabindex', 1 ) ?>" href="#">
 								<?= $enc->html( $this->translate( 'admin', 'Currency' ) ) ?>
@@ -207,7 +207,7 @@ $fields = $this->config( 'admin/jqadm/product/order/fields', $fields );
 						</th>
 
 						<th class="actions">
-							<div class="dropdown filter-columns">
+							<div class="dropdown filter-columns d-none">
 								<button class="btn act-columns fa" type="button" id="dropdownMenuButton-<?= $this->get( 'group' ) ?>"
 									data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="<?= $this->get( 'tabindex', 1 ) ?>"
 									aria-label="<?= $enc->attr( $this->translate( 'admin', 'Columns' ) ) ?>"
@@ -241,7 +241,7 @@ $fields = $this->config( 'admin/jqadm/product/order/fields', $fields );
 											<?= $enc->html( $this->translate( 'admin', 'Language' ) ) ?>
 										</label></a>
 									</li>
-									<li class="dropdown-item">
+									<li class="dropdown-item d-none">
 										<a v-on:click.prevent.stop="toggleField('order.base.currencyid')" href="#"><label>
 											<input class="form-check-input"
 												v-on:click.capture.stop="toggleField('order.base.currencyid')"

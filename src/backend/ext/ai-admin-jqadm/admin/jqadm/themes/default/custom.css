@@ -56,9 +56,94 @@ background-image: url('/images/document-hover.png');
   background-color: #198754;
 }
 
+/* Change navigation color */
+.shop-logo {
+  padding: 0.625rem 0.5rem;
+  color: green;
+  font-size: large;
+  font-weight: bold;
+}
+
+.aimeos .main-sidebar {
+  background: transparent;
+
+}
+
+.aimeos .sidebar-wrapper {
+  top: 9.7rem;
+  margin-left: 2rem;
+  width: max(13.5%, 12rem);
+}
+
+.aimeos .main-sidebar .sidebar-menu {
+	background: transparent;
+  -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,.175);
+  -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.175);
+  box-shadow:         inset 0 0 10px rgba(0,0,0,.175);
+  border-radius: 6px;
+  background-color: var(--bs-bg-light, #ffffff);
+  margin-top: 0.3rem;
+  overflow: auto;
+}
+
+.aimeos .main-sidebar .sidebar-menu li {
+	background: transparent;
+}
+
+.aimeos .main-sidebar .sidebar-menu li.after {
+  border-top-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.aimeos .main-sidebar .sidebar-menu li.before {
+  border-bottom-right-radius: 0 !important;
+}
+
+.aimeos .sidebar-menu a {
+  color: green;
+}
+
+.aimeos .sidebar-menu a:hover {
+  text-decoration: none;
+  color: #144220 !important;
+}
+
+.aimeos .sidebar-menu li:hover {
+  
+ 
+
+}
+
+.aimeos .sidebar-menu .active i {
+  color: green !important;
+}
+
+.aimeos .sidebar-menu .active .title {
+  color: green !important;
+}
+
+.aimeos .main-sidebar .sidebar-menu li {
+  margin: 1.2rem 0;
+}
+
+.aimeos .main-sidebar .sidebar-menu li.active {
+  background-color: #c5e7c8 !important;
+  color: #22a144;
+  
+}
+
+.aimeos form.list {
+  -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,.175);
+  -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.175);
+  box-shadow:         inset 0 0 10px rgba(0,0,0,.175);
+  border-radius: 6px;
+}
+
+
 /* Upload Update Stock and Upload New Products */
 .p2 {
-  margin-top: 10px;
+  margin-top: 1.5rem;
 }
 
 /* Products list table title */

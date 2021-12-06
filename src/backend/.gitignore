@@ -5,6 +5,7 @@
 /vendor
 /ext/ai-client-html
 /ext/ai-controller-jobs
+/public/aimeos/
 .env
 .env.backup
 .phpunit.result.cache

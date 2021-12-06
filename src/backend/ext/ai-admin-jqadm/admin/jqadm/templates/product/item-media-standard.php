@@ -109,7 +109,7 @@ $enc = $this->encoder();
 								</div>
 							</div>
 							<?php if( ( $mediaTypes = $this->get( 'mediaTypes', map() ) )->count() !== 1 ) : ?>
-								<div class="form-group row mandatory">
+								<div class="form-group row mandatory d-none">
 									<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Type' ) ) ?></label>
 									<div class="col-sm-8">
 										<select is="select-component" required class="form-select item-type" tabindex="<?= $this->get( 'tabindex' ) ?>"
@@ -144,7 +144,7 @@ $enc = $this->encoder();
 								</div>
 							</div>
 
-							<div class="form-group row optional">
+							<div class="form-group row optional d-none">
 								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Language' ) ) ?></label>
 								<div class="col-sm-8">
 									<select is="select-component" class="form-select item-languageid" tabindex="<?= $this->get( 'tabindex' ) ?>"
@@ -163,7 +163,7 @@ $enc = $this->encoder();
 						</div>
 
 
-						<div v-on:click="toggle('_ext', idx)" class="col-xl-12 advanced" v-bind:class="{'collapsed': !item['_ext']}">
+						<div v-on:click="toggle('_ext', idx)" class="col-xl-12 advanced d-none" v-bind:class="{'collapsed': !item['_ext']}">
 							<div class="card-tools-start">
 								<div class="btn act-show fa" tabindex="<?= $this->get( 'tabindex' ) ?>"
 									title="<?= $enc->attr( $this->translate( 'admin', 'Show/hide advanced data' ) ) ?>">
