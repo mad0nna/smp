@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 
 use App\Services\FileService;
-use App\Http\Resources\FileResource;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -12,22 +11,19 @@ use App\Models\ProductStock;
 
 class ShoppingController extends Controller
 {
-    /**
-     * FileController constructor.
-     */
     public function __construct(FileService $fileService)
     {
         parent::__construct();
         $this->fileService = $fileService;
     }
 
-    public function upload_new_product_inventory_csv(Request $request)
+    public function uploadNewProductInventoryCsv(Request $request)
     {
         try {
             $request->validate([
                 'file' => 'required|mimes:csv,txt'
             ]);
-
+            
             $file = $request->file("file");
             $csvData = file_get_contents($file);
 
@@ -53,7 +49,7 @@ class ShoppingController extends Controller
                             "scale" => 1,
                             "rating" => 1,
                             "ratings" => 1,
-                            "status" => 1,
+                            "status" => 0,
                             "instock" => $row[5] > 0 ? 1 : 0,
                             "mtime" => date('Y-m-d H:i:s'),
                             "ctime" => date('Y-m-d H:i:s'),
@@ -61,28 +57,28 @@ class ShoppingController extends Controller
                             "target" => "",
                         );
                         $checkProduct = Product::where("code", "=", $row[0])->first();
-                        $stock = ProductStock::where("prodid", "=", $row[0])->first();
+                        
 
-                        if (is_null($checkProduct) && is_null($stock)) {
+                        if (is_null($checkProduct)) {
                             $product = Product::create($inv);
 
-                            $updateStock = array(
-                                "siteid" => "1.",
-                                "prodid" => $row[0],
-                                "type" => $row[8],
-                                "stocklevel" => $row[5],
-                                "backdate" => null,
-                                "timeframe" => "",
-                                "mtime" => date('Y-m-d H:i:s'),
-                                "ctime" => date('Y-m-d H:i:s'),
-                                "editor" => "core:setup"
-                            );
-
-                            $stock = ProductStock::create($updateStock);
-
-                            if(!is_null($product) && !is_null($stock)) {
-                                $i++;
+                            $stock = ProductStock::where("prodid", "=", $product->id)->first();
+                            if (is_null($stock)) {
+                                $updateStock = array(
+                                    "siteid" => "1.",
+                                    "prodid" => $product->id,
+                                    "type" => $row[8],
+                                    "stocklevel" => $row[5],
+                                    "backdate" => null,
+                                    "timeframe" => "",
+                                    "mtime" => date('Y-m-d H:i:s'),
+                                    "ctime" => date('Y-m-d H:i:s'),
+                                    "editor" => "core:setup"
+                                );
+                                $stock = ProductStock::create($updateStock);
                             }
+                            
+                            $i++;                             
                         }
                     }
                 }
@@ -94,7 +90,7 @@ class ShoppingController extends Controller
             }
 
             
-            return back()->with($data["status"], $data["message"]);
+            return back();
             
         } catch (\Exception $e) {
             return back()->with([
@@ -105,7 +101,7 @@ class ShoppingController extends Controller
  
     }
 
-    public function upload_update_stock_inventory_csv(Request $request)
+    public function uploadUpdateStockInventoryCsv(Request $request)
     {
         try {
             $request->validate([
@@ -121,15 +117,19 @@ class ShoppingController extends Controller
 
             foreach ($rows as $row) {
                 if (isset($row[0])) {
-                    if ($row[0] != "") {                        
-                        $item = ProductStock::where("prodid", "=", $row[0])->first();
+                    if ($row[0] != "") {
+                        $product = Product::where("code", "=", $row[0])->first();
 
-                        if (!is_null($item)) {
-                            $item->stocklevel = $item->stocklevel + $row[5];
-                            $result = $item->save();
+                        if (!is_null($product)) {
+                            $item = ProductStock::where("prodid", "=", $product->id)->first();
 
-                            if($result == true) {
-                                $i++;                                
+                            if (!is_null($item)) {
+                                $item->stocklevel = $item->stocklevel + $row[5];
+                                $result = $item->save();
+
+                                if($result == true) {
+                                    $i++;                                
+                                }
                             }
                         }
                     }
@@ -141,13 +141,10 @@ class ShoppingController extends Controller
                 Session::put('aimeos/admin/jqadm/product/notification-message', $i . "株の更新に成功");
             }
              
-            return back()->with($data["status"], $data["message"]);
+            return back();
             
         } catch (\Exception $e) {
-            return back()->with([
-                    'error' => $e->getMessage(),
-                    'code' => 500,
-                ]);
+            return back();
         }
     }
 
