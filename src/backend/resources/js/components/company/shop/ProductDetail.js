@@ -190,7 +190,7 @@ const ProductDetail = () => {
                   <div className="grid col-span-1 text-center flex content-center">
                     <img
                       className="w-auto h-auto p-3 tex-center m-auto"
-                      src={isLoaded ? productDetail.imgSrc : ''}
+                      src={isLoaded ? `/aimeos/${productDetail.imgSrc}` : ''}
                     ></img>
                   </div>
                   <div className="grid col-span-1 text-center flex content-center">
