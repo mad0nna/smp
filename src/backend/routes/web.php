@@ -64,13 +64,11 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::get('/getUsage', 'BillingController@getAccountUsageData');
     Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
     Route::view('/methodofpayment', 'methodOfPayment');
-
+    Route::post('/uploadNewProductInventoryCsv', 'ShoppingController@uploadNewProductInventoryCsv');
+    Route::post('/uploadUpdateStockInventoryCsv', 'ShoppingController@uploadUpdateStockInventoryCsv');
     // Company Shop
     Route::view('/productDetail', 'ShoppingController@productDetail');
     Route::get('/shop', 'ShoppingController@shop');
-    
-    Route::post('/uploadNewProductInventoryCsv', 'ShoppingController@uploadNewProductInventoryCsv');
-    Route::post('/uploadUpdateStockInventoryCsv', 'ShoppingController@uploadUpdateStockInventoryCsv');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
