@@ -2,7 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import ProductList from './company/shop/ProductList'
 import ProductDetail from './company/shop/ProductDetail'
+import CartList from './company/shop/CartList'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { CartProvider } from 'react-use-cart'
 
 const CompanyShop = () => {
   return (
@@ -13,7 +15,14 @@ const CompanyShop = () => {
             <ProductList />
           </Route>
           <Route path="/company/productDetail">
-            <ProductDetail />
+            <CartProvider>
+              <ProductDetail />
+            </CartProvider>
+          </Route>
+          <Route path="/company/cart">
+            <CartProvider>
+              <CartList />
+            </CartProvider>
           </Route>
         </Switch>
       </Router>

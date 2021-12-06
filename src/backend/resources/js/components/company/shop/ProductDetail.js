@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
+import { useCart } from 'react-use-cart'
 
 const ProductDetail = () => {
   const location = useLocation()
   const history = useHistory()
+  const { addItem } = useCart()
 
   const [state, setState] = useState({
     orderNum: 0,
@@ -13,6 +15,7 @@ const ProductDetail = () => {
   const [isLoaded, setLoaded] = useState(false)
 
   const [productDetail, setProductDetail] = useState({
+    id: 0,
     imgSrc: '',
     description: '',
     title: '',
@@ -24,6 +27,7 @@ const ProductDetail = () => {
     const { media, price, product, text, stock } = data
     setProductDetail({
       ...productDetail,
+      id: product['product.id'],
       description: text['text.content'],
       price: price['price.value'],
       title: product['product.label'],
@@ -86,6 +90,12 @@ const ProductDetail = () => {
 
   const handleProductListPage = () => {
     history.replace('/company/shop')
+  }
+
+  const handleCartListPage = () => {
+    // create cart items
+    addItem(productDetail, state.orderNum)
+    history.replace('/company/cart')
   }
 
   const productDetailItem = () => {
@@ -176,7 +186,7 @@ const ProductDetail = () => {
                 <div className="grid grid-cols-2">
                   <div className="grid col-span-1 text-center flex content-center">
                     <img
-                      className="w-4/5 h-4/5 p-3 tex-center m-auto"
+                      className="w-auto h-auto p-3 tex-center m-auto"
                       src={isLoaded ? productDetail.imgSrc : ''}
                     ></img>
                   </div>
@@ -220,7 +230,10 @@ const ProductDetail = () => {
                     >
                       キャンセル
                     </button>
-                    <button className="bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold">
+                    <button
+                      className="bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold"
+                      onClick={handleCartListPage}
+                    >
                       カートに追加
                     </button>
                   </div>
