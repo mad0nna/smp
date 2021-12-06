@@ -147,4 +147,13 @@ class ShoppingController extends Controller
             return back();
         }
     }
+
+    public function shop()
+    {
+        return view('companyShop');
+    }
+
+    public function productDetail() {
+        return view('companyProductDetail');
+    }
 }
