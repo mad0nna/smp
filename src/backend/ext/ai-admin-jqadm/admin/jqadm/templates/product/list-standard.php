@@ -599,7 +599,7 @@ $columnList = [
 			<form id="form_upload_new_product" method="POST" action="/company/uploadNewProductInventoryCsv" enctype="multipart/form-data">
 				<?= $this->csrf()->formfield() ?> 
 				<p class="file btn btn-lg btn-theme text-white upload-csv float-end">
-					Upload New Products
+					商品を追加
 					<input id="input_upload_new_product" type="file" name="file" accept=".csv"   />
 				</p>
 				<input id="btn_upload_new_product" type="submit" value="Upload" name="submit" style="display:none" >
@@ -608,7 +608,7 @@ $columnList = [
 			<form id="form_upload_update_stock" method="POST" action="/company/uploadUpdateStockInventoryCsv" enctype="multipart/form-data">
 				<?= $this->csrf()->formfield() ?>
 				<p class="file btn btn-lg btn-theme text-white upload-csv float-end mx-2">
-					Upload Update Stock
+					在庫を更新
 					<input id="input_upload_update_stock" type="file" name="file" accept=".csv"   />
 				</p>
 				<input id="btn_upload_update_stock" type="submit" value="Upload" name="submit" style="display:none">
