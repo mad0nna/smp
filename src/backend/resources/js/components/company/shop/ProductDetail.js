@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
 import _ from 'lodash'
+import { useHistory } from 'react-router'
 
 const ProductDetail = (props) => {
+  const history = useHistory()
   const [state, setState] = useState({
     orderNum: 1,
     stock: 0
@@ -97,7 +99,11 @@ const ProductDetail = (props) => {
   }
 
   const handleProductListPage = () => {
-    history.replace('/company/shop')
+    if (_.isEmpty(props)) {
+      window.location.replace('/company/shop')
+    } else {
+      history.replace('/company/shop')
+    }
   }
 
   // const handleCartListPage = () => {
