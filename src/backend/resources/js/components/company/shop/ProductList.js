@@ -363,7 +363,7 @@ const ProductList = () => {
                   <input
                     type="text"
                     className="h-full w-80 bg-gray-100 custom-outline-none text-left placeholder-primary-200"
-                    placeholder="検索"
+                    placeholder="商品名を検索"
                     value={searchItem.searchText || ''}
                     onChange={(e) => {
                       handleSearch(e.target.value)
