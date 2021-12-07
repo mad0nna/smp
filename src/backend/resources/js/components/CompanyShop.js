@@ -14,11 +14,10 @@ const CompanyShop = () => {
           <Route path="/company/shop">
             <ProductList />
           </Route>
-          <Route path="/company/productDetail">
-            <CartProvider>
-              <ProductDetail />
-            </CartProvider>
-          </Route>
+          <Route
+            path="/company/productDetail"
+            render={(props) => <ProductDetail {...props} />}
+          />
           <Route path="/company/cart">
             <CartProvider>
               <CartList />
