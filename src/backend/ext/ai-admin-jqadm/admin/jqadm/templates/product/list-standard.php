@@ -625,16 +625,16 @@ $columnList = [
 
 		<ul class="nav nav-pills nav-justified product">
 			<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="#">All</a>
+				<a class="nav-link active" aria-current="page" href="#">すべて</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Active</a>
+				<a class="nav-link" href="#">アクティブ</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Draft</a>
+				<a class="nav-link" href="#">原稿</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Archived</a>
+				<a class="nav-link" href="#">アーカイブ</a>
 			</li>
 		</ul>
 
@@ -645,12 +645,12 @@ $columnList = [
 				<thead class="list-header">
 					<tr>
 						<th class="product-table-column"></th>
-						<th class="product-table-column">Product Number</th>
-						<th class="product-table-column">Product Name</th>
-						<th class="product-table-column">Stock</th>
-						<th class="product-table-column">Selling Price</th>
-						<th class="product-table-column">Sales Status</th>
-						<th class="product-table-column">Action</th>
+						<th class="product-table-column product-table-column-product-code">品番</th>
+						<th class="product-table-column product-table-column-product-name">商品</th>
+						<th class="product-table-column">在庫</th>
+						<th class="product-table-column">販売価格</th>
+						<th class="product-table-column">販売状況</th>
+						<th class="product-table-column"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -720,11 +720,11 @@ $columnList = [
 							<!-- Custom added columns for idaten for DX -->
 							<?php if( in_array( 'product.instock', $fields ) ) : ?>
 								<!-- temporary static data -->
-								<td class="product-ratings"><a class="items-field" href="<?= $url ?>"> 100 </a></td>
+								<td class="product-ratings"> <?  $item->isAvailable() ? $_s = $item->getStockItems()->first()->toArray()['stock.stocklevel'] : ''  ?> <?= $_s ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'product.price', $fields ) ) : ?>
 								<!-- temporary static data -->
-								<td class="product-ratings"><a class="items-field" href="<?= $url ?>"> 100,000 <i class="fa fa-jpy" aria-hidden="true"></i></a></td>
+								<td class="product-ratings">  <? $p = $item->getListItems('price')->getRefItem()->first(); ?> <? if ($p) { ?> <i class="fa fa-jpy" aria-hidden="true"></i> <?= $p->toArray()['price.value'] ?> <? } else { echo ''; }?> </td>
 							<?php endif ?>
 							<!-- End -->
 
@@ -733,7 +733,11 @@ $columnList = [
 							<?php endif ?>
 
 							<td class="actions">
-								<?php if( !$this->site()->readonly( $item->getSiteId() ) ) : ?>
+								<a class="items-field" href="<?= $url ?>">詳細</a>
+							</td>
+
+							<td class="actions d-none">
+								<?php  if( !$this->site()->readonly( $item->getSiteId() ) ) : ?>
 									<a tabindex="1" href="#"
 										v-on:click.prevent.stop="askDelete(`<?= $enc->js( $id ) ?>`)"
 										title="<?= $enc->attr( $this->translate( 'admin', 'Delete this entry' ) ) ?>"

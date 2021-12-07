@@ -39,13 +39,13 @@ $keys = ['stock.id', 'stock.siteid', 'stock.type', 'stock.stocklevel', 'stock.da
 								<?= $enc->html( $this->translate( 'admin', 'Number of articles currently in stock, leave empty for an unlimited quantity' ) ) ?>
 							</div>
 						</th>
-						<th class="stock-dateback">
+						<th class="stock-dateback d-none">
 							<span class="help"><?= $enc->html( $this->translate( 'admin', 'Back in stock' ) ) ?></span>
 							<div class="form-text text-muted help-text">
 								<?= $enc->html( $this->translate( 'admin', 'Shown if the article reached a stock level of zero' ) ) ?>
 							</div>
 						</th>
-						<th class="stock-timeframe">
+						<th class="stock-timeframe d-none">
 							<span class="help"><?= $enc->html( $this->translate( 'admin', 'Delivery within' ) ) ?></span>
 							<div class="form-text text-muted help-text">
 								<?= $enc->html( $this->translate( 'admin', 'Usual time frame for the delivery of the product' ) ) ?>
@@ -93,7 +93,7 @@ $keys = ['stock.id', 'stock.siteid', 'stock.type', 'stock.stocklevel', 'stock.da
 									v-bind:value="0" />
 							</div>
 						</td>
-						<td class="stock-dateback optional">
+						<td class="stock-dateback optional d-none">
 							<input is="flat-pickr" class="form-control item-dateback" type="datetime-local" tabindex="<?= $this->get( 'tabindex' ) ?>"
 								v-bind:name="`<?= $enc->js( $this->formparam( ['stock', 'idx', 'stock.dateback'] ) ) ?>`.replace( 'idx', idx )"
 								placeholder="<?= $enc->attr( $this->translate( 'admin', 'YYYY-MM-DD hh:mm:ss (optional)' ) ) ?>"
@@ -101,7 +101,7 @@ $keys = ['stock.id', 'stock.siteid', 'stock.type', 'stock.stocklevel', 'stock.da
 								v-bind:disabled="checkSite(idx)"
 								v-model="item['stock.dateback']" />
 						</td>
-						<td class="stock-timeframe optional">
+						<td class="stock-timeframe optional d-none">
 							<input class="form-control item-timeframe" type="text" tabindex="<?= $this->get( 'tabindex' ) ?>"
 								v-bind:name="`<?= $enc->js( $this->formparam( ['stock', 'idx', 'stock.timeframe'] ) ) ?>`.replace( 'idx', idx )"
 								placeholder="<?= $enc->attr( $this->translate( 'admin', 'Time frame (optional)' ) ) ?>"
@@ -123,6 +123,8 @@ $keys = ['stock.id', 'stock.siteid', 'stock.type', 'stock.stocklevel', 'stock.da
 								v-on:click.stop="remove(idx)">
 							</div>
 						</td>
+						<td class="stock-dateback"></div>
+						<td class="stock-timeframe"></div>
 					</tr>
 
 				</tbody>
