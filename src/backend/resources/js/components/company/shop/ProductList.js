@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Pagination from '../../Pagination'
-import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
 const ProductList = () => {
-  const history = useHistory()
-
   const [pagingConditions, setPagingConditions] = useState({
     page: 1,
     limit: 10,
     keyword: '',
     handlePageClick: handlePageClick
   })
-
-  const handleDetailPageClick = (product) => {
-    history.push({
-      pathname: `/company/productDetail`,
-      state: product
-    })
-  }
 
   const [sortItem, setSortItem] = useState({
     selectedSortValue: '',
@@ -53,12 +44,10 @@ const ProductList = () => {
     data: [],
     pageCount: 1,
     currentPage: 1,
+    detailData: [],
     lastPage: 1,
     pageNumbers: '',
-    loaded: false,
-    loadProductDetail: false,
-    detailData: [],
-    showProductDetail: false
+    loaded: false
   })
 
   function sortDropdown(options) {
@@ -80,6 +69,27 @@ const ProductList = () => {
         }
       })
     }
+
+    if (value !== '') {
+      if (value === 'name_asc') {
+        let nameSortedDataAsc = state.data.sort((a, b) => {
+          return a.product['product.label']
+            .toString()
+            .localeCompare(b.product['product.label'].toString(), 'ja')
+        })
+        console.log('@sorted asc name : ', nameSortedDataAsc)
+      } else if (value === 'name_desc') {
+        let nameSortedDataDesc = state.data
+          .sort((a, b) => {
+            return a.product['product.label']
+              .toLocaleString()
+              .localeCompare(b.product['product.label'], 'ja')
+          })
+          .reverse()
+        console.log('@sorted asc name : ', nameSortedDataDesc)
+      }
+    }
+
     setSortItem({
       ...sortItem,
       selectedSortValue: value
@@ -231,6 +241,7 @@ const ProductList = () => {
 
   const productItem = (products) => {
     if (!_.isEmpty(products)) {
+      console.log(products)
       return products.map((product, index) => {
         let prodDescription = product.text['text.content'].replace(
           /<[^>]+>/g,
@@ -264,12 +275,18 @@ const ProductList = () => {
                 {`¥ ${prodPrice}`}
               </div>
               <div className="text-gray-500 font-bold">商品說明</div>
-              <p className="text-gray-400 text-left h-26">{prodDescription}</p>
-              <div
-                className="text-primary-200 underline font-bold text-sm mt-2 cursor-pointer"
-                onClick={() => handleDetailPageClick(product)}
-              >
-                カートに追加
+              <p className="text-gray-400 text-left h-26 text-sm">
+                {prodDescription}
+              </p>
+              <div className="text-primary-200 underline font-bold text-sm mt-2 cursor-pointer">
+                <Link
+                  to={{
+                    pathname: `/company/productDetail/`,
+                    detail: product
+                  }}
+                >
+                  カートに追加
+                </Link>
               </div>
             </div>
           </div>
@@ -282,13 +299,23 @@ const ProductList = () => {
   }
 
   return (
-    <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
+    <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
       <div className="md:col-span-1 lg:col-span-4 pb-5">
         <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
           <div className="px-3 pt-3 pb-2">
-            <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-4 items-center">
-              <div className="bg-cart-icon h-10 w-8"></div>
-              <h2 className="text-green-600 text-lg font-bold">物販</h2>
+            <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-2 items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 0 24 24"
+                width="24px"
+                fill="currentColor"
+                className="text-primary-200 h-10 w-8"
+              >
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z" />
+              </svg>
+              <h2 className="text-primary-200 text-lg font-bold">物販</h2>
             </div>
           </div>
           <div
@@ -301,7 +328,7 @@ const ProductList = () => {
                   <select
                     type="text"
                     name="sort"
-                    className="h-full w-80 bg-gray-100 custom-outline-none text-left p-3 bg-arrow-down bg-no-repeat appearance-none text-green-600 tex-right"
+                    className="h-full w-80 bg-gray-100 custom-outline-none text-left p-3 bg-arrow-down bg-no-repeat appearance-none text-primary-200 tex-right"
                     style={{
                       backgroundPosition: 'calc(100% - 1.2em) center'
                     }}
@@ -318,7 +345,7 @@ const ProductList = () => {
               <div className="table-cell relative h-20 w-full align-middle">
                 <div className="bg-gray-100 h-12 rounded-lg w-96 mx-0 my-auto">
                   <svg
-                    className="text-green-600 font-bold fill-current w-auto h-11 float-left mt-0.5 p-3"
+                    className="text-primary-200 font-bold fill-current w-auto h-11 float-left mt-0.5 p-3"
                     xmlns="http://www.w3.org/2000/svg"
                     x="30px"
                     y="30px"
@@ -335,8 +362,8 @@ const ProductList = () => {
                   </svg>
                   <input
                     type="text"
-                    className="h-full w-80 bg-gray-100 custom-outline-none text-left placeholder-green-600"
-                    placeholder="検索"
+                    className="h-full w-80 bg-gray-100 custom-outline-none text-left placeholder-primary-200"
+                    placeholder="商品名を検索"
                     value={searchItem.searchText || ''}
                     onChange={(e) => {
                       handleSearch(e.target.value)
@@ -349,7 +376,7 @@ const ProductList = () => {
           </div>
           <div className="p-7">
             <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6 overflow-auto">
-              {productItem(state.data || [])}
+              {state.data ? productItem(state.data || []) : ''}
             </div>
           </div>
         </div>
