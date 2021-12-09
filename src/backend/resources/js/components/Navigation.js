@@ -82,9 +82,9 @@ const Navigation = () => {
           label: 'ショップ',
           url: '/company/shop',
           childUrl: ['/company/productDetail'],
-          iconNormal: 'bg-cart-icon-icon',
-          iconHover: 'group-hover:bg-cart-icon-icon-hover',
-          iconActive: 'bg-cart-icon-icon-hover',
+          iconNormal: 'bg-shop-icon',
+          iconHover: 'group-hover:bg-shop-icon-hover',
+          iconActive: 'bg-shop-icon-hover',
           iconSize: 'h-8 w-8',
           isActive: false,
           extraStyle: ''
