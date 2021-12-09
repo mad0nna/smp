@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom'
 import axios from 'axios'
 import _ from 'lodash'
 import { useHistory } from 'react-router'
+import { useCart } from 'react-use-cart'
 
 const ProductDetail = (props) => {
   const history = useHistory()
+  const { addItem } = useCart()
   const [state, setState] = useState({
     orderNum: 1,
     stock: 0
@@ -15,24 +17,34 @@ const ProductDetail = (props) => {
 
   const [productDetail, setProductDetail] = useState({
     id: 0,
+    userId: 0,
     imgSrc: '',
     description: '',
     title: '',
-    price: '',
+    price: 0,
+    taxVal: 0,
+    quantity: 0,
     defaultStock: 0
   })
 
   const parseProductData = (data) => {
     const { media, price, product, text, stock } = data
     let prodDescription = text['text.content'].replace(/<[^>]+>/g, '')
-    let prodPrice = _.parseInt(_.parseInt(price['price.value'])).toLocaleString(
-      'jp'
+    let prodPrice = _.parseInt(
+      _.parseInt(price['price.value']) - _.parseInt(price['price.taxvalue'])
     )
+
+    let userData = JSON.parse(document.getElementById('userData').textContent)
+    let taxValue = _.parseInt(_.parseInt(price['price.taxvalue']))
+
     setProductDetail({
       ...productDetail,
       id: product['product.id'],
+      userId: userData.userId,
       description: prodDescription,
       price: prodPrice,
+      taxVal: taxValue,
+      quantity: price['price.quantity'],
       title: product['product.label'],
       imgSrc: media['media.preview'],
       defaultStock: stock['stock.stocklevel'] ?? 0
@@ -106,20 +118,68 @@ const ProductDetail = (props) => {
     }
   }
 
-  // const handleCartListPage = () => {
-  //   // create cart items
-  //   addItem(productDetail, state.orderNum)
-  //   history.replace('/company/cart')
-  // }
+  const handleCartListPage = () => {
+    // create cart items
+    if (productDetail.defaultStock == 0) {
+      alert('Unable to proceed cart. No stocks available.')
+      return
+    }
+    addItem(productDetail, state.orderNum)
+    history.replace('/company/cart')
+  }
+
+  function getProductDetail(id) {
+    axios({
+      url: `/jsonapi/product?id=${id}&include=media,text,price,stock`,
+      method: 'get',
+      responseType: 'json'
+    }).then((response) => {
+      if (!_.isEmpty(response.data)) {
+        let item = response.data
+        // getting id from relationship media
+        let prodMediaId = item.data.relationships.media.data[0]['id']
+        // for long description
+        let prodTextId = item.data.relationships.text.data[0]['id']
+        //for price value
+        let prodPriceId = item.data.relationships.price.data[0]['id']
+        // for stock
+        let prodStockId = item.data.relationships.stock.data[0]['id']
+
+        if (!_.isEmpty(item) || item !== undefined) {
+          let prodDetail = {
+            product: item.data.attributes,
+            media:
+              _.filter(item.included, (inc) => {
+                return inc.type === 'media' && inc['id'] === prodMediaId
+              })[0].attributes ?? {},
+            text:
+              _.filter(item.included, (inc) => {
+                return inc.type == 'text' && inc['id'] == prodTextId
+              })[0].attributes ?? {},
+            price:
+              _.filter(item.included, (inc) => {
+                return inc.type === 'price' && inc['id'] === prodPriceId
+              })[0].attributes ?? {},
+            stock:
+              _.filter(item.included, (inc) => {
+                return inc.type === 'stock' && inc['id'] == prodStockId
+              })[0].attributes ?? {}
+          }
+          parseProductData(prodDetail)
+        }
+      }
+    })
+  }
 
   const productDetailItem = () => {
     return (
       <tr>
         <td className="text-center font-bold text-red-500 p-3">
-          {productDetail.price}
+          {productDetail.price.toLocaleString('jp')}
           <br />
           <span className="text-gray-400  font-bold">
-            ({productDetail.price} * {state.orderNum})
+            ({productDetail.price.toLocaleString('jp')} *{' '}
+            {productDetail.quantity})
           </span>
         </td>
         <td className="text-center font-bold text-red-500 p-3">
@@ -188,61 +248,19 @@ const ProductDetail = (props) => {
 
   useEffect(() => {
     if (_.isEmpty(props)) {
-      let urlParams = new URLSearchParams(window.location.search)
-      let id = urlParams.get('id')
-      let digitOnly = /^\d+$/
-
-      if (!digitOnly.test(id) && urlParams !== '') {
-        alert('記録が見当たりませんでした')
-        window.location.replace('/company/shop')
-      }
-
-      axios({
-        url: `/jsonapi/product?id=${id}&include=media,text,price,stock`,
-        method: 'get',
-        responseType: 'json'
-      }).then((response) => {
-        if (!_.isEmpty(response.data)) {
-          let item = response.data
-
-          // getting id from relationship media
-          let prodMediaId = item.data.relationships.media.data[0]['id']
-          // for long description
-          let prodTextId = item.data.relationships.text.data[0]['id']
-          //for price value
-          let prodPriceId = item.data.relationships.price.data[0]['id']
-          // for stock
-          let prodStockId = item.data.relationships.stock.data[0]['id']
-
-          if (!_.isEmpty(item) || item !== undefined) {
-            let prodDetail = {
-              product: item.data.attributes,
-              media:
-                _.filter(item.included, (inc) => {
-                  return inc.type === 'media' && inc['id'] === prodMediaId
-                })[0].attributes ?? {},
-              text:
-                _.filter(item.included, (inc) => {
-                  return inc.type == 'text' && inc['id'] == prodTextId
-                })[0].attributes ?? {},
-              price:
-                _.filter(item.included, (inc) => {
-                  return inc.type === 'price' && inc['id'] === prodPriceId
-                })[0].attributes ?? {},
-              stock:
-                _.filter(item.included, (inc) => {
-                  return inc.type === 'stock' && inc['id'] == prodStockId
-                })[0].attributes ?? {}
-            }
-            parseProductData(prodDetail)
-          }
-        }
-      })
+      // let urlParams = new URLSearchParams(window.location.search)
+      // let id = urlParams.get('id')
+      // let digitOnly = /^\d+$/
+      // if (!digitOnly.test(id) && urlParams !== '') {
+      //   alert('記録が見当たりませんでした')
+      //   window.location.replace('/company/shop')
+      // }
+      // getProductDetail(id)
     } else {
       const { location } = props
       parseProductData(location.detail)
     }
-  }, [])
+  }, [props])
 
   return (
     <div className="bg-mainbg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
@@ -317,9 +335,7 @@ const ProductDetail = (props) => {
                     </button>
                     <button
                       className="bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold"
-                      onClick={() => {
-                        console.log('@item')
-                      }}
+                      onClick={handleCartListPage}
                     >
                       カートに追加
                     </button>
