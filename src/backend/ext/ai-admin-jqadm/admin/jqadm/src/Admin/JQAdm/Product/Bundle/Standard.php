@@ -81,7 +81,7 @@ class Standard
 	public function get() : ?string
 	{
 		$view = $this->getObject()->addData( $this->getView() );
-
+		// dd($this->toArray( $view->item ));
 		$view->bundleData = $this->toArray( $view->item );
 		$view->bundleBody = parent::get();
 
@@ -274,11 +274,28 @@ class Standard
 	 */
 	protected function toArray( \Aimeos\MShop\Product\Item\Iface $item, bool $copy = false ) : array
 	{
-		if( $item->getType() !== 'bundle' ) {
-			return [];
+		$data = [];
+		$context = $this->getContext();
+		$siteId = $context->getLocale()->getSiteId();
+
+		$manager = \Aimeos\MShop::create( $context, 'stock' );
+		$filter = $manager->filter()->add( ['stock.productid' => $item->getId()] )->order( 'stock.type' );
+
+		foreach( $manager->search( $filter ) as $stockItem )
+		{
+			$list = $stockItem->toArray( true );
+
+			if( $copy === true )
+			{
+				$list['stock.siteid'] = $siteId;
+				$list['stock.id'] = '';
+			}
+
+			$list['stock.dateback'] = str_replace( ' ', 'T', $list['stock.dateback'] );
+
+			$data[] = $list;
 		}
 
-		$data = [];
 		$siteId = $this->getContext()->getLocale()->getSiteId();
 
 		foreach( $item->getListItems( 'product', 'default', null, false ) as $listItem )
