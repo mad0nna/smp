@@ -430,6 +430,14 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
 								</div>
 							</div>
+							<div class="form-group row">
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '在庫' ) ) ?></label>
+								<div class="col-sm-8">
+									<input class="form-control item-label" type="text" tabindex="1" readonly
+										value="<?= $this->get('bundleData')[0]['stock.stocklevel'] ?? 0; ?>">
+										 
+								</div>
+							</div>
 						</div>
 						<div class="col-xl-6 block vue <?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> d-none"
 							data-data="<?= $enc->attr( $this->get( 'itemData', new stdClass() ) ) ?>">

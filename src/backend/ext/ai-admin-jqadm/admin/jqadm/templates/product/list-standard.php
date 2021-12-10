@@ -650,7 +650,7 @@ $columnList = [
 						<th class="product-table-column">在庫</th>
 						<th class="product-table-column">販売価格</th>
 						<th class="product-table-column">販売状況</th>
-						<th class="product-table-column"></th>
+						<th class="product-table-column" style="width:9%">アクション</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -720,16 +720,16 @@ $columnList = [
 							<!-- Custom added columns for idaten for DX -->
 							<?php if( in_array( 'product.instock', $fields ) ) : ?>
 								<!-- temporary static data -->
-								<td class="product-ratings"> <?  $item->isAvailable() ? $_s = $item->getStockItems()->first()->toArray()['stock.stocklevel'] : ''  ?> <?= $_s ?> </td>
+								<td class="product-ratings"> <? $item->isAvailable() ? $_s = $item->getStockItems()->first()->toArray()['stock.stocklevel'] : '0'  ?> <?= $_s ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'product.price', $fields ) ) : ?>
 								<!-- temporary static data -->
-								<td class="product-ratings">  <? $p = $item->getListItems('price')->getRefItem()->first(); ?> <? if ($p) { ?> <i class="fa fa-jpy" aria-hidden="true"></i> <?= $p->toArray()['price.value'] ?> <? } else { echo ''; }?> </td>
+								<td class="product-ratings">  <? $p = $item->getListItems('price')->getRefItem()->first(); ?> <? if ($p) { ?> <i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format($p->toArray()['price.value']) ?> <? } else { echo 'N/A'; }?> </td>
 							<?php endif ?>
 							<!-- End -->
 
 							<?php if( in_array( 'product.status', $fields ) ) : ?>
-								<td class="product-status"><a class="items-field" href="<?= $url ?>"><div class="fa status-<?= $enc->attr( $item->getStatus() ) ?>"></div></a></td>
+								<td class="product-status"><? if ($item->getStatus() == 1) {echo "販売中";} else {echo "⾮公開";}  ?></div></td>
 							<?php endif ?>
 
 							<td class="actions">
