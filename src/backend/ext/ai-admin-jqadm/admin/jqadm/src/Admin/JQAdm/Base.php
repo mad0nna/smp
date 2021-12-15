@@ -498,9 +498,9 @@ abstract class Base
 					$expr[] = [$params['op'][$idx] => [$key => $params['val'][$idx]]];
 				}
 			}
-
-			if( !empty( $expr ) ) {
-				$expr = ['&&' => $expr];
+			
+			if( !empty( $expr ) ) {		 
+				$expr = ['||' => $expr];
 			}
 		}
 
