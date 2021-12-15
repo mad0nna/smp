@@ -74,7 +74,7 @@ class BillingService
     {
         Cache::forget("{$companyID}:zuora:accountDetails");
         $accountDetails = Cache::remember("{$companyID}:zuora:accountDetails", now()->addDay(1), function () use ($companyID) {
-            $accountInfo = (new ModelAccount)->findByID($companyID);
+            $accountInfo = (new Account)->find($companyID);
             if (!$accountInfo['success']) {
                 return false;
             }
