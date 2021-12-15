@@ -4,6 +4,8 @@ import KotLogo from '../../img/KOT-menu-logo.png'
 import ArrowDownIcon from '../../img/arrowdown.png'
 import AdminIcon from '../../img/admin-icon.png'
 import idpIcon from '../../img/idp_logo.png'
+import shopIcon from '../../img/shop-icon.png'
+import shopIcon2 from '../../img/shop-icon-green.png'
 import axios from 'axios'
 
 const Navigation = () => {
@@ -269,7 +271,7 @@ const Navigation = () => {
         },
         {
           label: 'ショップ',
-          url: '/admin/shop/jqadm/search/product',
+          url: '/admin/shop/jqadm/search/product?locale=ja',
           childUrl: [],
           iconNormal: 'bg-shop-icon',
           iconHover: 'group-hover:bg-shop-icon-hover',
@@ -444,6 +446,8 @@ const Navigation = () => {
               ref={refMenu}
             >
               <div className="my-auto">
+                <img alt="" className="hidden" src={shopIcon} />
+                <img alt="" className="hidden" src={shopIcon2} />
                 {state.mainNav.dropDownNav.logo !== '' ? (
                   <img
                     alt="setting icon"
