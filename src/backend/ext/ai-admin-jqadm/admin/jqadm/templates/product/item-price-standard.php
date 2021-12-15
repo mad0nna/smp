@@ -76,8 +76,8 @@ $enc = $this->encoder();
 						<input type="hidden" v-model="item['price.id']"
 							v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.id' ) ) ) ?>`.replace('idx', idx)" />
 
-						<div class="col-xl-6">
-							<div class="form-group row mandatory">
+						<div class="col-xl-12">
+							<div class="form-group row mandatory col-xl-5">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Status' ) ) ?></label>
 								<div class="col-sm-8">
 									<select class="form-select item-status" required="required" tabindex="<?= $this->get( 'tabindex' ) ?>"
@@ -100,23 +100,44 @@ $enc = $this->encoder();
 									</select>
 								</div>
 							</div>
+
+							<div class="form-group row optional col-xl-12">
+								<div class="form-group row col-xl-5">
+									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '单价' ) ) ?></label>
+									<div class="col-sm-8">
+										<input class="form-control item-value" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>"
+											v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'unit_price' ) ) ) ?>`.replace('idx', idx)"
+											placeholder="<?= $enc->attr( $this->translate( 'admin', '单价' ) ) ?>"
+											v-bind:readonly="item['price.siteid'] != siteid"
+											v-model="item['unit_price']" />
+									</div>
+								</div>
+								<div class="form-group row col-xl-5">
+									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '最小用量' ) ) ?></label>
+									<div class="col-sm-8">
+										<input class="form-control item-value" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>"
+											v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'min_qty' ) ) ) ?>`.replace('idx', idx)"
+											placeholder="<?= $enc->attr( $this->translate( 'admin', '最小用量' ) ) ?>"
+											v-bind:readonly="item['price.siteid'] != siteid"
+											v-model="item['min_qty']" />
+									</div>
+								</div>
+							</div>
+							</div>
 							
-							<div class="form-group row optional">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Price' ) ) ?></label>
+							<div class="form-group row mandatory col-xl-5">
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Price' ) ) ?></label>
 								<div class="col-sm-8">
-									<input class="form-control item-value" type="number" step="<?= $this->pageNumberStep ?>" tabindex="<?= $this->get( 'tabindex' ) ?>"
+									<input class="form-control item-value" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>"
 										v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.value' ) ) ) ?>`.replace('idx', idx)"
 										placeholder="<?= $enc->attr( $this->translate( 'admin', 'Actual price' ) ) ?>"
 										v-bind:readonly="item['price.siteid'] != siteid"
 										v-model="item['price.value']" />
 								</div>
-								<div class="col-sm-12 form-text text-muted help-text">
-									<?= $enc->html( $this->translate( 'admin', 'Actual price customers can buy the article for on the web site' ) ) ?>
-								</div>
 							</div>
 
-							<div class="form-group row mandatory">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Tax rate in %' ) ) ?></label>
+							<div class="form-group row mandatory col-xl-5">
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Tax rate in %' ) ) ?></label>
 								<div class="col-sm-8">
 									<div is="taxrates" v-bind:key="idx" class="item-taxrate"
 										v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.taxrates' ) ) ) ?>`.replace('idx', idx)"
@@ -127,13 +148,10 @@ $enc = $this->encoder();
 										v-bind:taxrates="item['price.taxrates']"
 									></div>
 								</div>
-								<div class="col-sm-12 form-text text-muted help-text">
-									<?= $enc->html( $this->translate( 'admin', 'Country specific tax rate to calculate and display the included tax (B2C) or add the tax if required (B2B)' ) ) ?>
-								</div>
 							</div>
 
 							<div class="form-group row optional d-none">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Granted rebate' ) ) ?></label>
+								<label class="col-sm-4 form-control-label "><?= $enc->html( $this->translate( 'admin', 'Granted rebate' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-rebate" type="number" step="<?= $this->pageNumberStep ?>" tabindex="<?= $this->get( 'tabindex' ) ?>"
 										v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.rebate' ) ) ) ?>`.replace('idx', idx)"
@@ -146,7 +164,7 @@ $enc = $this->encoder();
 								</div>
 							</div>
 							<div class="form-group row optional d-none">
-								<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Shipping/item' ) ) ?></label>
+								<label class="col-sm-4 form-control-label "><?= $enc->html( $this->translate( 'admin', 'Shipping/item' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-costs" type="number" step="<?= $this->pageNumberStep ?>" tabindex="<?= $this->get( 'tabindex' ) ?>"
 										v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.costs' ) ) ) ?>`.replace('idx', idx)"

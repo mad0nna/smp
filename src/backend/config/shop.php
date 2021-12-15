@@ -10,9 +10,9 @@ return [
 	'routes' => [
 		// Docs: https://aimeos.org/docs/latest/laravel/extend/#custom-routes
 		// Multi-sites: https://aimeos.org/docs/latest/laravel/customize/#multiple-shops
-		'admin' => ['prefix' => 'shop-admin', 'middleware' => ['web', 'verified']],
-		'jqadm' => ['prefix' => 'shop-admin/jqadm', 'middleware' => ['web', 'auth']],
-		'jsonadm' => ['prefix' => 'shop-admin/jsonadm', 'middleware' => ['web', 'auth']],
+		'admin' => ['prefix' => 'admin/shop', 'middleware' => ['web', 'verified']],
+		'jqadm' => ['prefix' => 'admin/shop/jqadm', 'middleware' => ['web', 'auth']],
+		'jsonadm' => ['prefix' => 'admin/shop/jsonadm', 'middleware' => ['web', 'auth']],
 		'jsonapi' => ['prefix' => 'jsonapi', 'middleware' => ['web', 'api']],
 		'account' => ['prefix' => 'profile', 'middleware' => ['web', 'auth']],
 		'default' => ['prefix' => 'shop', 'middleware' => ['web']],

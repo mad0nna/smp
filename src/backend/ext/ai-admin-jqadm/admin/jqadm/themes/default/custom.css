@@ -33,11 +33,11 @@ p.upload-csv input {
 
 
 .bg-document-icon {
-background-image: url('/images/document-normal.png');
+  background-image: url('/images/document-normal.png');
 }
 
 .bg-document-icon-hover {
-background-image: url('/images/document-hover.png');
+  background-image: url('/images/document-hover.png');
 }
 
 .bg-billing-icon {

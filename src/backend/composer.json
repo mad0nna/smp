@@ -13,6 +13,7 @@
         "ext-intl": "*",
         "aimeos/aimeos-core": "~2021.10.4",
         "aimeos/aimeos-laravel": "~2021.10.2",
+        "aimeos/idaten-theme-2": "dev-T39141",
         "aws/aws-sdk-php": "~3.0",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
@@ -74,6 +75,12 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+    },
+    "repositories": {
+        "idaten-theme-2": {
+        "type": "path",
+        "url": "packages/idaten-theme-2"
+        }
     }
     
 }
