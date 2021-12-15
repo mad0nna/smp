@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Company;
+use App\Services\API\Salesforce\Model\Account as ModelAccount;
 use App\Services\Utilities\DateManager;
 use App\Services\Utilities\MessageResult;
 use Illuminate\Support\Facades\Cache;
@@ -71,8 +72,9 @@ class BillingService
 
     public function getAccountInfo($companyID)
     {
+        Cache::forget("{$companyID}:zuora:accountDetails");
         $accountDetails = Cache::remember("{$companyID}:zuora:accountDetails", now()->addDay(1), function () use ($companyID) {
-            $accountInfo = (new Account)->find($companyID);
+            $accountInfo = (new ModelAccount)->findByID($companyID);
             if (!$accountInfo['success']) {
                 return false;
             }
