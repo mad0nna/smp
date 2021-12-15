@@ -132,6 +132,14 @@
     transform-origin: 50% 100% 0px;
 }
 
+.bg-shop-icon {
+    background-image: url('/images/shop-icon.png');
+}
+
+.bg-shop-icon-hover {
+    background-image: url('/images/shop-icon.png');
+}
+
 
 
 
