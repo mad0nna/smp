@@ -21,7 +21,7 @@
                   <input
                     type="hidden"
                     name="success_url"
-                    value="https://v2-idaten.sprobe.ph/company/dashboard"
+                    value=<?=env('APP_URL') . "zeusLandingPage?redirectTo=" . $redirectTo?> 
                   />
                   <input
                     type="hidden"
@@ -31,7 +31,7 @@
                   <input
                     type="hidden"
                     name="failure_url"
-                    value="https://v2-idaten.sprobe.ph/company/dashboard"
+                    value=<?=env('APP_URL') . "zeusLandingPage"?> 
                   />
                   <input type="hidden" name="failure_str" value="ページに戻る" />
                   <input
