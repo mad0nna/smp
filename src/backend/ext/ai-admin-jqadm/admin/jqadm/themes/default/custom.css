@@ -33,11 +33,11 @@ p.upload-csv input {
 
 
 .bg-document-icon {
-background-image: url('/images/document-normal.png');
+  background-image: url('/images/document-normal.png');
 }
 
 .bg-document-icon-hover {
-background-image: url('/images/document-hover.png');
+  background-image: url('/images/document-hover.png');
 }
 
 .bg-billing-icon {
@@ -174,6 +174,43 @@ background-image: url('/images/document-hover.png');
   background-color: #fff !important;
   color: #15742e !important;
   font-size: 18px !important;
+}
+
+.aimeos table.list-items th{
+  font-weight: bold;
+}
+
+.aimeos table.list-items th.product-table-column-product-code {
+  text-align: left;
+  padding-left: 2.5rem;
+}
+
+.aimeos table.list-items th.product-table-column-product-name {
+  text-align: left;
+  padding-left: 1.5rem;
+  font-weight: bold;
+}
+
+.aimeos table.list-items td.product-code {
+  text-align: left;
+  padding-left: 2.5rem;
+}
+
+.aimeos table.list-items td.product-label {
+  text-align: left;
+  padding-left: 1.5rem;
+}
+
+.btn-primary {
+  background-color: #1D9E48;
+}
+
+.btn-primary:hover {
+  background-color: #177737;
+}
+
+.nav-item .nav-link:hover:not(.active) {
+  background-color: #c5e7c8 !important;
 }
 
 /* <------------ End -------------> */

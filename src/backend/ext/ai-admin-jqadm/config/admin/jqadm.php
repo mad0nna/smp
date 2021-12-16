@@ -131,7 +131,7 @@ return [
 			'media' => 'media',
 			'text' => 'text',
 			'price' => 'price',
-			'stock' => 'stock',
+			// 'stock' => 'stock',
 			// 'category' => 'category',
 			// 'characteristic' => 'characteristic',
 			// 'option' => 'option',

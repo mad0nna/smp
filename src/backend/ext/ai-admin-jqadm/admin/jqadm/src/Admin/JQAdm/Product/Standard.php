@@ -235,8 +235,11 @@ class Standard
 			$total = 0;
 			$domains = map( $this->getDomains() )->remove( 'product' );
 			$params = $this->storeFilter( $view->param(), 'product' );
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
-
+			if (isset($params['filter']['val']['6'])) {
+				$params['filter']['val']['5'] = $params['filter']['val']['6'];
+			}
+			
+			$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );			
 			$search = $manager->filter();
 			$search->setSortations( [$search->sort( '+', 'product.id' )] );
 			$search = $this->initCriteria( $search, $params );

@@ -587,19 +587,12 @@ $columnList = [
 		v-bind:attributes="<?= $enc->attr( $searchAttributes ) ?>">
 	</nav-search>
 
-	<?= $this->partial(
-			$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-standard' ),
-			['pageParams' => $params, 'pos' => 'top', 'total' => $this->get( 'total' ),
-			'page' =>$this->session( 'aimeos/admin/jqadm/product/page', [] )]
-		);
-	?>
-
 	<div class="d-flex row justify-content-end">
 		<div class="p2" id="upload_csv_content" >
 			<form id="form_upload_new_product" method="POST" action="/company/uploadNewProductInventoryCsv" enctype="multipart/form-data">
 				<?= $this->csrf()->formfield() ?> 
-				<p class="file btn btn-lg btn-theme text-white upload-csv float-end">
-					Upload New Products
+				<p class="file btn btn-lg btn-theme text-white upload-csv float-start">
+					商品を追加
 					<input id="input_upload_new_product" type="file" name="file" accept=".csv"   />
 				</p>
 				<input id="btn_upload_new_product" type="submit" value="Upload" name="submit" style="display:none" >
@@ -607,11 +600,38 @@ $columnList = [
 
 			<form id="form_upload_update_stock" method="POST" action="/company/uploadUpdateStockInventoryCsv" enctype="multipart/form-data">
 				<?= $this->csrf()->formfield() ?>
-				<p class="file btn btn-lg btn-theme text-white upload-csv float-end mx-2">
-					Upload Update Stock
+				<p class="file btn btn-lg btn-theme text-white upload-csv float-start mx-2">
+					在庫を更新
 					<input id="input_upload_update_stock" type="file" name="file" accept=".csv"   />
 				</p>
 				<input id="btn_upload_update_stock" type="submit" value="Upload" name="submit" style="display:none">
+			</form>
+
+			<form ref="form" method="POST" action="<?= $enc->attr( $this->url( $target, $controller, $action, $searchParams, [], $config ) ) ?>">
+				<?= $this->csrf()->formfield() ?>
+				<button id="btnSubmitFilter" type="submit" tabindex="2" title="Search" aria-label="Search" class="btn act-search fa file btn btn-lg btn-theme text-white upload-csv float-end mx-2" style="  ">
+					&nbsp; 探す &nbsp; 
+				</button>
+				<input type="hidden" value="product.code" name="filter[key][5]">
+				<input type="hidden" value="=~" name="filter[op][5]">
+				<input type="text"   name="filter[val][5]" value="" class="form-control float-end d-none"  >
+				
+				<input type="hidden" value="product.label" name="filter[key][6]">
+				<input type="hidden" value="=~" name="filter[op][6]">
+				<input type="text" tabindex="1" name="filter[val][6]" value="<?= $this->session( 'aimeos/admin/jqadm/product/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/product/filter', [] )['val']['6'] : ''; ?>" class="form-control float-end" style="width:15%; background:transparent;"  >
+				<input type="hidden" value="product.status" name="filter[key][3]"> <input type="hidden" value="==" name="filter[op][3]">
+				<select id="selectProductStatus" name="filter[val][3]" class="d-none">
+					<?php
+						$selStatus = "";
+						if (isset($this->session( 'aimeos/admin/jqadm/product/filter')['val']['3']) ) {
+							$selStatus = $this->session( 'aimeos/admin/jqadm/product/filter')['val']['3'];
+						}
+					?>
+					<option value="">All</option>
+					<option value="1" <? if ($selStatus === "1") { echo "selected='selected'"; } ?>>Enabled</option>
+					<option value="0" <? if ($selStatus === "0") { echo "selected='selected'"; } ?>>Disabled</option>
+					<option value="-2" <? if ($selStatus === "-2") { echo "selected='selected'"; } ?>>Archived</option>
+				</select>
 			</form>
 		</div>
 
@@ -625,16 +645,16 @@ $columnList = [
 
 		<ul class="nav nav-pills nav-justified product">
 			<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="#">All</a>
+				<a class="nav-link <?= $selStatus === "" ? 'active' : '' ?>" aria-current="page" href="#" id="linkSetProductAllActive" >すべて</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Active</a>
+				<a class="nav-link <?= $selStatus === "1" ? 'active' : '' ?>" href="#" id="linkSetProductActive"  >アクティブ</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Draft</a>
+				<a class="nav-link <?= $selStatus === "0" ? 'active' : '' ?>" href="#" id="linkSetProductInActive"  >原稿</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Archived</a>
+				<a class="nav-link <?= $selStatus === "-2" ? 'active' : '' ?>" href="#" id="linkSetProductArchived" >アーカイブ</a>
 			</li>
 		</ul>
 
@@ -645,12 +665,12 @@ $columnList = [
 				<thead class="list-header">
 					<tr>
 						<th class="product-table-column"></th>
-						<th class="product-table-column">Product Number</th>
-						<th class="product-table-column">Product Name</th>
-						<th class="product-table-column">Stock</th>
-						<th class="product-table-column">Selling Price</th>
-						<th class="product-table-column">Sales Status</th>
-						<th class="product-table-column">Action</th>
+						<th class="product-table-column product-table-column-product-code">品番</th>
+						<th class="product-table-column product-table-column-product-name">商品</th>
+						<th class="product-table-column">在庫</th>
+						<th class="product-table-column">販売価格</th>
+						<th class="product-table-column">販売状況</th>
+						<th class="product-table-column" style="width:9%">アクション</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -720,20 +740,24 @@ $columnList = [
 							<!-- Custom added columns for idaten for DX -->
 							<?php if( in_array( 'product.instock', $fields ) ) : ?>
 								<!-- temporary static data -->
-								<td class="product-ratings"><a class="items-field" href="<?= $url ?>"> 100 </a></td>
+								<td class="product-ratings"> <? $_s=0;  $item->isAvailable() ? $_s = $item->getStockItems()->first()->toArray()['stock.stocklevel'] : 0;  ?> <?= $_s ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'product.price', $fields ) ) : ?>
 								<!-- temporary static data -->
-								<td class="product-ratings"><a class="items-field" href="<?= $url ?>"> 100,000 <i class="fa fa-jpy" aria-hidden="true"></i></a></td>
+								<td class="product-ratings">  <? $p = $item->getListItems('price')->getRefItem()->first(); ?> <? if ($p) { ?> <i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format($p->toArray()['price.value']) ?> <? } else { echo 'N/A'; }?> </td>
 							<?php endif ?>
 							<!-- End -->
 
 							<?php if( in_array( 'product.status', $fields ) ) : ?>
-								<td class="product-status"><a class="items-field" href="<?= $url ?>"><div class="fa status-<?= $enc->attr( $item->getStatus() ) ?>"></div></a></td>
+								<td class="product-status"><? if ($item->getStatus() == 1) {echo "販売中";} else {echo "⾮公開";}  ?></div></td>
 							<?php endif ?>
 
 							<td class="actions">
-								<?php if( !$this->site()->readonly( $item->getSiteId() ) ) : ?>
+								<a class="items-field" href="<?= $url ?>">詳細</a>
+							</td>
+
+							<td class="actions d-none">
+								<?php  if( !$this->site()->readonly( $item->getSiteId() ) ) : ?>
 									<a tabindex="1" href="#"
 										v-on:click.prevent.stop="askDelete(`<?= $enc->js( $id ) ?>`)"
 										title="<?= $enc->attr( $this->translate( 'admin', 'Delete this entry' ) ) ?>"

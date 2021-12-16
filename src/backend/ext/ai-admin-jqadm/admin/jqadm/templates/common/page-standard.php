@@ -225,7 +225,7 @@ $after = is_array( $after ) ? $after[''] ?? reset( $after ) : $after;
 
 				<?php if( $this->access( $this->config( 'admin/jqadm/resource/language/groups', [] ) ) ) : ?>
 
-					<li class="treeview menuitem-language <?= $after === null ? '_after' : '' ?>">
+					<li class="d-none treeview menuitem-language <?= $after === null ? '_after' : '' ?>">
 						<span class="item-group">
 							<i class="icon"></i>
 							<span class="title"><?= $enc->attr( $this->translate( 'language', $this->param( 'locale', $this->translate( 'admin', 'Language' ) ) ) ) ?></span>

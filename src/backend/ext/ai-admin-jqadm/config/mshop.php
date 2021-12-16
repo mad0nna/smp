@@ -7,5 +7,12 @@ return [
                 'local' => ['Myproject']
             ]
         ]
+    ],
+    'price' => [
+        'manager' => [
+            'decorators' => [
+                'local' => ['Myproject']
+            ]
+        ]
     ]
 ];

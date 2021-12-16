@@ -316,7 +316,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 								</div>
 							<?php endif ?>
 							<div class="form-group row mandatory">
-								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Status' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '状態' ) ) ?></label>
 								<div class="col-sm-8">
 									<select class="form-select item-status" required="required" tabindex="1"
 										name="<?= $enc->attr( $this->formparam( array( 'item', 'product.status' ) ) ) ?>"
@@ -341,7 +341,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 							</div>
 							<?php if( ( $types = $this->get( 'itemTypes', map() )->col( 'product.type.label', 'product.type.code' ) )->count() !== 1 ) : ?>
 								<div class="form-group row mandatory">
-									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Category' ) ) ?></label>
+									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'カテゴリー' ) ) ?></label>
 									<div class="col-sm-8">
 										<select is="select-component" class="form-select item-type" required v-bind:tabindex="'1'"
 											v-bind:readonly="`<?= $enc->js( $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ) ?>` ? true : false"
@@ -361,7 +361,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 									value="<?= $enc->attr( $types->firstKey() ) ?>" />
 							<?php endif ?>
 							<div class="form-group row mandatory">
-								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Item Number' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '商品番号' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-code" type="text" required="required" tabindex="1"
 										name="<?= $enc->attr( $this->formparam( array( 'item', 'product.code' ) ) ) ?>"
@@ -371,7 +371,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 								</div>
 							</div>
 							<div class="form-group row mandatory">
-								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Name' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '商品名' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" required="required" tabindex="1"
 										name="<?= $this->formparam( array( 'item', 'product.label' ) ) ?>"
@@ -381,7 +381,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Barcode' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'バーコード' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" tabindex="1"
 										name="<?= $this->formparam( array( 'item', 'barcode' ) ) ?>"
@@ -391,7 +391,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Standard 1' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '標準１' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" tabindex="1"
 										name="<?= $this->formparam( array( 'item', 'standard1' ) ) ?>"
@@ -401,7 +401,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Standard 2' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '標準２' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" tabindex="1"
 										name="<?= $this->formparam( array( 'item', 'standard2' ) ) ?>"
@@ -411,7 +411,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Delivery Slip Display' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '伝票' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" tabindex="1"
 										name="<?= $this->formparam( array( 'item', 'delivery_slip_display' ) ) ?>"
@@ -421,13 +421,21 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Inventory Alert Qty' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '在庫不足アラート' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" tabindex="1"
 										name="<?= $this->formparam( array( 'item', 'inventory_alert_qty' ) ) ?>"
 										placeholder=""
 										value="<?= $this->get( 'itemData/inventory_alert_qty' ) ?>"
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '在庫' ) ) ?></label>
+								<div class="col-sm-8">
+									<input class="form-control item-label" type="text" tabindex="1" readonly
+										value="<?= $this->get('bundleData')[0]['stock.stocklevel'] ?? 0; ?>">
+										 
 								</div>
 							</div>
 						</div>
