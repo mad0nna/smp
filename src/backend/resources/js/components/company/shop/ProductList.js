@@ -70,26 +70,6 @@ const ProductList = () => {
       })
     }
 
-    if (value !== '') {
-      if (value === 'name_asc') {
-        let nameSortedDataAsc = state.data.sort((a, b) => {
-          return a.product['product.label']
-            .toString()
-            .localeCompare(b.product['product.label'].toString(), 'ja')
-        })
-        console.log('@sorted asc name : ', nameSortedDataAsc)
-      } else if (value === 'name_desc') {
-        let nameSortedDataDesc = state.data
-          .sort((a, b) => {
-            return a.product['product.label']
-              .toLocaleString()
-              .localeCompare(b.product['product.label'], 'ja')
-          })
-          .reverse()
-        console.log('@sorted asc name : ', nameSortedDataDesc)
-      }
-    }
-
     setSortItem({
       ...sortItem,
       selectedSortValue: value
@@ -247,9 +227,12 @@ const ProductList = () => {
           /<[^>]+>/g,
           ''
         )
-        let prodPrice = _.parseInt(product.price['price.value']).toLocaleString(
-          'jp'
-        )
+
+        let prodPrice = (
+          _.parseInt(product.price['price.value']) -
+          _.parseInt(product.price['price.taxvalue'])
+        ).toLocaleString('jp')
+
         return state.loaded ? (
           <div className="grid grid-flow-row mx-2" key={index}>
             {loadedImage ? (

@@ -7,6 +7,9 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { CartProvider } from 'react-use-cart'
 
 const CompanyShop = () => {
+  let userId = JSON.parse(
+    document.getElementById('userData').textContent
+  ).userId
   return (
     <div>
       <Router>
@@ -16,13 +19,20 @@ const CompanyShop = () => {
           </Route>
           <Route
             path="/company/productDetail"
-            render={(props) => <ProductDetail {...props} />}
+            render={(props) => (
+              <CartProvider id={userId}>
+                <ProductDetail {...props} />
+              </CartProvider>
+            )}
           />
-          <Route path="/company/cart">
-            <CartProvider>
-              <CartList />
-            </CartProvider>
-          </Route>
+          <Route
+            path="/company/cart"
+            render={(props) => (
+              <CartProvider id={userId}>
+                <CartList {...props} />
+              </CartProvider>
+            )}
+          />
         </Switch>
       </Router>
     </div>

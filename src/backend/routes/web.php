@@ -68,6 +68,7 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('/uploadUpdateStockInventoryCsv', 'ShoppingController@uploadUpdateStockInventoryCsv');
     // Company Shop
     Route::view('/productDetail', 'companyProductDetail');
+    Route::view('/cart', 'companyCart');
     Route::get('/shop', 'ShoppingController@shop');
 });
 

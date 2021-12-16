@@ -1,46 +1,109 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
 import Pagination from '../../Pagination'
-// import { useCart } from 'react-use-cart'
-// temporary
+import { useCart } from 'react-use-cart'
+import { useHistory } from 'react-router'
+import _ from 'lodash'
 
-const CartList = () => {
-  // const userData =
-  //   JSON.parse(document.getElementById('userData').textContent) || ''
+const CartList = (props) => {
+  const [cart, setCart] = useState({
+    items: [],
+    id: '',
+    cartTotal: 0,
+    totalItems: [],
+    isEmpty: false,
+    totalUniqueItems: 0,
+    metadata: []
+  })
+
+  const history = useHistory()
+  const { isEmpty, cartTotal, items, updateItemQuantity, removeItem } =
+    useCart()
+
+  const [calculatedItem, setCalculatedItem] = useState({
+    totalTax: 0,
+    totalAmount: 0
+  })
+
+  const handleIncOrder = (item) => {
+    let updateQuantity = item.quantity + 1
+    updateItemQuantity(item.id, updateQuantity)
+  }
+
+  const handleDecOrder = (item) => {
+    let updateQuantity = item.quantity - 1
+    updateItemQuantity(item.id, updateQuantity)
+  }
+
+  const handleOrderChange = (n) => {}
+
+  const handleDeleteItem = (id) => {
+    removeItem(id)
+  }
+
   const cartItems = () => {
-    let items = []
-    // const {
-    //   // isEmpty,
-    //   // cartTotal,
-    //   // totalUniqueItems,
-    //   items
-    //   // updateItemQuantity,
-    //   // removeItem,
-    //   // emptyCart,
-    //   // getItem
-    // } = useCart()
+    let addToCartItem = _.isEmpty(items) ? cart.items : items
 
-    console.log('@items')
-    return items.map((item) => {
+    return addToCartItem.map((item) => {
       return (
         <tr key={item.id}>
           <td className="text-center">
             <div className="flex flex-col p-2">
               <img
                 className="w-auto h-auto p-5 tex-center m-auto"
-                src={item.imgSrc}
+                src={`/aimeos/${item.imgSrc}`}
               ></img>
               <div className="text-red-500 font-bold">{item.title}</div>
             </div>
           </td>
-          <td className="text-center font-bold text-red-500">{item.price}</td>
           <td className="text-center font-bold text-red-500">
-            {item.quantity}
+            {item.price.toLocaleString('jp')}
           </td>
           <td className="text-center font-bold text-red-500">
-            {item.itemTotal}
+            <div className="flex m-auto justify-center space-x-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer`}
+                viewBox="0 0 16 16"
+                onClick={() => handleIncOrder(item)}
+              >
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+              </svg>
+              <input
+                type="number"
+                className="w-14 shadow-lg rounded tex-red-500 border px-1"
+                min="1"
+                value={item.quantity}
+                onChange={() => handleOrderChange}
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className={`bi bi-dash-circle text-gray-500 mt-1 font-semibold cursor-pointer cursor-pointer`}
+                viewBox="0 0 16 16"
+                onClick={() => handleDecOrder(item)}
+              >
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+              </svg>
+            </div>
+          </td>
+          <td className="text-center font-bold text-red-500">
+            {item.itemTotal.toLocaleString('jp')}
           </td>
           <td className="text-center font-bold">
-            <div className="text-green-500 cursor-pointer underline">
+            <div
+              className="text-green-500 cursor-pointer underline"
+              onClick={() => {
+                handleDeleteItem(item.id)
+              }}
+            >
               削除する
             </div>
           </td>
@@ -49,7 +112,43 @@ const CartList = () => {
     })
   }
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    if (_.isEmpty(items)) {
+      var userData = JSON.parse(document.getElementById('userData').textContent)
+      let lStorage = JSON.parse(
+        localStorage.getItem(`react-use-cart-${userData.userId}`)
+      )
+
+      setCart({
+        ...cart,
+        id: lStorage.id,
+        items: lStorage.items,
+        isEmpty: lStorage.isEmpty,
+        totalUniqueItems: lStorage.totalUniqueItems,
+        totalItems: lStorage.totalItems,
+        cartTotal: lStorage.cartTotal,
+        metadata: lStorage.metadata
+      })
+    }
+
+    setCalculatedItem({
+      ...calculatedItem,
+      totalTax: _.reduce(
+        items,
+        (sum, curItem) => {
+          return sum + curItem.taxVal * curItem.quantity
+        },
+        0
+      ),
+      totalAmount: _.reduce(
+        items,
+        (sum, curItem) => {
+          return sum + curItem.itemTotal
+        },
+        0
+      )
+    })
+  }, [items])
 
   return (
     <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
@@ -97,15 +196,18 @@ const CartList = () => {
                   カート内合計:
                 </div>
                 <div className="h-15 items-center font-extrabold text-gray-400 text-center font-bold">
-                  ¥ 10,077
+                  ¥
+                  {isEmpty
+                    ? cart.cartTotal.toLocaleString('jp')
+                    : cartTotal.toLocaleString('jp')}
                 </div>
               </div>
               <div className="flex flex-wrap space-x-4 justify-between">
                 <div className="h-15 items-center font-extrabold text-gray-400 text-center font-bold">
-                  カート内合計:
+                  消費稅:
                 </div>
                 <div className="h-15 items-center font-extrabold text-gray-400 text-center font-bold">
-                  ¥ 600
+                  ¥ {calculatedItem.totalTax.toLocaleString('jp')}
                 </div>
               </div>
             </div>
@@ -115,12 +217,15 @@ const CartList = () => {
                   合計
                 </div>
                 <div className="h-15 items-center font-extrabold text-red-500 text-center text-2xl">
-                  ¥ 13,500
+                  ¥
+                  {isEmpty
+                    ? cart.cartTotal.toLocaleString('jp')
+                    : cartTotal.toLocaleString('jp')}
                 </div>
               </div>
             </div>
 
-            <div className="items-center py-10">
+            <div className="items-center pt-10 py-3">
               <div className="flex items-center justify-center space-x-4">
                 <input
                   type="checkbox"
@@ -138,7 +243,12 @@ const CartList = () => {
               <button className="bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold">
                 お会計
               </button>
-              <button className="bg-gray-400 text-black justify-center rounded-3xl items-center h-14 w-4/5 font-bold">
+              <button
+                className="bg-gray-400 text-black justify-center rounded-3xl items-center h-14 w-4/5 font-bold"
+                onClick={() => {
+                  history.goBack()
+                }}
+              >
                 キャンセル
               </button>
             </div>
@@ -150,3 +260,6 @@ const CartList = () => {
 }
 
 export default CartList
+if (document.getElementById('companyCart')) {
+  ReactDOM.render(<CartList />, document.getElementById('companyCart'))
+}
