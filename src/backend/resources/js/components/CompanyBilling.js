@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import Ellipsis from '../../img/ellipsis.png'
 import axios from 'axios'
+import unpaidBillingIcon from '../../img/unpaid-billing-icon.png'
 
 const CancelToken = axios.CancelToken
 const source = CancelToken.source()
@@ -15,6 +16,7 @@ const CompanyBilling = () => {
     minId: 0,
     masterList: [],
     billingList: [],
+    unpaidBillingData: [],
     searchMode: false,
     searchText: '',
     numberOfPages: 0
@@ -39,6 +41,20 @@ const CompanyBilling = () => {
             numberOfPages: Math.ceil(data.length / 10),
             maxId: maxItemId,
             minId: minItemId
+          }
+        })
+      })
+
+    fetch('/company/getUnpaidBillingInformation', {
+      method: 'get',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((response) => response.json())
+      .then((results) => {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            unpaidBillingData: results.data
           }
         })
       })
@@ -257,10 +273,82 @@ const CompanyBilling = () => {
 
   return (
     <div className="relative px-10 mt-5 bg-mainbg">
-      <div className="w-full h-full bg-white overflow-hidden relative  rounded-lg shadow-xl">
+      <div className="w-full h-full bg-white overflow-hidden relative rounded-lg shadow-xl">
         <div className="px-3 pt-3 pb-1">
           <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
             <h2 className="text-green-800 text-lg font-bold">請求履歴</h2>
+          </div>
+        </div>
+
+        <div className="flex flex-row mt-3 ml-3 h-8 w-40 bg-cover bg-no-repeat">
+          <img src={unpaidBillingIcon} />
+          <span className="ml-3 mt-3 text-green-600 font-semibold">物販</span>
+        </div>
+
+        <div className="flex flex-col flex-wrap w-3/6 min-w-min max-w-3xl p-4 border-2 mt-1 ml-3 rounded-lg shadow-md row-2">
+          <div className="flex flex-row space-x-36">
+            <div className="flex flex-col ml-3 mr-3">
+              <div className="text-green-600">
+                未払額 :
+                <span className="text-red-700 float-right ml-3 font-semibold">
+                  {state.unpaidBillingData.due_last_billed_amount
+                    ? ` ¥ ${state.unpaidBillingData.due_last_billed_amount}`
+                    : '-'}
+                </span>
+              </div>
+              <div className="text-green-500">
+                支払期限 :
+                <span className="float-right ml-3 text-green-700">
+                  {state.unpaidBillingData.due_last_billed_deadline_date
+                    ? state.unpaidBillingData.due_last_billed_deadline_date
+                    : '-'}
+                </span>
+              </div>
+              <div className="text-green-500">
+                支払期限 :
+                <span className="float-right ml-3 text-green-700">
+                  {state.unpaidBillingData.due_last_billed_payment_date
+                    ? state.unpaidBillingData.due_last_billed_payment_date
+                    : '-'}
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col ml-3 mr-3">
+              <div className="text-green-500">
+                未払額 :
+                <span className="text-red-700 float-right ml-3 font-semibold">
+                  {state.unpaidBillingData.due_billed_amount
+                    ? ` ¥ ${state.unpaidBillingData.due_billed_amount}`
+                    : '-'}
+                </span>
+              </div>
+              <div className="text-green-500">
+                支払期限 :
+                <span className="float-right ml-3 text-green-700">
+                  {state.unpaidBillingData.due_billed_deadline_date
+                    ? state.unpaidBillingData.due_billed_deadline_date
+                    : '-'}
+                </span>
+              </div>
+              <div className="text-green-500">
+                支払期限 :
+                <span className="float-right ml-3 text-green-700">
+                  {state.unpaidBillingData.due_billed_payment_date
+                    ? state.unpaidBillingData.due_billed_payment_date
+                    : '-'}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-row-reverse">
+            <div className="mt-5 text-green-500">
+              合計 :
+              <span className="text-red-700 ml-3 font-semibold">
+                {state.unpaidBillingData.due_billed_amount
+                  ? state.unpaidBillingData.total_billed_amount
+                  : '-'}
+              </span>
+            </div>
           </div>
         </div>
 
