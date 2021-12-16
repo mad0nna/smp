@@ -21,7 +21,7 @@
                   <input
                     type="hidden"
                     name="success_url"
-                    value=<?=env('APP_URL') . "zeusLandingPage?redirectTo=" . $redirectTo?> 
+                    value='' 
                   />
                   <input
                     type="hidden"
@@ -31,7 +31,7 @@
                   <input
                     type="hidden"
                     name="failure_url"
-                    value=<?=env('APP_URL') . "zeusLandingPage"?> 
+                    value=''> 
                   />
                   <input type="hidden" name="failure_str" value="ページに戻る" />
                   <input
