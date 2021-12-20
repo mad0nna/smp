@@ -11,6 +11,7 @@ import BillingHistory from './BillingHistory'
 import Settings from './DashboardSettings'
 // import Products from './Products'
 import CompanyDashboardPieChart from './CompanyDashboardPieChart'
+import UnpaidBillingInformation from './UnpaidBillingInformation'
 import resize from '../../img/resize.png'
 import { findMissingWidget } from '../utilities/constants'
 import spinner from '../../img/spinner.gif'
@@ -29,8 +30,9 @@ const Dashboard = () => {
       // { component: <Products /> },
       { component: <BillingHistory /> },
       { component: <Notification /> },
-      { component: <Settings /> }
+      { component: <Settings /> },
       // { component: <Purchase /> }
+      { component: <UnpaidBillingInformation /> }
     ]
     getCoordinates()
     function getCoordinates() {

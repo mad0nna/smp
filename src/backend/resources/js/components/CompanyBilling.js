@@ -288,7 +288,7 @@ const CompanyBilling = () => {
         <div className="flex flex-col flex-wrap w-3/6 min-w-min max-w-3xl p-4 border-2 mt-1 ml-3 rounded-lg shadow-md row-2">
           <div className="flex flex-row space-x-36">
             <div className="flex flex-col ml-3 mr-3">
-              <div className="text-green-600">
+              <div className="text-green-500">
                 未払額 :
                 <span className="text-red-700 float-right ml-3 font-semibold">
                   {state.unpaidBillingData.due_last_billed_amount
