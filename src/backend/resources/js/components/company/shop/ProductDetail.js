@@ -255,7 +255,8 @@ const ProductDetail = (props) => {
       //   alert('記録が見当たりませんでした')
       //   window.location.replace('/company/shop')
       // }
-      // getProductDetail(id)
+      let id = 1
+      getProductDetail(id)
     } else {
       const { location } = props
       parseProductData(location.detail)
