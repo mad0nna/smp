@@ -123,7 +123,6 @@ $enc = $this->encoder();
 									</div>
 								</div>
 							</div>
-							</div>
 							
 							<div class="form-group row mandatory col-xl-5">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Price' ) ) ?></label>

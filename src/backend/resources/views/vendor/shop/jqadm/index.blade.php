@@ -61,11 +61,41 @@
 						</li>				
 					</ul>
 				</div>
-				<div class="" style="width:250px">
+				<div class="" style="width:150px">
 					<div id="nav-dropdown" name="nav-dropdown" class="relative d-flex  pe-auto">
-						<div class=""><img alt="setting icon" src="/images/admin-icon.png?da531b3ff0ecbcc369be6265fc8a1b04"></div>
+						<div class="">
+							
+								<img alt="setting icon" src="/images/admin-icon.png?da531b3ff0ecbcc369be6265fc8a1b04" >
+							
+						</div>
 							<p class="text-base h6 fs-6 fw-bold text-success px-2 py-1" id="companyDropwdownTitle">管理者</p>
-							<div class=""><img alt="setting icon" src="/images/arrowdown.png?286d79e9128ef8a5093b0d6fc8284840"></div>
+							<div class="" style="position:relative">
+							<a class="" href="#" id="dropdown05" data-bs-toggle="dropdown" aria-expanded="false">
+									<img alt="setting icon" src="/images/arrowdown.png?286d79e9128ef8a5093b0d6fc8284840">
+								</a>
+							<ul class="dropdown-menu dd-nav" aria-labelledby="dropdown05" data-bs-popper="none"  >
+								<li>
+									<label class="bg-profile-icon-white" style=""></label>
+									<a class="dropdown-item" href="#">アカウント プロファイル</a>
+								</li>
+								<li>
+									<label class="bg-call-icon-white" style=""></label>
+									<a class="dropdown-item" href="#">お問合せ</a>
+								</li>
+								<li>
+									<label class="bg-settings-icon-white" style=""></label>
+									<a class="dropdown-item" href="#">アカウント設定</a>
+								</li>
+								<li>
+									<label class="bg-widget-settings-icon" style=""></label>
+									<a class="dropdown-item" href="#">ウィジェット設定</a>
+								</li>
+								<li>
+									<label class="bg-signout-icon" style=""></label>
+									<a class="dropdown-item" href="/logout">ログアウト</a>
+								</li>
+							</ul>	
+							</div>
 						</div>
 					</div>
 				</div>

@@ -5,7 +5,7 @@ import { useCart } from 'react-use-cart'
 import { useHistory } from 'react-router'
 import _ from 'lodash'
 
-const CartList = (props) => {
+const CartList = () => {
   const [cart, setCart] = useState({
     items: [],
     id: '',
@@ -35,7 +35,7 @@ const CartList = (props) => {
     updateItemQuantity(item.id, updateQuantity)
   }
 
-  const handleOrderChange = (n) => {}
+  const handleOrderChange = () => {}
 
   const handleDeleteItem = (id) => {
     removeItem(id)

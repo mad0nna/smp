@@ -172,7 +172,7 @@ class Standard
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
 
 			$view->item = $manager->get( $id, $this->getDomains() );
-			$view->itemData = $this->toArray( $view->item );
+			$view->itemData = $this->toArray( $view->item ); //dd($view->item);
 			$view->itemBody = parent::get();
 		}
 		catch( \Exception $e )

@@ -214,3 +214,60 @@ p.upload-csv input {
 }
 
 /* <------------ End -------------> */
+
+.dd-nav {
+  -tw-bg-opacity: 1;
+  background-color: #95A199;
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0.75rem;
+  left:inherit !important;
+  right:0;
+  width: 265px;
+  padding: 20px;
+}
+
+.dd-nav li
+{  
+  display: flex;
+  align-items: center;
+  padding: 3px 0;
+}
+
+.dd-nav .dropdown-item {
+  color:white !important;
+  width: 75%;
+  display: inline-block;
+  
+}
+
+.dd-nav .dropdown-item:hover{
+  background-color: inherit !important;
+  color: white !important;
+}
+
+.dd-nav li label {
+  width: 20px;
+  height:20px;
+}
+
+.bg-profile-icon-white {
+  background-image: url('/images/profile-icon-white.png');
+}
+
+.bg-call-icon-white {
+  background-image: url("/images/call-icon-white.png");
+}
+
+.bg-settings-icon-white {
+  background-image: url("/images/settings-icon-white.png");
+}
+
+.bg-widget-settings-icon {
+  background-image: url("/images/widget-settings.png");
+}
+
+.bg-signout-icon {
+  background-image: url("/images/signout.png");
+}
