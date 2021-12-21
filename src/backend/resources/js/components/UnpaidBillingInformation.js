@@ -21,8 +21,6 @@ const UnpaidBillingInformation = () => {
           unpaidBillingData: results.data
         })
       })
-
-    console.log(state)
   }, [])
 
   return (

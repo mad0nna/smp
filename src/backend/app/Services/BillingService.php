@@ -168,7 +168,6 @@ class BillingService
     public function getUnpaidBillingInformation(string $companyName, string $salesforceCompanyID)
     {
         $data = [];
-        $recordFound = false;
         $results = (new Report)->getUnpaidBillingInformation($companyName);
 
         // current unpaid billing information
@@ -181,8 +180,8 @@ class BillingService
         $data['due_last_billed_amount'] = '';
         $data['total_billed_amount'] = '';
 
+
         foreach($results['factMap'] as $key => $factMaps) {
-            $keyGrouping = $key;
             foreach($factMaps['rows'] as $key => $row) {
                 if ($row['dataCells'] && $row['dataCells'][6]['value'] === $salesforceCompanyID) {
                     // current billed information
@@ -199,26 +198,9 @@ class BillingService
 
                     $data['total_billed_amount'] = $row['dataCells'][12]['label'];
 
-                    $recordFound = true;
                     // breaks out of the double forloop once found a match
                     break 2;
                 }
-            }
-        }
-
-        if ($recordFound) {
-            $groupCtr = 0;
-            $keyCompare = substr($keyGrouping, 0, -2);
-            foreach($results['groupingsDown']['groupings'] as $groupings) {
-                foreach($groupings as $parentGrouping)
-                    foreach($parentGrouping as $subGrouping) {
-                        if ($subGrouping['key'] === $keyCompare) {
-
-                            // breaks out of the triple forloop once found a match
-                            break 3;
-                        }
-                    }
-                $groupCtr++;
             }
         }
 

@@ -30,6 +30,14 @@ class Report extends Model
                         "sortColumn":"Case.BO8613__c",
                         "sortOrder":"Desc"
                     }
+                ],
+                "groupingsDown": [
+                    {
+                        "dateGranularity": "None",
+                        "name": "Case.BO774531__c",
+                        "sortAggregate": null,
+                        "sortOrder": "Desc"
+                    }
                 ]
             }
         }';
