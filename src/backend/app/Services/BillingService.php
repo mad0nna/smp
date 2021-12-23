@@ -171,13 +171,13 @@ class BillingService
         $results = (new Report)->getUnpaidBillingInformation($companyName);
 
         // current unpaid billing information
-        $data['due_billed_payment_date'] = '';
-        $data['due_billed_deadline_date'] = '';
         $data['due_billed_amount'] = '';
+        $data['due_billed_deadline_date'] = '';
+        $data['due_billed_payment_period'] = '';
         // last month unpaid billing information
-        $data['due_last_billed_payment_date'] = '';
-        $data['due_last_billed_deadline_date'] = '';
         $data['due_last_billed_amount'] = '';
+        $data['due_last_billed_deadline_date'] = '';
+        $data['due_last_billed_payment_period'] = '';
         $data['total_billed_amount'] = '';
 
 
@@ -185,15 +185,15 @@ class BillingService
             foreach($factMaps['rows'] as $key => $row) {
                 if ($row['dataCells'] && $row['dataCells'][6]['value'] === $salesforceCompanyID) {
                     // current billed information
-                    $data['due_billed_payment_date'] = Carbon::createFromDate($row['dataCells'][0]['value'])->format('Y年m月d日');
-                    $data['due_billed_deadline_date'] = Carbon::createFromDate($results['groupingsDown']['groupings'][0]['value'])->format('Y年m月d日');
                     $data['due_billed_amount'] = $row['dataCells'][10]['label'];
+                    $data['due_billed_deadline_date'] = Carbon::createFromDate($row['dataCells'][0]['value'])->format('Y年m月d日');
+                    $data['due_billed_payment_period'] = Carbon::createFromDate($results['groupingsDown']['groupings'][0]['value'])->format('Y年m月d日');
 
                     // last month billed payment information if it exists
                     if ($row['dataCells'][11]['value'] != null) {
-                        $data['due_last_billed_payment_date'] = Carbon::createFromDate($row['dataCells'][0]['value'])->subMonth()->format('Y年m月d日');
-                        $data['due_last_billed_deadline_date'] = Carbon::createFromDate($results['groupingsDown']['groupings'][0]['value'])->format('Y年m月d日');
                         $data['due_last_billed_amount'] = $row['dataCells'][11]['label'];
+                        $data['due_last_billed_deadline_date'] = Carbon::createFromDate($row['dataCells'][0]['value'])->subMonth()->format('Y年m月d日');
+                        $data['due_last_billed_payment_period'] = Carbon::createFromDate($results['groupingsDown']['groupings'][0]['value'])->format('Y年m月d日');
                     }
 
                     $data['total_billed_amount'] = $row['dataCells'][12]['label'];
