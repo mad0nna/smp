@@ -60,7 +60,7 @@ const UnpaidBillingInformation = () => {
                   </span>
                 </div>
                 <div className="text-green-500 text-sm">
-                  支払期限 :
+                  支払期日 :
                   <span className="float-right ml-3 text-green-700">
                     {state.unpaidBillingData.due_last_billed_deadline_date
                       ? state.unpaidBillingData.due_last_billed_deadline_date
@@ -70,8 +70,8 @@ const UnpaidBillingInformation = () => {
                 <div className="text-green-500 text-sm">
                   支払期限 :
                   <span className="float-right ml-3 text-green-700">
-                    {state.unpaidBillingData.due_last_billed_payment_date
-                      ? state.unpaidBillingData.due_last_billed_payment_date
+                    {state.unpaidBillingData.due_last_billed_payment_period
+                      ? state.unpaidBillingData.due_last_billed_payment_period
                       : '-'}
                   </span>
                 </div>
@@ -86,7 +86,7 @@ const UnpaidBillingInformation = () => {
                   </span>
                 </div>
                 <div className="text-green-500 text-sm">
-                  支払期限 :
+                  支払期日 :
                   <span className="float-right ml-3 text-green-700">
                     {state.unpaidBillingData.due_billed_deadline_date
                       ? state.unpaidBillingData.due_billed_deadline_date
@@ -96,8 +96,8 @@ const UnpaidBillingInformation = () => {
                 <div className="text-green-500 text-sm">
                   支払期限 :
                   <span className="float-right ml-3 text-green-700">
-                    {state.unpaidBillingData.due_billed_payment_date
-                      ? state.unpaidBillingData.due_billed_payment_date
+                    {state.unpaidBillingData.due_billed_payment_period
+                      ? state.unpaidBillingData.due_billed_payment_period
                       : '-'}
                   </span>
                 </div>
