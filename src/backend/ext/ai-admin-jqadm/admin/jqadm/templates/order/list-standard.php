@@ -129,7 +129,14 @@ $expConfig = $this->config( 'admin/jqadm/url/export/config', [] );
  */
 $default = $this->config( 'admin/jqadm/order/fields', ['order.id', 'order.ctime', 'order.statuspayment', 'order.base.address.lastname'] );
 $fields = $this->session( 'aimeos/admin/jqadm/order/fields', $default );
-
+$fields = [
+	0 => "order.id",
+	1 => "order.base.price",
+	2 => "order.statuspayment",
+	3 => "order.ctime",
+	4 => "order.company_name",
+	5 => "order.option"
+];
 $searchParams = $params = $this->get( 'pageParams', [] );
 $searchParams['page']['start'] = 0;
 
@@ -147,28 +154,28 @@ $baseItems = $this->get( 'baseItems', [] );
 
 
 $columnList = [
-	'order.id' => $this->translate( 'admin', 'Invoice' ),
+	'order.id' => $this->translate( 'admin', '請求書番号' ),	
+	'order.base.price' => $this->translate( 'admin', '請求額' ),
+	'order.statuspayment' => $this->translate( 'admin', '⽀払い状況' ),
+	'order.ctime' => $this->translate( 'admin', '注⽂⽇' ),
+	'order.company_name' => $this->translate( 'admin', '会社名' ),
 	'order.type' => $this->translate( 'admin', 'Type' ),
-	'order.statuspayment' => $this->translate( 'admin', 'Pay status' ),
 	'order.datepayment' => $this->translate( 'admin', 'Pay date' ),
 	'order.statusdelivery' => $this->translate( 'admin', 'Ship status' ),
 	'order.datedelivery' => $this->translate( 'admin', 'Ship date' ),
 	'order.relatedid' => $this->translate( 'admin', 'Related order' ),
-	'order.ctime' => $this->translate( 'admin', 'Ordered at' ),
 	'order.mtime' => $this->translate( 'admin', 'Modified' ),
 	'order.editor' => $this->translate( 'admin', 'Editor' ),
 	'order.base.customerid' => $this->translate( 'admin', 'Customer ID' ),
 	'order.base.sitecode' => $this->translate( 'admin', 'Site' ),
 	'order.base.languageid' => $this->translate( 'admin', 'Language' ),
-	'order.base.currencyid' => $this->translate( 'admin', 'Currency' ),
-	'order.base.price' => $this->translate( 'admin', 'Price' ),
+	'order.base.currencyid' => $this->translate( 'admin', 'Currency' ),	
 	'order.base.costs' => $this->translate( 'admin', 'Costs' ),
 	'order.base.rebate' => $this->translate( 'admin', 'Rebate' ),
 	'order.base.taxvalue' => $this->translate( 'admin', 'Tax' ),
 	'order.base.taxflag' => $this->translate( 'admin', 'Incl. tax' ),
 	'order.base.comment' => $this->translate( 'admin', 'Comment' ),
-	'order.base.address.salutation' => $this->translate( 'admin', 'Salutation' ),
-	'order.base.address.company' => $this->translate( 'admin', 'Company' ),
+	'order.base.address.salutation' => $this->translate( 'admin', 'Salutation' ),	
 	'order.base.address.vatid' => $this->translate( 'admin', 'VAT ID' ),
 	'order.base.address.title' => $this->translate( 'admin', 'Title' ),
 	'order.base.address.firstname' => $this->translate( 'admin', 'First name' ),
@@ -191,6 +198,7 @@ $columnList = [
 	'order.base.service.price' => $this->translate( 'admin', 'Service price' ),
 	'order.base.service.costs' => $this->translate( 'admin', 'Service costs' ),
 	'order.base.service.rebate' => $this->translate( 'admin', 'Service rebate' ),
+	'order.option' => $this->translate( 'admin', '詳細' ),
 ];
 
 $paymentStatusList = [
@@ -237,11 +245,6 @@ $statusList = [
 	data-filter="<?= $enc->attr( $this->session( 'aimeos/admin/jqadm/order/filter', new \stdClass ) ) ?>"
 	data-items="<?= $enc->attr( $this->get( 'items', map() )->call( 'toArray', [true] )->all() ) ?>">
 
-	<div class="d-flex row justify-content-end">
-		<div class="p2" id="upload_csv_content" >
-			<p style="margin-bottom:2rem">&nbsp;</p>
-		</div>
-	</div>
 	<nav-search v-bind:show="search" v-on:close="search = false"
 		v-bind:url="`<?= $enc->js( $this->link( 'admin/jqadm/url/search', map( $searchParams )->except( 'filter' )->all() ) ) ?>`"
 		v-bind:filter="<?= $enc->attr( (object) $this->session( 'aimeos/admin/jqadm/order/filter', new \stdClass ) ) ?>"
@@ -250,12 +253,21 @@ $statusList = [
 		v-bind:attributes="<?= $enc->attr( $searchAttributes ) ?>">
 	</nav-search>
 
-	<?= $this->partial(
-			$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-standard' ),
-			['pageParams' => $params, 'pos' => 'top', 'total' => $this->get( 'total' ),
-			'page' => $this->session( 'aimeos/admin/jqadm/order/page', [] )]
-		);
-	?>
+	<div class="d-flex row justify-content-end" style="margin-top:1.4em">
+		<div class="p2" id="upload_csv_content" >
+			<form ref="form" method="POST" action="<?= $enc->attr( $this->url( $target, $controller, $action, $searchParams, [], $config ) ) ?>">
+				<?= $this->csrf()->formfield() ?>
+				<button id="btnSubmitFilter" type="submit" tabindex="2" title="Search" aria-label="Search" class="btn act-search fa file btn btn-lg btn-theme text-white upload-csv float-end mx-2" style="  ">
+					&nbsp; 探す &nbsp; 
+				</button>
+				<input type="hidden" value="order.id" name="filter[key][1]">
+				<input type="hidden" value="==" name="filter[op][6]">
+				<input type="text" tabindex="1" name="filter[val][1]" value="<?= $this->session( 'aimeos/admin/jqadm/order/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/order/filter', [] )['val']['1'] : ''; ?>" class="form-control float-end" style="width:15%; background:transparent;"  >
+
+			</form>
+		</div>
+
+	</div>
 
 	<form ref="form" class="list list-order" method="POST"
 		action="<?= $enc->attr( $this->url( $target, $controller, $action, $searchParams, [], $config ) ) ?>">
@@ -271,113 +283,33 @@ $statusList = [
 		</column-select>
 
 		<div class="table-responsive">
-			<table class="list-items table table-hover table-striped">
+			<table class="list-items table table-hover table-striped list-orders">
 				<thead class="list-header">
 					<tr>
 						<?= $this->partial(
-								$this->config( 'admin/jqadm/partial/listhead', 'common/partials/listhead-standard' ),
+								$this->config( 'admin/jqadm/partial/listhead', 'common/partials/listhead-standard2' ),
 								['fields' => $fields, 'params' => $params, 'data' => $columnList, 'sort' => $this->session( 'aimeos/admin/jqadm/order/sort' )]
 							);
 						?>
-
-						<th class="actions">
-							<?php if( count( $actions = $this->config( 'admin/jqadm/order/actions', ['order-export'] ) ) > 0 ) : ?>
-								<div class="dropdown list-menu">
-									<button class="btn act-download fa" type="button" id="menuButton"
-										data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="<?= $this->get( 'tabindex' ) ?>"
-										aria-label="<?= $enc->attr( $this->translate( 'admin', 'Export' ) ) ?>"
-										title="<?= $enc->attr( $this->translate( 'admin', 'Export' ) ) ?>">
-									</button>
-									<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuButton">
-										<?php foreach( $actions as $code ) : ?>
-											<li class="dropdown-item">
-												<a class="btn fa act-download" tabindex="1"
-													href="<?= $enc->attr( $this->url( $expTarget, $expCntl, $expAction, $params + ['queue' => $code], [], $expConfig ) ) ?>"
-													aria-label="<?= $enc->attr( $this->translate( 'admin/ext', $code ) ) ?>"
-													title="<?= $enc->attr( $this->translate( 'admin/ext', $code ) ) ?>">
-													<?= $enc->html( $this->translate( 'admin/ext', $code ) ) ?>
-												</a>
-											</li>
-										<?php endforeach ?>
-									</ul>
-								</div>
-							<?php endif ?>
-
-							<a class="btn act-columns fa" href="#" tabindex="<?= $this->get( 'tabindex', 1 ) ?>"
-								title="<?= $enc->attr( $this->translate( 'admin', 'Columns' ) ) ?>"
-								v-on:click.prevent.stop="columns = true">
-							</a>
-						</th>
 					</tr>
 				</thead>
 				<tbody>
-
-					<?= $this->partial(
-						$this->config( 'admin/jqadm/partial/listsearch', 'common/partials/listsearch-standard' ), [
-							'fields' => $fields, 'filter' => $this->session( 'aimeos/admin/jqadm/order/filter', [] ),
-							'data' => [
-								'order.id' => ['op' => '=='],
-								'order.type' => [],
-								'order.statuspayment' => ['op' => '==', 'type' => 'select', 'val' => $paymentStatusList],
-								'order.datepayment' => ['op' => '-', 'type' => 'date'],
-								'order.statusdelivery' => ['op' => '==', 'type' => 'select', 'val' => $deliveryStatusList],
-								'order.datedelivery' => ['op' => '-', 'type' => 'date'],
-								'order.relatedid' => ['op' => '=='],
-								'order.ctime' => ['op' => '-', 'type' => 'date'],
-								'order.mtime' => ['op' => '-', 'type' => 'date'],
-								'order.editor' => [],
-								'order.base.customerid' => ['op' => '=='],
-								'order.base.sitecode' => ['op' => '=='],
-								'order.base.languageid' => ['op' => '=='],
-								'order.base.currencyid' => ['op' => '=='],
-								'order.base.price' => ['op' => '==', 'type' => 'number'],
-								'order.base.costs' => ['op' => '==', 'type' => 'number'],
-								'order.base.rebate' => ['op' => '==', 'type' => 'number'],
-								'order.base.taxvalue' => ['op' => '==', 'type' => 'number'],
-								'order.base.taxflag' => ['op' => '==', 'type' => 'select', 'val' => $statusList],
-								'order.base.comment' => [],
-								'order.base.address.salutation' => ['op' => '==', 'type' => 'select', 'val' => [
-									'' => 'none', 'company' => 'company', 'mr' => 'mr', 'ms' => 'ms'
-								]],
-								'order.base.address.company' => [],
-								'order.base.address.vatid' => [],
-								'order.base.address.title' => [],
-								'order.base.address.firstname' => [],
-								'order.base.address.lastname' => [],
-								'order.base.address.address1' => [],
-								'order.base.address.address2' => [],
-								'order.base.address.address3' => [],
-								'order.base.address.postal' => [],
-								'order.base.address.city' => [],
-								'order.base.address.state' => [],
-								'order.base.address.countryid' => ['op' => '=='],
-								'order.base.address.languageid' => ['op' => '=='],
-								'order.base.address.telephone' => [],
-								'order.base.address.telefax' => [],
-								'order.base.address.email' => [],
-								'order.base.address.website' => [],
-								'order.base.coupon.code' => ['op' => '=~'],
-								'order.base.service.code' => [],
-								'order.base.service.name' => [],
-								'order.base.service.price' => ['op' => '==', 'type' => 'number'],
-								'order.base.service.costs' => ['op' => '==', 'type' => 'number'],
-								'order.base.service.rebate' => ['op' => '==', 'type' => 'number'],
-							]
-						] );
-					?>
-
 					<?php foreach( $this->get( 'items', [] ) as $id => $item ) : ?>
 						<?php $url = $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['id' => $item->getBaseId()] + $params, [], $getConfig ) ) ?>
+						<?php $baseItem = ( isset( $baseItems[$item->getBaseId()] ) ? $baseItems[$item->getBaseId()] : null ) ?>
 						<tr class="list-item <?= $this->site()->readonly( $item->getSiteId() ) ?>">
 							<?php if( in_array( 'order.id', $fields ) ) : ?>
-								<td class="order-id"><a class="items-field" href="<?= $url ?>" tabindex="1"><?= $enc->html( $item->getId() ) ?></a></td>
+								<td class="order-id text-end" style="padding-right:4.5em"><a class="items-field" href="<?= $url ?>" tabindex="1"><?= $enc->html( $item->getId() ) ?></a></td>
+							<?php endif ?>
+							<?php if( in_array( 'order.base.price', $fields ) ) : ?>
+								<td class="order-base-price price text-end">¥<?= $baseItem ? number_format($enc->html( $baseItem->getPrice()->getValue() )) : '' ?> </td>
+							<?php endif ?>
+							<?php if( in_array( 'order.statuspayment', $fields ) ) : ?>
+								<td class="order-statuspayment"> <?= $item->getStatusPayment() === 6 ? "有料" : "保留中" ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'order.type', $fields ) ) : ?>
 								<td class="order-type"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getType() ) ?></a></td>
-							<?php endif ?>
-							<?php if( in_array( 'order.statuspayment', $fields ) ) : ?>
-								<td class="order-statuspayment"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $paymentStatusList[$item->getStatusPayment()] ) ?></a></td>
-							<?php endif ?>
+							<?php endif ?>							
 							<?php if( in_array( 'order.datepayment', $fields ) ) : ?>
 								<td class="order-datepayment"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getDatePayment() ) ?></a></td>
 							<?php endif ?>
@@ -391,7 +323,7 @@ $statusList = [
 								<td class="order-relatedid"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getRelatedId() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.ctime', $fields ) ) : ?>
-								<td class="order-ctime"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getTimeCreated() ) ?></a></td>
+								<td class="order-ctime"> <?= substr($enc->html( $item->getTimeCreated() ), 0, 10) ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'order.mtime', $fields ) ) : ?>
 								<td class="order-mtime"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getTimeModified() ) ?></a></td>
@@ -400,7 +332,7 @@ $statusList = [
 								<td class="order-editor"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getEditor() ) ?></a></td>
 							<?php endif ?>
 
-							<?php $baseItem = ( isset( $baseItems[$item->getBaseId()] ) ? $baseItems[$item->getBaseId()] : null ) ?>
+
 
 							<?php if( in_array( 'order.base.customerid', $fields ) ) : ?>
 								<td class="order-base-customerid"><a class="items-field" href="<?= $url ?>"><?= $baseItem ? $enc->html( $baseItem->getCustomerId() ) : '' ?></a></td>
@@ -413,9 +345,6 @@ $statusList = [
 							<?php endif ?>
 							<?php if( in_array( 'order.base.currencyid', $fields ) ) : ?>
 								<td class="order-base-currencyid"><a class="items-field" href="<?= $url ?>"><?= $baseItem ? $enc->html( $baseItem->getLocale()->getCurrencyId() ) : '' ?></a></td>
-							<?php endif ?>
-							<?php if( in_array( 'order.base.price', $fields ) ) : ?>
-								<td class="order-base-price"><a class="items-field" href="<?= $url ?>"><?= $baseItem ? $enc->html( $baseItem->getPrice()->getValue() ) : '' ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.costs', $fields ) ) : ?>
 								<td class="order-base-costs"><a class="items-field" href="<?= $url ?>"><?= $baseItem ? $enc->html( $baseItem->getPrice()->getCosts() ) : '' ?></a></td>
@@ -438,11 +367,11 @@ $statusList = [
 							<?php if( in_array( 'order.base.address.salutation', $fields ) ) : ?>
 								<td class="order-base-address-salutation"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getSalutation() ) : '' ?></a></td>
 							<?php endif ?>
-							<?php if( in_array( 'order.base.address.company', $fields ) ) : ?>
-								<td class="order-base-address-company"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getCompany() ) : '' ?></a></td>
+							<?php if( in_array( 'order.company_name', $fields ) ) : ?>
+								<td class="order-base-address-company text-start"> <?= $item->get('company_name') ?? '' ?></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.address.vatid', $fields ) ) : ?>
-								<td class="order-base-address-vatid"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getVatID() ) : '' ?></a></td>
+								<td class="order-base-address-vatid text-start"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getVatID() ) : '' ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.address.title', $fields ) ) : ?>
 								<td class="order-base-address-title"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getTitle() ) : '' ?></a></td>
@@ -488,6 +417,9 @@ $statusList = [
 							<?php endif ?>
 							<?php if( in_array( 'order.base.address.website', $fields ) ) : ?>
 								<td class="order-base-address-website"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getWebsite() ) : '' ?></a></td>
+							<?php endif ?>
+							<?php if( in_array( 'order.option', $fields ) ) : ?>
+								<td class="order-base-address-website"> <a class="items-field" href="<?= $url ?>">詳細</a> </td>
 							<?php endif ?>
 
 							<?php $coupons = ( $baseItem ? $baseItem->getCoupons() : [] ) ?>
@@ -558,13 +490,6 @@ $statusList = [
 								</td>
 							<?php endif ?>
 
-							<td class="actions">
-								<a class="btn act-copy fa"
-									href="<?= $enc->attr( $this->url( $copyTarget, $copyCntl, $copyAction, ['id' => $item->getBaseId()] + $params, [], $copyConfig ) ) ?>"
-									title="<?= $enc->attr( $this->translate( 'admin', 'Copy this entry' ) ) ?>"
-									aria-label="<?= $enc->attr( $this->translate( 'admin', 'Copy' ) ) ?>">
-								</a>
-							</td>
 						</tr>
 					<?php endforeach ?>
 				</tbody>

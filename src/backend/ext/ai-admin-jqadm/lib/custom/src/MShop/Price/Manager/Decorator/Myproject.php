@@ -9,7 +9,7 @@ class Myproject extends \Aimeos\MShop\Common\Manager\Decorator\Base
             'code' => 'unit_price',
             'internalcode' => 'mpri."unit_price"',
             'label' => 'Unit Price',
-            'type' => 'flaot',
+            'type' => 'float',
             'internaltype' => \Aimeos\MW\DB\Statement\Base::PARAM_FLOAT,
         ],
         'min_qty' => [
