@@ -33,7 +33,7 @@ const UnpaidBillingInformation = () => {
                 <div className="mb-1 mr-3 h-2 w-4 bg-cover bg-no-repeat">
                   <img src={unpaidBillingIcon} />
                 </div>
-                <h2 className="text-green-800 text-lg font-bold">物販</h2>
+                <h2 className="text-green-800 text-lg font-bold">未払い情報</h2>
               </div>
             </div>
           </div>
