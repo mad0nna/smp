@@ -661,7 +661,7 @@ $columnList = [
 		<div class="linebreak"></div>
 
 		<div class="table-responsive">
-			<table class="list-items table table-hover">
+			<table class="list-items table table-hover table-striped">
 				<thead class="list-header">
 					<tr>
 						<th class="product-table-column"></th>
@@ -744,7 +744,7 @@ $columnList = [
 							<?php endif ?>
 							<?php if( in_array( 'product.price', $fields ) ) : ?>
 								<!-- temporary static data -->
-								<td class="product-ratings">  <? $p = $item->getListItems('price')->getRefItem()->first(); ?> <? if ($p) { ?> <i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format($p->toArray()['price.value']) ?> <? } else { echo 'N/A'; }?> </td>
+								<td class="price">  <? $p = $item->getListItems('price')->getRefItem()->first(); ?> <? if ($p) { ?> <i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format($p->toArray()['price.value']) ?> <? } else { echo 'N/A'; }?> </td>
 							<?php endif ?>
 							<!-- End -->
 

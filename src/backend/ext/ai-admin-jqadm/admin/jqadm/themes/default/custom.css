@@ -170,10 +170,19 @@ p.upload-csv input {
 
 /* Table Columns */
 
-.product-table-column {
+.product-table-column, .list-orders tr th {
   background-color: #fff !important;
   color: #15742e !important;
   font-size: 18px !important;
+}
+
+.list-orders {
+  border-collapse: collapse;
+}
+ 
+.list-orders th {
+  border-bottom: 1pt solid #15742e !important;
+  
 }
 
 .aimeos table.list-items th{
@@ -211,6 +220,19 @@ p.upload-csv input {
 
 .nav-item .nav-link:hover:not(.active) {
   background-color: #c5e7c8 !important;
+}
+
+.list-item .price {
+  padding-right: 1.5em !important;
+  text-align: right !important;
+}
+
+.aimeos .order-base-price {
+  text-align: right !important;
+}
+
+.aimeos .order-company_name {
+  text-align: left !important;
 }
 
 /* <------------ End -------------> */
