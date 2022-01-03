@@ -122,11 +122,38 @@ const ProductDetail = (props) => {
     // create cart items
     if (productDetail.defaultStock == 0) {
       alert('Unable to proceed cart. No stocks available.')
-      return
+      return false
     }
+
+    // save to basket
+    // saveToBasket()
+    //  set to state
     addItem(productDetail, state.orderNum)
     history.replace('/company/cart')
   }
+
+  // const saveToBasket = () => {
+  //   let productId = _.toInteger(productDetail.id)
+  //   var data = {
+  //     data: [
+  //       {
+  //         attributes: {
+  //           'product.id': productId,
+  //           quantity: state.orderNum, // optional
+  //           stocktype: 'default' // warehouse code (optional)
+  //         }
+  //       }
+  //     ]
+  //   }
+
+  //   axios
+  //     .post(`/jsonapi/basket?id=${productId}&related=product`, data, {
+  //       'Content-Type': 'application/json'
+  //     })
+  //     .then((response) => {
+  //       console.log('@data', response)
+  //     })
+  // }
 
   function getProductDetail(id) {
     axios({
@@ -247,15 +274,14 @@ const ProductDetail = (props) => {
   }
 
   useEffect(() => {
-    if (_.isEmpty(props)) {
-      // let urlParams = new URLSearchParams(window.location.search)
-      // let id = urlParams.get('id')
-      // let digitOnly = /^\d+$/
-      // if (!digitOnly.test(id) && urlParams !== '') {
-      //   alert('記録が見当たりませんでした')
-      //   window.location.replace('/company/shop')
-      // }
-      let id = 1
+    if (_.isEmpty(props) || props === undefined) {
+      let urlParams = new URLSearchParams(window.location.search)
+      let id = urlParams.get('id')
+      let digitOnly = /^\d+$/
+      if (!digitOnly.test(id) && urlParams !== '') {
+        alert('記録が見当たりませんでした')
+        window.location.replace('/company/shop')
+      }
       getProductDetail(id)
     } else {
       const { location } = props

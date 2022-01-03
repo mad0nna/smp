@@ -125,7 +125,31 @@ const ProductList = () => {
   const setCurrentPage = (n) => {
     setPagingConditions({ ...pagingConditions, ...{ page: n } })
   }
+  // const fetchBasket = () => {
+  //   axios({
+  //     url: '/jsonapi',
+  //     method: 'OPTIONS',
+  //     responseType: 'json'
+  //   }).then((response) => {
+  //     console.log('@response options', response)
+  //     let basketUrl = response.data.meta.resources['basket']
+
+  //     //
+  //     axios({
+  //       method: 'GET',
+  //       url: basketUrl,
+  //       responseType: 'json'
+  //     }).then((res) => {
+  //       console.log('@res', res)
+  //     })
+  //   })
+  // }
   useEffect(() => {
+    /**
+     * Testing fetch basket
+     */
+    // fetchBasket()
+
     let offset = (pagingConditions.page - 1) * pagingConditions.limit
     setLoadedImage(false)
     let searchParam =
@@ -221,7 +245,6 @@ const ProductList = () => {
 
   const productItem = (products) => {
     if (!_.isEmpty(products)) {
-      console.log(products)
       return products.map((product, index) => {
         let prodDescription = product.text['text.content'].replace(
           /<[^>]+>/g,
