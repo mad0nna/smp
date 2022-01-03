@@ -20,7 +20,7 @@ const CheckoutOption = (props) => {
         <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
           <div className="flex w-full flex-wrap gap-0 text-gray-700 items-center mt-10 ">
             <div className="text-center w-full text-secondary-200 font-black mb-6 font-semibold">
-              Select Checkout Options:
+              お会計方法を選択してください
             </div>
             <div className="text-center w-full space-y-5">
               <div className="flex flex-col text-left space-y-5">
@@ -34,7 +34,7 @@ const CheckoutOption = (props) => {
                       value={1}
                       required
                     />
-                    <span>Pay Online via Card</span>
+                    <span>クレジットカード決済</span>
                   </label>
                 </div>
                 <div className="w-full text-center pr-8 pb-5">
@@ -47,7 +47,7 @@ const CheckoutOption = (props) => {
                       value={2}
                       required
                     />
-                    <span>Request Invoice</span>
+                    <span>請求書を発行</span>
                   </label>
                 </div>
               </div>
@@ -56,13 +56,13 @@ const CheckoutOption = (props) => {
                   className="bg-gray-400 h-12 w-2/6 rounded-3xl text-black font-semibold"
                   onClick={() => props.handleCloseModal()}
                 >
-                  Cancel
+                  キャンセル
                 </button>
                 <button
                   className="bg-primary-200 text-white h-12 w-2/6 rounded-3xl font-semibold"
                   onClick={() => props.handleSubmitCheckout(state.optionValue)}
                 >
-                  Proceed
+                  確定
                 </button>
               </div>
             </div>
