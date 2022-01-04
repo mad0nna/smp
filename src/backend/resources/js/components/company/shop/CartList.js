@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom'
 import Pagination from '../../Pagination'
 import { useCart } from 'react-use-cart'
 import { useHistory } from 'react-router'
+import CheckoutOption from './CheckoutOption'
 import _ from 'lodash'
 
 const CartList = () => {
+  const [isAgreedTerms, setAgreedTerms] = useState(false)
   const [cart, setCart] = useState({
     items: [],
     id: '',
@@ -14,6 +16,11 @@ const CartList = () => {
     isEmpty: false,
     totalUniqueItems: 0,
     metadata: []
+  })
+
+  const [state, setState] = useState({
+    method: '',
+    modalDisplay: false
   })
 
   const history = useHistory()
@@ -31,6 +38,7 @@ const CartList = () => {
   }
 
   const handleDecOrder = (item) => {
+    // const { updateItemQuantity } = useCart()
     let updateQuantity = item.quantity - 1
     updateItemQuantity(item.id, updateQuantity)
   }
@@ -39,6 +47,28 @@ const CartList = () => {
 
   const handleDeleteItem = (id) => {
     removeItem(id)
+  }
+
+  const handleAcceptAgreement = (event) => {
+    setAgreedTerms(event.target.checked)
+  }
+
+  const handleCheckoutModalOpen = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        modalDisplay: !prevState.modalDisplay
+      }
+    })
+  }
+
+  const handleCheckoutModalClose = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        modalDisplay: false
+      }
+    })
   }
 
   const cartItems = () => {
@@ -112,6 +142,43 @@ const CartList = () => {
     })
   }
 
+  /**
+   * Proceed to request invoice or use payment method
+   * @param  int value
+   */
+  function handleSubmitCheckout(value) {
+    switch (value) {
+      case 1: // credit card
+        break
+      case 2: // through invoice // for brix changes here
+        break
+      default:
+        break
+    }
+  }
+
+  function calculateTaxItem(items) {
+    let totalTax = _.reduce(
+      items.items,
+      (sum, curItem) => {
+        return sum + curItem.taxVal * curItem.quantity
+      },
+      0
+    )
+
+    setCalculatedItem({
+      ...calculatedItem,
+      totalTax: totalTax,
+      totalAmount: _.reduce(
+        items,
+        (sum, curItem) => {
+          return sum + curItem.itemTotal
+        },
+        0
+      )
+    })
+  }
+
   useEffect(() => {
     if (_.isEmpty(items)) {
       var userData = JSON.parse(document.getElementById('userData').textContent)
@@ -129,25 +196,12 @@ const CartList = () => {
         cartTotal: lStorage.cartTotal,
         metadata: lStorage.metadata
       })
+      //   when refresh
+      calculateTaxItem(lStorage)
+    } else {
+      calculateTaxItem(items)
     }
-
-    setCalculatedItem({
-      ...calculatedItem,
-      totalTax: _.reduce(
-        items,
-        (sum, curItem) => {
-          return sum + curItem.taxVal * curItem.quantity
-        },
-        0
-      ),
-      totalAmount: _.reduce(
-        items,
-        (sum, curItem) => {
-          return sum + curItem.itemTotal
-        },
-        0
-      )
-    })
+    // set as cart state
   }, [items])
 
   return (
@@ -230,6 +284,7 @@ const CartList = () => {
                 <input
                   type="checkbox"
                   className="h-6 w-6 border-solid border-4 border-gray-500 border-opacity-25 shadow-xl rounded-md checked:bg-gray-500 checked:border-transparent focus:outline-none"
+                  onChange={handleAcceptAgreement}
                 />
                 <div className="text-sm  text-primary-200 ">
                   利用規約
@@ -240,7 +295,12 @@ const CartList = () => {
               </div>
             </div>
             <div className="flex flex-col items-center space-y-4 py-10">
-              <button className="bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold">
+              <button
+                className={`bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
+                  !isAgreedTerms ? 'bg-opacity-50 cursor-not-allowed' : ''
+                }`}
+                onClick={handleCheckoutModalOpen}
+              >
                 お会計
               </button>
               <button
@@ -255,6 +315,13 @@ const CartList = () => {
           </div>
         </div>
       </div>
+      {state.modalDisplay ? (
+        <CheckoutOption
+          handleCloseModal={handleCheckoutModalClose}
+          handleSubmitCheckout={handleSubmitCheckout}
+          method={state.method}
+        />
+      ) : null}
     </div>
   )
 }
