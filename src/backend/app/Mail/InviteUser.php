@@ -30,11 +30,13 @@ class InviteUser extends Mailable
     {
         $this->username = $user['email'];
         $this->full_name = $user['FullName'];
+        $this->first_name = $user['first_name'];
+        $this->last_name = $user['last_name'];
         $this->company_name = $user['company_name'];
         $this->pw = $pw;
         $this->url = env('APP_URL') . "/?invite_token={$token}";
         $this->view = 'mail.users.invite';
-        $this->subject = 'Activate your Account';
+        $this->subject = 'SMPにアカウントが追加されました​';
     }
 
     /**
@@ -47,7 +49,8 @@ class InviteUser extends Mailable
         return $this->subject($this->subject)
                     ->markdown($this->view)
                     ->with([
-                        'first_name' => $this->full_name,
+                        'first_name' => $this->first_name,
+                        'last_name' => $this->last_name,
                         'username' => $this->username,
                         'company' => $this->company_name,
                         'pw' => $this->pw,

@@ -15,7 +15,6 @@ use App\Models\Opportunity as ModelsOpportunity;
 use App\Services\API\Salesforce\Model\Account;
 use App\Services\API\Salesforce\Model\Contact;
 use App\Services\API\Salesforce\Model\Opportunity;
-use Exception;
 use Illuminate\Support\Facades\Log;
 
 class CompanyService
@@ -233,7 +232,7 @@ class CompanyService
     public function updateTableFromSf($id, $data)
     {
         try {
-            $company = Company::findOrfail($id)->update($data);
+            return $company = Company::findOrfail($id)->update($data);
         } catch (Exception $e) {
             throw $e;
         }

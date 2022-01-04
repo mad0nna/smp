@@ -11,6 +11,7 @@
 |
 */
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'zuora.api'], function () {
@@ -20,6 +21,9 @@ Route::group(['middleware' => 'zuora.api'], function () {
 Route::get('/', 'Auth\LoginController@login')->name('login');
 Route::post('/', 'Auth\LoginController@authenticate')->name('auth');
 Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/zeusLandingPage', function(Request $request) {
+    return redirect($request->redirectTo);
+});
 
 Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('getCompanyDetails', 'CompanyController@getCompanyDetails');
@@ -62,6 +66,7 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::get('/getUsage', 'BillingController@getAccountUsageData');
     Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
     Route::view('/methodofpayment', 'methodOfPayment');
+    Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {

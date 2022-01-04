@@ -64,6 +64,7 @@ const PaymentMethod = () => {
               message = 'お支払い方法が選択されていません'
               break
             default:
+              message = 'お支払い方法が選択されていません'
           }
 
           if (response.data) {

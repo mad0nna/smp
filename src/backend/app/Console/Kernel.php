@@ -10,6 +10,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\TempInvoiceFile::class,
         Commands\SalesforceSync::class,
+        Commands\NotifyCardExpiry::class
     ];
 
     /**
@@ -24,6 +25,8 @@ class Kernel extends ConsoleKernel
                  ->everyFiveMinutes();
         $schedule->command('salesforce:sync')
             ->hourly();
+        $schedule->command('notify:cardExpiry')
+            ->dailyAt('08:00');
     }
 
     /**

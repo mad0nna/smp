@@ -55,4 +55,24 @@ class BillingController extends Controller
         return $billingService->getAccountUsageData(Session::get('salesforceCompanyID'));
     }
 
+    /**
+     * Gets Unbilled information of the company belonging to logged in user
+     *
+     * @param App\Services\BillingService
+     * @return Response
+     */
+    public function getUnpaidBillingInformation(BillingService $billingService)
+    {
+        try {
+            $this->response['data'] = $billingService->getUnpaidBillingInformation(Session::get('companyName'), Session::get('salesforceCompanyID'));
+            $this->response['code'] = 200;
+        } catch (\Exception $e) {
+            $this->response = [
+                'code' => 500,
+                'error' => $e->getMessage(),
+            ];
+        }
+
+        return response()->json($this->response, $this->response['code']);
+    }
 }

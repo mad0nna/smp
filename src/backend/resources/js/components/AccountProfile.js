@@ -29,8 +29,8 @@ const AccountProfileEdit = () => {
     showPopupMessageDialog: false,
     dialogMessage: '',
     userTypes: [
-      { name: 'Sub Company Admin', value: 4 },
-      { name: 'Company Admin', value: 3 }
+      { name: '副管理者', value: 4 },
+      { name: 'スーパー管理者​', value: 3 }
     ],
     isLoading: false,
     isEditingProfile: false,
@@ -222,7 +222,7 @@ const AccountProfileEdit = () => {
           <div className="px-3 pt-3 pb-10">
             <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
               <h2 className="text-green-800 text-lg font-bold">
-                ユーザーアカウント一覧
+                ユーザープロフィール
               </h2>
             </div>
           </div>
@@ -232,38 +232,6 @@ const AccountProfileEdit = () => {
                 <div className="mx-10 mt-11 mb-2">
                   <div className="flex flex-wrap gap-0 w-full justify-center mt-4 text-primary-200 text-xl">
                     アカウントを更新
-                  </div>
-                  <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
-                    <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-                      <div className="mb-1 md:mb-0 md:w-1/3">
-                        <label className="text-sm text-gray-400">
-                          ファーストネーム :
-                        </label>
-                      </div>
-                      <div className="md:w-2/3 flex-grow">
-                        <label
-                          className={
-                            (state.isEditingProfile ? 'hidden' : '') +
-                            ' text-sm text-black w-full h-8 px-3 leading-8'
-                          }
-                        >
-                          {state.account.firstname}
-                        </label>
-                        <input
-                          className={
-                            (state.isEditingProfile ? '' : 'hidden') +
-                            ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                          }
-                          defaultValue={state.account.firstname}
-                          type="text"
-                          name="FirstName"
-                          placeholder="ファーストネーム"
-                          onChange={(e) =>
-                            handleTextChange('firstname', e.target.value)
-                          }
-                        />
-                      </div>
-                    </div>
                   </div>
                   <div className="flex flex-wrap gap-0 w-full justify-start">
                     <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
@@ -290,6 +258,37 @@ const AccountProfileEdit = () => {
                           placeholder="苗字"
                           onChange={(e) =>
                             handleTextChange('lastname', e.target.value)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
+                    <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+                      <div className="mb-1 md:mb-0 md:w-1/3">
+                        <label className="text-sm text-gray-400">名前 :</label>
+                      </div>
+                      <div className="md:w-2/3 flex-grow">
+                        <label
+                          className={
+                            (state.isEditingProfile ? 'hidden' : '') +
+                            ' text-sm text-black w-full h-8 px-3 leading-8'
+                          }
+                        >
+                          {state.account.firstname}
+                        </label>
+                        <input
+                          className={
+                            (state.isEditingProfile ? '' : 'hidden') +
+                            ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                          }
+                          defaultValue={state.account.firstname}
+                          type="text"
+                          name="FirstName"
+                          placeholder="ファーストネーム"
+                          onChange={(e) =>
+                            handleTextChange('firstname', e.target.value)
                           }
                         />
                       </div>
@@ -420,7 +419,7 @@ const AccountProfileEdit = () => {
                             type="password"
                             name="pw"
                             defaultValue=""
-                            placeholder="電話番号"
+                            placeholder="パスワード"
                             onChange={handleTextChange}
                             disabled
                           />
@@ -453,8 +452,8 @@ const AccountProfileEdit = () => {
                             }
                           >
                             {state.account.userTypeId === 3
-                              ? 'Company Admin'
-                              : 'Sub Company Admin'}
+                              ? 'スーパー管理者​'
+                              : '管理者​'}
                           </label>
                           {
                             <select
@@ -478,8 +477,8 @@ const AccountProfileEdit = () => {
                                     value={t.value}
                                     defaultValue={
                                       state.account.userTypeId === 3
-                                        ? 'Company Admin'
-                                        : 'Sub Company Admin'
+                                        ? 'スーパー管理者​'
+                                        : '副管理者'
                                     }
                                   >
                                     {t.name}

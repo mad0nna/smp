@@ -1,0 +1,17 @@
+./node_modules
+./vendor
+./bootstrap
+.env
+.editorconfig
+.env.example
+.eslintrc.js
+.gitattributes
+.gitignore
+.php_cs.dist
+.prettierignore
+.prettierrc
+.styleci.yml
+artisan
+phpunit
+phpunit.xml
+readme.md

@@ -130,11 +130,7 @@ class CompanyController extends Controller
         try {
             $company = $companyService->getCompanyById($request->company_id);
             $result = $companyService->getAllDetailsInSFByID($company['company_code']);
-
             if ($result) {
-                $data = $this->parseSfToDbColumn($result);
-                $companyService->updateTableFromSf($request->company_id, $data); 
-                $company = $companyService->getCompanyById($request->company_id); 
                 $result = (new CompanyResource([]))->filterFromDbToFront($company);
             }
 
@@ -205,7 +201,6 @@ class CompanyController extends Controller
         'billing_state' => $data['BillingState'],
         'billing_postal_code' => $data['BillingPostalCode'],
         'billing_country' => $data['BillingCountry'],
-        'payment_method' => $data['PaymentMethod__c'],
         'kot_trans_type' => $data['KOT_shubetsu__c'],
         'industry_sub' => $data['Field19__c'],
         'industry_sub2' => $data['Field20__c'],
@@ -249,7 +244,7 @@ class CompanyController extends Controller
         'opportunity_code' => $request['opportunityCode'] ?? '',
         'opportunity' => $request['opportunity'] ?? [],
         'token' => $request['token'] ?? '',
-        'kot_billing_start_date' => $request['kotBillingStartDate'] ?? '',
+        'kot_billing_start_date' => $request['kot_billing_start_date'] ?? '',
       ];
     }
 }
