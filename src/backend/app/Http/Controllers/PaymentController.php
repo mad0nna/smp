@@ -29,7 +29,8 @@ class PaymentController extends Controller
             'email' => Auth::user()->email,
             'amount' => 0,
             'clientIP' => 2019001618,
-            'sendID' => 'changePaymentMethodTEST'
+            'sendID' => 'changePaymentMethodTEST',
+            'redirectTo' => '/company/dashboard'
         ]);
     }
 

@@ -3,12 +3,14 @@
 namespace App\Services;
 
 use App\Models\Company;
+use App\Services\API\Salesforce\Model\Account as ModelAccount;
 use App\Services\Utilities\DateManager;
 use App\Services\Utilities\MessageResult;
 use Illuminate\Support\Facades\Cache;
 use App\Services\API\Zuora\Model\Account;
 use App\Services\API\Zuora\Model\Invoice;
 use App\Services\API\Zuora\Model\Usage;
+use App\Services\API\Salesforce\Model\Report;
 use Illuminate\Support\Carbon;
 
 class BillingService
@@ -61,7 +63,7 @@ class BillingService
     public function getLatestInvoiceDetails($accountID)
     {
         $invoices = $this->getInvoices($accountID);
-        
+
         if (count($invoices)) {
             return $this->getInvoiceDetails($invoices[0]['id']);
         }
@@ -71,6 +73,7 @@ class BillingService
 
     public function getAccountInfo($companyID)
     {
+        Cache::forget("{$companyID}:zuora:accountDetails");
         $accountDetails = Cache::remember("{$companyID}:zuora:accountDetails", now()->addDay(1), function () use ($companyID) {
             $accountInfo = (new Account)->find($companyID);
             if (!$accountInfo['success']) {
@@ -152,5 +155,55 @@ class BillingService
         }
 
         return $usage;
+    }
+
+    /**
+     * Function that gets Unpaid Billing Information
+     * of logged in user's company from salesforce report
+     *
+     * @param string $companyName
+     * @param string $salesforceCompanyID Company account_id
+     * @return array $data
+     */
+    public function getUnpaidBillingInformation(string $companyName, string $salesforceCompanyID)
+    {
+        $data = [];
+        $results = (new Report)->getUnpaidBillingInformation($companyName);
+
+        // current unpaid billing information
+        $data['due_billed_amount'] = '';
+        $data['due_billed_deadline_date'] = '';
+        $data['due_billed_payment_period'] = '';
+        // last month unpaid billing information
+        $data['due_last_billed_amount'] = '';
+        $data['due_last_billed_deadline_date'] = '';
+        $data['due_last_billed_payment_period'] = '';
+        $data['total_billed_amount'] = '';
+
+
+        foreach($results['factMap'] as $key => $factMaps) {
+            foreach($factMaps['rows'] as $key => $row) {
+                if ($row['dataCells'] && $row['dataCells'][6]['value'] === $salesforceCompanyID) {
+                    // current billed information
+                    $data['due_billed_amount'] = $row['dataCells'][10]['label'];
+                    $data['due_billed_deadline_date'] = Carbon::createFromDate($row['dataCells'][0]['value'])->format('Y年m月d日');
+                    $data['due_billed_payment_period'] = Carbon::createFromDate($results['groupingsDown']['groupings'][0]['value'])->format('Y年m月d日');
+
+                    // last month billed payment information if it exists
+                    if ($row['dataCells'][11]['value'] != null) {
+                        $data['due_last_billed_amount'] = $row['dataCells'][11]['label'];
+                        $data['due_last_billed_deadline_date'] = Carbon::createFromDate($row['dataCells'][0]['value'])->subMonth()->format('Y年m月d日');
+                        $data['due_last_billed_payment_period'] = Carbon::createFromDate($results['groupingsDown']['groupings'][0]['value'])->format('Y年m月d日');
+                    }
+
+                    $data['total_billed_amount'] = $row['dataCells'][12]['label'];
+
+                    // breaks out of the double forloop once found a match
+                    break 2;
+                }
+            }
+        }
+
+        return $data;
     }
 }

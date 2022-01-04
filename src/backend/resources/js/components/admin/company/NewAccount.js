@@ -53,7 +53,7 @@ const NewAccount = (props) => {
           <p className="text-center w-full text-white">
             {_.isEmpty(props.foundCompany)
               ? ''
-              : '見つかりました:  ' + props.foundCompany.name}
+              : '検索結果:  ' + props.foundCompany.name}
           </p>
         </div>
       </div>

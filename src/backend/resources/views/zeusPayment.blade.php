@@ -21,19 +21,19 @@
                   <input
                     type="hidden"
                     name="success_url"
-                    value="https://v2-idaten.sprobe.ph/company/dashboard"
+                    value='' 
                   />
                   <input
                     type="hidden"
                     name="success_str"
-                    value="success test"
+                    value="ページに戻る"
                   />
                   <input
                     type="hidden"
                     name="failure_url"
-                    value="https://v2-idaten.sprobe.ph/company/dashboard"
+                    value=''> 
                   />
-                  <input type="hidden" name="failure_str" value="failed test" />
+                  <input type="hidden" name="failure_str" value="ページに戻る" />
                   <input
                     type="submit"
                     name="To Credit Page"

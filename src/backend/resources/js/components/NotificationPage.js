@@ -15,24 +15,35 @@ const NotificationPage = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        let zendeskNotifs = data.zendesk
+        let zendeskNotifs = data
         let notifs = []
         let maxId = Math.ceil(state.currentPage * 10)
         let minId = maxId - 10
         for (let i = 0; i < zendeskNotifs.length; i++) {
-          notifs.push({
-            header: 'お知らせ',
-            type: 'zendesk',
-            message: zendeskNotifs[i].title,
-            link: zendeskNotifs[i].html_url,
-            newTab: true,
-            status: zendeskNotifs[i].seen ? '既読' : '未読',
-            id: zendeskNotifs[i].id,
-            category_name:
-              zendeskNotifs[i].category_name !== undefined
-                ? zendeskNotifs[i].category_name
-                : ''
-          })
+          if (zendeskNotifs[i].notification_type === 'payment') {
+            notifs.push({
+              header: 'お知らせ',
+              type: 'お支払い',
+              type_eng: 'payment',
+              message: zendeskNotifs[i].message,
+              link: '/company/methodofpayment/',
+              newTab: true,
+              status: zendeskNotifs[i].seen ? '既読' : '未読',
+              notif_id: zendeskNotifs[i].notif_id
+            })
+          }
+          if (zendeskNotifs[i].notification_type === 'article') {
+            notifs.push({
+              header: 'お知らせ',
+              type: '記事',
+              type_eng: 'article',
+              message: zendeskNotifs[i].title,
+              link: zendeskNotifs[i].html_url,
+              newTab: true,
+              status: zendeskNotifs[i].seen ? '既読' : '未読',
+              id: zendeskNotifs[i].id
+            })
+          }
         }
         setState((prevState) => {
           return {
@@ -154,9 +165,9 @@ const NotificationPage = () => {
             <table className="w-full h-auto text-center">
               <thead className="bg-table-header-Gray-100 text-gray-500 h-3 font-bold text-lg tracking-tight">
                 <tr className="h-12 w-12">
-                  <td className="w-2">種類</td>
-                  <td className="w-8">タイトル</td>
-                  <td className="w-2">分類</td>
+                  <td className="w-1/5">種類</td>
+                  <td className="w-3/5">タイトル</td>
+                  <td className="w-1/5">分類</td>
                 </tr>
               </thead>
               <tbody className="transform even:bg-gray-500">
@@ -173,20 +184,18 @@ const NotificationPage = () => {
                         key={index}
                         onClick={(e) => {
                           e.preventDefault()
-                          item.type === 'zendesk'
-                            ? seenNotif(
-                                index,
-                                item.id,
-                                'zendesk',
-                                item.link,
-                                item.newTab
-                              )
-                            : ''
+                          seenNotif(
+                            index,
+                            item.id,
+                            item.type_eng,
+                            item.link,
+                            item.newTab
+                          )
                         }}
                       >
                         <td className="w-2">{item.header}</td>
                         <td className="w-8">{item.message}</td>
-                        <td className="w-2">{item.category_name}</td>
+                        <td className="w-2">{item.type}</td>
                       </tr>
                     )
                   }
