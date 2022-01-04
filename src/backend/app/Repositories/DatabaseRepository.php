@@ -6,6 +6,7 @@ use App\Models\Opportunity;
 use App\Models\User;
 use App\Models\WidgetSettings;
 use App\Models\NotificationTarget;
+use App\Models\Notification;
 use Exception;
 
 class DatabaseRepository
@@ -121,32 +122,38 @@ class DatabaseRepository
         }
     }
 
-    public function getZendeskSeenNotif($accountID)
-    {
+    public function getNotificationsByContactID($contactID) {
         try {
-            return NotificationTarget::rightjoin('users', 'users.id', '=', 'user_id')
-            ->where('users.account_code', $accountID)
-            ->select(['notification_target.article_id', 'notification_target.article_seen_timestamp'])
-            ->get()
-            ->toArray();
+            return  Notification::rightjoin('notification_target', 'notification_target.notification_id', '=', 'notifications.id')
+            ->leftJoin('users', 'users.id', '=', 'notification_target.user_id')
+            ->where('account_code', $contactID)
+            ->select('notification_target.id as notif_id', 'notifications.message', 'notifications.level', 'notification_target.notification_type', 'notification_target.notification_seen_timestamp', 'notification_target.article_id', 'notification_target.article_seen_timestamp')
+            ->get()->toArray();
         } catch (Exception $e) {
             return ['status' => false, 'message' => $e->getMessage()];
         }
     }
 
-    public function seenZendeskNotif($accountID, $articleId, $currentDateTime)
+    public function seenNotif($contactID, $notifID, $notifType, $currentDateTime)
     {
         try {
-            $userId = User::where('account_code', $accountID)->select('id')->get()->toArray();
+            $userId = User::where('account_code', $contactID)->select('id')->get()->toArray();
             if (!empty($userId)) {
                 $userId = reset($userId)['id'];
-
-                return NotificationTarget::create([
-                    'user_id' => $userId,
-                    'notification_type' => 'zendesk',
-                    'article_id' => $articleId,
-                    'article_seen_timestamp' => $currentDateTime,
-                ]);
+                if ($notifType === 'article') {
+                    return NotificationTarget::create([
+                        'user_id' => $userId,
+                        'notification_type' => 'article',
+                        'article_id' => $notifID,
+                        'article_seen_timestamp' => $currentDateTime,
+                    ]);
+                }
+                if ($notifType === 'payment') {
+                    return NotificationTarget::where('id', $notifID)
+                        ->update([
+                        'notification_seen_timestamp' => $currentDateTime,
+                    ]);
+                }
             }
         } catch (Exception $e) {
             return ['status' => false, 'message' => $e->getMessage()];

@@ -321,4 +321,56 @@ class Salesforce
             throw new Exception($response[0]['message']);
         }
     }
+
+    /**
+     * Function that gets Salesforce Report
+     *
+     * @param string $path URL
+     * @param string $data Raw JSON data
+     * @param array $headers
+     *
+     * @return array
+     */
+    public function getSalesforceReport(string $path, string $data, $headers = [])
+    {
+        try {
+            $request = $this->client->post(
+                $path,
+                [
+                    'headers' => array_merge(
+                        $headers,
+                        [
+                            'Content-Type' => 'application/json',
+                            'Accept' => '*/*',
+                            'Authorization' => 'Bearer ' . $this->access_token,
+                        ]
+                    ),
+                    'synchronous' => true,
+                    'body' => $data,
+                ]
+            );
+
+            return json_decode($request->getBody()->getContents(), true);
+        } catch (ClientException $e) {
+            $code = $e->getResponse()->getStatusCode();
+            $response = json_decode($e->getResponse()->getBody()->getContents(), true);
+            if (in_array($code, [400, 401])) {
+                $this->retries++;
+
+                // prevent infinite retries/loop
+                if ($this->retries < $this->max_retries) {
+                    // attempt to get new token
+                    $this->authenticate();
+
+                    // retry the failed request
+                    return $this->get($path, $headers);
+                }
+
+                throw new UnauthorizedAccessException($response['message']);
+            }
+
+            // Other Exceptions aside from Authentication
+            throw new Exception($response[0]['message']);
+        }
+    }
 }

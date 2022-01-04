@@ -28,7 +28,5 @@ class Account extends Model
         return $this->client->patch("/services/data/v34.0/sobjects/Account/{$accountId}", $companyData);
     }
 
-    
-
 }
 ?>

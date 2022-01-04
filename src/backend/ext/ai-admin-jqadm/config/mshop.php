@@ -14,5 +14,12 @@ return [
                 'local' => ['Myproject']
             ]
         ]
+    ],
+    'order' => [
+        'manager' => [
+            'decorators' => [
+                'local' => ['Myproject']
+            ]
+        ]
     ]
 ];
