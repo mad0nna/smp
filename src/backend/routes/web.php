@@ -20,7 +20,10 @@ Route::group(['middleware' => 'zuora.api'], function () {
 
 Route::get('/', 'Auth\LoginController@login')->name('login');
 Route::post('/', 'Auth\LoginController@authenticate')->name('auth');
-Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/login', 'Auth\LoginController@login')->name('login');
+Route::post('/login', 'Auth\LoginController@authenticate')->name('auth');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/zeusLandingPage', function(Request $request) {
     return redirect($request->redirectTo);
 });
@@ -67,6 +70,10 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
     Route::view('/methodofpayment', 'methodOfPayment');
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
+    // Company Shop
+    Route::view('/productDetail', 'companyProductDetail');
+    Route::view('/cart', 'companyCart');
+    Route::get('/shop', 'ShoppingController@shop');    
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
@@ -85,6 +92,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('company/saveAddedCompany', 'CompanyController@saveAddedCompany');
     Route::post('company/updateSaveAccount', 'CompanyController@updateSaveAccount');
     Route::post('company/resendEmailInvite', 'CompanyController@resendEmailInvite');
+
+    Route::post('/uploadNewProductInventoryCsv', 'ShoppingController@uploadNewProductInventoryCsv');
+    Route::post('/uploadUpdateStockInventoryCsv', 'ShoppingController@uploadUpdateStockInventoryCsv');
 });
 
 Route::prefix('sales')->group(function () {
