@@ -282,7 +282,9 @@ const CompanyBilling = () => {
 
         <div className="flex flex-row mt-3 ml-3 h-8 w-40 bg-cover bg-no-repeat">
           <img src={unpaidBillingIcon} />
-          <span className="ml-3 mt-3 text-green-600 font-semibold">未払い情報</span>
+          <span className="ml-3 mt-3 text-green-600 font-semibold">
+            未払い情報
+          </span>
         </div>
 
         <div className="flex flex-col flex-wrap w-3/6 min-w-min max-w-3xl p-4 border-2 mt-1 ml-3 rounded-lg shadow-md row-2">
@@ -292,7 +294,7 @@ const CompanyBilling = () => {
                 未払額 :
                 <span className="text-red-700 float-right ml-3 font-semibold">
                   {state.unpaidBillingData.due_last_billed_amount
-                    ? ` ¥ ${state.unpaidBillingData.due_last_billed_amount}`
+                    ? `${state.unpaidBillingData.due_last_billed_amount} 円(税込)`
                     : '-'}
                 </span>
               </div>
@@ -318,7 +320,7 @@ const CompanyBilling = () => {
                 未払額 :
                 <span className="text-red-700 float-right ml-3 font-semibold">
                   {state.unpaidBillingData.due_billed_amount
-                    ? ` ¥ ${state.unpaidBillingData.due_billed_amount}`
+                    ? `${state.unpaidBillingData.due_billed_amount} 円(税込)`
                     : '-'}
                 </span>
               </div>
@@ -345,7 +347,7 @@ const CompanyBilling = () => {
               合計 :
               <span className="text-red-700 ml-3 font-semibold">
                 {state.unpaidBillingData.due_billed_amount
-                  ? state.unpaidBillingData.total_billed_amount
+                  ? `${state.unpaidBillingData.total_billed_amount} 円(税込)`
                   : '-'}
               </span>
             </div>
@@ -408,7 +410,7 @@ const CompanyBilling = () => {
                 {/* <th>請求書名</th> */}
                 <th>請求日</th>
                 <th>支払期限</th>
-                <th className="text-right">請求額</th>
+                <th>請求額</th>
                 {/* <th>状態</th> */}
                 <th>操作</th>
               </tr>
@@ -427,7 +429,7 @@ const CompanyBilling = () => {
                       {/* <td className="text-center">{item.billingName}</td> */}
                       <td className="text-center"> {item.invoiceDate}</td>
                       <td className="text-center">{item.dueDate}</td>
-                      <td className="text-right">¥ {item.amount}</td>
+                      <td className="text-right">{`${item.amount} 円(税込)`}</td>
                       {/* <td className={txtcolor + ' text-center'}>-</td> */}
                       <td className="text-center text-primary-200">
                         <div

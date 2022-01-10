@@ -42,7 +42,7 @@ const UnpaidBillingInformation = () => {
           </div>
         </div>
         {state.loading === true ? (
-          <div className="w-full relative mt-24 h-24 dashboard-widget-list overflow-hidden">
+          <div className="w-full relative mt-12 h-24 dashboard-widget-list overflow-hidden">
             <div className="mx-auto absolute bottom-1 w-full text-center billing-loading">
               <img className="mx-auto h-12 mt-5" src={spinner}></img>
             </div>
@@ -55,7 +55,7 @@ const UnpaidBillingInformation = () => {
                   未払額 :
                   <span className="text-red-700 float-right ml-3 font-semibold">
                     {state.unpaidBillingData.due_last_billed_amount
-                      ? ` ¥ ${state.unpaidBillingData.due_last_billed_amount}`
+                      ? `${state.unpaidBillingData.due_last_billed_amount} 円(税込)`
                       : '-'}
                   </span>
                 </div>
@@ -81,7 +81,7 @@ const UnpaidBillingInformation = () => {
                   未払額 :
                   <span className="text-red-700 float-right ml-3 font-semibold">
                     {state.unpaidBillingData.due_billed_amount
-                      ? ` ¥ ${state.unpaidBillingData.due_billed_amount}`
+                      ? `${state.unpaidBillingData.due_billed_amount} 円(税込)`
                       : '-'}
                   </span>
                 </div>
@@ -108,7 +108,7 @@ const UnpaidBillingInformation = () => {
                 合計 :
                 <span className="text-red-700 ml-3 font-semibold">
                   {state.unpaidBillingData.due_billed_amount
-                    ? state.unpaidBillingData.total_billed_amount
+                    ? `${state.unpaidBillingData.total_billed_amount} 円(税込)`
                     : '-'}
                 </span>
               </div>

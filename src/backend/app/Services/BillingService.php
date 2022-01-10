@@ -180,9 +180,8 @@ class BillingService
         $data['due_last_billed_payment_period'] = '';
         $data['total_billed_amount'] = '';
 
-
-        foreach($results['factMap'] as $key => $factMaps) {
-            foreach($factMaps['rows'] as $key => $row) {
+        foreach($results['factMap'] as $factMaps) {
+            foreach($factMaps['rows'] as $row) {
                 if ($row['dataCells'] && $row['dataCells'][6]['value'] === $salesforceCompanyID) {
                     // current billed information
                     $data['due_billed_amount'] = $row['dataCells'][10]['label'];
@@ -196,7 +195,7 @@ class BillingService
                         $data['due_last_billed_payment_period'] = Carbon::createFromDate($results['groupingsDown']['groupings'][0]['value'])->format('Y年m月d日');
                     }
 
-                    $data['total_billed_amount'] = $row['dataCells'][12]['label'];
+                    $data['total_billed_amount'] = number_format($row['dataCells'][12]['value']['amount']);
 
                     // breaks out of the double forloop once found a match
                     break 2;
