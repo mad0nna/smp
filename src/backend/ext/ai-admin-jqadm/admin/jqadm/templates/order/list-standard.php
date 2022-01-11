@@ -151,7 +151,7 @@ $operators = map( $this->get( 'filterOperators/compare', [] ) )->flip()->map( fu
 } )->all();
 
 $baseItems = $this->get( 'baseItems', [] );
-
+$customer = $this->get( 'customer', [] );
 
 $columnList = [
 	'order.id' => $this->translate( 'admin', '請求書番号' ),	
@@ -368,7 +368,7 @@ $statusList = [
 								<td class="order-base-address-salutation"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getSalutation() ) : '' ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.company_name', $fields ) ) : ?>
-								<td class="order-base-address-company text-start"> <?= $item->get('company_name') ?? '' ?></td>
+								<td class="order-base-address-company text-start"> <?= $customer['customer.company'] ?? '' ?></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.address.vatid', $fields ) ) : ?>
 								<td class="order-base-address-vatid text-start"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getVatID() ) : '' ?></a></td>
