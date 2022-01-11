@@ -236,6 +236,9 @@ class Standard
 
 			$view->items = $manager->search( $search, [], $total );
 			$view->baseItems = $this->getOrderBaseItems( $view->items );
+			foreach( $view->baseItems as $item ) {
+				$view->customer = $item->getCustomerItem()->toArray();
+			}
 			$view->filterAttributes = $manager->getSearchAttributes( true );
 			$view->filterOperators = $search->getOperators();
 			$view->itemBody = parent::search();
@@ -372,7 +375,7 @@ class Standard
 		$search = $manager->filter( false, true )->slice( 0, count( $baseIds ) );
 		$search->setConditions( $search->compare( '==', 'order.base.id', $baseIds ) );
 
-		$domains = ['order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service'];
+		$domains = ['order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service' , 'customer'];
 		return $manager->search( $search, $domains );
 	}
 
@@ -576,7 +579,7 @@ class Standard
 		foreach( $item->getProducts() as $pos => $productItem ) {
 			$data['product'][$pos] = $productItem->toArray();
 		}
-
+	
 		return $data;
 	}
 
