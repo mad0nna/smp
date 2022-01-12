@@ -67,7 +67,7 @@ class ShoppingController extends Controller
                                 $updateStock = array(
                                     "siteid" => "1.",
                                     "prodid" => $product->id,
-                                    "type" => $row[8],
+                                    "type" => 'default',
                                     "stocklevel" => $row[5],
                                     "backdate" => null,
                                     "timeframe" => "",
@@ -121,10 +121,16 @@ class ShoppingController extends Controller
                         $product = Product::where("code", "=", $row[0])->first();
 
                         if (!is_null($product)) {
+                            
+                            if ($row[5] > 0) {
+                                $product->inStock = 1;
+                                $product->save();
+                            }
+
                             $item = ProductStock::where("prodid", "=", $product->id)->first();
 
                             if (!is_null($item)) {
-                                $item->stocklevel = $item->stocklevel + $row[5];
+                                $item->stocklevel = $row[5];
                                 $result = $item->save();
 
                                 if($result == true) {
