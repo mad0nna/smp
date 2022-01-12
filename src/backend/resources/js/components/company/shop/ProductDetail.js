@@ -24,11 +24,13 @@ const ProductDetail = (props) => {
     price: 0,
     taxVal: 0,
     quantity: 0,
-    defaultStock: 0
+    defaultStock: 0,
+    meta: []
   })
 
   const parseProductData = (data) => {
-    const { media, price, product, text, stock } = data
+    console.log('@detail', data)
+    const { media, price, product, text, stock, meta } = data
     let prodDescription = text['text.content'].replace(/<[^>]+>/g, '')
     let prodPrice = _.parseInt(
       _.parseInt(price['price.value']) - _.parseInt(price['price.taxvalue'])
@@ -47,7 +49,8 @@ const ProductDetail = (props) => {
       quantity: price['price.quantity'],
       title: product['product.label'],
       imgSrc: media['media.preview'],
-      defaultStock: stock['stock.stocklevel'] ?? 0
+      defaultStock: stock['stock.stocklevel'] ?? 0,
+      meta: meta
     })
 
     setState((prevState) => {
@@ -132,28 +135,65 @@ const ProductDetail = (props) => {
     history.replace('/company/cart')
   }
 
-  // const saveToBasket = () => {
-  //   let productId = _.toInteger(productDetail.id)
-  //   var data = {
-  //     data: [
-  //       {
-  //         attributes: {
-  //           'product.id': productId,
-  //           quantity: state.orderNum, // optional
-  //           stocktype: 'default' // warehouse code (optional)
-  //         }
-  //       }
-  //     ]
-  //   }
+  const fetchBasket = () => {
+    axios({
+      url: '/jsonapi',
+      method: 'OPTIONS',
+      responseType: 'json'
+    }).then((response) => {
+      console.log('@response options', response)
+      let basketUrl = response.data.meta.resources['basket']
 
-  //   axios
-  //     .post(`/jsonapi/basket?id=${productId}&related=product`, data, {
-  //       'Content-Type': 'application/json'
-  //     })
-  //     .then((response) => {
-  //       console.log('@data', response)
-  //     })
-  // }
+      //
+      axios({
+        method: 'GET',
+        url: basketUrl,
+        responseType: 'json'
+      }).then((res) => {
+        console.log('@res', res)
+      })
+    })
+  }
+
+  const saveToBasket = () => {
+    var data = {
+      data: [
+        {
+          attributes: {
+            'product.id': productDetail.id,
+            quantity: state.orderNum, // optional
+            stocktype: 'default' // warehouse code (optional)
+          }
+        }
+      ]
+    }
+
+    let url =
+      'https://idaten.localhost/jsonapi/basket?id=default&related=product'
+    let csrfItem = productDetail.meta.csrf
+
+    if (csrfItem) {
+      // add CSRF token if available and therefore required
+      var csrf = {}
+      csrf[csrfItem.name] = csrfItem.value
+      url +=
+        (url.indexOf('?') === -1 ? '?' : '&') +
+        Object.keys(csrf)
+          .map((key) => key + '=' + csrf[key])
+          .join('&')
+    }
+
+    // console.log('@post', data)
+    // console.log('@meta', productDetail.meta, url)
+
+    axios
+      .post(url, JSON.stringify(data), {
+        'Content-Type': 'application/json'
+      })
+      .then((response) => {
+        console.log('@data response', response)
+      })
+  }
 
   function getProductDetail(id) {
     axios({
