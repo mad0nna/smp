@@ -282,7 +282,9 @@ const CompanyBilling = () => {
 
         <div className="flex flex-row mt-3 ml-3 h-8 w-40 bg-cover bg-no-repeat">
           <img src={unpaidBillingIcon} />
-          <span className="ml-3 mt-3 text-green-600 font-semibold">未払い情報</span>
+          <span className="ml-3 mt-3 text-green-600 font-semibold">
+            未払い情報
+          </span>
         </div>
 
         <div className="flex flex-col flex-wrap w-3/6 min-w-min max-w-3xl p-4 border-2 mt-1 ml-3 rounded-lg shadow-md row-2">

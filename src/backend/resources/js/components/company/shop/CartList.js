@@ -4,9 +4,11 @@ import Pagination from '../../Pagination'
 import { useCart } from 'react-use-cart'
 import { useHistory } from 'react-router'
 import CheckoutOption from './CheckoutOption'
+// import CheckoutAddress from './CheckoutAddress'
+import axios from 'axios'
 import _ from 'lodash'
-
-const CartList = () => {
+const CartList = (props) => {
+  console.log('test1', props.location.state.links || [])
   const [isAgreedTerms, setAgreedTerms] = useState(false)
   const [cart, setCart] = useState({
     items: [],
@@ -17,51 +19,139 @@ const CartList = () => {
     totalUniqueItems: 0,
     metadata: []
   })
-
+  const [orderId, setOrderId] = useState({ orderId: null, token: null })
   const [state, setState] = useState({
     method: '',
     modalDisplay: false
   })
-
   const history = useHistory()
   const { isEmpty, cartTotal, items, updateItemQuantity, removeItem } =
     useCart()
-
   const [calculatedItem, setCalculatedItem] = useState({
     totalTax: 0,
     totalAmount: 0
   })
-
   const handleIncOrder = (item) => {
     let updateQuantity = item.quantity + 1
     updateItemQuantity(item.id, updateQuantity)
   }
-
   const handleDecOrder = (item) => {
     // const { updateItemQuantity } = useCart()
     let updateQuantity = item.quantity - 1
     updateItemQuantity(item.id, updateQuantity)
   }
-
   const handleOrderChange = () => {}
-
   const handleDeleteItem = (id) => {
     removeItem(id)
   }
-
   const handleAcceptAgreement = (event) => {
     setAgreedTerms(event.target.checked)
   }
-
   const handleCheckoutModalOpen = () => {
+    addService()
+
     setState((prevState) => {
       return {
         ...prevState,
         modalDisplay: !prevState.modalDisplay
       }
     })
-  }
 
+    function addService() {
+      axios
+        .get(
+          '/jsonapi/service?filter[cs_type]=payment&include=text,price,media',
+          {
+            'Content-Type': 'application/json'
+          }
+        )
+        .then((res1) => {
+          console.log('params response', res1)
+          const urlParams = res1.data.data.filter(function (item) {
+            return item.id === '6'
+          })[0]
+          console.log('urlParams', urlParams)
+          let url = urlParams.links['basket/service'].href
+          let csrfItem = res1.data.meta.csrf
+          var params = {
+            data: [
+              {
+                id: urlParams.attributes['service.type'],
+                attributes: {
+                  'service.id': urlParams.attributes['service.id']
+                }
+              }
+            ]
+          }
+
+          console.log('params service post', params)
+          console.log('url service post', url)
+          if (csrfItem) {
+            // add CSRF token if available and therefore required
+            var csrf = {}
+            csrf[csrfItem.name] = csrfItem.value
+            url +=
+              (url.indexOf('?') === -1 ? '?' : '&') +
+              Object.keys(csrf)
+                .map((key) => key + '=' + csrf[key])
+                .join('&')
+          }
+
+          // let addressUrl = props.location.state.links['basket/address'].href
+
+          // if (csrfItem) {
+          //   // add CSRF token if available and therefore required
+          //   const csrf = {}
+          //   csrf[csrfItem.name] = csrfItem.value
+          //   addressUrl +=
+          //     (addressUrl.indexOf('?') === -1 ? '?' : '&') +
+          //     Object.keys(csrf)
+          //       .map((key) => key + '=' + csrf[key])
+          //       .join('&')
+          // }
+
+          // axios
+          //   .delete(
+          //     `/jsonapi/basket?id=default&related=address&relatedid=payment?_token=${csrfItem.value}`
+          //   )
+          //   .then((response) => {
+          //     console.log('@deleted service', response)
+          // })
+          axios
+            .post(url, JSON.stringify(params), {
+              'Content-Type': 'application/json'
+            })
+            .then((res2) => {
+              console.log('@create service', res2)
+              let basketUrl = res2.data.links.self.href
+              let csrfItem = res2.data.meta.csrf
+              if (csrfItem) {
+                // add CSRF token if available and therefore required
+                var csrf = {}
+                csrf[csrfItem.name] = csrfItem.value
+                basketUrl +=
+                  (basketUrl.indexOf('?') === -1 ? '?' : '&') +
+                  Object.keys(csrf)
+                    .map((key) => key + '=' + csrf[key])
+                    .join('&')
+              }
+
+              console.log('url create basket post', basketUrl)
+              axios
+                .post(basketUrl, {
+                  'Content-Type': 'application/json'
+                })
+                .then((res3) => {
+                  setOrderId({
+                    orderId: res3.data.data.attributes['order.base.id'],
+                    token: res3.data.meta.csrf.value
+                  })
+                  console.log('@all basket done', res3)
+                })
+            })
+        })
+    }
+  }
   const handleCheckoutModalClose = () => {
     setState((prevState) => {
       return {
@@ -70,10 +160,8 @@ const CartList = () => {
       }
     })
   }
-
   const cartItems = () => {
     let addToCartItem = _.isEmpty(items) ? cart.items : items
-
     return addToCartItem.map((item) => {
       return (
         <tr key={item.id}>
@@ -81,7 +169,7 @@ const CartList = () => {
             <div className="flex flex-col p-2">
               <img
                 className="w-auto h-auto p-5 tex-center m-auto"
-                src={`/aimeos/${item.imgSrc}`}
+                src={`${item.imgSrc}`}
               ></img>
               <div className="text-red-500 font-bold">{item.title}</div>
             </div>
@@ -141,22 +229,43 @@ const CartList = () => {
       )
     })
   }
-
   /**
    * Proceed to request invoice or use payment method
    * @param  int value
    */
   function handleSubmitCheckout(value) {
-    switch (value) {
+    console.log(value)
+    console.log('cart', cart)
+    switch (parseInt(value)) {
       case 1: // credit card
         break
-      case 2: // through invoice // for brix changes here
+      case 2:
+        console.log('INNN')
+        {
+          const data = {
+            data: {
+              attributes: {
+                'order.baseid': orderId.orderId // generated ID returned in the basket POST response (waiting for the order base id)
+              }
+            }
+          }
+          axios
+            .post(
+              `/jsonapi/order?_token=${orderId.token}`,
+              JSON.stringify(data),
+              {
+                'Content-Type': 'application/json'
+              }
+            )
+            .then((response) => {
+              console.log('@data', response)
+            })
+        }
         break
       default:
         break
     }
   }
-
   function calculateTaxItem(items) {
     let totalTax = _.reduce(
       items.items,
@@ -165,7 +274,6 @@ const CartList = () => {
       },
       0
     )
-
     setCalculatedItem({
       ...calculatedItem,
       totalTax: totalTax,
@@ -178,14 +286,12 @@ const CartList = () => {
       )
     })
   }
-
   useEffect(() => {
     if (_.isEmpty(items)) {
       var userData = JSON.parse(document.getElementById('userData').textContent)
       let lStorage = JSON.parse(
         localStorage.getItem(`react-use-cart-${userData.userId}`)
       )
-
       setCart({
         ...cart,
         id: lStorage.id,
@@ -203,7 +309,6 @@ const CartList = () => {
     }
     // set as cart state
   }, [items])
-
   return (
     <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
       <div className="md:col-span-1 lg:col-span-3 pb-5">
@@ -278,7 +383,6 @@ const CartList = () => {
                 </div>
               </div>
             </div>
-
             <div className="items-center pt-10 py-3">
               <div className="flex items-center justify-center space-x-4">
                 <input
@@ -325,7 +429,6 @@ const CartList = () => {
     </div>
   )
 }
-
 export default CartList
 if (document.getElementById('companyCart')) {
   ReactDOM.render(<CartList />, document.getElementById('companyCart'))
