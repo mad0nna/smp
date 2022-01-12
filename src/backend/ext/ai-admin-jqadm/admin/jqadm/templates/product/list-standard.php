@@ -589,7 +589,7 @@ $columnList = [
 
 	<div class="d-flex row justify-content-end">
 		<div class="p2" id="upload_csv_content" >
-			<form id="form_upload_new_product" method="POST" action="/company/uploadNewProductInventoryCsv" enctype="multipart/form-data">
+			<form id="form_upload_new_product" method="POST" action="/admin/uploadNewProductInventoryCsv" enctype="multipart/form-data">
 				<?= $this->csrf()->formfield() ?> 
 				<p class="file btn btn-lg btn-theme text-white upload-csv float-start">
 					商品を追加
@@ -598,7 +598,7 @@ $columnList = [
 				<input id="btn_upload_new_product" type="submit" value="Upload" name="submit" style="display:none" >
 			</form>
 
-			<form id="form_upload_update_stock" method="POST" action="/company/uploadUpdateStockInventoryCsv" enctype="multipart/form-data">
+			<form id="form_upload_update_stock" method="POST" action="/admin/uploadUpdateStockInventoryCsv" enctype="multipart/form-data">
 				<?= $this->csrf()->formfield() ?>
 				<p class="file btn btn-lg btn-theme text-white upload-csv float-start mx-2">
 					在庫を更新
@@ -740,11 +740,11 @@ $columnList = [
 							<!-- Custom added columns for idaten for DX -->
 							<?php if( in_array( 'product.instock', $fields ) ) : ?>
 								<!-- temporary static data -->
-								<td class="product-ratings"> <? $_s=0;  $item->isAvailable() ? $_s = $item->getStockItems()->first()->toArray()['stock.stocklevel'] : 0;  ?> <?= $_s ?> </td>
+								<td class="product-stock"> <?  $_s=0;  $item->getStockItems() ? $_s = $item->getStockItems()->first()->toArray()['stock.stocklevel'] : 0;  ?> <?= $_s ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'product.price', $fields ) ) : ?>
 								<!-- temporary static data -->
-								<td class="price">  <? $p = $item->getListItems('price')->getRefItem()->first(); ?> <? if ($p) { ?> <i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format($p->toArray()['price.value']) ?> <? } else { echo 'N/A'; }?> </td>
+								<td class="product-price">  <? $p = $item->getListItems('price')->getRefItem()->first(); ?> <? if ($p) { ?> <i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format($p->toArray()['price.value']) ?> <? } else { echo 'N/A'; }?> </td>
 							<?php endif ?>
 							<!-- End -->
 
