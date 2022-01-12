@@ -266,6 +266,11 @@ p.upload-csv input {
 .aimeos .list-orders .order-base-price {
   padding-right: 1rem;
 }
+
+.aimeos .table td.product-price {
+  padding-right: 2.5rem;
+  text-align: right;
+}
 /* <------------ End -------------> */
 
 .dd-nav {
