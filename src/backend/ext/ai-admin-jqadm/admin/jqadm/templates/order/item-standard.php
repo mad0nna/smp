@@ -80,6 +80,13 @@ $deliveryStatusList = [
 	'5' => $this->translate( 'mshop/code', 'stat:5' ),
 	'6' => $this->translate( 'mshop/code', 'stat:6' ),
 	'7' => $this->translate( 'mshop/code', 'stat:7' ),
+	'8' => $this->translate( 'mshop/code', 'stat:8' ),
+];
+
+$deliveryStatusList2 = [
+	'1' => '配達キャンセル',
+	'4' => '輸送中',
+	'6' => '製品の配送',
 ];
 
 $paymentStatusList = [
@@ -91,6 +98,11 @@ $paymentStatusList = [
 	'4' => $this->translate( 'mshop/code', 'pay:4' ),
 	'5' => $this->translate( 'mshop/code', 'pay:5' ),
 	'6' => $this->translate( 'mshop/code', 'pay:6' ),
+];
+
+$paymentStatusList2 = [
+	'4' => '未払い',
+	'6' => '⽀払い済み',
 ];
 
 
@@ -105,7 +117,8 @@ $paymentStatusList = [
 		<input id="item-next" type="hidden" name="<?= $enc->attr( $this->formparam( array( 'next' ) ) ) ?>" value="get" />
 		<?= $this->csrf()->formfield() ?>
 
-		<nav class="main-navbar">
+		<div class="p2">&nbsp;</div><div class="p2"></div>
+		<nav class="main-navbar d-none">
 			<h1 class="navbar-brand">
 				<span class="navbar-title"><?= $enc->html( $this->translate( 'admin', 'Order' ) ) ?></span>
 				<span class="navbar-id"><?= $enc->html( $basket->getId() ) ?></span>
@@ -137,7 +150,7 @@ $paymentStatusList = [
 
 		<div class="row item-container">
 
-			<div class="col-xl-3 item-navbar">
+			<div class="col-xl-3 item-navbar d-none">
 				<div class="navbar-content">
 					<ul class="nav nav-tabs flex-xl-column flex-wrap d-flex box" role="tablist">
 
@@ -176,10 +189,10 @@ $paymentStatusList = [
 				</div>
 			</div>
 
-			<div class="col-xl-9 item-content tab-content">
+			<div class="col-xl-12 item-content tab-content">
 
 				<div id="order" class="item-order tab-pane fade show active" role="tabpanel" aria-labelledby="order">
-					<div class="box">
+					<div class="box d-none">
 						<div class="row item-product-list">
 
 							<div class="col-sm-12">
@@ -321,7 +334,7 @@ $paymentStatusList = [
 
 						</div>
 					</div>
-					<div class="row">
+					<div class="row d-none">
 						<?php foreach( $basket->getAddresses()->krsort() as $type => $addresses ) : $code = 'address:' . $type ?>
 
 							<div class="col-xl-12 item-address">
@@ -599,7 +612,7 @@ $paymentStatusList = [
 						<?php endforeach ?>
 					</div>
 
-					<div class="row">
+					<div class="row d-none">
 						<?php foreach( $basket->getServices()->krsort() as $type => $services ) : $code = 'service:' . $type ?>
 							<?php foreach( $services as $serviceItem ) : $serviceId = $serviceItem->getServiceId() ?>
 
@@ -719,39 +732,144 @@ $paymentStatusList = [
 
 					<?php if( $this->site()->siteid() == $basket->getSiteId() ) : ?>
 						<div class="row item-summary justify-content-end">
-							<div class="col-xl-6 item-total">
-								<div class="box">
-									<h2 class="item-header"><?= $enc->html( $this->translate( 'admin', 'Order totals' ) ) ?></h2>
-									<div class="form-group row total-subtotal">
-										<div class="col-6 name"><?= $enc->html( $this->translate( 'admin', 'Sub-total' ) ) ?></div>
-										<div class="col-6 value"><?= $enc->html( sprintf( $priceFormat, $this->number( $basket->getPrice()->getValue() ), $currency ) ) ?></div>
-									</div>
-									<div class="form-group row total-shipping">
-										<div class="col-6 name"><?= $enc->html( $this->translate( 'admin', 'Shipping' ) ) ?></div>
-										<div class="col-6 value"><?= $enc->html( sprintf( $priceFormat, $this->number( $basket->getPrice()->getCosts() ), $currency ) ) ?></div>
-									</div>
-									<?php if( $basket->getPrice()->getTaxFlag() === true ) : ?>
-										<div class="form-group row total-value">
-											<div class="col-6 name"><?= $enc->html( $this->translate( 'admin', 'Total' ) ) ?></div>
-											<div class="col-6 value"><?= $enc->html( sprintf( $priceFormat, $this->number( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() ), $currency ) ) ?></div>
+							<div class="col-xl-12 container">
+								<div class="box row">
+									<h2 class="item-header"> <label>注⽂詳細</label> <label class="float-end" style="margin-right:7rem">請求書番号 : &nbsp; <span> <?= $enc->attr( $basket->getId() ) ?> </span> </label> </h2>
+									<div class="col-xl-9">
+										<div class="col-xl-5 form-group row">
+											<div class="col-6 form-control-label">顧客企業名 :</div>
+											<div class="col-6 value"><?= $this->get( 'itemData/customer.company' ) ?></div>
 										</div>
-									<?php endif ?>
-									<div class="form-group row total-tax">
-										<div class="col-6 name">
-											<?php if( $basket->getPrice()->getTaxFlag() ) : ?>
-												<?= $enc->html( $this->translate( 'admin', 'Incl. tax' ) ) ?>
-											<?php else : ?>
-												<?= $enc->html( $this->translate( 'admin', '+ Tax' ) ) ?>
+										<div class="col-xl-5 form-group row">
+											<div class="col-6 form-control-label">顧客名 :</div>
+											<div class="col-6 value"><?= $this->get( 'itemData/customer.lastname' ).' '.$this->get( 'itemData/customer.firstname' ) ?></div>
+										</div>
+										<div class="col-xl-5 form-group row">
+											<div class="col-6 form-control-label">メールアドレス :</div>
+											<div class="col-6 value"><?= $this->get( 'itemData/customer.email' ) ?></div>
+										</div>
+									</div>
+									
+									<!-- Button Order Status -->
+									<div class="col-xl-3" style="padding-top: 1rem;">
+										<div class="row">
+											<label class="col-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '支払い :' ) ) ?></label>
+											<div class="col-7 ">
+												<select class="form-select product-status" tabindex="1"
+													name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.statuspayment' ) ) ) ?>"
+													<?= $this->site()->readonly( $orderProduct->getSiteId() ) ?> >
+													<option value=""></option>
+													<?php foreach( $paymentStatusList2 as $code => $label ) : ?>
+														<option value="<?= $code ?>" <?= $selected( $this->get( 'itemData/product/' . $pos . '/order.base.product.statuspayment' ), $code ) ?> >
+															<?= $enc->html( $label ) ?>
+														</option>
+													<?php endforeach ?>
+												</select>
+											</div>
+										</div>
+										<div class="row">
+											<label class="col-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '配達 :' ) ) ?></label>
+											<div class="col-7 ">
+												<select class="form-select product-status" tabindex="1"
+													name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.statusdelivery' ) ) ) ?>"
+													<?= $this->site()->readonly( $orderProduct->getSiteId() ) ?> >
+													<option value=""></option>
+													<?php foreach( $deliveryStatusList2 as $code => $label ) : ?>
+														<option value="<?= $code ?>" <?= $selected( $this->get( 'itemData/product/' . $pos . '/order.base.product.statusdelivery' ), $code ) ?> >
+															<?= $enc->html( $label ) ?>
+														</option>
+													<?php endforeach ?>
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xl-9 item-total box-shadow">
+										<!-- Item List -->
+										<ul class="nav nav-pills nav-justified order-product-list" style="">
+											<li class="nav-item order-list-name">商品名</li>
+											<li class="nav-item">&nbsp;&nbsp;&nbsp; 数量</li>
+											<li class="nav-item value" style="padding-right:1rem">合計</li>
+										</ul>	
+
+										<?php foreach( $basket->getProducts() as $pos => $orderProduct ) : ?>
+											<?php if( strncmp( $this->site()->siteid(), $orderProduct->getSiteId(), strlen( $this->site()->siteid() ) ) === 0 ) : ?>
+												<div class="form-group row">
+													<div class="col-6 "> <?= $enc->html( $orderProduct->getName() ) ?> </div>
+													 
+														<div class="col-3 " style="padding:0"> <?= $orderProduct->getQuantity() ?></div>
+														<div class="col-3 value" style="padding-right:0.5rem"><i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format($orderProduct->getPrice()->getValue()) ?></div>
+													 
+													
+												</div>
 											<?php endif ?>
+										<?php endforeach ?>
+										 
+										<!-- Sub Total -->
+										<div class="form-group row" style="border-top: 1px solid gray; margin-top: 5px;">
+											<div class="col-6 name"> </div>
+											<div class="col-6 row" style="padding:0">
+												<div class="col-8 value"><?= $enc->html( $this->translate( 'admin', '⼩計 :' ) ) ?></div>
+												<div class="col-4 value" style="padding-right:0">
+													<i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format( $basket->getPrice()->getValue() ) ?>
+												</div>
+											</div>
 										</div>
-										<div class="col-6 value"><?= $enc->html( sprintf( $priceFormat, $this->number( $basket->getPrice()->getTaxValue() ), $currency ) ) ?></div>
+										<div class="form-group row">
+											<div class="col-6 name">
+											</div>
+											<div class="col-6 value row" style="padding:0">
+												<div class="col-8 value">
+													<?php if( $basket->getPrice()->getTaxFlag() ) : ?>
+														<?= $enc->html( $this->translate( 'admin', '消費税 :' ) ) ?>
+													<?php else : ?>
+														<?= $enc->html( $this->translate( 'admin', '消費税 :' ) ) ?>
+													<?php endif ?>
+												</div>
+												<div class="col-4 value" style="padding-right:0"> 
+													<i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format( $basket->getPrice()->getTaxValue() ) ?>
+												</div>
+											</div>
+										</div> 
+										<?php if( $basket->getPrice()->getTaxFlag() === true ) : ?>
+											<div class="form-group row">
+												<div class="col-6 name"></div>
+												<div class="col-6 value row" style="padding:0">
+													<div class="col-8 value"><?= $enc->html( $this->translate( 'admin', '合計:' ) ) ?></div>
+													<div class="col-4 value" style="padding-right:0"><i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() ) ?></div>
+												</div>
+											</div>
+										<?php endif ?>
+										
+										<?php if( $basket->getPrice()->getTaxFlag() === false ) : ?>
+											<div class="form-group row fw-bold">
+												<div class="col-6 name"> </div>
+												<div class="col-6 value row" style="padding:0"> 
+													<div class="col-8 value"><?= $enc->html( $this->translate( 'admin', '合計:' ) ) ?></div>
+													<div class="col-4 value" style="padding-right:0"><i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() + $basket->getPrice()->getTaxValue() ) ?></div>
+												</div>
+											</div>
+										<?php endif ?>
 									</div>
-									<?php if( $basket->getPrice()->getTaxFlag() === false ) : ?>
-										<div class="form-group row total-value">
-											<div class="col-6 name"><?= $enc->html( $this->translate( 'admin', 'Total' ) ) ?></div>
-											<div class="col-6 value"><?= $enc->html( sprintf( $priceFormat, $this->number( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() + $basket->getPrice()->getTaxValue() ), $currency ) ) ?></div>
+
+									<div class="col-xl-3" style="position:relative">
+										<div class="row justify-content-center">
+											<label class="col-6 form-control-label">キャンセルノート</label>
+											<div class="col-7 col-sm-12" style="padding-left: 1.5rem; padding-top: 0.5rem;">
+												<textarea class="form-control order-notes" rows="5" name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.notes' ) ) ) ?>" >
+													<?= $enc->attr( $this->get( 'itemData/product/' . $pos . '/order.base.product.notes' ) ) ?>
+												</textarea>
+											</div>
 										</div>
-									<?php endif ?>
+										<p class="" style="position:absolute; bottom: 0; left: 25%;">
+											<a class="btn btn-secondary act-cancel"
+												title="キャンセル"
+												href="<?= $enc->attr( $this->url( $listTarget, $listCntl, $listAction, $searchParams, [], $listConfig ) ) ?>">
+												キャンセル
+											</a> &nbsp;
+											<button type="submit" class="btn btn-primary act-save" title="保存">&nbsp;保存&nbsp;</button>
+										</p>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -763,7 +881,7 @@ $paymentStatusList = [
 
 			</div>
 
-			<div class="item-actions">
+			<div class="item-actions d-none">
 				<?= $this->partial( $this->config( 'admin/jqadm/partial/itemactions', 'common/partials/itemactions-standard' ), ['params' => $params] ) ?>
 			</div>
 		</div>

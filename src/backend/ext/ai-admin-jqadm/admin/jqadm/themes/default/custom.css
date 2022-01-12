@@ -77,9 +77,9 @@ p.upload-csv input {
 
 .aimeos .main-sidebar .sidebar-menu {
 	background: transparent;
-  -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,.175);
-  -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.175);
-  box-shadow:         inset 0 0 10px rgba(0,0,0,.175);
+  -moz-box-shadow:    inset 0 0 5px rgba(0,0,0,.175);
+  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.175);
+  box-shadow:         inset 0 0 5px rgba(0,0,0,.175);
   border-radius: 6px;
   background-color: var(--bs-bg-light, #ffffff);
   margin-top: 0.3rem;
@@ -134,9 +134,9 @@ p.upload-csv input {
 }
 
 .aimeos form.list {
-  -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,.175);
-  -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.175);
-  box-shadow:         inset 0 0 10px rgba(0,0,0,.175);
+  -moz-box-shadow:    inset 0 0 5px rgba(0,0,0,.175);
+  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.175);
+  box-shadow:         inset 0 0 5px rgba(0,0,0,.175);
   border-radius: 6px;
 }
 
@@ -235,6 +235,42 @@ p.upload-csv input {
   text-align: left !important;
 }
 
+.box-shadow {
+  -moz-box-shadow:    inset 0 0 5px rgba(0,0,0,.175);
+  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.175);
+  box-shadow:         inset 0 0 5px rgba(0,0,0,.175);
+  border-radius: 6px;
+}
+
+.order-product-list {
+  margin-top: 1rem;
+  border-bottom: 1px solid gray;
+  padding-bottom: 8px;
+  font-weight: bold;
+}
+
+.order-notes {
+  border:1px solid white;
+  -moz-box-shadow:    inset 0 0 5px rgba(0,0,0,.175);
+  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.175);
+  box-shadow:         inset 0 0 5px rgba(0,0,0,.175);
+  border-radius: 6px;
+
+}
+
+.order-list-name {
+  text-align: start !important;
+  padding-left: 2rem;
+}
+
+.aimeos .list-orders .order-base-price {
+  padding-right: 1rem;
+}
+
+.aimeos .table td.product-price {
+  padding-right: 2.5rem;
+  text-align: right;
+}
 /* <------------ End -------------> */
 
 .dd-nav {
