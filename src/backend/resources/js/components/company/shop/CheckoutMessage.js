@@ -2,7 +2,9 @@ import React from 'react'
 
 const CheckoutMessage = (props) => {
   const SUCCESS_MSG =
-    'ご請求書を発行いたしました。\nご登録のメールアドレスをご確認してください。'
+    'ご請求書を発行いたしました。' +
+    '\n' +
+    'ご登録のメールアドレスをご確認してください。'
 
   return (
     <div className="fixed w-full h-full top-0 left-0 flex items-center justify-center">

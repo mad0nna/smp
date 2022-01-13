@@ -32,9 +32,7 @@ const ProductDetail = (props) => {
     console.log('@detail', data)
     const { media, price, product, text, stock, meta } = data
     let prodDescription = text['text.content'].replace(/<[^>]+>/g, '')
-    let prodPrice = _.parseInt(
-      _.parseInt(price['price.value']) - _.parseInt(price['price.taxvalue'])
-    )
+    let prodPrice = _.parseInt(price['price.value'])
     let userData = JSON.parse(document.getElementById('userData').textContent)
     let taxValue = _.parseInt(_.parseInt(price['price.taxvalue']))
 
@@ -128,7 +126,7 @@ const ProductDetail = (props) => {
     }
 
     // save to basket
-    // saveToBasket()
+    saveToBasket()
     //  set to state
     addItem(productDetail, state.orderNum)
     history.replace('/company/cart')

@@ -169,7 +169,8 @@ const ProductList = () => {
         let groupItems = []
         let prodPriceId = 0,
           prodMediaId = 0,
-          prodTextId = 0
+          prodTextId = 0,
+          prodStockId = 0
 
         _.forEach(data.data, (items) => {
           // getting id from relationship media
@@ -264,10 +265,9 @@ const ProductList = () => {
           ''
         )
 
-        let prodPrice = (
-          _.parseInt(product.price['price.value']) -
-          _.parseInt(product.price['price.taxvalue'])
-        ).toLocaleString('jp')
+        let prodPrice = _.parseInt(product.price['price.value']).toLocaleString(
+          'jp'
+        )
 
         return state.loaded ? (
           <div className="grid grid-flow-row mx-2" key={index}>

@@ -65,10 +65,7 @@ const CartList = () => {
   }
 
   const handleCheckoutModalOpen = () => {
-    // add service,address to persist basket
     addService()
-
-  const handleCheckoutModalOpen = () => {
     setState((prevState) => {
       return {
         ...prevState,
@@ -220,8 +217,94 @@ const CartList = () => {
       }
     })
 
-    window.location.href = '/company/shop'
+    // window.location.href = '/company/shop'
   }
+
+  const confirmInvoiceEmailTemplate = (res) => {
+    let confirm = res.data.data.links
+    let processUrl = confirm.process.href
+    let csrfItem = res.data.meta.csrf
+
+    console.log('@confirm', confirm)
+    axios
+      .post(`${processUrl}&_token=${csrfItem.value}`, {
+        'Content-Type': 'application/json'
+      })
+      .then((processRes) => {
+        console.log('@processRes', processRes)
+      })
+  }
+
+  /**
+   * Proceed to request invoice or use payment method
+   * @param  int value
+   */
+  function handleSubmitCheckout(value) {
+    switch (parseInt(value)) {
+      case 1: // credit card
+        break
+      case 2:
+        // generate final order
+        generateFinalOrder().then((res) => {
+          console.log('res', res)
+
+          confirmInvoiceEmailTemplate(res)
+
+          // display modal submit
+          setState((prevState) => {
+            return {
+              ...prevState,
+              orderInvoiceSuccess: true
+            }
+          })
+
+          handleCheckoutModalClose()
+          handleCheckoutMessageModalOpen()
+
+          // window.location.href = '/company/shop'
+        })
+        //
+        break
+      default:
+        break
+    }
+  }
+
+  async function generateFinalOrder() {
+    const data = {
+      data: {
+        attributes: {
+          'order.baseid': orderId.orderId // generated ID returned in the basket POST response (waiting for the order base id)
+        }
+      }
+    }
+    const response = await axios.post(
+      `/jsonapi/order?_token=${orderId.token}`,
+      JSON.stringify(data),
+      {
+        'Content-Type': 'application/json'
+      }
+    )
+    console.log('@created final order', response)
+    return response
+  }
+  function calculateTaxItem(items) {
+    let totalTax = _.reduce(
+      items,
+      (sum, curItem) => {
+        return sum + curItem.taxVal * curItem.quantity
+      },
+      0
+    )
+
+    console.log('@totaTax', totalTax)
+    setCalculatedItem({
+      ...calculatedItem,
+      totalTax: totalTax,
+      totalAmount: cartTotal + totalTax
+    })
+  }
+
   const cartItems = () => {
     let addToCartItem = items
     return addToCartItem.map((item) => {
@@ -288,77 +371,6 @@ const CartList = () => {
             </div>
           </td>
         </tr>
-      )
-    })
-  }
-
-  /**
-   * Proceed to request invoice or use payment method
-   * @param  int value
-   */
-  function handleSubmitCheckout(value) {
-    switch (parseInt(value)) {
-      case 1: // credit card
-        break
-      case 2:
-        // generate final order
-        generateFinalOrder().then(() => {
-          // display modal submit
-          setState((prevState) => {
-            return {
-              ...prevState,
-              orderInvoiceSuccess: true
-            }
-          })
-
-          handleCheckoutModalClose()
-          handleCheckoutMessageModalOpen()
-          // window.location.href = '/company/shop'
-        })
-        //
-        break
-      default:
-        break
-    }
-  }
-
-  async function generateFinalOrder() {
-    const data = {
-      data: {
-        attributes: {
-          'order.baseid': orderId.orderId, // generated ID returned in the basket POST response (waiting for the order base id)
-          'order.statuspayment': 4,
-          'order.statusdelivery': 4
-        }
-      }
-    }
-    const response = await axios.post(
-      `/jsonapi/order?_token=${orderId.token}`,
-      JSON.stringify(data),
-      {
-        'Content-Type': 'application/json'
-      }
-    )
-    console.log('@created final order', response)
-  }
-  function calculateTaxItem(items) {
-    let totalTax = _.reduce(
-      items.items,
-      (sum, curItem) => {
-        return sum + curItem.taxVal * curItem.quantity
-      },
-      0
-    )
-
-    setCalculatedItem({
-      ...calculatedItem,
-      totalTax: totalTax,
-      totalAmount: _.reduce(
-        items,
-        (sum, curItem) => {
-          return sum + curItem.itemTotal
-        },
-        0
       )
     })
   }
@@ -451,7 +463,7 @@ const CartList = () => {
                   合計
                 </div>
                 <div className="h-15 items-center font-extrabold text-red-500 text-center text-2xl">
-                  ¥{cartTotal.toLocaleString('jp')}
+                  ¥{calculatedItem.totalAmount.toLocaleString('jp')}
                 </div>
               </div>
             </div>
