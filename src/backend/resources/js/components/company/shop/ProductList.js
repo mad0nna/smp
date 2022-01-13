@@ -195,7 +195,8 @@ const ProductList = () => {
               stock:
                 _.filter(data.included, (inc) => {
                   return inc.type === 'stock' && inc['id'] == prodStockId
-                })[0].attributes ?? {}
+                })[0].attributes ?? {},
+              meta: data.meta
             })
           }
         })
