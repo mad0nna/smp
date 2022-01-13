@@ -167,15 +167,27 @@ const ProductList = () => {
         const pageNumbers = []
         let data = response.data
         let groupItems = []
+        let prodPriceId = 0,
+          prodMediaId = 0,
+          prodTextId = 0
+
         _.forEach(data.data, (items) => {
           // getting id from relationship media
-          let prodMediaId = items.relationships.media.data[0]['id']
+          if (items.relationships.price !== undefined) {
+            prodMediaId = items.relationships.media.data[0]['id']
+          }
           // for long description
-          let prodTextId = items.relationships.text.data[0]['id']
+          if (items.relationships.price !== undefined) {
+            prodTextId = items.relationships.text.data[0]['id']
+          }
           //for price value
-          let prodPriceId = items.relationships.price.data[0]['id']
+          if (items.relationships.price !== undefined) {
+            prodPriceId = items.relationships.price.data[0]['id']
+          }
           // for stock
-          let prodStockId = items.relationships.stock.data[0]['id']
+          if (items.relationships.price !== undefined) {
+            prodStockId = items.relationships.stock.data[0]['id'] ?? 0
+          }
 
           if (!_.isEmpty(items) || items !== undefined) {
             groupItems.push({

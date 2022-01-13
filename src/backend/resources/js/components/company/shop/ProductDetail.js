@@ -27,7 +27,7 @@ const ProductDetail = (props) => {
     defaultStock: 0,
     meta: []
   })
-
+  // const [basktetDetails, setBasketDetails] = useState({})
   const parseProductData = (data) => {
     console.log('@detail', data)
     const { media, price, product, text, stock, meta } = data
@@ -35,7 +35,6 @@ const ProductDetail = (props) => {
     let prodPrice = _.parseInt(
       _.parseInt(price['price.value']) - _.parseInt(price['price.taxvalue'])
     )
-
     let userData = JSON.parse(document.getElementById('userData').textContent)
     let taxValue = _.parseInt(_.parseInt(price['price.taxvalue']))
 
@@ -134,27 +133,6 @@ const ProductDetail = (props) => {
     addItem(productDetail, state.orderNum)
     history.replace('/company/cart')
   }
-
-  const fetchBasket = () => {
-    axios({
-      url: '/jsonapi',
-      method: 'OPTIONS',
-      responseType: 'json'
-    }).then((response) => {
-      console.log('@response options', response)
-      let basketUrl = response.data.meta.resources['basket']
-
-      //
-      axios({
-        method: 'GET',
-        url: basketUrl,
-        responseType: 'json'
-      }).then((res) => {
-        console.log('@res', res)
-      })
-    })
-  }
-
   const saveToBasket = () => {
     var data = {
       data: [
@@ -191,7 +169,8 @@ const ProductDetail = (props) => {
         'Content-Type': 'application/json'
       })
       .then((response) => {
-        console.log('@data response', response)
+        // setBasketDetails(response.data)
+        history.push({ pathname: '/company/cart', state: response.data })
       })
   }
 
