@@ -239,7 +239,7 @@ const ProductDetail = (props) => {
             </svg>
             <input
               type="number"
-              className="w-14 shadow-lg rounded tex-red-500 border px-1"
+              className="w-14 shadow-lg rounded tex-red-500 border px-1 text-right"
               min="1"
               value={state.orderNum}
               onChange={(e) => {
