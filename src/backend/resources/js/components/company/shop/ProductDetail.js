@@ -251,7 +251,7 @@ const ProductDetail = (props) => {
             </svg>
             <input
               type="number"
-              className="w-14 shadow-lg rounded tex-red-500 border px-1"
+              className="w-14 shadow-lg rounded tex-red-500 border px-1 text-right"
               min="1"
               value={state.orderNum}
               onChange={(e) => {
@@ -333,7 +333,7 @@ const ProductDetail = (props) => {
                   <div className="grid col-span-1 text-center flex content-center">
                     <img
                       className="w-auto h-auto p-3 tex-center m-auto"
-                      src={isLoaded ? `/aimeos/${productDetail.imgSrc}` : ''}
+                      src={isLoaded ? `${productDetail.imgSrc}` : ''}
                     ></img>
                   </div>
                   <div className="grid col-span-1 text-center flex content-center">
