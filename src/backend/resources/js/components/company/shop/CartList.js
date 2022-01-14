@@ -314,7 +314,7 @@ const CartList = () => {
             <div className="flex flex-col p-2">
               <img
                 className="w-auto h-auto p-5 tex-center m-auto"
-                src={`/aimeos/${item.imgSrc}`}
+                src={`${item.imgSrc}`}
               ></img>
               <div className="text-red-500 font-bold">{item.title}</div>
             </div>
@@ -338,7 +338,7 @@ const CartList = () => {
               </svg>
               <input
                 type="number"
-                className="w-14 shadow-lg rounded tex-red-500 border px-1"
+                className="w-14 shadow-lg rounded tex-red-500 border px-1 text-right"
                 min="1"
                 value={item.quantity}
                 onChange={() => handleOrderChange(item)}
