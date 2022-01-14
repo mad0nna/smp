@@ -4,6 +4,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import { useHistory } from 'react-router'
 import { useCart } from 'react-use-cart'
+
 const ProductDetail = (props) => {
   const history = useHistory()
   const { addItem } = useCart()
@@ -11,7 +12,9 @@ const ProductDetail = (props) => {
     orderNum: 1,
     stock: 0
   })
+
   const [isLoaded, setLoaded] = useState(false)
+
   const [productDetail, setProductDetail] = useState({
     id: 0,
     userId: 0,
@@ -21,21 +24,18 @@ const ProductDetail = (props) => {
     price: 0,
     taxVal: 0,
     quantity: 0,
-    defaultStock: 0
+    defaultStock: 0,
+    meta: []
   })
-  const [basktetDetails, setBasketDetails] = useState({})
-  console.log('prod', basktetDetails)
+  // const [basktetDetails, setBasketDetails] = useState({})
   const parseProductData = (data) => {
-    console.log('@parseData', data)
-    // const test = data.product
-    const { media, price, product, text, stock, meta, links } = data
+    console.log('@detail', data)
+    const { media, price, product, text, stock, meta } = data
     let prodDescription = text['text.content'].replace(/<[^>]+>/g, '')
-    let prodPrice = _.parseInt(
-      _.parseInt(price['price.value']) - _.parseInt(price['price.taxvalue'])
-    )
-    console.log('links', links['basket/product'])
+    let prodPrice = _.parseInt(price['price.value'])
     let userData = JSON.parse(document.getElementById('userData').textContent)
     let taxValue = _.parseInt(_.parseInt(price['price.taxvalue']))
+
     setProductDetail({
       ...productDetail,
       id: product['product.id'],
@@ -47,9 +47,9 @@ const ProductDetail = (props) => {
       title: product['product.label'],
       imgSrc: media['media.preview'],
       defaultStock: stock['stock.stocklevel'] ?? 0,
-      link: links['basket/product'].href,
-      meta: meta.csrf
+      meta: meta
     })
+
     setState((prevState) => {
       return {
         ...prevState,
@@ -58,10 +58,12 @@ const ProductDetail = (props) => {
     })
     setLoaded(true)
   }
+
   const handleIncrementOrder = () => {
     if (state.stock - 1 <= 0 && state.orderNum >= productDetail.defaultStock) {
       return
     }
+
     setState((prevState) => {
       return {
         ...prevState,
@@ -70,6 +72,7 @@ const ProductDetail = (props) => {
       }
     })
   }
+
   const handleDecrementOrder = () => {
     if (state.orderNum - 1 == 0) {
       return
@@ -82,6 +85,7 @@ const ProductDetail = (props) => {
       }
     })
   }
+
   const handleOrderChange = (n) => {
     let currentOrder = n - 1 <= 0 ? 1 : n - 1
     // disable if stock is reach to limit
@@ -105,6 +109,7 @@ const ProductDetail = (props) => {
       })
     }
   }
+
   const handleProductListPage = () => {
     if (_.isEmpty(props)) {
       window.location.replace('/company/shop')
@@ -112,22 +117,22 @@ const ProductDetail = (props) => {
       history.replace('/company/shop')
     }
   }
+
   const handleCartListPage = () => {
     // create cart items
     if (productDetail.defaultStock == 0) {
       alert('Unable to proceed cart. No stocks available.')
       return false
     }
+
     // save to basket
     saveToBasket()
     //  set to state
     addItem(productDetail, state.orderNum)
+    history.replace('/company/cart')
   }
-  console.log('GG', productDetail)
   const saveToBasket = () => {
-    let url = productDetail.link
-    let csrfItem = productDetail.meta
-    let data = {
+    var data = {
       data: [
         {
           attributes: {
@@ -138,6 +143,11 @@ const ProductDetail = (props) => {
         }
       ]
     }
+
+    let url =
+      'https://idaten.localhost/jsonapi/basket?id=default&related=product'
+    let csrfItem = productDetail.meta.csrf
+
     if (csrfItem) {
       // add CSRF token if available and therefore required
       var csrf = {}
@@ -149,16 +159,19 @@ const ProductDetail = (props) => {
           .join('&')
     }
 
+    // console.log('@post', data)
+    // console.log('@meta', productDetail.meta, url)
+
     axios
       .post(url, JSON.stringify(data), {
         'Content-Type': 'application/json'
       })
       .then((response) => {
-        console.log('@detail', response)
-        setBasketDetails(response.data)
+        // setBasketDetails(response.data)
         history.push({ pathname: '/company/cart', state: response.data })
       })
   }
+
   function getProductDetail(id) {
     axios({
       url: `/jsonapi/product?id=${id}&include=media,text,price,stock`,
@@ -175,7 +188,7 @@ const ProductDetail = (props) => {
         let prodPriceId = item.data.relationships.price.data[0]['id']
         // for stock
         let prodStockId = item.data.relationships.stock.data[0]['id']
-        console.log('TT', item)
+
         if (!_.isEmpty(item) || item !== undefined) {
           let prodDetail = {
             product: item.data.attributes,
@@ -194,15 +207,14 @@ const ProductDetail = (props) => {
             stock:
               _.filter(item.included, (inc) => {
                 return inc.type === 'stock' && inc['id'] == prodStockId
-              })[0].attributes ?? {},
-            meta: item.meta,
-            links: item.data.links
+              })[0].attributes ?? {}
           }
           parseProductData(prodDetail)
         }
       }
     })
   }
+
   const productDetailItem = () => {
     return (
       <tr>
@@ -239,7 +251,7 @@ const ProductDetail = (props) => {
             </svg>
             <input
               type="number"
-              className="w-14 shadow-lg rounded tex-red-500 border px-1"
+              className="w-14 shadow-lg rounded tex-red-500 border px-1 text-right"
               min="1"
               value={state.orderNum}
               onChange={(e) => {
@@ -277,6 +289,7 @@ const ProductDetail = (props) => {
       </tr>
     )
   }
+
   useEffect(() => {
     if (_.isEmpty(props) || props === undefined) {
       let urlParams = new URLSearchParams(window.location.search)
@@ -289,9 +302,10 @@ const ProductDetail = (props) => {
       getProductDetail(id)
     } else {
       const { location } = props
-      getProductDetail(parseInt(location.detail.product['product.id']))
+      parseProductData(location.detail)
     }
   }, [props])
+
   return (
     <div className="bg-mainbg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
       <div className=" pb-5">
@@ -379,6 +393,7 @@ const ProductDetail = (props) => {
     </div>
   )
 }
+
 export default ProductDetail
 if (document.getElementById('companyProductDetail')) {
   ReactDOM.render(
