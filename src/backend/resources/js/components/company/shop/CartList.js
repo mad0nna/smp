@@ -68,7 +68,11 @@ const CartList = (props) => {
   }
 
   const handleCheckoutModalOpen = () => {
-    addService()
+    saveToBasket().then(() => {
+      createDeliveryService().then(() => {
+        addService()
+      })
+    })
     saveToBasket()
     setState((prevState) => {
       return {
@@ -78,7 +82,7 @@ const CartList = (props) => {
     })
   }
 
-  const saveToBasket = () => {
+  async function saveToBasket() {
     const data = {
       data: items.map((val) => {
         return {
@@ -113,13 +117,66 @@ const CartList = (props) => {
     // console.log('@post', data)
     // console.log('@meta', productDetail.meta, url)
 
-    axios
+    await axios
       .post(url, JSON.stringify(data), {
         'Content-Type': 'application/json'
       })
-      .then((response) => {
+      .then(() => {
+        console.log('@save delivery service')
         // setBasketDetails(response.data)
-        history.push({ pathname: '/company/cart', state: response.data })
+        // history.push({ pathname: '/company/cart', state: response.data })
+      })
+  }
+
+  async function createDeliveryService() {
+    await axios
+      .get(
+        `/jsonapi/service?filter[cs_type]=delivery&include=text,price,media`,
+        {
+          'Content-Type': 'application/json'
+        }
+      )
+      .then((res1) => {
+        console.log('@delivery list', res1)
+        let csrfItem = res1.data.meta.csrf
+        const urlParams = res1.data.data.filter(function (item) {
+          // this should be selected config for company
+          return (
+            item.type === 'service' &&
+            item.attributes['service.type'] == 'delivery'
+          )
+        })[1]
+
+        let url = urlParams.links['basket/service'].href
+        var params = {
+          data: [
+            {
+              id: 'delivery',
+              attributes: {
+                'service.id': urlParams.attributes['service.id']
+              }
+            }
+          ]
+        }
+
+        if (csrfItem) {
+          // add CSRF token if available and therefore required
+          var csrf = {}
+          csrf[csrfItem.name] = csrfItem.value
+          url +=
+            (url.indexOf('?') === -1 ? '?' : '&') +
+            Object.keys(csrf)
+              .map((key) => key + '=' + csrf[key])
+              .join('&')
+        }
+
+        axios
+          .post(url, JSON.stringify(params), {
+            'Content-Type': 'application/json'
+          })
+          .then(() => {
+            console.log('@created delivery service')
+          })
       })
   }
 
@@ -131,43 +188,16 @@ const CartList = (props) => {
         {
           id: serviceId, // or 'delivery'
           attributes: {
-            'order.base.address.addressid': '...', // customer address ID (optional)
-            'order.base.address.salutation': 'mr', // 'mr', 'mrs', 'miss', 'company' or empty (optional)
-            'order.base.address.company': 'Example company', // (optional)
-            'order.base.address.vatid': 'DE123456789', // (optional)
-            'order.base.address.title': 'Dr.', // (optional)
+            'order.base.address.company': userData.companyName, // (optional)
             'order.base.address.firstname': userData.firstName, // (optional)
             'order.base.address.lastname': userData.lastName, // (required)
             'order.base.address.address1': 'Test street', // (required)
-            'order.base.address.address2': '1', // (optional)
-            'order.base.address.address3': '', // (optional)
-            'order.base.address.postal': '12345', // (optional)
             'order.base.address.city': 'Test city', // (required)
-            'order.base.address.state': 'HH', // (optional)
-            'order.base.address.countryid': 'DE', // (optional)
-            'order.base.address.languageid': 'de', // (required by many payment gateways)
-            'order.base.address.telephone': '+4912345678', // (optional)
-            'order.base.address.telefax': '+49123456789', // (optional)
-            'order.base.address.email': userData.email, // (required)
-            'order.base.address.website': 'https://example.com', // (optional)
-            'order.base.address.longitude': 10.0, // (optional, float value)
-            'order.base.address.latitude': 50.0 // (optional, float value)
+            'order.base.address.email': userData.email // (required)
           }
         }
       ]
     }
-
-    // if (csrfItem) {
-    //   // add CSRF token if available and therefore required
-    //   const csrf = {}
-    //   csrf[csrfItem.name] = csrfItem.value
-    //   addressUrl +=
-    //     (addressUrl.indexOf('?') === -1 ? '?' : '&') +
-    //     Object.keys(csrf)
-    //       .map((key) => key + '=' + csrf[key])
-    //       .join('&')
-    // }
-
     axios
       .post(`${addressUrl}&_token=${csrfItem.value}`, JSON.stringify(params), {
         'Content-Type': 'application/json'
@@ -194,9 +224,8 @@ const CartList = (props) => {
             item.attributes['service.type'] == SERVICE_TYPE
           )
         })[0]
-        console.log('urlParams', urlParams)
+
         let url = urlParams.links['basket/service'].href
-        createAddressService(urlParams.attributes['service.type'])
         let csrfItem = res1.data.meta.csrf
         var params = {
           data: [
@@ -209,8 +238,10 @@ const CartList = (props) => {
           ]
         }
 
-        console.log('params service post', params)
-        console.log('url service post', url)
+        // create address service
+        createAddressService(urlParams.attributes['service.type'])
+        // create delivery service
+        console.log('params service payment post', params)
         if (csrfItem) {
           // add CSRF token if available and therefore required
           var csrf = {}
@@ -302,6 +333,7 @@ const CartList = (props) => {
 
   const handleCheckoutMessageModalClose = () => {
     emptyCart()
+    window.location.href = '/company/shop'
     setState((prevState) => {
       return {
         ...prevState,
@@ -323,33 +355,35 @@ const CartList = (props) => {
 
   const confirmInvoiceEmailTemplate = (res) => {
     let confirm = res.data.data.links
-    let processUrl = confirm.process.href
+    // let processUrl = confirm.process.href
     let csrfItem = res.data.meta.csrf
 
+    deleteBasketCache(csrfItem)
+
     console.log('@confirm', confirm)
-    axios
-      .post(`${processUrl}&_token=${csrfItem.value}`, {
-        'Content-Type': 'application/json'
-      })
-      .then((processRes) => {
-        console.log('@processRes', processRes)
+    // axios
+    //   .post(`${processUrl}&_token=${csrfItem.value}`, {
+    //     'Content-Type': 'application/json'
+    //   })
+    //   .then((processRes) => {
+    //     console.log('@processRes', processRes)
 
-        // jsut remove the basket
-        deleteBasketCache(csrfItem)
+    //     // jsut remove the basket
+    //     deleteBasketCache(csrfItem)
 
-        let htmlContent = processRes.data
+    //     let htmlContent = processRes.data
 
-        console.log('@tmlt1', htmlContent)
-        console.log('@html2', JSON.stringify(htmlContent))
+    //     console.log('@tmlt1', htmlContent)
+    //     console.log('@html2', JSON.stringify(htmlContent))
 
-        setState((prevState) => {
-          return {
-            ...prevState,
-            htmlContent: { __html: htmlContent },
-            modalCheckoutContentDisplay: true
-          }
-        })
-      })
+    //     setState((prevState) => {
+    //       return {
+    //         ...prevState,
+    //         htmlContent: { __html: htmlContent },
+    //         modalCheckoutContentDisplay: true
+    //       }
+    //     })
+    //   })
   }
 
   /**
@@ -365,7 +399,7 @@ const CartList = (props) => {
         generateFinalOrder().then((res) => {
           console.log('res', res)
           // generate email to user
-          // confirmInvoiceEmailTemplate(res)
+          confirmInvoiceEmailTemplate(res)
           // display modal submit
           setState((prevState) => {
             return {
@@ -376,7 +410,6 @@ const CartList = (props) => {
 
           handleCheckoutModalClose()
           handleCheckoutMessageModalOpen()
-          window.location.href = '/company/shop'
         })
         //
         break
