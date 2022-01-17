@@ -7,6 +7,7 @@ import CheckoutOption from './CheckoutOption'
 import axios from 'axios'
 import _ from 'lodash'
 import CheckoutMessage from './CheckoutMessage'
+import CheckoutContent from './CheckoutContent'
 const CartList = () => {
   const SERVICE_TYPE = 'payment'
 
@@ -26,7 +27,9 @@ const CartList = () => {
     method: '',
     modalDisplay: false,
     modalDisplayMessage: false,
-    orderInvoiceSuccess: false
+    orderInvoiceSuccess: false,
+    modalCheckoutContentDisplay: false,
+    htmlContent: ''
   })
 
   const history = useHistory()
@@ -147,13 +150,13 @@ const CartList = () => {
   //     })
   // }
 
-  // const deleteBasketCache = (csrfItem) => {
-  //   axios
-  //     .delete(`/jsonapi/basket?id=default&_token=${csrfItem.value}`)
-  //     .then((response) => {
-  //       console.log('@deleted basket items', response)
-  //     })
-  // }
+  const deleteBasketCache = (csrfItem) => {
+    axios
+      .delete(`/jsonapi/basket?id=default&_token=${csrfItem.value}`)
+      .then((response) => {
+        console.log('@deleted basket items', response)
+      })
+  }
 
   const createServicePersistBasket = (params, url) => {
     axios
@@ -220,6 +223,15 @@ const CartList = () => {
     // window.location.href = '/company/shop'
   }
 
+  const handleCheckoutContentModalClose = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        modalCheckoutContentDisplay: false
+      }
+    })
+  }
+
   const confirmInvoiceEmailTemplate = (res) => {
     let confirm = res.data.data.links
     let processUrl = confirm.process.href
@@ -232,6 +244,22 @@ const CartList = () => {
       })
       .then((processRes) => {
         console.log('@processRes', processRes)
+
+        // jsut remove the basket
+        deleteBasketCache(csrfItem)
+
+        let htmlContent = processRes.data
+
+        console.log('@tmlt1', htmlContent)
+        console.log('@html2', JSON.stringify(htmlContent))
+
+        setState((prevState) => {
+          return {
+            ...prevState,
+            htmlContent: { __html: htmlContent },
+            modalCheckoutContentDisplay: true
+          }
+        })
       })
   }
 
@@ -513,6 +541,13 @@ const CartList = () => {
       ) : null}
       {state.modalDisplayMessage ? (
         <CheckoutMessage handleCloseModal={handleCheckoutMessageModalClose} />
+      ) : null}
+
+      {state.modalCheckoutContentDisplay ? (
+        <CheckoutContent
+          htmlContent={state.htmlContent}
+          handleCloseModal={handleCheckoutContentModalClose}
+        />
       ) : null}
     </div>
   )
