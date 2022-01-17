@@ -687,10 +687,10 @@ Vue.component('taxrates', {
 			<table> \
 				<tr v-for="(val, type) in taxrates" v-bind:key="type"> \
 					<td class="input-group"> \
-						<input class="form-control item-taxrate" required="required" step="0.01" type="number" v-bind:placeholder="placeholder" \
+						<input class="form-control item-taxrate" required="required" step="1" type="number" v-bind:placeholder="placeholder" \
 							v-bind:readonly="readonly" v-bind:tabindex="tabindex" v-bind:name="name + \'[\' + type + \']\'" \
 							v-bind:value="val" v-on:input="update(type, $event.target.value)" /> \
-						<div v-if="type != 0" class="input-group-append"><span class="input-group-text">{{ type.toUpperCase() }}</span></div> \
+						 \
 					</td> \
 					<td v-if="!readonly && types.length" class="actions"> \
 						<div v-if="!readonly && type == 0 && types.length" class="dropdown"> \

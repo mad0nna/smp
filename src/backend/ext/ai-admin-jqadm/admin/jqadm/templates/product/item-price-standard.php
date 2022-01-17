@@ -56,7 +56,7 @@ $enc = $this->encoder();
 								title="<?= $enc->attr( $this->translate( 'admin', 'Show/hide this entry' ) ) ?>" tabindex="<?= $this->get( 'tabindex' ) ?>">
 							</div>
 						</div>
-						<span class="item-label header-label" v-bind:class="{disabled: !active(idx)}">{{ label(idx) }}</span>
+						<span class="item-label header-label d-none" v-bind:class="{disabled: !active(idx)}">{{ label(idx) }}</span>
 						<div class="card-tools-end">
 							<div v-if="item['product.lists.siteid'] == siteid && !item['_nosort']"
 								class="btn btn-card-header act-move fa" tabindex="<?= $this->get( 'tabindex' ) ?>"
@@ -146,6 +146,7 @@ $enc = $this->encoder();
 										v-bind:readonly="item['price.siteid'] != siteid"
 										v-bind:taxrates="item['price.taxrates']"
 									></div>
+
 								</div>
 							</div>
 
