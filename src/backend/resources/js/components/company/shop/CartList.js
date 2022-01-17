@@ -99,7 +99,7 @@ const CartList = (props) => {
       //   stocktype: 'default' // warehouse code (optional)
       // }
     }
-    console.log(data)
+    // console.log(data)
     let url = '/jsonapi/basket?id=default&related=product'
     let csrfItem = props.location.state.meta.csrf
 
@@ -122,7 +122,7 @@ const CartList = (props) => {
         'Content-Type': 'application/json'
       })
       .then(() => {
-        console.log('@save delivery service')
+        // console.log('@save delivery service')
         // setBasketDetails(response.data)
         // history.push({ pathname: '/company/cart', state: response.data })
       })
@@ -137,7 +137,7 @@ const CartList = (props) => {
         }
       )
       .then((res1) => {
-        console.log('@delivery list', res1)
+        // console.log('@delivery list', res1)
         let csrfItem = res1.data.meta.csrf
         const urlParams = res1.data.data.filter(function (item) {
           // this should be selected config for company
@@ -175,7 +175,7 @@ const CartList = (props) => {
             'Content-Type': 'application/json'
           })
           .then(() => {
-            console.log('@created delivery service')
+            // console.log('@created delivery service')
           })
       })
   }
@@ -241,7 +241,7 @@ const CartList = (props) => {
         // create address service
         createAddressService(urlParams.attributes['service.type'])
         // create delivery service
-        console.log('params service payment post', params)
+        // console.log('params service payment post', params)
         if (csrfItem) {
           // add CSRF token if available and therefore required
           var csrf = {}
@@ -274,7 +274,7 @@ const CartList = (props) => {
     axios
       .delete(`/jsonapi/basket?id=default&_token=${csrfItem.value}`)
       .then((response) => {
-        console.log('@deleted basket items', response)
+        // console.log('@deleted basket items', response)
       })
   }
 
@@ -284,7 +284,7 @@ const CartList = (props) => {
         'Content-Type': 'application/json'
       })
       .then((res2) => {
-        console.log('@create service', res2)
+        // console.log('@create service', res2)
         let basketUrl = res2.data.links.self.href
         let csrfItem = res2.data.meta.csrf
         if (csrfItem) {
@@ -298,7 +298,7 @@ const CartList = (props) => {
               .join('&')
         }
 
-        console.log('url create basket post', basketUrl)
+        // console.log('url create basket post', basketUrl)
         axios
           .post(basketUrl, {
             'Content-Type': 'application/json'
@@ -308,7 +308,7 @@ const CartList = (props) => {
               orderId: res3.data.data.attributes['order.base.id'],
               token: res3.data.meta.csrf.value
             })
-            console.log('@all basket done', res3)
+            // console.log('@all basket done', res3)
           })
       })
   }
@@ -360,7 +360,7 @@ const CartList = (props) => {
 
     deleteBasketCache(csrfItem)
 
-    console.log('@confirm', confirm)
+    // console.log('@confirm', confirm)
     // axios
     //   .post(`${processUrl}&_token=${csrfItem.value}`, {
     //     'Content-Type': 'application/json'
@@ -397,7 +397,7 @@ const CartList = (props) => {
       case 2:
         // generate final order
         generateFinalOrder().then((res) => {
-          console.log('res', res)
+          // console.log('res', res)
           // generate email to user
           confirmInvoiceEmailTemplate(res)
           // display modal submit
@@ -433,7 +433,7 @@ const CartList = (props) => {
         'Content-Type': 'application/json'
       }
     )
-    console.log('@created final order', response)
+    // console.log('@created final order', response)
     return response
   }
   function calculateTaxItem(items) {
@@ -445,7 +445,7 @@ const CartList = (props) => {
       0
     )
 
-    console.log('@totaTax', totalTax)
+    // console.log('@totaTax', totalTax)
     setCalculatedItem({
       ...calculatedItem,
       totalTax: totalTax,
