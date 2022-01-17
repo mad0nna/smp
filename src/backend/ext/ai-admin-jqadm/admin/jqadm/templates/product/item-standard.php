@@ -221,7 +221,14 @@ $navlimit = $this->config( 'admin/jqadm/product/item/navbar-limit', 7 );
 
 $params = $this->get( 'pageParams', [] );
 $navlist = array_values( $this->get( 'itemSubparts', [] ) );
-
+$navlist2 = [
+	0 => "selection",
+	1 => "bundle",
+	2 => "画像",
+	3 => "テキスト",
+	4 => "販売価格",
+	5 => "注文一覧",
+];
 
 ?>
 <?php $this->block()->start( 'jqadm_content' ) ?>
@@ -250,14 +257,14 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 				<ul class="nav nav-tabs flex-xl-column flex-wrap d-flex box" role="tablist">
 					<li class="nav-item basic">
 						<a class="nav-link active" href="#basic" data-bs-toggle="tab" role="tab" aria-expanded="true" aria-controls="basic">
-							<?= $enc->html( $this->translate( 'admin', 'Basic' ) ) ?>
+							基本情報
 						</a>
 					</li>
-
+					<?php $i=0; ?>
 					<?php foreach( $navlist as $idx => $subpart ) : ?>
 						<li class="nav-item <?= $enc->attr( $subpart ) ?>">
 							<a class="nav-link" href="#<?= $enc->attr( $subpart ) ?>" data-bs-toggle="tab" role="tab" tabindex="<?= ++$idx + $navlimit + 1 ?>">
-								<?= $enc->html( $this->translate( 'admin', $subpart ) ) ?>
+								<?php echo $navlist2[$i]; $i++; ?>
 							</a>
 						</li>
 					<?php endforeach ?>
@@ -390,7 +397,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
 								</div>
 							</div>
-							<div class="form-group row">
+							<div class="form-group row d-none">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '標準１' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" tabindex="1"
@@ -400,7 +407,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
 								</div>
 							</div>
-							<div class="form-group row">
+							<div class="form-group row d-none">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '標準２' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" tabindex="1"
@@ -410,7 +417,7 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
 								</div>
 							</div>
-							<div class="form-group row">
+							<div class="form-group row d-none">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '伝票' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" tabindex="1"
@@ -420,9 +427,9 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> />
 								</div>
 							</div>
-							<div class="form-group row">
+							<div class="form-group row d-none">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '在庫不足アラート' ) ) ?></label>
-								<div class="col-sm-8">
+								<div class="col-sm-8">sx
 									<input class="form-control item-label" type="text" tabindex="1"
 										name="<?= $this->formparam( array( 'item', 'inventory_alert_qty' ) ) ?>"
 										placeholder=""
