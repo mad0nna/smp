@@ -174,11 +174,11 @@ const ProductList = () => {
 
         _.forEach(data.data, (items) => {
           // getting id from relationship media
-          if (items.relationships.price !== undefined) {
+          if (items.relationships.media !== undefined) {
             prodMediaId = items.relationships.media.data[0]['id']
           }
           // for long description
-          if (items.relationships.price !== undefined) {
+          if (items.relationships.text !== undefined) {
             prodTextId = items.relationships.text.data[0]['id']
           }
           //for price value
@@ -186,7 +186,7 @@ const ProductList = () => {
             prodPriceId = items.relationships.price.data[0]['id']
           }
           // for stock
-          if (items.relationships.price !== undefined) {
+          if (items.relationships.stock !== undefined) {
             prodStockId = items.relationships.stock.data[0]['id'] ?? 0
           }
 

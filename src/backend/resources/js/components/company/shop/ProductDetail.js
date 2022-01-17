@@ -144,8 +144,7 @@ const ProductDetail = (props) => {
       ]
     }
 
-    let url =
-      'https://idaten.localhost/jsonapi/basket?id=default&related=product'
+    let url = '/jsonapi/basket?id=default&related=product'
     let csrfItem = productDetail.meta.csrf
 
     if (csrfItem) {

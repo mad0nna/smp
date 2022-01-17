@@ -15,6 +15,10 @@ p.upload-csv input {
   cursor: pointer;
 }
 
+.form-control-label {
+  justify-content:left;
+}
+
 .bg-dashboard-icon {
   background-image: url('/images/dashboard-normal.png');
 }
