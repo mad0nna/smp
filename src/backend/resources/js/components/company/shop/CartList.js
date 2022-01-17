@@ -8,7 +8,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import CheckoutMessage from './CheckoutMessage'
 import CheckoutContent from './CheckoutContent'
-const CartList = () => {
+const CartList = (props) => {
   const SERVICE_TYPE = 'payment'
 
   const [isAgreedTerms, setAgreedTerms] = useState(false)
@@ -69,12 +69,58 @@ const CartList = () => {
 
   const handleCheckoutModalOpen = () => {
     addService()
+    saveToBasket()
     setState((prevState) => {
       return {
         ...prevState,
         modalDisplay: !prevState.modalDisplay
       }
     })
+  }
+
+  const saveToBasket = () => {
+    const data = {
+      data: items.map((val) => {
+        return {
+          attributes: {
+            'product.id': val.id,
+            quantity: val.quantity,
+            stocktype: 'default'
+          }
+        }
+      })
+      //  {
+      //   'product.id': productDetail.id,
+      //   quantity: state.orderNum, // optional
+      //   stocktype: 'default' // warehouse code (optional)
+      // }
+    }
+    console.log(data)
+    let url = '/jsonapi/basket?id=default&related=product'
+    let csrfItem = props.location.state.meta.csrf
+
+    if (csrfItem) {
+      // add CSRF token if available and therefore required
+      var csrf = {}
+      csrf[csrfItem.name] = csrfItem.value
+      url +=
+        (url.indexOf('?') === -1 ? '?' : '&') +
+        Object.keys(csrf)
+          .map((key) => key + '=' + csrf[key])
+          .join('&')
+    }
+
+    // console.log('@post', data)
+    // console.log('@meta', productDetail.meta, url)
+
+    axios
+      .post(url, JSON.stringify(data), {
+        'Content-Type': 'application/json'
+      })
+      .then((response) => {
+        // setBasketDetails(response.data)
+        history.push({ pathname: '/company/cart', state: response.data })
+      })
   }
   const addService = () => {
     axios
