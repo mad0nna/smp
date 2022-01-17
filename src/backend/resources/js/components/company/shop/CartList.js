@@ -364,9 +364,8 @@ const CartList = (props) => {
         // generate final order
         generateFinalOrder().then((res) => {
           console.log('res', res)
-
-          confirmInvoiceEmailTemplate(res)
-
+          // generate email to user
+          // confirmInvoiceEmailTemplate(res)
           // display modal submit
           setState((prevState) => {
             return {
@@ -377,8 +376,7 @@ const CartList = (props) => {
 
           handleCheckoutModalClose()
           handleCheckoutMessageModalOpen()
-
-          // window.location.href = '/company/shop'
+          window.location.href = '/company/shop'
         })
         //
         break
