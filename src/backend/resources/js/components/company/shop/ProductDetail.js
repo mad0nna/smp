@@ -35,7 +35,7 @@ const ProductDetail = (props) => {
     let prodPrice = _.parseInt(price['price.value'])
     let userData = JSON.parse(document.getElementById('userData').textContent)
     let taxValue = _.parseInt(_.parseInt(price['price.taxvalue']))
-
+    console.log('DETAILS', userData)
     setProductDetail({
       ...productDetail,
       id: product['product.id'],

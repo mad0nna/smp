@@ -10,7 +10,7 @@ import CheckoutMessage from './CheckoutMessage'
 import CheckoutContent from './CheckoutContent'
 const CartList = (props) => {
   const SERVICE_TYPE = 'payment'
-
+  let userData = JSON.parse(document.getElementById('userData').textContent)
   const [isAgreedTerms, setAgreedTerms] = useState(false)
   // const [cart, setCart] = useState({
   //   items: [],
@@ -122,6 +122,62 @@ const CartList = (props) => {
         history.push({ pathname: '/company/cart', state: response.data })
       })
   }
+
+  const createAddressService = (serviceId) => {
+    let addressUrl = '/jsonapi/basket?id=default&related=address'
+    let csrfItem = props.location.state.meta.csrf
+    const params = {
+      data: [
+        {
+          id: serviceId, // or 'delivery'
+          attributes: {
+            'order.base.address.addressid': '...', // customer address ID (optional)
+            'order.base.address.salutation': 'mr', // 'mr', 'mrs', 'miss', 'company' or empty (optional)
+            'order.base.address.company': 'Example company', // (optional)
+            'order.base.address.vatid': 'DE123456789', // (optional)
+            'order.base.address.title': 'Dr.', // (optional)
+            'order.base.address.firstname': userData.firstName, // (optional)
+            'order.base.address.lastname': userData.lastName, // (required)
+            'order.base.address.address1': 'Test street', // (required)
+            'order.base.address.address2': '1', // (optional)
+            'order.base.address.address3': '', // (optional)
+            'order.base.address.postal': '12345', // (optional)
+            'order.base.address.city': 'Test city', // (required)
+            'order.base.address.state': 'HH', // (optional)
+            'order.base.address.countryid': 'DE', // (optional)
+            'order.base.address.languageid': 'de', // (required by many payment gateways)
+            'order.base.address.telephone': '+4912345678', // (optional)
+            'order.base.address.telefax': '+49123456789', // (optional)
+            'order.base.address.email': userData.email, // (required)
+            'order.base.address.website': 'https://example.com', // (optional)
+            'order.base.address.longitude': 10.0, // (optional, float value)
+            'order.base.address.latitude': 50.0 // (optional, float value)
+          }
+        }
+      ]
+    }
+
+    // if (csrfItem) {
+    //   // add CSRF token if available and therefore required
+    //   const csrf = {}
+    //   csrf[csrfItem.name] = csrfItem.value
+    //   addressUrl +=
+    //     (addressUrl.indexOf('?') === -1 ? '?' : '&') +
+    //     Object.keys(csrf)
+    //       .map((key) => key + '=' + csrf[key])
+    //       .join('&')
+    // }
+
+    axios
+      .post(`${addressUrl}&_token=${csrfItem.value}`, JSON.stringify(params), {
+        'Content-Type': 'application/json'
+      })
+      .then((response) => {
+        // setBasketDetails(response.data)
+        history.push({ pathname: '/company/cart', state: response.data })
+      })
+  }
+
   const addService = () => {
     axios
       .get(
@@ -140,6 +196,7 @@ const CartList = (props) => {
         })[0]
         console.log('urlParams', urlParams)
         let url = urlParams.links['basket/service'].href
+        createAddressService(urlParams.attributes['service.type'])
         let csrfItem = res1.data.meta.csrf
         var params = {
           data: [
@@ -173,20 +230,6 @@ const CartList = (props) => {
         createServicePersistBasket(params, url)
       })
   }
-
-  // const createAddressService = () => {
-  //   // let addressUrl = props.location.state.links['basket/address'].href
-  //   // if (csrfItem) {
-  //   //   // add CSRF token if available and therefore required
-  //   //   const csrf = {}
-  //   //   csrf[csrfItem.name] = csrfItem.value
-  //   //   addressUrl +=
-  //   //     (addressUrl.indexOf('?') === -1 ? '?' : '&') +
-  //   //     Object.keys(csrf)
-  //   //       .map((key) => key + '=' + csrf[key])
-  //   //       .join('&')
-  //   // }
-  // }
 
   // const fetchBasket = (csrfItem) => {
   //   axios
