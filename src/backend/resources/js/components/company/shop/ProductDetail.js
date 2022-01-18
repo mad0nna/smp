@@ -35,7 +35,7 @@ const ProductDetail = (props) => {
     let prodPrice = _.parseInt(price['price.value'])
     let userData = JSON.parse(document.getElementById('userData').textContent)
     let taxValue = _.parseInt(_.parseInt(price['price.taxvalue']))
-
+    console.log('DETAILS', userData)
     setProductDetail({
       ...productDetail,
       id: product['product.id'],
@@ -126,50 +126,50 @@ const ProductDetail = (props) => {
     }
 
     // save to basket
-    saveToBasket()
+    // saveToBasket()
     //  set to state
     addItem(productDetail, state.orderNum)
-    history.replace('/company/cart')
+    history.push({ pathname: '/company/cart', state: productDetail })
   }
-  const saveToBasket = () => {
-    var data = {
-      data: [
-        {
-          attributes: {
-            'product.id': productDetail.id,
-            quantity: state.orderNum, // optional
-            stocktype: 'default' // warehouse code (optional)
-          }
-        }
-      ]
-    }
+  // const saveToBasket = () => {
+  //   var data = {
+  //     data: [
+  //       {
+  //         attributes: {
+  //           'product.id': productDetail.id,
+  //           quantity: state.orderNum, // optional
+  //           stocktype: 'default' // warehouse code (optional)
+  //         }
+  //       }
+  //     ]
+  //   }
 
-    let url = '/jsonapi/basket?id=default&related=product'
-    let csrfItem = productDetail.meta.csrf
+  //   let url = '/jsonapi/basket?id=default&related=product'
+  //   let csrfItem = productDetail.meta.csrf
 
-    if (csrfItem) {
-      // add CSRF token if available and therefore required
-      var csrf = {}
-      csrf[csrfItem.name] = csrfItem.value
-      url +=
-        (url.indexOf('?') === -1 ? '?' : '&') +
-        Object.keys(csrf)
-          .map((key) => key + '=' + csrf[key])
-          .join('&')
-    }
+  //   if (csrfItem) {
+  //     // add CSRF token if available and therefore required
+  //     var csrf = {}
+  //     csrf[csrfItem.name] = csrfItem.value
+  //     url +=
+  //       (url.indexOf('?') === -1 ? '?' : '&') +
+  //       Object.keys(csrf)
+  //         .map((key) => key + '=' + csrf[key])
+  //         .join('&')
+  //   }
 
-    // console.log('@post', data)
-    // console.log('@meta', productDetail.meta, url)
+  //   // console.log('@post', data)
+  //   // console.log('@meta', productDetail.meta, url)
 
-    axios
-      .post(url, JSON.stringify(data), {
-        'Content-Type': 'application/json'
-      })
-      .then((response) => {
-        // setBasketDetails(response.data)
-        history.push({ pathname: '/company/cart', state: response.data })
-      })
-  }
+  //   axios
+  //     .post(url, JSON.stringify(data), {
+  //       'Content-Type': 'application/json'
+  //     })
+  //     .then((response) => {
+  //       // setBasketDetails(response.data)
+  //       history.push({ pathname: '/company/cart', state: response.data })
+  //     })
+  // }
 
   function getProductDetail(id) {
     axios({
