@@ -273,7 +273,7 @@ const CartList = (props) => {
   const deleteBasketCache = (csrfItem) => {
     axios
       .delete(`/jsonapi/basket?id=default&_token=${csrfItem.value}`)
-      .then((response) => {
+      .then(() => {
         // console.log('@deleted basket items', response)
       })
   }
@@ -354,7 +354,7 @@ const CartList = (props) => {
   }
 
   const confirmInvoiceEmailTemplate = (res) => {
-    let confirm = res.data.data.links
+    // let confirm = res.data.data.links
     // let processUrl = confirm.process.href
     let csrfItem = res.data.meta.csrf
 
