@@ -261,12 +261,10 @@ $statusList = [
 					&nbsp; 探す &nbsp; 
 				</button>
 				<input type="hidden" value="order.id" name="filter[key][1]">
-				<input type="hidden" value="==" name="filter[op][6]">
+				<input type="hidden" value="==" name="filter[op][1]">
 				<input type="text" tabindex="1" name="filter[val][1]" value="<?= $this->session( 'aimeos/admin/jqadm/order/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/order/filter', [] )['val']['1'] : ''; ?>" class="form-control float-end" style="width:15%; background:transparent;"  >
-
 			</form>
 		</div>
-
 	</div>
 
 	<form ref="form" class="list list-order" method="POST"
