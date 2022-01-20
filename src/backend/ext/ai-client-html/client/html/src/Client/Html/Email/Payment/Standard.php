@@ -510,6 +510,7 @@ class Standard
 	public function addData( \Aimeos\MW\View\Iface $view, array &$tags = [], string &$expire = null ) : \Aimeos\MW\View\Iface
 	{
 		$addr = $view->get( 'extAddressItem' );
+		$productName = $view->get('extOrderItem');
 		$list = [
 			/// E-mail intro with first name (%1$s) and last name (%2$s)
 			\Aimeos\MShop\Common\Item\Address\Base::SALUTATION_UNKNOWN => $view->translate( 'client', 'Dear %1$s %2$s' ),
@@ -530,7 +531,8 @@ class Standard
 		$status = $view->translate( 'mshop/code', $key );
 
 		/// Payment e-mail intro with order ID (%1$s), order date (%2$s) and payment status (%3%s)
-		$msg = $view->translate( 'client', 'Thank you for your order %1$s from %2$s.' );
+		$msg = $view->translate( 'client', 'Thank you for your order, \n Order Number: %1$s \n Product Name: Test Product \n Date: %2$s'
+		);
 
 		switch( $view->extOrderItem->getStatusPayment() )
 		{
