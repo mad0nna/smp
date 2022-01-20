@@ -224,10 +224,10 @@ $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 $navlist2 = [
 	0 => "selection",
 	1 => "bundle",
-	2 => "画像",
-	3 => "テキスト",
-	4 => "販売価格",
-	5 => "注文一覧",
+	2 => "商品画像",
+	3 => "商品説明",
+	4 => "商品価格",
+	5 => "注文履歴",
 ];
 
 ?>
@@ -272,11 +272,11 @@ $navlist2 = [
 
 				<div class="item-meta text-muted">
 					<small>
-						<?= $enc->html( $this->translate( 'admin', 'Modified' ) ) ?>:
+						<?= $enc->html( $this->translate( 'admin', '変更日' ) ) ?>:
 						<span class="meta-value"><?= $enc->html( $this->get( 'itemData/product.mtime' ) ) ?></span>
 					</small>
 					<small>
-						<?= $enc->html( $this->translate( 'admin', 'Created' ) ) ?>:
+						<?= $enc->html( $this->translate( 'admin', '作成日' ) ) ?>:
 						<span class="meta-value"><?= $enc->html( $this->get( 'itemData/product.ctime' ) ) ?></span>
 					</small>
 					<small>

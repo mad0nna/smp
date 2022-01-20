@@ -127,18 +127,19 @@ $fields = $this->config( 'admin/jqadm/product/order/fields', $fields );
 								<?= $enc->html( $this->translate( 'admin', 'Title' ) ) ?>
 							</a>
 						</th>
-						<th v-if="fields.includes('order.base.address.firstname')" class="order-base-address-firstname">
-							<a v-bind:class="sortclass('order.base.address.firstname')" v-on:click.prevent="orderby('order.base.address.firstname')"
-								tabindex="<?= $this->get( 'tabindex', 1 ) ?>" href="#">
-								<?= $enc->html( $this->translate( 'admin', 'First name' ) ) ?>
-							</a>
-						</th>
 						<th v-if="fields.includes('order.base.address.lastname')" class="order-base-address-lastname">
 							<a v-bind:class="sortclass('order.base.address.lastname')" v-on:click.prevent="orderby('order.base.address.lastname')"
 								tabindex="<?= $this->get( 'tabindex', 1 ) ?>" href="#">
 								<?= $enc->html( $this->translate( 'admin', 'Last name' ) ) ?>
 							</a>
 						</th>
+						<th v-if="fields.includes('order.base.address.firstname')" class="order-base-address-firstname">
+							<a v-bind:class="sortclass('order.base.address.firstname')" v-on:click.prevent="orderby('order.base.address.firstname')"
+								tabindex="<?= $this->get( 'tabindex', 1 ) ?>" href="#">
+								<?= $enc->html( $this->translate( 'admin', 'First name' ) ) ?>
+							</a>
+						</th>
+
 						<th v-if="fields.includes('order.base.address.address1')" class="order-base-address-address1">
 							<a v-bind:class="sortclass('order.base.address.address1')" v-on:click.prevent="orderby('order.base.address.address1')"
 								tabindex="<?= $this->get( 'tabindex', 1 ) ?>" href="#">
@@ -341,21 +342,21 @@ $fields = $this->config( 'admin/jqadm/product/order/fields', $fields );
 										</label></a>
 									</li>
 									<li class="dropdown-item">
-										<a v-on:click.prevent.stop="toggleField('order.base.address.firstname')" href="#"><label>
-											<input class="form-check-input"
-												v-on:click.capture.stop="toggleField('order.base.address.firstname')"
-												v-bind:checked="fields.includes('order.base.address.firstname')"
-												type="checkbox" tabindex="<?= $this->get( 'tabindex', 1 ) ?>" />
-											<?= $enc->html( $this->translate( 'admin', 'First name' ) ) ?>
-										</label></a>
-									</li>
-									<li class="dropdown-item">
 										<a v-on:click.prevent.stop="toggleField('order.base.address.lastname')" href="#"><label>
 											<input class="form-check-input"
 												v-on:click.capture.stop="toggleField('order.base.address.lastname')"
 												v-bind:checked="fields.includes('order.base.address.lastname')"
 												type="checkbox" tabindex="<?= $this->get( 'tabindex', 1 ) ?>" />
 											<?= $enc->html( $this->translate( 'admin', 'Last name' ) ) ?>
+										</label></a>
+									</li>
+									<li class="dropdown-item">
+										<a v-on:click.prevent.stop="toggleField('order.base.address.firstname')" href="#"><label>
+											<input class="form-check-input"
+												v-on:click.capture.stop="toggleField('order.base.address.firstname')"
+												v-bind:checked="fields.includes('order.base.address.firstname')"
+												type="checkbox" tabindex="<?= $this->get( 'tabindex', 1 ) ?>" />
+											<?= $enc->html( $this->translate( 'admin', 'First name' ) ) ?>
 										</label></a>
 									</li>
 									<li class="dropdown-item">
@@ -700,7 +701,7 @@ $fields = $this->config( 'admin/jqadm/product/order/fields', $fields );
 			</table>
 		</div>
 
-		<div v-if="!items.length" class="noitems"><?= $enc->html( sprintf( $this->translate( 'admin', 'No items found' ) ) ) ?></div>
+		<div v-if="!items.length" class="noitems"><?= $enc->html( sprintf( $this->translate( 'admin', '販売された商品はありません' ) ) ) ?></div>
 
 		<nav class="list-page">
 			<ul class="page-offset pagination">

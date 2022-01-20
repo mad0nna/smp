@@ -13,7 +13,7 @@
         "ext-intl": "*",
         "aimeos/aimeos-core": "~2021.10.4",
         "aimeos/aimeos-laravel": "~2021.10.2",
-        "aimeos/idaten-theme-1": "dev-T39249",
+        "aimeos/idaten-theme-1": "dev-development",
         "aws/aws-sdk-php": "~3.0",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",

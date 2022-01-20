@@ -85,8 +85,8 @@ $deliveryStatusList = [
 
 $deliveryStatusList2 = [
 	'1' => '配達キャンセル',
-	'4' => '輸送中',
-	'6' => '製品の配送',
+	'4' => '配達中',
+	'6' => '配達済み',
 ];
 
 $paymentStatusList = [
@@ -854,7 +854,7 @@ $paymentStatusList2 = [
 
 									<div class="col-xl-3" style="position:relative">
 										<div class="row justify-content-center">
-											<label class="col-6 form-control-label">キャンセルノート</label>
+											<label class="col-6 form-control-label">備考</label>
 											<div class="col-7 col-sm-12" style="padding-left: 1.5rem; padding-top: 0.5rem;">
 												<textarea class="form-control order-notes" rows="5" name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.notes' ) ) ) ?>" >
 													<?= $enc->attr( $this->get( 'itemData/product/' . $pos . '/order.base.product.notes' ) ) ?>

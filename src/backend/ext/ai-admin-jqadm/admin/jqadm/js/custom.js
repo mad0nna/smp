@@ -8,13 +8,28 @@ $(document).ready(function(){
 
                 document.getElementById("input_upload_update_stock").onchange = function() {
                         document.getElementById("btn_upload_update_stock").click();
-                }                
+                }      
+                
+                document.getElementById("linkSetProductAllActive").addEventListener('click', setProductAllStatus);
+                document.getElementById("linkSetProductActive").addEventListener('click', setProductActive);
+                document.getElementById("linkSetProductInActive").addEventListener('click', setProductInActive);
+                document.getElementById("linkSetProductArchived").addEventListener('click', setProductArchived);
         }
 
-        document.getElementById("linkSetProductAllActive").addEventListener('click', setProductAllStatus);
-        document.getElementById("linkSetProductActive").addEventListener('click', setProductActive);
-        document.getElementById("linkSetProductInActive").addEventListener('click', setProductInActive);
-        document.getElementById("linkSetProductArchived").addEventListener('click', setProductArchived);
+        
+        
+
+        const textItems = $('#item-text-group').attr("data-items");
+        const priceItems = $('#item-price-group').attr("data-items");
+        
+        console.log(priceItems);
+        if (textItems.length) {
+                $('#item-text-group .btn').click();
+        }
+
+        if (priceItems.length) {
+                $('#item-price-group .btn').click();
+        }
 
 });
 
