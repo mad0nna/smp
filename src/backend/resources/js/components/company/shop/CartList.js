@@ -30,6 +30,7 @@ const CartList = (props) => {
     orderInvoiceSuccess: false,
     modalCheckoutContentDisplay: false,
     htmlContent: ''
+    // modalDisplayCreditCard: false
   })
 
   const history = useHistory()
@@ -392,11 +393,44 @@ const CartList = (props) => {
    */
   function handleSubmitCheckout(value) {
     switch (parseInt(value)) {
-      case 1: // credit card
+      case 1: {
+        // credit card
+        // paymentstatus : 4
+        // DeliveryStatus:2
+
+        const ccData = {
+          data: {
+            attributes: {
+              'order.baseid': orderId.orderId // generated ID returned in the basket POST response (waiting for the order base id)
+            }
+          }
+        }
+
+        generateFinalOrder(ccData).then(() => {
+          // display modal submit
+          setState((prevState) => {
+            return {
+              ...prevState,
+              orderInvoiceSuccess: true
+            }
+          })
+
+          handleCheckoutModalClose()
+          handleCheckoutMessageModalOpen()
+        })
         break
-      case 2:
+      }
+      case 2: {
         // generate final order
-        generateFinalOrder().then((res) => {
+        const invData = {
+          data: {
+            attributes: {
+              'order.baseid': orderId.orderId // generated ID returned in the basket POST response (waiting for the order base id)
+            }
+          }
+        }
+
+        generateFinalOrder(invData).then((res) => {
           // console.log('res', res)
           // generate email to user
           confirmInvoiceEmailTemplate(res)
@@ -411,21 +445,11 @@ const CartList = (props) => {
           handleCheckoutModalClose()
           handleCheckoutMessageModalOpen()
         })
-        //
-        break
-      default:
-        break
+      }
     }
   }
 
-  async function generateFinalOrder() {
-    const data = {
-      data: {
-        attributes: {
-          'order.baseid': orderId.orderId // generated ID returned in the basket POST response (waiting for the order base id)
-        }
-      }
-    }
+  async function generateFinalOrder(data) {
     const response = await axios.post(
       `/jsonapi/order?_token=${orderId.token}`,
       JSON.stringify(data),
@@ -669,6 +693,13 @@ const CartList = (props) => {
           handleCloseModal={handleCheckoutContentModalClose}
         />
       ) : null}
+
+      {/* {state.modalDisplayCreditCard ? (
+        <PaymentSelection
+          handleCloseModal={handleCloseModal}
+          method={state.method}
+        />
+      ) : null} */}
     </div>
   )
 }

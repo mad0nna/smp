@@ -13,7 +13,9 @@ return [
             'decorators' => [
                 'local' => ['Myproject']
             ]
-        ]
+        ],
+        'taxflag' => 0
+
     ],
 
 ];
