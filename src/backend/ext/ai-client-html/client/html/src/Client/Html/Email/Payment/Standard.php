@@ -531,8 +531,10 @@ class Standard
 		$status = $view->translate( 'mshop/code', $key );
 
 		/// Payment e-mail intro with order ID (%1$s), order date (%2$s) and payment status (%3%s)
-		$msg = $view->translate( 'client', 'Thank you for your order, \n Order Number: %1$s \n Product Name: Test Product \n Date: %2$s'
-		);
+		$msg = $view->translate( 'client', 'Thank you for your order,');
+		$msg .= "\n". $view->translate( 'client', 'Order Number: %1$s');
+		$msg .= "\n". $view->translate( 'client', 'Date: %2$s');
+		
 
 		switch( $view->extOrderItem->getStatusPayment() )
 		{

@@ -274,13 +274,13 @@ const ProductList = () => {
             {loadedImage ? (
               <div></div>
             ) : (
-              <div className="bg-gray-100 h-full">
-                <div className="lg:w-full 2xl:h-100"></div>
+              <div className="bg-gray-100 h-48">
+                <div className="lg:w-full"></div>
               </div>
             )}
             <img
               className={loadedImage ? 'mx-auto w-full p-5' : 'hidden'}
-              src={`${product.media['media.preview']}`}
+              src={`/aimeos/${product.media['media.preview']}`}
               onLoad={() => {
                 setLoadedImage(true)
               }}
