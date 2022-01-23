@@ -237,21 +237,13 @@ $statusList = [
 
 <?= $this->partial( $this->config( 'admin/jqadm/partial/navsearch', 'common/partials/navsearch-standard' ) ) ?>
 <?= $this->partial( $this->config( 'admin/jqadm/partial/columns', 'common/partials/columns-standard' ) ) ?>
-
+<?= $this->partial( $this->config( 'admin/jqadm/partial/dialog-send-or-email', 'common/partials/dialog-send-or-email-standard' ) ) ?>
 
 <div class="list-view"
 	data-domain="order"
 	data-siteid="<?= $enc->attr( $this->site()->siteid() ) ?>"
 	data-filter="<?= $enc->attr( $this->session( 'aimeos/admin/jqadm/order/filter', new \stdClass ) ) ?>"
 	data-items="<?= $enc->attr( $this->get( 'items', map() )->call( 'toArray', [true] )->all() ) ?>">
-
-	<nav-search v-bind:show="search" v-on:close="search = false"
-		v-bind:url="`<?= $enc->js( $this->link( 'admin/jqadm/url/search', map( $searchParams )->except( 'filter' )->all() ) ) ?>`"
-		v-bind:filter="<?= $enc->attr( (object) $this->session( 'aimeos/admin/jqadm/order/filter', new \stdClass ) ) ?>"
-		v-bind:operators="<?= $enc->attr( $operators ) ?>"
-		v-bind:name="`<?= $enc->js( $this->formparam( ['filter', '_key_', '0'] ) ) ?>`"
-		v-bind:attributes="<?= $enc->attr( $searchAttributes ) ?>">
-	</nav-search>
 
 	<div class="d-flex row justify-content-end" style="margin-top:1.4em">
 		<div class="p2" id="upload_csv_content" >
@@ -297,7 +289,7 @@ $statusList = [
 						<?php $baseItem = ( isset( $baseItems[$item->getBaseId()] ) ? $baseItems[$item->getBaseId()] : null ) ?>
 						<tr class="list-item <?= $this->site()->readonly( $item->getSiteId() ) ?>">
 							<?php if( in_array( 'order.id', $fields ) ) : ?>
-								<td class="order-id text-end" style="padding-right:4.5em"><a class="items-field" href="<?= $url ?>" tabindex="1"><?= $enc->html( $item->getId() ) ?></a></td>
+								<td class="order-id text-end" style="padding-right:5em"><a class="items-field" href="<?= $url ?>" tabindex="1"><?= $enc->html( $item->getId() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.price', $fields ) ) : ?>
 								<td class="order-base-price price text-end">¥<?= $baseItem ? number_format($enc->html( $baseItem->getPrice()->getValue() )) : '' ?> </td>

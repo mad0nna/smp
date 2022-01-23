@@ -670,8 +670,26 @@ Aimeos.Form = {
 		this.setupNext();
 		this.showErrors();
 		this.toggleHelp();
-	},
 
+		let node = document.querySelector(".item-order-form");
+		if(node) {
+			this.instance = new Vue({el: node, mixins: [this.mixins]});
+		}
+	},
+	mixins : {
+		data: function() { 
+			return {
+				btnShowDialogOR: false,
+				show: false,
+				'titles': {},
+			}
+		},
+		methods: {
+			value: function() {
+				return null;
+			}
+		} 
+	},
 
 	checkFields : function() {
 
@@ -1239,7 +1257,7 @@ $(function() {
 		const key = $(this).data('key') || Math.floor(Math.random() * 1000);
 		Aimeos.components[key] = Aimeos.vue(this);
 	});
-
+	
 	Aimeos.Menu.init();
 	Aimeos.Config.init();
 	Aimeos.Form.init();

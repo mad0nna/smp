@@ -470,6 +470,25 @@ Vue.component('nav-search', {
 });
 
 
+Vue.component('dialog-send-or-email', {
+	template: '#dialog-send-or-email',
+	props: {
+		'show': {type: Boolean, default: false},
+	},
+	data: function() {
+		return {
+			'type': 'text',
+		}
+	},
+	beforeMount: function() {
+
+	},
+	computed: {
+		 
+	},
+});
+
+
 
 Vue.component('page-limit', {
 	template: '\
