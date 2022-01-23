@@ -233,6 +233,7 @@ p.upload-csv input {
 
 .aimeos .order-base-price {
   text-align: right !important;
+  padding-right: 0.3em !important;
 }
 
 .aimeos .order-company_name {

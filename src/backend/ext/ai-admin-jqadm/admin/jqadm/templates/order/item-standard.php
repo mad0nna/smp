@@ -84,9 +84,9 @@ $deliveryStatusList = [
 ];
 
 $deliveryStatusList2 = [
-	'1' => '配達キャンセル',
-	'4' => '配達中',
-	'6' => '配達済み',
+	'1' => '配達キャンセル', //Cancelled
+	'4' => '配達中', // For Delivery
+	'6' => '配達済み', // Delivered
 ];
 
 $paymentStatusList = [
@@ -101,21 +101,25 @@ $paymentStatusList = [
 ];
 
 $paymentStatusList2 = [
-	'4' => '未払い',
-	'6' => '⽀払い済み',
+	'4' => '未払い', //unpaid
+	'6' => '⽀払い済み', //paid
 ];
 
 
 ?>
 <?php $this->block()->start( 'jqadm_content' ) ?>
+<?= $this->partial( $this->config( 'admin/jqadm/partial/dialog-send-or-email', 'common/partials/dialog-send-or-email-standard' ) ) ?>
 
 <?php if( isset( $this->item ) ) : ?>
 	<?php $basket = $this->item; $currency = $this->translate( 'currency', $basket->getPrice()->getCurrencyId() ) ?>
-
-	<form class="item item-order form-horizontal container-fluid" method="POST" enctype="multipart/form-data" action="<?= $enc->attr( $this->url( $target, $cntl, $action, $params, [], $config ) ) ?>">
+  
+	<form class="item item-order item-order-form form-horizontal container-fluid" method="POST" enctype="multipart/form-data" action="<?= $enc->attr( $this->url( $target, $cntl, $action, $params, [], $config ) ) ?>">
 		<input id="item-baseid" type="hidden" name="<?= $enc->attr( $this->formparam( array( 'item', 'order.base.id' ) ) ) ?>" value="<?= $enc->attr( $basket->getId() ) ?>" />
 		<input id="item-next" type="hidden" name="<?= $enc->attr( $this->formparam( array( 'next' ) ) ) ?>" value="get" />
 		<?= $this->csrf()->formfield() ?>
+
+		<dialog-send-or-email v-bind:show="btnShowDialogOR" v-on:close="btnShowDialogOR = false">
+		</dialog-send-or-email>
 
 		<div class="p2">&nbsp;</div><div class="p2"></div>
 		<nav class="main-navbar d-none">
@@ -149,7 +153,7 @@ $paymentStatusList2 = [
 		</nav>
 
 		<div class="row item-container">
-
+	
 			<div class="col-xl-3 item-navbar d-none">
 				<div class="navbar-content">
 					<ul class="nav nav-tabs flex-xl-column flex-wrap d-flex box" role="tablist">
@@ -867,7 +871,7 @@ $paymentStatusList2 = [
 												href="<?= $enc->attr( $this->url( $listTarget, $listCntl, $listAction, $searchParams, [], $listConfig ) ) ?>">
 												キャンセル
 											</a> &nbsp;
-											<button type="submit" class="btn btn-primary act-save" title="保存">&nbsp;保存&nbsp;</button>
+											<button type="button" class="btn btn-primary act-save" title="保存" v-on:click="btnShowDialogOR = true">&nbsp;保存&nbsp;</button>
 										</p>
 									</div>
 								</div>
