@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    var uploader = document.getElementById("upload_csv_content");
+    var uploader = document.getElementById("input_upload_new_product");
 
-    if (uploader) {
+    if (uploader !== null) {
         document.getElementById("input_upload_new_product").onchange = function () {
             document.getElementById("btn_upload_new_product").click();
         }
@@ -16,18 +16,29 @@ $(document).ready(function () {
         document.getElementById("linkSetProductArchived").addEventListener('click', setProductArchived);
     }
 
-
-
-
-    const textItems = $('#item-text-group').attr("data-items");
-    const priceItems = $('#item-price-group').attr("data-items");
-
-    if (textItems !== undefined && priceItems !== undefined) {
-        if (textItems.length) {
+    const textItems = document.querySelector('#item-text-group');
+    const priceItems = document.querySelector('#item-price-group');
+    const mediaItems = document.querySelector('#item-media-group');
+    
+   
+    if ( textItems !== undefined && textItems !== null ) {
+        var textItemsData = textItems.getAttribute('data-items');
+        if (textItemsData === "[]") {
             $('#item-text-group .btn').click();
-        }
-        if (priceItems.length) {
+        }        
+    }
+
+    if ( priceItems !== undefined && priceItems !== null ) {
+        var priceItemsData = priceItems.getAttribute('data-items');
+        if (priceItemsData === "[]") {
             $('#item-price-group .btn').click();
+        }
+    }
+
+    if ( mediaItems !== undefined && mediaItems !== null ) {
+        var mediaItemsData = mediaItems.getAttribute('data-items');
+        if (mediaItemsData !== "[]") {
+            $('#item-media-group').find('.card-tools-more').addClass(" d-none");
         }
     }
 

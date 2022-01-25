@@ -126,8 +126,8 @@ return [
 			'text' => 'text',
 		],
 		'subparts' => [
-			'selection' => 'selection',
-			'bundle' => 'bundle',
+			// 'selection' => 'selection',
+			// 'bundle' => 'bundle',
 			'media' => 'media',
 			'text' => 'text',
 			'price' => 'price',
