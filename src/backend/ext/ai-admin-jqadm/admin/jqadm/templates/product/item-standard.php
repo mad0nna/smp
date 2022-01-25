@@ -222,12 +222,10 @@ $navlimit = $this->config( 'admin/jqadm/product/item/navbar-limit', 7 );
 $params = $this->get( 'pageParams', [] );
 $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 $navlist2 = [
-	0 => "selection",
-	1 => "bundle",
-	2 => "商品画像",
-	3 => "商品説明",
-	4 => "商品価格",
-	5 => "注文履歴",
+	0 => "商品画像",
+	1 => "商品説明",
+	2 => "商品価格",
+	3 => "注文履歴"
 ];
 
 ?>
