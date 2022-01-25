@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
+use Illuminate\Support\Facades\Auth;
 use App\Services\FileService;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductStock;
+use App\Models\CatalogList;
 
 class ShoppingController extends Controller
 {
@@ -42,7 +43,7 @@ class ShoppingController extends Controller
                             "standard2" => $row[4],
                             "delivery_slip_display" => $row[6] ?: 0,
                             "inventory_alert_qty" => $row[7] ?: 0,
-                            "type" => $row[8],
+                            "type" => "bundle",
                             "siteid" => "1.",
                             "dataset" => "",
                             "config" => "[]",
@@ -53,7 +54,7 @@ class ShoppingController extends Controller
                             "instock" => $row[5] > 0 ? 1 : 0,
                             "mtime" => date('Y-m-d H:i:s'),
                             "ctime" => date('Y-m-d H:i:s'),
-                            "editor" => "core:setup",
+                            "editor" => Auth::user()->id,
                             "target" => "",
                         );
                         $checkProduct = Product::where("code", "=", $row[0])->first();
@@ -61,6 +62,22 @@ class ShoppingController extends Controller
 
                         if (is_null($checkProduct)) {
                             $product = Product::create($inv);
+
+                            $cat = array(
+                                'parentid' => "1",  
+                                "siteid" => "1.",
+                                'key' => 'product|default|' . $product->id,
+                                'type' => 'default',
+                                'domain' => 'product',
+                                'refid' => $product->id,
+                                'config' => "[]",
+                                'pos' => 0,
+                                'status' => 1,
+                                "mtime" => date('Y-m-d H:i:s'),
+                                "ctime" => date('Y-m-d H:i:s'),
+                                'editor' => Auth::user()->id
+                            );
+                            $c = CatalogList::create($cat);
 
                             $stock = ProductStock::where("prodid", "=", $product->id)->first();
                             if (is_null($stock)) {
@@ -73,7 +90,7 @@ class ShoppingController extends Controller
                                     "timeframe" => "",
                                     "mtime" => date('Y-m-d H:i:s'),
                                     "ctime" => date('Y-m-d H:i:s'),
-                                    "editor" => "core:setup"
+                                    "editor" => Auth::user()->id,
                                 );
                                 $stock = ProductStock::create($updateStock);
                             }
