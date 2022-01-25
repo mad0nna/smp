@@ -127,7 +127,7 @@ return [
 		],
 		'subparts' => [
 			// 'selection' => 'selection',
-			// 'bundle' => 'bundle',
+			'bundle' => 'bundle',
 			'media' => 'media',
 			'text' => 'text',
 			'price' => 'price',
