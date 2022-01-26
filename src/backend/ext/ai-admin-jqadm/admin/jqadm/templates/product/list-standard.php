@@ -740,7 +740,14 @@ $columnList = [
 							<!-- Custom added columns for idaten for DX -->
 							<?php if( in_array( 'product.instock', $fields ) ) : ?>
 								<!-- temporary static data -->
-								<td class="product-stock"> <? // $_s=0;  $item->getStockItems() ? $_s = $item->getStockItems()->first()->toArray()['stock.stocklevel'] : 0;  ?> <? // $_s ?> </td>
+								<?php 
+									$_s = 0;
+									$stockItems = $item->getStockItems();
+									if (isset($stockItems) && $stockItems->first()) { 
+										$_s = $stockItems->first()->toArray()['stock.stocklevel'];
+									}
+								?>
+								<td class="product-stock"><?= $_s ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'product.price', $fields ) ) : ?>
 								<!-- temporary static data -->
