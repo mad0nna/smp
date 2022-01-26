@@ -81,8 +81,11 @@ class Standard
 	public function get() : ?string
 	{
 		$view = $this->getObject()->addData( $this->getView() );
-		// dd($this->toArray( $view->item ));
+
 		$view->bundleData = $this->toArray( $view->item );
+		if (count($view->bundleData)) {
+			$view->stockQty = $view->bundleData[0]['stock.stocklevel'];
+		}
 		$view->bundleBody = parent::get();
 
 		return $this->render( $view );

@@ -43,7 +43,7 @@ class ShoppingController extends Controller
                             "standard2" => $row[4],
                             "delivery_slip_display" => $row[6] ?: 0,
                             "inventory_alert_qty" => $row[7] ?: 0,
-                            "type" => "bundle",
+                            "type" => "default",
                             "siteid" => "1.",
                             "dataset" => "",
                             "config" => "[]",
