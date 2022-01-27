@@ -574,7 +574,7 @@ $fields = $this->config( 'admin/jqadm/product/order/fields', $fields );
 								{{ item.attributes['order.base.languageid'] }}
 							</a>
 						</td>
-						<td v-if="fields.includes('order.base.currencyid')" class="order-base-currencyid">
+						<td v-if="fields.includes('order.base.currencyid')" class="order-base-currencyid d-none">
 							<a class="items-field"  v-bind:href="`<?= $enc->js( $this->url( $target, $cntl, $action, ['resource' => 'order', 'id' => '_id_'], [], $config ) ) ?>`.replace('_id_', item.id)">
 								{{ item.attributes['order.base.currencyid'] }}
 							</a>
