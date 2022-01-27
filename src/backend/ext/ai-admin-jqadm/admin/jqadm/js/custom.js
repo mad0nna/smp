@@ -48,7 +48,7 @@ $(document).ready(function () {
 
     $("#cboProdStatus").change(function() {
         if ($( this ).val() == 1 && (mediaItemsData === "[]" || priceItemsData === "[]" || textItemsData === "[]")) {
-            alert("Please make sure to upload an image, create text and price before enabling a product");
+            alert("商品を販売する前に、画像のアップロード、商品説明の入力、販売価格の設定を行ってください。");
             $( this ).val("0");
         }
     });
