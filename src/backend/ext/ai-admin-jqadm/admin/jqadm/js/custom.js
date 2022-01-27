@@ -19,28 +19,39 @@ $(document).ready(function () {
     const textItems = document.querySelector('#item-text-group');
     const priceItems = document.querySelector('#item-price-group');
     const mediaItems = document.querySelector('#item-media-group');
+    var textItemsData = "[]";
+    var priceItemsData = "[]";
+    var mediaItemsData  = "[]";
     
    
     if ( textItems !== undefined && textItems !== null ) {
-        var textItemsData = textItems.getAttribute('data-items');
+        textItemsData = textItems.getAttribute('data-items');
         if (textItemsData === "[]") {
             $('#item-text-group .btn').click();
         }        
     }
 
     if ( priceItems !== undefined && priceItems !== null ) {
-        var priceItemsData = priceItems.getAttribute('data-items');
+        priceItemsData = priceItems.getAttribute('data-items');
         if (priceItemsData === "[]") {
             $('#item-price-group .btn').click();
         }
     }
 
     if ( mediaItems !== undefined && mediaItems !== null ) {
-        var mediaItemsData = mediaItems.getAttribute('data-items');
+        mediaItemsData = mediaItems.getAttribute('data-items');
         if (mediaItemsData !== "[]") {
             $('#item-media-group').find('.card-tools-more').addClass(" d-none");
         }
     }
+
+
+    $("#cboProdStatus").change(function() {
+        if ($( this ).val() == 1 && (mediaItemsData === "[]" || priceItemsData === "[]" || textItemsData === "[]")) {
+            alert("Please make sure to upload an image, create text and price before enabling a product");
+            $( this ).val("0");
+        }
+    });
 
 });
 

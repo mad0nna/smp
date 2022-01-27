@@ -324,7 +324,7 @@ $navlist2 = [
 							<div class="form-group row mandatory">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '状態' ) ) ?></label>
 								<div class="col-sm-8">
-									<select class="form-select item-status" required="required" tabindex="1"
+									<select id="cboProdStatus" class="form-select item-status" required="required" tabindex="1"
 										name="<?= $enc->attr( $this->formparam( array( 'item', 'product.status' ) ) ) ?>"
 										<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ?> >
 										<option value="">
@@ -346,7 +346,7 @@ $navlist2 = [
 								</div>
 							</div>
 							<?php if( ( $types = $this->get( 'itemTypes', map() )->col( 'product.type.label', 'product.type.code' ) )->count() !== 1 ) : ?>
-								<div class="form-group row mandatory">
+								<div class="form-group row mandatory d-none">
 									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'カテゴリー' ) ) ?></label>
 									<div class="col-sm-8">
 										<select is="select-component" class="form-select item-type" required v-bind:tabindex="'1'"
