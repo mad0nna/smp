@@ -222,11 +222,10 @@ $navlimit = $this->config( 'admin/jqadm/product/item/navbar-limit', 7 );
 $params = $this->get( 'pageParams', [] );
 $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 $navlist2 = [
-	0 => "",
-	1 => "商品画像",
-	2 => "商品説明",
-	3 => "商品価格",
-	4 => "注文履歴"
+	0 => "商品画像",
+	1 => "商品説明",
+	2 => "商品価格",
+	3 => "注文履歴"
 ];
 
 ?>
@@ -261,7 +260,7 @@ $navlist2 = [
 					</li>
 					<?php $i=0; ?>
 					<?php foreach( $navlist as $idx => $subpart ) : ?>
-						<li class="nav-item <?= $enc->attr( $subpart ) ?> <?= $i == 0 ? ' d-none' : '' ?>" >
+						<li class="nav-item <?= $enc->attr( $subpart ) ?>" >
 							<a class="nav-link" href="#<?= $enc->attr( $subpart ) ?>" data-bs-toggle="tab" role="tab" tabindex="<?= ++$idx + $navlimit + 1 ?>">
 								<?php echo $navlist2[$i]; $i++; ?>
 							</a>
@@ -440,7 +439,7 @@ $navlist2 = [
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '在庫' ) ) ?></label>
 								<div class="col-sm-8">
 									<input class="form-control item-label" type="text" tabindex="1" readonly
-										value="<?= $this->get('stockQty') ?? 0; ?>">
+										value="<?= $this->get('stocklevel') ?? 0; ?>">
 										 
 								</div>
 							</div>
