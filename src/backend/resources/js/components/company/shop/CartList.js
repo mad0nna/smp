@@ -704,14 +704,14 @@ const CartList = (props) => {
           </div>
         </div>
       </div>
-      {/* {state.addressModalDisplay ? ( */}
-      <CheckoutAddress
-        handleOnChange={handleAddressOnChange}
-        handleSubmit={handleCheckoutModalOpen}
-        handleCloseModal={handleCheckoutModalClose}
-        state={addressData}
-      />
-      {/* ) : null} */}
+      {state.addressModalDisplay ? (
+        <CheckoutAddress
+          handleOnChange={handleAddressOnChange}
+          handleSubmit={handleCheckoutModalOpen}
+          handleCloseModal={handleCheckoutModalClose}
+          state={addressData}
+        />
+      ) : null}
       {state.modalDisplay ? (
         <CheckoutOption
           handleCloseModal={handleCheckoutModalClose}
