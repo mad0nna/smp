@@ -8,9 +8,10 @@ import axios from 'axios'
 import _ from 'lodash'
 import CheckoutMessage from './CheckoutMessage'
 import CheckoutContent from './CheckoutContent'
+import CheckoutAddress from './CheckoutAddress'
 const CartList = (props) => {
   const SERVICE_TYPE = 'payment'
-  let userData = JSON.parse(document.getElementById('userData').textContent)
+  // let userData = JSON.parse(document.getElementById('userData').textContent)
   const [isAgreedTerms, setAgreedTerms] = useState(false)
   // const [cart, setCart] = useState({
   //   items: [],
@@ -29,9 +30,13 @@ const CartList = (props) => {
     modalDisplayMessage: false,
     orderInvoiceSuccess: false,
     modalCheckoutContentDisplay: false,
-    htmlContent: ''
+    htmlContent: '',
+    addressModalDisplay: false
     // modalDisplayCreditCard: false
   })
+
+  const [addressData, setAddressData] = useState({})
+  console.log('state', addressData)
 
   const history = useHistory()
 
@@ -68,6 +73,23 @@ const CartList = (props) => {
     setAgreedTerms(event.target.checked)
   }
 
+  const handleAddressOnChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+
+    setAddressData({ ...addressData, [name]: value })
+  }
+
+  const handleOpenAddressModal = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        // modalDisplay: !prevState.modalDisplay
+        addressModalDisplay: !prevState.addressModalDisplay
+      }
+    })
+  }
+
   const handleCheckoutModalOpen = () => {
     saveToBasket().then(() => {
       createDeliveryService().then(() => {
@@ -78,6 +100,8 @@ const CartList = (props) => {
     setState((prevState) => {
       return {
         ...prevState,
+        // modalDisplay: !prevState.modalDisplay
+        addressModalDisplay: !prevState.addressModalDisplay,
         modalDisplay: !prevState.modalDisplay
       }
     })
@@ -189,12 +213,16 @@ const CartList = (props) => {
         {
           id: serviceId, // or 'delivery'
           attributes: {
-            'order.base.address.company': userData.companyName, // (optional)
-            'order.base.address.firstname': userData.firstName, // (optional)
-            'order.base.address.lastname': userData.lastName, // (required)
-            'order.base.address.address1': 'Test street', // (required)
-            'order.base.address.city': 'Test city', // (required)
-            'order.base.address.email': userData.email // (required)
+            'order.base.address.company': addressData.companyName, // (optional)
+            'order.base.address.firstname': addressData.first_name, // (optional)
+            'order.base.address.lastname': addressData.last_name, // (required)
+            'order.base.address.address1': addressData.street_address, // (required)
+            'order.base.address.address2': addressData.building_name, // (required)
+            'order.base.address.city': addressData.city, // (required)
+            'order.base.address.postal': addressData.postal_code, // (required)
+            'order.base.address.state': addressData.prefecture, // (required)
+            'order.base.address.telephone': addressData.number, // (required)
+            'order.base.address.email': addressData.email // (required)
           }
         }
       ]
@@ -660,7 +688,7 @@ const CartList = (props) => {
                 className={`bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
                   !isAgreedTerms ? 'bg-opacity-50 cursor-not-allowed' : ''
                 }`}
-                onClick={handleCheckoutModalOpen}
+                onClick={handleOpenAddressModal}
               >
                 お会計
               </button>
@@ -676,6 +704,14 @@ const CartList = (props) => {
           </div>
         </div>
       </div>
+      {/* {state.addressModalDisplay ? ( */}
+      <CheckoutAddress
+        handleOnChange={handleAddressOnChange}
+        handleSubmit={handleCheckoutModalOpen}
+        handleCloseModal={handleCheckoutModalClose}
+        state={addressData}
+      />
+      {/* ) : null} */}
       {state.modalDisplay ? (
         <CheckoutOption
           handleCloseModal={handleCheckoutModalClose}
