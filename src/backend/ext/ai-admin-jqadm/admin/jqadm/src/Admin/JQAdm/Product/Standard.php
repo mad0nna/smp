@@ -170,9 +170,17 @@ class Standard
 			}
 
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
+			$view->stocklevel = 0;
+			$search = $manager->filter();
+			$search->add( 'product.id', '==', $id );
+			$items = $manager->search( $search, ['stock'] );
 
-			$view->item = $manager->get( $id, $this->getDomains() );
-			$view->itemData = $this->toArray( $view->item ); //dd($view->item);
+			foreach( $items as $item ) {
+				$view->stocklevel = $item->getStockItems()->getStockLevel()->first();
+			}
+
+			$view->item = $manager->get( $id, $this->getDomains() );	
+			$view->itemData = $this->toArray( $view->item );
 			$view->itemBody = parent::get();
 		}
 		catch( \Exception $e )

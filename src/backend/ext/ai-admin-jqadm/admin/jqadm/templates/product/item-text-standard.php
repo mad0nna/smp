@@ -284,7 +284,7 @@ $enc = $this->encoder();
 				</div>
 			</div>
 
-			<div slot="footer" class="card-tools-more">
+			<div slot="footer" class="card-tools-more d-none">
 				<div class="btn btn-primary btn-card-more act-add fa" tabindex="<?= $this->get( 'tabindex' ) ?>"
 					title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)' ) ) ?>"
 					v-on:click="add()" >
