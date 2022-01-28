@@ -222,10 +222,13 @@ $navlimit = $this->config( 'admin/jqadm/product/item/navbar-limit', 7 );
 $params = $this->get( 'pageParams', [] );
 $navlist = array_values( $this->get( 'itemSubparts', [] ) );
 $navlist2 = [
-	0 => "商品画像",
-	1 => "商品説明",
-	2 => "商品価格",
-	3 => "注文履歴"
+	0 => "Bundle",
+	1 => "商品画像",
+	2 => "商品説明",
+	3 => "商品価格",
+	4 => "Stock",
+	5 => "Category",
+	6 => "注文履歴"	
 ];
 
 ?>
@@ -260,7 +263,7 @@ $navlist2 = [
 					</li>
 					<?php $i=0; ?>
 					<?php foreach( $navlist as $idx => $subpart ) : ?>
-						<li class="nav-item <?= $enc->attr( $subpart ) ?>" >
+						<li class="nav-item <?= $enc->attr( $subpart ) ?> <?= ($i == 0 || $i == 4 || $i == 5) ? ' d-none' : '' ?>" >
 							<a class="nav-link" href="#<?= $enc->attr( $subpart ) ?>" data-bs-toggle="tab" role="tab" tabindex="<?= ++$idx + $navlimit + 1 ?>">
 								<?php echo $navlist2[$i]; $i++; ?>
 							</a>
