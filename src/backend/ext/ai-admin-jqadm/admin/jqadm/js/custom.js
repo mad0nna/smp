@@ -53,6 +53,11 @@ $(document).ready(function () {
         }
     });
 
+    const txtStocksStockLevel = document.querySelector('#txtStocksStockLevel');
+    if ( txtStocksStockLevel !== undefined ) {
+        $("#txtStandardStockLevel").val(parseInt($("#lblStocksStockLevel").text()));
+    }
+
 });
 
 function setProductAllStatus() {
