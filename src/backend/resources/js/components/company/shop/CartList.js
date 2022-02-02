@@ -309,8 +309,6 @@ const CartList = (props) => {
         modalDisplayMessage: false
       }
     })
-
-    // window.location.href = '/company/shop'
   }
 
   const handleCheckoutContentModalClose = () => {
@@ -320,39 +318,6 @@ const CartList = (props) => {
         modalCheckoutContentDisplay: false
       }
     })
-  }
-
-  const confirmInvoiceEmailTemplate = (res) => {
-    // let confirm = res.data.data.links
-    // let processUrl = confirm.process.href
-    let csrfItem = res.data.meta.csrf
-
-    deleteBasketCache(csrfItem)
-
-    // console.log('@confirm', confirm)
-    // axios
-    //   .post(`${processUrl}&_token=${csrfItem.value}`, {
-    //     'Content-Type': 'application/json'
-    //   })
-    //   .then((processRes) => {
-    //     console.log('@processRes', processRes)
-
-    //     // jsut remove the basket
-    //     deleteBasketCache(csrfItem)
-
-    //     let htmlContent = processRes.data
-
-    //     console.log('@tmlt1', htmlContent)
-    //     console.log('@html2', JSON.stringify(htmlContent))
-
-    //     setState((prevState) => {
-    //       return {
-    //         ...prevState,
-    //         htmlContent: { __html: htmlContent },
-    //         modalCheckoutContentDisplay: true
-    //       }
-    //     })
-    //   })
   }
 
   /**
@@ -365,7 +330,6 @@ const CartList = (props) => {
         // credit card
         // paymentstatus : 4
         // DeliveryStatus:2
-
         const ccData = {
           data: {
             attributes: {
@@ -374,8 +338,11 @@ const CartList = (props) => {
           }
         }
 
-        generateFinalOrder(ccData).then(() => {
+        generateFinalOrder(ccData).then((res) => {
+          console.log('sucessfully created order')
+          deleteBasketCache(res.data.meta.csrf)
           // display modal submit
+          openZeusPaymentForm()
           setState((prevState) => {
             return {
               ...prevState,
@@ -399,9 +366,8 @@ const CartList = (props) => {
         }
 
         generateFinalOrder(invData).then((res) => {
-          // console.log('res', res)
-          // generate email to user
-          confirmInvoiceEmailTemplate(res)
+          console.log('sucessfully created order')
+          deleteBasketCache(res.data.meta.csrf)
           // display modal submit
           setState((prevState) => {
             return {
@@ -443,6 +409,10 @@ const CartList = (props) => {
       totalTax: totalTax,
       totalAmount: cartTotal + totalTax
     })
+  }
+
+  const openZeusPaymentForm = () => {
+    window.open('/payment/setMethodCreditCard/', '_blank').focus()
   }
 
   const cartItems = () => {
