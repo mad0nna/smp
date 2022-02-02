@@ -5,7 +5,9 @@ use App\Models\Company;
 use App\Models\Opportunity;
 use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Opportunity as ModelOpportunity;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class PaymentService {
@@ -72,5 +74,50 @@ class PaymentService {
         $dbRepository = new DatabaseRepository();
         return $dbRepository->getPaymentMethod($salesforceCompanyID);
     }
+
+    /**
+     * Directly update order status via Query Builder
+     * After pay through credit card
+     */
+    public function updateOrderStatus($params) 
+    {
+        $sendID = $params['sendId'];
+        $orderBaseId = explode('-',$sendID)[0];
+
+
+        DB::beginTransaction();
+        try {
+            DB::table('mshop_order_base_product')
+                ->where('baseid', $orderBaseId)
+                ->update([
+                    'statuspayment'=> 6,
+                    'status'=> 4,
+                    'ctime' => Carbon::now()
+                ]);
+
+            // update modified time
+            DB::table('mshop_order_base')
+                ->where('id', $orderBaseId)
+                ->update([
+                    'statuspayment'=> 6,
+                    'status'=> 4,
+                    'mtime' => Carbon::now()
+                ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+
+        DB::commit();
+
+        return response()->json([
+            'status' => true,
+        ]);
+
+    }
+
 }
 ?>

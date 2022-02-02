@@ -342,7 +342,9 @@ const CartList = (props) => {
           console.log('sucessfully created order')
           deleteBasketCache(res.data.meta.csrf)
           // display modal submit
-          openZeusPaymentForm()
+          let totalAmount = calculatedItem.totalAmount.toLocaleString('jp')
+          openZeusPaymentForm(orderId.orderId, totalAmount)
+
           setState((prevState) => {
             return {
               ...prevState,
@@ -411,8 +413,13 @@ const CartList = (props) => {
     })
   }
 
-  const openZeusPaymentForm = () => {
-    window.open('/payment/setMethodCreditCard/', '_blank').focus()
+  const openZeusPaymentForm = (orderId, amount) => {
+    window
+      .open(
+        `/payment/creditCardPayment/?orderId=${orderId}&amount=${amount}`,
+        '_blank'
+      )
+      .focus()
   }
 
   const cartItems = () => {

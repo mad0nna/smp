@@ -121,6 +121,7 @@ Route::group(['prefix' => 'sso'], function () {
 Route::group(['prefix' => 'payment'], function() {
     Route::get('status', 'PaymentController@getResult');
     Route::get('setMethodCreditCard', 'PaymentController@changeMethodToCard');
+    Route::get('creditCardPayment', 'PaymentController@creditCardPayment');
     Route::post('setMethodBankTransfer', 'PaymentController@changeMethodToBank');
     Route::post('getPaymentMethod', 'PaymentController@getPaymentMethodDetails');
 });
