@@ -448,9 +448,9 @@ $params = $this->get( 'pageParams', [] );
 										<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Company' ) ) ?></label>
 										<div class="col-sm-8">
 											<input class="form-control item-company" type="text" tabindex="1"
-												name="<?= $enc->attr( $this->formparam( array( 'item', 'customer.company' ) ) ) ?>"
+												name="<?= $enc->attr( $this->formparam( array( 'item', 'customer.company_name' ) ) ) ?>"
 												placeholder="<?= $enc->attr( $this->translate( 'admin', 'Company name (optional)' ) ) ?>"
-												value="<?= $enc->attr( $this->get( 'itemData/customer.company' ) ) ?>"
+												value="<?= $enc->attr( $this->get( 'itemData/customer.company_name' ) ) ?>"
 												<?= $this->site()->readonly( $this->get( 'itemData/customer.siteid' ) ) ?> />
 										</div>
 									</div>

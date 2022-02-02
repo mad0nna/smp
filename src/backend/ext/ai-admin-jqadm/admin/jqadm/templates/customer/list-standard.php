@@ -75,7 +75,7 @@ $columnList = [
 	'customer.code' => $this->translate( 'admin', 'Code' ),
 	'customer.label' => $this->translate( 'admin', 'Label' ),
 	'customer.salutation' => $this->translate( 'admin', 'Salutation' ),
-	'customer.company' => $this->translate( 'admin', 'Company' ),
+	'customer.company_name' => $this->translate( 'admin', 'Company' ),
 	'customer.vatid' => $this->translate( 'admin', 'VAT ID' ),
 	'customer.title' => $this->translate( 'admin', 'Title' ),
 	'customer.firstname' => $this->translate( 'admin', 'First name' ),
@@ -204,7 +204,7 @@ $columnList = [
 								'customer.salutation' => ['op' => '==', 'type' => 'select', 'val' => [
 									'' => 'none', 'company' => 'company', 'mr' => 'mr', 'ms' => 'ms'
 								]],
-								'customer.company' => [],
+								'customer.company_name' => [],
 								'customer.vatid' => [],
 								'customer.title' => [],
 								'customer.firstname' => [],
@@ -256,8 +256,8 @@ $columnList = [
 							<?php if( in_array( 'customer.salutation', $fields ) ) : ?>
 								<td class="customer-salutation"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getSalutation() ) ?></a></td>
 							<?php endif ?>
-							<?php if( in_array( 'customer.company', $fields ) ) : ?>
-								<td class="customer-company"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getCompany() ) ?></a></td>
+							<?php if( in_array( 'customer.company_name', $fields ) ) : ?>
+								<td class="customer-company"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getCompanyName() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'customer.vatid', $fields ) ) : ?>
 								<td class="customer-vatid"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getVatID() ) ?></a></td>

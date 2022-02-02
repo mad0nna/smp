@@ -358,7 +358,7 @@ $statusList = [
 								<td class="order-base-address-salutation"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getSalutation() ) : '' ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.company_name', $fields ) ) : ?>
-								<td class="order-base-address-company text-start"> <?= $customer['customer.company'] ?? '' ?></td>
+								<td class="order-base-address-company text-start"> <?= $customer['company_name'] ?? '' ?></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.address.vatid', $fields ) ) : ?>
 								<td class="order-base-address-vatid text-start"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getVatID() ) : '' ?></a></td>
