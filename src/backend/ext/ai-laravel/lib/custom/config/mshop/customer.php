@@ -563,7 +563,7 @@ return array(
 			'insert' => array(
 				'ansi' => '
 					INSERT INTO "users" ( :names
-						"name", "email", "company", "vatid", "salutation", "title",
+						"name", "email", "company_name", "vatid", "salutation", "title",
 						"firstname", "lastname", "address1", "address2", "address3",
 						"postal", "city", "state", "countryid", "langid", "telephone",
 						"telefax", "website", "longitude", "latitude",
@@ -578,7 +578,7 @@ return array(
 				'ansi' => '
 					UPDATE "users"
 					SET :names
-						"name" = ?, "email" = ?, "company" = ?, "vatid" = ?,
+						"name" = ?, "email" = ?, "company_name" = ?, "vatid" = ?,
 						"salutation" = ?, "title" = ?, "firstname" = ?, "lastname" = ?,
 						"address1" = ?, "address2" = ?, "address3" = ?, "postal" = ?,
 						"city" = ?, "state" = ?, "countryid" = ?, "langid" = ?,
@@ -593,7 +593,7 @@ return array(
 					SELECT :columns
 						mcus."id" AS "customer.id", mcus."siteid" AS "customer.siteid",
 						mcus."name" AS "customer.label", mcus."email" AS "customer.code",
-						mcus."company" AS "customer.company", mcus."vatid" AS "customer.vatid",
+						mcus."company_name" AS "customer.company_name", mcus."vatid" AS "customer.vatid",
 						mcus."salutation" AS "customer.salutation", mcus."title" AS "customer.title",
 						mcus."firstname" AS "customer.firstname", mcus."lastname" AS "customer.lastname",
 						mcus."address1" AS "customer.address1", mcus."address2" AS "customer.address2",
@@ -611,7 +611,7 @@ return array(
 					:joins
 					WHERE :cond
 					GROUP BY :columns :group
-						mcus."id", mcus."siteid", mcus."name", mcus."email", mcus."company", mcus."vatid",
+						mcus."id", mcus."siteid", mcus."name", mcus."email", mcus."company_name", mcus."vatid",
 						mcus."salutation", mcus."title", mcus."firstname", mcus."lastname", mcus."address1",
 						mcus."address2", mcus."address3", mcus."postal", mcus."city", mcus."state", mcus."countryid",
 						mcus."langid", mcus."telephone",mcus."telefax", mcus."email", mcus."website",
@@ -624,7 +624,7 @@ return array(
 					SELECT :columns
 						mcus."id" AS "customer.id", mcus."siteid" AS "customer.siteid",
 						mcus."name" AS "customer.label", mcus."email" AS "customer.code",
-						mcus."company" AS "customer.company", mcus."vatid" AS "customer.vatid",
+						mcus."company_name" AS "customer.company_name", mcus."vatid" AS "customer.vatid",
 						mcus."salutation" AS "customer.salutation", mcus."title" AS "customer.title",
 						mcus."firstname" AS "customer.firstname", mcus."lastname" AS "customer.lastname",
 						mcus."address1" AS "customer.address1", mcus."address2" AS "customer.address2",

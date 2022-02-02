@@ -58,10 +58,10 @@ class Laravel
 			'type' => 'string',
 			'internaltype' => \Aimeos\MW\DB\Statement\Base::PARAM_STR,
 		),
-		'customer.company' => array(
+		'customer.company_name' => array(
 			'label' => 'Customer company',
-			'code' => 'customer.company',
-			'internalcode' => 'mcus."company"',
+			'code' => 'customer.company_name',
+			'internalcode' => 'mcus."company_name"',
 			'type' => 'string',
 			'internaltype' => \Aimeos\MW\DB\Statement\Base::PARAM_STR,
 		),
@@ -530,7 +530,7 @@ class Laravel
 
 			$stmt->bind( $idx++, $item->getLabel() );
 			$stmt->bind( $idx++, $item->getCode() );
-			$stmt->bind( $idx++, $billingAddress->getCompany() );
+			$stmt->bind( $idx++, $billingAddress->getCompanyName() );
 			$stmt->bind( $idx++, $billingAddress->getVatID() );
 			$stmt->bind( $idx++, $billingAddress->getSalutation() );
 			$stmt->bind( $idx++, $billingAddress->getTitle() );

@@ -166,9 +166,10 @@ class Standard
 			}
 
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
-			$refs = ['order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service'];
+			$refs = ['order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service', 'customer'];
 
 			$view->item = $manager->get( $id, $refs );
+			$view->customer = $view->item->getCustomerItem()->toArray();
 			$view->itemData = $this->toArray( $view->item );
 			$view->itemBody = parent::get();
 		}
