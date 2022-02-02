@@ -596,13 +596,19 @@ const CartList = () => {
           }
         }
 
-        generateFinalOrder(ccData)
-          .then((res) => {
-            console.info('successfully created order')
-            deleteBasketCache(res.data.meta.csrf)
-            // display modal submit
-            let totalAmount = calculatedItem.totalAmount.toLocaleString('jp')
-            openZeusPaymentForm(orderId.orderId, totalAmount)
+        generateFinalOrder(ccData).then((res) => {
+          console.log('sucessfully created order')
+          deleteBasketCache(res.data.meta.csrf)
+          // display modal submit
+          let totalAmount = calculatedItem.totalAmount.toLocaleString('jp')
+          openZeusPaymentForm(orderId.orderId, totalAmount)
+
+          setState((prevState) => {
+            return {
+              ...prevState,
+              orderInvoiceSuccess: true
+            }
+          })
 
             setState((prevState) => {
               return {
