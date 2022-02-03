@@ -742,15 +742,15 @@ $paymentStatusList2 = [
 									<div class="col-xl-9">
 										<div class="col-xl-5 form-group row">
 											<div class="col-6 form-control-label">顧客企業名 :</div>
-											<div class="col-6 value"><?= $this->get( 'itemData/customer.company' ) ?></div>
+											<div class="col-6 value"><?= $this->get( 'customer/company_name' ) ?></div>
 										</div>
 										<div class="col-xl-5 form-group row">
 											<div class="col-6 form-control-label">顧客名 :</div>
-											<div class="col-6 value"><?= $this->get( 'itemData/customer.lastname' ).' '.$this->get( 'itemData/customer.firstname' ) ?></div>
+											<div class="col-6 value"><?= $this->get( 'customer/customer.lastname' ).' '.$this->get( 'customer/customer.firstname' ) ?></div>
 										</div>
 										<div class="col-xl-5 form-group row">
 											<div class="col-6 form-control-label">メールアドレス :</div>
-											<div class="col-6 value"><?= $this->get( 'itemData/customer.email' ) ?></div>
+											<div class="col-6 value"><?= $this->get( 'customer/customer.email' ) ?></div>
 										</div>
 									</div>
 									

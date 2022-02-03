@@ -21,7 +21,8 @@ return array(
 			$table->addColumn( 'name', 'string', array( 'length' => 255 ) );
 			$table->addColumn( 'remember_token', 'string', array( 'length' => 100, 'notnull' => false ) );
 			$table->addColumn( 'salutation', 'string', array( 'length' => 8, 'default' => '' ) );
-			$table->addColumn( 'company', 'string', array( 'length' => 100, 'default' => '' ) );
+			// $table->addColumn( 'company', 'string', array( 'length' => 100, 'default' => '' ) );
+			$table->addColumn( 'company_name', 'string', array( 'length' => 100, 'default' => '' ) );
 			$table->addColumn( 'vatid', 'string', array( 'length' => 32, 'default' => '' ) );
 			$table->addColumn( 'title', 'string', array( 'length' => 64, 'default' => '' ) );
 			$table->addColumn( 'firstname', 'string', array( 'length' => 64, 'default' => '' ) );
