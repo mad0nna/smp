@@ -99,8 +99,6 @@ class PaymentService {
             DB::table('mshop_order_base')
                 ->where('id', $orderBaseId)
                 ->update([
-                    'statuspayment'=> 6,
-                    'status'=> 4,
                     'mtime' => Carbon::now()
                 ]);
 
