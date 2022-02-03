@@ -17,7 +17,7 @@ class PaymentController extends Controller
         $cgiResult = $request->all();
         if ($cgiResult['result'] != $this->failed) {
 
-            if ($cgiResult['sendId'] == 'changePaymentMethodTEST') {
+            if ($cgiResult['sendid'] == 'changePaymentMethodTEST') {
                     $paymentService->setCreditCardMethod($request->all());
             } else {
                 // order payment update here

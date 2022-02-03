@@ -81,7 +81,7 @@ class PaymentService {
      */
     public function updateOrderStatus($params) 
     {
-        $sendID = $params['sendId'];
+        $sendID = $params['sendid'];
         $orderBaseId = explode('-',$sendID)[1];
 
 
