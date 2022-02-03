@@ -82,11 +82,12 @@ class PaymentService {
     public function updateOrderStatus($params) 
     {
         $sendID = $params['sendId'];
-        $orderBaseId = explode('-',$sendID)[0];
+        $orderBaseId = explode('-',$sendID)[1];
 
 
         DB::beginTransaction();
         try {
+            // update order product
             DB::table('mshop_order_base_product')
                 ->where('baseid', $orderBaseId)
                 ->update([
@@ -99,6 +100,16 @@ class PaymentService {
             DB::table('mshop_order_base')
                 ->where('id', $orderBaseId)
                 ->update([
+                    'mtime' => Carbon::now()
+                ]);
+
+            // update order
+            DB::table('mshop_order')
+                ->where('baseid', $orderBaseId)
+                ->update([
+                    'statuspayment'=> 6,
+                    'statusdelivery'=> 4,
+                    'datepayment'=> Carbon::now(),
                     'mtime' => Carbon::now()
                 ]);
 
