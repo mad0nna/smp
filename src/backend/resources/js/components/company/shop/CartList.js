@@ -66,15 +66,15 @@ const CartList = (props) => {
     setAddressData({ ...addressData, [name]: value })
   }
 
-  // const handleOpenAddressModal = () => {
-  //   setState((prevState) => {
-  //     return {
-  //       ...prevState,
-  //       // modalDisplay: !prevState.modalDisplay
-  //       addressModalDisplay: !prevState.addressModalDisplay
-  //     }
-  //   })
-  // }
+  const handleOpenAddressModal = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        // modalDisplay: !prevState.modalDisplay
+        addressModalDisplay: !prevState.addressModalDisplay
+      }
+    })
+  }
 
   const handleCheckoutModalOpen = () => {
     saveToBasket().then(() => {
@@ -308,6 +308,15 @@ const CartList = (props) => {
             })
           })
       })
+  }
+
+  const handleCheckoutModalAddressClose = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        addressModalDisplay: false
+      }
+    })
   }
 
   const handleCheckoutModalClose = () => {
@@ -633,7 +642,7 @@ const CartList = (props) => {
                 className={`bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
                   !isAgreedTerms ? 'bg-opacity-50 cursor-not-allowed' : ''
                 }`}
-                onClick={isAgreedTerms ? handleCheckoutModalOpen : null}
+                onClick={isAgreedTerms ? handleOpenAddressModal : null}
               >
                 お会計
               </button>
@@ -653,7 +662,7 @@ const CartList = (props) => {
         <CheckoutAddress
           handleOnChange={handleAddressOnChange}
           handleSubmit={handleCheckoutModalOpen}
-          handleCloseModal={handleCheckoutModalClose}
+          handleCloseModal={handleCheckoutModalAddressClose}
           state={addressData}
         />
       ) : null}
