@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'customer' => [
+        'manager' => [
+            'decorators' => [
+                'local' => ['Myproject']
+            ]
+        ]
+    ],
     'product' => [
         'manager' => [
             'decorators' => [
@@ -13,7 +20,9 @@ return [
             'decorators' => [
                 'local' => ['Myproject']
             ]
-        ]
+        ],
+        'taxflag' => 0
+
     ],
 
 ];

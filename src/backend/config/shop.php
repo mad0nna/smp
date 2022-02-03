@@ -67,7 +67,7 @@ return [
 		'html' => [
 			'basket' => [
 				'cache' => [
-					// 'enable' => false, // Disable basket content caching for development
+					'enable' => false, // Disable basket content caching for development
 				],
 			],
 			'common' => [
@@ -75,8 +75,12 @@ return [
 					// for styling for e-mail templates
 					// 'baseurl' => public_path( 'vendor/shop/themes/default' ),
 				],
-			],
+			]
 		],
+		'email' => [
+			'from-email' => 'demo@aimeos.org',
+			'from-name' => 'Demo shop',
+		]
 	],
 
 	'controller' => [

@@ -15,6 +15,10 @@ p.upload-csv input {
   cursor: pointer;
 }
 
+.form-control-label {
+  justify-content:left;
+}
+
 .bg-dashboard-icon {
   background-image: url('/images/dashboard-normal.png');
 }
@@ -229,6 +233,7 @@ p.upload-csv input {
 
 .aimeos .order-base-price {
   text-align: right !important;
+  padding-right: 0.3em !important;
 }
 
 .aimeos .order-company_name {

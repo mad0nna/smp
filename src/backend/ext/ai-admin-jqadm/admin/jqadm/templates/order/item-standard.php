@@ -84,9 +84,9 @@ $deliveryStatusList = [
 ];
 
 $deliveryStatusList2 = [
-	'1' => '配達キャンセル',
-	'4' => '輸送中',
-	'6' => '製品の配送',
+	'1' => '配達キャンセル', //Cancelled
+	'4' => '配達中', // For Delivery
+	'6' => '配達済み', // Delivered
 ];
 
 $paymentStatusList = [
@@ -101,21 +101,25 @@ $paymentStatusList = [
 ];
 
 $paymentStatusList2 = [
-	'4' => '未払い',
-	'6' => '⽀払い済み',
+	'4' => '未払い', //unpaid
+	'6' => '⽀払い済み', //paid
 ];
 
 
 ?>
 <?php $this->block()->start( 'jqadm_content' ) ?>
+<?= $this->partial( $this->config( 'admin/jqadm/partial/dialog-send-or-email', 'common/partials/dialog-send-or-email-standard' ) ) ?>
 
 <?php if( isset( $this->item ) ) : ?>
 	<?php $basket = $this->item; $currency = $this->translate( 'currency', $basket->getPrice()->getCurrencyId() ) ?>
-
-	<form class="item item-order form-horizontal container-fluid" method="POST" enctype="multipart/form-data" action="<?= $enc->attr( $this->url( $target, $cntl, $action, $params, [], $config ) ) ?>">
+  
+	<form class="item item-order item-order-form form-horizontal container-fluid" method="POST" enctype="multipart/form-data" action="<?= $enc->attr( $this->url( $target, $cntl, $action, $params, [], $config ) ) ?>">
 		<input id="item-baseid" type="hidden" name="<?= $enc->attr( $this->formparam( array( 'item', 'order.base.id' ) ) ) ?>" value="<?= $enc->attr( $basket->getId() ) ?>" />
 		<input id="item-next" type="hidden" name="<?= $enc->attr( $this->formparam( array( 'next' ) ) ) ?>" value="get" />
 		<?= $this->csrf()->formfield() ?>
+
+		<dialog-send-or-email v-bind:show="btnShowDialogOR" v-on:close="btnShowDialogOR = false">
+		</dialog-send-or-email>
 
 		<div class="p2">&nbsp;</div><div class="p2"></div>
 		<nav class="main-navbar d-none">
@@ -149,7 +153,7 @@ $paymentStatusList2 = [
 		</nav>
 
 		<div class="row item-container">
-
+	
 			<div class="col-xl-3 item-navbar d-none">
 				<div class="navbar-content">
 					<ul class="nav nav-tabs flex-xl-column flex-wrap d-flex box" role="tablist">
@@ -738,15 +742,15 @@ $paymentStatusList2 = [
 									<div class="col-xl-9">
 										<div class="col-xl-5 form-group row">
 											<div class="col-6 form-control-label">顧客企業名 :</div>
-											<div class="col-6 value"><?= $this->get( 'itemData/customer.company' ) ?></div>
+											<div class="col-6 value"><?= $this->get( 'customer/company_name' ) ?></div>
 										</div>
 										<div class="col-xl-5 form-group row">
 											<div class="col-6 form-control-label">顧客名 :</div>
-											<div class="col-6 value"><?= $this->get( 'itemData/customer.lastname' ).' '.$this->get( 'itemData/customer.firstname' ) ?></div>
+											<div class="col-6 value"><?= $this->get( 'customer/customer.lastname' ).' '.$this->get( 'customer/customer.firstname' ) ?></div>
 										</div>
 										<div class="col-xl-5 form-group row">
 											<div class="col-6 form-control-label">メールアドレス :</div>
-											<div class="col-6 value"><?= $this->get( 'itemData/customer.email' ) ?></div>
+											<div class="col-6 value"><?= $this->get( 'customer/customer.email' ) ?></div>
 										</div>
 									</div>
 									
@@ -854,7 +858,7 @@ $paymentStatusList2 = [
 
 									<div class="col-xl-3" style="position:relative">
 										<div class="row justify-content-center">
-											<label class="col-6 form-control-label">キャンセルノート</label>
+											<label class="col-6 form-control-label">備考</label>
 											<div class="col-7 col-sm-12" style="padding-left: 1.5rem; padding-top: 0.5rem;">
 												<textarea class="form-control order-notes" rows="5" name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.notes' ) ) ) ?>" >
 													<?= $enc->attr( $this->get( 'itemData/product/' . $pos . '/order.base.product.notes' ) ) ?>
@@ -867,7 +871,7 @@ $paymentStatusList2 = [
 												href="<?= $enc->attr( $this->url( $listTarget, $listCntl, $listAction, $searchParams, [], $listConfig ) ) ?>">
 												キャンセル
 											</a> &nbsp;
-											<button type="submit" class="btn btn-primary act-save" title="保存">&nbsp;保存&nbsp;</button>
+											<button type="button" class="btn btn-primary act-save" title="保存" v-on:click="btnShowDialogOR = true">&nbsp;保存&nbsp;</button>
 										</p>
 									</div>
 								</div>

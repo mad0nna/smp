@@ -24,7 +24,7 @@
 			#logout-form {display: inline}
 		</style>
 	</head>
-	<body class="{{ $theme }}">
+	<body class="light">
 		<div class="app-menu shadow-lg navbar navbar-expand-lg bg-white mb-8" style="height:6rem; z-index:1200">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#"><img class="align-content-center h-auto" src="/images/KOT-menu-logo.png?3c627f756b89930856698fce8f8ea54d"></a>

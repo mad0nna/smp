@@ -85,7 +85,7 @@ $enc = $this->encoder();
 
 						<div class="col-xl-6">
 
-							<div class="form-group row mandatory">
+							<div class="form-group row mandatory d-none">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Status' ) ) ?></label>
 								<div class="col-sm-8">
 									<select class="form-select item-status" required="required" tabindex="<?= $this->get( 'tabindex' ) ?>"
@@ -110,7 +110,7 @@ $enc = $this->encoder();
 							</div>
 							<?php if( ( $mediaTypes = $this->get( 'mediaTypes', map() ) )->count() !== 1 ) : ?>
 								<div class="form-group row mandatory d-none">
-									<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Type' ) ) ?></label>
+									<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'ファイル名' ) ) ?></label>
 									<div class="col-sm-8">
 										<select is="select-component" required class="form-select item-type" tabindex="<?= $this->get( 'tabindex' ) ?>"
 											v-bind:items="<?= $enc->attr( $mediaTypes->col( 'media.type.label', 'media.type.code' )->toArray() ) ?>"
@@ -250,7 +250,7 @@ $enc = $this->encoder();
 				<div class="btn btn-primary btn-card-more act-add fa" tabindex="<?= $this->get( 'tabindex' ) ?>"
 					title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)' ) ) ?>"
 					v-on:click="$refs.add.click()" >
-					<input ref="add" class="d-none" type="file" multiple v-on:change="create($event)" />
+					<input ref="add" class="d-none" type="file" multiple v-on:change="create($event)" /> 画像をアップロード
 				</div>
 			</div>
 		</div>

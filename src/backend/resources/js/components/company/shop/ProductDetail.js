@@ -24,19 +24,18 @@ const ProductDetail = (props) => {
     price: 0,
     taxVal: 0,
     quantity: 0,
-    defaultStock: 0
+    defaultStock: 0,
+    meta: []
   })
-
+  // const [basktetDetails, setBasketDetails] = useState({})
   const parseProductData = (data) => {
-    const { media, price, product, text, stock } = data
+    console.log('@detail', data)
+    const { media, price, product, text, stock, meta } = data
     let prodDescription = text['text.content'].replace(/<[^>]+>/g, '')
-    let prodPrice = _.parseInt(
-      _.parseInt(price['price.value']) - _.parseInt(price['price.taxvalue'])
-    )
-
+    let prodPrice = _.parseInt(price['price.value'])
     let userData = JSON.parse(document.getElementById('userData').textContent)
     let taxValue = _.parseInt(_.parseInt(price['price.taxvalue']))
-
+    console.log('DETAILS', userData)
     setProductDetail({
       ...productDetail,
       id: product['product.id'],
@@ -47,7 +46,8 @@ const ProductDetail = (props) => {
       quantity: price['price.quantity'],
       title: product['product.label'],
       imgSrc: media['media.preview'],
-      defaultStock: stock['stock.stocklevel'] ?? 0
+      defaultStock: stock['stock.stocklevel'] ?? 0,
+      meta: meta
     })
 
     setState((prevState) => {
@@ -129,16 +129,14 @@ const ProductDetail = (props) => {
     // saveToBasket()
     //  set to state
     addItem(productDetail, state.orderNum)
-    history.replace('/company/cart')
+    history.push({ pathname: '/company/cart', state: productDetail })
   }
-
   // const saveToBasket = () => {
-  //   let productId = _.toInteger(productDetail.id)
   //   var data = {
   //     data: [
   //       {
   //         attributes: {
-  //           'product.id': productId,
+  //           'product.id': productDetail.id,
   //           quantity: state.orderNum, // optional
   //           stocktype: 'default' // warehouse code (optional)
   //         }
@@ -146,12 +144,30 @@ const ProductDetail = (props) => {
   //     ]
   //   }
 
+  //   let url = '/jsonapi/basket?id=default&related=product'
+  //   let csrfItem = productDetail.meta.csrf
+
+  //   if (csrfItem) {
+  //     // add CSRF token if available and therefore required
+  //     var csrf = {}
+  //     csrf[csrfItem.name] = csrfItem.value
+  //     url +=
+  //       (url.indexOf('?') === -1 ? '?' : '&') +
+  //       Object.keys(csrf)
+  //         .map((key) => key + '=' + csrf[key])
+  //         .join('&')
+  //   }
+
+  //   // console.log('@post', data)
+  //   // console.log('@meta', productDetail.meta, url)
+
   //   axios
-  //     .post(`/jsonapi/basket?id=${productId}&related=product`, data, {
+  //     .post(url, JSON.stringify(data), {
   //       'Content-Type': 'application/json'
   //     })
   //     .then((response) => {
-  //       console.log('@data', response)
+  //       // setBasketDetails(response.data)
+  //       history.push({ pathname: '/company/cart', state: response.data })
   //     })
   // }
 
@@ -234,7 +250,7 @@ const ProductDetail = (props) => {
             </svg>
             <input
               type="number"
-              className="w-14 shadow-lg rounded tex-red-500 border px-1"
+              className="w-14 shadow-lg rounded tex-red-500 border px-1 text-right"
               min="1"
               value={state.orderNum}
               onChange={(e) => {

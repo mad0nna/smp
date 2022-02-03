@@ -56,7 +56,7 @@ $enc = $this->encoder();
 								title="<?= $enc->attr( $this->translate( 'admin', 'Show/hide this entry' ) ) ?>" tabindex="<?= $this->get( 'tabindex' ) ?>">
 							</div>
 						</div>
-						<span class="item-label header-label" v-bind:class="{disabled: !active(idx)}">{{ label(idx) }}</span>
+						<span class="item-label header-label d-none" v-bind:class="{disabled: !active(idx)}">{{ label(idx) }}</span>
 						<div class="card-tools-end">
 							<div v-if="item['product.lists.siteid'] == siteid && !item['_nosort']"
 								class="btn btn-card-header act-move fa" tabindex="<?= $this->get( 'tabindex' ) ?>"
@@ -77,7 +77,7 @@ $enc = $this->encoder();
 							v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.id' ) ) ) ?>`.replace('idx', idx)" />
 
 						<div class="col-xl-12">
-							<div class="form-group row mandatory col-xl-5">
+							<div class="form-group row mandatory col-xl-5 d-none">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Status' ) ) ?></label>
 								<div class="col-sm-8">
 									<select class="form-select item-status" required="required" tabindex="<?= $this->get( 'tabindex' ) ?>"
@@ -103,21 +103,21 @@ $enc = $this->encoder();
 
 							<div class="form-group row optional col-xl-12">
 								<div class="form-group row col-xl-5">
-									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '单价' ) ) ?></label>
+									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '単価' ) ) ?></label>
 									<div class="col-sm-8">
 										<input class="form-control item-value" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>"
 											v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'unit_price' ) ) ) ?>`.replace('idx', idx)"
-											placeholder="<?= $enc->attr( $this->translate( 'admin', '单价' ) ) ?>"
+											placeholder="<?= $enc->attr( $this->translate( 'admin', '単価' ) ) ?>"
 											v-bind:readonly="item['price.siteid'] != siteid"
 											v-model="item['unit_price']" />
 									</div>
 								</div>
 								<div class="form-group row col-xl-5">
-									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '最小用量' ) ) ?></label>
+									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '最小販売数' ) ) ?></label>
 									<div class="col-sm-8">
 										<input class="form-control item-value" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>"
 											v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'min_qty' ) ) ) ?>`.replace('idx', idx)"
-											placeholder="<?= $enc->attr( $this->translate( 'admin', '最小用量' ) ) ?>"
+											placeholder="<?= $enc->attr( $this->translate( 'admin', '最小販売数' ) ) ?>"
 											v-bind:readonly="item['price.siteid'] != siteid"
 											v-model="item['min_qty']" />
 									</div>
@@ -125,11 +125,11 @@ $enc = $this->encoder();
 							</div>
 							
 							<div class="form-group row mandatory col-xl-5">
-								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Price' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '販売価格' ) ) ?></label>
 								<div class="col-sm-8">
-									<input class="form-control item-value" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>"
+									<input required="required" class="form-control item-value" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>"
 										v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.value' ) ) ) ?>`.replace('idx', idx)"
-										placeholder="<?= $enc->attr( $this->translate( 'admin', 'Actual price' ) ) ?>"
+										placeholder="<?= $enc->attr( $this->translate( 'admin', '販売価格' ) ) ?>"
 										v-bind:readonly="item['price.siteid'] != siteid"
 										v-model="item['price.value']" />
 								</div>
@@ -146,6 +146,7 @@ $enc = $this->encoder();
 										v-bind:readonly="item['price.siteid'] != siteid"
 										v-bind:taxrates="item['price.taxrates']"
 									></div>
+
 								</div>
 							</div>
 
@@ -323,7 +324,7 @@ $enc = $this->encoder();
 				</div>
 			</div>
 
-			<div slot="footer" class="card-tools-more">
+			<div slot="footer" class="card-tools-more d-none">
 				<div class="btn btn-primary btn-card-more act-add fa" tabindex="<?= $this->get( 'tabindex' ) ?>"
 					title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)' ) ) ?>"
 					v-on:click="add()" >

@@ -167,15 +167,28 @@ const ProductList = () => {
         const pageNumbers = []
         let data = response.data
         let groupItems = []
+        let prodPriceId = 0,
+          prodMediaId = 0,
+          prodTextId = 0,
+          prodStockId = 0
+
         _.forEach(data.data, (items) => {
           // getting id from relationship media
-          let prodMediaId = items.relationships.media.data[0]['id']
+          if (items.relationships.media !== undefined) {
+            prodMediaId = items.relationships.media.data[0]['id']
+          }
           // for long description
-          let prodTextId = items.relationships.text.data[0]['id']
+          if (items.relationships.text !== undefined) {
+            prodTextId = items.relationships.text.data[0]['id']
+          }
           //for price value
-          let prodPriceId = items.relationships.price.data[0]['id']
+          if (items.relationships.price !== undefined) {
+            prodPriceId = items.relationships.price.data[0]['id']
+          }
           // for stock
-          let prodStockId = items.relationships.stock.data[0]['id']
+          if (items.relationships.stock !== undefined) {
+            prodStockId = items.relationships.stock.data[0]['id'] ?? 0
+          }
 
           if (!_.isEmpty(items) || items !== undefined) {
             groupItems.push({
@@ -195,7 +208,8 @@ const ProductList = () => {
               stock:
                 _.filter(data.included, (inc) => {
                   return inc.type === 'stock' && inc['id'] == prodStockId
-                })[0].attributes ?? {}
+                })[0].attributes ?? {},
+              meta: data.meta
             })
           }
         })
@@ -251,18 +265,17 @@ const ProductList = () => {
           ''
         )
 
-        let prodPrice = (
-          _.parseInt(product.price['price.value']) -
-          _.parseInt(product.price['price.taxvalue'])
-        ).toLocaleString('jp')
+        let prodPrice = _.parseInt(product.price['price.value']).toLocaleString(
+          'jp'
+        )
 
         return state.loaded ? (
           <div className="grid grid-flow-row mx-2" key={index}>
             {loadedImage ? (
               <div></div>
             ) : (
-              <div className="bg-gray-100 h-full">
-                <div className="lg:w-full 2xl:h-100"></div>
+              <div className="bg-gray-100 h-48">
+                <div className="lg:w-full"></div>
               </div>
             )}
             <img
