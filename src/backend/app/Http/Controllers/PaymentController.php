@@ -16,7 +16,13 @@ class PaymentController extends Controller
         Log::info('payment test', $request->all());
         $cgiResult = $request->all();
         if ($cgiResult['result'] != $this->failed) {
-            $paymentService->setCreditCardMethod($request->all());
+
+            if ($cgiResult['sendId'] == 'changePaymentMethodTEST') {
+                    $paymentService->setCreditCardMethod($request->all());
+            } else {
+                // order payment update here
+                $paymentService->updateOrderStatus($request->all());
+            }
         }
     }
 
@@ -30,6 +36,21 @@ class PaymentController extends Controller
             'amount' => 0,
             'clientIP' => 2019001618,
             'sendID' => 'changePaymentMethodTEST',
+            'redirectTo' => '/company/dashboard'
+        ]);
+    }
+
+
+    public function creditCardPayment(Request $request) {
+        Cache::forget(Session::get('salesforceCompanyID').":company:details");
+        return view('zeusPayment', 
+        [
+            'salesforceCompanyID' => Session::get('salesforceCompanyID'),
+            'contactNumber'=> Auth::user()->contact_num,
+            'email' => Auth::user()->email,
+            'amount' => $request->amount,
+            'clientIP' => 2019001618,
+            'sendID' => 'creditCardPayment-'.$request->orderId,
             'redirectTo' => '/company/dashboard'
         ]);
     }

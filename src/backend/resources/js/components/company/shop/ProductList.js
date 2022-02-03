@@ -125,31 +125,8 @@ const ProductList = () => {
   const setCurrentPage = (n) => {
     setPagingConditions({ ...pagingConditions, ...{ page: n } })
   }
-  // const fetchBasket = () => {
-  //   axios({
-  //     url: '/jsonapi',
-  //     method: 'OPTIONS',
-  //     responseType: 'json'
-  //   }).then((response) => {
-  //     console.log('@response options', response)
-  //     let basketUrl = response.data.meta.resources['basket']
 
-  //     //
-  //     axios({
-  //       method: 'GET',
-  //       url: basketUrl,
-  //       responseType: 'json'
-  //     }).then((res) => {
-  //       console.log('@res', res)
-  //     })
-  //   })
-  // }
   useEffect(() => {
-    /**
-     * Testing fetch basket
-     */
-    // fetchBasket()
-
     let offset = (pagingConditions.page - 1) * pagingConditions.limit
     setLoadedImage(false)
     let searchParam =
@@ -167,48 +144,76 @@ const ProductList = () => {
         const pageNumbers = []
         let data = response.data
         let groupItems = []
-        let prodPriceId = 0,
-          prodMediaId = 0,
-          prodTextId = 0,
-          prodStockId = 0
+        let prodPriceId, prodMediaId, prodTextId, prodStockId
 
         _.forEach(data.data, (items) => {
           // getting id from relationship media
           if (items.relationships.media !== undefined) {
-            prodMediaId = items.relationships.media.data[0]['id']
+            prodMediaId = items.relationships.media.data[0]['id'] ?? null
           }
           // for long description
           if (items.relationships.text !== undefined) {
-            prodTextId = items.relationships.text.data[0]['id']
+            prodTextId = items.relationships.text.data[0]['id'] ?? null
           }
           //for price value
           if (items.relationships.price !== undefined) {
-            prodPriceId = items.relationships.price.data[0]['id']
+            prodPriceId = items.relationships.price.data[0]['id'] ?? null
           }
           // for stock
           if (items.relationships.stock !== undefined) {
-            prodStockId = items.relationships.stock.data[0]['id'] ?? 0
+            prodStockId = items.relationships.stock.data[0]['id'] ?? null
           }
 
           if (!_.isEmpty(items) || items !== undefined) {
+            let mediaObj = _.filter(data.included, (inc) => {
+              return (
+                prodMediaId !== 0 &&
+                inc.type === 'media' &&
+                inc['id'] == prodMediaId
+              )
+            })
+
+            let textObj = _.filter(data.included, (inc) => {
+              return (
+                prodTextId !== null &&
+                inc.type === 'text' &&
+                inc['id'] == prodTextId
+              )
+            })
+
+            let priceObj = _.filter(data.included, (inc) => {
+              return (
+                prodPriceId !== null &&
+                inc.type === 'price' &&
+                inc['id'] === prodPriceId
+              )
+            })
+            let stockObj = _.filter(data.included, (inc) => {
+              return (
+                prodStockId != null &&
+                inc.type === 'stock' &&
+                inc['id'] == prodStockId
+              )
+            })
+
             groupItems.push({
               product: items.attributes,
               media:
-                _.filter(data.included, (inc) => {
-                  return inc.type === 'media' && inc['id'] === prodMediaId
-                })[0].attributes ?? {},
+                mediaObj !== undefined && mediaObj[0] !== undefined
+                  ? mediaObj[0].attributes
+                  : [],
               text:
-                _.filter(data.included, (inc) => {
-                  return inc.type == 'text' && inc['id'] == prodTextId
-                })[0].attributes ?? {},
+                textObj !== undefined && textObj[0] !== undefined
+                  ? textObj[0].attributes
+                  : [],
               price:
-                _.filter(data.included, (inc) => {
-                  return inc.type === 'price' && inc['id'] === prodPriceId
-                })[0].attributes ?? {},
+                priceObj !== undefined && priceObj[0] !== undefined
+                  ? priceObj[0].attributes
+                  : [],
               stock:
-                _.filter(data.included, (inc) => {
-                  return inc.type === 'stock' && inc['id'] == prodStockId
-                })[0].attributes ?? {},
+                stockObj !== undefined && stockObj[0] !== undefined
+                  ? stockObj[0].attributes
+                  : [],
               meta: data.meta
             })
           }
@@ -260,14 +265,16 @@ const ProductList = () => {
   const productItem = (products) => {
     if (!_.isEmpty(products)) {
       return products.map((product, index) => {
-        let prodDescription = product.text['text.content'].replace(
-          /<[^>]+>/g,
-          ''
-        )
+        let prodDescription, prodPrice
 
-        let prodPrice = _.parseInt(product.price['price.value']).toLocaleString(
-          'jp'
-        )
+        if (!_.isEmpty(product.text)) {
+          prodDescription = product.text['text.content'].replace(/<[^>]+>/g, '')
+        }
+        if (!_.isEmpty(product.price)) {
+          prodPrice = _.parseInt(product.price['price.value']).toLocaleString(
+            'jp'
+          )
+        }
 
         return state.loaded ? (
           <div className="grid grid-flow-row mx-2" key={index}>
@@ -291,7 +298,7 @@ const ProductList = () => {
                 {product.product['product.label'] ?? ''}
               </div>
               <div className="text-red-500 font-bold text-right">
-                {`¥ ${prodPrice}`}
+                {`¥ ${prodPrice ?? '0'}`}
               </div>
               <div className="text-gray-500 font-bold">商品說明</div>
               <p className="text-gray-400 text-left h-26 text-sm">
