@@ -22,7 +22,7 @@ return [
 	'customer' => [
 		'customer/test@example.com' => [
 			'customer.label' => 'unitCustomer001', 'customer.code' => 'test@example.com', 'customer.status' => 1,
-			'customer.company' => 'Example company', 'customer.vatid' => 'DE999999999', 'customer.salutation' => 'mr',
+			'customer.company_name' => 'Example company', 'customer.vatid' => 'DE999999999', 'customer.salutation' => 'mr',
 			'customer.title' => 'Dr', 'customer.firstname' => 'Our', 'customer.lastname' => 'Unittest',
 			'customer.address1' => 'Pickhuben', 'customer.address2' => '2-4', 'customer.address3' => '',
 			'customer.postal' => '20457', 'customer.city' => 'Hamburg', 'customer.state' => 'Hamburg',

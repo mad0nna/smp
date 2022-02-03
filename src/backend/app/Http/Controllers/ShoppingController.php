@@ -26,15 +26,16 @@ class ShoppingController extends Controller
             ]);
             
             $file = $request->file("file");
-            $csvData = file_get_contents($file);
-
+            $_csvData = file_get_contents($file);
+            $csvData = iconv('SHIFT_JIS', 'UTF-8', $_csvData);
             $rows = array_map("str_getcsv", explode("\n", $csvData));
+
             $header = array_shift($rows);
             $i = 0;
 
             foreach ($rows as $row) {
-                if (isset($row[0])) {
-                    if ($row[0] != "") {                        
+                if (isset($row[0]) && isset($row[8])) {
+                    if ($row[0] != "" && $row[8] === "0") {
                         $inv = array(
                             "code" => $row[0],
                             "label" => $row[1],
@@ -57,6 +58,7 @@ class ShoppingController extends Controller
                             "editor" => Auth::user()->id,
                             "target" => "",
                         );
+
                         $checkProduct = Product::where("code", "=", $row[0])->first();
                         
 

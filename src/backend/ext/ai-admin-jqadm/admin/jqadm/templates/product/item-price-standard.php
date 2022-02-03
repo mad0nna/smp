@@ -77,7 +77,7 @@ $enc = $this->encoder();
 							v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.id' ) ) ) ?>`.replace('idx', idx)" />
 
 						<div class="col-xl-12">
-							<div class="form-group row mandatory col-xl-5">
+							<div class="form-group row mandatory col-xl-5 d-none">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Status' ) ) ?></label>
 								<div class="col-sm-8">
 									<select class="form-select item-status" required="required" tabindex="<?= $this->get( 'tabindex' ) ?>"
@@ -127,7 +127,7 @@ $enc = $this->encoder();
 							<div class="form-group row mandatory col-xl-5">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '販売価格' ) ) ?></label>
 								<div class="col-sm-8">
-									<input class="form-control item-value" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>"
+									<input required="required" class="form-control item-value" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>"
 										v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.value' ) ) ) ?>`.replace('idx', idx)"
 										placeholder="<?= $enc->attr( $this->translate( 'admin', '販売価格' ) ) ?>"
 										v-bind:readonly="item['price.siteid'] != siteid"

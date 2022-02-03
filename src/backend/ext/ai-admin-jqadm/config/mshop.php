@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'customer' => [
+        'manager' => [
+            'decorators' => [
+                'local' => ['Myproject']
+            ]
+        ]
+    ],
     'product' => [
         'manager' => [
             'decorators' => [

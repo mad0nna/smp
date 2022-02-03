@@ -143,6 +143,7 @@ class UserController extends Controller
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
             $company = Auth::user()->company_id;
+
             if ($sf['isPartial']) {
                 $formData = [
                     'username' => $sf['email'] ? $sf['email'] : '',
@@ -155,6 +156,7 @@ class UserController extends Controller
                     'password' => $pw_hash,
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
+                    'name' => ($sf['lastname'] ? $sf['lastname'] : '') . ' ' . ($sf['firstname'] ? $sf['firstname'] : ''),
                 ];
             } else {
                 $formData = [
@@ -171,6 +173,7 @@ class UserController extends Controller
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
                     'account_code' => $sf['account_code'] ? $sf['account_code'] : '',
+                    'name' => ($sf['last_name'] ? $sf['last_name'] : '') . ' ' . ($sf['first_name'] ? $sf['first_name'] : ''),
                 ];
             }
 
