@@ -50,8 +50,8 @@ $enc = $this->encoder();
       table.full-width-mobile { width: 100% !important; }
       td.full-width-mobile { width: auto !important; }
     }</style><style type="text/css"><?= $this->get( 'htmlCss' ) ?></style></head><body><div class="aimeos"><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->  <div style="  width: 700px;
-  height: auto;
-  margin: 40px auto;
+	Margin:0px auto;
+	max-width:600px;
   background: #fff;
   padding: 30px;"> 
   <table style="
@@ -98,18 +98,14 @@ $enc = $this->encoder();
          <th style="border: solid 1px #000000;">金額(税抜)​</th>
        </thead>
       <tbody>
+	  <?php foreach( $this->summaryBasket->getProducts() as $product ) : $totalQty += $product->getQuantity() ?>
         <tr>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px">1</td>
-          <td style="border: solid 1px #000000; padding: 10px">King of Time </br> 2021/02/02</td>
-          <td style="border: solid 1px #000000; text-align:right; padding: 10px">160</td>
+          <td style="border: solid 1px #000000; padding: 10px"><?= $enc->html( $product->getName(), $enc::TRUST ) ?> </br> 2021/02/02</td>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?= $enc->html( $attribute->getQuantity() ) ?></td>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px">518</td>
         </tr>
-        <tr>
-          <td style="border: solid 1px #000000; text-align:right; padding: 10px">2</td>
-          <td style="border: solid 1px #000000; padding: 10px">King of Time </br> 2021/02/02</td>
-          <td style="border: solid 1px #000000; text-align:right; padding: 10px">160</td>
-          <td style="border: solid 1px #000000; text-align:right; padding: 10px">518</td>
-        </tr>
+		<?php endforeach ?>
       </tbody>
     </table>
     <div style="height: 50px"></div>
