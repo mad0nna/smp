@@ -54,6 +54,23 @@ const CartList = (props) => {
     setAgreedTerms(event.target.checked)
   }
 
+  const handleAddressOnChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+
+    setAddressData({ ...addressData, [name]: value })
+  }
+
+  // const handleOpenAddressModal = () => {
+  //   setState((prevState) => {
+  //     return {
+  //       ...prevState,
+  //       // modalDisplay: !prevState.modalDisplay
+  //       addressModalDisplay: !prevState.addressModalDisplay
+  //     }
+  //   })
+  // }
+
   const handleCheckoutModalOpen = () => {
     saveToBasket().then(() => {
       createDeliveryService().then(() => {
