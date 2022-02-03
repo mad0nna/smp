@@ -49,94 +49,118 @@ $enc = $this->encoder();
       }</style><style type="text/css">@media only screen and (max-width:480px) {
       table.full-width-mobile { width: 100% !important; }
       td.full-width-mobile { width: auto !important; }
-    }</style><style type="text/css"><?= $this->get( 'htmlCss' ) ?></style></head><body><div class="aimeos"><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]--><div style="Margin:0px auto;max-width:600px;"><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;"><tbody><tr><td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;"><!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]--><div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="center" class="logo" style="font-size:0px;padding:10px 25px;word-break:break-word;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;"><tbody><tr><td style="width:550px;"><img height="auto" src="<?= $this->get( 'htmlLogo' ) ?>" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;" width="550"></td></tr></tbody></table></td></tr></table></div><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]--><div style="Margin:0px auto;max-width:600px;"><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;"><tbody><tr><td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;"><!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]--><div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="left" class="email-common-salutation" style="font-size:0px;padding:10px 25px;word-break:break-word;"><div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"> <?= $enc->html( $this->get( 'emailIntro' ) ) ?> </div></td></tr><tr><td align="left" class="email-common-intro" style="font-size:0px;padding:10px 25px;word-break:break-word;"><div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"> <?= nl2br( $enc->html( $this->get( 'message' ), $enc::TRUST ) ) ?> </div></td></tr></table></div><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="common-summary-outlook common-summary-address-outlook" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]--><div class="common-summary common-summary-address" style="Margin:0px auto;max-width:600px;"><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;"><tbody><tr><td style="direction:ltr;font-size:0px;padding:20px 0;text-align:left;vertical-align:top;"><!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="item-outlook payment-outlook" style="vertical-align:top;width:300px;" ><![endif]--><div class="mj-column-per-50 outlook-group-fix item payment" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="left" style="font-size:0px;padding:inherit;word-break:break-word;"><div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"><h3><?= $enc->html( $this->translate( 'client', 'Delivery address' ), $enc::TRUST ) ?></h3> <?php foreach( $this->summaryBasket->getAddress( 'payment' ) as $addr ) : ?> <div class="content"> <?= preg_replace( ["/\n+/m", '/ +/'], ['<br/>', ' '], trim( $enc->html( sprintf(
-						/// Address format with company (%1$s), salutation (%2$s), title (%3$s), first name (%4$s), last name (%5$s),
-						/// address part one (%6$s, e.g street), address part two (%7$s, e.g house number), address part three (%8$s, e.g additional information),
-						/// postal/zip code (%9$s), city (%10$s), state (%11$s), country (%12$s), language (%13$s),
-						/// e-mail (%14$s), phone (%15$s), facsimile/telefax (%16$s), web site (%17$s), vatid (%18$s)
-						$this->translate( 'client', '%1$s
-%2$s %3$s %4$s %5$s
-%6$s %7$s
-%8$s
-%9$s %10$s
-%11$s
-%12$s
-%13$s
-%14$s
-%15$s
-%16$s
-%17$s
-%18$s
-'
-						),
-						$addr->getCompany(),
-						$this->translate( 'mshop/code', $addr->getSalutation() ),
-						$addr->getTitle(),
-						$addr->getFirstName(),
-						$addr->getLastName(),
-						$addr->getAddress1(),
-						$addr->getAddress2(),
-						$addr->getAddress3(),
-						$addr->getPostal(),
-						$addr->getCity(),
-						$addr->getState(),
-						$this->translate( 'country', $addr->getCountryId() ),
-						$this->translate( 'language', $addr->getLanguageId() ),
-						$addr->getEmail(),
-						$addr->getTelephone(),
-						$addr->getTelefax(),
-						$addr->getWebsite(),
-						$addr->getVatID()
-					) ) ) ) ?> </div> <?php endforeach ?> </div></td></tr></table></div><!--[if mso | IE]></td><td class="item-outlook delivery-outlook" style="vertical-align:top;width:300px;" ><![endif]--><div class="mj-column-per-50 outlook-group-fix item delivery" style="font-size:13px;text-align:left;direction:ltr;display:none;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="left" style="font-size:0px;padding:inherit;word-break:break-word;"><div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"><h3><?= $enc->html( $this->translate( 'client', 'Delivery address' ), $enc::TRUST ) ?></h3> <?php if( ( $addresses = $this->summaryBasket->getAddress( 'delivery' ) ) !== [] ) : ?> <?php foreach( $addresses as $addr ) : ?> <div class="content"> <?= preg_replace( ["/\n+/m", '/ +/'], ['<br/>', ' '], trim( $enc->html( sprintf(
-							/// Address format with company (%1$s), salutation (%2$s), title (%3$s), first name (%4$s), last name (%5$s),
-							/// address part one (%6$s, e.g street), address part two (%7$s, e.g house number), address part three (%8$s, e.g additional information),
-							/// postal/zip code (%9$s), city (%10$s), state (%11$s), country (%12$s), language (%13$s),
-							/// e-mail (%14$s), phone (%15$s), facsimile/telefax (%16$s), web site (%17$s), vatid (%18$s)
-							$this->translate( 'client', '%1$s
-%2$s %3$s %4$s %5$s
-%6$s %7$s
-%8$s
-%9$s %10$s
-%11$s
-%12$s
-%13$s
-%14$s
-%15$s
-%16$s
-%17$s
-%18$s
-'
-							),
-							$addr->getCompany(),
-							$this->translate( 'mshop/code', $addr->getSalutation() ),
-							$addr->getTitle(),
-							$addr->getFirstName(),
-							$addr->getLastName(),
-							$addr->getAddress1(),
-							$addr->getAddress2(),
-							$addr->getAddress3(),
-							$addr->getPostal(),
-							$addr->getCity(),
-							$addr->getState(),
-							$this->translate( 'country', $addr->getCountryId() ),
-							$this->translate( 'language', $addr->getLanguageId() ),
-							$addr->getEmail(),
-							$addr->getTelephone(),
-							$addr->getTelefax(),
-							$addr->getWebsite(),
-							$addr->getVatID()
-						) ) ) ) ?> </div> <?php endforeach ?> <?php else : ?> <div class="content" style="display:none"> <?= $enc->html( $this->translate( 'client', 'like billing address' ), $enc::TRUST ) ?> </div> <?php endif ?> </div></td></tr></table></div><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="common-summary-outlook common-summary-service-outlook" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]--><div class="common-summary common-summary-service" style="Margin:0px auto;max-width:600px;display:none;"><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;"><tbody><tr><td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;"><!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="item-outlook payment-outlook" style="vertical-align:top;width:300px;" ><![endif]--><div class="mj-column-per-50 outlook-group-fix item payment" style="font-size:13px;text-align:left;direction:ltr;display:none;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="left" style="font-size:0px;padding:inherit;word-break:break-word;"><div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"><h3><?= $enc->html( $this->translate( 'client', 'payment' ), $enc::TRUST ) ?></h3> <?php foreach( $this->summaryBasket->getService( 'payment' ) as $service ) : ?> <div class="content"><h4><?= $enc->html( $service->getName() ) ?></h4> <?php if( !( $attributes = $service->getAttributeItems() )->isEmpty() ) : ?> <ul class="attr-list"> <?php foreach( $attributes as $attribute ) : ?> <?php if( strpos( $attribute->getType(), 'hidden' ) === false ) : ?> <li class="<?= $enc->attr( 'payment-' . $attribute->getCode() ) ?>"><span class="name"><?= $enc->html( $attribute->getName() ?: $this->translate( 'client/code', $attribute->getCode() ) ) ?>:</span> <?php switch( $attribute->getValue() ) : case 'array': case 'object': ?> <?php foreach( (array) $attribute->getValue() as $value ) : ?> <span class="value"><?= $enc->html( $value ) ?></span> <?php endforeach ?> <?php break; default: ?> <span class="value"><?= $enc->html( $attribute->getValue() ) ?></span> <?php endswitch ?> </li> <?php endif ?> <?php endforeach ?> </ul> <?php endif ?> </div> <?php endforeach ?> </div></td></tr></table></div><!--[if mso | IE]></td><td class="item-outlook delivery-outlook" style="vertical-align:top;width:300px;" ><![endif]--><div class="mj-column-per-50 outlook-group-fix item delivery" style="font-size:13px;text-align:left;direction:ltr;display:none;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="left" style="font-size:0px;padding:inherit;word-break:break-word;"><div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"><h3><?= $enc->html( $this->translate( 'client', 'delivery' ), $enc::TRUST ) ?></h3> <?php foreach( $this->summaryBasket->getService( 'delivery' ) as $service ) : ?> <div class="content"><h4><?= $enc->html( $service->getName() ) ?></h4> <?php if( !( $attributes = $service->getAttributeItems() )->isEmpty() ) : ?> <ul class="attr-list"> <?php foreach( $attributes as $attribute ) : ?> <?php if( strpos( $attribute->getType(), 'hidden' ) === false ) : ?> <li class="<?= $enc->attr( 'delivery-' . $attribute->getCode() ) ?>"><span class="name"><?= $enc->html( $attribute->getName() ?: $this->translate( 'client/code', $attribute->getCode() ) ) ?>:</span> <?php switch( $attribute->getValue() ) : case 'array': case 'object': ?> <?php foreach( (array) $attribute->getValue() as $value ) : ?> <span class="value"><?= $enc->html( $value ) ?></span> <?php endforeach ?> <?php break; default: ?> <span class="value"><?= $enc->html( $attribute->getValue() ) ?></span> <?php endswitch ?> </li> <?php endif ?> <?php endforeach ?> </ul> <?php endif ?> </div> <?php endforeach ?> </div></td></tr></table></div><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="common-summary-outlook common-summary-additional-outlook" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]--><div class="common-summary common-summary-additional" style="Margin:0px auto;max-width:600px;display:none;"><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;"><tbody><tr><td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;"><!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="item-outlook coupon-outlook" style="vertical-align:top;width:200px;" ><![endif]--><div class="mj-column-per-33 outlook-group-fix item coupon" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="left" style="font-size:0px;padding:inherit;word-break:break-word;"><div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"><h3><?= $enc->html( $this->translate( 'client', 'Coupon codes' ), $enc::TRUST ) ?></h3><div class="content"> <?php if( !( $coupons = $this->summaryBasket->getCoupons() )->isEmpty() ) : ?> <ul class="attr-list"> <?php foreach( $coupons as $code => $products ) : ?> <li class="attr-item"><?= $enc->html( $code ) ?></li> <?php endforeach ?> </ul> <?php endif ?> </div></div></td></tr></table></div><!--[if mso | IE]></td><td class="item-outlook customerref-outlook" style="vertical-align:top;width:200px;" ><![endif]--><div class="mj-column-per-33 outlook-group-fix item customerref" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="left" style="font-size:0px;padding:inherit;word-break:break-word;"><div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"><h3><?= $enc->html( $this->translate( 'client', 'Your reference' ), $enc::TRUST ) ?></h3><div class="content"> <?= $enc->attr( $this->summaryBasket->getCustomerReference() ) ?> </div></div></td></tr></table></div><!--[if mso | IE]></td><td class="item-outlook comment-outlook" style="vertical-align:top;width:200px;" ><![endif]--><div class="mj-column-per-33 outlook-group-fix item comment" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="left" style="font-size:0px;padding:inherit;word-break:break-word;"><div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"><h3><?= $enc->html( $this->translate( 'client', 'Your comment' ), $enc::TRUST ) ?></h3><div class="content"> <?= $enc->html( $this->summaryBasket->getComment() ) ?> </div></div></td></tr></table></div><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="common-summary-outlook common-summary-detail-outlook" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]--><div class="common-summary common-summary-detail" style="Margin:0px auto;max-width:600px;"><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;"><tbody><tr><td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;"><!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]--><div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="left" class="basket" style="font-size:0px;padding:10px 25px;word-break:break-word;"><table cellpadding="0" cellspacing="0" width="100%" border="0" style="cellspacing:0;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;"><tr class="header"><th class="status"></th><th class="label"><?= $enc->html( $this->translate( 'client', 'Name' ), $enc::TRUST ) ?></th><th class="quantity"><?= $enc->html( $this->translate( 'client', 'Qty' ), $enc::TRUST ) ?></th><th class="price"><?= $enc->html( $this->translate( 'client', 'Sum' ), $enc::TRUST ) ?></th></tr> <?php
-				$detailTarget = $this->config( 'client/html/catalog/detail/url/target' );
-				$detailController = $this->config( 'client/html/catalog/detail/url/controller', 'catalog' );
-				$detailAction = $this->config( 'client/html/catalog/detail/url/action', 'detail' );
-				$detailConfig = $this->config( 'client/html/catalog/detail/url/config', ['absoluteUri' => 1] );
-				$totalQty = 0;
-			?> <?php foreach( $this->summaryBasket->getProducts() as $product ) : $totalQty += $product->getQuantity() ?> <tr class="body product"><td class="status"> <?php if( ( $status = $product->getStatus() ) >= 0 ) : $key = 'stat:' . $status ?> <?= $enc->html( $this->translate( 'mshop/code', $key ) ) ?> <?php endif ?> </td><td class="label"> <?php $params = array_merge( $this->param(), ['d_name' => $product->getName( 'url' ), 'd_prodid' => $product->getProductId(), 'd_pos' => ''] ) ?> <a class="product-name" href="<?= $enc->attr( $this->url( ( $product->getTarget() ?: $detailTarget ), $detailController, $detailAction, $params, [], $detailConfig ) ) ?>"> <?= $enc->html( $product->getName(), $enc::TRUST ) ?> </a><p class="code"><span class="name"><?= $enc->html( $this->translate( 'client', 'Article no.' ), $enc::TRUST ) ?>: </span><span class="value"><?= $product->getProductCode() ?></span></p> <?php if( ( $desc = $product->getDescription() ) !== '' ) : ?> <p class="product-description"><?= $enc->html( $desc ) ?></p> <?php endif ?> <?php foreach( $this->config( 'client/html/common/summary/detail/product/attribute/types', ['variant', 'config', 'custom'] ) as $attrType ) : ?> <?php if( !( $attributes = $product->getAttributeItems( $attrType ) )->isEmpty() ) : ?> <ul class="attr-list attr-type-<?= $enc->attr( $attrType ) ?>"> <?php foreach( $attributes as $attribute ) : ?> <li class="attr-item attr-code-<?= $enc->attr( $attribute->getCode() ) ?>"><span class="name"><?= $enc->html( $this->translate( 'client/code', $attribute->getCode() ) ) ?>:</span> <span class="value"> <?php if( $attribute->getQuantity() > 1 ) : ?> <?= $enc->html( $attribute->getQuantity() ) ?>× <?php endif ?> <?= $enc->html( $attrType !== 'custom' && $attribute->getName() ? $attribute->getName() : $attribute->getValue() ) ?> </span></li> <?php endforeach ?> </ul> <?php endif ?> <?php endforeach ?> <?php if( $this->extOrderItem->getStatusPayment() >= $this->config( 'client/html/common/summary/detail/download/payment-status', \Aimeos\MShop\Order\Item\Base::PAY_RECEIVED )
-								&& ( $attribute = $product->getAttributeItem( 'download', 'hidden' ) ) !== null ) : ?> <ul class="attr-list attr-list-hidden"><li class="attr-item attr-code-<?= $enc->attr( $attribute->getCode() ) ?>"><span class="name"><?= $enc->html( $this->translate( 'client/code', $attribute->getCode() ) ) ?></span><span class="value"> <?php
-											$dlTarget = $this->config( 'client/html/account/download/url/target' );
-											$dlController = $this->config( 'client/html/account/download/url/controller', 'account' );
-											$dlAction = $this->config( 'client/html/account/download/url/action', 'download' );
-											$dlConfig = $this->config( 'client/html/account/download/url/config', ['absoluteUri' => 1] );
-										?> <a href="<?= $enc->attr( $this->url( $dlTarget, $dlController, $dlAction, ['dl_id' => $attribute->getId()], [], $dlConfig ) ) ?>"> <?= $enc->html( $attribute->getName() ) ?> </a></span></li></ul> <?php endif ?> <?php if( ( $timeframe = $product->getTimeframe() ) !== '' ) : ?> <p class="timeframe"><span class="name"><?= $enc->html( $this->translate( 'client', 'Delivery within' ) ) ?>: </span><span class="value"><?= $enc->html( $timeframe ) ?></span></p> <?php endif ?> </td><td class="quantity"> <?= $enc->html( $product->getQuantity() ) ?> </td><td class="price"> <?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $product->getPrice()->getValue() * $product->getQuantity(), $product->getPrice()->getPrecision() ), $this->translate( 'currency', $product->getPrice()->getCurrencyId() ) ) ) ?> </td></tr> <?php endforeach ?> <?php foreach( $this->summaryBasket->getService( 'delivery' ) as $service ) : ?> <?php if( $service->getPrice()->getValue() > 0 ) : $priceItem = $service->getPrice() ?> <tr class="body delivery"><td class="status"></td><td class="label"><?= $enc->html( $service->getName() ) ?></td><td class="quantity">1</td><td class="price"><?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $priceItem->getValue(), $priceItem->getPrecision() ), $this->translate( 'currency', $priceItem->getCurrencyId() ) ) ) ?></td></tr> <?php endif ?> <?php endforeach ?> <?php foreach( $this->summaryBasket->getService( 'payment' ) as $service ) : ?> <?php if( $service->getPrice()->getValue() > 0 ) : $priceItem = $service->getPrice() ?> <tr class="body payment"><td class="status"></td><td class="label"><?= $enc->html( $service->getName() ) ?></td><td class="quantity">1</td><td class="price"><?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $priceItem->getValue(), $priceItem->getPrecision() ), $this->translate( 'currency', $priceItem->getCurrencyId() ) ) ) ?></td></tr> <?php endif ?> <?php endforeach ?> <?php if( $this->summaryBasket->getPrice()->getCosts() > 0 ) : ?> <tr class="footer subtotal"><td class="status"></td><td class="label"><?= $enc->html( $this->translate( 'client', 'Sub-total' ) ) ?></td><td class="quantity"></td><td class="price"><?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $this->summaryBasket->getPrice()->getValue(), $this->summaryBasket->getPrice()->getPrecision() ), $this->translate( 'currency', $this->summaryBasket->getPrice()->getCurrencyId() ) ) ) ?></td></tr> <?php endif ?> <?php if( ( $costs = $this->get( 'summaryCostsDelivery', 0 ) ) > 0 ) : ?> <tr class="footer delivery"><td class="status"></td><td class="label"><?= $enc->html( $this->translate( 'client', '+ Shipping' ) ) ?></td><td class="quantity"></td><td class="price"><?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $costs, $this->summaryBasket->getPrice()->getPrecision() ), $this->translate( 'currency', $this->summaryBasket->getPrice()->getCurrencyId() ) ) ) ?></td></tr> <?php endif ?> <?php if( ( $costs = $this->get( 'summaryCostsPayment', 0 ) ) > 0 ) : ?> <tr class="footer payment"><td class="status"></td><td class="label"><?= $enc->html( $this->translate( 'client', '+ Payment costs' ) ) ?></td><td class="quantity"></td><td class="price"><?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $costs, $this->summaryBasket->getPrice()->getPrecision() ), $this->translate( 'currency', $this->summaryBasket->getPrice()->getCurrencyId() ) ) ) ?></td></tr> <?php endif ?> <?php if( $this->summaryBasket->getPrice()->getTaxFlag() === true ) : ?> <tr class="footer total"><td class="status"></td><td class="label"><?= $enc->html( $this->translate( 'client', 'Total' ) ) ?></td><td class="quantity"><?= $enc->html( $totalQty ) ?></td><td class="price"><?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getCosts(), $this->summaryBasket->getPrice()->getPrecision() ), $this->translate( 'currency', $this->summaryBasket->getPrice()->getCurrencyId() ) ) ) ?></td></tr> <?php endif ?> <?php foreach( $this->get( 'summaryNamedTaxes', [] ) as $taxName => $map ) : ?> <?php foreach( $map as $taxRate => $priceItem ) : ?> <?php if( ( $taxValue = $priceItem->getTaxValue() ) > 0 ) : ?> <tr class="footer tax"><td class="status"></td><td class="label"><?= $enc->html( sprintf( $priceItem->getTaxFlag() ? $this->translate( 'client', 'Incl. %1$s%% %2$s' ) : $this->translate( 'client', '+ %1$s%% %2$s' ), $this->number( $taxRate ), $this->translate( 'client/code', 'tax' . $taxName ) ) ) ?></td><td class="quantity"></td><td class="price"><?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $taxValue, $priceItem->getPrecision() ), $this->translate( 'currency', $priceItem->getCurrencyId() ) ) ) ?></td></tr> <?php endif ?> <?php endforeach ?> <?php endforeach ?> <?php if( $this->summaryBasket->getPrice()->getTaxFlag() === false ) : ?> <tr class="footer total"><td class="status"></td><td class="label"><?= $enc->html( $this->translate( 'client', 'Total' ) ) ?></td><td class="quantity"><?= $enc->html( $totalQty ) ?></td><td class="price"><?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getCosts() + $this->summaryBasket->getPrice()->getTaxValue(), $this->summaryBasket->getPrice()->getPrecision() ), $this->translate( 'currency', $this->summaryBasket->getPrice()->getCurrencyId() ) ) ) ?></td></tr> <?php endif ?> <?php if( $this->summaryBasket->getPrice()->getRebate() > 0 ) : ?> <tr class="footer rebate"><td class="status"></td><td class="label"><?= $enc->html( $this->translate( 'client', 'Included rebates' ) ) ?></td><td class="quantity"></td><td class="price"><?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $this->summaryBasket->getPrice()->getRebate(), $this->summaryBasket->getPrice()->getPrecision() ), $this->translate( 'currency', $this->summaryBasket->getPrice()->getCurrencyId() ) ) ) ?></td></tr> <?php endif ?> </table></td></tr></table></div><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="email-common-outro-outlook" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]--><div class="email-common-outro" style="Margin:0px auto;max-width:600px;"><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;"><tbody><tr><td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;"><!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]--><div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;"><div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"> <?= $enc->html( nl2br( $this->translate( 'client', 'If you have any questions, please reply to this e-mail' ) ), $enc::TRUST ) ?> </div></td></tr></table></div><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="email-common-legal-outlook" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]--><div class="email-common-legal" style="Margin:0px auto;max-width:600px;"><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;"><tbody><tr><td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;"><!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]--><div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;"><div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"> <?= nl2br( $enc->html( $this->translate( 'client', 'All orders are subject to our terms and conditions.' ), $enc::TRUST ) ) ?> </div></td></tr></table></div><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><![endif]--></div></body></html>
+    }</style><style type="text/css"><?= $this->get( 'htmlCss' ) ?></style></head><body><div class="aimeos"><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->  <div style="  width: 700px;
+  height: auto;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;"> 
+  <table style="
+  width: 100%;
+  height: 100%;
+  border-bottom: 10px solid #7f7f7f;
+  border-collapse: collapse;">
+    <tbody>
+      <tr>
+        <td style="text-align:left; font-size: 25px; font-weight: bold">請求書​</td>
+        <td style="text-align:right;font-weight: bold">発行日​ </br> 請求書 No.​</td>
+        <td style="text-align:right;font-weight: bold">2021/11/30 </br> INV011</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <p style="font-size: 18px; padding: 10px 0 0 0"> Dear Soft Bank Company <p>
+    <p style="font-size: 18px; padding: 0 0 5px 0"> 下記の通りご請求申し上げます​ <p>
+  </div>
+  <div  style="display: flex; align-items: flex-start;">
+    <div style="flex: .8; padding-right: 50px;">
+    <table style="width: 100%;height: 100%;border-collapse: collapse;">
+      <tbody>
+        <tr>
+          <td style="text-align:left; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">ご請求金額(税込)​</td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold">¥2,000,000</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="flex: .9; flex-direction: column; display: flex;">
+      <div style="font-size: 13px">株式会社ヒューマンテクノロジーズ </div>
+      <div style="font-size: 13px">〒107-0051</div>
+      <div style="font-size: 13px">東京都港区赤坂 1-6-6</div>
+      <div style="font-size: 13px">請求に関するお問い合わせ: shopping@h-t.co.jp</div>
+    </div>
+    </div>
+    <div style="height: 50px"></div>
+     <table style="width: 100%;height: 100%;border-collapse: collapse;">
+       <thdead>
+         <th style="border: solid 1px #000000;  width: 40px;">No</th>
+         <th style="border: solid 1px #000000;">品名​</th>
+         <th style="border: solid 1px #000000;">単価​</th>
+         <th style="border: solid 1px #000000;">金額(税抜)​</th>
+       </thead>
+      <tbody>
+        <tr>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px">1</td>
+          <td style="border: solid 1px #000000; padding: 10px">King of Time </br> 2021/02/02</td>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px">160</td>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px">518</td>
+        </tr>
+        <tr>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px">2</td>
+          <td style="border: solid 1px #000000; padding: 10px">King of Time </br> 2021/02/02</td>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px">160</td>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px">518</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="height: 50px"></div>
+      <div  style="display: flex; align-items: flex-start;">
+    <div style="flex: 1; padding-right: 50px;">
+      <div style="font-size: 13px">備考：​</div>
+      <div style="font-size: 13px">お振込の際は、必ず ご契約者様名義 でお願いいたします。 </div>
+      <div style="font-size: 13px">振込名義とご契約名が異なる場合、入金確認ができません。</div>
+      <div style="font-size: 13px">※振込手数料は貴社にてご負担ください。​</div>
+	  <table style="width: 100%;height: 100%;border-collapse: collapse;background: #d9d9d9;">
+      <tbody>
+        <tr>
+          <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">みずほ銀行</td>
+          <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">銀座中央支店</td>
+          <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">当座預金</span> 0100686</td>
+        </tr>
+        <tr>
+          <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">三井住友銀行</td>
+          <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">日比谷支店​</td>
+          <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">普通預金</span> 8875263​</td>
+        </tr>
+        <tr>
+          <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">三菱UFJ銀行</td>
+          <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">虎ノ門支店</td>
+          <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">普通預金</span> 0787967​</td>
+        </tr>
+      </tbody>
+    </table>
+      <div style="font-size: 13px">口座名義： カ) ヒューマンテクノロジーズ​</div>
+    </div>
+  <div style="flex: .7; flex-direction: column; display: flex;">
+    <table style="width: 100%;height: 100%;border-collapse: collapse;">
+      <tbody>
+        <tr>
+          <td style="text-align:right; padding: 10px 5px 10px 5px;">小計​</td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px;">¥2,000,000</td>
+        </tr>
+         <tr>
+          <td style="text-align:right; padding: 10px 5px 10px 5px;">消費税​</td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px;">¥2,000</td>
+        </tr>
+        <tr>
+          <td style="text-align:right; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">合計​</td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold">¥2,002,000</td>
+        </tr>
+      </tbody>
+     </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div></body></html>
 <?php $this->block()->stop() ?>
 <?= $this->block()->get( 'email/payment/html' ) ?>
