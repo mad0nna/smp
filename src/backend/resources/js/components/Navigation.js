@@ -14,6 +14,19 @@ const Navigation = () => {
 
   const refMenu = useRef()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
+
+  useEffect(() => {
+    fetch('/company/getUnpaidBillingInformation', {
+      method: 'get',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((response) => response.json())
+      .then((results) => {
+        setUnpaidBillingInfo(results.data)
+      })
+  }, [])
+
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
       if (
@@ -395,14 +408,23 @@ const Navigation = () => {
                         <div
                           className={
                             item.iconSize +
-                            ' mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover ' +
+                            ' relative mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover ' +
                             activeIcon +
                             ' ' +
                             item.iconHover +
                             ' ' +
                             +activeBackground
                           }
-                        />
+                        >
+                          {item.url === '/company/billing' &&
+                            unpaidBillingInfo &&
+                            unpaidBillingInfo.payment_method != 'credit_card' &&
+                            unpaidBillingInfo.total_billed_amount != null && (
+                              <span className="absolute -top-2 -right-2 bg-red-500 text-red-50 h-4 w-4 rounded-full text-xs pb-1">
+                                !
+                              </span>
+                            )}
+                        </div>
                       </div>
                       <div>
                         <p className="font-sans mt-1">{item.label}</p>

@@ -273,86 +273,106 @@ const CompanyBilling = () => {
 
   return (
     <div className="relative px-10 mt-5 bg-mainbg">
-      <div className="w-full h-full bg-white overflow-hidden relative rounded-lg shadow-xl">
+      <div className="w-full h-full bg-white overflow-hidden rounded-lg shadow-xl">
         <div className="px-3 pt-3 pb-1">
           <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
             <h2 className="text-green-800 text-lg font-bold">請求履歴</h2>
           </div>
         </div>
 
-        <div className="flex flex-row mt-3 ml-3 h-8 w-40 bg-cover bg-no-repeat">
-          <img src={unpaidBillingIcon} />
-          <span className="ml-3 mt-3 text-green-600 font-semibold">
-            未払い情報
-          </span>
-        </div>
+        {state.unpaidBillingData &&
+          state.unpaidBillingData.total_billed_amount != null &&
+          state.unpaidBillingData.payment_method != 'credit_card' && (
+            <div className="flex flex-col items-center">
+              <div className="w-1/2 min-w-min max-w-3xl mt-3 mb-3 ml-4">
+                <span className="text-green-600 font-semibold text-left">
+                  <img
+                    className="inline h-6 w-8 mr-4"
+                    src={unpaidBillingIcon}
+                  />
+                  未払い情報
+                </span>
+              </div>
 
-        <div className="flex flex-col flex-wrap w-3/6 min-w-min max-w-3xl p-4 border-2 mt-1 ml-3 rounded-lg shadow-md row-2">
-          <div className="flex flex-row space-x-36">
-            <div className="flex flex-col ml-3 mr-3">
-              <div className="text-green-500">
-                未払額 :
-                <span className="text-red-700 float-right ml-3 font-semibold">
-                  {state.unpaidBillingData.due_last_billed_amount
-                    ? `${state.unpaidBillingData.due_last_billed_amount} 円(税込)`
-                    : '-'}
-                </span>
-              </div>
-              <div className="text-green-500">
-                支払期日 :
-                <span className="float-right ml-3 text-green-700">
-                  {state.unpaidBillingData.due_last_billed_deadline_date
-                    ? state.unpaidBillingData.due_last_billed_deadline_date
-                    : '-'}
-                </span>
-              </div>
-              <div className="text-green-500">
-                支払期限 :
-                <span className="float-right ml-3 text-green-700">
-                  {state.unpaidBillingData.due_last_billed_payment_period
-                    ? state.unpaidBillingData.due_last_billed_payment_period
-                    : '-'}
-                </span>
+              <div className="flex flex-col justify-center flex-wrap w-1/2 min-w-min max-w-3xl max-h-52 border-2 mt-1 ml-3 rounded-lg shadow-md row-2">
+                <div className="dashboard-widget-list overflow-hidden border-b-2 max-h-32">
+                  {state.unpaidBillingData.unpaid_billing_array.map(
+                    (item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="flex flex-row justify-evenly mb-4"
+                        >
+                          <div className="flex flex-col w-64 min-w-min ml-3 mr-3 mt-2">
+                            <div className="text-green-500 mt-2 min-x-16">
+                              支払期日 :
+                              <span className="float-right ml-3 text-green-700">
+                                {item.due_last_billed_deadline_date
+                                  ? item.due_last_billed_deadline_date
+                                  : '-'}
+                              </span>
+                            </div>
+                            <div className="text-green-500 mt-2 min-x-16">
+                              支払期限 :
+                              <span className="float-right ml-3 text-green-700">
+                                {item.due_last_billed_payment_period
+                                  ? item.due_last_billed_payment_period
+                                  : '-'}
+                              </span>
+                            </div>
+                            <div className="text-green-500 mt-2 min-x-16">
+                              未払額 :
+                              <span className="text-red-600 float-right ml-3 font-semibold">
+                                {item.due_last_billed_amount
+                                  ? `${item.due_last_billed_amount} 円(税込)`
+                                  : '-'}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col ml-3 mr-3 mt-2">
+                            <div className="text-green-500 mt-2">
+                              支払期日 :
+                              <span className="float-right ml-3 text-green-700">
+                                {item.due_billed_deadline_date
+                                  ? item.due_billed_deadline_date
+                                  : '-'}
+                              </span>
+                            </div>
+                            <div className="text-green-500 mt-2">
+                              支払期限 :
+                              <span className="float-right ml-3 text-green-700">
+                                {item.due_billed_payment_period
+                                  ? item.due_billed_payment_period
+                                  : '-'}
+                              </span>
+                            </div>
+                            <div className="text-green-500 mt-2">
+                              未払額 :
+                              <span className="text-red-600 float-right ml-3 font-semibold">
+                                {item.due_billed_amount
+                                  ? `${item.due_billed_amount} 円(税込)`
+                                  : '-'}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    }
+                  )}
+                </div>
+                <div className="flex flex-row-reverse">
+                  <div className="text-green-500 mt-3 mb-3 mr-3">
+                    合計金額 :
+                    <span className="text-red-600 ml-3 font-semibold">
+                      {state.unpaidBillingData.total_billed_amount != null
+                        ? `${state.unpaidBillingData.total_billed_amount} 円(税込)`
+                        : '-'}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col ml-3 mr-3">
-              <div className="text-green-500">
-                未払額 :
-                <span className="text-red-700 float-right ml-3 font-semibold">
-                  {state.unpaidBillingData.due_billed_amount
-                    ? `${state.unpaidBillingData.due_billed_amount} 円(税込)`
-                    : '-'}
-                </span>
-              </div>
-              <div className="text-green-500">
-                支払期日 :
-                <span className="float-right ml-3 text-green-700">
-                  {state.unpaidBillingData.due_billed_deadline_date
-                    ? state.unpaidBillingData.due_billed_deadline_date
-                    : '-'}
-                </span>
-              </div>
-              <div className="text-green-500">
-                支払期限 :
-                <span className="float-right ml-3 text-green-700">
-                  {state.unpaidBillingData.due_billed_payment_period
-                    ? state.unpaidBillingData.due_billed_payment_period
-                    : '-'}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-row-reverse">
-            <div className="mt-5 text-green-500">
-              合計 :
-              <span className="text-red-700 ml-3 font-semibold">
-                {state.unpaidBillingData.due_billed_amount
-                  ? `${state.unpaidBillingData.total_billed_amount} 円(税込)`
-                  : '-'}
-              </span>
-            </div>
-          </div>
-        </div>
+          )}
 
         <div
           id="widget-header"

@@ -24,7 +24,7 @@ class Opportunity extends Model
         }
         return $opportunity['records'];
     }
-    
+
     public function getNumberOfSubscriber($accountId) {
         $subscriberData = $this->client->get("/services/data/v34.0/query/?q=SELECT+Id,ID__c, Name,Type, RecordTypeId, Amount, Field141__c, ApplicationDay__c, KoT_startBillingMonth__c, StageName, Zen__c, KoT_shiharaihouhou__c,KoT_regardingusercount__c,KoT_hanbaikeiro__c,CreatedDate, AccountId+from+Opportunity+WHERE+AccountId='".$accountId."'+And+Field141__c='KING OF TIME 勤怠管理'+order by+CloseDate+desc+LIMIT+1");
         if (isset($subscriberData['status']) && !$subscriberData['status']) {
@@ -32,9 +32,5 @@ class Opportunity extends Model
         }
         return $subscriberData['records'];
     }
-
-
-
-
 }
 ?>
