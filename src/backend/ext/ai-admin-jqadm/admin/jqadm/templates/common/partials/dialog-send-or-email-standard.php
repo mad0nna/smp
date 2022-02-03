@@ -44,7 +44,7 @@ $enc = $this->encoder();
 						<?= $enc->html( $this->translate( 'admin', 'Close' ) ) ?>
 					</button>
 					<button type="submit" class="btn btn-primary">
-						<?= $enc->html( $this->translate( 'admin', 'Search' ) ) ?>
+						オーケー
 					</button>
 				</div> 
 			</div>
