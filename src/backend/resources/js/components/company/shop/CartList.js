@@ -182,6 +182,8 @@ const CartList = (props) => {
           })
           .then(() => {
             console.log('@created delivery service')
+            // set address for invoice
+            createAddressService('payment')
           })
       })
   }
@@ -248,8 +250,6 @@ const CartList = (props) => {
           ]
         }
 
-        // create address service
-        createAddressService(urlParams.attributes['service.type'])
         // create delivery service
         // console.log('params service payment post', params)
         if (csrfItem) {
