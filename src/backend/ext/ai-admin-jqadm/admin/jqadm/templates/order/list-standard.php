@@ -292,7 +292,7 @@ $statusList = [
 								<td class="order-id text-end" style="padding-right:5em"><a class="items-field" href="<?= $url ?>" tabindex="1"><?= $enc->html( $item->getId() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.price', $fields ) ) : ?>
-								<td class="order-base-price price text-end">¥<?= $baseItem ? number_format($enc->html( $baseItem->getPrice()->getValue() )) : '' ?> </td>
+								<td class="order-base-price price text-end">¥<?= $baseItem ? number_format($enc->html( $baseItem->getPrice()->getValue() + $baseItem->getPrice()->getTaxValue() )) : '' ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'order.statuspayment', $fields ) ) : ?>
 								<td class="order-statuspayment"> <?= $item->getStatusPayment() === 6 ? "有料" : "保留中" ?> </td>
@@ -358,7 +358,7 @@ $statusList = [
 								<td class="order-base-address-salutation"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getSalutation() ) : '' ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.company_name', $fields ) ) : ?>
-								<td class="order-base-address-company text-start"> <?= $customer['customer.company'] ?? '' ?></td>
+								<td class="order-base-address-company text-start"> <?= $customer['company_name'] ?? '' ?></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.address.vatid', $fields ) ) : ?>
 								<td class="order-base-address-vatid text-start"><a class="items-field" href="<?= $url ?>"><?= $addrItem ? $enc->html( $addrItem->getVatID() ) : '' ?></a></td>
