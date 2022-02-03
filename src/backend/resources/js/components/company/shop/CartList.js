@@ -66,15 +66,15 @@ const CartList = (props) => {
     setAddressData({ ...addressData, [name]: value })
   }
 
-  const handleOpenAddressModal = () => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        // modalDisplay: !prevState.modalDisplay
-        addressModalDisplay: !prevState.addressModalDisplay
-      }
-    })
-  }
+  // const handleOpenAddressModal = () => {
+  //   setState((prevState) => {
+  //     return {
+  //       ...prevState,
+  //       // modalDisplay: !prevState.modalDisplay
+  //       addressModalDisplay: !prevState.addressModalDisplay
+  //     }
+  //   })
+  // }
 
   const handleCheckoutModalOpen = () => {
     saveToBasket().then(() => {
