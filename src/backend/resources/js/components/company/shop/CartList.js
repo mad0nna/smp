@@ -633,7 +633,7 @@ const CartList = (props) => {
                 className={`bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
                   !isAgreedTerms ? 'bg-opacity-50 cursor-not-allowed' : ''
                 }`}
-                onClick={handleOpenAddressModal}
+                onClick={isAgreedTerms ? handleCheckoutModalOpen : null}
               >
                 お会計
               </button>
