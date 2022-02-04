@@ -146,7 +146,7 @@ const Dashboard = () => {
     <div className="-mt-8">
       {unpaidBillingData &&
         unpaidBillingData.total_billed_amount != null &&
-        unpaidBillingData.payment_method != 'credit_card' && (
+        unpaidBillingData.payment_method != 'クレジット' && (
           <a href="/company/billing">
             <div className="flex justify-center bg-gray-100 px-4 py-9 relative shadow-md mb-3">
               <span className="text-center inline-block align-middle text-white bg-red-500 h-4 w-4 rounded-full text-xs mt-1">

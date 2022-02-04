@@ -282,7 +282,7 @@ const CompanyBilling = () => {
 
         {state.unpaidBillingData &&
           state.unpaidBillingData.total_billed_amount != null &&
-          state.unpaidBillingData.payment_method != 'credit_card' && (
+          state.unpaidBillingData.payment_method != 'クレジット' && (
             <div className="flex flex-col items-center">
               <div className="w-1/2 min-w-min max-w-3xl mt-3 mb-3 ml-4">
                 <span className="text-green-600 font-semibold text-left">

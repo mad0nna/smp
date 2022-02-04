@@ -418,7 +418,7 @@ const Navigation = () => {
                         >
                           {item.url === '/company/billing' &&
                             unpaidBillingInfo &&
-                            unpaidBillingInfo.payment_method != 'credit_card' &&
+                            unpaidBillingInfo.payment_method != 'クレジット' &&
                             unpaidBillingInfo.total_billed_amount != null && (
                               <span className="absolute -top-2 -right-2 bg-red-500 text-red-50 h-4 w-4 rounded-full text-xs pb-1">
                                 !
