@@ -92,7 +92,7 @@ $enc = $this->encoder();
           <td style="width: 40px">
            <div>
              <div style="height: 50px; width: auto">
-           <img src="https://idaten.sprobe.ph/images/images/kot-admin-panel.png" style="height: 50px; width: auto;">
+           <img src="" style="height: 50px; width: auto;">
               <div style="font-size: 13px">株式会社ヒューマンテクノロジーズ </div>
               <div style="font-size: 13px">〒107-0051</div>
               <div style="font-size: 13px">東京都港区赤坂 1-6-6</div>
@@ -100,7 +100,7 @@ $enc = $this->encoder();
             </div>
           </td>
           <td>
-     <img src="https://idaten.sprobe.ph/images/images/kot-admin-panel.png" style="height: 90px; width: auto" />
+     <img src="" style="height: 90px; width: auto" />
     </td>
         </tr>
        </tbody>
@@ -182,7 +182,7 @@ $enc = $this->encoder();
     <tbody>
       <tr> 
         <td style="width: 100%"></td>
-        <td>       <img src ="https://idaten.sprobe.ph/images/images/kot-admin-panel.png" style="height: 50px; width: auto"></td>
+        <td>       <img src ="" style="height: 50px; width: auto"></td>
       </tr>
     </tbody>
   </table>
