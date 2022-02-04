@@ -13,15 +13,6 @@ const CartList = (props) => {
   const SERVICE_TYPE = 'payment'
   // let userData = JSON.parse(document.getElementById('userData').textContent)
   const [isAgreedTerms, setAgreedTerms] = useState(false)
-  // const [cart, setCart] = useState({
-  //   items: [],
-  //   id: '',
-  //   cartTotal: 0,
-  //   totalItems: [],
-  //   isEmpty: false,
-  //   totalUniqueItems: 0,
-  //   metadata: []
-  // })
   const [orderId, setOrderId] = useState({ orderId: null, token: null })
 
   const [state, setState] = useState({
@@ -39,11 +30,6 @@ const CartList = (props) => {
   const [addressData, setAddressData] = useState({})
   console.log(addressData)
   const history = useHistory()
-
-  // const [prodOrderNum, setProdNum] = useState({
-  //   id: '',
-  //   num: 0
-  // })
 
   const { cartTotal, items, updateItemQuantity, removeItem, emptyCart } =
     useCart()
@@ -131,7 +117,6 @@ const CartList = (props) => {
       //   stocktype: 'default' // warehouse code (optional)
       // }
     }
-    // console.log(data)
     let url = '/jsonapi/basket?id=default&related=product'
     let csrfItem = props.location.state.meta.csrf
 
@@ -146,21 +131,17 @@ const CartList = (props) => {
           .join('&')
     }
 
-    // console.log('@post', data)
-    // console.log('@meta', productDetail.meta, url)
-
     await axios
       .post(url, JSON.stringify(data), {
         'Content-Type': 'application/json'
       })
       .then(() => {
-        // console.log('@save delivery service')
-        // setBasketDetails(response.data)
-        // history.push({ pathname: '/company/cart', state: response.data })
+        console.log('@create product to basket')
       })
   }
 
   async function createDeliveryService() {
+    // fetch delivery
     await axios
       .get(
         `/jsonapi/service?filter[cs_type]=delivery&include=text,price,media`,
@@ -169,7 +150,8 @@ const CartList = (props) => {
         }
       )
       .then((res1) => {
-        // console.log('@delivery list', res1)
+        console.log('fetch delivery services')
+
         let csrfItem = res1.data.meta.csrf
         const urlParams = res1.data.data.filter(function (item) {
           // this should be selected config for company
@@ -192,7 +174,6 @@ const CartList = (props) => {
         }
 
         if (csrfItem) {
-          // add CSRF token if available and therefore required
           var csrf = {}
           csrf[csrfItem.name] = csrfItem.value
           url +=
@@ -207,12 +188,14 @@ const CartList = (props) => {
             'Content-Type': 'application/json'
           })
           .then(() => {
-            // console.log('@created delivery service')
+            console.log('@created delivery service')
+            // set address for invoice
+            createAddressService('payment')
           })
       })
   }
 
-  const createAddressService = (serviceId) => {
+  async function createAddressService(serviceId) {
     let addressUrl = '/jsonapi/basket?id=default&related=address'
     let csrfItem = props.location.state.meta.csrf
     const params = {
@@ -239,13 +222,12 @@ const CartList = (props) => {
         'Content-Type': 'application/json'
       })
       .then((response) => {
-        // setBasketDetails(response.data)
         history.push({ pathname: '/company/cart', state: response.data })
       })
   }
 
-  const addService = () => {
-    axios
+  async function createPaymentService() {
+    await axios
       .get(
         `/jsonapi/service?filter[cs_type]=${SERVICE_TYPE}&include=text,price,media`,
         {
@@ -253,6 +235,7 @@ const CartList = (props) => {
         }
       )
       .then((res1) => {
+        console.log('fetch payment service')
         const urlParams = res1.data.data.filter(function (item) {
           // this should be selected config for company
           return (
@@ -274,8 +257,6 @@ const CartList = (props) => {
           ]
         }
 
-        // create address service
-        createAddressService(urlParams.attributes['service.type'])
         // create delivery service
         // console.log('params service payment post', params)
         if (csrfItem) {
@@ -289,22 +270,9 @@ const CartList = (props) => {
               .join('&')
         }
 
-        // TEMP: will remove basket cache
-        // deleteBasketCache(csrfItem)
-        // // // show basket
-        // fetchBasket(csrfItem)
-        // proceed to order
         createServicePersistBasket(params, url)
       })
   }
-
-  // const fetchBasket = (csrfItem) => {
-  //   axios
-  //     .get(`/jsonapi/basket?id=default&_token=${csrfItem.value}`)
-  //     .then((response) => {
-  //       console.log('@fetch basket items', response)
-  //     })
-  // }
 
   const deleteBasketCache = (csrfItem) => {
     axios
@@ -314,13 +282,14 @@ const CartList = (props) => {
       })
   }
 
-  const createServicePersistBasket = (params, url) => {
+  async function createServicePersistBasket(params, url) {
     axios
       .post(url, JSON.stringify(params), {
         'Content-Type': 'application/json'
       })
       .then((res2) => {
-        // console.log('@create service', res2)
+        console.log('create payment service')
+
         let basketUrl = res2.data.links.self.href
         let csrfItem = res2.data.meta.csrf
         if (csrfItem) {
@@ -333,20 +302,28 @@ const CartList = (props) => {
               .map((key) => key + '=' + csrf[key])
               .join('&')
         }
-
-        // console.log('url create basket post', basketUrl)
+        //  save basket order
         axios
           .post(basketUrl, {
             'Content-Type': 'application/json'
           })
           .then((res3) => {
+            console.log('save order')
             setOrderId({
               orderId: res3.data.data.attributes['order.base.id'],
               token: res3.data.meta.csrf.value
             })
-            // console.log('@all basket done', res3)
           })
       })
+  }
+
+  const handleCheckoutModalAddressClose = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        addressModalDisplay: false
+      }
+    })
   }
 
   const handleCheckoutModalClose = () => {
@@ -376,8 +353,6 @@ const CartList = (props) => {
         modalDisplayMessage: false
       }
     })
-
-    // window.location.href = '/company/shop'
   }
 
   const handleCheckoutContentModalClose = () => {
@@ -387,39 +362,6 @@ const CartList = (props) => {
         modalCheckoutContentDisplay: false
       }
     })
-  }
-
-  const confirmInvoiceEmailTemplate = (res) => {
-    // let confirm = res.data.data.links
-    // let processUrl = confirm.process.href
-    let csrfItem = res.data.meta.csrf
-
-    deleteBasketCache(csrfItem)
-
-    // console.log('@confirm', confirm)
-    // axios
-    //   .post(`${processUrl}&_token=${csrfItem.value}`, {
-    //     'Content-Type': 'application/json'
-    //   })
-    //   .then((processRes) => {
-    //     console.log('@processRes', processRes)
-
-    //     // jsut remove the basket
-    //     deleteBasketCache(csrfItem)
-
-    //     let htmlContent = processRes.data
-
-    //     console.log('@tmlt1', htmlContent)
-    //     console.log('@html2', JSON.stringify(htmlContent))
-
-    //     setState((prevState) => {
-    //       return {
-    //         ...prevState,
-    //         htmlContent: { __html: htmlContent },
-    //         modalCheckoutContentDisplay: true
-    //       }
-    //     })
-    //   })
   }
 
   /**
@@ -432,7 +374,6 @@ const CartList = (props) => {
         // credit card
         // paymentstatus : 4
         // DeliveryStatus:2
-
         const ccData = {
           data: {
             attributes: {
@@ -441,8 +382,13 @@ const CartList = (props) => {
           }
         }
 
-        generateFinalOrder(ccData).then(() => {
+        generateFinalOrder(ccData).then((res) => {
+          console.log('sucessfully created order')
+          deleteBasketCache(res.data.meta.csrf)
           // display modal submit
+          let totalAmount = calculatedItem.totalAmount.toLocaleString('jp')
+          openZeusPaymentForm(orderId.orderId, totalAmount)
+
           setState((prevState) => {
             return {
               ...prevState,
@@ -466,9 +412,8 @@ const CartList = (props) => {
         }
 
         generateFinalOrder(invData).then((res) => {
-          // console.log('res', res)
-          // generate email to user
-          confirmInvoiceEmailTemplate(res)
+          console.log('sucessfully created order')
+          deleteBasketCache(res.data.meta.csrf)
           // display modal submit
           setState((prevState) => {
             return {
@@ -512,6 +457,15 @@ const CartList = (props) => {
     })
   }
 
+  const openZeusPaymentForm = (orderId, amount) => {
+    window
+      .open(
+        `/payment/creditCardPayment/?orderId=${orderId}&amount=${amount}`,
+        '_blank'
+      )
+      .focus()
+  }
+
   const cartItems = () => {
     let addToCartItem = items
     return addToCartItem.map((item) => {
@@ -521,7 +475,7 @@ const CartList = (props) => {
             <div className="flex flex-col p-2">
               <img
                 className="w-auto h-auto p-5 tex-center m-auto"
-                src={`${item.imgSrc}`}
+                src={`/aimeos/${item.imgSrc}`}
               ></img>
               <div className="text-red-500 font-bold">{item.title}</div>
             </div>
@@ -695,7 +649,7 @@ const CartList = (props) => {
                 className={`bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
                   !isAgreedTerms ? 'bg-opacity-50 cursor-not-allowed' : ''
                 }`}
-                onClick={handleOpenAddressModal}
+                onClick={isAgreedTerms ? handleOpenAddressModal : null}
               >
                 お会計
               </button>
@@ -715,7 +669,7 @@ const CartList = (props) => {
         <CheckoutAddress
           handleOnChange={handleAddressOnChange}
           handleSubmit={handleCheckoutModalOpen}
-          handleCloseModal={handleCheckoutModalClose}
+          handleCloseModal={handleCheckoutModalAddressClose}
           state={addressData}
         />
       ) : null}

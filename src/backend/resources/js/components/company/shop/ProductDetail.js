@@ -27,15 +27,24 @@ const ProductDetail = (props) => {
     defaultStock: 0,
     meta: []
   })
-  // const [basktetDetails, setBasketDetails] = useState({})
   const parseProductData = (data) => {
-    console.log('@detail', data)
     const { media, price, product, text, stock, meta } = data
-    let prodDescription = text['text.content'].replace(/<[^>]+>/g, '')
-    let prodPrice = _.parseInt(price['price.value'])
+
+    if (_.isEmpty(price)) {
+      alert(
+        'Error: Product has lack of attributes. You will be return to shopping page.'
+      )
+      window.location.replace('/company/shop')
+    }
+    let prodDescription = !_.isEmpty(text)
+      ? text['text.content'].replace(/<[^>]+>/g, '')
+      : ''
+    let prodPrice = !_.isEmpty(price) ? _.parseInt(price['price.value']) : ''
     let userData = JSON.parse(document.getElementById('userData').textContent)
-    let taxValue = _.parseInt(_.parseInt(price['price.taxvalue']))
-    console.log('DETAILS', userData)
+    let taxValue = !_.isEmpty(price)
+      ? _.parseInt(_.parseInt(price['price.taxvalue']))
+      : ''
+
     setProductDetail({
       ...productDetail,
       id: product['product.id'],
@@ -125,51 +134,9 @@ const ProductDetail = (props) => {
       return false
     }
 
-    // save to basket
-    // saveToBasket()
-    //  set to state
     addItem(productDetail, state.orderNum)
     history.push({ pathname: '/company/cart', state: productDetail })
   }
-  // const saveToBasket = () => {
-  //   var data = {
-  //     data: [
-  //       {
-  //         attributes: {
-  //           'product.id': productDetail.id,
-  //           quantity: state.orderNum, // optional
-  //           stocktype: 'default' // warehouse code (optional)
-  //         }
-  //       }
-  //     ]
-  //   }
-
-  //   let url = '/jsonapi/basket?id=default&related=product'
-  //   let csrfItem = productDetail.meta.csrf
-
-  //   if (csrfItem) {
-  //     // add CSRF token if available and therefore required
-  //     var csrf = {}
-  //     csrf[csrfItem.name] = csrfItem.value
-  //     url +=
-  //       (url.indexOf('?') === -1 ? '?' : '&') +
-  //       Object.keys(csrf)
-  //         .map((key) => key + '=' + csrf[key])
-  //         .join('&')
-  //   }
-
-  //   // console.log('@post', data)
-  //   // console.log('@meta', productDetail.meta, url)
-
-  //   axios
-  //     .post(url, JSON.stringify(data), {
-  //       'Content-Type': 'application/json'
-  //     })
-  //     .then((response) => {
-  //       // setBasketDetails(response.data)
-  //       history.push({ pathname: '/company/cart', state: response.data })
-  //     })
-  // }
 
   function getProductDetail(id) {
     axios({
