@@ -31,13 +31,13 @@ const CartList = (props) => {
     orderInvoiceSuccess: false,
     modalCheckoutContentDisplay: false,
     htmlContent: '',
-    addressModalDisplay: false
+    addressModalDisplay: false,
+    loader: false
     // modalDisplayCreditCard: false
   })
 
   const [addressData, setAddressData] = useState({})
-  console.log('state', addressData)
-
+  console.log(addressData)
   const history = useHistory()
 
   // const [prodOrderNum, setProdNum] = useState({
@@ -91,20 +91,27 @@ const CartList = (props) => {
   }
 
   const handleCheckoutModalOpen = () => {
-    saveToBasket().then(() => {
-      createDeliveryService().then(() => {
-        addService()
-      })
-    })
-    saveToBasket()
     setState((prevState) => {
       return {
         ...prevState,
-        // modalDisplay: !prevState.modalDisplay
-        addressModalDisplay: !prevState.addressModalDisplay,
-        modalDisplay: !prevState.modalDisplay
+        loader: !prevState.loader
       }
     })
+    saveToBasket().then(() => {
+      createDeliveryService().then(() => {
+        addService()
+        setState((prevState) => {
+          return {
+            ...prevState,
+            // modalDisplay: !prevState.modalDisplay
+            addressModalDisplay: !prevState.addressModalDisplay,
+            modalDisplay: !prevState.modalDisplay,
+            loader: !prevState.loader
+          }
+        })
+      })
+    })
+    saveToBasket()
   }
 
   async function saveToBasket() {
@@ -213,7 +220,7 @@ const CartList = (props) => {
         {
           id: serviceId, // or 'delivery'
           attributes: {
-            'order.base.address.company': addressData.companyName, // (optional)
+            'order.base.address.company': addressData.company_name, // (optional)
             'order.base.address.firstname': addressData.first_name, // (optional)
             'order.base.address.lastname': addressData.last_name, // (required)
             'order.base.address.address1': addressData.street_address, // (required)

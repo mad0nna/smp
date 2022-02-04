@@ -280,7 +280,6 @@ const CheckoutAddress = (props) => {
                     id="inline-address-name"
                     type="text"
                     name="number"
-                    // value={props.addressData.address}
                     onChange={props.handleOnChange}
                     required
                   />
@@ -301,7 +300,6 @@ const CheckoutAddress = (props) => {
                     id="inline-mail-name"
                     type="email"
                     name="email"
-                    // value={props.addressData.email}
                     onChange={props.handleOnChange}
                     required
                   />
@@ -316,12 +314,30 @@ const CheckoutAddress = (props) => {
                 >
                   キャンセル
                 </button>
-                <button
-                  className="bg-primary-200 text-white h-12 w-2/6 rounded-3xl font-semibold"
-                  onClick={props.handleSubmit}
-                >
-                  確定
-                </button>
+                {props.loader ? (
+                  <div
+                    className="
+                   spinner-border
+                   animate-spin
+                   inline-block
+                   w-8
+                   h-8
+                   border-4
+                   rounded-full
+                   text-green-500
+                 "
+                    role="status"
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                ) : (
+                  <button
+                    className="bg-primary-200 text-white h-12 w-2/6 rounded-3xl font-semibold"
+                    onClick={props.handleSubmit}
+                  >
+                    確定
+                  </button>
+                )}
               </div>
             </div>
           </div>

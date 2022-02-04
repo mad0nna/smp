@@ -49,9 +49,9 @@ $enc = $this->encoder();
       }</style><style type="text/css">@media only screen and (max-width:480px) {
       table.full-width-mobile { width: 100% !important; }
       td.full-width-mobile { width: auto !important; }
-    }</style><style type="text/css"><?= $this->get( 'htmlCss' ) ?></style></head><body><div class="aimeos"><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->  <div style="  width: 700px;
-	Margin:0px auto;
-	max-width:600px;
+    }</style><style type="text/css"><?= $this->get( 'htmlCss' ) ?></style></head><body><div class="aimeos"><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->  <div style="max-width: 750px;
+  height: auto;
+  margin: 40px auto;
   background: #fff;
   padding: 30px;"> 
   <table style="
@@ -62,60 +62,81 @@ $enc = $this->encoder();
     <tbody>
       <tr>
         <td style="text-align:left; font-size: 25px; font-weight: bold">請求書​</td>
-        <td style="text-align:right;font-weight: bold">発行日​ </br> 請求書 No.​</td>
-        <td style="text-align:right;font-weight: bold">2021/11/30 </br> INV011</td>
+        <td style="text-align:right;font-weight: bold"><div>発行日​</td>
+        <td style="text-align:right;font-weight: bold"><div> <?=$enc->html(date( "Y-m-d", strtotime($this->extOrderItem->getDatePayment()) ))?></td>
+      </tr>
+       <tr>
+        <td style="text-align:left; font-size: 25px; font-weight: bold"></td>
+        <td style="text-align:right;font-weight: bold">請求書 No.​</td>
+        <td style="text-align:right;font-weight: bold"><?= $enc->html($this->extOrderItem->getOrderNumber()) ?></td>
       </tr>
     </tbody>
   </table>
   <div>
-    <p style="font-size: 18px; padding: 10px 0 0 0"> Dear Soft Bank Company <p>
+    <p style="font-size: 18px; padding: 10px 0 0 0"> Dear <?php foreach ($this->summaryBasket->getAddress( 'payment' ) as $address) : ?><?=$enc->html($address->getCompany() , $enc::TRUST) ?>  <?php endforeach ?> Company <p>
     <p style="font-size: 18px; padding: 0 0 5px 0"> 下記の通りご請求申し上げます​ <p>
   </div>
-  <div  style="display: flex; align-items: flex-start;">
-    <div style="flex: .8; padding-right: 50px;">
-    <table style="width: 100%;height: 100%;border-collapse: collapse;">
-      <tbody>
-        <tr>
-          <td style="text-align:left; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">ご請求金額(税込)​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold">¥2,000,000</td>
+     <table style="width: 100%;">
+        <tbody>
+        <tr> 
+          <td>
+            <table style="width: 80%;height: 100%;border-collapse: collapse;">
+            <tbody>
+            <tr>
+              <td style="text-align:left; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">ご請求金額(税込)​</td>
+              <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold"><?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
+           </tr>
+          </tbody>
+          </table>
+          </td>
+          <td style="width: 40px">
+           <div>
+             <div style="height: 50px; width: auto">
+           <img src="https://idaten.sprobe.ph/images/images/kot-admin-panel.png" style="height: 50px; width: auto;">
+              <div style="font-size: 13px">株式会社ヒューマンテクノロジーズ </div>
+              <div style="font-size: 13px">〒107-0051</div>
+              <div style="font-size: 13px">東京都港区赤坂 1-6-6</div>
+              <div style="font-size: 13px">請求に関するお問い合わせ: shopping@h-t.co.jp</div>
+            </div>
+          </td>
+          <td>
+     <img src="https://idaten.sprobe.ph/images/images/kot-admin-panel.png" style="height: 90px; width: auto" />
+    </td>
         </tr>
-      </tbody>
+       </tbody>
     </table>
-    </div>
-    <div style="flex: .9; flex-direction: column; display: flex;">
-      <div style="font-size: 13px">株式会社ヒューマンテクノロジーズ </div>
-      <div style="font-size: 13px">〒107-0051</div>
-      <div style="font-size: 13px">東京都港区赤坂 1-6-6</div>
-      <div style="font-size: 13px">請求に関するお問い合わせ: shopping@h-t.co.jp</div>
-    </div>
-    </div>
     <div style="height: 50px"></div>
      <table style="width: 100%;height: 100%;border-collapse: collapse;">
-       <thdead>
+       <thead>
          <th style="border: solid 1px #000000;  width: 40px;">No</th>
          <th style="border: solid 1px #000000;">品名​</th>
          <th style="border: solid 1px #000000;">単価​</th>
          <th style="border: solid 1px #000000;">金額(税抜)​</th>
        </thead>
       <tbody>
-	  <?php foreach( $this->summaryBasket->getProducts() as $product ) : $totalQty += $product->getQuantity() ?>
+        <?php $totalQty = 0; $index = 0 ?>
+      <?php foreach( $this->summaryBasket->getProducts() as $product ) : $totalQty += $product->getQuantity()?>
+      <?php $index++ ?>
         <tr>
-          <td style="border: solid 1px #000000; text-align:right; padding: 10px">1</td>
-          <td style="border: solid 1px #000000; padding: 10px"><?= $enc->html( $product->getName(), $enc::TRUST ) ?> </br> 2021/02/02</td>
-          <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?= $enc->html( $attribute->getQuantity() ) ?></td>
-          <td style="border: solid 1px #000000; text-align:right; padding: 10px">518</td>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($index , $enc::TRUST) ?></td>
+          <td style="border: solid 1px #000000; padding: 10px"><?=$enc->html($product->getName() , $enc::TRUST) ?> <br>  <?=$enc->html(date( "Y-m-d", strtotime($this->extOrderItem->getDatePayment()) ))?></td>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getQuantity() , $enc::TRUST) ?></td>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getPrice()->getValue() , $enc::TRUST) ?></td>
         </tr>
-		<?php endforeach ?>
+        <?php endforeach ?>
       </tbody>
     </table>
     <div style="height: 50px"></div>
-      <div  style="display: flex; align-items: flex-start;">
-    <div style="flex: 1; padding-right: 50px;">
-      <div style="font-size: 13px">備考：​</div>
+<div>
+   <table style="width: 100%;">
+     <tbody>
+       <tr>
+         <td style="padding-right: 20px">
+           <div style="font-size: 13px">備考：​</div>
       <div style="font-size: 13px">お振込の際は、必ず ご契約者様名義 でお願いいたします。 </div>
       <div style="font-size: 13px">振込名義とご契約名が異なる場合、入金確認ができません。</div>
       <div style="font-size: 13px">※振込手数料は貴社にてご負担ください。​</div>
-	  <table style="width: 100%;height: 100%;border-collapse: collapse;background: #d9d9d9;">
+      <table style="width: 100%;height: 100%;border-collapse: collapse;background: #d9d9d9;">
       <tbody>
         <tr>
           <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">みずほ銀行</td>
@@ -135,25 +156,37 @@ $enc = $this->encoder();
       </tbody>
     </table>
       <div style="font-size: 13px">口座名義： カ) ヒューマンテクノロジーズ​</div>
-    </div>
-  <div style="flex: .7; flex-direction: column; display: flex;">
-    <table style="width: 100%;height: 100%;border-collapse: collapse;">
+     </td>
+     <td style="width: 50%">
+           <table style="width: 100%;height: 100%;border-collapse: collapse;">
       <tbody>
         <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px;">小計​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px;">¥2,000,000</td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px;"><?= $enc->html($this->summaryBasket->getPrice()->getValue() ) ?></td>
         </tr>
          <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px;">消費税​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px;">¥2,000</td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px;"><?= $enc->html( $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
         </tr>
         <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">合計​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold">¥2,002,000</td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold"><?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
         </tr>
       </tbody>
      </table>
-      </div>
+         </td>
+    </tr>
+     </tbody>
+  </table>
+  <table style="padding-top: 100px">
+    <tbody>
+      <tr> 
+        <td style="width: 100%"></td>
+        <td>       <img src ="https://idaten.sprobe.ph/images/images/kot-admin-panel.png" style="height: 50px; width: auto"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
     </div>
   </div>
 </div>
