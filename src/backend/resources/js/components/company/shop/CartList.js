@@ -84,16 +84,18 @@ const CartList = (props) => {
       }
     })
     saveToBasket().then(() => {
-      createDeliveryService().then(() => {
-        createPaymentService()
-        setState((prevState) => {
-          return {
-            ...prevState,
-            // modalDisplay: !prevState.modalDisplay
-            addressModalDisplay: !prevState.addressModalDisplay,
-            modalDisplay: !prevState.modalDisplay,
-            loader: !prevState.loader
-          }
+      createAddressService('payment').then(() => {
+        createDeliveryService().then(() => {
+          createPaymentService()
+          setState((prevState) => {
+            return {
+              ...prevState,
+              // modalDisplay: !prevState.modalDisplay
+              addressModalDisplay: !prevState.addressModalDisplay,
+              modalDisplay: !prevState.modalDisplay,
+              loader: !prevState.loader
+            }
+          })
         })
       })
     })
@@ -142,7 +144,7 @@ const CartList = (props) => {
 
   async function createDeliveryService() {
     // fetch delivery
-    await axios
+    axios
       .get(
         `/jsonapi/service?filter[cs_type]=delivery&include=text,price,media`,
         {
@@ -190,7 +192,6 @@ const CartList = (props) => {
           .then(() => {
             console.log('@created delivery service')
             // set address for invoice
-            createAddressService('payment')
           })
       })
   }
@@ -217,7 +218,7 @@ const CartList = (props) => {
         }
       ]
     }
-    axios
+    await axios
       .post(`${addressUrl}&_token=${csrfItem.value}`, JSON.stringify(params), {
         'Content-Type': 'application/json'
       })
