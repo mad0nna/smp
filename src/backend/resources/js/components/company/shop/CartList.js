@@ -85,7 +85,7 @@ const CartList = (props) => {
     })
     saveToBasket().then(() => {
       createDeliveryService().then(() => {
-        addService()
+        createPaymentService()
         setState((prevState) => {
           return {
             ...prevState,
