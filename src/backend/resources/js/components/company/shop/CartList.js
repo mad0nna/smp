@@ -85,15 +85,17 @@ const CartList = (props) => {
     })
     saveToBasket().then(() => {
       createDeliveryService().then(() => {
-        createPaymentService()
-        setState((prevState) => {
-          return {
-            ...prevState,
-            // modalDisplay: !prevState.modalDisplay
-            addressModalDisplay: !prevState.addressModalDisplay,
-            modalDisplay: !prevState.modalDisplay,
-            loader: !prevState.loader
-          }
+        createAddressService('payment').then(() => {
+          createPaymentService()
+          setState((prevState) => {
+            return {
+              ...prevState,
+              // modalDisplay: !prevState.modalDisplay
+              addressModalDisplay: !prevState.addressModalDisplay,
+              modalDisplay: !prevState.modalDisplay,
+              loader: !prevState.loader
+            }
+          })
         })
       })
     })
@@ -190,7 +192,6 @@ const CartList = (props) => {
           .then(() => {
             console.log('@created delivery service')
             // set address for invoice
-            createAddressService('payment')
           })
       })
   }
