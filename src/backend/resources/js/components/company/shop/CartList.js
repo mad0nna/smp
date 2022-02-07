@@ -11,9 +11,10 @@ import CheckoutContent from './CheckoutContent'
 import CheckoutAddress from './CheckoutAddress'
 const CartList = (props) => {
   const SERVICE_TYPE = 'payment'
-  // let userData = JSON.parse(document.getElementById('userData').textContent)
   const [isAgreedTerms, setAgreedTerms] = useState(false)
   const [orderId, setOrderId] = useState({ orderId: null, token: null })
+
+  const [csrfItem, setCsrfToken] = useState({})
 
   const [state, setState] = useState({
     method: '',
@@ -22,8 +23,8 @@ const CartList = (props) => {
     orderInvoiceSuccess: false,
     modalCheckoutContentDisplay: false,
     htmlContent: '',
-    addressModalDisplay: false
-    // modalDisplayCreditCard: false
+    addressModalDisplay: false,
+    loader: false
   })
 
   const [addressData, setAddressData] = useState({})
@@ -91,6 +92,39 @@ const CartList = (props) => {
         modalDisplay: !prevState.modalDisplay
       }
     })
+    saveToBasket()
+      .then(() => {
+        createAddressService('payment')
+          .then(() => {
+            createDeliveryService()
+              .then(() => {
+                createPaymentService().catch((err) => {
+                  console.error('@error: ', err)
+                  deleteBasketCache(csrfItem)
+                })
+                setState((prevState) => {
+                  return {
+                    ...prevState,
+                    addressModalDisplay: !prevState.addressModalDisplay,
+                    modalDisplay: !prevState.modalDisplay,
+                    loader: !prevState.loader
+                  }
+                })
+              })
+              .catch((err) => {
+                console.error('@error: ', err)
+                deleteBasketCache(csrfItem)
+              })
+          })
+          .catch((err) => {
+            console.error('@error: ', err)
+            deleteBasketCache(csrfItem)
+          })
+      })
+      .catch((err) => {
+        console.error('@error: ', err)
+        deleteBasketCache(csrfItem)
+      })
   }
 
   async function saveToBasket() {
@@ -104,14 +138,13 @@ const CartList = (props) => {
           }
         }
       })
-      //  {
-      //   'product.id': productDetail.id,
-      //   quantity: state.orderNum, // optional
-      //   stocktype: 'default' // warehouse code (optional)
-      // }
+      //
     }
     let url = '/jsonapi/basket?id=default&related=product'
     let csrfItem = props.location.state.meta.csrf
+
+    // save state csrfItem
+    setCsrfToken(csrfItem)
 
     if (csrfItem) {
       // add CSRF token if available and therefore required
@@ -130,6 +163,9 @@ const CartList = (props) => {
       })
       .then(() => {
         console.log('@create product to basket')
+      })
+      .catch((err) => {
+        console.error('@error', err)
       })
   }
 
@@ -185,6 +221,14 @@ const CartList = (props) => {
             // set address for invoice
             createAddressService('payment')
           })
+          .catch((err) => {
+            console.warn('@error: ', err)
+            deleteBasketCache(csrfItem)
+          })
+      })
+      .catch((err) => {
+        console.warn('@error: ', err)
+        deleteBasketCache(csrfItem)
       })
   }
 
@@ -251,7 +295,6 @@ const CartList = (props) => {
         }
 
         // create delivery service
-        // console.log('params service payment post', params)
         if (csrfItem) {
           // add CSRF token if available and therefore required
           var csrf = {}
@@ -271,7 +314,7 @@ const CartList = (props) => {
     axios
       .delete(`/jsonapi/basket?id=default&_token=${csrfItem.value}`)
       .then(() => {
-        // console.log('@deleted basket items', response)
+        console.log('@deleted basket items')
       })
   }
 
@@ -282,7 +325,6 @@ const CartList = (props) => {
       })
       .then((res2) => {
         console.log('create payment service')
-
         let basketUrl = res2.data.links.self.href
         let csrfItem = res2.data.meta.csrf
         if (csrfItem) {
@@ -306,6 +348,10 @@ const CartList = (props) => {
               orderId: res3.data.data.attributes['order.base.id'],
               token: res3.data.meta.csrf.value
             })
+          })
+          .catch((err) => {
+            console.error('@error', err)
+            deleteBasketCache(csrfItem)
           })
       })
   }
@@ -375,23 +421,28 @@ const CartList = (props) => {
           }
         }
 
-        generateFinalOrder(ccData).then((res) => {
-          console.log('sucessfully created order')
-          deleteBasketCache(res.data.meta.csrf)
-          // display modal submit
-          let totalAmount = calculatedItem.totalAmount.toLocaleString('jp')
-          openZeusPaymentForm(orderId.orderId, totalAmount)
+        generateFinalOrder(ccData)
+          .then((res) => {
+            console.log('sucessfully created order')
+            deleteBasketCache(res.data.meta.csrf)
+            // display modal submit
+            let totalAmount = calculatedItem.totalAmount.toLocaleString('jp')
+            openZeusPaymentForm(orderId.orderId, totalAmount)
 
-          setState((prevState) => {
-            return {
-              ...prevState,
-              orderInvoiceSuccess: true
-            }
+            setState((prevState) => {
+              return {
+                ...prevState,
+                orderInvoiceSuccess: true
+              }
+            })
+
+            handleCheckoutModalClose()
+            handleCheckoutMessageModalOpen()
           })
-
-          handleCheckoutModalClose()
-          handleCheckoutMessageModalOpen()
-        })
+          .catch((err) => {
+            console.error('@error', err)
+            deleteBasketCache(csrfItem)
+          })
         break
       }
       case 2: {
@@ -404,20 +455,25 @@ const CartList = (props) => {
           }
         }
 
-        generateFinalOrder(invData).then((res) => {
-          console.log('sucessfully created order')
-          deleteBasketCache(res.data.meta.csrf)
-          // display modal submit
-          setState((prevState) => {
-            return {
-              ...prevState,
-              orderInvoiceSuccess: true
-            }
-          })
+        generateFinalOrder(invData)
+          .then((res) => {
+            console.log('sucessfully created order')
+            deleteBasketCache(res.data.meta.csrf)
+            // display modal submit
+            setState((prevState) => {
+              return {
+                ...prevState,
+                orderInvoiceSuccess: true
+              }
+            })
 
-          handleCheckoutModalClose()
-          handleCheckoutMessageModalOpen()
-        })
+            handleCheckoutModalClose()
+            handleCheckoutMessageModalOpen()
+          })
+          .catch((err) => {
+            console.error('@error', err)
+            deleteBasketCache(csrfItem)
+          })
       }
     }
   }
@@ -683,13 +739,6 @@ const CartList = (props) => {
           handleCloseModal={handleCheckoutContentModalClose}
         />
       ) : null}
-
-      {/* {state.modalDisplayCreditCard ? (
-        <PaymentSelection
-          handleCloseModal={handleCloseModal}
-          method={state.method}
-        />
-      ) : null} */}
     </div>
   )
 }
