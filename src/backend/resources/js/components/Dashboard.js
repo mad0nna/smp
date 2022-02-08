@@ -157,7 +157,7 @@ const Dashboard = () => {
                 <span className="text-red-600">
                   {unpaidBillingData.total_billed_amount}
                 </span>{' '}
-                円(税込)ございま。
+                円(税込)ございます。
               </span>
             </div>
           </a>
