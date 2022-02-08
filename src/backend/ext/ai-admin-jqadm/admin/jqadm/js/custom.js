@@ -58,22 +58,33 @@ $(document).ready(function () {
         $("#txtStandardStockLevel").val(parseInt($("#lblStocksStockLevel").text()));
     }
 
+    
+    $("#txtProductFilter").on("input", function(){
+        $("#txtProductCode").val(this.value);
+        $("#txtProductName").val(this.value);
+    });
+
+    $("#txtFilterCustomer").on("input", function(){
+        $("#txtCustomerName").val(this.value);
+        $("#txtCustomerCompanyName").val(this.value);
+    });    
+
 });
 
 function setProductAllStatus() {
     document.getElementById("selectProductStatus").value = "";
-    document.getElementById("btnSubmitFilter").click();
+    document.getElementById("btnSubmitFilterProduct").click();
 }
 
 function setProductActive() {
     document.getElementById("selectProductStatus").value = "1";
-    document.getElementById("btnSubmitFilter").click();
+    document.getElementById("btnSubmitFilterProduct").click();
 }
 function setProductInActive() {
     document.getElementById("selectProductStatus").value = "0";
-    document.getElementById("btnSubmitFilter").click();
+    document.getElementById("btnSubmitFilterProduct").click();
 }
 function setProductArchived() {
     document.getElementById("selectProductStatus").value = "-2";
-    document.getElementById("btnSubmitFilter").click();
+    document.getElementById("btnSubmitFilterProduct").click();
 }

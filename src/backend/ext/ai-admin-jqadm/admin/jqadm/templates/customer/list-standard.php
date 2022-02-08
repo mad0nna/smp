@@ -48,7 +48,7 @@ $delConfig = $this->config( 'admin/jqadm/url/delete/config', [] );
  * @since 2017.07
  * @category Developer
  */
-$default = ['customer.code', 'customer.lastname', 'customer.postal', 'customer.city'];
+$default = ['customer.label', 'customer.company_name', 'customer.ctime', 'customer.email', 'customer.editor'];
 $default = $this->config( 'admin/jqadm/customer/fields', $default );
 $fields = $this->session( 'aimeos/admin/jqadm/customer/fields', $default );
 
@@ -73,11 +73,11 @@ $columnList = [
 	'customer.id' => $this->translate( 'admin', 'ID' ),
 	'customer.status' => $this->translate( 'admin', 'Status' ),
 	'customer.code' => $this->translate( 'admin', 'Code' ),
-	'customer.label' => $this->translate( 'admin', 'Label' ),
 	'customer.salutation' => $this->translate( 'admin', 'Salutation' ),
-	'customer.company_name' => $this->translate( 'admin', 'Company' ),
+	'customer.company_name' => $this->translate( 'admin', '顧客企業名' ),
 	'customer.vatid' => $this->translate( 'admin', 'VAT ID' ),
 	'customer.title' => $this->translate( 'admin', 'Title' ),
+	'customer.label' => $this->translate( 'admin', '顧客名' ),
 	'customer.firstname' => $this->translate( 'admin', 'First name' ),
 	'customer.lastname' => $this->translate( 'admin', 'Last name' ),
 	'customer.address1' => $this->translate( 'admin', 'Address 1' ),
@@ -90,12 +90,12 @@ $columnList = [
 	'customer.countryid' => $this->translate( 'admin', 'Country ID' ),
 	'customer.telephone' => $this->translate( 'admin', 'State' ),
 	'customer.telefax' => $this->translate( 'admin', 'Facsimile' ),
-	'customer.email' => $this->translate( 'admin', 'Email' ),
+	'customer.email' => $this->translate( 'admin', 'メールアドレス' ),
 	'customer.website' => $this->translate( 'admin', 'Web site' ),
 	'customer.birthday' => $this->translate( 'admin', 'Birthday' ),
-	'customer.ctime' => $this->translate( 'admin', 'Created' ),
+	'customer.ctime' => $this->translate( 'admin', '購⼊⽇' ),
 	'customer.mtime' => $this->translate( 'admin', 'Modified' ),
-	'customer.editor' => $this->translate( 'admin', 'Editor' ),
+	'customer.editor' => $this->translate( 'admin', '合計⾦額' ),
 ];
 
 
@@ -112,26 +112,26 @@ $columnList = [
 	data-filter="<?= $enc->attr( $this->session( 'aimeos/admin/jqadm/customer/filter', new \stdClass ) ) ?>"
 	data-items="<?= $enc->attr( $this->get( 'items', map() )->call( 'toArray', [true] )->all() ) ?>">
 
-	<nav class="main-navbar">
 
-		<span class="navbar-brand">
-			<?= $enc->html( $this->translate( 'admin', 'Customer' ) ) ?>
-			<span class="navbar-secondary">(<?= $enc->html( $this->site()->label() ) ?>)</span>
-		</span>
+	<div class="d-flex row justify-content-end" style="margin-top:1.4em">
+		<div class="p2" id="upload_csv_content" >
+			<form ref="form" method="POST" action="<?= $enc->attr( $this->url( $target, $controller, $action, $searchParams, [], $config ) ) ?>">
+				<?= $this->csrf()->formfield() ?>
+				<button id="btnSubmitFilter" type="submit" tabindex="2" title="Search" aria-label="Search" class="btn act-search fa file btn btn-lg btn-theme text-white upload-csv float-end mx-2" style="  ">
+					&nbsp; 探す &nbsp; 
+				</button>
+				<input type="text" id="txtFilterCustomer" tabindex="1" value="<?= $this->session( 'aimeos/admin/jqadm/customer/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/customer/filter', [] )['val']['6'] : ''; ?>" class="form-control float-end" style="width:15%; background:transparent;"  >
 
-		<div class="btn fa act-search" v-on:click="search = true"
-			title="<?= $enc->attr( $this->translate( 'admin', 'Show search form' ) ) ?>"
-			aria-label="<?= $enc->attr( $this->translate( 'admin', 'Show search form' ) ) ?>">
+				<input type="hidden" value="customer.label" name="filter[key][4]"> 
+				<input type="hidden" value="=~" name="filter[op][4]"> 
+				<input type="text" id="txtCustomerName" name="filter[val][4]" class="d-none"  value="<?= $this->session( 'aimeos/admin/jqadm/customer/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/customer/filter', [] )['val']['4'] : ''; ?>">
+				
+				<input type="hidden" value="customer.company_name" name="filter[key][6]"> 
+				<input type="hidden" value="=~" name="filter[op][6]"> 
+				<input type="text" id="txtCustomerCompanyName" name="filter[val][6]" class="d-none"  value="<?= $this->session( 'aimeos/admin/jqadm/customer/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/customer/filter', [] )['val']['6'] : ''; ?>"   >
+			</form>
 		</div>
-	</nav>
-
-	<nav-search v-bind:show="search" v-on:close="search = false"
-		v-bind:url="`<?= $enc->js( $this->link( 'admin/jqadm/url/search', map( $searchParams )->except( 'filter' )->all() ) ) ?>`"
-		v-bind:filter="<?= $enc->attr( (object) $this->session( 'aimeos/admin/jqadm/customer/filter', new \stdClass ) ) ?>"
-		v-bind:operators="<?= $enc->attr( $operators ) ?>"
-		v-bind:name="`<?= $enc->js( $this->formparam( ['filter', '_key_', '0'] ) ) ?>`"
-		v-bind:attributes="<?= $enc->attr( $searchAttributes ) ?>">
-	</nav-search>
+	</div>
 
 	<?= $this->partial(
 			$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-standard' ),
@@ -155,85 +155,24 @@ $columnList = [
 		</column-select>
 
 		<div class="table-responsive">
-			<table class="list-items table table-hover table-striped">
+			<table class="list-items table table-hover table-striped list-orders">
 				<thead class="list-header">
 					<tr>
-						<th class="select">
-							<a href="#" class="btn act-delete fa" tabindex="1"
-								v-on:click.prevent.stop="askDelete()"
-								title="<?= $enc->attr( $this->translate( 'admin', 'Delete selected entries' ) ) ?>"
-								aria-label="<?= $enc->attr( $this->translate( 'admin', 'Delete' ) ) ?>">
-							</a>
-						</th>
-
-						<?= $this->partial(
-								$this->config( 'admin/jqadm/partial/listhead', 'common/partials/listhead-standard' ),
-								['fields' => $fields, 'params' => $params, 'data' => $columnList, 'sort' => $this->session( 'aimeos/admin/jqadm/customer/sort' )]
-							);
-						?>
-
-						<th class="actions">
-							<a class="btn fa act-add" tabindex="1"
-								href="<?= $enc->attr( $this->url( $newTarget, $newCntl, $newAction, $params, [], $newConfig ) ) ?>"
-								title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)' ) ) ?>"
-								aria-label="<?= $enc->attr( $this->translate( 'admin', 'Add' ) ) ?>">
-							</a>
-
-							<a class="btn act-columns fa" href="#" tabindex="<?= $this->get( 'tabindex', 1 ) ?>"
-								title="<?= $enc->attr( $this->translate( 'admin', 'Columns' ) ) ?>"
-								v-on:click.prevent.stop="columns = true">
-							</a>
-						</th>
+						<th class="customer-table-column">顧客企業名</th>
+						<th class="customer-table-column ">顧客名</th>
+						<th class="customer-table-column ">メールアドレス</th>
+						<th class="customer-table-column">購⼊⽇</th>
+						<th class="customer-table-column">合計⾦額</th>
+						<th class="customer-table-column">操作</th>
 					</tr>
 				</thead>
 				<tbody>
-
-					<?= $this->partial(
-						$this->config( 'admin/jqadm/partial/listsearch', 'common/partials/listsearch-standard' ), [
-							'fields' => array_merge( $fields, ['select'] ), 'filter' => $this->session( 'aimeos/admin/jqadm/customer/filter', [] ),
-							'data' => [
-								'customer.id' => ['op' => '=='],
-								'customer.status' => ['op' => '==', 'type' => 'select', 'val' => [
-									'1' => $this->translate( 'mshop/code', 'status:1' ),
-									'0' => $this->translate( 'mshop/code', 'status:0' ),
-									'-1' => $this->translate( 'mshop/code', 'status:-1' ),
-									'-2' => $this->translate( 'mshop/code', 'status:-2' ),
-								]],
-								'customer.code' => [],
-								'customer.label' => [],
-								'customer.salutation' => ['op' => '==', 'type' => 'select', 'val' => [
-									'' => 'none', 'company' => 'company', 'mr' => 'mr', 'ms' => 'ms'
-								]],
-								'customer.company_name' => [],
-								'customer.vatid' => [],
-								'customer.title' => [],
-								'customer.firstname' => [],
-								'customer.lastname' => [],
-								'customer.address1' => [],
-								'customer.address2' => [],
-								'customer.address3' => [],
-								'customer.postal' => [],
-								'customer.city' => [],
-								'customer.state' => [],
-								'customer.languageid' => ['op' => '==', 'type' => 'select', 'val' => $langList],
-								'customer.countryid' => ['op' => '=='],
-								'customer.telephone' => [],
-								'customer.telefax' => [],
-								'customer.email' => [],
-								'customer.website' => [],
-								'customer.birthday' => ['op' => '-', 'type' => 'date'],
-								'customer.ctime' => ['op' => '-', 'type' => 'datetime-local'],
-								'customer.mtime' => ['op' => '-', 'type' => 'datetime-local'],
-								'customer.editor' => [],
-							]
-						] );
-					?>
 
 					<?php foreach( $this->get( 'items', [] ) as $id => $item ) : ?>
 						<?php $address = $item->getPaymentAddress() ?>
 						<?php $url = $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['id' => $id] + $params, [], $getConfig ) ) ?>
 						<tr class="list-item <?= $this->site()->readonly( $item->getSiteId() ) ?>" data-label="<?= $enc->attr( $item->getLabel() ?: $item->getCode() ) ?>">
-							<td class="select">
+							<td class="select d-none">
 								<input class="form-check-input" type="checkbox" tabindex="1"
 									name="<?= $enc->attr( $this->formparam( ['id', ''] ) ) ?>"
 									value="<?= $enc->attr( $item->getId() ) ?>"
@@ -256,9 +195,6 @@ $columnList = [
 							<?php if( in_array( 'customer.salutation', $fields ) ) : ?>
 								<td class="customer-salutation"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getSalutation() ) ?></a></td>
 							<?php endif ?>
-							<?php if( in_array( 'customer.company_name', $fields ) ) : ?>
-								<td class="customer-company"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getCompanyName() ) ?></a></td>
-							<?php endif ?>
 							<?php if( in_array( 'customer.vatid', $fields ) ) : ?>
 								<td class="customer-vatid"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getVatID() ) ?></a></td>
 							<?php endif ?>
@@ -269,7 +205,10 @@ $columnList = [
 								<td class="customer-firstname"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getFirstname() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'customer.lastname', $fields ) ) : ?>
-								<td class="customer-lastname"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getLastname() ) ?></a></td>
+								<td class="customer-lastname"> <?= $enc->html( $address->getLastname() ) . ' ' .  $enc->html( $address->getFirstname() ) ?> </td>
+							<?php endif ?>
+							<?php if( in_array( 'customer.company_name', $fields ) ) : ?>
+								<td class="customer-company"><?= $enc->html( $item->get('company_name') ) ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'customer.address1', $fields ) ) : ?>
 								<td class="customer-address1"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getAddress1() ) ?></a></td>
@@ -301,8 +240,11 @@ $columnList = [
 							<?php if( in_array( 'customer.telefax', $fields ) ) : ?>
 								<td class="customer-telefax"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getTelefax() ) ?></a></td>
 							<?php endif ?>
+							<?php if( in_array( 'customer.ctime', $fields ) ) : ?>
+								<td class="customer-ctime"> <?= $enc->html( substr($enc->html( $item->getTimeCreated() ), 0, 10) ) ?> </td>
+							<?php endif ?>
 							<?php if( in_array( 'customer.email', $fields ) ) : ?>
-								<td class="customer-email"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getEmail() ) ?></a></td>
+								<td class="customer-email"> <?= $enc->html( $address->getEmail() ) ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'customer.website', $fields ) ) : ?>
 								<td class="customer-website"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getWebsite() ) ?></a></td>
@@ -310,17 +252,17 @@ $columnList = [
 							<?php if( in_array( 'customer.birthday', $fields ) ) : ?>
 								<td class="customer-birthday"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getBirthday() ) ?></a></td>
 							<?php endif ?>
-							<?php if( in_array( 'customer.ctime', $fields ) ) : ?>
-								<td class="customer-ctime"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getTimeCreated() ) ?></a></td>
-							<?php endif ?>
 							<?php if( in_array( 'customer.mtime', $fields ) ) : ?>
 								<td class="customer-mtime"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getTimeModified() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'customer.editor', $fields ) ) : ?>
-								<td class="customer-editor"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getEditor() ) ?></a></td>
+								<td class="customer-editor"> <?= 1000 ?> </td>
 							<?php endif ?>
+						 
+							<td class="customer-editor"><a class="items-field" href="<?= $url ?>"> 詳細 </a></td>
+						 
 
-							<td class="actions">
+							<td class="actions d-none">
 								<a class="btn act-copy fa" tabindex="1"
 									href="<?= $enc->attr( $this->url( $copyTarget, $copyCntl, $copyAction, ['id' => $id] + $params, [], $copyConfig ) ) ?>"
 									title="<?= $enc->attr( $this->translate( 'admin', 'Copy this entry' ) ) ?>"

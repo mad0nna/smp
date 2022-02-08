@@ -86,7 +86,7 @@ return [
 		 * @param array List of user group names
 		 * @since 2017.10
 		 */
-		'groups' => ['admin', 'super'],
+		'groups' => ['admin', 'super', 'editor'],
 
 		/** admin/jqadm/resource/customer/key
 		 * Shortcut key to switch to the user panel by using the keyboard
@@ -417,7 +417,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'super', 'editor'],
 			],
 			'property' => [
 				/** admin/jqadm/resource/type/customer/property/groups
@@ -426,7 +426,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2018.07
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'super', 'editor'],
 			],
 		],
 		'media' => [

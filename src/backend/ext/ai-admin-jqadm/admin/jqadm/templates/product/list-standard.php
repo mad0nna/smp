@@ -609,16 +609,18 @@ $columnList = [
 
 			<form ref="form" method="POST" action="<?= $enc->attr( $this->url( $target, $controller, $action, $searchParams, [], $config ) ) ?>">
 				<?= $this->csrf()->formfield() ?>
-				<button id="btnSubmitFilter" type="submit" tabindex="2" title="Search" aria-label="Search" class="btn act-search fa file btn btn-lg btn-theme text-white upload-csv float-end mx-2" style="  ">
+				<button type="submit" id="btnSubmitFilterProduct" tabindex="2" title="Search" aria-label="Search" class="btn act-search fa file btn btn-lg btn-theme text-white upload-csv float-end mx-2" style="  ">
 					&nbsp; 探す &nbsp; 
 				</button>
+				<input type="text" id="txtProductFilter" tabindex="1" value="<?= $this->session( 'aimeos/admin/jqadm/product/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/product/filter', [] )['val']['6'] : ''; ?>" class="form-control float-end" style="width:15%; background:transparent;"  >
+
 				<input type="hidden" value="product.code" name="filter[key][5]">
 				<input type="hidden" value="=~" name="filter[op][5]">
-				<input type="text"   name="filter[val][5]" value="" class="form-control float-end d-none"  >
+				<input type="text" id="txtProductCode" name="filter[val][5]" class="d-none" value="<?= $this->session( 'aimeos/admin/jqadm/product/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/product/filter', [] )['val']['5'] : ''; ?>"   >
 				
 				<input type="hidden" value="product.label" name="filter[key][6]">
 				<input type="hidden" value="=~" name="filter[op][6]">
-				<input type="text" tabindex="1" name="filter[val][6]" value="<?= $this->session( 'aimeos/admin/jqadm/product/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/product/filter', [] )['val']['6'] : ''; ?>" class="form-control float-end" style="width:15%; background:transparent;"  >
+				<input type="text" id="txtProductName" name="filter[val][6]" class="d-none" value="<?= $this->session( 'aimeos/admin/jqadm/product/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/product/filter', [] )['val']['6'] : ''; ?>" >
 				<input type="hidden" value="product.status" name="filter[key][3]"> <input type="hidden" value="==" name="filter[op][3]">
 				<select id="selectProductStatus" name="filter[val][3]" class="d-none">
 					<?php
