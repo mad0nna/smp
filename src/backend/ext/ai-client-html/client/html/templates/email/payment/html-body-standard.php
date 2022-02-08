@@ -91,8 +91,9 @@ $enc = $this->encoder();
           </td>
           <td style="width: 40%">
            <div>
-             <div style="height: 50px; width: auto">
-           <!-- <img src="" style="height: 50px; width: auto;"> -->
+              <div style="height: 50px; width: auto">
+                <img src="<?= asset('images/email-logo.png') ?>" style="height: 50px; width: auto;" alt="" title="" />
+              </div>  
               <div style="font-size: 13px">株式会社ヒューマンテクノロジーズ </div>
               <div style="font-size: 13px">〒107-0051</div>
               <div style="font-size: 13px">東京都港区赤坂 1-6-6</div>
@@ -178,14 +179,14 @@ $enc = $this->encoder();
     </tr>
      </tbody>
   </table>
-  <!-- <table style="padding-top: 100px">
+  <table style="padding-top: 100px">
     <tbody>
       <tr> 
         <td style="width: 100%"></td>
-        <td>       <img src ="" style="height: 50px; width: auto"></td>
+        <td>      <img src="<?= asset('images/email-stamp.png') ?>" style="height: 50px; width: auto;" alt="" title="" /></td>
       </tr>
     </tbody>
-  </table> -->
+  </table>
 </div>
     </div>
   </div>

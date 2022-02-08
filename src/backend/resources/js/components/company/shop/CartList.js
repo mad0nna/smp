@@ -9,6 +9,10 @@ import _ from 'lodash'
 import CheckoutMessage from './CheckoutMessage'
 import CheckoutContent from './CheckoutContent'
 import CheckoutAddress from './CheckoutAddress'
+// eslint-disable-next-line
+import emailStamp from '../../../../img/email/email-stamp.png'
+// eslint-disable-next-line
+import emailLogo from '../../../../img/email/email-logo.png'
 const CartList = (props) => {
   const SERVICE_TYPE = 'payment'
   // let userData = JSON.parse(document.getElementById('userData').textContent)
