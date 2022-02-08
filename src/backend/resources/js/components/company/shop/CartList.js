@@ -22,13 +22,13 @@ const CartList = (props) => {
     orderInvoiceSuccess: false,
     modalCheckoutContentDisplay: false,
     htmlContent: '',
-    addressModalDisplay: false
+    addressModalDisplay: false,
+    loader: false
     // modalDisplayCreditCard: false
   })
 
   const [addressData, setAddressData] = useState({})
-  console.log('state', addressData)
-
+  console.log(addressData)
   const history = useHistory()
 
   const { cartTotal, items, updateItemQuantity, removeItem, emptyCart } =
@@ -77,20 +77,29 @@ const CartList = (props) => {
   }
 
   const handleCheckoutModalOpen = () => {
-    saveToBasket().then(() => {
-      createDeliveryService().then(() => {
-        createPaymentService()
-      })
-    })
-
     setState((prevState) => {
       return {
         ...prevState,
-        // modalDisplay: !prevState.modalDisplay
-        addressModalDisplay: !prevState.addressModalDisplay,
-        modalDisplay: !prevState.modalDisplay
+        loader: !prevState.loader
       }
     })
+    saveToBasket().then(() => {
+      createAddressService('payment').then(() => {
+        createDeliveryService().then(() => {
+          createPaymentService()
+          setState((prevState) => {
+            return {
+              ...prevState,
+              // modalDisplay: !prevState.modalDisplay
+              addressModalDisplay: !prevState.addressModalDisplay,
+              modalDisplay: !prevState.modalDisplay,
+              loader: !prevState.loader
+            }
+          })
+        })
+      })
+    })
+    // saveToBasket()
   }
 
   async function saveToBasket() {
@@ -135,7 +144,7 @@ const CartList = (props) => {
 
   async function createDeliveryService() {
     // fetch delivery
-    await axios
+    axios
       .get(
         `/jsonapi/service?filter[cs_type]=delivery&include=text,price,media`,
         {
@@ -183,7 +192,6 @@ const CartList = (props) => {
           .then(() => {
             console.log('@created delivery service')
             // set address for invoice
-            createAddressService('payment')
           })
       })
   }
@@ -196,7 +204,7 @@ const CartList = (props) => {
         {
           id: serviceId, // or 'delivery'
           attributes: {
-            'order.base.address.company': addressData.companyName, // (optional)
+            'order.base.address.company': addressData.company_name, // (optional)
             'order.base.address.firstname': addressData.first_name, // (optional)
             'order.base.address.lastname': addressData.last_name, // (required)
             'order.base.address.address1': addressData.street_address, // (required)
@@ -210,7 +218,7 @@ const CartList = (props) => {
         }
       ]
     }
-    axios
+    await axios
       .post(`${addressUrl}&_token=${csrfItem.value}`, JSON.stringify(params), {
         'Content-Type': 'application/json'
       })
