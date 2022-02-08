@@ -191,8 +191,10 @@ class Standard
 			}
 
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'customer' );
-
-			$view->item = $manager->get( $id, $this->getDomains() );
+			$domains =  $this->getDomains();
+			// // $domains["customer/product"] = "customer/product";
+			// // dd($domains);
+			$view->item = $manager->get( $id, $domains);
 			$view->itemGroups = $this->getGroupItems( $view->item );
 			$view->itemData = $this->toArray( $view->item );
 			$view->itemBody = parent::get();
@@ -254,8 +256,12 @@ class Standard
 			$params = $this->storeFilter( $view->param(), 'customer' );
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'customer' );
 			$search = $this->initCriteria( $manager->filter(), $params );
-
-			$view->items = $manager->search( $search, $this->getDomains(), $total );
+			// dd($this->getDomains());
+			$domains =  $this->getDomains();
+			$domains["customer/product"] = "customer/product";
+			// dd($domains);
+			$view->items = $manager->search( $search, $domains, $total );
+			// dd($view->items);
 			$view->filterAttributes = $manager->getSearchAttributes( true );
 			$view->filterOperators = $search->getOperators();
 			$view->itemBody = parent::search();
@@ -396,7 +402,7 @@ class Standard
 		 * @since 2017.07
 		 * @category Developer
 		 */
-		return $this->getContext()->getConfig()->get( 'admin/jqadm/customer/domains', [] );
+		return $this->getContext()->getConfig()->get( 'admin/jqadm/customer/domains', ['customer/product'] );
 	}
 
 

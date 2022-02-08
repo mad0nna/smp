@@ -180,6 +180,12 @@ p.upload-csv input {
   font-size: 18px !important;
 }
 
+.customer-table-column, .list-orders tr th {
+  background-color: #fff !important;
+  color: #15742e !important;
+  font-size: 18px !important;
+}
+
 .list-orders {
   border-collapse: collapse;
 }
