@@ -91,8 +91,8 @@ $enc = $this->encoder();
           </td>
           <td style="width: 40%">
            <div>
-              <div style="height: 50px; width: auto">
-                <img src="<?= asset('images/email-logo.png') ?>" style="height: 50px; width: auto;" alt="" title="" />
+              <div>
+                <img src="<?= $this->logoURL ?>" style="height: 50px; width: auto;" alt="logo" title="" />
               </div>  
               <div style="font-size: 13px">株式会社ヒューマンテクノロジーズ </div>
               <div style="font-size: 13px">〒107-0051</div>
