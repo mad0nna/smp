@@ -104,6 +104,7 @@ class Standard
 		 */
 		$tplconf = 'client/html/email/payment/html/template-body';
 		$view->logoURL = url('/images/email-logo.png');
+		$view->stampURL = url('/images/email-stamp.png');
 		$html = $view->render( $view->config( $tplconf, 'email/payment/html-body-standard' ) );
 		$view->mail()->setBodyHtml( $html );
 
