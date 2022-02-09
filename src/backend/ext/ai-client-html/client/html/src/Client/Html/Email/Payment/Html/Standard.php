@@ -103,7 +103,7 @@ class Standard
 		 * @see client/html/email/payment/html/template-header
 		 */
 		$tplconf = 'client/html/email/payment/html/template-body';
-
+		$view->logoURL = url('/images/email-logo.png');
 		$html = $view->render( $view->config( $tplconf, 'email/payment/html-body-standard' ) );
 		$view->mail()->setBodyHtml( $html );
 
