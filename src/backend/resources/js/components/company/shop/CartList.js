@@ -78,38 +78,27 @@ const CartList = (props) => {
   }
 
   const handleCheckoutModalOpen = () => {
-    saveToBasket().then(() => {
-      createDeliveryService().then(() => {
-        createPaymentService()
-      })
-    })
-
-    setState((prevState) => {
-      return {
-        ...prevState,
-        // modalDisplay: !prevState.modalDisplay
-        addressModalDisplay: !prevState.addressModalDisplay,
-        modalDisplay: !prevState.modalDisplay
-      }
-    })
     saveToBasket()
       .then(() => {
         createAddressService('payment')
           .then(() => {
             createDeliveryService()
               .then(() => {
-                createPaymentService().catch((err) => {
-                  console.error('@error: ', err)
-                  deleteBasketCache(csrfItem)
-                })
-                setState((prevState) => {
-                  return {
-                    ...prevState,
-                    addressModalDisplay: !prevState.addressModalDisplay,
-                    modalDisplay: !prevState.modalDisplay,
-                    loader: !prevState.loader
-                  }
-                })
+                createPaymentService()
+                  .then(() => {
+                    setState((prevState) => {
+                      return {
+                        ...prevState,
+                        addressModalDisplay: !prevState.addressModalDisplay,
+                        modalDisplay: !prevState.modalDisplay,
+                        loader: !prevState.loader
+                      }
+                    })
+                  })
+                  .catch((err) => {
+                    console.error('@error: ', err)
+                    deleteBasketCache(csrfItem)
+                  })
               })
               .catch((err) => {
                 console.error('@error: ', err)
