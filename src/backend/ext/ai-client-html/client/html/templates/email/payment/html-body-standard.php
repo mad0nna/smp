@@ -63,7 +63,7 @@ $enc = $this->encoder();
       <tr>
         <td style="text-align:left; font-size: 25px; font-weight: bold">請求書​</td>
         <td style="text-align:right;font-weight: bold"><div>発行日​</td>
-        <td style="text-align:right;font-weight: bold"><div> <?=$enc->html(date( "Y-m-d", strtotime($this->extOrderItem->getDatePayment()) ))?></td>
+        <td style="text-align:right;font-weight: bold"><div> <?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem->getDatePayment()) ))?></td>
       </tr>
        <tr>
         <td style="text-align:left; font-size: 25px; font-weight: bold"></td>
@@ -91,16 +91,17 @@ $enc = $this->encoder();
           </td>
           <td style="width: 40%">
            <div>
-             <div style="height: 50px; width: auto">
-           <!-- <img src="" style="height: 50px; width: auto;"> -->
+              <div>
+                <img src="<?= $this->logoURL ?>" style="height: 50px; width: auto;" alt="logo" title="" />
+              </div>  
               <div style="font-size: 13px">株式会社ヒューマンテクノロジーズ </div>
               <div style="font-size: 13px">〒107-0051</div>
               <div style="font-size: 13px">東京都港区赤坂 1-6-6</div>
               <div style="font-size: 13px">請求に関するお問い合わせ: shopping@h-t.co.jp</div>
             </div>
           </td>
-          <td>
-     <!-- <img src="" style="height: 90px; width: auto" /> -->
+          <td style="width: 50px;">
+     <img src="<?= $this->stampURL ?>" style="height: 100px; width: auto" />
     </td>
         </tr>
        </tbody>
@@ -119,7 +120,7 @@ $enc = $this->encoder();
       <?php $index++ ?>
         <tr>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($index , $enc::TRUST) ?></td>
-          <td style="border: solid 1px #000000; padding: 10px"><?=$enc->html($product->getName() , $enc::TRUST) ?> <br>  <?=$enc->html(date( "Y-m-d", strtotime($this->extOrderItem->getDatePayment()) ))?></td>
+          <td style="border: solid 1px #000000; padding: 10px"><?=$enc->html($product->getName() , $enc::TRUST) ?> <br>  <?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem->getDatePayment()) ))?></td>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getQuantity() , $enc::TRUST) ?></td>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getPrice()->getValue() , $enc::TRUST) ?></td>
         </tr>
@@ -178,14 +179,15 @@ $enc = $this->encoder();
     </tr>
      </tbody>
   </table>
-  <!-- <table style="padding-top: 100px">
+  <div style="height: 50px"></div>
+  <table>
     <tbody>
       <tr> 
         <td style="width: 100%"></td>
-        <td>       <img src ="" style="height: 50px; width: auto"></td>
+        <td><img src="<?= $this->logoURL ?>" style="height: 50px; width: auto;" alt="" title="" /></td>
       </tr>
     </tbody>
-  </table> -->
+  </table>
 </div>
     </div>
   </div>
