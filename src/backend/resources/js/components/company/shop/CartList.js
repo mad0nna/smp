@@ -32,7 +32,6 @@ const CartList = (props) => {
   })
 
   const [addressData, setAddressData] = useState({})
-  console.log('state', addressData)
 
   const history = useHistory()
 

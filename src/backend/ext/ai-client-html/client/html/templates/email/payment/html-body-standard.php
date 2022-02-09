@@ -74,20 +74,32 @@ $enc = $this->encoder();
   </table>
   <div>
     <p style="font-size: 18px; padding: 10px 0 0 0"> Dear <?php foreach ($this->summaryBasket->getAddress( 'payment' ) as $address) : ?><?=$enc->html($address->getCompany() , $enc::TRUST) ?>  <?php endforeach ?> Company <p>
-    <p style="font-size: 18px; padding: 0 0 5px 0"> 下記の通りご請求申し上げます​ <p>
+    <?php  if ($this->extOrderItem->getStatusPayment() == 6):  ?>
+      <p style="font-size: 18px; padding: 0 0 5px 0">
+        <?= $enc->html('We have received your payment, and will take care of your order immediately. Below is your order details:') ?>
+      <p>
+      <?php  elseif ($this->extOrderItem->getStatusPayment() == 5):  ?>
+        <p style="font-size: 18px; padding: 0 0 5px 0">
+          下記の通りご請求申し上げます​
+        <p>
+    <?php endif; ?>
+
   </div>
      <table style="width: 100%;">
         <tbody>
-        <tr> 
+        <tr>
           <td>
-            <table style="width: 80%;height: 100%;border-collapse: collapse;">
-            <tbody>
-            <tr>
-              <td style="text-align:left; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">ご請求金額(税込)​</td>
-              <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold"><?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
-           </tr>
-          </tbody>
-          </table>
+            <?php if ($this->extOrderItem->getStatusPayment() === 5): ?>
+              <table style="width: 80%;height: 100%;border-collapse: collapse;">
+              <tbody>
+              <tr>
+                
+                <td style="text-align:left; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">ご請求金額(税込)​</td>
+                <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold"><?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
+            </tr>
+            </tbody>
+            </table>
+          <?php endif; ?>
           </td>
           <td style="width: 40%">
            <div>
@@ -116,7 +128,7 @@ $enc = $this->encoder();
        </thead>
       <tbody>
         <?php $totalQty = 0; $index = 0 ?>
-      <?php foreach( $this->summaryBasket->getProducts() as $product ) : $totalQty += $product->getQuantity()?>
+      <?php foreach( $this->summaryBasket->getProducts() as $product ) : $totalQty += $product->getQuantity() ?>
       <?php $index++ ?>
         <tr>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($index , $enc::TRUST) ?></td>
@@ -133,30 +145,39 @@ $enc = $this->encoder();
      <tbody>
        <tr>
          <td style="padding-right: 20px">
-           <div style="font-size: 13px">備考：​</div>
-      <div style="font-size: 13px">お振込の際は、必ず ご契約者様名義 でお願いいたします。 </div>
-      <div style="font-size: 13px">振込名義とご契約名が異なる場合、入金確認ができません。</div>
-      <div style="font-size: 13px">※振込手数料は貴社にてご負担ください。​</div>
-      <table style="width: 100%;height: 100%;border-collapse: collapse;background: #d9d9d9;">
-      <tbody>
-        <tr>
-          <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">みずほ銀行</td>
-          <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">銀座中央支店</td>
-          <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">当座預金</span> 0100686</td>
-        </tr>
-        <tr>
-          <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">三井住友銀行</td>
-          <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">日比谷支店​</td>
-          <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">普通預金</span> 8875263​</td>
-        </tr>
-        <tr>
-          <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">三菱UFJ銀行</td>
-          <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">虎ノ門支店</td>
-          <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">普通預金</span> 0787967​</td>
-        </tr>
-      </tbody>
-    </table>
-      <div style="font-size: 13px">口座名義： カ) ヒューマンテクノロジーズ​</div>
+         <?php if ($this->extOrderItem->getStatusPayment() === 5): ?>
+          <div style="font-size: 13px">備考：​</div>
+          <div style="font-size: 13px">お振込の際は、必ず ご契約者様名義 でお願いいたします。 </div>
+          <div style="font-size: 13px">振込名義とご契約名が異なる場合、入金確認ができません。</div>
+          <div style="font-size: 13px">※振込手数料は貴社にてご負担ください。​</div>
+          <table style="width: 100%;height: 100%;border-collapse: collapse;background: #d9d9d9;">
+          <tbody>
+            <tr>
+              <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">みずほ銀行</td>
+              <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">銀座中央支店</td>
+              <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">当座預金</span> 0100686</td>
+            </tr>
+            <tr>
+              <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">三井住友銀行</td>
+              <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">日比谷支店​</td>
+              <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">普通預金</span> 8875263​</td>
+            </tr>
+            <tr>
+              <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">三菱UFJ銀行</td>
+              <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">虎ノ門支店</td>
+              <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">普通預金</span> 0787967​</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="font-size: 13px">口座名義： カ) ヒューマンテクノロジーズ​</div>
+      <?php endif; ?>
+
+      <?php if ($this->extOrderItem->getStatusPayment() === 6) : ?>
+        <div style="font-size: 13px">配送先住所：</div>
+        <?php foreach( $this->summaryBasket->getAddress( 'payment' ) as $addr ) : ?>
+          <div style="font-size: 13px"><?= $enc->html($addr->getAddress1()) ?>, <?= $enc->html($addr->getAddress2()) ?>, <?= $enc->html($addr->getPostal()) ?>, <?= $enc->html($addr->getCity()) ?>, <?= $enc->html($addr->getState()) ?> </div>
+        <?php endforeach; ?>
+      <?php endif; ?>
      </td>
      <td style="width: 50%">
            <table style="width: 100%;height: 100%;border-collapse: collapse;">
