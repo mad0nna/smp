@@ -179,11 +179,12 @@ $enc = $this->encoder();
     </tr>
      </tbody>
   </table>
-  <table style="padding-top: 100px">
+  <div style="height: 50px"></div>
+  <table>
     <tbody>
       <tr> 
         <td style="width: 100%"></td>
-        <td><img src="<?= $this->stampURL ?>" style="height: 50px; width: auto;" alt="" title="" /></td>
+        <td><img src="<?= $this->logoURL ?>" style="height: 50px; width: auto;" alt="" title="" /></td>
       </tr>
     </tbody>
   </table>
