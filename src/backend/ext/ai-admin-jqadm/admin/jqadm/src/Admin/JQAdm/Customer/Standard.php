@@ -192,8 +192,7 @@ class Standard
 
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'customer' );
 			$domains =  $this->getDomains();
-			// // $domains["customer/product"] = "customer/product";
-			// // dd($domains);
+			
 			$view->item = $manager->get( $id, $domains);
 			$view->itemGroups = $this->getGroupItems( $view->item );
 			$view->itemData = $this->toArray( $view->item );
@@ -255,13 +254,11 @@ class Standard
 			$total = 0;
 			$params = $this->storeFilter( $view->param(), 'customer' );
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'customer' );
-			$search = $this->initCriteria( $manager->filter(), $params );
-			// dd($this->getDomains());
+			$search = $this->initCriteria( $manager->filter(false, true), $params );
 			$domains =  $this->getDomains();
-			$domains["customer/product"] = "customer/product";
-			// dd($domains);
+			// $domains["customer/product"] = "customer/product";
+
 			$view->items = $manager->search( $search, $domains, $total );
-			// dd($view->items);
 			$view->filterAttributes = $manager->getSearchAttributes( true );
 			$view->filterOperators = $search->getOperators();
 			$view->itemBody = parent::search();

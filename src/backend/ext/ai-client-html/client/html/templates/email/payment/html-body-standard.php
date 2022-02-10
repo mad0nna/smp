@@ -74,33 +74,29 @@ $enc = $this->encoder();
   </table>
   <div>
     <p style="font-size: 18px; padding: 10px 0 0 0"> Dear <?php foreach ($this->summaryBasket->getAddress( 'payment' ) as $address) : ?><?=$enc->html($address->getCompany() , $enc::TRUST) ?>  <?php endforeach ?> Company <p>
-    <?php  if ($this->extOrderItem->getStatusPayment() == 6):  ?>
-      <p style="font-size: 18px; padding: 0 0 5px 0">
-        <?= $enc->html('We have received your payment, and will take care of your order immediately. Below is your order details:') ?>
-      <p>
-      <?php  elseif ($this->extOrderItem->getStatusPayment() == 5):  ?>
-        <p style="font-size: 18px; padding: 0 0 5px 0">
-          下記の通りご請求申し上げます​
-        <p>
-    <?php endif; ?>
-
+    <?php if($this->extOrderItem->getStatusPayment() === 5): ?>
+      <p style="font-size: 18px; padding: 0 0 5px 0"> 下記の通りご請求申し上げます​ <p>
+    <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?>
+      <p style="font-size: 18px; padding: 0 0 5px 0"><?= $enc->html($this->translate('client', 'We have received your payment, and will take care of your order immediately.' )) ?> <p>
+      <?php endif ?>
   </div>
      <table style="width: 100%;">
         <tbody>
-        <tr>
+        <tr> 
+        <?php if($this->extOrderItem->getStatusPayment() === 5): ?>
           <td>
-            <?php if ($this->extOrderItem->getStatusPayment() === 5): ?>
-              <table style="width: 80%;height: 100%;border-collapse: collapse;">
-              <tbody>
-              <tr>
-                
-                <td style="text-align:left; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">ご請求金額(税込)​</td>
-                <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold"><?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
-            </tr>
-            </tbody>
-            </table>
-          <?php endif; ?>
+            <table style="width: 80%;height: 100%;border-collapse: collapse;">
+            <tbody>
+            <tr>
+              <td style="text-align:left; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">ご請求金額(税込)​</td>
+              <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold"><?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?><span><?= $enc->html( $this->summaryBasket->getPrice()->getCurrencyId() ) ?></span></td>
+           </tr>
+          </tbody>
+          </table>
           </td>
+          <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?>
+          <td> </td>
+          <?php endif ?>
           <td style="width: 40%">
            <div>
               <div>
@@ -134,7 +130,7 @@ $enc = $this->encoder();
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($index , $enc::TRUST) ?></td>
           <td style="border: solid 1px #000000; padding: 10px"><?=$enc->html($product->getName() , $enc::TRUST) ?> <br>  <?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem->getDatePayment()) ))?></td>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getQuantity() , $enc::TRUST) ?></td>
-          <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getPrice()->getValue() , $enc::TRUST) ?></td>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getPrice()->getValue() , $enc::TRUST) ?><span><?= $enc->html( $this->summaryBasket->getPrice()->getCurrencyId() ) ?></span></td>
         </tr>
         <?php endforeach ?>
       </tbody>
@@ -144,55 +140,61 @@ $enc = $this->encoder();
    <table style="width: 100%;">
      <tbody>
        <tr>
-         <td style="padding-right: 20px">
-         <?php if ($this->extOrderItem->getStatusPayment() === 5): ?>
+        <?php if($this->extOrderItem->getStatusPayment() === 5): ?>
+        <td style="padding-right: 20px">
           <div style="font-size: 13px">備考：​</div>
           <div style="font-size: 13px">お振込の際は、必ず ご契約者様名義 でお願いいたします。 </div>
           <div style="font-size: 13px">振込名義とご契約名が異なる場合、入金確認ができません。</div>
           <div style="font-size: 13px">※振込手数料は貴社にてご負担ください。​</div>
           <table style="width: 100%;height: 100%;border-collapse: collapse;background: #d9d9d9;">
-          <tbody>
-            <tr>
-              <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">みずほ銀行</td>
-              <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">銀座中央支店</td>
-              <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">当座預金</span> 0100686</td>
-            </tr>
-            <tr>
-              <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">三井住友銀行</td>
-              <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">日比谷支店​</td>
-              <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">普通預金</span> 8875263​</td>
-            </tr>
-            <tr>
-              <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">三菱UFJ銀行</td>
-              <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">虎ノ門支店</td>
-              <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">普通預金</span> 0787967​</td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="font-size: 13px">口座名義： カ) ヒューマンテクノロジーズ​</div>
-      <?php endif; ?>
-
-      <?php if ($this->extOrderItem->getStatusPayment() === 6) : ?>
-        <div style="font-size: 13px">配送先住所：</div>
-        <?php foreach( $this->summaryBasket->getAddress( 'payment' ) as $addr ) : ?>
-          <div style="font-size: 13px"><?= $enc->html($addr->getAddress1()) ?>, <?= $enc->html($addr->getAddress2()) ?>, <?= $enc->html($addr->getPostal()) ?>, <?= $enc->html($addr->getCity()) ?>, <?= $enc->html($addr->getState()) ?> </div>
-        <?php endforeach; ?>
-      <?php endif; ?>
-     </td>
+            <tbody>
+              <tr>
+                <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">みずほ銀行</td>
+                <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">銀座中央支店</td>
+                <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">当座預金</span> 0100686</td>
+              </tr>
+              <tr>
+                <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">三井住友銀行</td>
+                <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">日比谷支店​</td>
+                <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">普通預金</span> 8875263​</td>
+              </tr>
+              <tr>
+                <td style="text-align:left; padding: 10px 5px 10px 5px; font-size: 13px ">三菱UFJ銀行</td>
+                <td style="text-align:left; padding: 5px 10px 5px 20px;font-size: 13px ">虎ノ門支店</td>
+                <td style="text-align:left; padding: 5px 10px 5px 20px; font-size: 13px"><span style="font-weight:bold">普通預金</span> 0787967​</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="font-size: 13px">口座名義： カ) ヒューマンテクノロジーズ​</div>
+        </td>
+        <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?>
+          <td style="padding-right: 20px">
+            <?php foreach($this->summaryBasket->getAddress( 'payment' ) as $addr ): ?>
+            <div style="font-size: 13px">Address: </div>
+            <div>
+              <span><?=$enc->html($addr->getAddress1() , $enc::TRUST) ?></span>,
+              <span><?=$enc->html($addr->getAddress2() , $enc::TRUST) ?></span>,
+              <span><?=$enc->html($addr->getPostal() , $enc::TRUST) ?></span>,
+              <span><?=$enc->html($addr->getCity() , $enc::TRUST) ?></span>,
+              <span><?=$enc->html($addr->getState() , $enc::TRUST) ?></span>
+            </div>
+            <?php endforeach ?>
+          </td>
+        <?php endif ?>
      <td style="width: 50%">
-           <table style="width: 100%;height: 100%;border-collapse: collapse;">
+      <table style="width: 100%;height: 100%;border-collapse: collapse;">
       <tbody>
         <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px;">小計​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px;"><?= $enc->html($this->summaryBasket->getPrice()->getValue() ) ?></td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px;"><?= $enc->html($this->summaryBasket->getPrice()->getValue() ) ?><span><?= $enc->html( $this->summaryBasket->getPrice()->getCurrencyId() ) ?></span></td>
         </tr>
          <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px;">消費税​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px;"><?= $enc->html( $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px;"><?= $enc->html( $this->summaryBasket->getPrice()->getTaxValue() ) ?><span><?= $enc->html( $this->summaryBasket->getPrice()->getCurrencyId() ) ?></span></td>
         </tr>
         <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">合計​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold"><?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold"><?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?><span><?= $enc->html( $this->summaryBasket->getPrice()->getCurrencyId() ) ?></span></td>
         </tr>
       </tbody>
      </table>
