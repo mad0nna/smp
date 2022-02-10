@@ -10,9 +10,7 @@ import CheckoutMessage from './CheckoutMessage'
 import CheckoutContent from './CheckoutContent'
 import CheckoutAddress from './CheckoutAddress'
 // eslint-disable-next-line
-import emailStamp from '../../../../img/email/email-stamp.png'
 // eslint-disable-next-line
-import emailLogo from '../../../../img/email/email-logo.png'
 const CartList = (props) => {
   const SERVICE_TYPE = 'payment'
   const [isAgreedTerms, setAgreedTerms] = useState(false)
@@ -28,6 +26,8 @@ const CartList = (props) => {
     modalCheckoutContentDisplay: false,
     htmlContent: '',
     addressModalDisplay: false,
+    messageContent:
+      'ご請求書を発行いたしました。ご登録のメールアドレスをご確認してください。',
     loader: false
   })
 
@@ -99,24 +99,42 @@ const CartList = (props) => {
                     })
                   })
                   .catch((err) => {
-                    console.error('@error: ', err)
                     deleteBasketCache(csrfItem)
+                    handleError(err)
                   })
               })
               .catch((err) => {
-                console.error('@error: ', err)
                 deleteBasketCache(csrfItem)
+                handleError(err)
               })
           })
           .catch((err) => {
-            console.error('@error: ', err)
             deleteBasketCache(csrfItem)
+            handleError(err)
           })
       })
       .catch((err) => {
-        console.error('@error: ', err)
         deleteBasketCache(csrfItem)
+        handleError(err)
       })
+  }
+
+  /**
+   * Handle Error
+   * Remove basket cache to continue
+   */
+  const handleError = (err) => {
+    console.log('@deleted', csrfItem)
+    console.error('@error: ', err)
+    setState((prevState) => {
+      return {
+        ...prevState,
+        messageContent:
+          'システムエラーが発生しました。しばらくしてから再度実行してください。'
+      }
+    })
+    handleCheckoutModalClose()
+    handleCheckoutMessageModalOpen()
   }
 
   async function saveToBasket() {
@@ -157,7 +175,8 @@ const CartList = (props) => {
         console.log('@create product to basket')
       })
       .catch((err) => {
-        console.error('@error', err)
+        deleteBasketCache(csrfItem)
+        handleError(err)
       })
   }
 
@@ -214,13 +233,13 @@ const CartList = (props) => {
             createAddressService('payment')
           })
           .catch((err) => {
-            console.warn('@error: ', err)
             deleteBasketCache(csrfItem)
+            handleError(err)
           })
       })
       .catch((err) => {
-        console.warn('@error: ', err)
         deleteBasketCache(csrfItem)
+        handleError(err)
       })
   }
 
@@ -342,8 +361,8 @@ const CartList = (props) => {
             })
           })
           .catch((err) => {
-            console.error('@error', err)
             deleteBasketCache(csrfItem)
+            handleError(err)
           })
       })
   }
@@ -432,8 +451,8 @@ const CartList = (props) => {
             handleCheckoutMessageModalOpen()
           })
           .catch((err) => {
-            console.error('@error', err)
             deleteBasketCache(csrfItem)
+            handleError(err)
           })
         break
       }
@@ -463,8 +482,8 @@ const CartList = (props) => {
             handleCheckoutMessageModalOpen()
           })
           .catch((err) => {
-            console.error('@error', err)
             deleteBasketCache(csrfItem)
+            handleError(err)
           })
       }
     }
@@ -722,7 +741,10 @@ const CartList = (props) => {
         />
       ) : null}
       {state.modalDisplayMessage ? (
-        <CheckoutMessage handleCloseModal={handleCheckoutMessageModalClose} />
+        <CheckoutMessage
+          messageContent={state.messageContent}
+          handleCloseModal={handleCheckoutMessageModalClose}
+        />
       ) : null}
 
       {state.modalCheckoutContentDisplay ? (

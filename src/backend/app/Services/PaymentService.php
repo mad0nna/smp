@@ -92,7 +92,7 @@ class PaymentService {
                 ->where('baseid', $orderBaseId)
                 ->update([
                     'statuspayment'=> 6,
-                    'status'=> 4,
+                    'status'=> 1,
                     'ctime' => Carbon::now()
                 ]);
 
@@ -108,7 +108,7 @@ class PaymentService {
                 ->where('baseid', $orderBaseId)
                 ->update([
                     'statuspayment'=> 6,
-                    'statusdelivery'=> 4,
+                    'statusdelivery'=> 1,
                     'datepayment'=> Carbon::now(),
                     'mtime' => Carbon::now()
                 ]);

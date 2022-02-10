@@ -1,11 +1,6 @@
 import React from 'react'
 
 const CheckoutMessage = (props) => {
-  const SUCCESS_MSG =
-    'ご請求書を発行いたしました。' +
-    '\n' +
-    'ご登録のメールアドレスをご確認してください。'
-
   return (
     <div className="fixed w-full h-full top-0 left-0 flex items-center justify-center">
       <div className="absolute w-full h-full bg-gray-900 opacity-50"></div>
@@ -13,7 +8,7 @@ const CheckoutMessage = (props) => {
         <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
           <div className="flex w-full flex-wrap gap-0 text-gray-700 items-center mt-10 ">
             <div className="text-center w-full text-secondary-200 font-black mb-6 font-semibold">
-              {SUCCESS_MSG}
+              {props.messageContent}
             </div>
             <div className="text-center w-full space-y-5">
               <div className="space-x-5">
