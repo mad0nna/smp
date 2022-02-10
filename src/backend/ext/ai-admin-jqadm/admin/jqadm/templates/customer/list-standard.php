@@ -48,7 +48,7 @@ $delConfig = $this->config( 'admin/jqadm/url/delete/config', [] );
  * @since 2017.07
  * @category Developer
  */
-$default = ['customer.label', 'customer.company_name', 'customer.ctime', 'customer.email', 'customer.editor'];
+$default = ['customer.label', 'customer.company_name', 'customer.ctime', 'customer.email'];
 $default = $this->config( 'admin/jqadm/customer/fields', $default );
 $fields = $this->session( 'aimeos/admin/jqadm/customer/fields', $default );
 
@@ -162,7 +162,6 @@ $columnList = [
 						<th class="customer-table-column ">顧客名</th>
 						<th class="customer-table-column ">メールアドレス</th>
 						<th class="customer-table-column">購⼊⽇</th>
-						<th class="customer-table-column">合計⾦額</th>
 						<th class="customer-table-column">操作</th>
 					</tr>
 				</thead>
@@ -171,7 +170,7 @@ $columnList = [
 					<?php foreach( $this->get( 'items', [] ) as $id => $item ) : ?>
 						<?php $address = $item->getPaymentAddress() ?>
 						<?php $url = $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['id' => $id] + $params, [], $getConfig ) ) ?>
-						<tr class="list-item <?= $this->site()->readonly( $item->getSiteId() ) ?>" data-label="<?= $enc->attr( $item->getLabel() ?: $item->getCode() ) ?>">
+						<tr class="list-item  " data-label="<?= $enc->attr( $item->getLabel() ?: $item->getCode() ) ?>">
 							<td class="select d-none">
 								<input class="form-check-input" type="checkbox" tabindex="1"
 									name="<?= $enc->attr( $this->formparam( ['id', ''] ) ) ?>"
