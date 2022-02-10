@@ -340,3 +340,14 @@ p.upload-csv input {
 .bg-signout-icon {
   background-image: url("/images/signout.png");
 }
+
+.aimeos .list-customer-orders th {
+  background-color: white;
+  border-bottom: 1pt solid #15742e !important;
+  color: green;
+}
+
+.aimeos .list-customer-orders th a{
+  color: green;
+  font-weight: bold;
+}
