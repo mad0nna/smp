@@ -172,6 +172,14 @@ class Standard
 			$view->customer = $view->item->getCustomerItem()->toArray();
 			$view->itemData = $this->toArray( $view->item );
 			$view->itemBody = parent::get();
+
+			// $manager2 = \Aimeos\MShop::create( $this->getContext(), 'order' );
+			// $search = $manager2->filter( false, true );
+			// $search->setConditions( $search->compare( '==', 'order.base.id', $id ) );
+			// $orderRecord = $manager2->search( $search, [] )->toArray();
+			// foreach( $orderRecord as $o ) {
+			// 	$view->orderParent = $o->toArray();
+			// }
 		}
 		catch( \Exception $e )
 		{

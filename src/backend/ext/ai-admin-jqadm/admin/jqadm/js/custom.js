@@ -69,6 +69,26 @@ $(document).ready(function () {
         $("#txtCustomerCompanyName").val(this.value);
     });    
 
+    const cboPaymentStatus = document.querySelector('#cboPaymentStatus');
+    if ( cboPaymentStatus !== undefined ) {
+        var selected_option = $('#cboPaymentStatus option:selected').val();
+        if (selected_option == "") {
+            $('#cboPaymentStatus').val("5").change();
+        }
+    }
+
+    const cboDeliveryStatus = document.querySelector('#cboDeliveryStatus');
+    if ( cboDeliveryStatus !== undefined ) {
+        var selected_option = $('#cboDeliveryStatus option:selected').val();
+        if (selected_option == "") {
+            $('#cboDeliveryStatus').val("1").change();
+        }
+    }
+
+    
+
+    
+
 });
 
 function setProductAllStatus() {
