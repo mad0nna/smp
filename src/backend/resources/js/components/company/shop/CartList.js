@@ -19,7 +19,7 @@ const CartList = (props) => {
   const [orderId, setOrderId] = useState({ orderId: null, token: null })
 
   const [csrfItem, setCsrfToken] = useState({})
-
+  let userData = JSON.parse(document.getElementById('userData').textContent)
   const [state, setState] = useState({
     method: '',
     modalDisplay: false,
@@ -31,8 +31,17 @@ const CartList = (props) => {
     loader: false
   })
 
-  const [addressData, setAddressData] = useState({})
-  console.log(addressData)
+  const [addressData, setAddressData] = useState({
+    company_name: userData.companyCode || '',
+    email: userData.email || '',
+    firstname: userData.firstName || '',
+    lastname: userData.lastName || ''
+  })
+
+  const [errorData, setErrorData] = useState({
+    error: false,
+    email: '有効なメールアドレスを入力してください'
+  })
   const history = useHistory()
 
   const { cartTotal, items, updateItemQuantity, removeItem, emptyCart } =
@@ -81,45 +90,47 @@ const CartList = (props) => {
   }
 
   const handleCheckoutModalOpen = () => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        loader: !prevState.loader
-      }
-    })
-    saveToBasket()
-      .then(() => {
-        createAddressService('payment')
-          .then(() => {
-            createDeliveryService()
-              .then(() => {
-                createPaymentService().catch((err) => {
+    if (!errorData.error) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          loader: !prevState.loader
+        }
+      })
+      saveToBasket()
+        .then(() => {
+          createAddressService('payment')
+            .then(() => {
+              createDeliveryService()
+                .then(() => {
+                  createPaymentService().catch((err) => {
+                    console.error('@error: ', err)
+                    deleteBasketCache(csrfItem)
+                  })
+                  setState((prevState) => {
+                    return {
+                      ...prevState,
+                      addressModalDisplay: !prevState.addressModalDisplay,
+                      modalDisplay: !prevState.modalDisplay,
+                      loader: !prevState.loader
+                    }
+                  })
+                })
+                .catch((err) => {
                   console.error('@error: ', err)
                   deleteBasketCache(csrfItem)
                 })
-                setState((prevState) => {
-                  return {
-                    ...prevState,
-                    addressModalDisplay: !prevState.addressModalDisplay,
-                    modalDisplay: !prevState.modalDisplay,
-                    loader: !prevState.loader
-                  }
-                })
-              })
-              .catch((err) => {
-                console.error('@error: ', err)
-                deleteBasketCache(csrfItem)
-              })
-          })
-          .catch((err) => {
-            console.error('@error: ', err)
-            deleteBasketCache(csrfItem)
-          })
-      })
-      .catch((err) => {
-        console.error('@error: ', err)
-        deleteBasketCache(csrfItem)
-      })
+            })
+            .catch((err) => {
+              console.error('@error: ', err)
+              deleteBasketCache(csrfItem)
+            })
+        })
+        .catch((err) => {
+          console.error('@error: ', err)
+          deleteBasketCache(csrfItem)
+        })
+    }
   }
 
   async function saveToBasket() {
@@ -603,6 +614,12 @@ const CartList = (props) => {
     // set as cart state
   }, [items])
 
+  useEffect(() => {
+    new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
+      ? setErrorData({ error: false })
+      : setErrorData({ error: true })
+  }, [addressData.email])
+
   return (
     <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
       <div className="md:col-span-1 lg:col-span-3 pb-5">
@@ -714,6 +731,8 @@ const CartList = (props) => {
           handleSubmit={handleCheckoutModalOpen}
           handleCloseModal={handleCheckoutModalAddressClose}
           state={addressData}
+          loader={state.loader}
+          error={errorData}
         />
       ) : null}
       {state.modalDisplay ? (
