@@ -77,7 +77,9 @@ $enc = $this->encoder();
     <?php if($this->extOrderItem->getStatusPayment() === 5): ?>
       <p style="font-size: 18px; padding: 0 0 5px 0"> 下記の通りご請求申し上げます​ <p>
     <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?>
-      <p style="font-size: 18px; padding: 0 0 5px 0"><?= $enc->html($this->translate('client', 'We have received your payment, and will take care of your order immediately.' )) ?> <p>
+      <p style="font-size: 18px; padding: 0 0 5px 0">
+      私たちはあなたのお支払いを受け取り、あなたの注文を直ちに世話します。注文内容は以下のとおりです。
+      <p>
       <?php endif ?>
   </div>
      <table style="width: 100%;">
@@ -169,8 +171,8 @@ $enc = $this->encoder();
         </td>
         <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?>
           <td style="padding-right: 20px">
+            <div style="font-size: 13px">配送先住所: </div>
             <?php foreach($this->summaryBasket->getAddress( 'payment' ) as $addr ): ?>
-            <div style="font-size: 13px">Address: </div>
             <div>
               <span><?=$enc->html($addr->getAddress1() , $enc::TRUST) ?></span>,
               <span><?=$enc->html($addr->getAddress2() , $enc::TRUST) ?></span>,
