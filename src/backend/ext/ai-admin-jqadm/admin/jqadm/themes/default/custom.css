@@ -351,3 +351,8 @@ p.upload-csv input {
   color: green;
   font-weight: bold;
 }
+
+#cboPaymentStatus option:empty, #cboDeliveryStatus option:empty
+{
+  display:none;
+}

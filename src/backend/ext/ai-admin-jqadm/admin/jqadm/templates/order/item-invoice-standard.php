@@ -289,7 +289,7 @@ $statusList = [
 						<?php if( in_array( 'order.statuspayment', $fields ) ) : ?>
 							<td class="order-statuspayment">
 								<select class="form-select order-statuspayment" tabindex="<?= $this->get( 'tabindex' ) ?>"
-									name="<?= $enc->attr( $this->formparam( array( 'invoice', 'order.statuspayment', '' ) ) ) ?>"
+									 
 									<?= $this->site()->readonly( $siteId ) ?> disabled="disabled" >
 									<?php foreach( $paymentStatusList as $code => $label ) : ?>
 										<option value="<?= $code ?>" <?= $selected( $this->get( 'invoiceData/order.statuspayment/' . $idx ), $code ) ?> >
@@ -310,7 +310,7 @@ $statusList = [
 						<?php if( in_array( 'order.statusdelivery', $fields ) ) : ?>
 							<td class="order-statusdelivery">
 								<select class="form-select order-statusdelivery" tabindex="<?= $this->get( 'tabindex' ) ?>"
-									name="<?= $enc->attr( $this->formparam( array( 'invoice', 'order.statusdelivery', '' ) ) ) ?>"
+									 
 									<?= $this->site()->readonly( $siteId ) ?> disabled="disabled" >
 									<?php foreach( $statusList as $code => $label ) : ?>
 										<option value="<?= $code ?>" <?= $selected( $this->get( 'invoiceData/order.statusdelivery/' . $idx ), $code ) ?> >

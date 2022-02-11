@@ -84,9 +84,10 @@ $deliveryStatusList = [
 ];
 
 $deliveryStatusList2 = [
-	'1' => '配達キャンセル', //Cancelled
-	'4' => '配達中', // For Delivery
-	'6' => '配達済み', // Delivered
+	'0' => 'キャンセル', //Cancelled
+	'1' => '保留中', // pending or default
+	'3' => '配達中', // For Delivery / Dispatched
+	'4' => '配達済み', // Delivered
 ];
 
 $paymentStatusList = [
@@ -101,7 +102,7 @@ $paymentStatusList = [
 ];
 
 $paymentStatusList2 = [
-	'4' => '未払い', //unpaid
+	'5' => '未払い', //unpaid
 	'6' => '⽀払い済み', //paid
 ];
 
@@ -738,7 +739,8 @@ $paymentStatusList2 = [
 						<div class="row item-summary justify-content-end">
 							<div class="col-xl-12 container">
 								<div class="box row">
-									<h2 class="item-header"> <label>注⽂詳細</label> <label class="float-end" style="margin-right:7rem">請求書番号 : &nbsp; <span> <?= $enc->attr( $basket->getId() ) ?> </span> </label> </h2>
+								<?php foreach( $this->get( 'invoiceData/order.id', [] ) as $idx => $orderId ) : ?>
+									<h2 class="item-header"> <label>注⽂詳細</label> <label class="float-end" style="margin-right:7rem">請求書番号 : &nbsp; <span> <?= $enc->attr( $orderId ) ?> </span> </label> </h2>
 									<div class="col-xl-9">
 										<div class="col-xl-5 form-group row">
 											<div class="col-6 form-control-label">顧客企業名 :</div>
@@ -755,16 +757,19 @@ $paymentStatusList2 = [
 									</div>
 									
 									<!-- Button Order Status -->
+									<input class="order-id" type="hidden"
+										name="<?= $enc->attr( $this->formparam( array( 'invoice', 'order.id', '' ) ) ) ?>"
+										value="<?= $enc->attr( $orderId ) ?>"   />
 									<div class="col-xl-3" style="padding-top: 1rem;">
 										<div class="row">
 											<label class="col-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '支払い :' ) ) ?></label>
 											<div class="col-7 ">
-												<select class="form-select product-status" tabindex="1"
-													name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.statuspayment' ) ) ) ?>"
+												<select class="form-select product-status" tabindex="1" id="cboPaymentStatus"
+													name="<?= $enc->attr( $this->formparam( array( 'invoice', 'order.statuspayment', '' ) ) ) ?>"
 													<?= $this->site()->readonly( $orderProduct->getSiteId() ) ?> >
 													<option value=""></option>
 													<?php foreach( $paymentStatusList2 as $code => $label ) : ?>
-														<option value="<?= $code ?>" <?= $selected( $this->get( 'itemData/product/' . $pos . '/order.base.product.statuspayment' ), $code ) ?> >
+														<option value="<?= $code ?>" <?= $selected( $this->get( 'invoiceData/order.statuspayment/' . $idx ), $code ) ?> >
 															<?= $enc->html( $label ) ?>
 														</option>
 													<?php endforeach ?>
@@ -774,12 +779,12 @@ $paymentStatusList2 = [
 										<div class="row">
 											<label class="col-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '配達 :' ) ) ?></label>
 											<div class="col-7 ">
-												<select class="form-select product-status" tabindex="1"
-													name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.statusdelivery' ) ) ) ?>"
+												<select class="form-select product-status" tabindex="1" id="cboDeliveryStatus"
+													name="<?= $enc->attr( $this->formparam( array( 'invoice', 'order.statusdelivery', '' ) ) ) ?>"
 													<?= $this->site()->readonly( $orderProduct->getSiteId() ) ?> >
 													<option value=""></option>
 													<?php foreach( $deliveryStatusList2 as $code => $label ) : ?>
-														<option value="<?= $code ?>" <?= $selected( $this->get( 'itemData/product/' . $pos . '/order.base.product.statusdelivery' ), $code ) ?> >
+														<option value="<?= $code ?>" <?= $selected( $this->get( 'invoiceData/order.statusdelivery/' . $idx ), $code ) ?> >
 															<?= $enc->html( $label ) ?>
 														</option>
 													<?php endforeach ?>
@@ -787,6 +792,7 @@ $paymentStatusList2 = [
 											</div>
 										</div>
 									</div>
+								<?php endforeach ?>
 
 									<div class="col-xl-9 item-total box-shadow">
 										<!-- Item List -->
