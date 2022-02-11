@@ -315,7 +315,7 @@ const CheckoutAddress = (props) => {
                       className="text-xs text-red-700 w-full pt-2"
                       id="passwordHelp"
                     >
-                      Your password is too short.
+                      有効なメールアドレスを入力してください
                     </p>
                   ) : null}
                 </div>

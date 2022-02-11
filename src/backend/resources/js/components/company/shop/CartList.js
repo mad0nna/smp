@@ -39,8 +39,7 @@ const CartList = (props) => {
   })
 
   const [errorData, setErrorData] = useState({
-    error: false,
-    email: '有効なメールアドレスを入力してください'
+    error: false
   })
   const history = useHistory()
 
