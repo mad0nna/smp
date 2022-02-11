@@ -30,7 +30,7 @@ $enc = $this->encoder();
 					<div class="row d-flex justify-content-center">
 						<div class="col-lg-4 ">
 							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="emailORCheck"  checked>
+								<input class="form-check-input" type="checkbox" value="" id="emailORCheck"  checked disabled style="background-color:gray">
 								<label class="form-check-label" for="emailORCheck">
 									メールを送る
 								</label>
