@@ -170,7 +170,7 @@ $enc = $this->encoder();
         <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?>
           <td style="padding-right: 20px">
             <?php foreach($this->summaryBasket->getAddress( 'payment' ) as $addr ): ?>
-            <div style="font-size: 13px">配送先住所：: </div>
+            <div style="font-size: 13px">配送先住所:</div>
             <div>
               <span><?=$enc->html($addr->getAddress1() , $enc::TRUST) ?></span>,
               <span><?=$enc->html($addr->getAddress2() , $enc::TRUST) ?></span>,
