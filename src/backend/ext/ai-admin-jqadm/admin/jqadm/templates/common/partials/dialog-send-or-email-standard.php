@@ -11,7 +11,7 @@
  */
 
 $enc = $this->encoder();
-
+$statusPaymentCode = $this->get( 'statusPaymentCode', [] );
 
 ?>
 <div id="dialog-send-or-email">
@@ -31,8 +31,8 @@ $enc = $this->encoder();
 						<div class="col-lg-4 ">
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" value="" id="emailORCheck"  checked disabled style="background-color:gray">
-								<label class="form-check-label" for="emailORCheck">
-									メールを送る
+								<label class="form-check-label" for="emailORCheck" style="opacity:1">
+									<?= $statusPaymentCode == "6" ? "メールが送信されました" : "メールを送る"; ?>
 								</label>
 							</div>
 						</div>

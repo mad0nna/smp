@@ -72,8 +72,9 @@ class Standard
 
 		$view->invoiceData = $this->toArray( $orderItems );
 		$view->invoiceTotal = parent::get();
-		$view->invoiceTotal = $total;
-
+		$view->invoiceTotal = $total;	 
+		$view->statusPaymentCode = $view->invoiceData["order.statuspayment"][0];
+		
 		return $this->render( $view );
 	}
 
