@@ -6,7 +6,7 @@ use App\Services\API\Salesforce\Model\Model;
 class Opportunity extends Model
 {
     public function getLatest($accountID) {
-        $opportunity = $this->client->get("/services/data/v34.0/query/?q=SELECT+Name, ID__c, Type, Amount, StageName, Zen__c, Id, RecordTypeId, CreatedDate,AccountId+from+Opportunity+WHERE+AccountId='" . $accountID . "'+And+RecordTypeId='01210000000QSBPAA4'+Order+By+CreatedDate+DESC+LIMIT+1");
+        $opportunity = $this->client->get("/services/data/v34.0/query/?q=SELECT+Name, ID__c, Type, Amount, StageName, Zen__c, Id, RecordTypeId, CreatedDate, AccountId, KoT_shiharaihouhou__c+from+Opportunity+WHERE+AccountId='" . $accountID . "'+And+RecordTypeId='01210000000QSBPAA4'+Order+By+CreatedDate+DESC+LIMIT+1");
         if (isset($opportunity['status']) && !$opportunity['status']) {
             return $opportunity;
         }
