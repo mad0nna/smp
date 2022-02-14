@@ -97,6 +97,11 @@ $enc = $this->encoder();
 				</table>
 			</div>
 			<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+			<?php 
+				foreach( $this->summaryBasket->getAddress( 'payment' ) as $addr ) {
+					$lastName = $addr->getLastName();
+				}
+			?>
 			<div style="Margin:0px auto;max-width:750px;">
 				<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
 					<tbody>
@@ -107,7 +112,7 @@ $enc = $this->encoder();
 										<tr>
 											<td align="left" class="email-common-salutation" style="font-size:0px;padding:10px 25px;word-break:break-word;">
 												<div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
-													<?= $enc->html( $this->get( 'emailIntro' ) ) ?> 
+													Dear <?= $lastName . '-様' ?> 
 												</div>
 											</td>
 										</tr>
@@ -282,7 +287,7 @@ $enc = $this->encoder();
 								<?php foreach( $this->summaryBasket->getAddress( 'payment' ) as $addr ) : ?> 
 									<tr class="" style="text-align:left;" ><td>〒<?= $addr->getPostal()  ?></td></tr>
 									<tr class="" style="text-align:left;" ><td><?= $addr->getState() . ' ' . $addr->getCity() . ' ' . $addr->getAddress1() . ' ' . $addr->getAddress2() . ' ' . $addr->getAddress3() ?></td></tr>
-									<tr class="" style="text-align:left;" ><td><?= $addr->getLastName() . $addr->getFirstName() . $addr->getTitle()  ?></td></tr>
+									<tr class="" style="text-align:left;" ><td><?= $addr->getLastName() . ' '. $addr->getFirstName() ?></td></tr>
 									<tr class="" style="text-align:left;" ><td><?= $this->translate( 'country', $addr->getCountryId() )  ?></td></tr>
 								<?php endforeach ?>
 							</table>
