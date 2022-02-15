@@ -263,7 +263,7 @@ $navlist2 = [
 					</li>
 					<?php $i=0; ?>
 					<?php foreach( $navlist as $idx => $subpart ) : ?>
-						<li class="nav-item <?= $enc->attr( $subpart ) ?> <?= ($i == 0 || $i == 4 || $i == 5) ? ' d-none' : '' ?>" >
+						<li class="nav-item <?= $enc->attr( $subpart ) ?> <?= ($i == 0 || $i == 4 || $i == 5 || $i == 6) ? ' d-none' : '' ?>" >
 							<a class="nav-link" href="#<?= $enc->attr( $subpart ) ?>" data-bs-toggle="tab" role="tab" tabindex="<?= ++$idx + $navlimit + 1 ?>">
 								<?php echo $navlist2[$i]; $i++; ?>
 							</a>
