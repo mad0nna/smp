@@ -34,10 +34,9 @@ const CartList = (props) => {
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
     email: userData.email || '',
-    firstname: userData.firstName || '',
-    lastname: userData.lastName || ''
+    first_name: userData.firstName || '',
+    last_name: userData.lastName || ''
   })
-
   const [errorData, setErrorData] = useState({
     error: false
   })
@@ -359,7 +358,6 @@ const CartList = (props) => {
           })
       })
   }
-
   const handleCheckoutModalAddressClose = () => {
     setState((prevState) => {
       return {
