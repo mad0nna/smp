@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class UserService
 {
@@ -143,7 +144,15 @@ class UserService
         $user = $this->user->where('username', $params['username'])->first();
         if ($user instanceof User) {
             $user->fill($params);
-            $user->save();
+            //Aimeos added columns
+            $user->name = $user->last_name . ' ' . $user->first_name;
+            $user->firstname = $user->first_name;
+            $user->lastname = $user->last_name;
+            $user->telephone = $user->contact_num;
+
+            if ($user->save()) {
+                return ['status' => true, 'data' => $user];
+            }
         }
 
         // if (array_key_exists('password', $params)) {
@@ -161,9 +170,9 @@ class UserService
         // }
 
         // perform update
-        if ($user->update($params)) {
-            return ['status' => true, 'data' => $user];
-        }
+        // if ($user->update($params)) {
+        //     return ['status' => true, 'data' => $user];
+        // }
         return ['status' => false];
     }
 
