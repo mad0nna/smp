@@ -158,7 +158,7 @@ const AccountProfile = (props) => {
         return {
           ...prevState,
           dialogMessage:
-            '連絡先メールアドレスがないとアカウントを追加できません。\n 続行するには、Salesforceに連絡先情報を入力してください。',
+            '管理者の連絡先メールアドレスがないとアカウントを追加できません。\n 続行するには、Salesforceに連絡先情報を入力してください。',
           showPopupMessageDialog: !prevState.showPopupMessageDialog
         }
       })

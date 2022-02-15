@@ -109,7 +109,7 @@ $paymentStatusList2 = [
 
 ?>
 <?php $this->block()->start( 'jqadm_content' ) ?>
-<?= $this->partial( $this->config( 'admin/jqadm/partial/dialog-send-or-email', 'common/partials/dialog-send-or-email-standard' ) ) ?>
+<?= $this->partial( $this->config( 'admin/jqadm/partial/dialog-send-or-email', 'common/partials/dialog-send-or-email-standard' ), ['statusPaymentCode' => $this->get('statusPaymentCode') ] ) ?>
 
 <?php if( isset( $this->item ) ) : ?>
 	<?php $basket = $this->item; $currency = $this->translate( 'currency', $basket->getPrice()->getCurrencyId() ) ?>
