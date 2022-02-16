@@ -663,15 +663,15 @@ $columnList = [
 		<div class="linebreak"></div>
 
 		<div class="table-responsive">
-			<table class="list-items table table-hover table-striped">
+			<table class="list-items list-items-product table table-hover table-striped">
 				<thead class="list-header">
 					<tr>
 						<th class="product-table-column"></th>
 						<th class="product-table-column product-table-column-product-code">品番</th>
 						<th class="product-table-column product-table-column-product-name">商品</th>
-						<th class="product-table-column">在庫</th>
-						<th class="product-table-column">販売価格</th>
-						<th class="product-table-column">販売状況</th>
+						<th class="product-table-column product-table-column-product-stock">在庫</th>
+						<th class="product-table-column product-table-column-product-price">販売価格</th>
+						<th class="product-table-column">&nbsp;&nbsp;&nbsp;&nbsp;販売状況</th>
 						<th class="product-table-column" style="width:9%">アクション</th>
 					</tr>
 				</thead>
