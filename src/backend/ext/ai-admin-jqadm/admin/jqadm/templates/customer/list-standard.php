@@ -155,14 +155,14 @@ $columnList = [
 		</column-select>
 
 		<div class="table-responsive">
-			<table class="list-items table table-hover table-striped list-orders">
+			<table class="list-items table table-hover table-striped list-orders customer-list">
 				<thead class="list-header">
 					<tr>
-						<th class="customer-table-column">顧客企業名</th>
-						<th class="customer-table-column ">顧客名</th>
-						<th class="customer-table-column ">メールアドレス</th>
-						<th class="customer-table-column">購⼊⽇</th>
-						<th class="customer-table-column">操作</th>
+						<th class="customer-table-column customer-label">顧客企業名</th>
+						<th class="customer-table-column customer-company">顧客名</th>
+						<th class="customer-table-column customer-ctime">購⼊⽇</th>
+						<th class="customer-table-column customer-email">メールアドレス</th>
+						<th class="customer-table-column action">操作</th>
 					</tr>
 				</thead>
 				<tbody>
