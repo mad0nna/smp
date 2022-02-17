@@ -306,6 +306,38 @@ p.upload-csv input {
   padding-right: 2.5rem;
   text-align: right;
 }
+
+.aimeos table.customer-list th.customer-label {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+.aimeos table.customer-list td.customer-label {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+.aimeos table.customer-list th.customer-company {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+.aimeos table.customer-list td.customer-company {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+.aimeos table.customer-list th.customer-email {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+.aimeos table.customer-list td.customer-email {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+
 /* <------------ End -------------> */
 
 .dd-nav {

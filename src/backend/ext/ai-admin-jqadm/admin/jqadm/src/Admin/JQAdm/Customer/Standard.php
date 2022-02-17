@@ -193,7 +193,7 @@ class Standard
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'customer' );
 			$domains =  $this->getDomains();
 			
-			$view->item = $manager->get( $id, $domains);
+			$view->item = $manager->get( $id, $domains); 
 			$view->itemGroups = $this->getGroupItems( $view->item );
 			$view->itemData = $this->toArray( $view->item );
 			$view->itemBody = parent::get();
