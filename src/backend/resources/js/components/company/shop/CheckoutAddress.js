@@ -50,7 +50,7 @@ const CheckoutAddress = (props) => {
     { value: '鹿児島県', name: '鹿児島県' },
     { value: '沖縄県', name: '沖縄県' }
   ]
-  console.log(props.error.error)
+  console.log(props.error)
   return (
     <div className="fixed w-full h-full top-0 left-0 flex items-center justify-center">
       <div className="absolute w-full h-full bg-gray-900 opacity-50"></div>
@@ -184,7 +184,7 @@ const CheckoutAddress = (props) => {
                       onChange={props.handleOnChange}
                       name="prefecture"
                     >
-                      <option value="">Please Select Prefecture</option>
+                      <option value="">都道府県を選択してください</option>
                       {prefectureData.map((data, key) => (
                         <option key={key} value={data.value}>
                           {data.name}
@@ -297,11 +297,9 @@ const CheckoutAddress = (props) => {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className={
-                      props.error.error
-                        ? 'bg-gray-200 appearance-none border-2 border-red-700 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white'
-                        : 'bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white'
-                    }
+                    className={`bg-gray-200 appearance-none border-2 ${
+                      props.error.email ? 'border-red-700' : 'border-gray-200'
+                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
                     id="inline-mail-name"
                     type="email"
                     name="email"
@@ -309,7 +307,7 @@ const CheckoutAddress = (props) => {
                     onChange={props.handleOnChange}
                     required
                   />
-                  {props.error.error ? (
+                  {props.error.email ? (
                     <p
                       className="text-xs text-red-700 w-full pt-2"
                       id="passwordHelp"

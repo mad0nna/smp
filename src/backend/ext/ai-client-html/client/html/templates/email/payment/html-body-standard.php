@@ -91,7 +91,7 @@ $enc = $this->encoder();
             <tbody>
             <tr>
               <td style="text-align:left; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">ご請求金額(税込)​</td>
-              <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold">JPY <?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
+              <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold">¥ <?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
            </tr>
           </tbody>
           </table>
@@ -102,7 +102,7 @@ $enc = $this->encoder();
           <td style="width: 40%">
            <div>
               <div>
-                <img src="<?= $this->logoURL ?>" style="height: 50px; width: auto;" alt="logo" title="" />
+                <img src="https://idaten.sprobe.ph/images/ht_email_image.png" style="height: 50px; width: auto;" alt="logo" title="" />
               </div>  
               <div style="font-size: 13px">株式会社ヒューマンテクノロジーズ </div>
               <div style="font-size: 13px">〒107-0051</div>
@@ -111,7 +111,7 @@ $enc = $this->encoder();
             </div>
           </td>
           <td style="width: 50px;">
-     <img src="<?= $this->stampURL ?>" style="height: 100px; width: auto" />
+     <img src="https://idaten.sprobe.ph/images/ht_email_image_2.png" style="height: 100px; width: auto" />
     </td>
         </tr>
        </tbody>
@@ -132,7 +132,7 @@ $enc = $this->encoder();
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($index , $enc::TRUST) ?></td>
           <td style="border: solid 1px #000000; padding: 10px"><?=$enc->html($product->getName() , $enc::TRUST) ?> <br>  <?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem->getDatePayment()) ))?></td>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getQuantity() , $enc::TRUST) ?></td>
-          <td style="border: solid 1px #000000; text-align:right; padding: 10px">JPY <?=$enc->html($product->getPrice()->getValue() , $enc::TRUST) ?></td>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px">¥ <?=$enc->html($product->getPrice()->getValue() , $enc::TRUST) ?></td>
         </tr>
         <?php endforeach ?>
       </tbody>
@@ -188,15 +188,15 @@ $enc = $this->encoder();
       <tbody>
         <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px;">小計​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px;">JPY <?= $enc->html($this->summaryBasket->getPrice()->getValue() ) ?></td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px;">¥ <?= $enc->html($this->summaryBasket->getPrice()->getValue() ) ?></td>
         </tr>
          <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px;">消費税​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px;">JPY <?= $enc->html( $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px;">¥ <?= $enc->html( $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
         </tr>
         <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">合計​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold">JPY <?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold">¥ <?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
         </tr>
       </tbody>
      </table>
@@ -209,7 +209,7 @@ $enc = $this->encoder();
     <tbody>
       <tr> 
         <td style="width: 100%"></td>
-        <td><img src="<?= $this->logoURL ?>" style="height: 50px; width: auto;" alt="" title="" /></td>
+        <td><img src="https://idaten.sprobe.ph/images/ht_email_image.png" style="height: 50px; width: auto;" alt="" title="" /></td>
       </tr>
     </tbody>
   </table>

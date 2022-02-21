@@ -35,13 +35,28 @@ const CartList = (props) => {
     company_name: userData.companyCode || '',
     email: userData.email || '',
     first_name: userData.firstName || '',
-    last_name: userData.lastName || ''
+    last_name: userData.lastName || '',
+    street_address: '',
+    building_name: '',
+    city: '',
+    postal_code: '',
+    prefecture: '',
+    number: ''
   })
   const [errorData, setErrorData] = useState({
-    error: false
+    email: false
+    // company_name: false,
+    // first_name: false,
+    // last_name: false,
+    // street_address: false,
+    // building_name: false,
+    // city: false,
+    // postal_code: false,
+    // prefecture: false,
+    // number: false
   })
   const history = useHistory()
-
+  console.log('errorData', errorData)
   const { cartTotal, items, updateItemQuantity, removeItem, emptyCart } =
     useCart()
 
@@ -84,6 +99,24 @@ const CartList = (props) => {
         addressModalDisplay: !prevState.addressModalDisplay
       }
     })
+  }
+
+  const handleAddressValidation = () => {
+    new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
+      ? setErrorData({ email: false })
+      : setErrorData({ email: true })
+
+    for (const key in addressData) {
+      if (String(addressData[key]).length === 0) {
+        setErrorData((prevState) => {
+          return { ...prevState, [key]: true }
+        })
+      } else {
+        setErrorData((prevState) => {
+          return { ...prevState, [key]: false }
+        })
+      }
+    }
   }
 
   const handleCheckoutModalOpen = () => {
@@ -458,6 +491,7 @@ const CartList = (props) => {
 
         generateFinalOrder(invData)
           .then((res) => {
+            console.error('@error', res.errors)
             console.log('sucessfully created order')
             deleteBasketCache(res.data.meta.csrf)
             // display modal submit
@@ -472,7 +506,7 @@ const CartList = (props) => {
             handleCheckoutMessageModalOpen()
           })
           .catch((err) => {
-            console.error('@error', err)
+            console.error('@error', err.error)
             deleteBasketCache(csrfItem)
           })
       }
@@ -610,10 +644,8 @@ const CartList = (props) => {
   }, [items])
 
   useEffect(() => {
-    new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
-      ? setErrorData({ error: false })
-      : setErrorData({ error: true })
-  }, [addressData.email])
+    handleAddressValidation()
+  }, [])
 
   return (
     <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">

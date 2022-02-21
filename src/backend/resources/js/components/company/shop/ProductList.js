@@ -254,7 +254,7 @@ const ProductList = () => {
             data: groupItems,
             pageCount: pageNumbers.length,
             pageNumbers: list,
-            currentPage: data.meta.current,
+            currentPage: pagingConditions.page,
             loaded: true
           }
         })
@@ -277,7 +277,7 @@ const ProductList = () => {
         }
 
         return state.loaded ? (
-          <div className="grid grid-flow-row mx-2" key={index}>
+          <div className="overflow-hidden mx-2" key={index}>
             {loadedImage ? (
               <div></div>
             ) : (
@@ -292,8 +292,7 @@ const ProductList = () => {
                 setLoadedImage(true)
               }}
             ></img>
-
-            <div className="gap-2 pb-2">
+            <div className="flex flex-col justify-between gap-2 pb-2 ">
               <div className="text-red-500 font-bold mt-2">
                 {product.product['product.label'] ?? ''}
               </div>
@@ -302,7 +301,7 @@ const ProductList = () => {
               </div>
               <div className="text-gray-500 font-bold">商品說明</div>
               <p className="text-gray-400 text-left h-26 text-sm">
-                {prodDescription}
+                {prodDescription.replace(/(.{200})..+/, '$1…')}
               </p>
               <div className="text-primary-200 underline font-bold text-sm mt-2 cursor-pointer">
                 <Link
@@ -317,6 +316,7 @@ const ProductList = () => {
             </div>
           </div>
         ) : (
+          // </div>
           <div className="h-full bg-gray-400"></div>
         )
       })

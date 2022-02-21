@@ -180,7 +180,7 @@ const ProductDetail = (props) => {
       }
     })
   }
-
+  console.log('stock', state.orderNum)
   const productDetailItem = () => {
     return (
       <tr>
@@ -202,18 +202,19 @@ const ProductDetail = (props) => {
               width="16"
               height="16"
               fill="currentColor"
-              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
-                state.stock == 0
-                  ? 'opacity-50 cursor-not-allowed'
-                  : 'cursor-pointer'
-              }`}
+              className={`bi bi-dash-circle text-gray-500 mt-1 font-semibold cursor-pointer
+                ${
+                  state.orderNum == 1
+                    ? 'opacity-50 cursor-not-allowed'
+                    : 'cursor-pointer'
+                }`}
               viewBox="0 0 16 16"
               onClick={() => {
-                state.stock > 0 ? handleIncrementOrder() : null
+                state.orderNum > 0 ? handleDecrementOrder() : null
               }}
             >
               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+              <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
             </svg>
             <input
               type="number"
@@ -229,19 +230,18 @@ const ProductDetail = (props) => {
               width="16"
               height="16"
               fill="currentColor"
-              className={`bi bi-dash-circle text-gray-500 mt-1 font-semibold cursor-pointer
-                ${
-                  state.orderNum == 1
-                    ? 'opacity-50 cursor-not-allowed'
-                    : 'cursor-pointer'
-                }`}
+              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
+                state.stock == 0
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'cursor-pointer'
+              }`}
               viewBox="0 0 16 16"
               onClick={() => {
-                state.orderNum > 0 ? handleDecrementOrder() : null
+                state.stock > 0 ? handleIncrementOrder() : null
               }}
             >
               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-              <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
             </svg>
           </div>
           {state.orderNum == productDetail.defaultStock ? (
@@ -344,8 +344,12 @@ const ProductDetail = (props) => {
                       キャンセル
                     </button>
                     <button
-                      className="bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold"
-                      onClick={handleCartListPage}
+                      className={`bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold ${
+                        state.orderNum <= 0
+                          ? 'bg-opacity-50 cursor-not-allowed'
+                          : ''
+                      }`}
+                      onClick={state.orderNum <= 0 ? null : handleCartListPage}
                     >
                       カートに追加
                     </button>
