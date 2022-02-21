@@ -102,7 +102,7 @@ $enc = $this->encoder();
           <td style="width: 40%">
            <div>
               <div>
-                <img src="https://idaten.sprobe.ph/images/ht_email_image.png" style="height: 50px; width: auto;" alt="logo" title="" />
+                <img src="<?= $this->logoURL ?>" style="height: 50px; width: auto;" alt="logo" title="" />
               </div>  
               <div style="font-size: 13px">株式会社ヒューマンテクノロジーズ </div>
               <div style="font-size: 13px">〒107-0051</div>
@@ -111,7 +111,7 @@ $enc = $this->encoder();
             </div>
           </td>
           <td style="width: 50px;">
-     <img src="https://idaten.sprobe.ph/images/ht_email_image_2.png" style="height: 100px; width: auto" />
+     <img src="<?= $this->stampURL ?>" style="height: 100px; width: auto" />
     </td>
         </tr>
        </tbody>
@@ -209,7 +209,7 @@ $enc = $this->encoder();
     <tbody>
       <tr> 
         <td style="width: 100%"></td>
-        <td><img src="https://idaten.sprobe.ph/images/ht_email_image.png" style="height: 50px; width: auto;" alt="" title="" /></td>
+        <td><img src="<?= $this->logoURL ?>" style="height: 50px; width: auto;" alt="" title="" /></td>
       </tr>
     </tbody>
   </table>
