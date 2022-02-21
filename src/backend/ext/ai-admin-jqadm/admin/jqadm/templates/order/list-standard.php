@@ -295,7 +295,7 @@ $statusList = [
 								<td class="order-base-price price text-end">¥<?= $baseItem ? number_format($enc->html( $baseItem->getPrice()->getValue() + $baseItem->getPrice()->getTaxValue() )) : '' ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'order.statuspayment', $fields ) ) : ?>
-								<td class="order-statuspayment"> <?= $item->getStatusPayment() === 6 ? "有料" : "保留中" ?> </td>
+								<td class="order-statuspayment"> <?= $item->getStatusPayment() === 6 ? "有料" : "未払い" ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'order.type', $fields ) ) : ?>
 								<td class="order-type"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getType() ) ?></a></td>
