@@ -56,7 +56,7 @@ class SalesforceSync extends Command
                         $company = (new Account)->findByID($c['account_id']);
 
                         if (is_array($company)) {
-                    
+
                             $adminDetails = (new Contact)->getAdminByAccountId($company['Id']);
                             $opportunity = (new Opportunity)->getNumberOfSubscriber($company['Id']);
 
@@ -67,6 +67,7 @@ class SalesforceSync extends Command
                             if (is_array($opportunity)) {
                                 $company['opportunity'] = $opportunity;
                             }
+
                             $_company = CompanyResource::parseSfCompanyColumnToDbColumn($company);
                             $result1 = Company::find($c['id'])->update($_company);
 
@@ -79,7 +80,7 @@ class SalesforceSync extends Command
                                     }
                                 }
                             }
-                    
+
                         }
                     }
                 } catch (\Exception $e) {

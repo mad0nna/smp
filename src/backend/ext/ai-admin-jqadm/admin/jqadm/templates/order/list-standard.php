@@ -289,13 +289,13 @@ $statusList = [
 						<?php $baseItem = ( isset( $baseItems[$item->getBaseId()] ) ? $baseItems[$item->getBaseId()] : null ) ?>
 						<tr class="list-item <?= $this->site()->readonly( $item->getSiteId() ) ?>">
 							<?php if( in_array( 'order.id', $fields ) ) : ?>
-								<td class="order-id text-end" style="padding-right:5em"><a class="items-field" href="<?= $url ?>" tabindex="1"><?= $enc->html( $item->getId() ) ?></a></td>
+								<td class="order-id text-end" style="padding-right:2em"><a class="items-field" href="<?= $url ?>" tabindex="1"><?= $enc->html( $item->getId() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.price', $fields ) ) : ?>
 								<td class="order-base-price price text-end">¥<?= $baseItem ? number_format($enc->html( $baseItem->getPrice()->getValue() + $baseItem->getPrice()->getTaxValue() )) : '' ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'order.statuspayment', $fields ) ) : ?>
-								<td class="order-statuspayment"> <?= $item->getStatusPayment() === 6 ? "有料" : "保留中" ?> </td>
+								<td class="order-statuspayment"> <?= $item->getStatusPayment() === 6 ? "有料" : "未払い" ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'order.type', $fields ) ) : ?>
 								<td class="order-type"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getType() ) ?></a></td>

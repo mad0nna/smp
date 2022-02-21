@@ -63,9 +63,9 @@ const BillingHistory = () => {
                   key={index}
                 >
                   <div className="2xl:w-5/12 lg: xl:w-5/12 lg:w-5/12 sm:w-6/12 h-full inline-block align-top 2xl:mr-4 xl:mr-3 lg:mr-2 sm:mr-0">
-                    <h1 className="text-right pr-20 font-semibold 2xl:text-3xl xl:3xl lg:text-xl md:text-xs sm:text-xs text-gray-500 font-sans">
-                      {`¥${item.amount}`}
-                    </h1>
+                    <h5 className="text-right font-semibold 2xl:text-lg xl:3xl lg:text-base md:text-sm sm:text-xs text-gray-500 font-sans">
+                      {`${item.amount} `} <span>円(税込)</span>
+                    </h5>
                     <p className="2xl:text-xs xl:text-xs lg:text-xs  xs:text-xxs text-gray-400 font-sans">
                       支払期限
                     </p>

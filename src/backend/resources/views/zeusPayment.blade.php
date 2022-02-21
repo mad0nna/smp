@@ -12,7 +12,6 @@
                   <input type="hidden" name="money" value='<?=$amount?>' />
                   <input type="hidden" name="sendid" value="<?=$sendID?>" />
                   <input type="hidden" name="sendpoint" value="<?=$salesforceCompanyID?>" />
-                  <input type="hidden" name="telno" value="<?=$contactNumber?>" />
                   <input
                     type="hidden"
                     name="email"

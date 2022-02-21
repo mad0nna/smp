@@ -73,12 +73,12 @@ $enc = $this->encoder();
     </tbody>
   </table>
   <div>
-    <p style="font-size: 18px; padding: 10px 0 0 0"> Dear <?php foreach ($this->summaryBasket->getAddress( 'payment' ) as $address) : ?><?=$enc->html($address->getCompany() , $enc::TRUST) ?>  <?php endforeach ?> Company <p>
+    <p style="font-size: 18px; padding: 10px 0 0 0"> Dear <?php foreach ($this->summaryBasket->getAddress( 'payment' ) as $address) : ?><?=$enc->html($address->getLastName() , $enc::TRUST) ?><?php endforeach ?><span style="font-size: 13px">-様 </span><p>
     <?php if($this->extOrderItem->getStatusPayment() === 5): ?>
       <p style="font-size: 18px; padding: 0 0 5px 0"> 下記の通りご請求申し上げます​ <p>
     <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?>
       <p style="font-size: 18px; padding: 0 0 5px 0">
-      私たちはあなたのお支払いを受け取り、あなたの注文を直ちに世話します。注文内容は以下のとおりです。
+      下記の通りご請求申し上げます
       <p>
       <?php endif ?>
   </div>
@@ -91,7 +91,7 @@ $enc = $this->encoder();
             <tbody>
             <tr>
               <td style="text-align:left; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">ご請求金額(税込)​</td>
-              <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold"><?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?><span><?= $enc->html( $this->summaryBasket->getPrice()->getCurrencyId() ) ?></span></td>
+              <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold">JPY <?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
            </tr>
           </tbody>
           </table>
@@ -132,7 +132,7 @@ $enc = $this->encoder();
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($index , $enc::TRUST) ?></td>
           <td style="border: solid 1px #000000; padding: 10px"><?=$enc->html($product->getName() , $enc::TRUST) ?> <br>  <?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem->getDatePayment()) ))?></td>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getQuantity() , $enc::TRUST) ?></td>
-          <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getPrice()->getValue() , $enc::TRUST) ?><span><?= $enc->html( $this->summaryBasket->getPrice()->getCurrencyId() ) ?></span></td>
+          <td style="border: solid 1px #000000; text-align:right; padding: 10px">JPY <?=$enc->html($product->getPrice()->getValue() , $enc::TRUST) ?></td>
         </tr>
         <?php endforeach ?>
       </tbody>
@@ -171,7 +171,7 @@ $enc = $this->encoder();
         </td>
         <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?>
           <td style="padding-right: 20px">
-            <div style="font-size: 13px">配送先住所: </div>
+            <div style="font-size: 13px">配送先: </div>
             <?php foreach($this->summaryBasket->getAddress( 'payment' ) as $addr ): ?>
             <div>
               <span><?=$enc->html($addr->getAddress1() , $enc::TRUST) ?></span>,
@@ -188,15 +188,15 @@ $enc = $this->encoder();
       <tbody>
         <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px;">小計​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px;"><?= $enc->html($this->summaryBasket->getPrice()->getValue() ) ?><span><?= $enc->html( $this->summaryBasket->getPrice()->getCurrencyId() ) ?></span></td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px;">JPY <?= $enc->html($this->summaryBasket->getPrice()->getValue() ) ?></td>
         </tr>
          <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px;">消費税​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px;"><?= $enc->html( $this->summaryBasket->getPrice()->getTaxValue() ) ?><span><?= $enc->html( $this->summaryBasket->getPrice()->getCurrencyId() ) ?></span></td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px;">JPY <?= $enc->html( $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
         </tr>
         <tr>
           <td style="text-align:right; padding: 10px 5px 10px 5px; border: solid 1px #ddd; background: #d9d9d9;">合計​</td>
-          <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold"><?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?><span><?= $enc->html( $this->summaryBasket->getPrice()->getCurrencyId() ) ?></span></td>
+          <td style="text-align:right; padding: 5px 10px 5px 20px; border: solid 1px #ddd; font-weight: bold">JPY <?= $enc->html($this->summaryBasket->getPrice()->getValue() + $this->summaryBasket->getPrice()->getTaxValue() ) ?></td>
         </tr>
       </tbody>
      </table>

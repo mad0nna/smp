@@ -193,12 +193,34 @@ $deliveryStatusList1 = [
 							<?php endif ?>
 							<?php if( in_array( 'order.statuspayment', $fields ) ) : ?>
 								<td class="order-statuspayment">
-									<?= $enc->html( $paymentStatusList1[$item->getStatusPayment()] ) ?>
+									<?= $item->getStatusPayment() === 6 ? "有料" : "未払い" ?>
 								</td>
 							<?php endif ?>
 							<?php if( in_array( 'order.statusdelivery', $fields ) ) : ?>
 								<td class="order-statusdelivery">
-									<?= $enc->html( $deliveryStatusList1[$item->getStatusDelivery()] ) ?>
+									<?= 
+									$deliveryStatus = "";
+										switch ($item->getStatusPayment()) {
+											case ('' || null):
+												$deliveryStatus = "保留中";
+											break;
+											case 0:
+												$deliveryStatus = "キャンセル";
+											break;
+											case 1:
+												$deliveryStatus = "保留中";
+											break;
+											case 3:
+												$deliveryStatus = "配達中";
+											break;
+											case 4:
+												$deliveryStatus = "配達済み";
+												break;
+											default:
+												$deliveryStatus = "保留中";
+										}
+									?>
+									<?= $deliveryStatus ?>
 								</td>
 							<?php endif ?>
 							<td class="order-detail  ">

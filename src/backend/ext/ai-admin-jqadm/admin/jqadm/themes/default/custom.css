@@ -210,6 +210,14 @@ p.upload-csv input {
   font-weight: bold;
 }
 
+.aimeos table.list-items th.product-table-column-product-stock {
+  text-align: right;
+}
+
+.aimeos table.list-items th.product-table-column-product-price {
+  text-align: right;
+}
+
 .aimeos table.list-items td.product-code {
   text-align: left;
   padding-left: 2.5rem;
@@ -219,6 +227,22 @@ p.upload-csv input {
   text-align: left;
   padding-left: 1.5rem;
 }
+
+.aimeos table.list-items td.product-stock {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.aimeos table.list-items td.product-price {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.aimeos table.list-items td.actions {
+  text-align: start;
+  padding-left: 1em;
+}
+
 
 .btn-primary {
   background-color: #1D9E48;
@@ -282,6 +306,38 @@ p.upload-csv input {
   padding-right: 2.5rem;
   text-align: right;
 }
+
+.aimeos table.customer-list th.customer-label {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+.aimeos table.customer-list td.customer-label {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+.aimeos table.customer-list th.customer-company {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+.aimeos table.customer-list td.customer-company {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+.aimeos table.customer-list th.customer-email {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+.aimeos table.customer-list td.customer-email {
+  text-align:left;
+  padding-left: 2rem;
+}
+
+
 /* <------------ End -------------> */
 
 .dd-nav {

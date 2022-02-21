@@ -25,4 +25,21 @@ class OpportunityService
 
         return json_encode($opportunity);
     }
+
+    /**
+     * Function that returns the selected company's, opportunity payment method
+     *
+     * @param string $companyID salesforce account id
+     * @return string $paymentMethod
+     */
+    public function getLatestKOTOpportunityPaymentMethod(string $companyID)
+    {
+        $paymentMethod = Cache::remember("{$companyID}:opportunity:paymentMethod:latest", now()->addMinutes(5), function () use ($companyID) {
+            $opportunity = (new Opportunity)->getLatest($companyID);
+
+            return $opportunity['KoT_shiharaihouhou__c'];
+        });
+
+        return $paymentMethod;
+    }
 }
