@@ -155,7 +155,7 @@ const ProductWidget = () => {
             <div>
               {productList.map((item, index) => {
                 return (
-                  <div className="inline-block p-4 pl-8" key={index}>
+                  <div className="inline-block p-4 pl-6" key={index}>
                     <a
                       href={`/company/productDetail/${item.product['product.id']}`}
                     >
