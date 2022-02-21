@@ -43,8 +43,7 @@ const Dashboard = () => {
       { component: <ProductWidget /> },
       { component: <BillingHistory /> },
       { component: <Notification /> },
-      { component: <Settings /> },
-      { component: <UnpaidBillingInformation /> }
+      { component: <Settings /> }
     ]
     getCoordinates()
     function getCoordinates() {
