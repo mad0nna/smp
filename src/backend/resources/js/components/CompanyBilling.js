@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import Ellipsis from '../../img/ellipsis.png'
 import axios from 'axios'
-import unpaidBillingIcon from '../../img/unpaid-billing-icon.png'
+import UnpaidBillingInformation from './UnpaidBillingInformation'
+import Settings from './CompanyBillingSettings'
 
 const CancelToken = axios.CancelToken
 const source = CancelToken.source()
@@ -273,131 +274,78 @@ const CompanyBilling = () => {
 
   return (
     <div className="relative px-10 mt-5 bg-mainbg">
-      <div className="w-full h-full bg-white overflow-hidden relative rounded-lg shadow-xl">
+      <div className="w-full h-full bg-white overflow-hidden rounded-lg shadow-xl">
         <div className="px-3 pt-3 pb-1">
           <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
             <h2 className="text-green-800 text-lg font-bold">請求履歴</h2>
           </div>
         </div>
 
-        <div className="flex flex-row mt-3 ml-3 h-8 w-40 bg-cover bg-no-repeat">
-          <img src={unpaidBillingIcon} />
-          <span className="ml-3 mt-3 text-green-600 font-semibold">
-            未払い情報
-          </span>
-        </div>
-
-        <div className="flex flex-col flex-wrap w-3/6 min-w-min max-w-3xl p-4 border-2 mt-1 ml-3 rounded-lg shadow-md row-2">
-          <div className="flex flex-row space-x-36">
-            <div className="flex flex-col ml-3 mr-3">
-              <div className="text-green-500">
-                未払額 :
-                <span className="text-red-700 float-right ml-3 font-semibold">
-                  {state.unpaidBillingData.due_last_billed_amount
-                    ? ` ¥ ${state.unpaidBillingData.due_last_billed_amount}`
-                    : '-'}
-                </span>
-              </div>
-              <div className="text-green-500">
-                支払期日 :
-                <span className="float-right ml-3 text-green-700">
-                  {state.unpaidBillingData.due_last_billed_deadline_date
-                    ? state.unpaidBillingData.due_last_billed_deadline_date
-                    : '-'}
-                </span>
-              </div>
-              <div className="text-green-500">
-                支払期限 :
-                <span className="float-right ml-3 text-green-700">
-                  {state.unpaidBillingData.due_last_billed_payment_period
-                    ? state.unpaidBillingData.due_last_billed_payment_period
-                    : '-'}
-                </span>
-              </div>
-            </div>
-            <div className="flex flex-col ml-3 mr-3">
-              <div className="text-green-500">
-                未払額 :
-                <span className="text-red-700 float-right ml-3 font-semibold">
-                  {state.unpaidBillingData.due_billed_amount
-                    ? ` ¥ ${state.unpaidBillingData.due_billed_amount}`
-                    : '-'}
-                </span>
-              </div>
-              <div className="text-green-500">
-                支払期日 :
-                <span className="float-right ml-3 text-green-700">
-                  {state.unpaidBillingData.due_billed_deadline_date
-                    ? state.unpaidBillingData.due_billed_deadline_date
-                    : '-'}
-                </span>
-              </div>
-              <div className="text-green-500">
-                支払期限 :
-                <span className="float-right ml-3 text-green-700">
-                  {state.unpaidBillingData.due_billed_payment_period
-                    ? state.unpaidBillingData.due_billed_payment_period
-                    : '-'}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-row-reverse">
-            <div className="mt-5 text-green-500">
-              合計 :
-              <span className="text-red-700 ml-3 font-semibold">
-                {state.unpaidBillingData.due_billed_amount
-                  ? state.unpaidBillingData.total_billed_amount
-                  : '-'}
-              </span>
-            </div>
-          </div>
-        </div>
-
         <div
-          id="widget-header"
-          className="max-w-full h-24 bg-white box-border align-middle p-4 relative"
+          className={
+            state.unpaidBillingData &&
+            state.unpaidBillingData.is_bank_transfer == true &&
+            state.unpaidBillingData.total_billed_amount != null
+              ? ''
+              : 'flex flex-row items-end justify-between'
+          }
         >
-          <div id="widget-name" className="float-right mr-3">
-            <div className="table-cell relative h-20 w-full align-middle">
-              <div
-                id="search-bar"
-                className="bg-gray-100 h-12 rounded-lg w-96 mx-0 my-auto"
-              >
-                <svg
-                  className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
-                  xmlns="http://www.w3.org/2000/svg"
-                  x="30px"
-                  y="30px"
-                  viewBox="0 0 487.95 487.95"
-                  xmlSpace="preserve"
+          {state.unpaidBillingData &&
+          state.unpaidBillingData.is_bank_transfer == true &&
+          state.unpaidBillingData.total_billed_amount != null ? (
+            <div className="flex flex-row justify-between m-3">
+              <UnpaidBillingInformation data={state.unpaidBillingData} />
+              <Settings />
+            </div>
+          ) : (
+            <Settings />
+          )}
+
+          <div
+            id="widget-header"
+            className="max-w-full h-24 bg-white box-border m-2 p-2 relative align-bottom float-right"
+          >
+            <div id="widget-name" className="float-right mr-3">
+              <div className="table-cell relative h-20 w-full align-middle">
+                <div
+                  id="search-bar"
+                  className="bg-gray-100 h-12 rounded-lg w-96 mx-0 my-auto"
                 >
-                  <g>
-                    <path
-                      d="M481.8,453l-140-140.1c27.6-33.1,44.2-75.4,44.2-121.6C386,85.9,299.5,0.2,193.1,0.2S0,86,0,191.4s86.5,191.1,192.9,191.1
-                            c45.2,0,86.8-15.5,119.8-41.4l140.5,140.5c8.2,8.2,20.4,8.2,28.6,0C490,473.4,490,461.2,481.8,453z M41,191.4
-                            c0-82.8,68.2-150.1,151.9-150.1s151.9,67.3,151.9,150.1s-68.2,150.1-151.9,150.1S41,274.1,41,191.4z"
-                    />
-                  </g>
-                </svg>
-                <input
-                  type="text"
-                  id="billingSearch"
-                  className="h-full w-80 bg-gray-100 custom-outline-none"
-                  placeholder="検索"
-                  value={state.searchText}
-                  onChange={(e) => {
-                    search(e.target.value)
-                  }}
-                />
+                  <svg
+                    className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="30px"
+                    y="30px"
+                    viewBox="0 0 487.95 487.95"
+                    xmlSpace="preserve"
+                  >
+                    <g>
+                      <path
+                        d="M481.8,453l-140-140.1c27.6-33.1,44.2-75.4,44.2-121.6C386,85.9,299.5,0.2,193.1,0.2S0,86,0,191.4s86.5,191.1,192.9,191.1
+                                c45.2,0,86.8-15.5,119.8-41.4l140.5,140.5c8.2,8.2,20.4,8.2,28.6,0C490,473.4,490,461.2,481.8,453z M41,191.4
+                                c0-82.8,68.2-150.1,151.9-150.1s151.9,67.3,151.9,150.1s-68.2,150.1-151.9,150.1S41,274.1,41,191.4z"
+                      />
+                    </g>
+                  </svg>
+                  <input
+                    type="text"
+                    id="billingSearch"
+                    className="h-full w-80 bg-gray-100 custom-outline-none"
+                    placeholder="検索"
+                    value={state.searchText}
+                    onChange={(e) => {
+                      search(e.target.value)
+                    }}
+                  />
+                </div>
               </div>
             </div>
+            <div></div>
+            <img
+              className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block"
+              src={Ellipsis}
+            />
           </div>
-          <div></div>
-          <img
-            className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block"
-            src={Ellipsis}
-          />
         </div>
         <div
           id="widget-body"
@@ -410,7 +358,7 @@ const CompanyBilling = () => {
                 {/* <th>請求書名</th> */}
                 <th>請求日</th>
                 <th>支払期限</th>
-                <th className="text-right">請求額</th>
+                <th>請求額</th>
                 {/* <th>状態</th> */}
                 <th>操作</th>
               </tr>
@@ -429,7 +377,7 @@ const CompanyBilling = () => {
                       {/* <td className="text-center">{item.billingName}</td> */}
                       <td className="text-center"> {item.invoiceDate}</td>
                       <td className="text-center">{item.dueDate}</td>
-                      <td className="text-right">¥ {item.amount}</td>
+                      <td className="text-right">{`${item.amount} 円(税込)`}</td>
                       {/* <td className={txtcolor + ' text-center'}>-</td> */}
                       <td className="text-center text-primary-200">
                         <div

@@ -6,6 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Services\BillingService;
+use App\Services\OpportunityService;
 use App\Services\Utilities\MessageResult;
 use App\Models\User;
 
@@ -61,10 +62,18 @@ class BillingController extends Controller
      * @param App\Services\BillingService
      * @return Response
      */
-    public function getUnpaidBillingInformation(BillingService $billingService)
+    public function getUnpaidBillingInformation(BillingService $billingService, OpportunityService $opportunityService)
     {
         try {
-            $this->response['data'] = $billingService->getUnpaidBillingInformation(Session::get('companyName'), Session::get('salesforceCompanyID'));
+
+            $paymentMethod = $opportunityService->getLatestKOTOpportunityPaymentMethod(Session::get('salesforceCompanyID'));
+            if ($paymentMethod === null || $paymentMethod !== 'クレジット') {
+                $this->response['data'] = $billingService->getUnpaidBillingInformation(Session::get('companyName'), Session::get('salesforceCompanyID'));
+                $this->response['data']['is_bank_transfer'] = true;
+            } else {
+                $this->response['data']['is_bank_transfer'] = false;
+            }
+
             $this->response['code'] = 200;
         } catch (\Exception $e) {
             $this->response = [
