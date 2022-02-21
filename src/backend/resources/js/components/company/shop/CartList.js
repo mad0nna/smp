@@ -76,7 +76,6 @@ const CartList = (props) => {
 
     setAddressData({ ...addressData, [name]: value })
   }
-
   const handleOpenAddressModal = () => {
     setState((prevState) => {
       return {
@@ -516,7 +515,6 @@ const CartList = (props) => {
       )
       .focus()
   }
-
   const cartItems = () => {
     let addToCartItem = items
     return addToCartItem.map((item) => {
@@ -704,16 +702,22 @@ const CartList = (props) => {
             <div className="flex flex-col items-center space-y-4 py-10">
               <button
                 className={`bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
-                  !isAgreedTerms ? 'bg-opacity-50 cursor-not-allowed' : ''
+                  isAgreedTerms && items.length !== 0
+                    ? ''
+                    : 'bg-opacity-50 cursor-not-allowed'
                 }`}
-                onClick={isAgreedTerms ? handleOpenAddressModal : null}
+                onClick={
+                  isAgreedTerms && items.length !== 0
+                    ? handleOpenAddressModal
+                    : null
+                }
               >
                 お会計
               </button>
               <button
                 className="bg-gray-400 text-black justify-center rounded-3xl items-center h-14 w-4/5 font-bold"
                 onClick={() => {
-                  history.goBack()
+                  history.push('/company/shop')
                 }}
               >
                 キャンセル

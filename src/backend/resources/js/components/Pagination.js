@@ -3,6 +3,7 @@ import PrevButton from '../../img/pagination-prev.png'
 import NextButton from '../../img/pagination-next.png'
 
 const Pagination = (props) => {
+  console.log('pagination', props)
   return (
     <div>
       <img
