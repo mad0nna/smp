@@ -42,19 +42,19 @@ $params = $this->get( 'pageParams', [] );
 						<div class="col-xl-6">
 							<div class="">
 							<div class="form-group row">
-									<label class="col-sm-2 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Company' ) ) ?> :</label>
+									<label class="col-sm-2 form-control-label">顧客企業名 :</label>
 									<div class="col-sm-8">
 										<?= $enc->html( $this->get( 'itemData/company_name' ) ) ?>
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-sm-2 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Name' ) ) ?> :</label>
+									<label class="col-sm-2 form-control-label">顧客名 :</label>
 									<div class="col-sm-8">
 										<?= $enc->html( $this->get( 'itemData/customer.label' ) ) ?>
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-sm-2 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Email' ) ) ?> :</label>
+									<label class="col-sm-2 form-control-label">メールアドレス :</label>
 									<div class="col-sm-8">
 										<?= $enc->html( $this->get( 'itemData/customer.email' ) ) ?>
 									</div>
