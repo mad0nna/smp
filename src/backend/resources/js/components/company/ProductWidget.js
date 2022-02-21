@@ -5,7 +5,8 @@ import _ from 'lodash'
 import spinner from '../../../img/spinner.gif'
 
 const ProductWidget = () => {
-  const API_URL = '/jsonapi/product?[page]=limit=4&include=media,text,price'
+  const API_URL =
+    '/jsonapi/product?page[offset]=0&page[limit]=4&include=media,text,price'
   const [state, setState] = useState({
     loading: true
   })
@@ -13,10 +14,10 @@ const ProductWidget = () => {
 
   // const productItem = () => {}
 
-  const displayProductList = () => {
-    console.log('@productList', productList)
-    // populate product item here
-  }
+  // const displayProductList = () => {
+  //   console.log('@productList', productList)
+  //   // populate product item here
+  // }
 
   const parseProductObj = (obj) => {
     let groupItems = []
@@ -122,8 +123,10 @@ const ProductWidget = () => {
    */
   useEffect(() => {
     // set product list
-    getProductListApi()
-  })
+    if (productList.length == 0) {
+      getProductListApi()
+    }
+  }, [productList])
 
   return (
     <div className="h-full w-full relative group">
@@ -134,9 +137,7 @@ const ProductWidget = () => {
         >
           <div>
             <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
-              <h2 className="text-green-800 text-lg font-bold">
-                サービス利用日
-              </h2>
+              <h2 className="text-green-800 text-lg font-bold">物販</h2>
             </div>
           </div>
           <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
@@ -152,8 +153,28 @@ const ProductWidget = () => {
             </div>
           ) : (
             <div>
-              <div className="pb-6"></div>
-              <div className="inline-block pb-3">{displayProductList}</div>
+              {productList.map((item, index) => {
+                return (
+                  <div className="inline-block p-4 pl-6" key={index}>
+                    <a
+                      href={`/company/productDetail/${item.product['product.id']}`}
+                    >
+                      <img
+                        className="w-36"
+                        src={`/aimeos/${item.media['media.url']}`}
+                      ></img>
+                    </a>
+                    <div className="">{item.product['product.label']}</div>
+                    <div className="">
+                      ¥
+                      {item.price['price.value'].substring(
+                        0,
+                        item.price['price.value'].length - 3
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>
