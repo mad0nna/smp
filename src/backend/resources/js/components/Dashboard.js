@@ -14,6 +14,7 @@ import CompanyDashboardPieChart from './CompanyDashboardPieChart'
 import resize from '../../img/resize.png'
 import { findMissingWidget } from '../utilities/constants'
 import spinner from '../../img/spinner.gif'
+import ProductWidget from './company/ProductWidget'
 
 const Dashboard = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive)
@@ -39,11 +40,11 @@ const Dashboard = () => {
       { component: <Welcome /> },
       { component: <CompanyDashboardPieChart /> },
       { component: <ServiceUsage /> },
-      // { component: <Products /> },
+      { component: <ProductWidget /> },
       { component: <BillingHistory /> },
       { component: <Notification /> },
-      { component: <Settings /> }
-      // { component: <Purchase /> }
+      { component: <Settings /> },
+      { component: <UnpaidBillingInformation /> }
     ]
     getCoordinates()
     function getCoordinates() {
@@ -56,6 +57,7 @@ const Dashboard = () => {
           coordinatesFromLS[index].component =
             companyCoreWidgets[index].component
         }
+        console.log('@test', coordinatesFromLS)
         setWidgetCoordinates(coordinatesFromLS)
         setStatus(false)
         return
@@ -78,7 +80,7 @@ const Dashboard = () => {
   }, [widgetState])
 
   //uncomment this if there is a need to reset widget's state in the local storage
-  //localStorage.removeItem('widget')
+  // localStorage.removeItem('widget')
   Storage.prototype.getObj = function (key) {
     return JSON.parse(this.getItem(key))
   }
