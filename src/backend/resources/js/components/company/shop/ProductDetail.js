@@ -138,49 +138,6 @@ const ProductDetail = (props) => {
     history.push({ pathname: '/company/cart', state: productDetail })
   }
 
-  function getProductDetail(id) {
-    axios({
-      url: `/jsonapi/product?id=${id}&include=media,text,price,stock`,
-      method: 'get',
-      responseType: 'json'
-    }).then((response) => {
-      if (!_.isEmpty(response.data)) {
-        let item = response.data
-        // getting id from relationship media
-        let prodMediaId = item.data.relationships.media.data[0]['id']
-        // for long description
-        let prodTextId = item.data.relationships.text.data[0]['id']
-        //for price value
-        let prodPriceId = item.data.relationships.price.data[0]['id']
-        // for stock
-        let prodStockId = item.data.relationships.stock.data[0]['id']
-
-        if (!_.isEmpty(item) || item !== undefined) {
-          let prodDetail = {
-            product: item.data.attributes,
-            media:
-              _.filter(item.included, (inc) => {
-                return inc.type === 'media' && inc['id'] === prodMediaId
-              })[0].attributes ?? {},
-            text:
-              _.filter(item.included, (inc) => {
-                return inc.type == 'text' && inc['id'] == prodTextId
-              })[0].attributes ?? {},
-            price:
-              _.filter(item.included, (inc) => {
-                return inc.type === 'price' && inc['id'] === prodPriceId
-              })[0].attributes ?? {},
-            stock:
-              _.filter(item.included, (inc) => {
-                return inc.type === 'stock' && inc['id'] == prodStockId
-              })[0].attributes ?? {}
-          }
-          parseProductData(prodDetail)
-        }
-      }
-    })
-  }
-  console.log('stock', state.orderNum)
   const productDetailItem = () => {
     return (
       <tr>
@@ -258,14 +215,56 @@ const ProductDetail = (props) => {
 
   useEffect(() => {
     if (_.isEmpty(props) || props === undefined) {
-      let urlParams = new URLSearchParams(window.location.search)
+      let urlParams = new URLSearchParams(location.search)
+
       let id = urlParams.get('id')
       let digitOnly = /^\d+$/
-      if (!digitOnly.test(id) && urlParams !== '') {
+      if (!digitOnly.test(id)) {
         alert('記録が見当たりませんでした')
-        window.location.replace('/company/shop')
+        window.history.go(-1)
+        location.reload()
       }
-      getProductDetail(id)
+      axios({
+        url: `/jsonapi/product?id=${id}&include=media,text,price,stock`,
+        method: 'get',
+        responseType: 'json'
+      }).then((response) => {
+        if (!_.isEmpty(response.data)) {
+          let item = response.data
+          console.log(item)
+          // getting id from relationship media
+          let prodMediaId = item.data.relationships.media.data[0]['id']
+          // for long description
+          let prodTextId = item.data.relationships.text.data[0]['id']
+          //for price value
+          let prodPriceId = item.data.relationships.price.data[0]['id']
+          // for stock
+          let prodStockId = item.data.relationships.stock.data[0]['id']
+
+          if (!_.isEmpty(item) || item !== undefined) {
+            let prodDetail = {
+              product: item.data.attributes,
+              media:
+                _.filter(item.included, (inc) => {
+                  return inc.type === 'media' && inc['id'] === prodMediaId
+                })[0].attributes ?? {},
+              text:
+                _.filter(item.included, (inc) => {
+                  return inc.type == 'text' && inc['id'] == prodTextId
+                })[0].attributes ?? {},
+              price:
+                _.filter(item.included, (inc) => {
+                  return inc.type === 'price' && inc['id'] === prodPriceId
+                })[0].attributes ?? {},
+              stock:
+                _.filter(item.included, (inc) => {
+                  return inc.type === 'stock' && inc['id'] == prodStockId
+                })[0].attributes ?? {}
+            }
+            parseProductData(prodDetail)
+          }
+        }
+      })
     } else {
       const { location } = props
       parseProductData(location.detail)

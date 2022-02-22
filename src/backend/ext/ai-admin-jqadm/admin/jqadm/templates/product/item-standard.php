@@ -441,7 +441,7 @@ $navlist2 = [
 							<div class="form-group row">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '在庫' ) ) ?></label>
 								<div class="col-sm-8">
-									<input id="txtStandardStockLevel" class="form-control item-label" type="text" tabindex="1" readonly
+									<input id="txtStandardStockLevel" class="form-control item-label" type="number" tabindex="1" readonly
 										value="">
 										 
 								</div>

@@ -157,7 +157,7 @@ const ProductWidget = () => {
                 return (
                   <div className="inline-block p-4 pl-6" key={index}>
                     <a
-                      href={`/company/productDetail/${item.product['product.id']}`}
+                      href={`/company/productDetail/?id=${item.product['product.id']}`}
                     >
                       <img
                         className="w-36"

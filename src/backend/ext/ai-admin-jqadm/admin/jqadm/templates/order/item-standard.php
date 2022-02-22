@@ -743,16 +743,23 @@ $paymentStatusList2 = [
 									<h2 class="item-header"> <label>注⽂詳細</label> <label class="float-end" style="margin-right:7rem">請求書番号 : &nbsp; <span> <?= $enc->attr( $orderId ) ?> </span> </label> </h2>
 									<div class="col-xl-9">
 										<div class="col-xl-5 form-group row">
-											<div class="col-6 form-control-label">顧客企業名 :</div>
+											<div class="col-5 form-control-label">顧客企業名 :</div>
 											<div class="col-6 value"><?= $this->get( 'customer/company_name' ) ?></div>
 										</div>
 										<div class="col-xl-5 form-group row">
-											<div class="col-6 form-control-label">顧客名 :</div>
+											<div class="col-5 form-control-label">顧客名 :</div>
 											<div class="col-6 value"><?= $this->get( 'customer/customer.lastname' ).' '.$this->get( 'customer/customer.firstname' ) ?></div>
 										</div>
 										<div class="col-xl-5 form-group row">
-											<div class="col-6 form-control-label">メールアドレス :</div>
+											<div class="col-5 form-control-label">メールアドレス :</div>
 											<div class="col-6 value"><?= $this->get( 'customer/customer.email' ) ?></div>
+										</div>
+										<div class="col-xl-12 form-group row">
+											<div class="col-2 form-control-label">配送先住所 :</div>
+											<?php foreach( $basket->getAddresses()->krsort() as $type => $addresses ) : $code = 'address:' . $type ?>
+												 <div class="col-9 value">&nbsp;〒 <?= $addresses[0]['order.base.address.postal'] . ' ' . $addresses[0]['order.base.address.state'] . ' ' . 
+														$addresses[0]['order.base.address.city'] . ' ' . $addresses[0]['order.base.address.address1'] . ' ' . $addresses[0]['order.base.address.address2'] . ' &nbsp;<i class="fa fa-phone" aria-hidden="true"></i> ' . $addresses[0]['order.base.address.telephone'] ?></div>													
+											<?php endforeach ?>											
 										</div>
 									</div>
 									
