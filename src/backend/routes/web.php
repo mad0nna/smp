@@ -86,6 +86,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('company/saveAddedCompany', 'CompanyController@saveAddedCompany');
     Route::post('company/updateSaveAccount', 'CompanyController@updateSaveAccount');
     Route::post('company/resendEmailInvite', 'CompanyController@resendEmailInvite');
+
+    Route::view('/settings', 'admin.settings');
 });
 
 Route::prefix('sales')->group(function () {

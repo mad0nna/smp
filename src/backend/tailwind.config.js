@@ -45,7 +45,9 @@ module.exports = {
                 'card-JCB-icon': "url('/images/jcb.png')",
                 'card-AMEX-icon': "url('/images/amex.png')",
                 'card-Diners-icon': "url('/images/diners.png')",
-                'unpaid-billing-icon': "url('/images/unpaid-billing-icon.png')"
+                'unpaid-billing-icon': "url('/images/unpaid-billing-icon.png')",
+                'arrow-left': "url('/images/arrow-left.png')",
+                'paper': "url('/images/paper.png')"
             },
             colors:{
                 mainbg: '#F2F2F2',
