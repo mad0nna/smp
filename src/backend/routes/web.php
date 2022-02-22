@@ -68,6 +68,7 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::view('/methodofpayment', 'methodOfPayment');
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
 });
+Route::view('/pdf-to-html', 'admin.template');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::view('/dashboard', 'admin.dashboard')->name('dashboard');

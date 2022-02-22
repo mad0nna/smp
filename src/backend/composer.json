@@ -9,15 +9,17 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "aws/aws-sdk-php": "~3.0",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
+        "paquettg/php-html-parser": "~1",
         "guzzlehttp/guzzle": "^7.3",
         "laravel/framework": "^6.18.35",
         "laravel/passport": "^9.3",
         "laravel/tinker": "^2.0",
         "league/flysystem-aws-s3-v3": "~1.0",
-        "predis/predis": "^1.1",
-        "aws/aws-sdk-php": "~3.0"
+        "tonchik-tm/pdf-to-html":"~1",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
