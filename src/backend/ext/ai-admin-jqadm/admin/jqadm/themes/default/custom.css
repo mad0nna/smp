@@ -2,6 +2,10 @@
     background: white;
 }
 
+input[type=number] {
+  text-align: right;
+}
+
 p.upload-csv {
   position: relative;
   overflow: hidden;
