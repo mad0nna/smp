@@ -167,45 +167,28 @@ class BillingService
      */
     public function getUnpaidBillingInformation(string $companyName, string $salesforceCompanyID)
     {
-        $totalBilledAmount = 0;
-        $retVal = $data = [];
-        $results = (new Report)->getUnpaidBillingInformation($companyName);
-        $paymentMethod = Company::where('account_id', $salesforceCompanyID)
-                                    ->first()
-                                    ->opportunities()
-                                    ->orderBy('created_at', 'desc')
-                                    ->first()
-                                    ->payment_method;
+        $unpaidBillingInformation = Cache::remember("{$salesforceCompanyID}:unpaidbBillingInformation", now()->addMinutes(5), function () use ($companyName, $salesforceCompanyID) {
+            $data = [];
+            $results = (new Report)->getUnpaidBillingInformation($companyName);
 
-        foreach($results['factMap'] as $factMaps) {
-            foreach($factMaps['rows'] as $row) {
-                if ($row['dataCells'] && $row['dataCells'][6]['value'] === $salesforceCompanyID) {
-                    // current billed information
-                    $data['due_billed_amount'] = $row['dataCells'][10]['label'];
-                    $data['due_billed_deadline_date'] = Carbon::createFromDate($row['dataCells'][0]['value'])->format('Y年m月d日');
-                    $data['due_billed_payment_period'] = Carbon::createFromDate($results['groupingsDown']['groupings'][0]['value'])->format('Y年m月d日');
+            foreach($results['factMap'] as $factMaps) {
+                foreach($factMaps['rows'] as $row) {
+                    if ($row['dataCells'] && $row['dataCells'][6]['value'] === $salesforceCompanyID) {
 
+                        // current billed information
+                        $data['due_billed_deadline_date'] = Carbon::createFromDate($row['dataCells'][0]['value'])->format('Y年m月d日');
+                        $data['due_billed_payment_period'] = Carbon::createFromDate($results['groupingsDown']['groupings'][0]['value'])->format('Y年m月d日');
+                        $data['total_billed_amount'] = number_format($row['dataCells'][12]['value']['amount']);
 
-                    $data['due_last_billed_amount'] = null;
-                    $data['due_last_billed_deadline_date'] = null;
-                    $data['due_last_billed_payment_period'] = null;
-
-                    // last month billed payment information if it exists
-                    if ($row['dataCells'][11]['value'] != null) {
-                        $data['due_last_billed_amount'] = $row['dataCells'][11]['label'];
-                        $data['due_last_billed_deadline_date'] = Carbon::createFromDate($row['dataCells'][0]['value'])->subMonth()->format('Y年m月d日');
-                        $data['due_last_billed_payment_period'] = Carbon::createFromDate($results['groupingsDown']['groupings'][0]['value'])->format('Y年m月d日');
+                        // breaks out of the double forloop once found a match
+                        break 2;
                     }
-
-                    $retVal['unpaid_billing_array'][] = $data;
-                    $totalBilledAmount += $row['dataCells'][12]['value']['amount'];
                 }
             }
-        }
 
-        $retVal['payment_method'] = $paymentMethod;
-        $retVal['total_billed_amount'] = $totalBilledAmount > 0 ? number_format($totalBilledAmount) : null;
+            return $data;
+        });
 
-        return $retVal;
+        return $unpaidBillingInformation;
     }
 }
