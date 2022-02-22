@@ -293,15 +293,18 @@ const ProductList = () => {
               }}
             ></img>
             <div className="flex flex-col justify-between gap-2 pb-2 ">
-              <div className="text-red-500 font-bold mt-2">
+              <div className="text-red-500 font-bold mt-2 h-10">
                 {product.product['product.label'] ?? ''}
               </div>
               <div className="text-red-500 font-bold text-right">
                 {`¥ ${prodPrice ?? '0'}`}
               </div>
               <div className="text-gray-500 font-bold">商品說明</div>
-              <p className="text-gray-400 text-left h-26 text-sm">
-                {prodDescription.replace(/(.{200})..+/, '$1…')}
+              <p
+                className="text-gray-400 text-left text-sm"
+                style={{ height: '60px' }}
+              >
+                {prodDescription.replace(/(.{100})..+/, '$1…')}
               </p>
               <div className="text-primary-200 underline font-bold text-sm mt-2 cursor-pointer">
                 <Link

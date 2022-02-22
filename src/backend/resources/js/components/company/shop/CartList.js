@@ -28,7 +28,8 @@ const CartList = (props) => {
     modalCheckoutContentDisplay: false,
     htmlContent: '',
     addressModalDisplay: false,
-    loader: false
+    loader: false,
+    isSubmit: false
   })
 
   const [addressData, setAddressData] = useState({
@@ -44,19 +45,18 @@ const CartList = (props) => {
     number: ''
   })
   const [errorData, setErrorData] = useState({
-    email: false
-    // company_name: false,
-    // first_name: false,
-    // last_name: false,
-    // street_address: false,
-    // building_name: false,
-    // city: false,
-    // postal_code: false,
-    // prefecture: false,
-    // number: false
+    email: false,
+    company_name: false,
+    first_name: false,
+    last_name: false,
+    street_address: false,
+    building_name: false,
+    city: false,
+    postal_code: false,
+    prefecture: false,
+    number: false
   })
   const history = useHistory()
-  console.log('errorData', errorData)
   const { cartTotal, items, updateItemQuantity, removeItem, emptyCart } =
     useCart()
 
@@ -64,6 +64,8 @@ const CartList = (props) => {
     totalTax: 0,
     totalAmount: 0
   })
+
+  const [paymentOption, setPaymentOption] = useState(1)
 
   const handleIncOrder = (item) => {
     let updateQuantity = item.quantity + 1
@@ -101,30 +103,21 @@ const CartList = (props) => {
     })
   }
 
-  const handleAddressValidation = () => {
-    new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
-      ? setErrorData({ email: false })
-      : setErrorData({ email: true })
-
-    for (const key in addressData) {
-      if (String(addressData[key]).length === 0) {
-        setErrorData((prevState) => {
-          return { ...prevState, [key]: true }
-        })
-      } else {
-        setErrorData((prevState) => {
-          return { ...prevState, [key]: false }
-        })
-      }
-    }
-  }
-
   const handleCheckoutModalOpen = () => {
-    if (!errorData.error) {
+    if (Object.values(errorData).includes(true)) {
       setState((prevState) => {
         return {
           ...prevState,
-          loader: !prevState.loader
+          loader: false,
+          isSubmit: !prevState.isSubmit
+        }
+      })
+    } else {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          isSubmit: !prevState.isSubmit,
+          loader: true
         }
       })
       saveToBasket()
@@ -394,7 +387,8 @@ const CartList = (props) => {
     setState((prevState) => {
       return {
         ...prevState,
-        addressModalDisplay: false
+        addressModalDisplay: false,
+        loader: false
       }
     })
   }
@@ -442,6 +436,7 @@ const CartList = (props) => {
    * @param  int value
    */
   function handleSubmitCheckout(value) {
+    setPaymentOption(value)
     switch (parseInt(value)) {
       case 1: {
         // credit card
@@ -573,12 +568,12 @@ const CartList = (props) => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer`}
+                className={`bi bi-dash-circle text-gray-500 mt-1 font-semibold cursor-pointer cursor-pointer`}
                 viewBox="0 0 16 16"
-                onClick={() => handleIncOrder(item)}
+                onClick={() => handleDecOrder(item)}
               >
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
               </svg>
               <input
                 type="number"
@@ -592,12 +587,12 @@ const CartList = (props) => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                className={`bi bi-dash-circle text-gray-500 mt-1 font-semibold cursor-pointer cursor-pointer`}
+                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer`}
                 viewBox="0 0 16 16"
-                onClick={() => handleDecOrder(item)}
+                onClick={() => handleIncOrder(item)}
               >
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
               </svg>
             </div>
           </td>
@@ -642,10 +637,34 @@ const CartList = (props) => {
     // }
     // set as cart state
   }, [items])
-
+  console.log(state.isSubmit)
   useEffect(() => {
-    handleAddressValidation()
-  }, [])
+    new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
+      ? setErrorData((prevState) => {
+          return { ...prevState, emailIsValid: false }
+        })
+      : setErrorData((prevState) => {
+          return { ...prevState, emailIsValid: true }
+        })
+
+    for (const [key, value] of Object.entries(addressData)) {
+      String(value).length === 0
+        ? setErrorData((prevState) => {
+            return { ...prevState, [key]: true }
+          })
+        : setErrorData((prevState) => {
+            return { ...prevState, [key]: false }
+          })
+    }
+    Object.values(errorData).includes(true) && state.isSubmit
+      ? null
+      : setState((prevState) => {
+          return {
+            ...prevState,
+            isSubmit: false
+          }
+        })
+  }, [addressData, addressData.email])
 
   return (
     <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
@@ -766,6 +785,7 @@ const CartList = (props) => {
           state={addressData}
           loader={state.loader}
           error={errorData}
+          isSubmit={state.isSubmit}
         />
       ) : null}
       {state.modalDisplay ? (
@@ -776,7 +796,10 @@ const CartList = (props) => {
         />
       ) : null}
       {state.modalDisplayMessage ? (
-        <CheckoutMessage handleCloseModal={handleCheckoutMessageModalClose} />
+        <CheckoutMessage
+          handleCloseModal={handleCheckoutMessageModalClose}
+          value={paymentOption}
+        />
       ) : null}
 
       {state.modalCheckoutContentDisplay ? (

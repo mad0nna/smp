@@ -50,7 +50,6 @@ const CheckoutAddress = (props) => {
     { value: '鹿児島県', name: '鹿児島県' },
     { value: '沖縄県', name: '沖縄県' }
   ]
-  console.log(props.error)
   return (
     <div className="fixed w-full h-full top-0 left-0 flex items-center justify-center">
       <div className="absolute w-full h-full bg-gray-900 opacity-50"></div>
@@ -72,7 +71,11 @@ const CheckoutAddress = (props) => {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
+                    className={`bg-gray-200 appearance-none border-2 ${
+                      props.error.company_name && props.isSubmit
+                        ? 'border-red-700'
+                        : 'border-gray-200'
+                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
                     id="inline-company-name"
                     type="text"
                     name="company_name"
@@ -80,6 +83,14 @@ const CheckoutAddress = (props) => {
                     onChange={props.handleOnChange}
                     required
                   />
+                  {props.error.company_name && props.isSubmit ? (
+                    <p
+                      className="text-xs text-red-700 w-full pt-2"
+                      id="passwordHelp"
+                    >
+                      貴社名を入力してください
+                    </p>
+                  ) : null}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-5">
@@ -93,7 +104,11 @@ const CheckoutAddress = (props) => {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
+                    className={`bg-gray-200 appearance-none border-2 ${
+                      props.error.last_name && props.isSubmit
+                        ? 'border-red-700'
+                        : 'border-gray-200'
+                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
                     id="inline-last-name"
                     type="text"
                     name="last_name"
@@ -101,6 +116,14 @@ const CheckoutAddress = (props) => {
                     onChange={props.handleOnChange}
                     required
                   />
+                  {props.error.last_name && props.isSubmit ? (
+                    <p
+                      className="text-xs text-red-700 w-full pt-2"
+                      id="passwordHelp"
+                    >
+                      名前（性）を入力してください
+                    </p>
+                  ) : null}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-5">
@@ -114,7 +137,11 @@ const CheckoutAddress = (props) => {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
+                    className={`bg-gray-200 appearance-none border-2 ${
+                      props.error.first_name && props.isSubmit
+                        ? 'border-red-700'
+                        : 'border-gray-200'
+                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
                     id="inline-first-name"
                     type="text"
                     name="first_name"
@@ -122,6 +149,14 @@ const CheckoutAddress = (props) => {
                     onChange={props.handleOnChange}
                     required
                   />
+                  {props.error.first_name && props.isSubmit ? (
+                    <p
+                      className="text-xs text-red-700 w-full pt-2"
+                      id="passwordHelp"
+                    >
+                      名前（名）を入力してください
+                    </p>
+                  ) : null}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-5">
@@ -135,7 +170,11 @@ const CheckoutAddress = (props) => {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
+                    className={`bg-gray-200 appearance-none border-2 ${
+                      props.error.postal_code && props.isSubmit
+                        ? 'border-red-700'
+                        : 'border-gray-200'
+                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
                     id="inline-address-name"
                     type="text"
                     name="postal_code"
@@ -143,6 +182,14 @@ const CheckoutAddress = (props) => {
                     onChange={props.handleOnChange}
                     required
                   />
+                  {props.error.postal_code && props.isSubmit ? (
+                    <p
+                      className="text-xs text-red-700 w-full pt-2"
+                      id="passwordHelp"
+                    >
+                      配送先 郵便番号を入力してください
+                    </p>
+                  ) : null}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-5">
@@ -166,7 +213,7 @@ const CheckoutAddress = (props) => {
                   /> */}
                   <div className="relative inline-block w-full text-gray-700">
                     <select
-                      className="form-select appearance-none
+                      className={`form-select appearance-none
                     block
                     w-full
                     px-3
@@ -175,12 +222,17 @@ const CheckoutAddress = (props) => {
                     font-normal
                     text-black-700
                     bg-gray-200 bg-clip-padding bg-no-repeat
-                    border border-solid border-gray-300
+                    border border-solid 
+                    ${
+                      props.error.prefecture && props.isSubmit
+                        ? 'border-red-700'
+                        : 'border-gray-300'
+                    }
                     rounded
                     transition
                     ease-in-out
                     m-0
-                    focus:text-gray-700 focus:bg-white focus:border-grey-700 focus:outline-none"
+                    focus:text-gray-700 focus:bg-white focus:border-grey-700 focus:outline-none`}
                       onChange={props.handleOnChange}
                       name="prefecture"
                     >
@@ -201,6 +253,14 @@ const CheckoutAddress = (props) => {
                       </svg>
                     </div>
                   </div>
+                  {props.error.prefecture && props.isSubmit ? (
+                    <p
+                      className="text-xs text-red-700 w-full pt-2"
+                      id="passwordHelp"
+                    >
+                      配送先 都道府県を選択してください
+                    </p>
+                  ) : null}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-5">
@@ -214,7 +274,11 @@ const CheckoutAddress = (props) => {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
+                    className={`bg-gray-200 appearance-none border-2 ${
+                      props.error.city && props.isSubmit
+                        ? 'border-red-700'
+                        : 'border-gray-200'
+                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
                     id="inline-address-name"
                     type="text"
                     name="city"
@@ -222,6 +286,14 @@ const CheckoutAddress = (props) => {
                     onChange={props.handleOnChange}
                     required
                   />
+                  {props.error.city && props.isSubmit ? (
+                    <p
+                      className="text-xs text-red-700 w-full pt-2"
+                      id="passwordHelp"
+                    >
+                      配送先 市区町村を入力してください
+                    </p>
+                  ) : null}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-5">
@@ -235,7 +307,11 @@ const CheckoutAddress = (props) => {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
+                    className={`bg-gray-200 appearance-none border-2 ${
+                      props.error.street_address && props.isSubmit
+                        ? 'border-red-700'
+                        : 'border-gray-200'
+                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
                     id="inline-address-name"
                     type="text"
                     name="street_address"
@@ -243,6 +319,14 @@ const CheckoutAddress = (props) => {
                     onChange={props.handleOnChange}
                     required
                   />
+                  {props.error.street_address && props.isSubmit ? (
+                    <p
+                      className="text-xs text-red-700 w-full pt-2"
+                      id="passwordHelp"
+                    >
+                      配送先 町域・番地を入力してください
+                    </p>
+                  ) : null}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-5">
@@ -256,7 +340,11 @@ const CheckoutAddress = (props) => {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
+                    className={`bg-gray-200 appearance-none border-2 ${
+                      props.error.building_name && props.isSubmit
+                        ? 'border-red-700'
+                        : 'border-gray-200'
+                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
                     id="inline-address-name"
                     type="text"
                     name="building_name"
@@ -264,6 +352,14 @@ const CheckoutAddress = (props) => {
                     onChange={props.handleOnChange}
                     required
                   />
+                  {props.error.building_name && props.isSubmit ? (
+                    <p
+                      className="text-xs text-red-700 w-full pt-2"
+                      id="passwordHelp"
+                    >
+                      配送先 ビル建物名を入力してください
+                    </p>
+                  ) : null}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-5">
@@ -277,13 +373,25 @@ const CheckoutAddress = (props) => {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
+                    className={`bg-gray-200 appearance-none border-2 ${
+                      props.error.number && props.isSubmit
+                        ? 'border-red-700'
+                        : 'border-gray-200'
+                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
                     id="inline-address-name"
                     type="tel"
                     name="number"
                     onChange={props.handleOnChange}
                     required
                   />
+                  {props.error.number && props.isSubmit ? (
+                    <p
+                      className="text-xs text-red-700 w-full pt-2"
+                      id="passwordHelp"
+                    >
+                      配送先 電話番号を入力してください
+                    </p>
+                  ) : null}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-5">
@@ -298,7 +406,9 @@ const CheckoutAddress = (props) => {
                 <div className="md:w-2/3">
                   <input
                     className={`bg-gray-200 appearance-none border-2 ${
-                      props.error.email ? 'border-red-700' : 'border-gray-200'
+                      props.error.email && props.isSubmit
+                        ? 'border-red-700'
+                        : 'border-gray-200'
                     } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
                     id="inline-mail-name"
                     type="email"
@@ -307,7 +417,14 @@ const CheckoutAddress = (props) => {
                     onChange={props.handleOnChange}
                     required
                   />
-                  {props.error.email ? (
+                  {props.error.email && props.isSubmit ? (
+                    <p
+                      className="text-xs text-red-700 w-full pt-2"
+                      id="passwordHelp"
+                    >
+                      担当者メールアドレスを入力してください
+                    </p>
+                  ) : props.error.emailIsValid ? (
                     <p
                       className="text-xs text-red-700 w-full pt-2"
                       id="passwordHelp"
@@ -340,7 +457,12 @@ const CheckoutAddress = (props) => {
                 ) : (
                   <button
                     className="bg-primary-200 text-white h-12 w-2/6 rounded-3xl font-semibold"
-                    onClick={props.handleSubmit}
+                    onClick={
+                      props.isSubmit &&
+                      Object.values(props.error).includes(true)
+                        ? null
+                        : props.handleSubmit
+                    }
                   >
                     確定
                   </button>
