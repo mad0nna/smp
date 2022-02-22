@@ -705,8 +705,8 @@ Vue.component('taxrates', {
 		<div> \
 			<table> \
 				<tr v-for="(val, type) in taxrates" v-bind:key="type"> \
-					<td class="input-group"> \
-						<input class="form-control item-taxrate" required="required" step="1" type="number" v-bind:placeholder="placeholder" \
+					<td class="input-group" style="width:115%"> \
+						<input  class="form-control item-taxrate" required="required" step="1" type="number" v-bind:placeholder="placeholder" \
 							v-bind:readonly="readonly" v-bind:tabindex="tabindex" v-bind:name="name + \'[\' + type + \']\'" \
 							v-bind:value="val" v-on:input="update(type, $event.target.value)" /> \
 						 \
