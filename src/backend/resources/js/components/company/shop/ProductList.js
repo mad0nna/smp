@@ -306,7 +306,7 @@ const ProductList = () => {
               <div className="text-primary-200 underline font-bold text-sm mt-2 cursor-pointer">
                 <Link
                   to={{
-                    pathname: `/company/productDetail/${product.product['product.id']}`,
+                    pathname: `/company/productDetail/?id=${product.product['product.id']}`,
                     detail: product
                   }}
                 >
