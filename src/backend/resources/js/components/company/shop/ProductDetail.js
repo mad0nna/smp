@@ -333,7 +333,9 @@ const ProductDetail = (props) => {
               <div className="grid lg:grid-cols-1 col-span-1 grid-rows-2 gap-6">
                 <div className="tracking-tighter text-gray-400 text-lg mt-10">
                   <div className="font-bold">商品説明</div>
-                  {isLoaded ? productDetail.description : ''}
+                  {isLoaded
+                    ? productDetail.description.replace(/(.{100})..+/, '$1…')
+                    : ''}
                 </div>
                 <div className="flex flex-wrap content-end space-x-5 row-span-5 text-center">
                   <div className="space-x-5 w-full flex flex-row">
