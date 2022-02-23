@@ -304,9 +304,9 @@ const ProductList = () => {
                 className="text-gray-400 text-left text-sm"
                 style={{ height: '60px' }}
               >
-                {prodDescription.replace(/(.{100})..+/, '$1…')}
+                {prodDescription.substring(0, 100) + '...'}
               </p>
-              <div className="text-primary-200 underline font-bold text-sm mt-2 cursor-pointer">
+              <div className="text-primary-200 underline font-bold text-sm pt-2 cursor-pointer">
                 <Link
                   to={{
                     pathname: `/company/productDetail/?id=${product.product['product.id']}`,

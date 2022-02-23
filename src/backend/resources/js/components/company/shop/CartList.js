@@ -17,7 +17,6 @@ const CartList = (props) => {
   const SERVICE_TYPE = 'payment'
   const [isAgreedTerms, setAgreedTerms] = useState(false)
   const [orderId, setOrderId] = useState({ orderId: null, token: null })
-
   const [csrfItem, setCsrfToken] = useState({})
   let userData = JSON.parse(document.getElementById('userData').textContent)
   const [state, setState] = useState({
@@ -31,7 +30,6 @@ const CartList = (props) => {
     loader: false,
     isSubmit: false
   })
-
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
     email: userData.email || '',
@@ -64,8 +62,7 @@ const CartList = (props) => {
     totalTax: 0,
     totalAmount: 0
   })
-
-  const [paymentOption, setPaymentOption] = useState(1)
+  const [modalMessage, setModalMessage] = useState()
 
   const handleIncOrder = (item) => {
     let updateQuantity = item.quantity + 1
@@ -200,7 +197,7 @@ const CartList = (props) => {
 
   async function createDeliveryService() {
     // fetch delivery
-    axios
+    await axios
       .get(
         `/jsonapi/service?filter[cs_type]=delivery&include=text,price,media`,
         {
@@ -436,12 +433,14 @@ const CartList = (props) => {
    * @param  int value
    */
   function handleSubmitCheckout(value) {
-    setPaymentOption(value)
     switch (parseInt(value)) {
       case 1: {
         // credit card
         // paymentstatus : 4
         // DeliveryStatus:2
+        setModalMessage(
+          'ご利用ありがとうございます。クレジットカード決済を受け付けました'
+        )
         const ccData = {
           data: {
             attributes: {
@@ -475,6 +474,9 @@ const CartList = (props) => {
         break
       }
       case 2: {
+        setModalMessage(
+          'ご請求書を発行いたしました。ご登録のメールアドレスをご確認してください。'
+        )
         // generate final order
         const invData = {
           data: {
@@ -544,6 +546,7 @@ const CartList = (props) => {
       )
       .focus()
   }
+  const stockData = items.filter((data) => data.defaultStock <= data.quantity)
   const cartItems = () => {
     let addToCartItem = items
     return addToCartItem.map((item) => {
@@ -577,24 +580,41 @@ const CartList = (props) => {
               </svg>
               <input
                 type="number"
-                className="w-14 shadow-lg rounded tex-red-500 border px-1 text-right"
+                className="w-14 shadow-lg rounded font-bold text-red-500 border px-1 text-right"
                 min="1"
                 value={item.quantity}
-                onChange={() => handleOrderChange(item)}
+                onChange={(e) => {
+                  handleOrderChange(e.target.value)
+                }}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
                 fill="currentColor"
-                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer`}
+                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
+                  item.defaultStock <= item.quantity
+                    ? 'opacity-50 cursor-not-allowed'
+                    : 'cursor-pointer'
+                }`}
                 viewBox="0 0 16 16"
-                onClick={() => handleIncOrder(item)}
+                onClick={() => {
+                  item.defaultStock <= item.quantity
+                    ? null
+                    : handleIncOrder(item)
+                }}
               >
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
               </svg>
             </div>
+            {item.defaultStock <= item.quantity ? (
+              <span className="flex justify-center items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                注文可能数に達しました
+              </span>
+            ) : (
+              ''
+            )}
           </td>
           <td className="text-center font-bold text-red-500">
             {item.itemTotal.toLocaleString('jp')}
@@ -637,7 +657,6 @@ const CartList = (props) => {
     // }
     // set as cart state
   }, [items])
-  console.log(state.isSubmit)
   useEffect(() => {
     new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
       ? setErrorData((prevState) => {
@@ -665,7 +684,6 @@ const CartList = (props) => {
           }
         })
   }, [addressData, addressData.email])
-
   return (
     <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
       <div className="md:col-span-1 lg:col-span-3 pb-5">
@@ -753,12 +771,12 @@ const CartList = (props) => {
             <div className="flex flex-col items-center space-y-4 py-10">
               <button
                 className={`bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
-                  isAgreedTerms && items.length !== 0
+                  isAgreedTerms && items.length !== 0 && stockData.length === 0
                     ? ''
                     : 'bg-opacity-50 cursor-not-allowed'
                 }`}
                 onClick={
-                  isAgreedTerms && items.length !== 0
+                  isAgreedTerms && items.length !== 0 && stockData.length === 0
                     ? handleOpenAddressModal
                     : null
                 }
@@ -798,7 +816,7 @@ const CartList = (props) => {
       {state.modalDisplayMessage ? (
         <CheckoutMessage
           handleCloseModal={handleCheckoutMessageModalClose}
-          value={paymentOption}
+          message={modalMessage}
         />
       ) : null}
 
