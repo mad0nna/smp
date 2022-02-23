@@ -1,14 +1,14 @@
 import React from 'react'
 
 const CheckoutMessage = (props) => {
-  const SUCCESS_MSG_INVOICE =
-    'ご請求書を発行いたしました。' +
-    '\n' +
-    'ご登録のメールアドレスをご確認してください。'
-  const SUCCESS_MSG_CREDIT_CARD =
-    'ご利用ありがとうございます。' +
-    '\n' +
-    'クレジットカード決済を受け付けました'
+  // const SUCCESS_MSG_INVOICE =
+  //   'ご請求書を発行いたしました。' +
+  //   '\n' +
+  //   'ご登録のメールアドレスをご確認してください。'
+  // const SUCCESS_MSG_CREDIT_CARD =
+  //   'ご利用ありがとうございます。' +
+  //   '\n' +
+  //   'クレジットカード決済を受け付けました'
 
   return (
     <div className="fixed w-full h-full top-0 left-0 flex items-center justify-center">
@@ -17,9 +17,7 @@ const CheckoutMessage = (props) => {
         <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
           <div className="flex w-full flex-wrap gap-0 text-gray-700 items-center mt-10 ">
             <div className="text-center w-full text-secondary-200 font-black mb-6 font-semibold">
-              {props.value === 1
-                ? SUCCESS_MSG_CREDIT_CARD
-                : SUCCESS_MSG_INVOICE}
+              {props.message}
             </div>
             <div className="text-center w-full space-y-5">
               <div className="space-x-5">
