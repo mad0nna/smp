@@ -610,10 +610,12 @@ const CartList = (props) => {
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
               </svg>
             </div>
-            {item.defaultStock <= item.quantity ? (
+            {item.defaultStock === item.quantity ? (
               <span className="flex justify-center items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                 注文可能数に達しました
               </span>
+            ) : item.defaultStock <= item.quantity ? (
+              '数量が現在の在庫より多い'
             ) : (
               ''
             )}
