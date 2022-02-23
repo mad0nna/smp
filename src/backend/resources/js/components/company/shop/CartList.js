@@ -667,7 +667,7 @@ const CartList = (props) => {
         })
 
     for (const [key, value] of Object.entries(addressData)) {
-      String(value).length === 0
+      String(value).length === 0 || value.trim().length === 0
         ? setErrorData((prevState) => {
             return { ...prevState, [key]: true }
           })
