@@ -23,9 +23,17 @@ RUN apk add --no-cache \
     && docker-php-ext-install mbstring \
     && docker-php-ext-enable mbstring \
     && rm -rf /tmp/*
+RUN apk --no-cache add \
+    icu-dev \
+    gettext \
+    gettext-dev
+RUN docker-php-ext-configure intl \
+    && docker-php-ext-configure gettext \
+    && docker-php-ext-install \
+    intl \
+    gettext
 RUN apk add --no-cache git bash libzip-dev vim pcre-dev ${PHPIZE_DEPS}
 RUN docker-php-ext-install zip mysqli pdo_mysql
-RUN apk add icu-dev
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
 RUN pecl install redis \
     && docker-php-ext-enable redis

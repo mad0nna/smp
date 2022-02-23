@@ -2395,3 +2395,7 @@ msgstr "ユーザー"
 
 msgid "yes"
 msgstr "はい"
+
+#, php-format
+msgid "Code is too long"
+msgstr "コードが長すぎます"

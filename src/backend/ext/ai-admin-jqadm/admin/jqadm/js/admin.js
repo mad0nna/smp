@@ -963,7 +963,9 @@ Aimeos.List = {
 				} 
 
 				for(let i=0; i<files.length; i++) {console.log(files[i].type)
-					if(!files[i].type.startsWith('application/vnd')) {
+					if(files[i].type.startsWith('application/vnd.ms-excel') || files[i].type.startsWith('text/csv') ) {
+						 
+					} else {
 						alert("csvファイルをアップロードしてください")
 						return;
 					}

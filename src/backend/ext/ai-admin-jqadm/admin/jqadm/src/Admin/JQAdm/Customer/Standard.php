@@ -252,7 +252,13 @@ class Standard
 		try
 		{
 			$total = 0;
-			$params = $this->storeFilter( $view->param(), 'customer' );
+			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+				$params = $this->storeFilter( $view->param(), 'customer' );
+			} else {
+				$params = $this->storeFilter( $view->param(), 'customer' );
+				$params['filter']['val']['4'] = "";
+				$params['filter']['val']['6'] = "";
+			}
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'customer' );
 			$search = $this->initCriteria( $manager->filter(false, true), $params );
 			$domains =  $this->getDomains();
