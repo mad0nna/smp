@@ -297,7 +297,7 @@ const ProductList = () => {
                 {product.product['product.label'] ?? ''}
               </div>
               <div className="text-red-500 font-bold text-right">
-                {`¥ ${prodPrice ?? '0'}`}
+                {`${prodPrice ?? '0'}円`}
               </div>
               <div className="text-gray-500 font-bold">商品說明</div>
               <p

@@ -166,11 +166,11 @@ const ProductWidget = () => {
                     </a>
                     <div className="">{item.product['product.label']}</div>
                     <div className="">
-                      ¥
                       {item.price['price.value'].substring(
                         0,
                         item.price['price.value'].length - 3
                       )}
+                      円
                     </div>
                   </div>
                 )
