@@ -65,8 +65,8 @@ $enc = $this->encoder();
 						<div class="col-xl-6">
 
 							<div class="form-group media-preview">
-								<input ref="preview" class="d-none" type="file" v-bind:name="'media[_idx_][preview]'.replace('_idx_', idx)" accept="image/jpeg" />
-								<input ref="file" class="fileupload" type="file" tabindex="<?= $this->get( 'tabindex' ) ?>" accept="image/jpeg"
+								<input ref="preview" class="d-none" type="file" v-bind:name="'media[_idx_][preview]'.replace('_idx_', idx)" accept="image/jpeg, image/png" />
+								<input ref="file" class="fileupload" type="file" tabindex="<?= $this->get( 'tabindex' ) ?>" accept="image/jpeg, image/png"
 									v-bind:name="'media[_idx_][file]'.replace('_idx_', idx)"
 									v-bind:readonly="item['media.siteid'] != siteid"
 									v-on:change="files(idx, $event.target.files)" />

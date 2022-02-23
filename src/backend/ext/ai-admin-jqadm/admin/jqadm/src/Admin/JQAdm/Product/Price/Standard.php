@@ -138,9 +138,12 @@ class Standard
 		$view = $this->getObject()->addData( $this->getView() );
 		$view->priceCustom = $this->isCustom( $view->item );
 		$data = $this->toArray( $view->item );
-		$data[0]['price.value'] = (int) $data[0]['price.value'];
-		if(isset($data[0]['price.taxrates']['10'])) {
-			$data[0]['price.taxrates']['10'] = (int) $data[0]['price.taxrates']['10'];
+		if (isset($data[0])) {
+			$data[0]['price.value'] = $data[0]['price.value'] ? (int) $data[0]['price.value'] : 0 ;
+		
+			if(isset($data[0]['price.taxrates']['10'])) {
+				$data[0]['price.taxrates']['10'] = (int) $data[0]['price.taxrates']['10'];
+			}
 		}
 		$view->priceData = $data;
 		
