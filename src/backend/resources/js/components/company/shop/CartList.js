@@ -546,7 +546,9 @@ const CartList = (props) => {
       )
       .focus()
   }
-  const stockData = items.filter((data) => data.defaultStock <= data.quantity)
+  const stockData = items.filter(
+    (data) => data.defaultStock + 1 <= data.quantity
+  )
   const cartItems = () => {
     let addToCartItem = items
     return addToCartItem.map((item) => {
