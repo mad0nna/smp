@@ -204,7 +204,7 @@ const CompanyListWidget = () => {
                 >
                   <td className="text-left">{item.HTTID}</td>
                   <td className="text-left">{item.companyName}</td>
-                  <td className="text-right">¥{item.salesAmount}</td>
+                  <td className="text-right">{item.salesAmount}円</td>
                 </tr>
               )
             })}

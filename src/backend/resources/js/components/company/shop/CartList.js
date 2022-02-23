@@ -562,7 +562,7 @@ const CartList = (props) => {
             </div>
           </td>
           <td className="text-center font-bold text-red-500">
-            {item.price.toLocaleString('jp')}
+            {item.price.toLocaleString('jp')}円
           </td>
           <td className="text-center font-bold text-red-500">
             <div className="flex m-auto justify-center space-x-3">
@@ -617,7 +617,7 @@ const CartList = (props) => {
             )}
           </td>
           <td className="text-center font-bold text-red-500">
-            {item.itemTotal.toLocaleString('jp')}
+            {item.itemTotal.toLocaleString('jp')}円
           </td>
           <td className="text-center font-bold">
             <div
@@ -730,7 +730,7 @@ const CartList = (props) => {
                   カート内合計:
                 </div>
                 <div className="h-15 items-center font-extrabold text-gray-400 text-center font-bold">
-                  ¥{cartTotal.toLocaleString('jp')}
+                  {cartTotal.toLocaleString('jp')}円
                 </div>
               </div>
               <div className="flex flex-wrap space-x-4 justify-between">
@@ -738,7 +738,7 @@ const CartList = (props) => {
                   消費稅:
                 </div>
                 <div className="h-15 items-center font-extrabold text-gray-400 text-center font-bold">
-                  ¥ {calculatedItem.totalTax.toLocaleString('jp')}
+                  {calculatedItem.totalTax.toLocaleString('jp')}円
                 </div>
               </div>
             </div>
@@ -748,7 +748,7 @@ const CartList = (props) => {
                   合計
                 </div>
                 <div className="h-15 items-center font-extrabold text-red-500 text-center text-2xl">
-                  ¥{calculatedItem.totalAmount.toLocaleString('jp')}
+                  {calculatedItem.totalAmount.toLocaleString('jp')}円
                 </div>
               </div>
             </div>

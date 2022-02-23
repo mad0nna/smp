@@ -306,7 +306,7 @@ const ProductDetail = (props) => {
                         {isLoaded ? productDetail.title : ''}
                       </div>
                       <div className="font-bold text-red-500 text-3xl w-auto pr-10 w-full text-right">
-                        {isLoaded ? `¥ ${productDetail.price}` : ''}
+                        {isLoaded ? `${productDetail.price}円` : ''}
                       </div>
                     </div>
                   </div>
