@@ -954,7 +954,22 @@ Aimeos.List = {
 
 			value: function(idx) {
 				return this.filter['val'] && this.filter['val'][idx] || null;
-			}
+			},
+
+			AcceptCsvfile: function(files) {
+				
+				if(!files.length) {
+					return;
+				} 
+
+				for(let i=0; i<files.length; i++) {console.log(files[i].type)
+					if(!files[i].type.startsWith('application/vnd')) {
+						alert("csvファイルをアップロードしてください")
+						return;
+					}
+				}
+			},
+
 		}
 	},
 
