@@ -437,7 +437,15 @@ Aimeos.Price = {
 				if(this.items[idx]) {
 					this.$set(this.items[idx], what, (!this.items[idx][what] ? true : false));
 				}
-			}
+			},
+
+			checkNumber: function(event) {
+				if(event.target._value < 0) {
+					alert("正しい金額を入力してください")
+					document.getElementById(event.target.id).value = "";					
+					return;
+				}			 
+			},
 		}
 	}
 };

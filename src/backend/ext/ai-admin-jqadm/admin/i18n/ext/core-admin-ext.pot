@@ -56,3 +56,7 @@ msgstr "Delivery"
 
 msgid "service:payment"
 msgstr "Payment"
+
+#, php-format
+msgid "Code is too long"
+msgstr "コードが長すぎます"

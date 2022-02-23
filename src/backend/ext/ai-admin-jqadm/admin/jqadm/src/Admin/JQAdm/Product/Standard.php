@@ -239,10 +239,17 @@ class Standard
 		$view = $this->getView();
 
 		try
-		{
+		{			
 			$total = 0;
 			$domains = map( $this->getDomains() )->remove( 'product' );
-			$params = $this->storeFilter( $view->param(), 'product' );
+			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+				$params = $this->storeFilter( $view->param(), 'product' );
+			} else {
+				$params = $this->storeFilter( $view->param(), 'product' );
+				$params['filter']['val']['5'] = "";
+				$params['filter']['val']['6'] = "";
+			}
+			
 			if (isset($params['filter']['val']['6'])) {
 				$params['filter']['val']['5'] = $params['filter']['val']['6'];
 			}

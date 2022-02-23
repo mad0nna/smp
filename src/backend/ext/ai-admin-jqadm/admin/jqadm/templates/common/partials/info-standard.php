@@ -44,6 +44,7 @@ $enc = $this->encoder();
 					<strong><?= $enc->html( $this->translate( 'admin', 'Info' ) ) ?></strong>
 				</div>
 				<div class="toast-body">
+					<?php if ($entry == "Code is too long") {$entry = "コードが長すぎます";} ?>
 					<?= str_replace( "\n", '<br>', $enc->html( $entry ) ) ?>
 				</div>
 			</div>
@@ -65,6 +66,7 @@ $enc = $this->encoder();
 					<strong><?= $enc->html( $this->translate( 'admin', 'Error' ) ) ?></strong>
 				</div>
 				<div class="toast-body">
+					<?php if ($entry == "Code is too long") {$entry = "コードが長すぎます";} ?>
 					<?= str_replace( "\n", '<br>', $enc->html( $entry ) ) ?>
 				</div>
 			</div>

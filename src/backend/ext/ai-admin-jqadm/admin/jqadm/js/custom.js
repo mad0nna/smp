@@ -53,10 +53,10 @@ $(document).ready(function () {
         }
     });
 
-    const txtStocksStockLevel = document.querySelector('#txtStocksStockLevel');
-    if ( txtStocksStockLevel !== undefined ) {
-        $("#txtStandardStockLevel").val(parseInt($("#lblStocksStockLevel").text()));
-    }
+    // const txtStocksStockLevel = document.querySelector('#txtStocksStockLevel');
+    // if ( txtStocksStockLevel !== undefined ) {
+    //     $("#txtStandardStockLevel").val(parseInt($("#lblStocksStockLevel").text()));
+    // }
 
     
     $("#txtProductFilter").on("input", function(){
@@ -83,11 +83,37 @@ $(document).ready(function () {
         if (selected_option == "") {
             $('#cboDeliveryStatus').val("1").change();
         }
+    }    
+
+    const txtProductCode = document.querySelector('#txtProductCode');
+    if ( txtProductCode !== undefined ) {
+        txtProductCode.addEventListener('blur', (event) => {
+            if(event.target.value.length > 64) {
+            	alert("６４文字以内で入力してください")	
+                txtProductCode.classList.add("is-invalid");
+            	return;
+            }
+            if(event.target.value.trim().length == 0) {
+                txtProductCode.classList.add("is-invalid");
+            	return;
+            }
+          });
     }
 
-    
-
-    
+    const txtProductLabel = document.querySelector('#txtProductLabel');
+    if ( txtProductLabel !== undefined ) {
+        txtProductLabel.addEventListener('blur', (event) => {
+            if(event.target.value.trim().length > 64) {
+            	alert("６４文字以内で入力してください")	
+                txtProductLabel.classList.add("is-invalid");
+            	return;
+            }
+            if(event.target.value.trim().length == 0) {
+                txtProductLabel.classList.add("is-invalid");
+            	return;
+            }
+          });
+    }
 
 });
 
@@ -108,3 +134,4 @@ function setProductArchived() {
     document.getElementById("selectProductStatus").value = "-2";
     document.getElementById("btnSubmitFilterProduct").click();
 }
+

@@ -815,7 +815,7 @@ $paymentStatusList2 = [
 													<div class="col-6 "> <?= $enc->html( $orderProduct->getName() ) ?> </div>
 													 
 														<div class="col-3 " style="padding:0"> <?= $orderProduct->getQuantity() ?></div>
-														<div class="col-3 value" style="padding-right:0.5rem"><i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format($orderProduct->getPrice()->getValue()) ?></div>
+														<div class="col-3 value" style="padding-right:0"><i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format($orderProduct->getPrice()->getValue()) ?></div>
 													 
 													
 												</div>
