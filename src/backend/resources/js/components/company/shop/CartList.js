@@ -42,6 +42,7 @@ const CartList = (props) => {
     prefecture: '',
     number: ''
   })
+  console.log('addressData', addressData)
   const [errorData, setErrorData] = useState({
     email: false,
     company_name: false,
@@ -87,8 +88,13 @@ const CartList = (props) => {
   const handleAddressOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
-
+    console.log(value)
     setAddressData({ ...addressData, [name]: value.replace(/[^\w\s]/gi, '') })
+  }
+  const handleAddressSelectOnChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+    setAddressData({ ...addressData, [name]: value })
   }
   const handleOpenAddressModal = () => {
     setState((prevState) => {
@@ -661,6 +667,7 @@ const CartList = (props) => {
     // }
     // set as cart state
   }, [items])
+  console.log(errorData)
   useEffect(() => {
     new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
       ? setErrorData((prevState) => {
@@ -671,6 +678,7 @@ const CartList = (props) => {
         })
 
     for (const [key, value] of Object.entries(addressData)) {
+      console.log('value', value)
       String(value).length === 0 || value.trim().length === 0
         ? setErrorData((prevState) => {
             return { ...prevState, [key]: true }
@@ -802,6 +810,7 @@ const CartList = (props) => {
       {state.addressModalDisplay ? (
         <CheckoutAddress
           handleOnChange={handleAddressOnChange}
+          handleSelectOnChange={handleAddressSelectOnChange}
           handleSubmit={handleCheckoutModalOpen}
           handleCloseModal={handleCheckoutModalAddressClose}
           state={addressData}

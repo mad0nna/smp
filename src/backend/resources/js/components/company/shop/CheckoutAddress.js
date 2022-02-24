@@ -235,7 +235,7 @@ const CheckoutAddress = (props) => {
                     ease-in-out
                     m-0
                     focus:text-gray-700 focus:bg-white focus:border-grey-700 focus:outline-none`}
-                      onChange={props.handleOnChange}
+                      onChange={props.handleSelectOnChange}
                       name="prefecture"
                     >
                       <option value="">都道府県を選択してください</option>
