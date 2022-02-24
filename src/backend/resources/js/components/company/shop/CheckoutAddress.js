@@ -422,7 +422,7 @@ const CheckoutAddress = (props) => {
                     type="email"
                     name="email"
                     value={props.state.email || ''}
-                    onChange={props.handleOnChange}
+                    onChange={props.handleSelectOnChange}
                     required
                   />
                   {props.error.email && props.isSubmit ? (
