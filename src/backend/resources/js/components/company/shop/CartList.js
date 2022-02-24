@@ -42,7 +42,6 @@ const CartList = (props) => {
     prefecture: '',
     number: ''
   })
-  console.log('addressData', addressData)
   const [errorData, setErrorData] = useState({
     email: false,
     company_name: false,
@@ -88,14 +87,51 @@ const CartList = (props) => {
   const handleAddressOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
-    console.log(value)
-    setAddressData({ ...addressData, [name]: value.replace(/[^\w\s]/gi, '') })
+    const reg = /^[A-Za-z_][A-Za-z\d_]*$/
+    if (value === '' || reg.test(parseInt(value))) {
+      setAddressData({ ...addressData, [name]: value.replace(/[^\w\s]/gi, '') })
+    }
   }
   const handleAddressSelectOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
     setAddressData({ ...addressData, [name]: value })
   }
+  const handleAddressNumberOnChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+    const re = /^[0-9\b]+$/
+    if (value === '' || re.test(parseInt(value))) {
+      setAddressData({
+        ...addressData,
+        [name]: value.replace(/[^\w\s]/gi, '')
+      })
+    }
+  }
+
+  const handleAddressTextOnChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+    const reg_txt = /^[a-zA-Z\s]*$/
+    if (value === '' || reg_txt.test(value)) {
+      setAddressData({
+        ...addressData,
+        [name]: value.replace(/[^\w\s]/gi, '')
+      })
+    }
+  }
+
+  // const handleTelNumber = (event) => {
+  //   const name = event.target.name
+  //   const value = event.target.value
+  //   const tel_eg_txt = /^[0-9]{2,4}-[0-9]{2,4}-[0-9]{3,4}$/
+  //   if (value === '' || tel_eg_txt.test(value)) {
+  //     setAddressData({
+  //       ...addressData,
+  //       [name]: value.replace(/[^\w\s]/gi, '')
+  //     })
+  //   }
+  // }
   const handleOpenAddressModal = () => {
     setState((prevState) => {
       return {
@@ -667,7 +703,6 @@ const CartList = (props) => {
     // }
     // set as cart state
   }, [items])
-  console.log(errorData)
   useEffect(() => {
     new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
       ? setErrorData((prevState) => {
@@ -678,7 +713,6 @@ const CartList = (props) => {
         })
 
     for (const [key, value] of Object.entries(addressData)) {
-      console.log('value', value)
       String(value).length === 0 || value.trim().length === 0
         ? setErrorData((prevState) => {
             return { ...prevState, [key]: true }
@@ -811,6 +845,9 @@ const CartList = (props) => {
         <CheckoutAddress
           handleOnChange={handleAddressOnChange}
           handleSelectOnChange={handleAddressSelectOnChange}
+          handleNumberOnChange={handleAddressNumberOnChange}
+          handleTextOnChanage={handleAddressTextOnChange}
+          // handleTelOnChange={handleTelNumber}
           handleSubmit={handleCheckoutModalOpen}
           handleCloseModal={handleCheckoutModalAddressClose}
           state={addressData}
