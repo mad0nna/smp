@@ -332,7 +332,7 @@ const ProductDetail = (props) => {
                 <div className="tracking-tighter text-gray-400 text-lg mt-10">
                   <div className="font-bold">商品説明</div>
                   {isLoaded
-                    ? productDetail.description.substring(0, 100) + '...'
+                    ? productDetail.description.substring(0, 65) + '...'
                     : ''}
                 </div>
                 <div className="flex flex-wrap content-end space-x-5 row-span-5 text-center">

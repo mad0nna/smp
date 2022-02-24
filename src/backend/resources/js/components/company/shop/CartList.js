@@ -83,12 +83,12 @@ const CartList = (props) => {
   const handleAcceptAgreement = (event) => {
     setAgreedTerms(event.target.checked)
   }
-
+  console.log(addressData)
   const handleAddressOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
 
-    setAddressData({ ...addressData, [name]: value })
+    setAddressData({ ...addressData, [name]: value.replace(/[^\w\s]/gi, '') })
   }
   const handleOpenAddressModal = () => {
     setState((prevState) => {
@@ -439,7 +439,7 @@ const CartList = (props) => {
         // paymentstatus : 4
         // DeliveryStatus:2
         setModalMessage(
-          'ご利用ありがとうございます。クレジットカード決済を受け付けました'
+          'ご利用ありがとうございます。クレジットカード決済を受け付けました。'
         )
         const ccData = {
           data: {

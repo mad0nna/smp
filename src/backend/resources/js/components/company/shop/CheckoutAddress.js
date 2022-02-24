@@ -66,7 +66,7 @@ const CheckoutAddress = (props) => {
                     className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
                     htmlFor="inline-company-name"
                   >
-                    貴社名
+                    貴社名<span className="text-red-500 font-bold"> *</span>
                   </label>
                 </div>
                 <div className="md:w-2/3">
@@ -99,7 +99,7 @@ const CheckoutAddress = (props) => {
                     className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
                     htmlFor="inline-last-name"
                   >
-                    名前（性）
+                    名前（性）<span className="text-red-500 font-bold">*</span>
                   </label>
                 </div>
                 <div className="md:w-2/3">
@@ -132,7 +132,7 @@ const CheckoutAddress = (props) => {
                     className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
                     htmlFor="inline-first-name"
                   >
-                    名前（名）
+                    名前（名）<span className="text-red-500 font-bold">*</span>
                   </label>
                 </div>
                 <div className="md:w-2/3">
@@ -166,6 +166,7 @@ const CheckoutAddress = (props) => {
                     htmlFor="inline-address-name"
                   >
                     配送先 郵便番号
+                    <span className="text-red-500 font-bold"> *</span>
                   </label>
                 </div>
                 <div className="md:w-2/3">
@@ -178,7 +179,7 @@ const CheckoutAddress = (props) => {
                     id="inline-address-name"
                     type="text"
                     name="postal_code"
-                    // value={props.addressData.address}
+                    value={props.state.postal_code || ''}
                     onChange={props.handleOnChange}
                     required
                   />
@@ -199,6 +200,7 @@ const CheckoutAddress = (props) => {
                     htmlFor="inline-address-name"
                   >
                     配送先 都道府県
+                    <span className="text-red-500 font-bold"> *</span>
                   </label>
                 </div>
                 <div className="md:w-2/3">
@@ -270,6 +272,7 @@ const CheckoutAddress = (props) => {
                     htmlFor="inline-address-name"
                   >
                     配送先 市区町村
+                    <span className="text-red-500 font-bold"> *</span>
                   </label>
                 </div>
                 <div className="md:w-2/3">
@@ -282,7 +285,7 @@ const CheckoutAddress = (props) => {
                     id="inline-address-name"
                     type="text"
                     name="city"
-                    // value={props.addressData.address}
+                    value={props.state.city || ''}
                     onChange={props.handleOnChange}
                     required
                   />
@@ -303,6 +306,7 @@ const CheckoutAddress = (props) => {
                     htmlFor="inline-address-name"
                   >
                     配送先 町域・番地
+                    <span className="text-red-500 font-bold"> *</span>
                   </label>
                 </div>
                 <div className="md:w-2/3">
@@ -315,7 +319,7 @@ const CheckoutAddress = (props) => {
                     id="inline-address-name"
                     type="text"
                     name="street_address"
-                    // value={props.addressData.address}
+                    value={props.state.street_address || ''}
                     onChange={props.handleOnChange}
                     required
                   />
@@ -336,6 +340,7 @@ const CheckoutAddress = (props) => {
                     htmlFor="inline-address-name"
                   >
                     配送先 ビル建物名など
+                    <span className="text-red-500 font-bold"> *</span>
                   </label>
                 </div>
                 <div className="md:w-2/3">
@@ -348,7 +353,7 @@ const CheckoutAddress = (props) => {
                     id="inline-address-name"
                     type="text"
                     name="building_name"
-                    // value={props.addressData.address}
+                    value={props.state.building_name || ''}
                     onChange={props.handleOnChange}
                     required
                   />
@@ -369,6 +374,7 @@ const CheckoutAddress = (props) => {
                     htmlFor="inline-address-name"
                   >
                     配送先 電話番号
+                    <span className="text-red-500 font-bold"> *</span>
                   </label>
                 </div>
                 <div className="md:w-2/3">
@@ -382,6 +388,7 @@ const CheckoutAddress = (props) => {
                     type="tel"
                     name="number"
                     onChange={props.handleOnChange}
+                    value={props.state.number || ''}
                     required
                   />
                   {props.error.number && props.isSubmit ? (
@@ -401,6 +408,7 @@ const CheckoutAddress = (props) => {
                     htmlFor="inline-mail-name"
                   >
                     担当者 メールアドレス
+                    <span className="text-red-500 font-bold"> *</span>
                   </label>
                 </div>
                 <div className="md:w-2/3">
