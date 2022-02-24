@@ -80,7 +80,7 @@ const CheckoutAddress = (props) => {
                     type="text"
                     name="company_name"
                     value={props.state.company_name || ''}
-                    onChange={props.handleOnChange}
+                    onChange={props.handleTextOnChanage}
                     required
                   />
                   {props.error.company_name && props.isSubmit ? (
@@ -113,7 +113,7 @@ const CheckoutAddress = (props) => {
                     type="text"
                     name="last_name"
                     value={props.state.last_name || ''}
-                    onChange={props.handleOnChange}
+                    onChange={props.handleTextOnChanage}
                     required
                   />
                   {props.error.last_name && props.isSubmit ? (
@@ -146,7 +146,7 @@ const CheckoutAddress = (props) => {
                     type="text"
                     name="first_name"
                     value={props.state.first_name || ''}
-                    onChange={props.handleOnChange}
+                    onChange={props.handleTextOnChanage}
                     required
                   />
                   {props.error.first_name && props.isSubmit ? (
@@ -180,7 +180,7 @@ const CheckoutAddress = (props) => {
                     type="text"
                     name="postal_code"
                     value={props.state.postal_code || ''}
-                    onChange={props.handleOnChange}
+                    onChange={props.handleNumberOnChange}
                     required
                   />
                   {props.error.postal_code && props.isSubmit ? (
@@ -286,7 +286,7 @@ const CheckoutAddress = (props) => {
                     type="text"
                     name="city"
                     value={props.state.city || ''}
-                    onChange={props.handleOnChange}
+                    onChange={props.handleTextOnChanage}
                     required
                   />
                   {props.error.city && props.isSubmit ? (
@@ -387,7 +387,7 @@ const CheckoutAddress = (props) => {
                     id="inline-address-name"
                     type="tel"
                     name="number"
-                    onChange={props.handleOnChange}
+                    onChange={props.handleNumberOnChange}
                     value={props.state.number || ''}
                     required
                   />
