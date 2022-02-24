@@ -281,11 +281,15 @@ const ProductList = () => {
             {loadedImage ? (
               <div></div>
             ) : (
-              <div className="bg-gray-100 h-48">
+              <div
+                className="bg-gray-100"
+                style={{ height: '318px', width: '318px' }}
+              >
                 <div className="lg:w-full"></div>
               </div>
             )}
             <img
+              style={{ height: '318px', width: '318px' }}
               className={loadedImage ? 'mx-auto w-full p-5' : 'hidden'}
               src={`/aimeos/${product.media['media.preview']}`}
               onLoad={() => {
@@ -304,7 +308,7 @@ const ProductList = () => {
                 className="text-gray-400 text-left text-sm"
                 style={{ height: '60px' }}
               >
-                {prodDescription.substring(0, 100) + '...'}
+                {prodDescription.substring(0, 65) + '...'}
               </p>
               <div className="text-primary-200 underline font-bold text-sm pt-2 cursor-pointer">
                 <Link
