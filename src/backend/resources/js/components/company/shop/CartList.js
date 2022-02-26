@@ -15,7 +15,6 @@ const CartList = (props) => {
   const SERVICE_TYPE = 'payment'
   const [isAgreedTerms, setAgreedTerms] = useState(false)
   const [orderId, setOrderId] = useState({ orderId: null, token: null })
-
   const [csrfItem, setCsrfToken] = useState({})
   let userData = JSON.parse(document.getElementById('userData').textContent)
   const [state, setState] = useState({
@@ -29,20 +28,33 @@ const CartList = (props) => {
     messageContent:
       'ご請求書を発行いたしました。ご登録のメールアドレスをご確認してください。',
     loader: false
+    isSubmit: false
   })
-
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
     email: userData.email || '',
-    firstname: userData.firstName || '',
-    lastname: userData.lastName || ''
+    first_name: userData.firstName || '',
+    last_name: userData.lastName || '',
+    street_address: '',
+    building_name: '',
+    city: '',
+    postal_code: '',
+    prefecture: '',
+    number: ''
   })
-
   const [errorData, setErrorData] = useState({
-    error: false
+    email: false,
+    company_name: false,
+    first_name: false,
+    last_name: false,
+    street_address: false,
+    building_name: false,
+    city: false,
+    postal_code: false,
+    prefecture: false,
+    number: false
   })
   const history = useHistory()
-
   const { cartTotal, items, updateItemQuantity, removeItem, emptyCart } =
     useCart()
 
@@ -50,6 +62,7 @@ const CartList = (props) => {
     totalTax: 0,
     totalAmount: 0
   })
+  const [modalMessage, setModalMessage] = useState()
 
   const handleIncOrder = (item) => {
     let updateQuantity = item.quantity + 1
@@ -70,14 +83,55 @@ const CartList = (props) => {
   const handleAcceptAgreement = (event) => {
     setAgreedTerms(event.target.checked)
   }
-
+  console.log(addressData)
   const handleAddressOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
-
+    const reg = /^[A-Za-z_][A-Za-z\d_]*$/
+    if (value === '' || reg.test(parseInt(value))) {
+      setAddressData({ ...addressData, [name]: value.replace(/[^\w\s]/gi, '') })
+    }
+  }
+  const handleAddressSelectOnChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
     setAddressData({ ...addressData, [name]: value })
   }
+  const handleAddressNumberOnChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+    const re = /^[0-9\b]+$/
+    if (value === '' || re.test(parseInt(value))) {
+      setAddressData({
+        ...addressData,
+        [name]: value.replace(/[^\w\s]/gi, '')
+      })
+    }
+  }
 
+  const handleAddressTextOnChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+    const reg_txt = /^[a-zA-Z\s]*$/
+    if (value === '' || reg_txt.test(value)) {
+      setAddressData({
+        ...addressData,
+        [name]: value.replace(/[^\w\s]/gi, '')
+      })
+    }
+  }
+
+  // const handleTelNumber = (event) => {
+  //   const name = event.target.name
+  //   const value = event.target.value
+  //   const tel_eg_txt = /^[0-9]{2,4}-[0-9]{2,4}-[0-9]{3,4}$/
+  //   if (value === '' || tel_eg_txt.test(value)) {
+  //     setAddressData({
+  //       ...addressData,
+  //       [name]: value.replace(/[^\w\s]/gi, '')
+  //     })
+  //   }
+  // }
   const handleOpenAddressModal = () => {
     setState((prevState) => {
       return {
@@ -89,11 +143,20 @@ const CartList = (props) => {
   }
 
   const handleCheckoutModalOpen = () => {
-    if (!errorData.error) {
+    if (Object.values(errorData).includes(true)) {
       setState((prevState) => {
         return {
           ...prevState,
-          loader: !prevState.loader
+          loader: false,
+          isSubmit: !prevState.isSubmit
+        }
+      })
+    } else {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          isSubmit: !prevState.isSubmit,
+          loader: true
         }
       })
       saveToBasket()
@@ -140,15 +203,10 @@ const CartList = (props) => {
    * Remove basket cache to continue
    */
   const handleError = (err) => {
-    console.log('@deleted', csrfItem)
-    console.error('@error: ', err)
-    setState((prevState) => {
-      return {
-        ...prevState,
-        messageContent:
-          'システムエラーが発生しました。しばらくしてから再度実行してください。'
-      }
-    })
+    setModalMessage(
+      'システムエラーが発生しました。しばらくしてから再度実行してください。'
+    )
+
     handleCheckoutModalClose()
     handleCheckoutMessageModalOpen()
   }
@@ -267,7 +325,7 @@ const CartList = (props) => {
         {
           id: serviceId, // or 'delivery'
           attributes: {
-            'order.base.address.company': addressData.companyName, // (optional)
+            'order.base.address.company': addressData.company_name, // (optional)
             'order.base.address.firstname': addressData.first_name, // (optional)
             'order.base.address.lastname': addressData.last_name, // (required)
             'order.base.address.address1': addressData.street_address, // (required)
@@ -382,12 +440,12 @@ const CartList = (props) => {
           })
       })
   }
-
   const handleCheckoutModalAddressClose = () => {
     setState((prevState) => {
       return {
         ...prevState,
-        addressModalDisplay: false
+        addressModalDisplay: false,
+        loader: false
       }
     })
   }
@@ -440,6 +498,9 @@ const CartList = (props) => {
         // credit card
         // paymentstatus : 4
         // DeliveryStatus:2
+        setModalMessage(
+          'ご利用ありがとうございます。クレジットカード決済を受け付けました。'
+        )
         const ccData = {
           data: {
             attributes: {
@@ -473,6 +534,9 @@ const CartList = (props) => {
         break
       }
       case 2: {
+        setModalMessage(
+          'ご請求書を発行いたしました。ご登録のメールアドレスをご確認してください。'
+        )
         // generate final order
         const invData = {
           data: {
@@ -484,6 +548,7 @@ const CartList = (props) => {
 
         generateFinalOrder(invData)
           .then((res) => {
+            console.error('@error', res.errors)
             console.log('sucessfully created order')
             deleteBasketCache(res.data.meta.csrf)
             // display modal submit
@@ -541,7 +606,9 @@ const CartList = (props) => {
       )
       .focus()
   }
-
+  const stockData = items.filter(
+    (data) => data.defaultStock + 1 <= data.quantity
+  )
   const cartItems = () => {
     let addToCartItem = items
     return addToCartItem.map((item) => {
@@ -557,29 +624,10 @@ const CartList = (props) => {
             </div>
           </td>
           <td className="text-center font-bold text-red-500">
-            {item.price.toLocaleString('jp')}
+            {item.price.toLocaleString('jp')}円
           </td>
           <td className="text-center font-bold text-red-500">
             <div className="flex m-auto justify-center space-x-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer`}
-                viewBox="0 0 16 16"
-                onClick={() => handleIncOrder(item)}
-              >
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-              </svg>
-              <input
-                type="number"
-                className="w-14 shadow-lg rounded tex-red-500 border px-1 text-right"
-                min="1"
-                value={item.quantity}
-                onChange={() => handleOrderChange(item)}
-              />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -592,10 +640,48 @@ const CartList = (props) => {
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                 <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
               </svg>
+              <input
+                type="number"
+                className="w-14 shadow-lg rounded font-bold text-red-500 border px-1 text-right"
+                min="1"
+                value={item.quantity}
+                onChange={(e) => {
+                  handleOrderChange(e.target.value)
+                }}
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
+                  item.defaultStock <= item.quantity
+                    ? 'opacity-50 cursor-not-allowed'
+                    : 'cursor-pointer'
+                }`}
+                viewBox="0 0 16 16"
+                onClick={() => {
+                  item.defaultStock <= item.quantity
+                    ? null
+                    : handleIncOrder(item)
+                }}
+              >
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+              </svg>
             </div>
+            {item.defaultStock === item.quantity ? (
+              <span className="flex justify-center items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                注文可能数に達しました
+              </span>
+            ) : item.defaultStock <= item.quantity ? (
+              '数量が現在の在庫より多い'
+            ) : (
+              ''
+            )}
           </td>
           <td className="text-center font-bold text-red-500">
-            {item.itemTotal.toLocaleString('jp')}
+            {item.itemTotal.toLocaleString('jp')}円
           </td>
           <td className="text-center font-bold">
             <div
@@ -635,13 +721,33 @@ const CartList = (props) => {
     // }
     // set as cart state
   }, [items])
-
   useEffect(() => {
     new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
-      ? setErrorData({ error: false })
-      : setErrorData({ error: true })
-  }, [addressData.email])
+      ? setErrorData((prevState) => {
+          return { ...prevState, emailIsValid: false }
+        })
+      : setErrorData((prevState) => {
+          return { ...prevState, emailIsValid: true }
+        })
 
+    for (const [key, value] of Object.entries(addressData)) {
+      String(value).length === 0 || value.trim().length === 0
+        ? setErrorData((prevState) => {
+            return { ...prevState, [key]: true }
+          })
+        : setErrorData((prevState) => {
+            return { ...prevState, [key]: false }
+          })
+    }
+    Object.values(errorData).includes(true) && state.isSubmit
+      ? null
+      : setState((prevState) => {
+          return {
+            ...prevState,
+            isSubmit: false
+          }
+        })
+  }, [addressData, addressData.email])
   return (
     <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
       <div className="md:col-span-1 lg:col-span-3 pb-5">
@@ -688,7 +794,7 @@ const CartList = (props) => {
                   カート内合計:
                 </div>
                 <div className="h-15 items-center font-extrabold text-gray-400 text-center font-bold">
-                  ¥{cartTotal.toLocaleString('jp')}
+                  {cartTotal.toLocaleString('jp')}円
                 </div>
               </div>
               <div className="flex flex-wrap space-x-4 justify-between">
@@ -696,7 +802,7 @@ const CartList = (props) => {
                   消費稅:
                 </div>
                 <div className="h-15 items-center font-extrabold text-gray-400 text-center font-bold">
-                  ¥ {calculatedItem.totalTax.toLocaleString('jp')}
+                  {calculatedItem.totalTax.toLocaleString('jp')}円
                 </div>
               </div>
             </div>
@@ -706,7 +812,7 @@ const CartList = (props) => {
                   合計
                 </div>
                 <div className="h-15 items-center font-extrabold text-red-500 text-center text-2xl">
-                  ¥{calculatedItem.totalAmount.toLocaleString('jp')}
+                  {calculatedItem.totalAmount.toLocaleString('jp')}円
                 </div>
               </div>
             </div>
@@ -729,16 +835,22 @@ const CartList = (props) => {
             <div className="flex flex-col items-center space-y-4 py-10">
               <button
                 className={`bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
-                  !isAgreedTerms ? 'bg-opacity-50 cursor-not-allowed' : ''
+                  isAgreedTerms && items.length !== 0 && stockData.length === 0
+                    ? ''
+                    : 'bg-opacity-50 cursor-not-allowed'
                 }`}
-                onClick={isAgreedTerms ? handleOpenAddressModal : null}
+                onClick={
+                  isAgreedTerms && items.length !== 0 && stockData.length === 0
+                    ? handleOpenAddressModal
+                    : null
+                }
               >
                 お会計
               </button>
               <button
                 className="bg-gray-400 text-black justify-center rounded-3xl items-center h-14 w-4/5 font-bold"
                 onClick={() => {
-                  history.goBack()
+                  history.push('/company/shop')
                 }}
               >
                 キャンセル
@@ -750,11 +862,16 @@ const CartList = (props) => {
       {state.addressModalDisplay ? (
         <CheckoutAddress
           handleOnChange={handleAddressOnChange}
+          handleSelectOnChange={handleAddressSelectOnChange}
+          handleNumberOnChange={handleAddressNumberOnChange}
+          handleTextOnChanage={handleAddressTextOnChange}
+          // handleTelOnChange={handleTelNumber}
           handleSubmit={handleCheckoutModalOpen}
           handleCloseModal={handleCheckoutModalAddressClose}
           state={addressData}
           loader={state.loader}
           error={errorData}
+          isSubmit={state.isSubmit}
         />
       ) : null}
       {state.modalDisplay ? (
@@ -766,8 +883,8 @@ const CartList = (props) => {
       ) : null}
       {state.modalDisplayMessage ? (
         <CheckoutMessage
-          messageContent={state.messageContent}
           handleCloseModal={handleCheckoutMessageModalClose}
+          message={modalMessage}
         />
       ) : null}
 

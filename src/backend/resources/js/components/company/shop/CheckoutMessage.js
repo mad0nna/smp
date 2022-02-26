@@ -8,7 +8,7 @@ const CheckoutMessage = (props) => {
         <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
           <div className="flex w-full flex-wrap gap-0 text-gray-700 items-center mt-10 ">
             <div className="text-center w-full text-secondary-200 font-black mb-6 font-semibold">
-              {props.messageContent}
+              {props.message}
             </div>
             <div className="text-center w-full space-y-5">
               <div className="space-x-5">

@@ -237,7 +237,13 @@ class Standard
 			$total = 0;
 			$context = $this->getContext();
 			$manager = \Aimeos\MShop::create( $context, 'order' );
-			$params = $this->storeFilter( $view->param(), 'order' );
+
+			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+				$params = $this->storeFilter( $view->param(), 'order' );
+			} else {
+				$params = $this->storeFilter( $view->param(), 'order' );
+				$params['filter']['val']['1'] = "";
+			}
 
 			$search = $manager->filter( false, true );
 			$search->setSortations( [$search->sort( '-', 'order.id' )] );

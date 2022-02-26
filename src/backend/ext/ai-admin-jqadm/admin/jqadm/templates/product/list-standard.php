@@ -593,7 +593,7 @@ $columnList = [
 				<?= $this->csrf()->formfield() ?> 
 				<p class="file btn btn-lg btn-theme text-white upload-csv float-start">
 					商品を追加
-					<input id="input_upload_new_product" type="file" name="file" accept=".csv"   />
+					<input id="input_upload_new_product" type="file" name="file" accept=".csv" v-on:change="AcceptCsvfile($event.target.files)"  />
 				</p>
 				<input id="btn_upload_new_product" type="submit" value="Upload" name="submit" style="display:none" >
 			</form>
@@ -602,7 +602,7 @@ $columnList = [
 				<?= $this->csrf()->formfield() ?>
 				<p class="file btn btn-lg btn-theme text-white upload-csv float-start mx-2">
 					在庫を更新
-					<input id="input_upload_update_stock" type="file" name="file" accept=".csv"   />
+					<input id="input_upload_update_stock" type="file" name="file" accept=".csv" v-on:change="AcceptCsvfile($event.target.files)"  />
 				</p>
 				<input id="btn_upload_update_stock" type="submit" value="Upload" name="submit" style="display:none">
 			</form>
@@ -663,15 +663,15 @@ $columnList = [
 		<div class="linebreak"></div>
 
 		<div class="table-responsive">
-			<table class="list-items table table-hover table-striped">
+			<table class="list-items list-items-product table table-hover table-striped">
 				<thead class="list-header">
 					<tr>
 						<th class="product-table-column"></th>
 						<th class="product-table-column product-table-column-product-code">品番</th>
 						<th class="product-table-column product-table-column-product-name">商品</th>
-						<th class="product-table-column">在庫</th>
-						<th class="product-table-column">販売価格</th>
-						<th class="product-table-column">販売状況</th>
+						<th class="product-table-column product-table-column-product-stock">在庫</th>
+						<th class="product-table-column product-table-column-product-price">販売価格</th>
+						<th class="product-table-column">&nbsp;&nbsp;&nbsp;&nbsp;販売状況</th>
 						<th class="product-table-column" style="width:9%">アクション</th>
 					</tr>
 				</thead>

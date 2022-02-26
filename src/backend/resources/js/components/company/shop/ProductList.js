@@ -254,7 +254,7 @@ const ProductList = () => {
             data: groupItems,
             pageCount: pageNumbers.length,
             pageNumbers: list,
-            currentPage: data.meta.current,
+            currentPage: pagingConditions.page,
             loaded: true
           }
         })
@@ -277,37 +277,43 @@ const ProductList = () => {
         }
 
         return state.loaded ? (
-          <div className="grid grid-flow-row mx-2" key={index}>
+          <div className="overflow-hidden mx-2" key={index}>
             {loadedImage ? (
               <div></div>
             ) : (
-              <div className="bg-gray-100 h-48">
+              <div
+                className="bg-gray-100"
+                style={{ height: '318px', width: '318px' }}
+              >
                 <div className="lg:w-full"></div>
               </div>
             )}
             <img
+              style={{ height: '318px', width: '318px' }}
               className={loadedImage ? 'mx-auto w-full p-5' : 'hidden'}
               src={`/aimeos/${product.media['media.preview']}`}
               onLoad={() => {
                 setLoadedImage(true)
               }}
             ></img>
-
-            <div className="gap-2 pb-2">
-              <div className="text-red-500 font-bold mt-2">
+            <div className="flex flex-col justify-between gap-2 pb-2 ">
+              <div className="text-red-500 font-bold mt-2 h-10">
                 {product.product['product.label'] ?? ''}
               </div>
               <div className="text-red-500 font-bold text-right">
-                {`¥ ${prodPrice ?? '0'}`}
+                {`${prodPrice ?? '0'}円`}
               </div>
               <div className="text-gray-500 font-bold">商品說明</div>
-              <p className="text-gray-400 text-left h-26 text-sm">
-                {prodDescription}
+              <p
+                className="text-gray-400 text-left text-sm"
+                style={{ height: '60px' }}
+              >
+                {prodDescription.substring(0, 65) + '...'}
               </p>
-              <div className="text-primary-200 underline font-bold text-sm mt-2 cursor-pointer">
+              <div className="text-primary-200 underline font-bold text-sm pt-2 cursor-pointer">
                 <Link
                   to={{
-                    pathname: `/company/productDetail/`,
+                    pathname: `/company/productDetail/?id=${product.product['product.id']}`,
                     detail: product
                   }}
                 >
@@ -317,6 +323,7 @@ const ProductList = () => {
             </div>
           </div>
         ) : (
+          // </div>
           <div className="h-full bg-gray-400"></div>
         )
       })

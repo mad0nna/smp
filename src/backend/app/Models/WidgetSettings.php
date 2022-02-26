@@ -115,7 +115,7 @@ class WidgetSettings extends Model
             //     'className' => 'relative',
             // ],
             4 => [
-                'label' => '請求書',
+                'label' => '物販',
                 'h' => 15,
                 'id' => 4,
                 'isBounded' => null,
@@ -194,26 +194,6 @@ class WidgetSettings extends Model
             //     'state' => false,
             //     'className' => 'relative',
             // ],
-            7 => [
-                'label' => '物販',
-                'h' => 5,
-                'id' => 7,
-                'isBounded' => null,
-                'isDraggable' => null,
-                'isResizable' => true,
-                'maxH' => null,
-                'maxW' => null,
-                'minH' => 1,
-                'minW' => 1,
-                'moved' => false,
-                'resizeHandles' => null,
-                'static' => false,
-                'w' => 2,
-                'x' => 8,
-                'y' => 8,
-                'state' => true,
-                'className' => 'relative',
-            ],
         ], JSON_UNESCAPED_UNICODE);
     }
 

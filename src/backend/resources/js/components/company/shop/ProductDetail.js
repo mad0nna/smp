@@ -12,7 +12,6 @@ const ProductDetail = (props) => {
     orderNum: 1,
     stock: 0
   })
-
   const [isLoaded, setLoaded] = useState(false)
 
   const [productDetail, setProductDetail] = useState({
@@ -138,49 +137,6 @@ const ProductDetail = (props) => {
     history.push({ pathname: '/company/cart', state: productDetail })
   }
 
-  function getProductDetail(id) {
-    axios({
-      url: `/jsonapi/product?id=${id}&include=media,text,price,stock`,
-      method: 'get',
-      responseType: 'json'
-    }).then((response) => {
-      if (!_.isEmpty(response.data)) {
-        let item = response.data
-        // getting id from relationship media
-        let prodMediaId = item.data.relationships.media.data[0]['id']
-        // for long description
-        let prodTextId = item.data.relationships.text.data[0]['id']
-        //for price value
-        let prodPriceId = item.data.relationships.price.data[0]['id']
-        // for stock
-        let prodStockId = item.data.relationships.stock.data[0]['id']
-
-        if (!_.isEmpty(item) || item !== undefined) {
-          let prodDetail = {
-            product: item.data.attributes,
-            media:
-              _.filter(item.included, (inc) => {
-                return inc.type === 'media' && inc['id'] === prodMediaId
-              })[0].attributes ?? {},
-            text:
-              _.filter(item.included, (inc) => {
-                return inc.type == 'text' && inc['id'] == prodTextId
-              })[0].attributes ?? {},
-            price:
-              _.filter(item.included, (inc) => {
-                return inc.type === 'price' && inc['id'] === prodPriceId
-              })[0].attributes ?? {},
-            stock:
-              _.filter(item.included, (inc) => {
-                return inc.type === 'stock' && inc['id'] == prodStockId
-              })[0].attributes ?? {}
-          }
-          parseProductData(prodDetail)
-        }
-      }
-    })
-  }
-
   const productDetailItem = () => {
     return (
       <tr>
@@ -202,33 +158,6 @@ const ProductDetail = (props) => {
               width="16"
               height="16"
               fill="currentColor"
-              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
-                state.stock == 0
-                  ? 'opacity-50 cursor-not-allowed'
-                  : 'cursor-pointer'
-              }`}
-              viewBox="0 0 16 16"
-              onClick={() => {
-                state.stock > 0 ? handleIncrementOrder() : null
-              }}
-            >
-              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-            </svg>
-            <input
-              type="number"
-              className="w-14 shadow-lg rounded tex-red-500 border px-1 text-right"
-              min="1"
-              value={state.orderNum}
-              onChange={(e) => {
-                handleOrderChange(e.target.value)
-              }}
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
               className={`bi bi-dash-circle text-gray-500 mt-1 font-semibold cursor-pointer
                 ${
                   state.orderNum == 1
@@ -242,6 +171,33 @@ const ProductDetail = (props) => {
             >
               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
               <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+            </svg>
+            <input
+              type="number"
+              className="w-14 shadow-lg rounded font-bold text-red-500 border px-1 text-right"
+              min="1"
+              value={state.orderNum}
+              onChange={(e) => {
+                handleOrderChange(e.target.value)
+              }}
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
+                state.stock == 0
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'cursor-pointer'
+              }`}
+              viewBox="0 0 16 16"
+              onClick={() => {
+                state.stock > 0 ? handleIncrementOrder() : null
+              }}
+            >
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
             </svg>
           </div>
           {state.orderNum == productDetail.defaultStock ? (
@@ -258,14 +214,56 @@ const ProductDetail = (props) => {
 
   useEffect(() => {
     if (_.isEmpty(props) || props === undefined) {
-      let urlParams = new URLSearchParams(window.location.search)
+      let urlParams = new URLSearchParams(location.search)
+
       let id = urlParams.get('id')
       let digitOnly = /^\d+$/
-      if (!digitOnly.test(id) && urlParams !== '') {
+      if (!digitOnly.test(id)) {
         alert('記録が見当たりませんでした')
-        window.location.replace('/company/shop')
+        window.history.go(-1)
+        location.reload()
       }
-      getProductDetail(id)
+      axios({
+        url: `/jsonapi/product?id=${id}&include=media,text,price,stock`,
+        method: 'get',
+        responseType: 'json'
+      }).then((response) => {
+        if (!_.isEmpty(response.data)) {
+          let item = response.data
+          console.log(item)
+          // getting id from relationship media
+          let prodMediaId = item.data.relationships.media.data[0]['id']
+          // for long description
+          let prodTextId = item.data.relationships.text.data[0]['id']
+          //for price value
+          let prodPriceId = item.data.relationships.price.data[0]['id']
+          // for stock
+          let prodStockId = item.data.relationships.stock.data[0]['id']
+
+          if (!_.isEmpty(item) || item !== undefined) {
+            let prodDetail = {
+              product: item.data.attributes,
+              media:
+                _.filter(item.included, (inc) => {
+                  return inc.type === 'media' && inc['id'] === prodMediaId
+                })[0].attributes ?? {},
+              text:
+                _.filter(item.included, (inc) => {
+                  return inc.type == 'text' && inc['id'] == prodTextId
+                })[0].attributes ?? {},
+              price:
+                _.filter(item.included, (inc) => {
+                  return inc.type === 'price' && inc['id'] === prodPriceId
+                })[0].attributes ?? {},
+              stock:
+                _.filter(item.included, (inc) => {
+                  return inc.type === 'stock' && inc['id'] == prodStockId
+                })[0].attributes ?? {}
+            }
+            parseProductData(prodDetail)
+          }
+        }
+      })
     } else {
       const { location } = props
       parseProductData(location.detail)
@@ -308,7 +306,7 @@ const ProductDetail = (props) => {
                         {isLoaded ? productDetail.title : ''}
                       </div>
                       <div className="font-bold text-red-500 text-3xl w-auto pr-10 w-full text-right">
-                        {isLoaded ? `¥ ${productDetail.price}` : ''}
+                        {isLoaded ? `${productDetail.price}円` : ''}
                       </div>
                     </div>
                   </div>
@@ -333,7 +331,9 @@ const ProductDetail = (props) => {
               <div className="grid lg:grid-cols-1 col-span-1 grid-rows-2 gap-6">
                 <div className="tracking-tighter text-gray-400 text-lg mt-10">
                   <div className="font-bold">商品説明</div>
-                  {isLoaded ? productDetail.description : ''}
+                  {isLoaded
+                    ? productDetail.description.substring(0, 65) + '...'
+                    : ''}
                 </div>
                 <div className="flex flex-wrap content-end space-x-5 row-span-5 text-center">
                   <div className="space-x-5 w-full flex flex-row">
@@ -344,8 +344,12 @@ const ProductDetail = (props) => {
                       キャンセル
                     </button>
                     <button
-                      className="bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold"
-                      onClick={handleCartListPage}
+                      className={`bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold ${
+                        state.orderNum <= 0
+                          ? 'bg-opacity-50 cursor-not-allowed'
+                          : ''
+                      }`}
+                      onClick={state.orderNum <= 0 ? null : handleCartListPage}
                     >
                       カートに追加
                     </button>

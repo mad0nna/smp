@@ -245,41 +245,44 @@ Aimeos.Media = {
 
 				for(let i=0; i<files.length; i++) {
 					self.$set(self.items[idx], 'media.mimetype', files[i].type);
-
-					if(files[i].type.startsWith('image/')) {
+					if(!files[i].type.startsWith('image/')) {
+						alert("jpegまたはpngファイルをアップロードしてください")
+						return;
+					} else if(files[i].type.startsWith('image/')) {
 						self.$set(self.items[idx], 'media.preview', URL.createObjectURL(files[i]));
-					} else if(files[i].type.startsWith('video/')) {
-						const video = document.createElement('video');
+					} 
+					// else if(files[i].type.startsWith('video/')) {
+					// 	const video = document.createElement('video');
 
-						video.addEventListener('canplay', function(e) {
-							video.currentTime = video.duration / 2;
-							e.target.removeEventListener(e.type, arguments.callee);
-						});
+					// 	video.addEventListener('canplay', function(e) {
+					// 		video.currentTime = video.duration / 2;
+					// 		e.target.removeEventListener(e.type, arguments.callee);
+					// 	});
 
-						video.addEventListener('seeked', function() {
-							const canvas = document.createElement('canvas');
-							const context = canvas.getContext('2d');
+					// 	video.addEventListener('seeked', function() {
+					// 		const canvas = document.createElement('canvas');
+					// 		const context = canvas.getContext('2d');
 
-							canvas.width = video.videoWidth;
-							canvas.height = video.videoHeight;
+					// 		canvas.width = video.videoWidth;
+					// 		canvas.height = video.videoHeight;
 
-							context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-							self.$set(self.items[idx], 'media.preview', canvas.toDataURL());
+					// 		context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+					// 		self.$set(self.items[idx], 'media.preview', canvas.toDataURL());
 
-							canvas.toBlob(function(blob) {
-								const container = new DataTransfer();
-								const preview = self.$refs.preview[idx];
+					// 		canvas.toBlob(function(blob) {
+					// 			const container = new DataTransfer();
+					// 			const preview = self.$refs.preview[idx];
 
-								container.items.add(new File([blob], files[i].name, {
-									type: 'image/png', lastModified: new Date().getTime()
-								}));
-								preview.files = container.files;
-							});
-						});
+					// 			container.items.add(new File([blob], files[i].name, {
+					// 				type: 'image/png', lastModified: new Date().getTime()
+					// 			}));
+					// 			preview.files = container.files;
+					// 		});
+					// 	});
 
-						video.src = URL.createObjectURL(files[i]);
-						video.load();
-					}
+					// 	video.src = URL.createObjectURL(files[i]);
+					// 	video.load();
+					// }
 
 					sum += files[i].size;
 					cnt++;
@@ -434,7 +437,15 @@ Aimeos.Price = {
 				if(this.items[idx]) {
 					this.$set(this.items[idx], what, (!this.items[idx][what] ? true : false));
 				}
-			}
+			},
+
+			checkNumber: function(event) {
+				if(event.target._value < 0) {
+					alert("正しい金額を入力してください")
+					document.getElementById(event.target.id).value = "";					
+					return;
+				}			 
+			},
 		}
 	}
 };

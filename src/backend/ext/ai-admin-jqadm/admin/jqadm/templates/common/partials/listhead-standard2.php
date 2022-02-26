@@ -76,7 +76,7 @@ else
 ?>
 <?php  foreach( $this->get( 'data', [] ) as $key => $name ) : ?>
 	<?php if( in_array( $key, $fields ) ) : ?>
-		<th class="<?= $enc->attr( str_replace( '.', '-', $key ) ) ?>">
+		<th class="<?= $enc->attr( str_replace( '.', '-', $key ) ) ?>" <?php if( $key == "order.id" ) { echo " style='width:150px; ' ";} ?> >
 			<?php if( $name !== null ) : ?>
 				<?= $enc->html( $name ) ?>
 			<?php endif ?>
