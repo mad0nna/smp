@@ -27,7 +27,7 @@ const CartList = (props) => {
     addressModalDisplay: false,
     messageContent:
       'ご請求書を発行いたしました。ご登録のメールアドレスをご確認してください。',
-    loader: false
+    loader: false,
     isSubmit: false
   })
   const [addressData, setAddressData] = useState({
@@ -202,7 +202,7 @@ const CartList = (props) => {
    * Handle Error
    * Remove basket cache to continue
    */
-  const handleError = (err) => {
+  const handleError = () => {
     setModalMessage(
       'システムエラーが発生しました。しばらくしてから再度実行してください。'
     )
