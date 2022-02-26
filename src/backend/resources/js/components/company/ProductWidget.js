@@ -152,10 +152,10 @@ const ProductWidget = () => {
               </div>
             </div>
           ) : (
-            <div>
+            <div className="grid md:grid-cols-1 px-4 lg:grid-cols-2">
               {productList.map((item, index) => {
                 return (
-                  <div className="inline-block p-4 pl-6" key={index}>
+                  <div className="grid justify-center gap-2 pb-2" key={index}>
                     <a
                       href={`/company/productDetail/?id=${item.product['product.id']}`}
                     >
@@ -164,8 +164,8 @@ const ProductWidget = () => {
                         src={`/aimeos/${item.media['media.url']}`}
                       ></img>
                     </a>
-                    <div className="">{item.product['product.label']}</div>
-                    <div className="">
+                    <div className="my-2">{item.product['product.label']}</div>
+                    <div className="my-2">
                       {item.price['price.value'].substring(
                         0,
                         item.price['price.value'].length - 3
