@@ -70,7 +70,7 @@ $enc = $this->encoder();
 	</head>
 	<body>
 		<div class="aimeos"><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-			<div style="Margin:0px auto;max-width:600px;">
+			<div style="Margin:0px auto;max-width:750px;">
 				<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
 					<tbody>
 						<tr>
@@ -97,7 +97,7 @@ $enc = $this->encoder();
 				</table>
 			</div>
 			<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-			<div style="Margin:0px auto;max-width:600px;">
+			<div style="Margin:0px auto;max-width:750px;">
 				<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
 					<tbody>
 						<tr>
@@ -131,11 +131,11 @@ $enc = $this->encoder();
 			</div>
 	 
 		</div><!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="common-summary-outlook common-summary-service-outlook" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-		<div class="common-summary common-summary-detail" style="Margin:0px auto;max-width:600px;   width:100%;  ">
+		<div class="common-summary common-summary-detail" style="Margin:0px auto;max-width:750px;   width:100%;  ">
 			<div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
 				<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top; border: #e0e0e0 1px solid; background-color:#f5f5f5;"  >
 					<tr>
-						<td align="left" class="basket" style="font-size:0px;padding:10px 25px;word-break:break-word; vertical-align:top;   width: 250px; padding: 10px 30px 10px 20px !important; border-right: #e0e0e0 1px solid;">
+						<td align="left" class="basket" style="font-size:0px;padding:10px 25px;word-break:break-word; vertical-align:top;   width: 300px; padding: 10px 20px !important; border-right: #e0e0e0 1px solid;">
 							<table cellpadding="0" cellspacing="0" width="100%" border="0" style="cellspacing:0;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;">
 								<tr class="" style="text-align:left;" >
 									<th class="">概要</th>								 
@@ -146,10 +146,9 @@ $enc = $this->encoder();
 									<td style="text-align:right;"><?= $this->extOrderItem->getOrderNumber() ?></td>
 								</tr>
 								<tr>
-									<td>注文日:</td>
+									<td style="width:100px">注文日:</td>
 									<td style="text-align:right;" colspan="2"><?= $enc->html( date_create( $this->extOrderItem->getTimeCreated() )->format( 'Y年m⽉d⽇' ) ) ?></td>
 								</tr>
-								
 								<?php
 									$detailTarget = $this->config( 'client/html/catalog/detail/url/target' );
 									$detailController = $this->config( 'client/html/catalog/detail/url/controller', 'catalog' );
@@ -275,7 +274,7 @@ $enc = $this->encoder();
 									<?php endif ?> 
 							</table>
 						</td>
-						<td align="left" class="basket" style="font-size:0px;padding:inherit;word-break:break-word; vertical-align:top;  padding: 10px 10px 10px 30px !important; width: 250px;">
+						<td align="left" class="basket" style="font-size:0px;padding:inherit;word-break:break-word; vertical-align:top;  padding: 10px 20px !important; width: 300px;">
 							<table cellpadding="0" cellspacing="0" width="100%" border="0" style=" cellspacing:0;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;   ">
 								<tr class="" style="text-align:left;" >
 									<th class=""><?= $enc->html( '配送先住所', $enc::TRUST ) ?></th>								 
