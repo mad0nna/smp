@@ -155,12 +155,15 @@ const ProductWidget = () => {
             <div className="grid md:grid-cols-1 px-4 lg:grid-cols-2">
               {productList.map((item, index) => {
                 return (
-                  <div className="grid justify-center gap-2 pb-2" key={index}>
+                  <div
+                    className="grid justify-center gap-2 pb-2 overflow-hidden mx-2"
+                    key={index}
+                  >
                     <a
                       href={`/company/productDetail/?id=${item.product['product.id']}`}
                     >
                       <img
-                        className="w-36"
+                        className="mx-auto h-40 p-4"
                         src={`/aimeos/${item.media['media.url']}`}
                       ></img>
                     </a>
