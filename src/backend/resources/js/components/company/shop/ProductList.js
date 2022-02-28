@@ -74,6 +74,8 @@ const ProductList = () => {
       ...sortItem,
       selectedSortValue: value
     })
+    fetchProductList()
+    setLoadedImage(true)
   }
 
   const sortParam = (value) => {
@@ -98,17 +100,28 @@ const ProductList = () => {
     return sortUrlParam
   }
 
-  const handleSearch = (text) => {
-    if (text === '') {
-      setSearchItem({
-        ...searchItem,
-        searchText: ''
-      })
-    }
+  const handleSearch = (event) => {
+    let text = event.target.value
     setSearchItem({
       ...searchItem,
       searchText: text
     })
+
+    if (event.key === 'Enter') {
+      fetchProductList()
+    }
+    setLoadedImage(true)
+  }
+
+  const handleSearchClick = (event) => {
+    let text = event.target.value
+    setSearchItem({
+      ...searchItem,
+      searchText: text
+    })
+
+    fetchProductList()
+    setLoadedImage(true)
   }
 
   function handlePageClick(n) {
@@ -126,13 +139,15 @@ const ProductList = () => {
     setPagingConditions({ ...pagingConditions, ...{ page: n } })
   }
 
-  useEffect(() => {
+  function fetchProductList() {
     let offset = (pagingConditions.page - 1) * pagingConditions.limit
     setLoadedImage(false)
+
     let searchParam =
-      searchItem.searchText === ''
-        ? ''
-        : `&filter[%7E%3D][product.label]=${searchItem.searchText}`
+      searchItem.searchText !== ''
+        ? `&filter[%7E%3D][product.label]=${searchItem.searchText}`
+        : ''
+
     let sortProduct = sortParam(sortItem.selectedSortValue)
 
     axios({
@@ -260,7 +275,11 @@ const ProductList = () => {
         })
       }
     })
-  }, [pagingConditions, searchItem, sortItem])
+  }
+
+  useEffect(() => {
+    fetchProductList()
+  }, [])
 
   const productItem = (products) => {
     if (!_.isEmpty(products)) {
@@ -378,7 +397,8 @@ const ProductList = () => {
               <div className="table-cell relative h-20 w-full align-middle">
                 <div className="bg-gray-100 h-12 rounded-lg w-96 mx-0 my-auto">
                   <svg
-                    className="text-primary-200 font-bold fill-current w-auto h-11 float-left mt-0.5 p-3"
+                    className="text-primary-200 font-bold fill-current w-auto h-11 float-left mt-0.5 p-3 cursor-pointer"
+                    onClick={handleSearchClick}
                     xmlns="http://www.w3.org/2000/svg"
                     x="30px"
                     y="30px"
@@ -397,10 +417,7 @@ const ProductList = () => {
                     type="text"
                     className="h-full w-80 bg-gray-100 custom-outline-none text-left placeholder-primary-200"
                     placeholder="商品名を検索"
-                    value={searchItem.searchText || ''}
-                    onChange={(e) => {
-                      handleSearch(e.target.value)
-                    }}
+                    onKeyUp={handleSearch}
                   />
                 </div>
               </div>
