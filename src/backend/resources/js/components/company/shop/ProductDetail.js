@@ -128,7 +128,7 @@ const ProductDetail = (props) => {
 
   const handleCartListPage = () => {
     // create cart items
-    if (productDetail.defaultStock == 0) {
+    if (productDetail.defaultStock <= 0) {
       alert('カートに追加できませんでした。在庫がありません。')
       return false
     }
