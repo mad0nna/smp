@@ -956,18 +956,24 @@ Aimeos.List = {
 				return this.filter['val'] && this.filter['val'][idx] || null;
 			},
 
-			AcceptCsvfile: function(files) {
+			AcceptCsvfile: function(files, event) { console.log(files); console.log(event); console.log(event.id);
 				
 				if(!files.length) {
-					return;
+					files.value = "";
+					return false;
 				} 
 
-				for(let i=0; i<files.length; i++) {console.log(files[i].type)
+				for(let i=0; i<files.length; i++) {
 					if(files[i].type.startsWith('application/vnd.ms-excel') || files[i].type.startsWith('text/csv') ) {
-						 
+						console.log("here: " + event.id);
+						if (event.id == "input_upload_new_product") {
+							document.getElementById("btn_upload_new_product").click();
+						} else if (event.id == "input_upload_update_stock") {
+							document.getElementById("btn_upload_update_stock").click();
+						}
 					} else {
 						alert("csvファイルをアップロードしてください")
-						return;
+						return false;
 					}
 				}
 			},

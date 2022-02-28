@@ -2,14 +2,6 @@ $(document).ready(function () {
     var uploader = document.getElementById("input_upload_new_product");
 
     if (uploader !== null) {
-        document.getElementById("input_upload_new_product").onchange = function () {
-            document.getElementById("btn_upload_new_product").click();
-        }
-
-        document.getElementById("input_upload_update_stock").onchange = function () {
-            document.getElementById("btn_upload_update_stock").click();
-        }
-
         document.getElementById("linkSetProductAllActive").addEventListener('click', setProductAllStatus);
         document.getElementById("linkSetProductActive").addEventListener('click', setProductActive);
         document.getElementById("linkSetProductInActive").addEventListener('click', setProductInActive);
@@ -100,11 +92,13 @@ $(document).ready(function () {
           });
     }
 
-    const txtProductLabel = document.querySelector('#txtProductLabel');
-    if ( txtProductLabel !== undefined ) {
+    const txtProductLabel = document.querySelector('txtProductLabel');
+    if ( txtProductLabel == null ) {
+
+    } else if ( txtProductLabel !== null  || txtProductLabel !== undefined ) {
         txtProductLabel.addEventListener('blur', (event) => {
             if(event.target.value.trim().length > 64) {
-            	alert("６４文字以内で入力してください")	
+            	alert("６４文字以内で入力してください")
                 txtProductLabel.classList.add("is-invalid");
             	return;
             }
