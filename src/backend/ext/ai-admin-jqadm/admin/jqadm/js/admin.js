@@ -732,18 +732,17 @@ Aimeos.Form = {
 
 			$("input,select", this).each(function(idx, element) {
 				var elem = $(element);
-
-				if(elem.closest(".prototype").length === 0 && elem.is(":invalid") === true) {
+				if (elem[0].required && (elem[0].value.trim().length === 0 || elem[0].value.trim().length > 64)) {
+					elem[0].setCustomValidity("Invalid field.");
+				}
+				
+				if(elem.closest(".prototype").length === 0 && elem.is(":invalid") === true ) {
 					if(!element.classList.contains('.form-control') && !element.classList.contains('form-select')) {
 						elem = elem.closest('.form-control');
 					}
-
-					if ($("#"+elem[0].id).val().trim().length == 0) {
-						nodes.push(elem.addClass("is-invalid"));					
-					} else {
-						nodes.push(elem.addClass("is-invalid"));
-					}
 					
+					nodes.push(elem.addClass("is-invalid"));
+					elem[0].setCustomValidity("");
 				} else {
 					elem.removeClass("is-invalid");
 				}
