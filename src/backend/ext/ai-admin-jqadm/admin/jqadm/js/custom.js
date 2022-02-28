@@ -81,11 +81,13 @@ $(document).ready(function () {
     if ( txtProductCode !== undefined ) {
         txtProductCode.addEventListener('blur', (event) => {
             if(event.target.value.length > 64) {
-            	alert("６４文字以内で入力してください")	
+            	alert("６４文字以内で入力してください");
+                txtProductCode.classList.remove("is-valid");
                 txtProductCode.classList.add("is-invalid");
             	return;
             }
             if(event.target.value.trim().length == 0) {
+                txtProductCode.classList.remove("is-valid");
                 txtProductCode.classList.add("is-invalid");
             	return;
             }
