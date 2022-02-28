@@ -593,7 +593,7 @@ $columnList = [
 				<?= $this->csrf()->formfield() ?> 
 				<p class="file btn btn-lg btn-theme text-white upload-csv float-start">
 					商品を追加
-					<input id="input_upload_new_product" type="file" name="file" accept=".csv" v-on:change="AcceptCsvfile($event.target.files)"  />
+					<input id="input_upload_new_product" type="file" name="file" accept=".csv" v-on:change="AcceptCsvfile($event.target.files, $event.target)"  />
 				</p>
 				<input id="btn_upload_new_product" type="submit" value="Upload" name="submit" style="display:none" >
 			</form>
@@ -602,7 +602,7 @@ $columnList = [
 				<?= $this->csrf()->formfield() ?>
 				<p class="file btn btn-lg btn-theme text-white upload-csv float-start mx-2">
 					在庫を更新
-					<input id="input_upload_update_stock" type="file" name="file" accept=".csv" v-on:change="AcceptCsvfile($event.target.files)"  />
+					<input id="input_upload_update_stock" type="file" name="file" accept=".csv" v-on:change="AcceptCsvfile($event.target.files, $event.target)"  />
 				</p>
 				<input id="btn_upload_update_stock" type="submit" value="Upload" name="submit" style="display:none">
 			</form>

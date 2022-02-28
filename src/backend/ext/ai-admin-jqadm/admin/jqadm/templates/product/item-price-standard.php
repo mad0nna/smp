@@ -130,7 +130,7 @@ $enc = $this->encoder();
 									<input id="txtProductPrice" required="required" class="form-control item-value pe-0" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>" 
 										v-on:blur="checkNumber($event)"
 										v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.value' ) ) ) ?>`.replace('idx', idx)"
-										placeholder="<?= $enc->attr( $this->translate( 'admin', '販売価格' ) ) ?>"
+										placeholder="販売価格   " 
 										v-bind:readonly="item['price.siteid'] != siteid"
 										v-model="item['price.value']" />
 								</div>
