@@ -738,7 +738,12 @@ Aimeos.Form = {
 						elem = elem.closest('.form-control');
 					}
 
-					nodes.push(elem.addClass("is-invalid"));
+					if ($("#"+elem[0].id).val().trim().length == 0) {
+						nodes.push(elem.addClass("is-invalid"));					
+					} else {
+						nodes.push(elem.addClass("is-invalid"));
+					}
+					
 				} else {
 					elem.removeClass("is-invalid");
 				}
