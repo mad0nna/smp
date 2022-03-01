@@ -732,18 +732,17 @@ Aimeos.Form = {
 
 			$("input,select", this).each(function(idx, element) {
 				var elem = $(element);
+				if (elem[0].required && (elem[0].value.trim().length === 0 || elem[0].value.trim().length > 64)) {
+					elem[0].setCustomValidity("Invalid field.");
+				}
 
-				if(elem.closest(".prototype").length === 0 && elem.is(":invalid") === true) {
+				if(elem.closest(".prototype").length === 0 && elem.is(":invalid") === true ) {
 					if(!element.classList.contains('.form-control') && !element.classList.contains('form-select')) {
 						elem = elem.closest('.form-control');
 					}
-
-					if ($("#"+elem[0].id).val().trim().length == 0) {
-						nodes.push(elem.addClass("is-invalid"));					
-					} else {
-						nodes.push(elem.addClass("is-invalid"));
-					}
 					
+					nodes.push(elem.addClass("is-invalid"));
+					elem[0].setCustomValidity("");
 				} else {
 					elem.removeClass("is-invalid");
 				}
@@ -961,7 +960,7 @@ Aimeos.List = {
 				return this.filter['val'] && this.filter['val'][idx] || null;
 			},
 
-			AcceptCsvfile: function(files, event) { console.log(files); console.log(event); console.log(event.id);
+			AcceptCsvfile: function(files, event) {
 				
 				if(!files.length) {
 					files.value = "";
@@ -970,7 +969,7 @@ Aimeos.List = {
 
 				for(let i=0; i<files.length; i++) {
 					if(files[i].type.startsWith('application/vnd.ms-excel') || files[i].type.startsWith('text/csv') ) {
-						console.log("here: " + event.id);
+
 						if (event.id == "input_upload_new_product") {
 							document.getElementById("btn_upload_new_product").click();
 						} else if (event.id == "input_upload_update_stock") {
@@ -978,6 +977,7 @@ Aimeos.List = {
 						}
 					} else {
 						alert("csvファイルをアップロードしてください")
+						files[i].value = ""
 						return false;
 					}
 				}

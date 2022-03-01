@@ -44,12 +44,6 @@ $(document).ready(function () {
             $( this ).val("0");
         }
     });
-
-    // const txtStocksStockLevel = document.querySelector('#txtStocksStockLevel');
-    // if ( txtStocksStockLevel !== undefined ) {
-    //     $("#txtStandardStockLevel").val(parseInt($("#lblStocksStockLevel").text()));
-    // }
-
     
     $("#txtProductFilter").on("input", function(){
         $("#txtProductCode").val(this.value);
@@ -94,17 +88,19 @@ $(document).ready(function () {
           });
     }
 
-    const txtProductLabel = document.querySelector('txtProductLabel');
+    const txtProductLabel = document.querySelector('#txtProductLabel');
     if ( txtProductLabel == null ) {
 
     } else if ( txtProductLabel !== null  || txtProductLabel !== undefined ) {
         txtProductLabel.addEventListener('blur', (event) => {
             if(event.target.value.trim().length > 64) {
             	alert("６４文字以内で入力してください")
+                txtProductLabel.classList.remove("is-valid");
                 txtProductLabel.classList.add("is-invalid");
             	return;
             }
             if(event.target.value.trim().length == 0) {
+                txtProductLabel.classList.remove("is-valid");
                 txtProductLabel.classList.add("is-invalid");
             	return;
             }
