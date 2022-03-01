@@ -1,15 +1,6 @@
 import React from 'react'
 
 const CheckoutMessage = (props) => {
-  // const SUCCESS_MSG_INVOICE =
-  //   'ご請求書を発行いたしました。' +
-  //   '\n' +
-  //   'ご登録のメールアドレスをご確認してください。'
-  // const SUCCESS_MSG_CREDIT_CARD =
-  //   'ご利用ありがとうございます。' +
-  //   '\n' +
-  //   'クレジットカード決済を受け付けました'
-
   return (
     <div className="fixed w-full h-full top-0 left-0 flex items-center justify-center">
       <div className="absolute w-full h-full bg-gray-900 opacity-50"></div>

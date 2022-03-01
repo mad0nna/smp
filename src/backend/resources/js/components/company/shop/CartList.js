@@ -10,9 +10,7 @@ import CheckoutMessage from './CheckoutMessage'
 import CheckoutContent from './CheckoutContent'
 import CheckoutAddress from './CheckoutAddress'
 // eslint-disable-next-line
-import emailStamp from '../../../../img/email/email-stamp.png'
 // eslint-disable-next-line
-import emailLogo from '../../../../img/email/email-logo.png'
 const CartList = (props) => {
   const SERVICE_TYPE = 'payment'
   const [isAgreedTerms, setAgreedTerms] = useState(false)
@@ -27,6 +25,8 @@ const CartList = (props) => {
     modalCheckoutContentDisplay: false,
     htmlContent: '',
     addressModalDisplay: false,
+    messageContent:
+      'ご請求書を発行いたしました。ご登録のメールアドレスをご確認してください。',
     loader: false,
     isSubmit: false
   })
@@ -167,34 +167,50 @@ const CartList = (props) => {
             .then(() => {
               createDeliveryService()
                 .then(() => {
-                  createPaymentService().catch((err) => {
-                    console.error('@error: ', err)
-                    deleteBasketCache(csrfItem)
-                  })
-                  setState((prevState) => {
-                    return {
-                      ...prevState,
-                      addressModalDisplay: !prevState.addressModalDisplay,
-                      modalDisplay: !prevState.modalDisplay,
-                      loader: !prevState.loader
-                    }
-                  })
+                  createPaymentService()
+                    .then(() => {
+                      setState((prevState) => {
+                        return {
+                          ...prevState,
+                          addressModalDisplay: !prevState.addressModalDisplay,
+                          modalDisplay: !prevState.modalDisplay,
+                          loader: !prevState.loader
+                        }
+                      })
+                    })
+                    .catch((err) => {
+                      deleteBasketCache(csrfItem)
+                      handleError(err)
+                    })
                 })
                 .catch((err) => {
-                  console.error('@error: ', err)
                   deleteBasketCache(csrfItem)
+                  handleError(err)
                 })
             })
             .catch((err) => {
-              console.error('@error: ', err)
               deleteBasketCache(csrfItem)
+              handleError(err)
             })
         })
         .catch((err) => {
-          console.error('@error: ', err)
           deleteBasketCache(csrfItem)
+          handleError(err)
         })
     }
+  }
+
+  /**
+   * Handle Error
+   * Remove basket cache to continue
+   */
+  const handleError = () => {
+    setModalMessage(
+      'システムエラーが発生しました。しばらくしてから再度実行してください。'
+    )
+
+    handleCheckoutModalClose()
+    handleCheckoutMessageModalOpen()
   }
 
   async function saveToBasket() {
@@ -235,7 +251,8 @@ const CartList = (props) => {
         console.log('@create product to basket')
       })
       .catch((err) => {
-        console.error('@error', err)
+        deleteBasketCache(csrfItem)
+        handleError(err)
       })
   }
 
@@ -289,15 +306,16 @@ const CartList = (props) => {
           .then(() => {
             console.log('@created delivery service')
             // set address for invoice
+            createAddressService('payment')
           })
           .catch((err) => {
-            console.warn('@error: ', err)
             deleteBasketCache(csrfItem)
+            handleError(err)
           })
       })
       .catch((err) => {
-        console.warn('@error: ', err)
         deleteBasketCache(csrfItem)
+        handleError(err)
       })
   }
 
@@ -323,7 +341,7 @@ const CartList = (props) => {
         }
       ]
     }
-    await axios
+    axios
       .post(`${addressUrl}&_token=${csrfItem.value}`, JSON.stringify(params), {
         'Content-Type': 'application/json'
       })
@@ -419,8 +437,8 @@ const CartList = (props) => {
             })
           })
           .catch((err) => {
-            console.error('@error', err)
             deleteBasketCache(csrfItem)
+            handleError(err)
           })
       })
   }
@@ -512,8 +530,8 @@ const CartList = (props) => {
             handleCheckoutMessageModalOpen()
           })
           .catch((err) => {
-            console.error('@error', err)
             deleteBasketCache(csrfItem)
+            handleError(err)
           })
         break
       }
@@ -547,8 +565,8 @@ const CartList = (props) => {
             handleCheckoutMessageModalOpen()
           })
           .catch((err) => {
-            console.error('@error', err.error)
             deleteBasketCache(csrfItem)
+            handleError(err)
           })
       }
     }

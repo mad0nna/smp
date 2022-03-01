@@ -126,7 +126,7 @@ $enc = $this->encoder();
        </thead>
       <tbody>
         <?php $totalQty = 0; $index = 0 ?>
-      <?php foreach( $this->summaryBasket->getProducts() as $product ) : $totalQty += $product->getQuantity()?>
+      <?php foreach( $this->summaryBasket->getProducts() as $product ) : $totalQty += $product->getQuantity() ?>
       <?php $index++ ?>
         <tr>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($index , $enc::TRUST) ?></td>
