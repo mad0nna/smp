@@ -183,7 +183,7 @@ $deliveryStatusList1 = [
 							<?php $baseItem = ( isset( $baseItems[$item->getBaseId()] ) ? $baseItems[$item->getBaseId()] : null ) ?>
 							<?php if( in_array( 'order.baseid', $fields ) ) : ?>
 								<td class="order-baseid">
-									¥<?= $enc->html( $baseItem->getPrice()->getValue() + $baseItem->getPrice()->getTaxValue() )  ?>
+									<?= $enc->html( $baseItem->getPrice()->getValue() + $baseItem->getPrice()->getTaxValue() )  ?>円
 								</td>
 							<?php endif ?>
 							<?php if( in_array( 'order.ctime', $fields ) ) : ?>
