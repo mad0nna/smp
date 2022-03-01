@@ -815,7 +815,7 @@ $paymentStatusList2 = [
 													<div class="col-6 "> <?= $enc->html( $orderProduct->getName() ) ?> </div>
 													 
 														<div class="col-3 " style="padding:0"> <?= $orderProduct->getQuantity() ?></div>
-														<div class="col-3 value" style="padding-right:0"><i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format($orderProduct->getPrice()->getValue()) ?></div>
+														<div class="col-3 value" style="padding-right:0"><?= number_format($orderProduct->getPrice()->getValue()) ?>円</div>
 													 
 													
 												</div>
@@ -828,7 +828,7 @@ $paymentStatusList2 = [
 											<div class="col-6 row" style="padding:0">
 												<div class="col-8 value"><?= $enc->html( $this->translate( 'admin', '⼩計 :' ) ) ?></div>
 												<div class="col-4 value" style="padding-right:0">
-													<i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format( $basket->getPrice()->getValue() ) ?>
+													<?= number_format( $basket->getPrice()->getValue() ) ?>円
 												</div>
 											</div>
 										</div>
@@ -844,7 +844,7 @@ $paymentStatusList2 = [
 													<?php endif ?>
 												</div>
 												<div class="col-4 value" style="padding-right:0"> 
-													<i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format( $basket->getPrice()->getTaxValue() ) ?>
+													<?= number_format( $basket->getPrice()->getTaxValue() ) ?>円
 												</div>
 											</div>
 										</div> 
@@ -853,7 +853,7 @@ $paymentStatusList2 = [
 												<div class="col-6 name"></div>
 												<div class="col-6 value row" style="padding:0">
 													<div class="col-8 value"><?= $enc->html( $this->translate( 'admin', '合計:' ) ) ?></div>
-													<div class="col-4 value" style="padding-right:0"><i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() ) ?></div>
+													<div class="col-4 value" style="padding-right:0"><?= number_format( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() ) ?>円</div>
 												</div>
 											</div>
 										<?php endif ?>
@@ -863,7 +863,7 @@ $paymentStatusList2 = [
 												<div class="col-6 name"> </div>
 												<div class="col-6 value row" style="padding:0"> 
 													<div class="col-8 value"><?= $enc->html( $this->translate( 'admin', '合計:' ) ) ?></div>
-													<div class="col-4 value" style="padding-right:0"><i class="fa fa-jpy" aria-hidden="true"></i> <?= number_format( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() + $basket->getPrice()->getTaxValue() ) ?></div>
+													<div class="col-4 value" style="padding-right:0"><?= number_format( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() + $basket->getPrice()->getTaxValue() ) ?>円</div>
 												</div>
 											</div>
 										<?php endif ?>
