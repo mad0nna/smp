@@ -74,7 +74,9 @@ const CartList = (props) => {
     updateItemQuantity(item.id, updateQuantity)
   }
 
-  const handleOrderChange = () => {}
+  const handleOrderChange = (value, item) => {
+    updateItemQuantity(item.id, parseInt(value))
+  }
 
   const handleDeleteItem = (id) => {
     removeItem(id)
@@ -628,7 +630,7 @@ const CartList = (props) => {
                 min="1"
                 value={item.quantity}
                 onChange={(e) => {
-                  handleOrderChange(e.target.value)
+                  handleOrderChange(e.target.value, item)
                 }}
               />
               <svg
