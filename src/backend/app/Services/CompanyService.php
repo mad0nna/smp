@@ -137,7 +137,7 @@ class CompanyService
                 $join->on('users.company_id', '=', 'companies.id');
             }); 
             
-            $query = $query->where('name', 'LIKE', "%{$conditions['keyword']}%")
+            $query = $query->where('company_name', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('company_code', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('industry', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('companies.contact_num', 'LIKE', "%{$conditions['keyword']}%")
