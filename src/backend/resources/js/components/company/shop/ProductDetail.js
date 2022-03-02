@@ -135,9 +135,10 @@ const ProductDetail = (props) => {
       alert('カートに追加できませんでした。在庫がありません。')
       return false
     }
-
-    addItem(productDetail, state.orderNum)
-    history.push({ pathname: '/company/cart', state: productDetail })
+    if (productDetail.defaultStock > 0) {
+      addItem(productDetail, state.orderNum)
+      history.push({ pathname: '/company/cart', state: productDetail })
+    }
   }
 
   const productDetailItem = () => {
