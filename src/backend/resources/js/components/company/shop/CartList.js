@@ -78,7 +78,11 @@ const CartList = (props) => {
   }
 
   const handleOrderChange = (value, item) => {
+    // if (item.defaultStock <= item.quantity) {
+    //   return
+    // } else {
     updateItemQuantity(item.id, parseInt(value))
+    // }
   }
 
   const handleDeleteItem = (id) => {
@@ -662,6 +666,7 @@ const CartList = (props) => {
                 type="number"
                 className="w-14 shadow-lg rounded font-bold text-red-500 border px-1 text-right"
                 min="1"
+                max={item.defaultStock}
                 value={item.quantity}
                 onChange={(e) => {
                   handleOrderChange(e.target.value, item)
@@ -696,7 +701,9 @@ const CartList = (props) => {
                 注文可能数に達しました
               </span>
             ) : item.defaultStock <= item.quantity ? (
-              '数量が現在の在庫より多い'
+              <span className="flex justify-center items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                数量が現在の在庫より多い
+              </span>
             ) : (
               ''
             )}
