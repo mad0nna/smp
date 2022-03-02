@@ -112,6 +112,10 @@ class ShoppingController extends Controller
             return back();
             
         } catch (\Exception $e) {
+             
+            Session::put('aimeos/admin/jqadm/product/notification-status', 'failed');
+            Session::put('aimeos/admin/jqadm/product/notification-message', 'アップロードしたCSVが認識されない、もしくはファイルの読み取りが正常に行われませんでした。');
+             
             return back()->with([
                     'error' => $e->getMessage(),
                     'code' => 500,
