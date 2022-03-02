@@ -572,7 +572,8 @@ $columnList = [
 
 	<?  if (session()->has('aimeos/admin/jqadm/product/notification-message')) {?>
 		<nav class="main-navbar">
-			<span class="navbar-brand <?= session('aimeos/admin/jqadm/product/notification-status') === "success" ? "  " : " navbar-brand-error" ?>">
+			<span class="navbar-brand <?= session('aimeos/admin/jqadm/product/notification-status') === "failed" ? " navbar-brand-error " : " " ?> 
+									  <?= session('aimeos/admin/jqadm/product/notification-status') === "warning" ? " navbar-brand-warning " : " " ?>">
 				<?= session('aimeos/admin/jqadm/product/notification-message') ?>
 				<? session()->forget('aimeos/admin/jqadm/product/notification-status');  ?>
 				<? session()->forget('aimeos/admin/jqadm/product/notification-message');  ?>
