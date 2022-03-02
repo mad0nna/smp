@@ -645,9 +645,15 @@ const CartList = (props) => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                className={`bi bi-dash-circle text-gray-500 mt-1 font-semibold cursor-pointer cursor-pointer`}
+                className={`bi bi-dash-circle text-gray-500 mt-1 font-semibold  ${
+                  item.quantity == 1
+                    ? 'opacity-50 cursor-not-allowed'
+                    : 'cursor-pointer'
+                }`}
                 viewBox="0 0 16 16"
-                onClick={() => handleDecOrder(item)}
+                onClick={() =>
+                  item.quantity == 1 ? null : handleDecOrder(item)
+                }
               >
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                 <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
@@ -659,6 +665,9 @@ const CartList = (props) => {
                 value={item.quantity}
                 onChange={(e) => {
                   handleOrderChange(e.target.value, item)
+                }}
+                onKeyDown={(event) => {
+                  event.preventDefault()
                 }}
               />
               <svg

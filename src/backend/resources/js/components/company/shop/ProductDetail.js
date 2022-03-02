@@ -26,6 +26,10 @@ const ProductDetail = (props) => {
     defaultStock: 0,
     meta: []
   })
+
+  const [itemData] = useState(useCart())
+  const hasRelaod = itemData.addItem || []
+
   const parseProductData = (data) => {
     const { media, price, product, text, stock, meta } = data
 
@@ -274,6 +278,12 @@ const ProductDetail = (props) => {
       parseProductData(location.detail)
     }
   }, [props])
+
+  useEffect(() => {
+    if (performance.navigation.type === 1 && hasRelaod.length === 0) {
+      window.location.replace('/company/shop')
+    }
+  })
 
   return (
     <div className="bg-mainbg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
