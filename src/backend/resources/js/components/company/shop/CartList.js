@@ -10,7 +10,9 @@ import CheckoutMessage from './CheckoutMessage'
 import CheckoutContent from './CheckoutContent'
 import CheckoutAddress from './CheckoutAddress'
 // eslint-disable-next-line
+import emailStamp from '../../../../img/email/email-stamp.png'
 // eslint-disable-next-line
+import emailLogo from '../../../../img/email/email-logo.png'
 const CartList = (props) => {
   const SERVICE_TYPE = 'payment'
   const [isAgreedTerms, setAgreedTerms] = useState(false)
@@ -25,11 +27,10 @@ const CartList = (props) => {
     modalCheckoutContentDisplay: false,
     htmlContent: '',
     addressModalDisplay: false,
-    messageContent:
-      'ご請求書を発行いたしました。ご登録のメールアドレスをご確認してください。',
     loader: false,
     isSubmit: false
   })
+
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
     email: userData.email || '',
@@ -42,6 +43,7 @@ const CartList = (props) => {
     prefecture: '',
     number: ''
   })
+  console.log(addressData)
   const [errorData, setErrorData] = useState({
     email: false,
     company_name: false,
@@ -54,6 +56,7 @@ const CartList = (props) => {
     prefecture: false,
     number: false
   })
+  console.log(errorData)
   const history = useHistory()
   const { cartTotal, items, updateItemQuantity, removeItem, emptyCart } =
     useCart()
@@ -135,6 +138,18 @@ const CartList = (props) => {
   //   }
   // }
   const handleOpenAddressModal = () => {
+    setAddressData({
+      company_name: userData.companyCode || '',
+      email: userData.email || '',
+      first_name: userData.firstName || '',
+      last_name: userData.lastName || '',
+      street_address: '',
+      building_name: '',
+      city: '',
+      postal_code: '',
+      prefecture: '',
+      number: ''
+    })
     setState((prevState) => {
       return {
         ...prevState,
@@ -145,6 +160,7 @@ const CartList = (props) => {
   }
 
   const handleCheckoutModalOpen = () => {
+    formValidation()
     if (Object.values(errorData).includes(true)) {
       setState((prevState) => {
         return {
@@ -167,50 +183,34 @@ const CartList = (props) => {
             .then(() => {
               createDeliveryService()
                 .then(() => {
-                  createPaymentService()
-                    .then(() => {
-                      setState((prevState) => {
-                        return {
-                          ...prevState,
-                          addressModalDisplay: !prevState.addressModalDisplay,
-                          modalDisplay: !prevState.modalDisplay,
-                          loader: !prevState.loader
-                        }
-                      })
-                    })
-                    .catch((err) => {
-                      deleteBasketCache(csrfItem)
-                      handleError(err)
-                    })
+                  createPaymentService().catch((err) => {
+                    console.error('@error: ', err)
+                    deleteBasketCache(csrfItem)
+                  })
+                  setState((prevState) => {
+                    return {
+                      ...prevState,
+                      addressModalDisplay: !prevState.addressModalDisplay,
+                      modalDisplay: !prevState.modalDisplay,
+                      loader: !prevState.loader
+                    }
+                  })
                 })
                 .catch((err) => {
+                  console.error('@error: ', err)
                   deleteBasketCache(csrfItem)
-                  handleError(err)
                 })
             })
             .catch((err) => {
+              console.error('@error: ', err)
               deleteBasketCache(csrfItem)
-              handleError(err)
             })
         })
         .catch((err) => {
+          console.error('@error: ', err)
           deleteBasketCache(csrfItem)
-          handleError(err)
         })
     }
-  }
-
-  /**
-   * Handle Error
-   * Remove basket cache to continue
-   */
-  const handleError = () => {
-    setModalMessage(
-      'システムエラーが発生しました。しばらくしてから再度実行してください。'
-    )
-
-    handleCheckoutModalClose()
-    handleCheckoutMessageModalOpen()
   }
 
   async function saveToBasket() {
@@ -251,8 +251,7 @@ const CartList = (props) => {
         console.log('@create product to basket')
       })
       .catch((err) => {
-        deleteBasketCache(csrfItem)
-        handleError(err)
+        console.error('@error', err)
       })
   }
 
@@ -306,16 +305,15 @@ const CartList = (props) => {
           .then(() => {
             console.log('@created delivery service')
             // set address for invoice
-            createAddressService('payment')
           })
           .catch((err) => {
+            console.warn('@error: ', err)
             deleteBasketCache(csrfItem)
-            handleError(err)
           })
       })
       .catch((err) => {
+        console.warn('@error: ', err)
         deleteBasketCache(csrfItem)
-        handleError(err)
       })
   }
 
@@ -341,7 +339,7 @@ const CartList = (props) => {
         }
       ]
     }
-    axios
+    await axios
       .post(`${addressUrl}&_token=${csrfItem.value}`, JSON.stringify(params), {
         'Content-Type': 'application/json'
       })
@@ -437,8 +435,8 @@ const CartList = (props) => {
             })
           })
           .catch((err) => {
+            console.error('@error', err)
             deleteBasketCache(csrfItem)
-            handleError(err)
           })
       })
   }
@@ -449,6 +447,18 @@ const CartList = (props) => {
         addressModalDisplay: false,
         loader: false
       }
+    })
+    setErrorData({
+      email: false,
+      company_name: false,
+      first_name: false,
+      last_name: false,
+      street_address: false,
+      building_name: false,
+      city: false,
+      postal_code: false,
+      prefecture: false,
+      number: false
     })
   }
 
@@ -530,8 +540,8 @@ const CartList = (props) => {
             handleCheckoutMessageModalOpen()
           })
           .catch((err) => {
+            console.error('@error', err)
             deleteBasketCache(csrfItem)
-            handleError(err)
           })
         break
       }
@@ -565,8 +575,8 @@ const CartList = (props) => {
             handleCheckoutMessageModalOpen()
           })
           .catch((err) => {
+            console.error('@error', err.error)
             deleteBasketCache(csrfItem)
-            handleError(err)
           })
       }
     }
@@ -700,30 +710,7 @@ const CartList = (props) => {
     })
   }
 
-  useEffect(() => {
-    // if (_.isEmpty(items)) {
-    //   var userData = JSON.parse(document.getElementById('userData').textContent)
-    //   let lStorage = JSON.parse(
-    //     localStorage.getItem(`react-use-cart-${userData.userId}`)
-    //   )
-    //   setCart({
-    //     ...cart,
-    //     id: lStorage.id,
-    //     items: lStorage.items,
-    //     isEmpty: lStorage.isEmpty,
-    //     totalUniqueItems: lStorage.totalUniqueItems,
-    //     totalItems: lStorage.totalItems,
-    //     cartTotal: lStorage.cartTotal,
-    //     metadata: lStorage.metadata
-    //   })
-    //   //   when refresh
-    //   calculateTaxItem(lStorage)
-    // } else {
-    calculateTaxItem(items)
-    // }
-    // set as cart state
-  }, [items])
-  useEffect(() => {
+  const formValidation = () => {
     new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
       ? setErrorData((prevState) => {
           return { ...prevState, emailIsValid: false }
@@ -749,7 +736,34 @@ const CartList = (props) => {
             isSubmit: false
           }
         })
-  }, [addressData, addressData.email])
+  }
+
+  useEffect(() => {
+    // if (_.isEmpty(items)) {
+    //   var userData = JSON.parse(document.getElementById('userData').textContent)
+    //   let lStorage = JSON.parse(
+    //     localStorage.getItem(`react-use-cart-${userData.userId}`)
+    //   )
+    //   setCart({
+    //     ...cart,
+    //     id: lStorage.id,
+    //     items: lStorage.items,
+    //     isEmpty: lStorage.isEmpty,
+    //     totalUniqueItems: lStorage.totalUniqueItems,
+    //     totalItems: lStorage.totalItems,
+    //     cartTotal: lStorage.cartTotal,
+    //     metadata: lStorage.metadata
+    //   })
+    //   //   when refresh
+    //   calculateTaxItem(lStorage)
+    // } else {
+    calculateTaxItem(items)
+    // }
+    // set as cart state
+  }, [items])
+  useEffect(() => {
+    formValidation()
+  }, [addressData, addressData.email, state.addressModalDisplay])
   return (
     <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
       <div className="md:col-span-1 lg:col-span-3 pb-5">

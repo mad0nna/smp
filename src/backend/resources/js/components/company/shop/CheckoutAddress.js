@@ -53,158 +53,163 @@ const CheckoutAddress = (props) => {
   return (
     <div className="fixed w-full h-full top-0 left-0 flex items-center justify-center">
       <div className="absolute w-full h-full bg-gray-900 opacity-50"></div>
-      <div className="bg-white rounded-lg md:max-w-auto md:mx-auto p-10 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative">
+      <div className="bg-white rounded-lg md:max-w-auto md:mx-auto p-10 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative w-10/12">
         <div className="flex flex-wrap gap-0 w-full justify-start">
-          <div className="flex w-full flex-wrap gap-0 text-gray-700 items-center mt-5">
+          <div className="w-full flex-wrap gap-0 text-gray-700 items-center mt-5">
             <div className="text-center w-full text-secondary-200 font-black mb-8 font-semibold">
               配送先を入力してください
             </div>
-            <form className="w-full">
-              <div className="md:flex md:items-center mb-5">
-                <div className="md:w-1/3">
-                  <label
-                    className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
-                    htmlFor="inline-company-name"
-                  >
-                    貴社名<span className="text-red-500 font-bold"> *</span>
-                  </label>
-                </div>
-                <div className="md:w-2/3">
-                  <input
-                    className={`bg-gray-200 appearance-none border-2 ${
-                      props.error.company_name && props.isSubmit
-                        ? 'border-red-700'
-                        : 'border-gray-200'
-                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
-                    id="inline-company-name"
-                    type="text"
-                    name="company_name"
-                    value={props.state.company_name || ''}
-                    onChange={props.handleTextOnChanage}
-                    required
-                  />
-                  {props.error.company_name && props.isSubmit ? (
-                    <p
-                      className="text-xs text-red-700 w-full pt-2"
-                      id="passwordHelp"
-                    >
-                      貴社名を入力してください
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-              <div className="md:flex md:items-center mb-5">
-                <div className="md:w-1/3">
-                  <label
-                    className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
-                    htmlFor="inline-last-name"
-                  >
-                    名前（性）<span className="text-red-500 font-bold">*</span>
-                  </label>
-                </div>
-                <div className="md:w-2/3">
-                  <input
-                    className={`bg-gray-200 appearance-none border-2 ${
-                      props.error.last_name && props.isSubmit
-                        ? 'border-red-700'
-                        : 'border-gray-200'
-                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
-                    id="inline-last-name"
-                    type="text"
-                    name="last_name"
-                    value={props.state.last_name || ''}
-                    onChange={props.handleTextOnChanage}
-                    required
-                  />
-                  {props.error.last_name && props.isSubmit ? (
-                    <p
-                      className="text-xs text-red-700 w-full pt-2"
-                      id="passwordHelp"
-                    >
-                      名前（性）を入力してください
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-              <div className="md:flex md:items-center mb-5">
-                <div className="md:w-1/3">
-                  <label
-                    className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
-                    htmlFor="inline-first-name"
-                  >
-                    名前（名）<span className="text-red-500 font-bold">*</span>
-                  </label>
-                </div>
-                <div className="md:w-2/3">
-                  <input
-                    className={`bg-gray-200 appearance-none border-2 ${
-                      props.error.first_name && props.isSubmit
-                        ? 'border-red-700'
-                        : 'border-gray-200'
-                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
-                    id="inline-first-name"
-                    type="text"
-                    name="first_name"
-                    value={props.state.first_name || ''}
-                    onChange={props.handleTextOnChanage}
-                    required
-                  />
-                  {props.error.first_name && props.isSubmit ? (
-                    <p
-                      className="text-xs text-red-700 w-full pt-2"
-                      id="passwordHelp"
-                    >
-                      名前（名）を入力してください
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-              <div className="md:flex md:items-center mb-5">
-                <div className="md:w-1/3">
-                  <label
-                    className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
-                    htmlFor="inline-address-name"
-                  >
-                    配送先 郵便番号
-                    <span className="text-red-500 font-bold"> *</span>
-                  </label>
-                </div>
-                <div className="md:w-2/3">
-                  <input
-                    className={`bg-gray-200 appearance-none border-2 ${
-                      props.error.postal_code && props.isSubmit
-                        ? 'border-red-700'
-                        : 'border-gray-200'
-                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
-                    id="inline-address-name"
-                    type="text"
-                    name="postal_code"
-                    value={props.state.postal_code || ''}
-                    onChange={props.handleNumberOnChange}
-                    required
-                  />
-                  {props.error.postal_code && props.isSubmit ? (
-                    <p
-                      className="text-xs text-red-700 w-full pt-2"
-                      id="passwordHelp"
-                    >
-                      配送先 郵便番号を入力してください
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-              <div className="md:flex md:items-center mb-5">
-                <div className="md:w-1/3">
-                  <label
-                    className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
-                    htmlFor="inline-address-name"
-                  >
-                    配送先 都道府県
-                    <span className="text-red-500 font-bold"> *</span>
-                  </label>
-                </div>
-                <div className="md:w-2/3">
-                  {/* <input
+            <div className="md:flex md:items-center mb-5">
+              <div className="md:w-3/6 pr-5">
+                {' '}
+                <form className="w-full">
+                  <div className="md:flex md:items-center mb-4">
+                    <div className="md:w-1/3">
+                      <label
+                        className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
+                        htmlFor="inline-company-name"
+                      >
+                        貴社名<span className="text-red-500 font-bold"> *</span>
+                      </label>
+                    </div>
+                    <div className="md:w-2/3">
+                      <input
+                        className={`bg-gray-200 appearance-none border-2 ${
+                          props.error.company_name && props.isSubmit
+                            ? 'border-red-700'
+                            : 'border-gray-200'
+                        } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
+                        id="inline-company-name"
+                        type="text"
+                        name="company_name"
+                        value={props.state.company_name || ''}
+                        onChange={props.handleTextOnChanage}
+                        required
+                      />
+                      {props.error.company_name && props.isSubmit ? (
+                        <span
+                          className="text-xs text-red-700 w-full"
+                          id="passwordHelp"
+                        >
+                          貴社名を入力してください
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="md:flex md:items-center mb-4">
+                    <div className="md:w-1/3">
+                      <label
+                        className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
+                        htmlFor="inline-last-name"
+                      >
+                        名前（性）
+                        <span className="text-red-500 font-bold">*</span>
+                      </label>
+                    </div>
+                    <div className="md:w-2/3">
+                      <input
+                        className={`bg-gray-200 appearance-none border-2 ${
+                          props.error.last_name && props.isSubmit
+                            ? 'border-red-700'
+                            : 'border-gray-200'
+                        } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
+                        id="inline-last-name"
+                        type="text"
+                        name="last_name"
+                        value={props.state.last_name || ''}
+                        onChange={props.handleTextOnChanage}
+                        required
+                      />
+                      {props.error.last_name && props.isSubmit ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          名前（性）を入力してください
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="md:flex md:items-center mb-4">
+                    <div className="md:w-1/3">
+                      <label
+                        className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
+                        htmlFor="inline-first-name"
+                      >
+                        名前（名）
+                        <span className="text-red-500 font-bold">*</span>
+                      </label>
+                    </div>
+                    <div className="md:w-2/3">
+                      <input
+                        className={`bg-gray-200 appearance-none border-2 ${
+                          props.error.first_name && props.isSubmit
+                            ? 'border-red-700'
+                            : 'border-gray-200'
+                        } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
+                        id="inline-first-name"
+                        type="text"
+                        name="first_name"
+                        value={props.state.first_name || ''}
+                        onChange={props.handleTextOnChanage}
+                        required
+                      />
+                      {props.error.first_name && props.isSubmit ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          名前（名）を入力してください
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="md:flex md:items-center mb-4">
+                    <div className="md:w-1/3">
+                      <label
+                        className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
+                        htmlFor="inline-address-name"
+                      >
+                        配送先 郵便番号
+                        <span className="text-red-500 font-bold"> *</span>
+                      </label>
+                    </div>
+                    <div className="md:w-2/3">
+                      <input
+                        className={`bg-gray-200 appearance-none border-2 ${
+                          props.error.postal_code && props.isSubmit
+                            ? 'border-red-700'
+                            : 'border-gray-200'
+                        } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
+                        id="inline-address-name"
+                        type="text"
+                        name="postal_code"
+                        value={props.state.postal_code || ''}
+                        onChange={props.handleNumberOnChange}
+                        required
+                      />
+                      {props.error.postal_code && props.isSubmit ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          配送先 郵便番号を入力してください
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="md:flex md:items-center mb-4">
+                    <div className="md:w-1/3">
+                      <label
+                        className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
+                        htmlFor="inline-address-name"
+                      >
+                        配送先 都道府県
+                        <span className="text-red-500 font-bold"> *</span>
+                      </label>
+                    </div>
+                    <div className="md:w-2/3">
+                      {/* <input
                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
                     id="inline-address-name"
                     type="text"
@@ -213,9 +218,9 @@ const CheckoutAddress = (props) => {
                     onChange={props.handleOnChange}
                     required
                   /> */}
-                  <div className="relative inline-block w-full text-gray-700">
-                    <select
-                      className={`form-select appearance-none
+                      <div className="relative inline-block w-full text-gray-700">
+                        <select
+                          className={`form-select appearance-none
                     block
                     w-full
                     px-3
@@ -235,214 +240,225 @@ const CheckoutAddress = (props) => {
                     ease-in-out
                     m-0
                     focus:text-gray-700 focus:bg-white focus:border-grey-700 focus:outline-none`}
-                      onChange={props.handleSelectOnChange}
-                      name="prefecture"
-                    >
-                      <option value="">都道府県を選択してください</option>
-                      {prefectureData.map((data, key) => (
-                        <option key={key} value={data.value}>
-                          {data.name}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                        <path
-                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                          fillRule="evenodd"
-                        ></path>
-                      </svg>
+                          onChange={props.handleSelectOnChange}
+                          name="prefecture"
+                          style={{ fontSize: '15px', height: '32px' }}
+                        >
+                          <option value="">都道府県を選択してください</option>
+                          {prefectureData.map((data, key) => (
+                            <option key={key} value={data.value}>
+                              {data.name}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                          <svg
+                            className="w-4 h-4 fill-current"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                              fillRule="evenodd"
+                            ></path>
+                          </svg>
+                        </div>
+                      </div>
+                      {props.error.prefecture && props.isSubmit ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          配送先 都道府県を選択してください
+                        </p>
+                      ) : null}
                     </div>
                   </div>
-                  {props.error.prefecture && props.isSubmit ? (
-                    <p
-                      className="text-xs text-red-700 w-full pt-2"
-                      id="passwordHelp"
-                    >
-                      配送先 都道府県を選択してください
-                    </p>
-                  ) : null}
-                </div>
+                </form>
               </div>
-              <div className="md:flex md:items-center mb-5">
-                <div className="md:w-1/3">
-                  <label
-                    className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
-                    htmlFor="inline-address-name"
-                  >
-                    配送先 市区町村
-                    <span className="text-red-500 font-bold"> *</span>
-                  </label>
-                </div>
-                <div className="md:w-2/3">
-                  <input
-                    className={`bg-gray-200 appearance-none border-2 ${
-                      props.error.city && props.isSubmit
-                        ? 'border-red-700'
-                        : 'border-gray-200'
-                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
-                    id="inline-address-name"
-                    type="text"
-                    name="city"
-                    value={props.state.city || ''}
-                    onChange={props.handleTextOnChanage}
-                    required
-                  />
-                  {props.error.city && props.isSubmit ? (
-                    <p
-                      className="text-xs text-red-700 w-full pt-2"
-                      id="passwordHelp"
-                    >
-                      配送先 市区町村を入力してください
-                    </p>
-                  ) : null}
-                </div>
+              <div className="md:w-3/6">
+                <form className="w-full">
+                  <div className="md:flex md:items-center mb-4">
+                    <div className="md:w-1/3">
+                      <label
+                        className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
+                        htmlFor="inline-address-name"
+                      >
+                        配送先 市区町村
+                        <span className="text-red-500 font-bold"> *</span>
+                      </label>
+                    </div>
+                    <div className="md:w-2/3">
+                      <input
+                        className={`bg-gray-200 appearance-none border-2 ${
+                          props.error.city && props.isSubmit
+                            ? 'border-red-700'
+                            : 'border-gray-200'
+                        } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
+                        id="inline-address-name"
+                        type="text"
+                        name="city"
+                        value={props.state.city || ''}
+                        onChange={props.handleTextOnChanage}
+                        required
+                      />
+                      {props.error.city && props.isSubmit ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          配送先 市区町村を入力してください
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="md:flex md:items-center mb-4">
+                    <div className="md:w-1/3">
+                      <label
+                        className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
+                        htmlFor="inline-address-name"
+                      >
+                        配送先 町域・番地
+                        <span className="text-red-500 font-bold"> *</span>
+                      </label>
+                    </div>
+                    <div className="md:w-2/3">
+                      <input
+                        className={`bg-gray-200 appearance-none border-2 ${
+                          props.error.street_address && props.isSubmit
+                            ? 'border-red-700'
+                            : 'border-gray-200'
+                        } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
+                        id="inline-address-name"
+                        type="text"
+                        name="street_address"
+                        value={props.state.street_address || ''}
+                        onChange={props.handleOnChange}
+                        required
+                      />
+                      {props.error.street_address && props.isSubmit ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          配送先 町域・番地を入力してください
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="md:flex md:items-center mb-4">
+                    <div className="md:w-1/3">
+                      <label
+                        className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
+                        htmlFor="inline-address-name"
+                      >
+                        配送先 ビル建物名など
+                        <span className="text-red-500 font-bold"> *</span>
+                      </label>
+                    </div>
+                    <div className="md:w-2/3">
+                      <input
+                        className={`bg-gray-200 appearance-none border-2 ${
+                          props.error.building_name && props.isSubmit
+                            ? 'border-red-700'
+                            : 'border-gray-200'
+                        } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
+                        id="inline-address-name"
+                        type="text"
+                        name="building_name"
+                        value={props.state.building_name || ''}
+                        onChange={props.handleOnChange}
+                        required
+                      />
+                      {props.error.building_name && props.isSubmit ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          配送先 ビル建物名を入力してください
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="md:flex md:items-center mb-4">
+                    <div className="md:w-1/3">
+                      <label
+                        className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
+                        htmlFor="inline-address-name"
+                      >
+                        配送先 電話番号
+                        <span className="text-red-500 font-bold"> *</span>
+                      </label>
+                    </div>
+                    <div className="md:w-2/3">
+                      <input
+                        className={`bg-gray-200 appearance-none border-2 ${
+                          props.error.number && props.isSubmit
+                            ? 'border-red-700'
+                            : 'border-gray-200'
+                        } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
+                        id="inline-address-name"
+                        type="tel"
+                        name="number"
+                        onChange={props.handleNumberOnChange}
+                        value={props.state.number || ''}
+                        required
+                      />
+                      {props.error.number && props.isSubmit ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          配送先 電話番号を入力してください
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="md:flex md:items-center mb-4">
+                    <div className="md:w-1/3">
+                      <label
+                        className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
+                        htmlFor="inline-mail-name"
+                      >
+                        担当者 メールアドレス
+                        <span className="text-red-500 font-bold"> *</span>
+                      </label>
+                    </div>
+                    <div className="md:w-2/3">
+                      <input
+                        className={`bg-gray-200 appearance-none border-2 ${
+                          props.error.email && props.isSubmit
+                            ? 'border-red-700'
+                            : 'border-gray-200'
+                        } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
+                        id="inline-mail-name"
+                        type="email"
+                        name="email"
+                        value={props.state.email || ''}
+                        onChange={props.handleSelectOnChange}
+                        required
+                      />
+                      {props.error.email && props.isSubmit ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          担当者メールアドレスを入力してください
+                        </p>
+                      ) : props.error.emailIsValid ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          有効なメールアドレスを入力してください
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                </form>
               </div>
-              <div className="md:flex md:items-center mb-5">
-                <div className="md:w-1/3">
-                  <label
-                    className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
-                    htmlFor="inline-address-name"
-                  >
-                    配送先 町域・番地
-                    <span className="text-red-500 font-bold"> *</span>
-                  </label>
-                </div>
-                <div className="md:w-2/3">
-                  <input
-                    className={`bg-gray-200 appearance-none border-2 ${
-                      props.error.street_address && props.isSubmit
-                        ? 'border-red-700'
-                        : 'border-gray-200'
-                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
-                    id="inline-address-name"
-                    type="text"
-                    name="street_address"
-                    value={props.state.street_address || ''}
-                    onChange={props.handleOnChange}
-                    required
-                  />
-                  {props.error.street_address && props.isSubmit ? (
-                    <p
-                      className="text-xs text-red-700 w-full pt-2"
-                      id="passwordHelp"
-                    >
-                      配送先 町域・番地を入力してください
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-              <div className="md:flex md:items-center mb-5">
-                <div className="md:w-1/3">
-                  <label
-                    className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
-                    htmlFor="inline-address-name"
-                  >
-                    配送先 ビル建物名など
-                    <span className="text-red-500 font-bold"> *</span>
-                  </label>
-                </div>
-                <div className="md:w-2/3">
-                  <input
-                    className={`bg-gray-200 appearance-none border-2 ${
-                      props.error.building_name && props.isSubmit
-                        ? 'border-red-700'
-                        : 'border-gray-200'
-                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
-                    id="inline-address-name"
-                    type="text"
-                    name="building_name"
-                    value={props.state.building_name || ''}
-                    onChange={props.handleOnChange}
-                    required
-                  />
-                  {props.error.building_name && props.isSubmit ? (
-                    <p
-                      className="text-xs text-red-700 w-full pt-2"
-                      id="passwordHelp"
-                    >
-                      配送先 ビル建物名を入力してください
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-              <div className="md:flex md:items-center mb-5">
-                <div className="md:w-1/3">
-                  <label
-                    className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
-                    htmlFor="inline-address-name"
-                  >
-                    配送先 電話番号
-                    <span className="text-red-500 font-bold"> *</span>
-                  </label>
-                </div>
-                <div className="md:w-2/3">
-                  <input
-                    className={`bg-gray-200 appearance-none border-2 ${
-                      props.error.number && props.isSubmit
-                        ? 'border-red-700'
-                        : 'border-gray-200'
-                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
-                    id="inline-address-name"
-                    type="tel"
-                    name="number"
-                    onChange={props.handleNumberOnChange}
-                    value={props.state.number || ''}
-                    required
-                  />
-                  {props.error.number && props.isSubmit ? (
-                    <p
-                      className="text-xs text-red-700 w-full pt-2"
-                      id="passwordHelp"
-                    >
-                      配送先 電話番号を入力してください
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-              <div className="md:flex md:items-center mb-5">
-                <div className="md:w-1/3">
-                  <label
-                    className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
-                    htmlFor="inline-mail-name"
-                  >
-                    担当者 メールアドレス
-                    <span className="text-red-500 font-bold"> *</span>
-                  </label>
-                </div>
-                <div className="md:w-2/3">
-                  <input
-                    className={`bg-gray-200 appearance-none border-2 ${
-                      props.error.email && props.isSubmit
-                        ? 'border-red-700'
-                        : 'border-gray-200'
-                    } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
-                    id="inline-mail-name"
-                    type="email"
-                    name="email"
-                    value={props.state.email || ''}
-                    onChange={props.handleSelectOnChange}
-                    required
-                  />
-                  {props.error.email && props.isSubmit ? (
-                    <p
-                      className="text-xs text-red-700 w-full pt-2"
-                      id="passwordHelp"
-                    >
-                      担当者メールアドレスを入力してください
-                    </p>
-                  ) : props.error.emailIsValid ? (
-                    <p
-                      className="text-xs text-red-700 w-full pt-2"
-                      id="passwordHelp"
-                    >
-                      有効なメールアドレスを入力してください
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-            </form>
+            </div>
+
             <div className="text-center w-full space-y-5">
               <div className="space-x-5">
                 <button
