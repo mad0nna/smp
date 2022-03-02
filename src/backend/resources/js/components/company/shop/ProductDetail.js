@@ -57,7 +57,6 @@ const ProductDetail = (props) => {
       defaultStock: stock['stock.stocklevel'] ?? 0,
       meta: meta
     })
-
     setState((prevState) => {
       return {
         ...prevState,
@@ -150,6 +149,13 @@ const ProductDetail = (props) => {
         </td>
         <td className="text-center font-bold text-red-500 p-3">
           {productDetail.defaultStock}
+          {productDetail.defaultStock <= 0 ? (
+            <span className="flex justify-center items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+              在庫切れの商品
+            </span>
+          ) : (
+            ''
+          )}
         </td>
         <td className="text-center font-bold p-3">
           <div className="flex m-auto justify-center space-x-3">
@@ -230,7 +236,6 @@ const ProductDetail = (props) => {
       }).then((response) => {
         if (!_.isEmpty(response.data)) {
           let item = response.data
-          console.log(item)
           // getting id from relationship media
           let prodMediaId = item.data.relationships.media.data[0]['id']
           // for long description
@@ -345,11 +350,15 @@ const ProductDetail = (props) => {
                     </button>
                     <button
                       className={`bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold ${
-                        state.orderNum <= 0
+                        state.orderNum <= 0 || productDetail.defaultStock <= 0
                           ? 'bg-opacity-50 cursor-not-allowed'
                           : ''
                       }`}
-                      onClick={state.orderNum <= 0 ? null : handleCartListPage}
+                      onClick={
+                        state.orderNum <= 0 || productDetail.defaultStock <= 0
+                          ? null
+                          : handleCartListPage
+                      }
                     >
                       カートに追加
                     </button>
