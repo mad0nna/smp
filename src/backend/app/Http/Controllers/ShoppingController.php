@@ -106,8 +106,10 @@ class ShoppingController extends Controller
             if($i > 0) {
                 Session::put('aimeos/admin/jqadm/product/notification-status', 'success');
                 Session::put('aimeos/admin/jqadm/product/notification-message', $i .'つの新製品の作成に成功しました。');
+            } else {
+                Session::put('aimeos/admin/jqadm/product/notification-status', 'warning');
+                Session::put('aimeos/admin/jqadm/product/notification-message', 'すでに存在している商品が含まれています');
             }
-
             
             return back();
             
