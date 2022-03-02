@@ -416,3 +416,11 @@ p.upload-csv input {
 {
   display:none;
 }
+
+.navbar-brand-error {
+  color: #ff0000c4 !important;
+}
+
+.aimeos a.shop-logo:hover{
+  text-decoration: none;
+}
