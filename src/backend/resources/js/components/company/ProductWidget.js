@@ -3,7 +3,6 @@ import Ellipsis from '../../../img/ellipsis.png'
 import axios from 'axios'
 import _ from 'lodash'
 import spinner from '../../../img/spinner.gif'
-import { Link } from 'react-router-dom'
 const ProductWidget = () => {
   const API_URL =
     '/jsonapi/product?page[offset]=0&page[limit]=6&include=media,text,price,stock'
