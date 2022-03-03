@@ -61,25 +61,8 @@ const CompanyBilling = () => {
       })
   }, [])
 
-  const search = (text) => {
+  const handSearchClick = () => {
     let results = []
-    if (text === '') {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          billingList: state.masterList,
-          searchMode: false,
-          searchText: ''
-        }
-      })
-    }
-    setState((prevState) => {
-      return {
-        ...prevState,
-        searchText: text,
-        searchMode: true
-      }
-    })
     if (state.currentPage != 1) {
       setState((prevState) => {
         return {
@@ -90,6 +73,7 @@ const CompanyBilling = () => {
         }
       })
     }
+
     state.masterList.map((item) => {
       let searchableKeys = {
         invoiceDate: item.invoiceDate,
@@ -100,7 +84,7 @@ const CompanyBilling = () => {
       let values = Object.values(searchableKeys)
       values.filter((value) => {
         if (typeof value === 'string') {
-          if (value.indexOf(text.trim()) > -1) {
+          if (value.indexOf(state.searchText.trim()) > -1) {
             if (!checkIfExist(item, results)) {
               results.push(item)
             }
@@ -115,6 +99,68 @@ const CompanyBilling = () => {
         numberOfPages: Math.ceil(results.length / 10)
       }
     })
+  }
+
+  const search = (e) => {
+    let text = e.target.value
+    let results = []
+    if (text === '') {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          billingList: state.masterList,
+          searchMode: false,
+          searchText: ''
+        }
+      })
+    }
+
+    setState((prevState) => {
+      return {
+        ...prevState,
+        searchText: text,
+        searchMode: true
+      }
+    })
+
+    if (e.key === 'Enter') {
+      if (state.currentPage != 1) {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            currentPage: 1,
+            maxId: 10,
+            minId: 0
+          }
+        })
+      }
+
+      state.masterList.map((item) => {
+        let searchableKeys = {
+          invoiceDate: item.invoiceDate,
+          invoiceNumber: item.invoiceNumber,
+          amount: item.amount,
+          dueDate: item.dueDate
+        }
+        let values = Object.values(searchableKeys)
+        values.filter((value) => {
+          if (typeof value === 'string') {
+            if (value.indexOf(text.trim()) > -1) {
+              if (!checkIfExist(item, results)) {
+                results.push(item)
+              }
+            }
+          }
+        })
+      })
+      setState((prevState) => {
+        return {
+          ...prevState,
+          billingList: results,
+          numberOfPages: Math.ceil(results.length / 10)
+        }
+      })
+    }
   }
 
   const checkIfExist = (newItem, source) => {
@@ -312,8 +358,9 @@ const CompanyBilling = () => {
                   className="bg-gray-100 h-12 rounded-lg w-96 mx-0 my-auto"
                 >
                   <svg
-                    className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
+                    className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3 cursor-pointer"
                     xmlns="http://www.w3.org/2000/svg"
+                    onClick={handSearchClick}
                     x="30px"
                     y="30px"
                     viewBox="0 0 487.95 487.95"
@@ -332,10 +379,7 @@ const CompanyBilling = () => {
                     id="billingSearch"
                     className="h-full w-80 bg-gray-100 custom-outline-none"
                     placeholder="検索"
-                    value={state.searchText}
-                    onChange={(e) => {
-                      search(e.target.value)
-                    }}
+                    onKeyUp={search}
                   />
                 </div>
               </div>
@@ -364,52 +408,54 @@ const CompanyBilling = () => {
               </tr>
             </thead>
             <tbody>
-              {state.billingList.map((item, index) => {
-                if (index >= state.minId && index <= state.maxId - 1) {
-                  // let txtcolor =
-                  //   item.status === '未払い' ? 'orange' : 'text-gray-500'
-                  return (
-                    <tr
-                      className="table-row h-16 text-sm text-gray-500 hover:bg-gray-50 border-b border-gray-100"
-                      key={index}
-                    >
-                      <td className="text-center">{item.invoiceNumber}</td>
-                      {/* <td className="text-center">{item.billingName}</td> */}
-                      <td className="text-center"> {item.invoiceDate}</td>
-                      <td className="text-center">{item.dueDate}</td>
-                      <td className="text-right">{`${item.amount} 円(税込)`}</td>
-                      {/* <td className={txtcolor + ' text-center'}>-</td> */}
-                      <td className="text-center text-primary-200">
-                        <div
-                          className="inline-block cursor-pointer"
-                          onClick={() => {
-                            getInvoiceFile(
-                              item.body,
-                              item.invoiceNumber,
-                              item.accountNumber
-                            )
-                          }}
+              {state.billingList.length > 0
+                ? state.billingList.map((item, index) => {
+                    if (index >= state.minId && index <= state.maxId - 1) {
+                      // let txtcolor =
+                      //   item.status === '未払い' ? 'orange' : 'text-gray-500'
+                      return (
+                        <tr
+                          key={index}
+                          className="table-row h-16 text-sm text-gray-500 hover:bg-gray-50 border-b border-gray-100"
                         >
-                          請求書&nbsp;
-                        </div>{' '}
-                        {item.billingCSVFileId !== null && (
-                          <div
-                            className="inline-block cursor-pointer"
-                            onClick={() => {
-                              getBillingCSVFile(
-                                item.billingCSVFileId,
-                                item.billingCSVFileName
-                              )
-                            }}
-                          >
-                            請求明細&nbsp;
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  )
-                }
-              })}
+                          <td className="text-center">{item.invoiceNumber}</td>
+                          {/* <td className="text-center">{item.billingName}</td> */}
+                          <td className="text-center"> {item.invoiceDate}</td>
+                          <td className="text-center">{item.dueDate}</td>
+                          <td className="text-right">{`${item.amount} 円(税込)`}</td>
+                          {/* <td className={txtcolor + ' text-center'}>-</td> */}
+                          <td className="text-center text-primary-200">
+                            <div
+                              className="inline-block cursor-pointer"
+                              onClick={() => {
+                                getInvoiceFile(
+                                  item.body,
+                                  item.invoiceNumber,
+                                  item.accountNumber
+                                )
+                              }}
+                            >
+                              請求書&nbsp;
+                            </div>{' '}
+                            {item.billingCSVFileId !== null && (
+                              <div
+                                className="inline-block cursor-pointer"
+                                onClick={() => {
+                                  getBillingCSVFile(
+                                    item.billingCSVFileId,
+                                    item.billingCSVFileName
+                                  )
+                                }}
+                              >
+                                請求明細&nbsp;
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      )
+                    }
+                  })
+                : null}
             </tbody>
           </table>
         </div>
