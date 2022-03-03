@@ -6,7 +6,7 @@ import spinner from '../../../img/spinner.gif'
 
 const ProductWidget = () => {
   const API_URL =
-    '/jsonapi/product?page[offset]=0&page[limit]=4&include=media,text,price'
+    '/jsonapi/product?page[offset]=0&page[limit]=6&include=media,text,price'
   const [state, setState] = useState({
     loading: true
   })
