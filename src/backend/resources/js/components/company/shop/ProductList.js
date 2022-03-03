@@ -297,24 +297,26 @@ const ProductList = () => {
 
         return state.loaded ? (
           <div className="overflow-hidden mx-2" key={index}>
-            {loadedImage ? (
-              <div></div>
-            ) : (
-              <div
-                className="bg-gray-100"
-                style={{ height: '318px', width: '318px' }}
-              >
-                <div className="lg:w-full"></div>
-              </div>
-            )}
-            <img
-              style={{ height: '318px', width: '318px' }}
-              className={loadedImage ? 'mx-auto w-full p-5' : 'hidden'}
-              src={`/aimeos/${product.media['media.preview']}`}
-              onLoad={() => {
-                setLoadedImage(true)
-              }}
-            ></img>
+            <div className="prod-list-img">
+              {loadedImage ? (
+                <div></div>
+              ) : (
+                <div
+                  className="bg-gray-100"
+                  style={{ height: '250px', width: '250px' }}
+                >
+                  <div className="lg:w-full"></div>
+                </div>
+              )}
+              <img
+                style={{ position: 'absolute', bottom: 0 }}
+                className={loadedImage ? 'mx-auto p-5' : 'hidden'}
+                src={`/aimeos/${product.media['media.preview']}`}
+                onLoad={() => {
+                  setLoadedImage(true)
+                }}
+              ></img>
+            </div>
             <div className="flex flex-col justify-between gap-2 pb-2 ">
               <div className="text-red-500 font-bold mt-2 h-10">
                 {product.product['product.label'] ?? ''}
