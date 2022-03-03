@@ -160,17 +160,14 @@ const ProductWidget = () => {
                     className="grid justify-center gap-2 pb-2 overflow-hidden mx-2"
                     key={index}
                   >
-                    <Link
-                      to={{
-                        pathname: `/company/productDetail/?id=${item.product['product.id']}`,
-                        detail: item
-                      }}
+                    <a
+                      href={`/company/productDetail/?id=${item.product['product.id']}`}
                     >
                       <img
                         className="mx-auto h-40 p-4"
                         src={`/aimeos/${item.media['media.url']}`}
                       ></img>
-                    </Link>
+                    </a>
                     <div className="my-2">{item.product['product.label']}</div>
                     <div className="my-2">
                       {item.price['price.value'].substring(
