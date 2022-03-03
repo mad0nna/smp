@@ -3,21 +3,15 @@ import Ellipsis from '../../../img/ellipsis.png'
 import axios from 'axios'
 import _ from 'lodash'
 import spinner from '../../../img/spinner.gif'
-
+import { Link } from 'react-router-dom'
 const ProductWidget = () => {
   const API_URL =
-    '/jsonapi/product?page[offset]=0&page[limit]=6&include=media,text,price'
+    '/jsonapi/product?page[offset]=0&page[limit]=6&include=media,text,price,stock'
   const [state, setState] = useState({
-    loading: true
+    loading: true,
+    loadedComponent: false
   })
   const [productList, setProductList] = useState([])
-
-  // const productItem = () => {}
-
-  // const displayProductList = () => {
-  //   console.log('@productList', productList)
-  //   // populate product item here
-  // }
 
   const parseProductObj = (obj) => {
     let groupItems = []
@@ -123,14 +117,21 @@ const ProductWidget = () => {
    */
   useEffect(() => {
     // set product list
+    let isMounted = true
     if (productList.length == 0) {
       getProductListApi()
     }
+    setState((prevState) => {
+      return {
+        ...prevState,
+        loadedComponent: isMounted
+      }
+    })
   }, [productList])
 
-  return (
+  return state.loadedComponent ? (
     <div className="h-full w-full relative group">
-      <div className="dashboard-widget-list w-full h-full overflow-hidden relative bg-white rounded-lg shadow-xl">
+      <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg shadow-xl overflow-auto">
         <div
           id="widget-header"
           className="bg-white box-border p-3 pb-6 relative"
@@ -181,9 +182,18 @@ const ProductWidget = () => {
             </div>
           )}
         </div>
+        <div id="widget-footer" className="w-full h-10 p-3.5">
+          <div id="widget-footer-control" className="float-right">
+            <a href="/company/shop">
+              <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter cursor-pointer">
+                さらに表示
+              </button>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-  )
+  ) : null
 }
 
 export default ProductWidget

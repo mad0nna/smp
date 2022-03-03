@@ -126,7 +126,7 @@ const ProductDetail = (props) => {
     if (_.isEmpty(props)) {
       window.location.replace('/company/shop')
     } else {
-      history.replace('/company/shop')
+      history.goBack()
     }
   }
 
