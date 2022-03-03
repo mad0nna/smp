@@ -3,6 +3,7 @@ import Ellipsis from '../../../img/ellipsis.png'
 import axios from 'axios'
 import _ from 'lodash'
 import spinner from '../../../img/spinner.gif'
+import { Link } from 'react-router-dom'
 
 const ProductWidget = () => {
   const API_URL =
@@ -159,14 +160,17 @@ const ProductWidget = () => {
                     className="grid justify-center gap-2 pb-2 overflow-hidden mx-2"
                     key={index}
                   >
-                    <a
-                      href={`/company/productDetail/?id=${item.product['product.id']}`}
+                    <Link
+                      to={{
+                        pathname: `/company/productDetail/?id=${item.product['product.id']}`,
+                        detail: item
+                      }}
                     >
                       <img
                         className="mx-auto h-40 p-4"
                         src={`/aimeos/${item.media['media.url']}`}
                       ></img>
-                    </a>
+                    </Link>
                     <div className="my-2">{item.product['product.label']}</div>
                     <div className="my-2">
                       {item.price['price.value'].substring(

@@ -98,6 +98,7 @@ const ProductDetail = (props) => {
   }
 
   const handleOrderChange = (n) => {
+    console.log(n)
     let currentOrder = n - 1 <= 0 ? 1 : n - 1
     // disable if stock is reach to limit
     if (state.stock - 1 <= 0 && currentOrder >= productDetail.defaultStock) {

@@ -177,7 +177,8 @@ const CheckoutAddress = (props) => {
                     <div className="md:w-2/3">
                       <input
                         className={`bg-gray-200 appearance-none border-2 ${
-                          props.error.postal_code && props.isSubmit
+                          (props.error.postal_code && props.isSubmit) ||
+                          props.error.postalCodeIsValid
                             ? 'border-red-700'
                             : 'border-gray-200'
                         } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
@@ -186,6 +187,7 @@ const CheckoutAddress = (props) => {
                         name="postal_code"
                         value={props.state.postal_code || ''}
                         onChange={props.handleNumberOnChange}
+                        maxLength="7"
                         required
                       />
                       {props.error.postal_code && props.isSubmit ? (
@@ -194,6 +196,13 @@ const CheckoutAddress = (props) => {
                           id="passwordHelp"
                         >
                           配送先 郵便番号を入力してください
+                        </p>
+                      ) : props.error.postalCodeIsValid ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          ハイフンなしの７桁の郵便番号を入力してください
                         </p>
                       ) : null}
                     </div>
@@ -393,16 +402,18 @@ const CheckoutAddress = (props) => {
                     <div className="md:w-2/3">
                       <input
                         className={`bg-gray-200 appearance-none border-2 ${
-                          props.error.number && props.isSubmit
+                          (props.error.number && props.isSubmit) ||
+                          props.error.numberIsValid
                             ? 'border-red-700'
                             : 'border-gray-200'
                         } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}
                         id="inline-address-name"
-                        type="tel"
+                        type="text"
                         name="number"
                         onChange={props.handleNumberOnChange}
                         value={props.state.number || ''}
                         required
+                        maxLength="11"
                       />
                       {props.error.number && props.isSubmit ? (
                         <p
@@ -410,6 +421,13 @@ const CheckoutAddress = (props) => {
                           id="passwordHelp"
                         >
                           配送先 電話番号を入力してください
+                        </p>
+                      ) : props.error.numberIsValid ? (
+                        <p
+                          className="text-xs text-red-700 w-full pt-1"
+                          id="passwordHelp"
+                        >
+                          ハイフンなしの10桁～11桁の電話番号を入力してください
                         </p>
                       ) : null}
                     </div>
@@ -427,7 +445,8 @@ const CheckoutAddress = (props) => {
                     <div className="md:w-2/3">
                       <input
                         className={`bg-gray-200 appearance-none border-2 ${
-                          props.error.email && props.isSubmit
+                          (props.error.email && props.isSubmit) ||
+                          props.error.emailIsValid
                             ? 'border-red-700'
                             : 'border-gray-200'
                         } rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white`}

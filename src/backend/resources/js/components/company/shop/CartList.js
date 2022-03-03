@@ -43,7 +43,6 @@ const CartList = (props) => {
     prefecture: '',
     number: ''
   })
-  console.log(addressData)
   const [errorData, setErrorData] = useState({
     email: false,
     company_name: false,
@@ -54,9 +53,11 @@ const CartList = (props) => {
     city: false,
     postal_code: false,
     prefecture: false,
-    number: false
+    number: false,
+    postalCodeIsValid: false,
+    emailIsValid: false,
+    numberIsValid: false
   })
-  console.log(errorData)
   const history = useHistory()
   const { cartTotal, items, updateItemQuantity, removeItem, emptyCart } =
     useCart()
@@ -92,7 +93,6 @@ const CartList = (props) => {
   const handleAcceptAgreement = (event) => {
     setAgreedTerms(event.target.checked)
   }
-  console.log(addressData)
   const handleAddressOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
@@ -109,11 +109,12 @@ const CartList = (props) => {
   const handleAddressNumberOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
+    const numberValue = value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
     const re = /^[0-9\b]+$/
-    if (value === '' || re.test(parseInt(value))) {
+    if (value === '' || re.test(parseInt(numberValue))) {
       setAddressData({
         ...addressData,
-        [name]: value.replace(/[^\w\s]/gi, '')
+        [name]: numberValue.replace(/[^\w\s]/gi, '')
       })
     }
   }
@@ -462,7 +463,10 @@ const CartList = (props) => {
       city: false,
       postal_code: false,
       prefecture: false,
-      number: false
+      number: false,
+      postalCodeIsValid: false,
+      emailIsValid: false,
+      numberIsValid: false
     })
   }
 
@@ -725,15 +729,35 @@ const CartList = (props) => {
       )
     })
   }
-
+  console.log(addressData.number)
   const formValidation = () => {
-    new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
-      ? setErrorData((prevState) => {
-          return { ...prevState, emailIsValid: false }
-        })
-      : setErrorData((prevState) => {
-          return { ...prevState, emailIsValid: true }
-        })
+    if (addressData.email.length >= 1) {
+      new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
+        ? setErrorData((prevState) => {
+            return { ...prevState, emailIsValid: false }
+          })
+        : setErrorData((prevState) => {
+            return { ...prevState, emailIsValid: true }
+          })
+    }
+    if (addressData.number.length >= 1) {
+      addressData.number.length >= 10 && addressData.number.length <= 11
+        ? setErrorData((prevState) => {
+            return { ...prevState, numberIsValid: false }
+          })
+        : setErrorData((prevState) => {
+            return { ...prevState, numberIsValid: true }
+          })
+    }
+    if (addressData.postal_code.length >= 1) {
+      new RegExp(/^\d{7}$/).test(addressData.postal_code)
+        ? setErrorData((prevState) => {
+            return { ...prevState, postalCodeIsValid: false }
+          })
+        : setErrorData((prevState) => {
+            return { ...prevState, postalCodeIsValid: true }
+          })
+    }
 
     for (const [key, value] of Object.entries(addressData)) {
       String(value).length === 0 || value.trim().length === 0
