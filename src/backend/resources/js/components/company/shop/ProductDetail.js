@@ -152,11 +152,10 @@ const ProductDetail = (props) => {
     return (
       <tr>
         <td className="text-center font-bold text-red-500 p-3">
-          {productDetail.price.toLocaleString('jp')}
+          {productDetail.price * state.orderNum}
           <br />
           <span className="text-gray-400  font-bold">
-            ({productDetail.price.toLocaleString('jp')} *{' '}
-            {itemCartQUantity?.quantity})
+            ({productDetail.price.toLocaleString('jp')} * {state.orderNum})
           </span>
         </td>
         <td className="text-center font-bold text-red-500 p-3">
