@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'username', 'account_code', 'company_id','first_name','last_name', 'email', 'contact_num', 'password', 'user_status_id', 'title', 'email_verified_at','user_type_id','temp_pw','invite_token',
-        'superuser', 'siteid', 'name', 'salutation', 'company_name', 'vatid', 'firstname', 'lastname', 'address1', 'address2', 'address3', 'postal', 'city', 'state', 'telephone', 'telefax', 'website', 'status', 'editor'
+        'superuser', 'siteid', 'name', 'salutation', 'company_name', 'vatid', 'firstname', 'lastname', 'address1', 'address2', 'address3', 'postal', 'city', 'state', 'countryid', 'telephone', 'telefax', 'website', 'status', 'editor'
     ];
 
     /**
