@@ -128,10 +128,10 @@ class CompanyController extends Controller
     {
         $code = 200;
         try {
-            $company = $companyService->getCompanyById($request->company_id);
+            $company = $companyService->getCompanyById($request->companyId);
             $result = $companyService->getAllDetailsInSFByID($company['company_code']);
             if ($result) {
-                $result = (new CompanyResource([]))->filterFromDbToFront($company);
+                $result = (new CompanyResource([]))->filterFromSFToFront($result, $company['company_code'], $company['id']);
             }
 
             $this->response = [
@@ -162,7 +162,7 @@ class CompanyController extends Controller
 
     public function updateSaveAccount(Request $request, CompanyService $companyService)
     {
-        $dbId = $request->get('id');
+        $dbId = $request->get('companyId');
         $formData = $this->getRecord($request);
         $result = $companyService->updateSaveAccount($dbId, $formData);
         $response = [

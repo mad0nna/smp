@@ -297,7 +297,7 @@ const ProductList = () => {
         }
 
         return state.loaded ? (
-          <div className="overflow-hidden mx-2" key={index}>
+          <div className="overflow-hidden mx-2 mt-6" key={index}>
             <div className="prod-list-img">
               {loadedImage ? (
                 <div></div>
