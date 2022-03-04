@@ -205,17 +205,18 @@ class CompanyService
                 'vatid' => "",
                 'firstname' => $data['contact_first_name'],
                 'lastname' => $data['contact_last_name'],
-                'address1' => "",
+                'address1' => $data['billing_street'],
                 'address2' => "",
                 'address3' => "",
-                'postal' => "",
-                'city' => "",
-                'state' => "",
+                'postal' => $data['billing_postal_code'],
+                'city' => $data['billing_city'],
+                'state' => $data['billing_state'],
+                'countryid' => "JP",
                 'telephone' => $data['contact_contact_num'],
                 'telefax' => "",
                 'website' => "",
                 'status' => 1,
-                'editor' => "idatan"            
+                'editor' => "idatan"
             ];
             $_user = $user->create($userData);
 
@@ -280,6 +281,20 @@ class CompanyService
                     'BillingCountry' => $data['billing_country'],
                 ];
                 $status = (new Account)->update($formattedData, $data['sfAccountId']);
+            }
+
+            if ($company) {
+                $userData = [
+                    'address1' => $data['billing_street'],
+                    'address2' => "",
+                    'address3' => "",
+                    'postal' => $data['billing_postal_code'],
+                    'city' => $data['billing_city'],
+                    'state' => $data['billing_state'],
+                    'countryid' => "JP"
+                ];
+
+                $r = User::where('company_id', '=', $dbId)->update($userData);
             }
 
             DB::commit();

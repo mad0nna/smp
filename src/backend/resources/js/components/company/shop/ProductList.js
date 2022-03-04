@@ -296,7 +296,7 @@ const ProductList = () => {
         }
 
         return state.loaded ? (
-          <div className="overflow-hidden mx-2" key={index}>
+          <div className="overflow-hidden mx-2 mt-6" key={index}>
             <div className="prod-list-img">
               {loadedImage ? (
                 <div></div>
@@ -426,7 +426,7 @@ const ProductList = () => {
             </div>
             <div></div>
           </div>
-          <div className="p-7">
+          <div className="p-7 pt-0">
             <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6 overflow-auto">
               {state.data ? productItem(state.data || []) : ''}
             </div>

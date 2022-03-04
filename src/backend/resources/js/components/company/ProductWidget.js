@@ -156,7 +156,7 @@ const ProductWidget = () => {
               {productList.map((item, index) => {
                 return (
                   <div
-                    className="grid justify-center gap-2 pb-2 overflow-hidden mx-2"
+                    className="grid justify-center gap-2 pb-2 overflow-hidden mx-2 mb-2"
                     key={index}
                   >
                     <a
@@ -167,13 +167,20 @@ const ProductWidget = () => {
                         src={`/aimeos/${item.media['media.url']}`}
                       ></img>
                     </a>
-                    <div className="my-2">{item.product['product.label']}</div>
-                    <div className="my-2">
+                    <div className="">{item.product['product.label']}</div>
+                    <div className="">
                       {item.price['price.value'].substring(
                         0,
                         item.price['price.value'].length - 3
                       )}
                       円
+                    </div>
+                    <div className="text-primary-200">
+                      <a
+                        href={`/company/productDetail/?id=${item.product['product.id']}`}
+                      >
+                        ご購入はこちらから
+                      </a>
                     </div>
                   </div>
                 )
