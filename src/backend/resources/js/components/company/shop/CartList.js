@@ -490,6 +490,7 @@ const CartList = (props) => {
 
   const handleCheckoutMessageModalClose = () => {
     emptyCart()
+    deleteBasketCache(csrfItem)
     window.location.href = '/company/shop'
     setState((prevState) => {
       return {

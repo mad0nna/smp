@@ -15,7 +15,9 @@ const CompanyShop = () => {
       <Router>
         <Switch>
           <Route path="/company/shop">
-            <ProductList />
+            <CartProvider id={userId}>
+              <ProductList />
+            </CartProvider>
           </Route>
           <Route
             path="/company/productDetail"
