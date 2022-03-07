@@ -758,8 +758,13 @@ $paymentStatusList2 = [
 											<div class="col-2 form-control-label">配送先住所 :</div>
 											<?php foreach( $basket->getAddresses()->krsort() as $type => $addresses ) : $code = 'address:' . $type ?>
 												 <div class="col-9 value">&nbsp;〒 <?= $addresses[0]['order.base.address.postal'] . ' ' . $addresses[0]['order.base.address.state'] . ' ' . 
-														$addresses[0]['order.base.address.city'] . ' ' . $addresses[0]['order.base.address.address1'] . ' ' . $addresses[0]['order.base.address.address2'] . ' &nbsp;<i class="fa fa-phone" aria-hidden="true"></i> ' . $addresses[0]['order.base.address.telephone'] ?></div>													
+														$addresses[0]['order.base.address.city'] . ' ' . $addresses[0]['order.base.address.address1'] . ' ' . $addresses[0]['order.base.address.address2'] ?></div>													
 											<?php endforeach ?>											
+										</div>
+										<div class="col-xl-12 form-group row">
+											<div class="col-2 form-control-label">電話 :</div>
+												 <div class="col-9 value">&nbsp; <i class="fa fa-phone" aria-hidden="true"></i> <?= $addresses[0]['order.base.address.telephone'] ?></div>													
+											 										
 										</div>
 									</div>
 									
