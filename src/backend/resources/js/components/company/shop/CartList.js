@@ -36,12 +36,12 @@ const CartList = (props) => {
     email: userData.email || '',
     first_name: userData.firstName || '',
     last_name: userData.lastName || '',
-    street_address: '',
-    building_name: '',
-    city: '',
-    postal_code: '',
-    prefecture: '',
-    number: ''
+    street_address: userData.address1 || '',
+    building_name: userData.address2 || '',
+    city: userData.city || '',
+    postal_code: userData.postal || '',
+    prefecture: userData.state || '',
+    number: userData.number || ''
   })
   const [errorData, setErrorData] = useState({
     email: false,
@@ -148,12 +148,12 @@ const CartList = (props) => {
       email: userData.email || '',
       first_name: userData.firstName || '',
       last_name: userData.lastName || '',
-      street_address: '',
-      building_name: '',
-      city: '',
-      postal_code: '',
-      prefecture: '',
-      number: ''
+      street_address: userData.address1 || '',
+      building_name: userData.address2 || '',
+      city: userData.city || '',
+      postal_code: userData.postal || '',
+      prefecture: userData.state || '',
+      number: userData.number || ''
     })
     setState((prevState) => {
       return {
