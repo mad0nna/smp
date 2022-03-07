@@ -252,6 +252,7 @@ const CheckoutAddress = (props) => {
                           onChange={props.handleSelectOnChange}
                           name="prefecture"
                           style={{ fontSize: '15px', height: '32px' }}
+                          value={props.state.prefecture || ''}
                         >
                           <option value="">都道府県を選択してください</option>
                           {prefectureData.map((data, key) => (
