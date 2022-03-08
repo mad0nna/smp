@@ -21,8 +21,8 @@ class AimeosServicesSeeder extends Seeder
                 'config' => '[]',
                 'pos' => 0,
                 'status' => 1,
-                'created_at' => $dt,
-                'updated_at' => $dt,
+                'mtime' => $dt,
+                'ctime' => $dt,
                 'editor' => 'idaten'
             ],
             [
@@ -36,8 +36,8 @@ class AimeosServicesSeeder extends Seeder
                 'config' => '[]',
                 'pos' => 1,
                 'status' => 1,
-                'created_at' => $dt,
-                'updated_at' => $dt,
+                'mtime' => $dt,
+                'ctime' => $dt,
                 'editor' => 'idaten'
             ],
             [
@@ -51,8 +51,8 @@ class AimeosServicesSeeder extends Seeder
                 'config' => '[]',
                 'pos' => 2,
                 'status' => 1,
-                'created_at' => $dt,
-                'updated_at' => $dt,
+                'mtime' => $dt,
+                'ctime' => $dt,
                 'editor' => 'idaten'
             ],
             [
@@ -66,8 +66,8 @@ class AimeosServicesSeeder extends Seeder
                 'config' => '[]',
                 'pos' => 3,
                 'status' => 1,
-                'created_at' => $dt,
-                'updated_at' => $dt,
+                'mtime' => $dt,
+                'ctime' => $dt,
                 'editor' => 'idaten'
             ],
             [
@@ -81,8 +81,8 @@ class AimeosServicesSeeder extends Seeder
                 'config' => '[]',
                 'pos' => 4,
                 'status' => 1,
-                'created_at' => $dt,
-                'updated_at' => $dt,
+                'mtime' => $dt,
+                'ctime' => $dt,
                 'editor' => 'idaten'
             ],
             [
@@ -96,8 +96,8 @@ class AimeosServicesSeeder extends Seeder
                 'config' => '[]',
                 'pos' => 0,
                 'status' => 1,
-                'created_at' => $dt,
-                'updated_at' => $dt,
+                'mtime' => $dt,
+                'ctime' => $dt,
                 'editor' => 'idaten'
             ],
             [
@@ -111,8 +111,8 @@ class AimeosServicesSeeder extends Seeder
                 'config' => '[]',
                 'pos' => 1,
                 'status' => 1,
-                'created_at' => $dt,
-                'updated_at' => $dt,
+                'mtime' => $dt,
+                'ctime' => $dt,
                 'editor' => 'idaten'
             ],
             [
@@ -123,11 +123,11 @@ class AimeosServicesSeeder extends Seeder
                 'provider' => 'PayPalExpress',
                 'start' => NULL,
                 'end' => NULL,
-                'config' => '{\"paypalexpress.AccountEmail\":\"selling2@metaways.de\",\"paypalexpress.ApiUsername\":\"unit_1340199666_biz_api1.yahoo.de\",\"paypalexpress.ApiPassword\":\"1340199685\",\"paypalexpress.ApiSignature\":\"A34BfbVoMVoHt7Sf8BlufLXS8tKcAVxmJoDiDUgBjWi455pJoZXGoJ87\",\"paypalexpress.PaypalUrl\":\"https:\\/\\/www.sandbox.paypal.com\\/webscr&cmd=_express-checkout&useraction=commit&token=%1$s\",\"paypalexpress.ApiEndpoint\":\"https:\\/\\/api-3t.sandbox.paypal.com\\/nvp\"}',
+                'config' => '{"paypalexpress.AccountEmail":"selling2@metaways.de","paypalexpress.ApiUsername":"unit_1340199666_biz_api1.yahoo.de","paypalexpress.ApiPassword":"1340199685","paypalexpress.ApiSignature":"A34BfbVoMVoHt7Sf8BlufLXS8tKcAVxmJoDiDUgBjWi455pJoZXGoJ87","paypalexpress.PaypalUrl":"https:\/\/www.sandbox.paypal.com\/webscr&cmd=_express-checkout&useraction=commit&token=%1$s","paypalexpress.ApiEndpoint":"https:\/\/api-3t.sandbox.paypal.com\/nvp"}',
                 'pos' => 2,
                 'status' => 1,
-                'created_at' => $dt,
-                'updated_at' => $dt,
+                'mtime' => $dt,
+                'ctime' => $dt,
                 'editor' => 'idaten'
             ],
             [
@@ -141,8 +141,8 @@ class AimeosServicesSeeder extends Seeder
                 'config' => '[]',
                 'pos' => 3,
                 'status' => 1,
-                'created_at' => $dt,
-                'updated_at' => $dt,
+                'mtime' => $dt,
+                'ctime' => $dt,
                 'editor' => 'idaten'
             ],
             [
@@ -153,11 +153,11 @@ class AimeosServicesSeeder extends Seeder
                 'provider' => 'PrePay,Reduction',
                 'start' => NULL,
                 'end' => NULL,
-                'config' => '{\"reduction.basket-value-min\":{\"EUR\":\"200.00\"},\"reduction.percent\":3}',
+                'config' => '{"reduction.basket-value-min":{"EUR":"200.00"},"reduction.percent":3}',
                 'pos' => 4,
                 'status' => 1,
-                'created_at' => $dt,
-                'updated_at' => $dt,
+                'mtime' => $dt,
+                'ctime' => $dt,
                 'editor' => 'idaten'
             ]
 
