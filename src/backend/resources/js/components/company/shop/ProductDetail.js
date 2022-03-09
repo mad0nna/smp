@@ -2,8 +2,14 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
 import _ from 'lodash'
-import { useHistory } from 'react-router'
-import { useCart } from 'react-use-cart'
+import {
+  useHistory,
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom'
+import { useCart, CartProvider } from 'react-use-cart'
+import CartList from './CartList'
 
 const ProductDetail = (props) => {
   const history = useHistory()
@@ -27,8 +33,8 @@ const ProductDetail = (props) => {
     meta: []
   })
 
-  const [itemData] = useState(useCart())
-  const hasRelaod = itemData.addItem || []
+  // const [itemData] = useState(useCart())
+  // const hasRelaod = itemData.addItem || []
 
   const parseProductData = (data) => {
     const { media, price, product, text, stock, meta } = data
@@ -125,7 +131,7 @@ const ProductDetail = (props) => {
     if (_.isEmpty(props)) {
       window.location.replace('/company/shop')
     } else {
-      history.goBack()
+      history.replace('/company/shop')
     }
   }
 
@@ -137,7 +143,10 @@ const ProductDetail = (props) => {
     }
     if (productDetail.defaultStock > 0) {
       addItem(productDetail, state.orderNum)
-      history.push({ pathname: '/company/cart', state: productDetail })
+      history.push({
+        pathname: '/company/cart',
+        state: productDetail
+      })
     }
   }
 
@@ -303,12 +312,6 @@ const ProductDetail = (props) => {
     }
   }, [props])
 
-  useEffect(() => {
-    if (performance.navigation.type === 1 && hasRelaod.length === 0) {
-      window.location.replace('/company/shop')
-    }
-  })
-
   return (
     <div className="bg-mainbg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
       <div className=" pb-5">
@@ -414,9 +417,38 @@ const ProductDetail = (props) => {
 }
 
 export default ProductDetail
+// when refresh the blade will be called which has elementID=companyProductDetail
+/**
+ * <div id="companyProductDetail"></div>
+ */
 if (document.getElementById('companyProductDetail')) {
+  let userId = JSON.parse(
+    document.getElementById('userData').textContent
+  ).userId
+
   ReactDOM.render(
-    <ProductDetail />,
+    <div>
+      <Router>
+        <Switch>
+          <Route
+            path="/company/productDetail"
+            render={() => (
+              <CartProvider id={userId}>
+                <ProductDetail />
+              </CartProvider>
+            )}
+          />
+          <Route
+            path="/company/cart"
+            render={() => (
+              <CartProvider id={userId}>
+                <CartList />
+              </CartProvider>
+            )}
+          />
+        </Switch>
+      </Router>
+    </div>,
     document.getElementById('companyProductDetail')
   )
 }

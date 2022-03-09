@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import Pagination from '../../Pagination'
 import { useCart } from 'react-use-cart'
-import { useHistory } from 'react-router'
+import ProductDetail from './ProductDetail'
+import { CartProvider } from 'react-use-cart'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory
+} from 'react-router-dom'
+
 import CheckoutOption from './CheckoutOption'
 import axios from 'axios'
 import _ from 'lodash'
@@ -969,6 +977,39 @@ const CartList = (props) => {
 }
 
 export default CartList
+
+// when refresh the blade will be called which has elementID=companyCart
+/**
+ * <div id="companyCart"></div>
+ */
 if (document.getElementById('companyCart')) {
-  ReactDOM.render(<CartList />, document.getElementById('companyCart'))
+  let userId = JSON.parse(
+    document.getElementById('userData').textContent
+  ).userId
+
+  ReactDOM.render(
+    <div>
+      <Router>
+        <Switch>
+          <Route
+            path="/company/productDetail"
+            render={() => (
+              <CartProvider id={userId}>
+                <ProductDetail />
+              </CartProvider>
+            )}
+          />
+          <Route
+            path="/company/cart"
+            render={() => (
+              <CartProvider id={userId}>
+                <CartList />
+              </CartProvider>
+            )}
+          />
+        </Switch>
+      </Router>
+    </div>,
+    document.getElementById('companyCart')
+  )
 }
