@@ -3,6 +3,7 @@ import axios from 'axios'
 import Pagination from '../../Pagination'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
+import { useCart } from 'react-use-cart'
 
 const ProductList = () => {
   const [pagingConditions, setPagingConditions] = useState({
@@ -11,7 +12,7 @@ const ProductList = () => {
     keyword: '',
     handlePageClick: handlePageClick
   })
-
+  const { items } = useCart()
   const [sortItem, setSortItem] = useState({
     selectedSortValue: '',
     sortDropdown: [
@@ -296,7 +297,7 @@ const ProductList = () => {
         }
 
         return state.loaded ? (
-          <div className="overflow-hidden mx-2" key={index}>
+          <div className="overflow-hidden mx-2 mt-6" key={index}>
             <div className="prod-list-img">
               {loadedImage ? (
                 <div></div>
@@ -350,6 +351,30 @@ const ProductList = () => {
       })
     }
     return <div className="grid grid-flow-row mx-2"> </div>
+  }
+
+  const ShoppingCart = () => {
+    return (
+      <div className="max-w-full h-24 bg-white box-border align-middle p-4 relative">
+        <div className="float-right mr-3 flex space-x-3 ">
+          {items.length !== 0 ? (
+            <Link
+              to={{
+                pathname: `/company/cart`
+              }}
+            >
+              <div className="text-primary-200 underline font-bold text-sm pt-2 cursor-pointer">
+                カートの中をみる
+              </div>
+            </Link>
+          ) : (
+            <div className="text-primary-200 font-bold text-sm pt-2">
+              商品はまだ追加されていません
+            </div>
+          )}
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -426,6 +451,7 @@ const ProductList = () => {
             </div>
             <div></div>
           </div>
+          <ShoppingCart />
           <div className="p-7">
             <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6 overflow-auto">
               {state.data ? productItem(state.data || []) : ''}

@@ -380,7 +380,7 @@ const AccountProfile = (props) => {
 
       axios
         .post(url, {
-          company_id: id,
+          companyId: id,
           code: code,
           _token: document
             .querySelector('meta[name="csrf-token"]')
@@ -703,7 +703,7 @@ const AccountProfile = (props) => {
                 <label
                   className={' text-sm text-black w-full h-8 px-3 leading-8'}
                 >
-                  {state.company.sfRecords.kot_sales_phase__c}
+                  {state.company.kot_sales_phase__c}
                 </label>
               </div>
             </div>
@@ -716,7 +716,7 @@ const AccountProfile = (props) => {
                 <label
                   className={' text-sm text-black w-full h-8 px-3 leading-8'}
                 >
-                  {state.company.sfRecords.servername__c}
+                  {state.company.servername__c}
                 </label>
               </div>
             </div>
