@@ -37,6 +37,7 @@ const ProductDetail = (props) => {
   // const hasRelaod = itemData.addItem || []
 
   const parseProductData = (data) => {
+    console.log('@data', data)
     const { media, price, product, text, stock, meta } = data
 
     if (_.isEmpty(price)) {
@@ -257,6 +258,18 @@ const ProductDetail = (props) => {
 
   useEffect(() => {
     if (_.isEmpty(props) || props === undefined) {
+      fetchProductDetail()
+    } else {
+      const { location } = props
+      if (location.detail === undefined) {
+        fetchProductDetail()
+      } else {
+        parseProductData(location.detail)
+      }
+    }
+    // fetch product details to API
+    // and parse the data to object
+    function fetchProductDetail() {
       let urlParams = new URLSearchParams(location.search)
 
       let id = urlParams.get('id')
@@ -306,9 +319,6 @@ const ProductDetail = (props) => {
           }
         }
       })
-    } else {
-      const { location } = props
-      parseProductData(location.detail)
     }
   }, [props])
 

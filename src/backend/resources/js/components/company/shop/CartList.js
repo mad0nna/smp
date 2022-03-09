@@ -993,9 +993,9 @@ if (document.getElementById('companyCart')) {
         <Switch>
           <Route
             path="/company/productDetail"
-            render={() => (
+            render={(props) => (
               <CartProvider id={userId}>
-                <ProductDetail />
+                <ProductDetail {...props} />
               </CartProvider>
             )}
           />
