@@ -928,7 +928,7 @@ const CartList = (props) => {
               <button
                 className="bg-gray-400 text-black justify-center rounded-3xl items-center h-14 w-4/5 font-bold"
                 onClick={() => {
-                  history.push('/company/shop')
+                  history.goBack()
                 }}
               >
                 キャンセル
