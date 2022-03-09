@@ -242,7 +242,7 @@ class Standard
 		 * @see controller/frontend/basket/limit-count
 		 * @see controller/frontend/basket/limit-seconds
 		 */
-		 $count = $config->get( 'controller/frontend/order/limit-count', 3 );
+		 $count = $config->get( 'controller/frontend/order/limit-count', 100 );
 
 		/** controller/frontend/order/limit-seconds
 		 * Invoice limitation time frame in seconds
