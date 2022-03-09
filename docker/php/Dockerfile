@@ -37,6 +37,7 @@ RUN docker-php-ext-install zip mysqli pdo_mysql
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
 RUN pecl install redis \
     && docker-php-ext-enable redis
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN printf '[PHP]\ndate.timezone = "Asia/Tokyo"\n' > /usr/local/etc/php/conf.d/tzone.ini
 COPY ./docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
