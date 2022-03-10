@@ -21,9 +21,6 @@ ADD ./docker/production/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 RUN mkdir -p /etc/nginx/certificates
 RUN mkdir -p /etc/nginx/ssl
 RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
-# Copied from S3 on Codebuild prebuild stage
-ADD ./fullchain.pem /etc/nginx/certificates/fullchain.pem
-ADD ./privkey.pem /etc/nginx/certificates/privkey.pem
 
 ####################################
 ## SUPERVISOR.D CONFIGURATION     ##
