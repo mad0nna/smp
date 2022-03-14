@@ -247,6 +247,8 @@ Aimeos.Media = {
 					self.$set(self.items[idx], 'media.mimetype', files[i].type);
 					if(!files[i].type.startsWith('image/')) {
 						alert("jpegまたはpngファイルをアップロードしてください")
+						$("#fileUploadProductImg").val(null);
+						$("#fileUploadProductImg2").val(null);
 						return;
 					} else if(files[i].type.startsWith('image/')) {
 						self.$set(self.items[idx], 'media.preview', URL.createObjectURL(files[i]));

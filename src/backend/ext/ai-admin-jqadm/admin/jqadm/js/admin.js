@@ -978,6 +978,7 @@ Aimeos.List = {
 					} else {
 						alert("csvファイルをアップロードしてください")
 						files[i].value = ""
+						$(event).val(null);
 						return false;
 					}
 				}
