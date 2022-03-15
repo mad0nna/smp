@@ -38,6 +38,8 @@ const CartList = (props) => {
     isSubmit: false
   })
 
+  console.log('state', state)
+
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
     email: userData.email || '',
@@ -171,7 +173,7 @@ const CartList = (props) => {
     })
   }
 
-  const handleCheckoutModalOpen = () => {
+  const handleCheckoutModalOpen = async () => {
     formValidation()
     if (Object.values(errorData).includes(true)) {
       setState((prevState) => {
@@ -189,42 +191,8 @@ const CartList = (props) => {
           loader: true
         }
       })
+
       saveToBasket()
-        .then(() => {
-          createAddressService('payment')
-            .then(() => {
-              createDeliveryService()
-                .then(() => {
-                  createPaymentService()
-                    .then(() => {
-                      setState((prevState) => {
-                        return {
-                          ...prevState,
-                          addressModalDisplay: !prevState.addressModalDisplay,
-                          modalDisplay: !prevState.modalDisplay,
-                          loader: !prevState.loader
-                        }
-                      })
-                    })
-                    .catch((err) => {
-                      deleteBasketCache(csrfItem)
-                      handleError(err)
-                    })
-                })
-                .catch((err) => {
-                  deleteBasketCache(csrfItem)
-                  handleError(err)
-                })
-            })
-            .catch((err) => {
-              deleteBasketCache(csrfItem)
-              handleError(err)
-            })
-        })
-        .catch((err) => {
-          deleteBasketCache(csrfItem)
-          handleError(err)
-        })
     }
   }
 
@@ -242,232 +210,291 @@ const CartList = (props) => {
   }
 
   async function saveToBasket() {
-    const data = {
-      data: items.map((val) => {
-        return {
-          attributes: {
-            'product.id': val.id,
-            quantity: val.quantity,
-            stocktype: 'default'
+    try {
+      const data = {
+        data: items.map((val) => {
+          return {
+            attributes: {
+              'product.id': val.id,
+              quantity: val.quantity,
+              stocktype: 'default'
+            }
           }
-        }
-      })
-      //
+        })
+        //
+      }
+      let url = '/jsonapi/basket?id=default&related=product'
+      let csrfItem = props.location.state.meta.csrf
+
+      // save state csrfItem
+      setCsrfToken(csrfItem)
+
+      if (csrfItem) {
+        // add CSRF token if available and therefore required
+        var csrf = {}
+        csrf[csrfItem.name] = csrfItem.value
+        url +=
+          (url.indexOf('?') === -1 ? '?' : '&') +
+          Object.keys(csrf)
+            .map((key) => key + '=' + csrf[key])
+            .join('&')
+      }
+
+      await axios
+        .post(url, JSON.stringify(data), {
+          'Content-Type': 'application/json'
+        })
+        .then((res) => {
+          console.info('@create product to basket', res)
+          createAddressService(
+            'payment',
+            res.data.links['basket/address'].href
+          ).then(() => {
+            createDeliveryService().catch(() => {
+              console.log('error')
+            })
+          })
+        })
+        .catch((err) => {
+          deleteBasketCache(csrfItem)
+          console.log(err)
+          handleError(err)
+        })
+    } catch (err) {
+      console.log('saveBasketTryCatch', err)
     }
-    let url = '/jsonapi/basket?id=default&related=product'
-    let csrfItem = props.location.state.meta.csrf
-
-    // save state csrfItem
-    setCsrfToken(csrfItem)
-
-    if (csrfItem) {
-      // add CSRF token if available and therefore required
-      var csrf = {}
-      csrf[csrfItem.name] = csrfItem.value
-      url +=
-        (url.indexOf('?') === -1 ? '?' : '&') +
-        Object.keys(csrf)
-          .map((key) => key + '=' + csrf[key])
-          .join('&')
-    }
-
-    await axios
-      .post(url, JSON.stringify(data), {
-        'Content-Type': 'application/json'
-      })
-      .then(() => {
-        console.info('@create product to basket')
-      })
-      .catch((err) => {
-        deleteBasketCache(csrfItem)
-        handleError(err)
-      })
   }
 
   async function createDeliveryService() {
-    // fetch delivery
-    await axios
-      .get(
-        `/jsonapi/service?filter[cs_type]=delivery&include=text,price,media`,
-        {
-          'Content-Type': 'application/json'
-        }
-      )
-      .then((res1) => {
-        console.info('fetch delivery services')
-
-        let csrfItem = res1.data.meta.csrf
-        const urlParams = res1.data.data.filter(function (item) {
-          // this should be selected config for company
-          return (
-            item.type === 'service' &&
-            item.attributes['service.type'] == 'delivery'
-          )
-        })[1]
-
-        let url = urlParams.links['basket/service'].href
-        var params = {
-          data: [
-            {
-              id: 'delivery',
-              attributes: {
-                'service.id': urlParams.attributes['service.id']
-              }
-            }
-          ]
-        }
-
-        if (csrfItem) {
-          var csrf = {}
-          csrf[csrfItem.name] = csrfItem.value
-          url +=
-            (url.indexOf('?') === -1 ? '?' : '&') +
-            Object.keys(csrf)
-              .map((key) => key + '=' + csrf[key])
-              .join('&')
-        }
-
-        axios
-          .post(url, JSON.stringify(params), {
+    try {
+      // fetch delivery
+      await axios
+        .get(
+          `/jsonapi/service?filter[cs_type]=delivery&include=text,price,media`,
+          {
             'Content-Type': 'application/json'
-          })
-          .then(() => {
-            console.info('@created delivery service')
-            // set address for invoice
-          })
-          .catch((err) => {
-            deleteBasketCache(csrfItem)
-            handleError(err)
-          })
-      })
-      .catch((err) => {
-        deleteBasketCache(csrfItem)
-        handleError(err)
-      })
+          }
+        )
+        .then((res1) => {
+          console.info('fetch delivery services')
+
+          let csrfItem = res1.data.meta.csrf
+          const urlParams = res1.data.data.filter(function (item) {
+            // this should be selected config for company
+            return (
+              item.type === 'service' &&
+              item.attributes['service.type'] == 'delivery'
+            )
+          })[1]
+
+          let url = urlParams.links['basket/service'].href
+          var params = {
+            data: [
+              {
+                id: 'delivery',
+                attributes: {
+                  'service.id': urlParams.attributes['service.id']
+                }
+              }
+            ]
+          }
+
+          if (csrfItem) {
+            var csrf = {}
+            csrf[csrfItem.name] = csrfItem.value
+            url +=
+              (url.indexOf('?') === -1 ? '?' : '&') +
+              Object.keys(csrf)
+                .map((key) => key + '=' + csrf[key])
+                .join('&')
+          }
+
+          axios
+            .post(url, JSON.stringify(params), {
+              'Content-Type': 'application/json'
+            })
+            .then(() => {
+              console.info('@created delivery service')
+              createPaymentService()
+              // set address for invoice
+            })
+            .catch((err) => {
+              deleteBasketCache(csrfItem)
+              handleError(err)
+            })
+        })
+        .catch((err) => {
+          deleteBasketCache(csrfItem)
+          handleError(err)
+        })
+    } catch (err) {
+      console.log('createDeliver', err)
+    }
   }
 
-  async function createAddressService(serviceId) {
-    let addressUrl = '/jsonapi/basket?id=default&related=address'
-    let csrfItem = props.location.state.meta.csrf
-    const params = {
-      data: [
-        {
-          id: serviceId, // or 'delivery'
-          attributes: {
-            'order.base.address.company': addressData.company_name, // (optional)
-            'order.base.address.firstname': addressData.first_name, // (optional)
-            'order.base.address.lastname': addressData.last_name, // (required)
-            'order.base.address.address1': addressData.street_address, // (required)
-            'order.base.address.address2': addressData.building_name, // (required)
-            'order.base.address.city': addressData.city, // (required)
-            'order.base.address.postal': addressData.postal_code, // (required)
-            'order.base.address.state': addressData.prefecture, // (required)
-            'order.base.address.telephone': addressData.number, // (required)
-            'order.base.address.email': addressData.email // (required)
+  async function createAddressService(serviceId, addressUrl) {
+    try {
+      // let addressUrl = '/jsonapi/basket?id=default&related=address'
+      let csrfItem = props.location.state.meta.csrf
+      const params = {
+        data: [
+          {
+            id: serviceId, // or 'delivery'
+            attributes: {
+              'order.base.address.company': addressData.company_name, // (optional)
+              'order.base.address.firstname': addressData.first_name, // (optional)
+              'order.base.address.lastname': addressData.last_name, // (required)
+              'order.base.address.address1': addressData.street_address, // (required)
+              'order.base.address.address2': addressData.building_name, // (required)
+              'order.base.address.city': addressData.city, // (required)
+              'order.base.address.postal': addressData.postal_code, // (required)
+              'order.base.address.state': addressData.prefecture, // (required)
+              'order.base.address.telephone': addressData.number, // (required)
+              'order.base.address.email': addressData.email // (required)
+            }
           }
-        }
-      ]
+        ]
+      }
+      await axios
+        .post(
+          `${addressUrl}&_token=${csrfItem.value}`,
+          JSON.stringify(params),
+          {
+            'Content-Type': 'application/json'
+          }
+        )
+        .then((response) => {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              addressModalDisplay: !prevState.addressModalDisplay,
+              modalDisplay: !prevState.modalDisplay,
+              loader: !prevState.loader
+            }
+          })
+          history.push({ pathname: '/company/cart', state: response.data })
+        })
+        .catch((err) => {
+          console.log('address', err)
+        })
+    } catch (err) {
+      console.log('saveBasketTryCatch', err)
     }
-    await axios
-      .post(`${addressUrl}&_token=${csrfItem.value}`, JSON.stringify(params), {
-        'Content-Type': 'application/json'
-      })
-      .then((response) => {
-        history.push({ pathname: '/company/cart', state: response.data })
-      })
   }
 
   async function createPaymentService() {
-    await axios
-      .get(
-        `/jsonapi/service?filter[cs_type]=${SERVICE_TYPE}&include=text,price,media`,
-        {
-          'Content-Type': 'application/json'
-        }
-      )
-      .then((res1) => {
-        console.info('fetch payment service')
-        const urlParams = res1.data.data.filter(function (item) {
-          // this should be selected config for company
-          return (
-            item.type === 'service' &&
-            item.attributes['service.type'] == SERVICE_TYPE
-          )
-        })[0]
-
-        let url = urlParams.links['basket/service'].href
-        let csrfItem = res1.data.meta.csrf
-        var params = {
-          data: [
-            {
-              id: urlParams.attributes['service.type'],
-              attributes: {
-                'service.id': urlParams.attributes['service.id']
+    try {
+      await axios
+        .get(
+          `/jsonapi/service?filter[cs_type]=${SERVICE_TYPE}&include=text,price,media`,
+          {
+            'Content-Type': 'application/json'
+          }
+        )
+        .then((res1) => {
+          console.info('fetch payment service')
+          const urlParams = res1.data.data.filter(function (item) {
+            // this should be selected config for company
+            return (
+              item.type === 'service' &&
+              item.attributes['service.type'] == SERVICE_TYPE
+            )
+          })[0]
+          console.log('sasdx', urlParams)
+          let url = urlParams.links['basket/service'].href
+          let csrfItem = res1.data.meta.csrf
+          var params = {
+            data: [
+              {
+                id: urlParams.attributes['service.type'],
+                attributes: {
+                  'service.id': urlParams.attributes['service.id']
+                }
               }
-            }
-          ]
-        }
+            ]
+          }
 
-        // create delivery service
-        if (csrfItem) {
-          // add CSRF token if available and therefore required
-          var csrf = {}
-          csrf[csrfItem.name] = csrfItem.value
-          url +=
-            (url.indexOf('?') === -1 ? '?' : '&') +
-            Object.keys(csrf)
-              .map((key) => key + '=' + csrf[key])
-              .join('&')
-        }
-
-        createServicePersistBasket(params, url)
-      })
+          // create delivery service
+          if (csrfItem) {
+            // add CSRF token if available and therefore required
+            var csrf = {}
+            csrf[csrfItem.name] = csrfItem.value
+            url +=
+              (url.indexOf('?') === -1 ? '?' : '&') +
+              Object.keys(csrf)
+                .map((key) => key + '=' + csrf[key])
+                .join('&')
+          }
+          console.log('url', url)
+          if (res1) {
+            createServicePersistBasket(params, url)
+          } else {
+            console.log('error on res1')
+          }
+        })
+    } catch (err) {
+      console.log('saveBasketTryCatch', err)
+    }
   }
 
   const deleteBasketCache = (csrfItem) => {
-    axios
-      .delete(`/jsonapi/basket?id=default&_token=${csrfItem.value}`)
-      .then(() => {
-        console.info('@deleted basket items')
-      })
+    try {
+      axios
+        .delete(`/jsonapi/basket?id=default&_token=${csrfItem.value}`)
+        .then(() => {
+          console.info('@deleted basket items')
+        })
+    } catch (err) {
+      console.log('saveBasketTryCatch', err)
+    }
   }
 
   async function createServicePersistBasket(params, url) {
-    axios
-      .post(url, JSON.stringify(params), {
-        'Content-Type': 'application/json'
-      })
-      .then((res2) => {
-        console.info('create payment service')
-        let basketUrl = res2.data.links.self.href
-        let csrfItem = res2.data.meta.csrf
-        if (csrfItem) {
-          // add CSRF token if available and therefore required
-          var csrf = {}
-          csrf[csrfItem.name] = csrfItem.value
-          basketUrl +=
-            (basketUrl.indexOf('?') === -1 ? '?' : '&') +
-            Object.keys(csrf)
-              .map((key) => key + '=' + csrf[key])
-              .join('&')
-        }
-        //  save basket order
-        axios
-          .post(basketUrl, {
-            'Content-Type': 'application/json'
-          })
-          .then((res3) => {
-            console.info('save order')
-            setOrderId({
-              orderId: res3.data.data.attributes['order.base.id'],
-              token: res3.data.meta.csrf.value
-            })
-          })
-          .catch((err) => {
-            deleteBasketCache(csrfItem)
-            handleError(err)
-          })
-      })
+    try {
+      axios
+        .post(url, JSON.stringify(params), {
+          'Content-Type': 'application/json'
+        })
+        .then((res2) => {
+          console.info('create payment service')
+          let basketUrl = res2.data.links.self.href
+          let csrfItem = res2.data.meta.csrf
+          if (csrfItem) {
+            // add CSRF token if available and therefore required
+            var csrf = {}
+            csrf[csrfItem.name] = csrfItem.value
+            basketUrl +=
+              (basketUrl.indexOf('?') === -1 ? '?' : '&') +
+              Object.keys(csrf)
+                .map((key) => key + '=' + csrf[key])
+                .join('&')
+          }
+          //  save basket order
+          console.log(res2)
+          if (res2) {
+            axios
+              .post(basketUrl, {
+                'Content-Type': 'application/json'
+              })
+              .then((res3) => {
+                console.info('save order')
+                setOrderId({
+                  orderId: res3.data.data.attributes['order.base.id'],
+                  token: res3.data.meta.csrf.value
+                })
+              })
+              .catch((err) => {
+                // deleteBasketCache(csrfItem)
+                console.log('servicePres', err)
+                handleError(err)
+              })
+          } else {
+            console.log('error on service pres')
+          }
+        })
+    } catch (err) {
+      console.log('saveBasketTryCatch', err)
+    }
   }
   const handleCheckoutModalAddressClose = () => {
     setState((prevState) => {
@@ -574,6 +601,7 @@ const CartList = (props) => {
           })
           .catch((err) => {
             deleteBasketCache(csrfItem)
+            console.log('error cc', err)
             handleError(err)
           })
         break
@@ -594,6 +622,9 @@ const CartList = (props) => {
         generateFinalOrder(invData)
           .then((res) => {
             console.info('successfully created order')
+            axios
+              .post(res.data.data.links.process.href)
+              .then(() => console.log('success'))
             deleteBasketCache(res.data.meta.csrf)
             // display modal submit
             setState((prevState) => {
@@ -608,6 +639,7 @@ const CartList = (props) => {
           })
           .catch((err) => {
             deleteBasketCache(csrfItem)
+            console.log('err invoice', err)
             handleError(err)
           })
       }
