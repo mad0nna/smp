@@ -162,7 +162,7 @@ const ProductDetail = (props) => {
     return (
       <tr>
         <td className="text-center font-bold text-red-500 p-3">
-          {productDetail.price * state.orderNum}
+          {(productDetail.price * state.orderNum).toLocaleString('jp')}円
           <br />
           <span className="text-gray-400  font-bold">
             ({productDetail.price.toLocaleString('jp')} * {state.orderNum})
@@ -358,7 +358,9 @@ const ProductDetail = (props) => {
                         {isLoaded ? productDetail.title : ''}
                       </div>
                       <div className="font-bold text-red-500 text-3xl w-auto pr-10 w-full text-right">
-                        {isLoaded ? `${productDetail.price}円` : ''}
+                        {isLoaded
+                          ? `${productDetail.price.toLocaleString('jp')}円`
+                          : ''}
                       </div>
                     </div>
                   </div>
