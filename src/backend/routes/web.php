@@ -86,9 +86,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('company/saveAddedCompany', 'CompanyController@saveAddedCompany');
     Route::post('company/updateSaveAccount', 'CompanyController@updateSaveAccount');
     Route::post('company/resendEmailInvite', 'CompanyController@resendEmailInvite');
-
     Route::view('/settings', 'admin.settings');
+
+    // invoice Template
+    Route::view('/settings/invoice/detail', 'admin.invoiceDetail');
+    Route::get('template/getListOfCompany', 'CompanyController@index');
+    Route::post("template/uploadNewTemplate", 'TemplateController@uploadNewTemplate');
+    Route::get("template/getListOfTemplate", 'TemplateController@getListOfTemplate');
+    Route::post("template/getTemplateDetail", 'TemplateController@getTemplateDetail');
+    Route::post('template/updateTemplate', 'TemplateController@updateTemplate');
 });
+Route::get('template/fillData', 'TemplateController@fillData');
+
 
 Route::prefix('sales')->group(function () {
     Route::view('/dashboard', 'sales.dashboard')->name('dashboard');
