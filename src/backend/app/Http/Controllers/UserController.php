@@ -17,6 +17,7 @@ use App\Services\API\Salesforce\Model\Contact;
 use App\Services\API\Zuora\Exceptions\UnauthorizedAccessException;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -143,6 +144,7 @@ class UserController extends Controller
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
             $company = Auth::user()->company_id;
+
             if ($sf['isPartial']) {
                 $formData = [
                     'username' => $sf['email'] ? $sf['email'] : '',
@@ -155,6 +157,7 @@ class UserController extends Controller
                     'password' => $pw_hash,
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
+                    'name' => ($sf['lastname'] ? $sf['lastname'] : '') . ' ' . ($sf['firstname'] ? $sf['firstname'] : ''),
                 ];
             } else {
                 $formData = [
@@ -171,6 +174,7 @@ class UserController extends Controller
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
                     'account_code' => $sf['account_code'] ? $sf['account_code'] : '',
+                    'name' => ($sf['last_name'] ? $sf['last_name'] : '') . ' ' . ($sf['first_name'] ? $sf['first_name'] : ''),
                 ];
             }
 
@@ -225,7 +229,6 @@ class UserController extends Controller
             'last_name' => $result['LastName'],
             'email' => $result['Email'],
             'title' => $result['Title'],
-            'user_status_id' => 5,
             'contact_num' => $result['MobilePhone'],
             'user_type_id' => $result['admin__c'] ? 3 :4,
             'source' => 'salesforce',
@@ -296,20 +299,20 @@ class UserController extends Controller
                 'LastName' => $data['LastName'],
                 'MobilePhone' => $data['MobilePhone'],
                 'Title' => $data['Title'],
-                'admin__c' => $data['admin__c'] === 4 ? false : true
+                'admin__c' => $data['admin__c'] === 3 ? true : false
             ];
             $response = (new Contact)->update($salesforceData, $data['Id']);
             if (!$response['status']) {
                 return $response;
             }
 
-            if ($data['admin__c'] == 3) {
-                $removeAdmin = (new Contact)->update(['admin__c' => false], Auth::user()->account_code);
-                if (!$removeAdmin['status']) {
-                    return $response;
-                }
-                $this->userService->removeAdminPermission(Auth::user()->account_code);
-            }
+            // if ($data['admin__c'] == 3) {
+            //     $removeAdmin = (new Contact)->update(['admin__c' => false], Auth::user()->account_code);
+            //     if (!$removeAdmin['status']) {
+            //         return $response;
+            //     }
+            //     $this->userService->removeAdminPermission(Auth::user()->account_code);
+            // }
             $formData = [
                 'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
                 'last_name' => $data['LastName'] ? $data['LastName'] : '',

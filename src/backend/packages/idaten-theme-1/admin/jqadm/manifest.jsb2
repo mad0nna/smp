@@ -1,0 +1,22 @@
+{
+	"projectName": "idaten-theme-1",
+	"licenseText": "proprietary",
+	"pkgs": [{
+		"name": "idaten-theme-1 CSS",
+		"file": "idaten-theme-1.css",
+		"isDebug": true,
+		"fileIncludes": [{
+			"text": "custom.css",
+			"path": "themes/"
+		}]
+	}, {
+		"name": "idaten-theme-1 JS",
+		"file": "idaten-theme-1.js",
+		"isDebug": true,
+		"fileIncludes": [{
+			"text": "custom.js",
+			"path": "js/"
+		}]
+	}],
+	"resources" : []
+}

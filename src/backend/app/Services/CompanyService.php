@@ -137,7 +137,7 @@ class CompanyService
                 $join->on('users.company_id', '=', 'companies.id');
             }); 
             
-            $query = $query->where('name', 'LIKE', "%{$conditions['keyword']}%")
+            $query = $query->where('company_name', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('company_code', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('industry', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('companies.contact_num', 'LIKE', "%{$conditions['keyword']}%")
@@ -195,14 +195,32 @@ class CompanyService
                 'user_status_id' => 5,
                 'temp_pw' => $pw,
                 'invite_token' => $invite_token,
+                'account_code' => $data['account_code'],
+                //Aimeos added columns
+                'superuser' => 0,
+                'siteid' => "1.",
+                'name' => $data['contact_last_name'],
+                'salutation' => "",
                 'company_name' => $data['name'],
-                'account_code' => $data['account_code']
+                'vatid' => "",
+                'firstname' => $data['contact_first_name'],
+                'lastname' => $data['contact_last_name'],
+                'address1' => $data['billing_street'],
+                'address2' => "",
+                'address3' => "",
+                'postal' => $data['billing_postal_code'],
+                'city' => $data['billing_city'],
+                'state' => $data['billing_state'],
+                'countryid' => "JP",
+                'telephone' => $data['contact_contact_num'],
+                'telefax' => "",
+                'website' => "",
+                'status' => 1,
+                'editor' => "idatan"
             ];
             $_user = $user->create($userData);
-            $this->mysql->makeUserWidgetSettings($_user->id);
-            Mail::to($data['contact_email'])->send(new NotifyAddedCompanySuperAdminUser($userData, $pw, $invite_token));
 
-            if (isset($data['opportunity'])) {
+            if (isset($data['opportunity']) && count($data['opportunity'])) {
                 $formDataOpportunity = [
                     'opportunity_code' => $data['opportunity'][0]['Id'],
                     'negotiate_code' => $data['opportunity'][0]['ID__c'],
@@ -218,6 +236,9 @@ class CompanyService
                 ];
                 $opportunity->create($formDataOpportunity);
             }
+
+            $this->mysql->makeUserWidgetSettings($_user->id);
+            Mail::to($data['contact_email'])->send(new NotifyAddedCompanySuperAdminUser($userData, $pw, $invite_token));
 
             DB::commit();
         } catch (Exception $e) {
@@ -260,6 +281,20 @@ class CompanyService
                     'BillingCountry' => $data['billing_country'],
                 ];
                 $status = (new Account)->update($formattedData, $data['sfAccountId']);
+            }
+
+            if ($company) {
+                $userData = [
+                    'address1' => $data['billing_street'],
+                    'address2' => "",
+                    'address3' => "",
+                    'postal' => $data['billing_postal_code'],
+                    'city' => $data['billing_city'],
+                    'state' => $data['billing_state'],
+                    'countryid' => "JP"
+                ];
+
+                $r = User::where('company_id', '=', $dbId)->update($userData);
             }
 
             DB::commit();

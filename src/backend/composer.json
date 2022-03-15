@@ -9,6 +9,11 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "ext-gd": "*",
+        "ext-intl": "*",
+        "aimeos/aimeos-core": "~2021.10.4",
+        "aimeos/aimeos-laravel": "~2021.10.2",
+        "aimeos/idaten-theme-1": "dev-development",
         "aws/aws-sdk-php": "~3.0",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
@@ -17,6 +22,7 @@
         "laravel/framework": "^6.18.35",
         "laravel/passport": "^9.3",
         "laravel/tinker": "^2.0",
+        "laravel/ui": "^1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "tonchik-tm/pdf-to-html":"~1",
         "predis/predis": "^1.1"
@@ -34,6 +40,9 @@
         "sort-packages": true,
         "platform": {
             "php": "7.4.13"
+        },
+        "allow-plugins": {
+            "composer/installers": true
         }
     },
     "extra": {
@@ -71,5 +80,12 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+    },
+    "repositories": {
+        "idaten-theme-1": {
+        "type": "path",
+        "url": "packages/idaten-theme-1"
+        }
     }
+    
 }
