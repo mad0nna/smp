@@ -73,7 +73,8 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     // Company Shop
     Route::view('/productDetail', 'companyProductDetail');
     Route::view('/cart', 'companyCart');
-    Route::get('/shop', 'ShoppingController@shop');    
+    Route::get('/shop', 'ShoppingController@shop');
+    Route::get('/getUnpaidOrders', 'CompanyController@getUnpaidOrders');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
