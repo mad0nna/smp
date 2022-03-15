@@ -231,7 +231,7 @@ const AccountProfileEdit = () => {
               <div className="align-top inline-block w-6/12 rounded-xl border-gray-200 border h-96 bg-white my-4 ml-5 mr-5 py-5 px-6">
                 <div className="mx-10 mt-11 mb-2">
                   <div className="flex flex-wrap gap-0 w-full justify-center mt-4 text-primary-200 text-xl">
-                    アカウントを更新
+                    プロフィールを編集
                   </div>
                   <div className="flex flex-wrap gap-0 w-full justify-start">
                     <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">

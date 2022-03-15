@@ -41,7 +41,7 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('/resetCoordinates', 'WidgetController@resetCoordinates');
     Route::get('/getServiceUsage', 'CompanyController@getServiceUsage');
     Route::get('/getServiceUsageDate', 'CompanyController@getServiceUsageDate');
-    Route::get('/getLoggedinUser/{field}', 'CompanyController@getLoggedinUser');
+    Route::get('/getLoggedinUser', 'CompanyController@getLoggedinUser');
     Route::view('/dashboard', 'dashboard');
     Route::get('/contracts', 'ContractController@list');
     Route::post('/contractslist', 'ContractController@index');
