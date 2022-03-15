@@ -172,7 +172,7 @@ class TemplateController extends Controller
         ];
     }
 
-    public function fillData($fileName = "invoiceTemplatev3(4)") {
+    public function fillData(Request $request) {
         $data = [
             'invoice' => [
                 'invoiceDate' => '10/03/2022',
@@ -202,7 +202,7 @@ class TemplateController extends Controller
             ],
             'accountName' => 'Demo Account'
         ];
-        $tp = new TemplateProcessor(storage_path("app/template/html/{$fileName}.html"));
+        $tp = new TemplateProcessor(storage_path("app/template/html/{$request->get('templateName')}.html"));
         $tp->addData($data);
     }
 }

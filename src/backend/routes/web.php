@@ -68,7 +68,6 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::view('/methodofpayment', 'methodOfPayment');
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
 });
-Route::view('/pdf-to-html', 'admin.template');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
@@ -96,6 +95,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post("template/getTemplateDetail", 'TemplateController@getTemplateDetail');
     Route::post('template/updateTemplate', 'TemplateController@updateTemplate');
 });
+// This route is for testing purposes.
 Route::get('template/fillData', 'TemplateController@fillData');
 
 
