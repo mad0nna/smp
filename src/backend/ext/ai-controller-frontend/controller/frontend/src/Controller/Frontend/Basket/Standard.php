@@ -141,7 +141,7 @@ class Standard
 		 * @category Developer
 		 * @see controller/frontend/basket/limit-seconds
 		 */
-		$count = $config->get( 'controller/frontend/basket/limit-count', 10 );
+		$count = $config->get( 'controller/frontend/basket/limit-count', 100 );
 
 		/** controller/frontend/basket/limit-seconds
 		 * Order limitation time frame in seconds
