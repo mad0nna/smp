@@ -56,7 +56,6 @@ const InvoiceTemplateDetails = () => {
           }
         })
     }
-    console.log(state)
   }, [state])
 
   const getCompanyList = () => {
@@ -193,7 +192,12 @@ const InvoiceTemplateDetails = () => {
       .then((response) => {
         if (!_.isEmpty(response.data)) {
           location.replace('/admin/settings')
+          return
         }
+      })
+      .catch((error) => {
+        alert(error.response.data.error)
+        location.reload()
       })
   }
 
@@ -216,17 +220,12 @@ const InvoiceTemplateDetails = () => {
             Invoice Template Details
           </h1>
         </div>
-
-        {state.action === 'add' || state.action === null
-          ? console.log('view')
-          : console.log('not')}
         <div className="grid grid-cols-8">
           <input
             type="file"
             id="PdfContainer"
             hidden
             onChange={(e) => {
-              console.log(e.target.files[0])
               let files = e.target.files[0]
               if (files.type !== 'application/pdf') {
                 setState((prevState) => {
@@ -236,7 +235,6 @@ const InvoiceTemplateDetails = () => {
                     message: 'File type is not supported.'
                   }
                 })
-                console.log('file type is not supported')
               } else {
                 setState((prevState) => {
                   let editTemplate = state.action === 'edit'
@@ -247,7 +245,6 @@ const InvoiceTemplateDetails = () => {
                     changeFile: editTemplate
                   }
                 })
-                console.log(state)
               }
             }}
           />

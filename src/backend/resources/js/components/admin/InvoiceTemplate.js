@@ -32,7 +32,6 @@ const InvoiceTemplate = () => {
         page: 1
       }
     })
-    // setPagingConditions({ ...pagingConditions, keyword: e.target.value })
   }
 
   const handleNavigation = (change) => {
