@@ -1,5 +1,0 @@
-client/html/tests/tmp
-.phpunit.result.cache
-*.junit.xml
-*.log
-*.ser

@@ -67,19 +67,15 @@ class CompanyResource extends JsonResource
             'recordTypeCode' => $data['record_type_code'] ?? '',
             'token' => $data['token'] ?? '',
             'kotBillingStartDate' => $data['kot_billing_start_date'] ?? '',
-            'numberofemployees' => '', //These records are only found in sf which is only viewed in frontend.
-            'kot_sales_phase__c' => '',
-            'servername__c' => '',
-            'kotcompanycode__c' => '',
         ];
     }
 
-    public static function filterFromSFToFront($data, $company_code = '', $company_id = '')
+    public static function filterFromSFToFront($data, $company_code = '')
     {
         return [
-            'id' => $company_id,
-            'companyId' => $company_id,
-            'contactId' => $data['contact']['Id'] ?? '',
+            'id' => $data['Id'] ?? '',
+            'companyID' => $data['Id'] ?? '',
+            'contactID' => $data['contact']['Id'] ?? '',
             'kot_billing_start_date' => $data['Field41__c'] ?? '',
             'companyCode' => $company_code,
             'name' => $data['Name'],
@@ -109,11 +105,7 @@ class CompanyResource extends JsonResource
                 'lastName' => $data['contact']['LastName'] ?? '',
                 'contactNum' => $data['contact']['MobilePhone'] ?? '',
                 ]],
-            'opportunity' => $data['opportunity'],
-            'numberofemployees' => $data['NumberOfEmployees'],
-            'kot_sales_phase__c' => $data['kot_sales_phase__c'],
-            'servername__c' => $data['ServerName__c'],
-            'kotcompanycode__c' => $data['KotCompanyCode__c'],
+            'opportunity' => $data['opportunity']
         ];
     }
 

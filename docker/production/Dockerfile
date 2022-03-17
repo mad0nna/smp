@@ -21,9 +21,6 @@ ADD ./docker/production/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 RUN mkdir -p /etc/nginx/certificates
 RUN mkdir -p /etc/nginx/ssl
 RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
-# Copied from S3 on Codebuild prebuild stage
-ADD ./fullchain.pem /etc/nginx/certificates/fullchain.pem
-ADD ./privkey.pem /etc/nginx/certificates/privkey.pem
 
 ####################################
 ## SUPERVISOR.D CONFIGURATION     ##
@@ -52,6 +49,7 @@ RUN npm install --global cross-env
 RUN mkdir -p /var/www/backend
 WORKDIR /var/www/backend
 COPY --chown=www-data src/backend /var/www/backend/
+RUN chmod -R 777 /var/www/backend/storage/logs /var/www/backend/storage/framework
 
 # Install composer packages
 RUN rm -rf /var/www/backend/vendor /var/www/backend/composer.lock

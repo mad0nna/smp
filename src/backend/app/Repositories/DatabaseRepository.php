@@ -54,18 +54,6 @@ class DatabaseRepository
         ]);
     }
 
-    public function updateUserAddress($account_code, $companyData)
-    {
-        return User::where('account_code', '=', $account_code)
-        ->update([
-            'address1' => $companyData['street'],
-            'postal' => $companyData['postalCode'],
-            'city' => $companyData['city'],
-            'state' => $companyData['state'],
-            'countryid' => "JP",
-        ]);
-    }
-
     public function updateAdminDetails($accountID, $userData)
     {
         return User::where('account_code', $accountID)

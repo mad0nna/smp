@@ -49,17 +49,17 @@ module.exports = {
                 'arrow-left': "url('/images/arrow-left.png')",
                 'paper': "url('/images/paper.png')"
             },
-            colors: {
+            colors:{
                 mainbg: '#F2F2F2',
                 secondaryBg: '#c1cbc4',
                 primary: {
                     50: "#f3faf6",
-                    100: '#5EDF89',
-                    200: '#1D9E48',
+                    100:'#5EDF89',
+                    200:'#1D9E48',
                 },
-                secondary: {
-                    100: '#DC5858',
-                    200: '#DE0A0A',
+                secondary:{
+                    100:'#DC5858',
+                    200:'#DE0A0A',
                 },
                 cyan: '#43bbb3',
                 orange: '#ffbc03',
@@ -67,20 +67,20 @@ module.exports = {
                 greenOld: "#95A199",
                 'table-header-Gray-100': '#ececec',
                 'table-header-Gray-400': '#a5a5a5',
-                lime: {
-                    'primary': '#22AC38',
-                    200: '#D9F99D',
-                    300: '#BEF264',
-                    400: '#A3E635',
-                    500: '#84CC16',
-                    600: '#65A30D',
-                    700: '#4D7C0F',
-                    800: '#3F6212',
+                lime:{
+                    'primary':'#22AC38',
+                    200:'#D9F99D',
+                    300:'#BEF264',
+                    400:'#A3E635',
+                    500:'#84CC16',
+                    600:'#65A30D',
+                    700:'#4D7C0F',
+                    800:'#3F6212',
                 },
                 customGray: '#685d5e',
             },
             fontSize: {
-                xxs: ['0.60rem', { lineHeight: '.75rem' }],
+                xxs:['0.60rem', { lineHeight: '.75rem' }],
                 'widget-xs': "10px"
             },
 
@@ -100,8 +100,8 @@ module.exports = {
             },
 
             minHeight: {
-                'widget-item': '80px',
-                'table-height': '740px'
+                'widget-item' : '80px',
+                'table-height' : '740px'
             },
 
             maxWidth: {
@@ -118,10 +118,10 @@ module.exports = {
                 'rectangle-skew': '-53deg'
             },
             gridTemplateRows: {
-                '12': 'repeat(12, minmax(0, 1fr))',
+               '12': 'repeat(12, minmax(0, 1fr))',
             },
             gridTemplateColumns: {
-                '16': 'repeat(16, minmax(0, 1fr))',
+               '16': 'repeat(16, minmax(0, 1fr))',
             },
             gridRow: {
                 'span-8': 'span 8 / span 8',
@@ -133,22 +133,8 @@ module.exports = {
             },
             zIndex: {
                 '-1': '-1',
-            },
-            placeholderColor: {
-                primary: {
-                    50: "#f3faf6",
-                    100: '#5EDF89',
-                    200: '#1D9E48',
-                }
-            },
-            borderColor: {
-                primary: {
-                    50: "#f3faf6",
-                    100: '#5EDF89',
-                    200: '#1D9E48',
-                }
             }
-
+            
 
         },
         fontFamily: {
@@ -162,8 +148,7 @@ module.exports = {
             display: ['group-hover'],
             borderWidth: ['hover', 'focus'],
             backgroundColor: ['checked', 'active'],
-            borderColor: ['checked'],
-            placeholderColor: ['hover', 'active'],
+            borderColor: ['checked']
         },
     },
     plugins: []

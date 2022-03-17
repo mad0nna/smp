@@ -22,7 +22,7 @@
     @yield('content')
 </main>
 @php
-    $user = \App\Models\User::with(['user_company'])->find(Auth::user()->id);
+    $user = \App\Models\User::with(['company'])->find(Auth::user()->id);
     $userData['userId'] = $user['id'];
     $userData['username'] = $user['username'];
     $userData['firstName'] = $user['first_name'];
@@ -31,10 +31,10 @@
     $userData['accountCode'] = $user['account_code'];
     $userData['userTypeId'] = $user['user_type_id'];
     $userData['title'] = $user['title'];        
-    $userData['companyId'] = $user['company'] ? $user->user_company->id : '';
-    $userData['companyName'] = $user['company'] ? $user->user_company->name : '';
-    $userData['companyCode'] = $user['company'] ? $user->user_company->company_code : '';
-    $userData['companyAccountId'] = $user['company'] ? $user->user_company->account_id : '';    
+    $userData['companyId'] = $user['company'] ?  $user['company']['id'] : '';
+    $userData['companyName'] = $user['company'] ?  $user['company']['name'] : '';
+    $userData['companyCode'] = $user['company'] ?  $user['company']['company_code'] : '';
+    $userData['companyAccountId'] = $user['company'] ?  $user['company']['account_id'] : '';    
 @endphp
 <script id="userData" type="application/json">{!! json_encode($userData, JSON_HEX_TAG) !!}</script>
 <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
