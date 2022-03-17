@@ -105,7 +105,7 @@ $enc = $this->encoder();
 								<div class="form-group row col-xl-5">
 									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '単価' ) ) ?></label>
 									<div class="col-sm-8">
-										<input class="form-control item-value pe-0" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>"
+										<input class="form-control item-value pe-2" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>" :min="1" @keypress="isNumber($event)"
 											v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'unit_price' ) ) ) ?>`.replace('idx', idx)"
 											placeholder="<?= $enc->attr( $this->translate( 'admin', '単価' ) ) ?>"
 											v-bind:readonly="item['price.siteid'] != siteid"
@@ -115,7 +115,7 @@ $enc = $this->encoder();
 								<div class="form-group row col-xl-5">
 									<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '最小販売数' ) ) ?></label>
 									<div class="col-sm-8">
-										<input class="form-control item-value" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>"
+										<input class="form-control item-value" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>" :min="1" @keypress="isNumber($event)"
 											v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'min_qty' ) ) ) ?>`.replace('idx', idx)"
 											placeholder="<?= $enc->attr( $this->translate( 'admin', '最小販売数' ) ) ?>"
 											v-bind:readonly="item['price.siteid'] != siteid"
@@ -127,7 +127,7 @@ $enc = $this->encoder();
 							<div class="form-group row mandatory col-xl-5">
 								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '販売価格' ) ) ?></label>
 								<div class="col-sm-8 pe-4">
-									<input id="txtProductPrice" required="required" class="form-control item-value pe-0" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>" 
+									<input id="txtProductPrice" required="required" class="form-control item-value pe-2" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ) ?>" :min="1" @keypress="isNumber($event)" 
 										v-on:blur="checkNumber($event)"
 										v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.value' ) ) ) ?>`.replace('idx', idx)"
 										placeholder="販売価格   " 

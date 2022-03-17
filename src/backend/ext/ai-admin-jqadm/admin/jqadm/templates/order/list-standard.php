@@ -250,7 +250,7 @@ $statusList = [
 			<form ref="form" method="POST" action="<?= $enc->attr( $this->url( $target, $controller, $action, $searchParams, [], $config ) ) ?>">
 				<?= $this->csrf()->formfield() ?>
 				<button id="btnSubmitFilter" type="submit" tabindex="2" title="Search" aria-label="Search" class="btn act-search fa file btn btn-lg btn-theme text-white upload-csv float-end mx-2" style="  ">
-					&nbsp; 探す &nbsp; 
+					&nbsp; 検索 &nbsp; 
 				</button>
 				<input type="hidden" value="order.id" name="filter[key][1]">
 				<input type="hidden" value="==" name="filter[op][1]">
@@ -295,7 +295,7 @@ $statusList = [
 								<td class="order-base-price price text-end"><?= $baseItem ? number_format($enc->html( $baseItem->getPrice()->getValue() + $baseItem->getPrice()->getTaxValue() )) : '' ?>円</td>
 							<?php endif ?>
 							<?php if( in_array( 'order.statuspayment', $fields ) ) : ?>
-								<td class="order-statuspayment"> <?= $item->getStatusPayment() === 6 ? "有料" : "未払い" ?> </td>
+								<td class="order-statuspayment"> <?= $item->getStatusPayment() === 6 ? "支払い済み" : "未払い" ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'order.type', $fields ) ) : ?>
 								<td class="order-type"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getType() ) ?></a></td>
