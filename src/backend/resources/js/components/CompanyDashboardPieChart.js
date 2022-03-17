@@ -54,99 +54,109 @@ const CompanyDashboardPieChart = () => {
   })
 
   useEffect(() => {
+    let isSubscribed = true
     axios
       .get(`/company/getServiceUsage`)
       .then((response) => {
-        let usageData = response.data
-        setState((prevState) => {
-          let percentOfNoSubscribedLogin = 0
-          let percentOfNoEmployeesLogin = 0
+        if (isSubscribed) {
+          let usageData = response.data
+          setState((prevState) => {
+            let percentOfNoSubscribedLogin = 0
+            let percentOfNoEmployeesLogin = 0
 
-          if (usageData.numberOfEmployees && usageData.numberOfActiveKOTUsers) {
-            percentOfNoSubscribedLogin = parseInt(
-              (usageData.numberOfEmployees / usageData.numberOfActiveKOTUsers) *
-                100
-            )
-          }
+            if (
+              usageData.numberOfEmployees &&
+              usageData.numberOfActiveKOTUsers
+            ) {
+              percentOfNoSubscribedLogin = parseInt(
+                (usageData.numberOfEmployees /
+                  usageData.numberOfActiveKOTUsers) *
+                  100
+              )
+            }
 
-          if (usageData.numberOfEmployees && usageData.numberOfSubscribers) {
-            percentOfNoEmployeesLogin = parseInt(
-              (usageData.numberOfEmployees / usageData.numberOfSubscribers) *
-                100
-            )
-          }
+            if (usageData.numberOfEmployees && usageData.numberOfSubscribers) {
+              percentOfNoEmployeesLogin = parseInt(
+                (usageData.numberOfEmployees / usageData.numberOfSubscribers) *
+                  100
+              )
+            }
 
-          return {
-            ...prevState,
-            serviceUsageDate: usageData.serviceUsageDate,
-            numberOfActiveKOTUsers: usageData.numberOfActiveKOTUsers,
-            numberOfEmployees: usageData.numberOfEmployees,
-            numberOfSubscribers: usageData.numberOfSubscribers,
-            record1: {
-              datasets: [
-                {
-                  data: [
-                    percentOfNoSubscribedLogin,
-                    Math.max(0, 100 - percentOfNoSubscribedLogin)
-                  ],
-                  backgroundColor: [
-                    'rgba(0, 177, 106, 1)',
-                    'rgba(218, 223, 225, 1)'
-                  ],
-                  borderWidth: 1
-                }
-              ],
-              options: {
-                legend: {
-                  display: false
-                },
-                tooltips: {
-                  callbacks: {
-                    label: function (tooltipItem) {
-                      console.log(tooltipItem)
+            return {
+              ...prevState,
+              serviceUsageDate: usageData.serviceUsageDate,
+              numberOfActiveKOTUsers: usageData.numberOfActiveKOTUsers,
+              numberOfEmployees: usageData.numberOfEmployees,
+              numberOfSubscribers: usageData.numberOfSubscribers,
+              record1: {
+                datasets: [
+                  {
+                    data: [
+                      percentOfNoSubscribedLogin,
+                      Math.max(0, 100 - percentOfNoSubscribedLogin)
+                    ],
+                    backgroundColor: [
+                      'rgba(0, 177, 106, 1)',
+                      'rgba(218, 223, 225, 1)'
+                    ],
+                    borderWidth: 1
+                  }
+                ],
+                options: {
+                  legend: {
+                    display: false
+                  },
+                  tooltips: {
+                    callbacks: {
+                      label: function (tooltipItem) {
+                        console.log(tooltipItem)
+                      }
                     }
                   }
-                }
-              },
-              percent: percentOfNoSubscribedLogin
-            },
-            record2: {
-              datasets: [
-                {
-                  data: [
-                    percentOfNoEmployeesLogin,
-                    Math.max(0, 100 - percentOfNoEmployeesLogin)
-                  ],
-                  backgroundColor: [
-                    'rgba(0, 177, 106, 1)',
-                    'rgba(218, 223, 225, 1)'
-                  ],
-                  borderWidth: 1
-                }
-              ],
-              options: {
-                legend: {
-                  display: false
                 },
-                tooltips: {
-                  callbacks: {
-                    label: function (tooltipItem) {
-                      console.log(tooltipItem)
+                percent: percentOfNoSubscribedLogin
+              },
+              record2: {
+                datasets: [
+                  {
+                    data: [
+                      percentOfNoEmployeesLogin,
+                      Math.max(0, 100 - percentOfNoEmployeesLogin)
+                    ],
+                    backgroundColor: [
+                      'rgba(0, 177, 106, 1)',
+                      'rgba(218, 223, 225, 1)'
+                    ],
+                    borderWidth: 1
+                  }
+                ],
+                options: {
+                  legend: {
+                    display: false
+                  },
+                  tooltips: {
+                    callbacks: {
+                      label: function (tooltipItem) {
+                        console.log(tooltipItem)
+                      }
                     }
                   }
-                }
+                },
+                percent: percentOfNoEmployeesLogin
               },
-              percent: percentOfNoEmployeesLogin
-            },
-            isLoaded: false
-          }
-        })
-      })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response.status)
+              isLoaded: false
+            }
+          })
         }
       })
+      .catch(function (error) {
+        if (isSubscribed) {
+          if (error.response) {
+            console.log(error.response.status)
+          }
+        }
+      })
+    return () => (isSubscribed = false)
   }, [])
 
   return (

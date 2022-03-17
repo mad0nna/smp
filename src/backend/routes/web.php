@@ -20,7 +20,10 @@ Route::group(['middleware' => 'zuora.api'], function () {
 
 Route::get('/', 'Auth\LoginController@login')->name('login');
 Route::post('/', 'Auth\LoginController@authenticate')->name('auth');
-Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/login', 'Auth\LoginController@login')->name('login');
+Route::post('/login', 'Auth\LoginController@authenticate')->name('auth');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/zeusLandingPage', function(Request $request) {
     return redirect($request->redirectTo);
 });
@@ -67,8 +70,12 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
     Route::view('/methodofpayment', 'methodOfPayment');
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
+    // Company Shop
+    Route::view('/productDetail', 'companyProductDetail');
+    Route::view('/cart', 'companyCart');
+    Route::get('/shop', 'ShoppingController@shop');
+    Route::get('/getUnpaidOrders', 'CompanyController@getUnpaidOrders');
 });
-Route::view('/pdf-to-html', 'admin.template');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
@@ -86,9 +93,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('company/saveAddedCompany', 'CompanyController@saveAddedCompany');
     Route::post('company/updateSaveAccount', 'CompanyController@updateSaveAccount');
     Route::post('company/resendEmailInvite', 'CompanyController@resendEmailInvite');
-
     Route::view('/settings', 'admin.settings');
+
+    // invoice Template
+    Route::view('/settings/invoice/detail', 'admin.invoiceDetail');
+    Route::get('template/getListOfCompany', 'CompanyController@index');
+    Route::post("template/uploadNewTemplate", 'TemplateController@uploadNewTemplate');
+    Route::get("template/getListOfTemplate", 'TemplateController@getListOfTemplate');
+    Route::post("template/getTemplateDetail", 'TemplateController@getTemplateDetail');
+    Route::post('template/updateTemplate', 'TemplateController@updateTemplate');
+
+    Route::post('/uploadNewProductInventoryCsv', 'ShoppingController@uploadNewProductInventoryCsv');
+    Route::post('/uploadUpdateStockInventoryCsv', 'ShoppingController@uploadUpdateStockInventoryCsv');
 });
+// This route is for testing purposes.
+Route::get('template/fillData', 'TemplateController@fillData');
+
 
 Route::prefix('sales')->group(function () {
     Route::view('/dashboard', 'sales.dashboard')->name('dashboard');
@@ -114,6 +134,7 @@ Route::group(['prefix' => 'sso'], function () {
 Route::group(['prefix' => 'payment'], function() {
     Route::get('status', 'PaymentController@getResult');
     Route::get('setMethodCreditCard', 'PaymentController@changeMethodToCard');
+    Route::get('creditCardPayment', 'PaymentController@creditCardPayment');
     Route::post('setMethodBankTransfer', 'PaymentController@changeMethodToBank');
     Route::post('getPaymentMethod', 'PaymentController@getPaymentMethodDetails');
 });
