@@ -205,7 +205,7 @@ const CompanyProfile = () => {
         if (val === '' || re.test(val)) {
           errorMessage = ''
         } else {
-          errorMessage = 'ハイフンなしの７桁の郵便番号を入力してください'
+          errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
           hasError = true
         }
 
@@ -216,7 +216,7 @@ const CompanyProfile = () => {
         if (val === '' || re.test(val)) {
           errorMessage = ''
         } else {
-          errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
+          errorMessage = 'ハイフンなしの７桁の郵便番号を入力してください'
           hasError = true
         }
 
@@ -539,7 +539,7 @@ const CompanyProfile = () => {
                         (state.isEditingProfile ? '' : 'hidden') +
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                       }
-                      maxLength={11}
+                      maxLength={7}
                       value={state.companyEditValues.postalCode}
                       type="text"
                       placeholder="郵便番号"
@@ -589,7 +589,7 @@ const CompanyProfile = () => {
                       ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                     }
                     type="textarea"
-                    maxLength={7}
+                    maxLength={11}
                     value={state.companyEditValues.contactNumber}
                     placeholder="電話番号"
                     onChange={(e) =>
@@ -761,7 +761,7 @@ const CompanyProfile = () => {
                     type="input"
                     className={
                       (state.isEditingProfile ? '' : 'hidden') +
-                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
+                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8 input-label'
                     }
                     defaultValue={state.adminDetailsEditValues.Email}
                     placeholder="メールアドレス"
@@ -801,6 +801,7 @@ const CompanyProfile = () => {
                       (state.isEditingProfile ? '' : 'hidden') +
                       ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                     }
+                    maxLength={11}
                     value={state.adminDetailsEditValues.MobilePhone}
                     placeholder="電話番号"
                     onChange={(e) =>

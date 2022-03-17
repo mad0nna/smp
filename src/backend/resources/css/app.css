@@ -155,6 +155,7 @@ bg-shop-icon:hover {
 }
 
 
-
-
-
+.input-label {
+    background: rgba(0, 0, 0, 0);
+    border: none;
+}
