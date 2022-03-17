@@ -3,11 +3,11 @@ namespace App\Services;
 class TemplateProcessor {
     private $fileLocation;
     private $htmlString;
-    private $invoiceDate = "«Invoice.InvoiceDate»";
-    private $invoiceNumber = "«Invoice.InvoiceNumber»";
+    private $invoiceDate = "«Inv.InvoiceDate»";
+    private $invoiceNumber = "«Inv.InvoiceNumber»";
     private $accountName = "«Account.Name»";
-    private $tableStart = "«Invoice.Table.Start»";
-    private $tableEnd = "«Invoice.Table.End»";
+    private $tableStart = "«Inv.Table.Start»";
+    private $tableEnd = "«Inv.Table.End»";
     private $columnNumberStart = '«Column.Number.Start»';
     private $columnNumberEnd = '«Column.Number.End»';
     private $columnNameStart = '«Column.Name.Start»';
@@ -20,15 +20,15 @@ class TemplateProcessor {
     private $columnAmountEnd = '«Column.Amount.End»';
     private $amountWithoutTax = "«Inv.AmountWOTax»";
     private $tax = "«Inv.Tax»";
-    private $total = "«Invoice.Total»";
+    private $total = "«Inv.Total»";
     private $itemAdjustmentAmount = "«Inv.ItemAdjAmount»";
     private $tableItemTags = [
         'number' => '«Item.Number»',
-        'name' => '«Invoice.Item.ProductName»',
-        'unitPrice' => '«Invoice.Item.Price»',
-        'serviceStartDate' => '«Invoice.Item.ServiceStartDate»',
-        'quantity' => '«Invoice.Item.Quantity»',
-        'amountWithoutTax' => '«Invoice.Item.AmountWithoutTax»'
+        'name' => '«Inv.Item.ProductName»',
+        'unitPrice' => '«Inv.Item.Price»',
+        'serviceStartDate' => '«Inv.Item.ServiceStartDate»',
+        'quantity' => '«Inv.Item.Quantity»',
+        'amountWithoutTax' => '«Inv.Item.AmountWithoutTax»'
     ];
     private $columnNames = [
         'number' => 'No.',
