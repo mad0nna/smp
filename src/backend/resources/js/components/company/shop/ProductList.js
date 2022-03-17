@@ -4,6 +4,7 @@ import Pagination from '../../Pagination'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import { useCart } from 'react-use-cart'
+import shoppingCartIcon from '../../../../img/company/shopping-cart-icon.png'
 
 const ProductList = () => {
   const [pagingConditions, setPagingConditions] = useState({
@@ -363,14 +364,32 @@ const ProductList = () => {
                 pathname: `/company/cart`
               }}
             >
-              <div className="text-primary-200 underline font-bold text-sm pt-2 cursor-pointer">
-                カートの中をみる
+              <div className="flex">
+                <span className="relative inline-block mr-3">
+                  <img className="inline h-7 w-7 mr-2" src={shoppingCartIcon} />
+                  <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                    {items.length || 0}
+                  </span>
+                </span>
+                <p className="inline-block self-end text-primary-200 underline font-bold text-sm pt-2 m-1 cursor-pointer">
+                  カートの中をみる
+                </p>
               </div>
             </Link>
           ) : (
-            <div className="text-primary-200 font-bold text-sm pt-2">
-              商品はまだ追加されていません
-            </div>
+            <>
+              <div className="flex">
+                <span className="relative inline-block mr-3">
+                  <img className="inline h-7 w-7 mr-2" src={shoppingCartIcon} />
+                  <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                    {0}
+                  </span>
+                </span>
+                <p className="inline-block self-end text-primary-200 underline font-bold text-sm pt-2 m-1 cursor-pointer">
+                  商品はまだ追加されていません
+                </p>
+              </div>
+            </>
           )}
         </div>
       </div>
