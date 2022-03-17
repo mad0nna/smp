@@ -29,7 +29,9 @@ class TemplateController extends Controller
             'pdfinfo_path' => '/usr/bin/pdfinfo',
             'inlineCss' => true, // replaces css classes to inline css rules
             'inlineImages' => true,
-            'onlyContent' => true
+            'onlyContent' => true,
+            'clearAfter' => true,
+            'removeOutputDir' => true
         ]);
         $html = $pdf->getHtml()->getPage(1);
         $myfile = fopen(storage_path("app/template/html/$templateName.html"), "w");
