@@ -612,7 +612,7 @@ $columnList = [
 			<form ref="form" method="POST" action="<?= $enc->attr( $this->url( $target, $controller, $action, $searchParams, [], $config ) ) ?>">
 				<?= $this->csrf()->formfield() ?>
 				<button type="submit" id="btnSubmitFilterProduct" tabindex="2" title="Search" aria-label="Search" class="btn act-search fa file btn btn-lg btn-theme text-white upload-csv float-end mx-2" style="  ">
-					&nbsp; 探す &nbsp; 
+					&nbsp; 検索 &nbsp; 
 				</button>
 				<input type="text" id="txtProductFilter" tabindex="1" value="<?= $this->session( 'aimeos/admin/jqadm/product/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/product/filter', [] )['val']['6'] : ''; ?>" class="form-control float-end" style="width:15%; background:transparent;"  >
 
@@ -652,13 +652,10 @@ $columnList = [
 				<a class="nav-link <?= $selStatus === "" ? 'active' : '' ?>" aria-current="page" href="#" id="linkSetProductAllActive" >すべて</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link <?= $selStatus === "1" ? 'active' : '' ?>" href="#" id="linkSetProductActive"  >アクティブ</a>
+				<a class="nav-link <?= $selStatus === "1" ? 'active' : '' ?>" href="#" id="linkSetProductActive"  >販売中</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link <?= $selStatus === "0" ? 'active' : '' ?>" href="#" id="linkSetProductInActive"  >原稿</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link <?= $selStatus === "-2" ? 'active' : '' ?>" href="#" id="linkSetProductArchived" >アーカイブ</a>
+				<a class="nav-link <?= $selStatus === "0" ? 'active' : '' ?>" href="#" id="linkSetProductInActive"  >非公開</a>
 			</li>
 		</ul>
 

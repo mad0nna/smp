@@ -324,7 +324,7 @@ $navlist2 = [
 								</div>
 							<?php endif ?>
 							<div class="form-group row mandatory">
-								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '状態' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'ステータス' ) ) ?></label>
 								<div class="col-sm-8">
 									<select id="cboProdStatus" class="form-select item-status" required="required" tabindex="1"
 										name="<?= $enc->attr( $this->formparam( array( 'item', 'product.status' ) ) ) ?>"
@@ -333,10 +333,10 @@ $navlist2 = [
 											<?= $enc->html( $this->translate( 'admin', 'Please select' ) ) ?>
 										</option>
 										<option value="1" <?= $selected( $this->get( 'itemData/product.status', 1 ), 1 ) ?> >
-											<?= $enc->html( $this->translate( 'mshop/code', 'status:1' ) ) ?>
+											販売中
 										</option>
 										<option value="0" <?= $selected( $this->get( 'itemData/product.status', 1 ), 0 ) ?> >
-											<?= $enc->html( $this->translate( 'mshop/code', 'status:0' ) ) ?>
+											非公開
 										</option>
 									</select>
 								</div>
@@ -433,7 +433,7 @@ $navlist2 = [
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '在庫' ) ) ?></label>
+								<label class="col-sm-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '在庫数' ) ) ?></label>
 								<div class="col-sm-8">
 									<input id="txtStandardStockLevel" class="form-control item-label" type="number" tabindex="1" readonly
 										value="<?= $this->get('stocklevel') ?? 0; ?>">

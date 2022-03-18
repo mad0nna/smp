@@ -705,8 +705,8 @@ Vue.component('taxrates', {
 		<div> \
 			<table> \
 				<tr v-for="(val, type) in taxrates" v-bind:key="type"> \
-					<td class="input-group" style="width:115%"> \
-						<input  class="form-control item-taxrate" required="required" step="1" type="number" v-bind:placeholder="placeholder" \
+					<td class="input-group" style="width:98%"> \
+						<input  class="form-control item-taxrate" required="required" step="1" type="number" v-bind:placeholder="placeholder" :min="1" @keypress="isNumber($event)" \
 							v-bind:readonly="readonly" v-bind:tabindex="tabindex" v-bind:name="name + \'[\' + type + \']\'" \
 							v-bind:value="val" v-on:input="update(type, $event.target.value)" /> \
 						 \
@@ -743,7 +743,17 @@ Vue.component('taxrates', {
 
 		update: function(type, val) {
 			this.$set(this.taxrates, type, val);
-		}
+		},
+
+		isNumber: function(evt) {
+			evt = (evt) ? evt : window.event;
+			var charCode = (evt.which) ? evt.which : evt.keyCode;
+			if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+			  evt.preventDefault();
+			} else { 
+			  return true;
+			}
+		},
 	}
 });
 
