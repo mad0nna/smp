@@ -516,11 +516,15 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            <div className="pl-2">
-              <span>{state.contactLastName} </span>
-              <span>{state.contactFirstName} </span>
-              <span>様</span>
-            </div>
+            {location.pathname.split('/')[1] !== 'admin' ? (
+              <div className="pl-2">
+                <span>{state.contactLastName} </span>
+                <span>{state.contactFirstName} </span>
+                <span>様</span>
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         </div>
       )}
