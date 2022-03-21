@@ -364,14 +364,6 @@ const CartList = (props) => {
           }
         )
         .then((response) => {
-          setState((prevState) => {
-            return {
-              ...prevState,
-              addressModalDisplay: !prevState.addressModalDisplay,
-              modalDisplay: !prevState.modalDisplay,
-              loader: !prevState.loader
-            }
-          })
           history.push({ pathname: '/company/cart', state: response.data })
         })
         .catch((err) => {
@@ -478,6 +470,14 @@ const CartList = (props) => {
               })
               .then((res3) => {
                 console.info('save order')
+                setState((prevState) => {
+                  return {
+                    ...prevState,
+                    addressModalDisplay: !prevState.addressModalDisplay,
+                    modalDisplay: !prevState.modalDisplay,
+                    loader: !prevState.loader
+                  }
+                })
                 setOrderId({
                   orderId: res3.data.data.attributes['order.base.id'],
                   token: res3.data.meta.csrf.value

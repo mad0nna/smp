@@ -74,7 +74,7 @@ class Standard
 		 * @since 2014.07
 		 * @category User
 		 */
-		$hours = $context->getConfig()->get( 'controller/jobs/order/cleanup/unfinished/keep-hours', 12 );
+		$hours = $context->getConfig()->get( 'controller/jobs/order/cleanup/unfinished/keep-hours', 0.5 );
 		$limit = date( 'Y-m-d H:i:s', time() - 3600 * $hours );
 
 		$search = $manager->filter();
