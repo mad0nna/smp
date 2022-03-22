@@ -58,6 +58,8 @@ class DataSynchronizer
         Session::put('companyName', $request['companyDetails']['companyName']);
         Session::forget("CompanyContactLastname");
         Session::put('CompanyContactLastname', $request['adminDetails']['LastName']);
+        Session::forget("CompanyContactFirstname");
+        Session::put('CompanyContactFirstname', $request['adminDetails']['FirstName']);
         Cache::forget("{$companyID}:company:details");
         Cache::forget("{$companyID}:admin:details");
 

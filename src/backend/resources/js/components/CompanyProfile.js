@@ -551,7 +551,7 @@ const CompanyProfile = () => {
         <div className="pt-3 pb-6">
           <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
             <h2 className="text-green-800 text-lg font-bold">
-              顧客企業プロフィール
+              企業プロフィール
             </h2>
           </div>
         </div>

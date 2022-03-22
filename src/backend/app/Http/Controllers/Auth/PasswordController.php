@@ -95,7 +95,7 @@ class PasswordController extends Controller
 
             // perform password reset
             $this->passwordService->reset($formData);
-            $this->response['reset'] = true;
+            return redirect('/');
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),

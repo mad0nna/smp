@@ -122,10 +122,9 @@ class LoginController extends Controller
             Session::put('salesforceContactID', Auth::user()->account_code);
             Session::put('CompanyContactFirstname', Auth::user()->first_name);
             Session::put('CompanyContactLastname', Auth::user()->last_name);
-            Session::put('companyName', Auth::user()->company->name);
-            Session::put('kotToken', Auth::user()->company->token);
-            Session::put('kotStartDate', Auth::user()->company->kot_billing_start_date);
-
+            Session::put('companyName', Auth::user()->company()->first()->name);
+            Session::put('kotToken', Auth::user()->company()->first()->token);
+            Session::put('kotStartDate', Auth::user()->company()->first()->kot_billing_start_date);
             return redirect(Auth::user()->type->dashboard_url);
         } catch (Exception $e) {
             return redirect()->back()->with('status', $e);
