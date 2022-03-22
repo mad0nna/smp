@@ -68,7 +68,7 @@
                                 @enderror
                                 @if (session('status'))
                                 <div class="alert alert-success text-xs text-center text-blueGray-300 mb-2 block text-secondary-200" role="alert">
-                                    {{ session('status') }}
+                                <strong>{{ session('status') }}</strong>
                                 </div>
                                 @endif
                             </div>
