@@ -159,3 +159,7 @@ bg-shop-icon:hover {
     background: rgba(0, 0, 0, 0);
     border: none;
 }
+
+::placeholder { 
+    opacity: 0.6 !important;
+}
