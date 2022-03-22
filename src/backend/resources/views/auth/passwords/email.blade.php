@@ -33,7 +33,7 @@
                             <input id="email" type="email"  placeholder="ご登録のメールアドレスを入力してください" class="form-control @error('email') is-invalid @enderror w-7/12 px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none mx-auto mb-5 place-content-center" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                             @endif
                             @error('email')
-                                <span class="invalid-feedback text-xs text-center text-blueGray-300 mb-2 block" role="alert">
+                                <span class="invalid-feedback text-xs text-center text-blueGray-300 mb-2 block text-secondary-200" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
