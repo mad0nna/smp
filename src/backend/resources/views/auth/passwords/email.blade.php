@@ -42,16 +42,14 @@
                                 <strong>{{ session('status') }}</strong>
                             </div>
                             @endif
-
+                            @if (!session('status'))
                             <div class="form-group flex flex-wrap gap-0 w-full justify-center mt-2 mb-6 ">
                             <button type="submit" class="btn btn-primary btn-block bg-primary-200 hover:bg-green-700 text-white font-bold py-2 px-3 rounded w-7/12">
                                 {{ __('パスワード再設定用のリンクを送信する') }}
                             </button>
                             </div>
-                            
+                            @endif
                         </div>
-
-                        
                     </form>
                 </div>
             </div>
