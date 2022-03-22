@@ -326,20 +326,6 @@ const Navigation = () => {
       switch (aPathName[1]) {
         case 'company':
           mainNav = companyNavigation
-          axios.get(`/company/getLoggedinUser`).then((response) => {
-            if (response.status === 200) {
-              setState((prevState) => {
-                return {
-                  ...prevState,
-                  contactFirstName: response.data['contactFirstName'],
-                  contactLastName: response.data['contactLastName']
-                }
-              })
-              window.document.getElementById(
-                'companyDropwdownTitle'
-              ).innerHTML = response.data['companyName']
-            }
-          })
           break
         case 'admin':
           mainNav = adminNavigation
@@ -354,6 +340,20 @@ const Navigation = () => {
           break
       }
     }
+
+    axios.get(`/getLoggedinUser`).then((response) => {
+      if (response.status === 200) {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            contactFirstName: response.data['contactFirstName'],
+            contactLastName: response.data['contactLastName']
+          }
+        })
+        window.document.getElementById('companyDropwdownTitle').innerHTML =
+          response.data['companyName']
+      }
+    })
 
     let childPages = ['/admin/account/company', '/admin/account/sales']
     mainNav.navItem.map((item) => {
@@ -516,15 +516,11 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            {location.pathname.split('/')[1] !== 'admin' ? (
-              <div className="pl-2">
-                <span>{state.contactLastName} </span>
-                <span>{state.contactFirstName} </span>
-                <span>様</span>
-              </div>
-            ) : (
-              ''
-            )}
+            <div className="pl-2">
+              <span>{state.contactLastName} </span>
+              <span>{state.contactFirstName} </span>
+              <span>様</span>
+            </div>
           </div>
         </div>
       )}

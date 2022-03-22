@@ -48,7 +48,7 @@
                                     w-full px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none rounded-b-none"
                                 />
                                 @error('username')
-                                    <span class="text-blueGray-400 text-xs" role="alert">
+                                    <span class="text-blueGray-400 text-xs text-secondary-200" role="alert">
                                         <strong> @if ($message==='The username field is required.') メールアドレス/ IDを入力してください。 @else {{$message}} @endif </strong>
                                     </span>
                                 @enderror
@@ -62,7 +62,7 @@
                                     "w-full px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-gray-300 outline-none rounded-t-none mb-3"
                                 />
                                 @error('password')
-                                    <span class="text-blueGray-400 text-xs" role="alert">
+                                    <span class="text-blueGray-400 text-xs text-secondary-200" role="alert">
                                         <strong>@if ($message==='パスワードフィールドは必須です。.') 'パスワードを入力してください。' @else {{$message}} @endif</strong>
                                     </span>
                                 @enderror
