@@ -154,10 +154,13 @@ const ProductWidget = () => {
           ) : (
             <div className="grid md:grid-cols-1 px-4 lg:grid-cols-2">
               {productList.map((item, index) => {
-                let prodPrice = item.price['price.value']
-                prodPrice = _.parseInt(
-                  item.price['price.value']
-                ).toLocaleString('jp')
+                let prodPrice
+                if (!_.isEmpty(item.price)) {
+                  prodPrice = _.parseInt(
+                    item.price['price.value']
+                  ).toLocaleString('jp')
+                }
+
                 return (
                   <div
                     className="grid justify-center gap-2 pb-2 overflow-hidden mx-2 mb-2"
