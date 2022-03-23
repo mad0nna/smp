@@ -321,7 +321,10 @@ const ProductDetail = (props) => {
       })
     }
   }, [props])
-  console.log('x', productDetail.description.substring(0, 65))
+  const prodDescription =
+    productDetail.description >= 450
+      ? `${productDetail.description}...`
+      : productDetail.description
   return (
     <div className="bg-mainbg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
       <div className=" pb-5">
@@ -385,9 +388,7 @@ const ProductDetail = (props) => {
               <div className="grid lg:grid-cols-1 col-span-1 grid-rows-2 gap-6">
                 <div className="tracking-tighter text-gray-400 text-lg mt-10">
                   <div className="font-bold">商品説明</div>
-                  {isLoaded
-                    ? productDetail.description.substring(0, 65) + '...'
-                    : ''}
+                  {isLoaded ? prodDescription : ''}
                 </div>
                 <div className="flex flex-wrap content-end space-x-5 row-span-5 text-center">
                   <div className="space-x-5 w-full flex flex-row">
