@@ -102,7 +102,7 @@ const CheckoutAddress = (props) => {
                         className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
                         htmlFor="inline-last-name"
                       >
-                        名前（性）
+                        氏名（姓）
                         <span className="text-red-500 font-bold">*</span>
                       </label>
                     </div>
@@ -125,7 +125,7 @@ const CheckoutAddress = (props) => {
                           className="text-xs text-red-700 w-full pt-1"
                           id="passwordHelp"
                         >
-                          名前（性）を入力してください
+                          氏名（姓）を入力してください
                         </p>
                       ) : null}
                     </div>
@@ -136,7 +136,7 @@ const CheckoutAddress = (props) => {
                         className="block text-gray-500 md:text-left mb-1 md:mb-0 pr-1"
                         htmlFor="inline-first-name"
                       >
-                        名前（名）
+                        氏名（名）
                         <span className="text-red-500 font-bold">*</span>
                       </label>
                     </div>
@@ -159,7 +159,7 @@ const CheckoutAddress = (props) => {
                           className="text-xs text-red-700 w-full pt-1"
                           id="passwordHelp"
                         >
-                          名前（名）を入力してください
+                          氏名（名）を入力してください
                         </p>
                       ) : null}
                     </div>
