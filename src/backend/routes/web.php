@@ -126,3 +126,11 @@ Route::group(['prefix' => 'payment'], function() {
     Route::post('setMethodBankTransfer', 'PaymentController@changeMethodToBank');
     Route::post('getPaymentMethod', 'PaymentController@getPaymentMethodDetails');
 });
+
+
+Route::get('test', function() {
+    \Mail::raw('asdfasdfasdfasdfadsfsdf',function($message) {
+        $message->to('nessia.brb@sprobe.com');
+        $message->subject('asdfsgf');
+    });
+});

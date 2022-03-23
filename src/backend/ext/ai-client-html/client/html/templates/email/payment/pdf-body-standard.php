@@ -184,7 +184,6 @@ $barcode = new TCPDF2DBarcode( join( "\n", $data ), 'QRCODE,M' );
 					</tr>
 					<tr>
 						<td colspan="2">
-							<img style="padding: 5px" src="@<?= base64_encode( $barcode->getBarcodePngData( 3, 3, [0, 0, 0] ) ) ?>" />
 						</td>
 					</tr>
 				</table>

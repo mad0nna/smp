@@ -165,7 +165,7 @@ const ProductDetail = (props) => {
           {(productDetail.price * state.orderNum).toLocaleString('jp')}円
           <br />
           <span className="text-gray-400  font-bold">
-            ({productDetail.price.toLocaleString('jp')} * {state.orderNum})
+            ({productDetail.price.toLocaleString('jp')}円 * {state.orderNum})
           </span>
         </td>
         <td className="text-center font-bold text-red-500 p-3">
@@ -321,7 +321,7 @@ const ProductDetail = (props) => {
       })
     }
   }, [props])
-
+  console.log('x', productDetail.description.substring(0, 65))
   return (
     <div className="bg-mainbg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
       <div className=" pb-5">
