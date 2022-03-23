@@ -323,7 +323,7 @@ const ProductDetail = (props) => {
   }, [props])
   const prodDescription =
     productDetail.description >= 450
-      ? `${productDetail.description}...`
+      ? `${productDetail.description.substring(0, 450)}...`
       : productDetail.description
   return (
     <div className="bg-mainbg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
