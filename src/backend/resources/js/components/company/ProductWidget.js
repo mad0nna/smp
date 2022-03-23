@@ -154,6 +154,10 @@ const ProductWidget = () => {
           ) : (
             <div className="grid md:grid-cols-1 px-4 lg:grid-cols-2">
               {productList.map((item, index) => {
+                let prodPrice = item.price['price.value']
+                prodPrice = _.parseInt(
+                  item.price['price.value']
+                ).toLocaleString('jp')
                 return (
                   <div
                     className="grid justify-center gap-2 pb-2 overflow-hidden mx-2 mb-2"
@@ -168,13 +172,7 @@ const ProductWidget = () => {
                       ></img>
                     </a>
                     <div className="">{item.product['product.label']}</div>
-                    <div className="">
-                      {item.price['price.value'].substring(
-                        0,
-                        item.price['price.value'].length - 3
-                      )}
-                      円
-                    </div>
+                    <div className="">{prodPrice}円</div>
                     <div className="text-primary-200">
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}

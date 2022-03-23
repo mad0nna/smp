@@ -287,7 +287,6 @@ const ProductList = () => {
     if (!_.isEmpty(products)) {
       return products.map((product, index) => {
         let prodDescription, prodPrice
-
         if (!_.isEmpty(product.text)) {
           prodDescription = product.text['text.content'].replace(/<[^>]+>/g, '')
         }
@@ -296,6 +295,11 @@ const ProductList = () => {
             'jp'
           )
         }
+
+        prodDescription =
+          prodDescription.length >= 65
+            ? `${prodDescription}...`
+            : prodDescription
 
         return state.loaded ? (
           <div className="overflow-hidden mx-2 mt-6" key={index}>
@@ -331,7 +335,7 @@ const ProductList = () => {
                 className="text-gray-400 text-left text-sm"
                 style={{ height: '60px' }}
               >
-                {prodDescription.substring(0, 65) + '...'}
+                {prodDescription}
               </p>
               <div className="text-primary-200 underline font-bold text-sm pt-2 cursor-pointer">
                 <Link
@@ -435,7 +439,7 @@ const ProductList = () => {
                       handleSorting(e.target.value)
                     }}
                   >
-                    <option value="">選別</option>
+                    <option value="">選択</option>
                     {sortDropdown(sortItem.sortDropdown)}
                   </select>
                 </div>
