@@ -11,16 +11,20 @@ const AddAccountToken = (props) => {
   }
 
   return (
-    <div className="rounded-lg border-2 border-gray-200 absolute inset-1/3 top-48  h-80 m-auto bg-primary-200 opacity-85 ">
+    <div className="rounded-lg border-2 border-gray-200 absolute inset-1/3 top-48  h-96 m-auto bg-primary-200 opacity-85 ">
       <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
         <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
           <div className="text-center  ">
             <p className=" inline-block text-white w-full px-3 leading-8 ">
-              韋駄天に追加するために、&nbsp;
+              KOTとの連携を行うために&nbsp;
             </p>
             <p className=" inline-block text-white w-full px-3 leading-8 ">
-              {_.isEmpty(props.company) ? '' : props.company.name} &nbsp;
-              Tokenを入力してください
+              {_.isEmpty(props.company) ? '' : props.company.name}
+              のKOTのトークンを入力してください
+            </p>
+            <p className=" inline-block text-white text-xs w-full px-3 leading-8 ">
+              ※トークンはKOT→オプション→その他→外部サービス連携→KING OF TIME
+              WebAPI連携設定→新規アクセストークン発行より取得可能です
             </p>
 
             <input
@@ -31,10 +35,6 @@ const AddAccountToken = (props) => {
             />
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
-        <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5"></div>
       </div>
 
       <div className="flex flex-wrap gap-0 w-full justify-center mt-8">
