@@ -298,7 +298,7 @@ const ProductList = () => {
 
         prodDescription =
           prodDescription.length >= 65
-            ? `${prodDescription}...`
+            ? `${prodDescription.substring(0, 62)}...`
             : prodDescription
 
         return state.loaded ? (
