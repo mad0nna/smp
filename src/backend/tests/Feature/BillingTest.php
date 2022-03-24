@@ -43,6 +43,31 @@ class BillingTest extends TestCase
         self::$companyName = $user->company->name;
         self::$kotToken = $user->company->token;
         self::$kotStartDate = $user->company->kot_billing_start_date;
+
+        Auth::login(self::$COMPANY_ADMIN);
+        Session::put('companyID', self::$companyID);
+        Session::put('salesforceCompanyID', self::$salesforceCompanyID);
+        Session::put('email', self::$email);
+        Session::put('salesforceContactID', self::$salesforceContactID);
+        Session::put('CompanyContactFirstname', self::$CompanyContactFirstname);
+        Session::put('CompanyContactLastname', self::$CompanyContactLastname);
+        Session::put('companyName', self::$companyName);
+        Session::put('kotToken', self::$kotToken);
+        Session::put('kotStartDate', self::$kotStartDate);
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        Auth::logout();
+
+        Session::forget('salesforceCompanyID');
+        Session::forget('salesforceContactID');
+        Session::forget('CompanyContactLastname');
+        Session::forget('companyName');
+        Session::forget('kotToken');
+        Session::forget('kotStartDate');
+        Session::forget('email');
     }
 
     /**
@@ -55,21 +80,10 @@ class BillingTest extends TestCase
     }
 
     /**
-     * Unpaidbilling test success
+     * Unpaid billing information test success
      */
     public function testUnpaidBillingInformationSuccess()
     {
-        Auth::login(self::$COMPANY_ADMIN);
-        Session::put('companyID', Auth::user()->company->id);
-        Session::put('salesforceCompanyID', Auth::user()->company->account_id);
-        Session::put('email', Auth::user()->email);
-        Session::put('salesforceContactID', Auth::user()->account_code);
-        Session::put('CompanyContactFirstname', Auth::user()->first_name);
-        Session::put('CompanyContactLastname', Auth::user()->last_name);
-        Session::put('companyName', Auth::user()->company->name);
-        Session::put('kotToken', Auth::user()->company->token);
-        Session::put('kotStartDate', Auth::user()->company->kot_billing_start_date);
-
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession([
                             'companyID' => self::$companyID,
                             'salesforceCompanyID' => self::$salesforceCompanyID,
@@ -85,7 +99,34 @@ class BillingTest extends TestCase
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
+    }
 
-        Auth::logout();
+    /**
+     * Unpaid billing information test fail wrong company input
+     */
+    public function testUnpaidBillingInformationFailWrongInput()
+    {
+        // purposely using different input
+        $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
+        $companyName = 'aaaaaaaaaa';
+
+        Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
+        Session::put('companyName', $companyName);
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession([
+                            'companyID' => self::$companyID,
+                            'salesforceCompanyID' => $incorrectSalesforceCompanyID,
+                            'email' => self::$email,
+                            'salesforceContactID' => self::$salesforceContactID,
+                            'CompanyContactFirstname' => self::$CompanyContactFirstname,
+                            'CompanyContactLastname' => self::$CompanyContactLastname,
+                            'companyName' => $companyName,
+                            'kotToken' => self::$kotToken,
+                            'kotStartDate' =>  self::$kotStartDate,
+                        ])
+                        ->json('GET', '/company/getUnpaidBillingInformation');
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
     }
 }
