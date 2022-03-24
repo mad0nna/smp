@@ -714,7 +714,6 @@ Aimeos.Form = {
 			}
 
 			if($(this).is(":invalid") === true) {
-				console.log(this.id);
 				if (this.id !== "txtProductPrice") {
 					$(this).removeClass("is-valid").addClass("is-invalid");
 				}
@@ -749,7 +748,7 @@ Aimeos.Form = {
 					elem[0].setCustomValidity("Invalid field.");
 				}
 
-				if(elem.closest(".prototype").length === 0 && elem.is(":invalid") === true ) {
+				if(elem.closest(".prototype").length === 0 && elem.is(":invalid") === true && (elem[0].id !== "txtProductPrice" || elem[0]._value.length === 0 )) {
 					if(!element.classList.contains('.form-control') && !element.classList.contains('form-select')) {
 						elem = elem.closest('.form-control');
 					}
