@@ -703,7 +703,7 @@ Vue.component('select-component', {
 Vue.component('taxrates', {
 	template: '\
 		<div> \
-			<table> \
+			<table style="width:93%"> \
 				<tr v-for="(val, type) in taxrates" v-bind:key="type"> \
 					<td class="input-group" style="width:98%"> \
 						<input  class="form-control item-taxrate" required="required" step="1" type="number" v-bind:placeholder="placeholder" :min="1" @keypress="isNumber($event)" \

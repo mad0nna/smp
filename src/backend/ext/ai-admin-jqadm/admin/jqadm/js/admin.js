@@ -673,6 +673,7 @@ Aimeos.Form = {
 
 		let node = document.querySelector(".item-order-form");
 		if(node) {
+			Vue.config.devtools = true;
 			this.instance = new Vue({el: node, mixins: [this.mixins]});
 		}
 	},
@@ -687,8 +688,16 @@ Aimeos.Form = {
 		methods: {
 			value: function() {
 				return null;
-			}
-		} 
+			},
+			confirmSend: function(val) {
+				if(val) {
+					btnShowDialogOR = false;
+				}
+			},
+		},
+		created: function(){
+			// this.statusPaymentCode = $("#statusPaymentCode").val();
+		}
 	},
 
 	checkFields : function() {
@@ -705,7 +714,11 @@ Aimeos.Form = {
 			}
 
 			if($(this).is(":invalid") === true) {
-				$(this).removeClass("is-valid").addClass("is-invalid");
+				console.log(this.id);
+				if (this.id !== "txtProductPrice") {
+					$(this).removeClass("is-valid").addClass("is-invalid");
+				}
+				
 			} else {
 				$(this).removeClass("is-invalid").addClass("is-valid");
 			}

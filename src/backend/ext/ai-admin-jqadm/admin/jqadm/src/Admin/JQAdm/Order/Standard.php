@@ -628,6 +628,7 @@ class Standard
 		 */
 		$tplconf = 'admin/jqadm/order/template-item';
 		$default = 'order/item-standard';
+		$view->emailSentURL = url('/images/email-sent.png');
 
 		return $view->render( $view->config( $tplconf, $default ) );
 	}
