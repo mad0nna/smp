@@ -132,9 +132,6 @@
     transform-origin: 50% 100% 0px;
 }
 
-
-
-
-
-
-
+::placeholder { 
+    opacity: 0.6 !important;
+}

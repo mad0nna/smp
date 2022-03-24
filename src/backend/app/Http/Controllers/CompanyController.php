@@ -25,14 +25,13 @@ class CompanyController extends Controller
         return Session::get('kotStartDate');
     }
 
-    public function getLoggedinUser($field)
+    public function getLoggedinUser()
     {
-        if ($field === 'lastname') {
-            return Session::get('CompanyContactLastname');
-        }
-        if ($field === 'companyname') {
-            return Session::get('companyName');
-        }
+        return [
+            'companyName' => Session::get('companyName'),
+            'contactFirstName' => Session::get('CompanyContactFirstname'),
+            'contactLastName' => Session::get('CompanyContactLastname')
+        ];
     }
 
     public function getCompanyDetails(CompanyService $companyService)
@@ -101,7 +100,7 @@ class CompanyController extends Controller
                 return response()->json([
                     'success' => true,
                     'exists' => true,
-                    'data' => 'ご入力された顧客企業コードは既に登録されています。',
+                    'data' => 'ご入力されたKoT企業コードは既に登録されています',
                   ]);
             }
             $result = $companyService->getAllDetailsInSFByID($request->code);

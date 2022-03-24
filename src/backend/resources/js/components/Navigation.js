@@ -9,7 +9,9 @@ import axios from 'axios'
 const Navigation = () => {
   const [state, setState] = useState({
     mainNav: {},
-    loading: true
+    loading: true,
+    contactLastName: '',
+    contactFirstName: ''
   })
 
   const refMenu = useRef()
@@ -97,7 +99,7 @@ const Navigation = () => {
         logo: '',
         items: [
           {
-            label: 'アカウント プロファイル',
+            label: '企業プロフィール',
             url: '/company/companyProfile',
             iconNormal: 'bg-profile-icon-white',
             iconHover: '',
@@ -115,14 +117,6 @@ const Navigation = () => {
               e.preventDefault()
               window.open('/sso/zendesk', '_blank')
             }
-          },
-          {
-            label: 'アカウント設定',
-            url: '#',
-            iconNormal: 'bg-settings-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
           },
           {
             label: 'ウィジェット設定',
@@ -332,10 +326,6 @@ const Navigation = () => {
       switch (aPathName[1]) {
         case 'company':
           mainNav = companyNavigation
-          axios.get(`/company/getLoggedinUser/companyname`).then((response) => {
-            window.document.getElementById('companyDropwdownTitle').innerHTML =
-              response.data
-          })
           break
         case 'admin':
           mainNav = adminNavigation
@@ -350,6 +340,20 @@ const Navigation = () => {
           break
       }
     }
+
+    axios.get(`/getLoggedinUser`).then((response) => {
+      if (response.status === 200) {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            contactFirstName: response.data['contactFirstName'],
+            contactLastName: response.data['contactLastName']
+          }
+        })
+        window.document.getElementById('companyDropwdownTitle').innerHTML =
+          response.data['companyName']
+      }
+    })
 
     let childPages = ['/admin/account/company', '/admin/account/sales']
     mainNav.navItem.map((item) => {
@@ -511,6 +515,11 @@ const Navigation = () => {
                   })}
                 </div>
               )}
+            </div>
+            <div className="pl-2">
+              <span>{state.contactLastName} </span>
+              <span>{state.contactFirstName} </span>
+              <span>様</span>
             </div>
           </div>
         </div>
