@@ -9,6 +9,7 @@
 
 
 namespace Aimeos\Admin\JQAdm\Order\Invoice;
+use Illuminate\Support\Facades\Session;
 
 sprintf( 'invoice' ); // for translation
 
@@ -300,6 +301,10 @@ class Standard
 			$item->setRelatedId( $this->getValue( $data, 'order.relatedid/' . $idx ) );
 			$item->setBaseId( $order->getId() );
 
+			if (($item['statusPayment'] == null || $item['statusPayment'] == 5 ) && $value == 6 ) {			
+				Session::put('aimeos/admin/jqadm/order/notification-status', 'success');
+				Session::put('aimeos/admin/jqadm/order/notification-message', '注文明細を送信する');
+			}
 			$manager->save( $item );
 		}
 	}

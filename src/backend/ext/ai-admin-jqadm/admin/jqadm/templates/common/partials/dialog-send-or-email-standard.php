@@ -26,24 +26,15 @@ $statusPaymentCode = $this->get( 'statusPaymentCode', [] );
 				</div>
 
 				<div class="modal-body">
-					<p for="emailORCheck" class="form-label text-center">これにより、ORメールがお客様に送信されます</p>
-					<div class="row d-flex justify-content-center">
-						<div class="col-lg-4 ">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="emailORCheck"  checked disabled style="background-color:gray">
-								<label class="form-check-label" for="emailORCheck" style="opacity:1">
-									<?= $statusPaymentCode == "6" ? "メールが送信されました" : "メールを送る"; ?>
-								</label>
-							</div>
-						</div>
-					</div>
+					<p for="emailORCheck" class="form-label text-center">ご注文明細がお客様に送付されます <br/>
+						本当に送付してもよろしいですか？</p>
 				</div>
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" v-on:click="$emit('close')">
-						<?= $enc->html( $this->translate( 'admin', 'Close' ) ) ?>
-					</button>
-					<button type="submit" class="btn btn-primary">
+						キャンセル
+					</button>		
+					<button type="submit" class="btn btn-primary" v-on:click="$emit('confirm')">
 						オーケー
 					</button>
 				</div> 

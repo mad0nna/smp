@@ -118,11 +118,25 @@ $paymentStatusList2 = [
 		<input id="item-baseid" type="hidden" name="<?= $enc->attr( $this->formparam( array( 'item', 'order.base.id' ) ) ) ?>" value="<?= $enc->attr( $basket->getId() ) ?>" />
 		<input id="item-next" type="hidden" name="<?= $enc->attr( $this->formparam( array( 'next' ) ) ) ?>" value="get" />
 		<?= $this->csrf()->formfield() ?>
-
-		<dialog-send-or-email v-bind:show="btnShowDialogOR" v-on:close="btnShowDialogOR = false">
+	 
+		<input id="statusPaymentCode"  type="hidden" value="<?= $this->get('statusPaymentCode') ?>" />
+		<dialog-send-or-email v-bind:show="btnShowDialogOR" v-on:close="btnShowDialogOR = false" 
+			v-on:close="confirmSend(false)" v-on:confirm="confirmSend(true)">
 		</dialog-send-or-email>
 
-		<div class="p2">&nbsp;</div><div class="p2"></div>
+		<?  if (session()->has('aimeos/admin/jqadm/order/notification-message')) {?>
+			<nav class="main-navbar">
+				<span class="navbar-brand <?= session('aimeos/admin/jqadm/order/notification-status') === "failed" ? " navbar-brand-error " : " " ?> 
+										<?= session('aimeos/admin/jqadm/order/notification-status') === "warning" ? " navbar-brand-warning " : " " ?>">
+					<?= session('aimeos/admin/jqadm/order/notification-message') ?>
+					<? session()->forget('aimeos/admin/jqadm/order/notification-status');  ?>
+					<? session()->forget('aimeos/admin/jqadm/order/notification-message');  ?>
+				</span>
+			</nav>
+		<? } else { ?>
+			<div class="p2">&nbsp;</div><div class="p2"></div>
+		<? } ?>
+
 		<nav class="main-navbar d-none">
 			<h1 class="navbar-brand">
 				<span class="navbar-title"><?= $enc->html( $this->translate( 'admin', 'Order' ) ) ?></span>
@@ -772,26 +786,29 @@ $paymentStatusList2 = [
 									<input class="order-id" type="hidden"
 										name="<?= $enc->attr( $this->formparam( array( 'invoice', 'order.id', '' ) ) ) ?>"
 										value="<?= $enc->attr( $orderId ) ?>"   />
-									<div class="col-xl-3" style="padding-top: 1rem;">
+									<div class="col-xl-3" style="padding-top: 1rem; padding-right: 0;">
 										<div class="row">
-											<label class="col-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '支払い :' ) ) ?></label>
-											<div class="col-7 ">
-												<select class="form-select product-status" tabindex="1" id="cboPaymentStatus"
+											<label class="col-3 form-control-label pe-0"><?= $enc->html( $this->translate( 'admin', '支払い :' ) ) ?></label>
+											<div class="col-7 px-0">
+												<select   id="cboPaymentStatus" class="form-select product-status" tabindex="1" style="width:68%; display:inline-block;"
 													name="<?= $enc->attr( $this->formparam( array( 'invoice', 'order.statuspayment', '' ) ) ) ?>"
 													<?= $this->site()->readonly( $orderProduct->getSiteId() ) ?> >
-													<option value=""></option>
+													<option value="0"></option>
 													<?php foreach( $paymentStatusList2 as $code => $label ) : ?>
-														<option value="<?= $code ?>" <?= $selected( $this->get( 'invoiceData/order.statuspayment/' . $idx ), $code ) ?> >
+														<option  value="<?= $code ?>" <?= $selected( $this->get( 'invoiceData/order.statuspayment/' . $idx ), $code ) ?> >
 															<?= $enc->html( $label ) ?>
 														</option>
 													<?php endforeach ?>
 												</select>
+												<?php if ($this->get('statusPaymentCode') === 6) { ?>
+												<img src="<?= $this->emailSentURL ?>" style="height: 45px; width: auto;" alt="" title="" />
+												<?php } ?>
 											</div>
 										</div>
 										<div class="row">
-											<label class="col-4 form-control-label"><?= $enc->html( $this->translate( 'admin', '配達 :' ) ) ?></label>
-											<div class="col-7 ">
-												<select class="form-select product-status" tabindex="1" id="cboDeliveryStatus"
+											<label class="col-3 form-control-label pe-0"><?= $enc->html( $this->translate( 'admin', '配達 :' ) ) ?></label>
+											<div class="col-7 px-0">
+												<select class="form-select product-status" tabindex="1" id="cboDeliveryStatus" style="width:68%;"
 													name="<?= $enc->attr( $this->formparam( array( 'invoice', 'order.statusdelivery', '' ) ) ) ?>"
 													<?= $this->site()->readonly( $orderProduct->getSiteId() ) ?> >
 													<option value=""></option>
@@ -875,10 +892,10 @@ $paymentStatusList2 = [
 									</div>
 
 									<div class="col-xl-3" style="position:relative">
-										<div class="row justify-content-center">
+										<div class="row justify-content-center" style="margin-top: -30px;">
 											<label class="col-6 form-control-label">備考</label>
 											<div class="col-7 col-sm-12" style="padding-left: 1.5rem; padding-top: 0.5rem;">
-												<textarea class="form-control order-notes" rows="5" name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.notes' ) ) ) ?>" >
+												<textarea class="form-control order-notes" rows="8" name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.notes' ) ) ) ?>" >
 													<?= $enc->attr( $this->get( 'itemData/product/' . $pos . '/order.base.product.notes' ) ) ?>
 												</textarea>
 											</div>
@@ -889,7 +906,8 @@ $paymentStatusList2 = [
 												href="<?= $enc->attr( $this->url( $listTarget, $listCntl, $listAction, $searchParams, [], $listConfig ) ) ?>">
 												キャンセル
 											</a> &nbsp;
-											<button type="button" class="btn btn-primary act-save" title="保存" v-on:click="btnShowDialogOR = true">&nbsp;保存&nbsp;</button>
+												<button type="button" id="buttonUpdateOrderSendEmail" class="btn btn-primary act-save" style="display:none;" title="保存" v-on:click="btnShowDialogOR = true">&nbsp;保存1&nbsp;</button> 
+												<button type="submit" id="btnUpdateOrder" class="btn btn-primary act-save " title="保存"  >&nbsp;保存2&nbsp;</button>			 
 										</p>
 									</div>
 								</div>

@@ -55,14 +55,6 @@ $(document).ready(function () {
         $("#txtCustomerCompanyName").val(this.value);
     });    
 
-    const cboPaymentStatus = document.querySelector('#cboPaymentStatus');
-    if ( cboPaymentStatus !== undefined ) {
-        var selected_option = $('#cboPaymentStatus option:selected').val();
-        if (selected_option == "") {
-            $('#cboPaymentStatus').val("5").change();
-        }
-    }
-
     const cboDeliveryStatus = document.querySelector('#cboDeliveryStatus');
     if ( cboDeliveryStatus !== undefined ) {
         var selected_option = $('#cboDeliveryStatus option:selected').val();
@@ -72,7 +64,9 @@ $(document).ready(function () {
     }    
 
     const txtProductCode = document.querySelector('#txtProductCode');
-    if ( txtProductCode !== undefined ) {
+    if ( txtProductCode == null ) {
+
+    } else if ( txtProductCode !== null  || txtProductCode !== undefined ) {
         txtProductCode.addEventListener('blur', (event) => {
             if(event.target.value.length > 64) {
             	alert("６４文字以内で入力してください");
@@ -105,6 +99,27 @@ $(document).ready(function () {
             	return;
             }
           });
+    }
+
+    const cboPaymentStatus = document.querySelector('#cboPaymentStatus');
+    if ( cboPaymentStatus == null ) {
+
+    } else if ( cboPaymentStatus !== null  || cboPaymentStatus !== undefined ) {
+        var selected_option = $('#cboPaymentStatus option:selected').val();
+        if (selected_option == "") {
+            $('#cboPaymentStatus').val("5").change();
+        }
+       
+        cboPaymentStatus.addEventListener('change', (event) => {
+            const statusPaymentCode = $("#statusPaymentCode").val();
+            if(parseInt(statusPaymentCode) == 5 && parseInt(event.target.value) == 6) {
+                $("#buttonUpdateOrderSendEmail").show();
+                $("#btnUpdateOrder").hide();                
+            } else {
+                $("#buttonUpdateOrderSendEmail").hide();
+                $("#btnUpdateOrder").show();             
+            }
+          });        
     }
 
 });
