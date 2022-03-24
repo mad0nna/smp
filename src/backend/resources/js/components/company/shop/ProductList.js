@@ -131,6 +131,7 @@ const ProductList = () => {
   }
 
   const handleNavigation = (change) => {
+    console.log(change, 'handleNavigation')
     setPagingConditions({
       ...pagingConditions,
       ...{ page: pagingConditions.page + change }
@@ -142,7 +143,7 @@ const ProductList = () => {
   }
 
   function fetchProductList() {
-    let offset = (pagingConditions.page - 1) * pagingConditions.limit
+    let offset = pagingConditions.page * pagingConditions.limit - 10
     setLoadedImage(false)
 
     let searchParam =
@@ -281,7 +282,7 @@ const ProductList = () => {
 
   useEffect(() => {
     fetchProductList()
-  }, [])
+  }, [pagingConditions])
 
   const productItem = (products) => {
     if (!_.isEmpty(products)) {
