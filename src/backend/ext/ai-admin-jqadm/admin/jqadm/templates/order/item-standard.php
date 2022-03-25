@@ -906,8 +906,8 @@ $paymentStatusList2 = [
 												href="<?= $enc->attr( $this->url( $listTarget, $listCntl, $listAction, $searchParams, [], $listConfig ) ) ?>">
 												キャンセル
 											</a> &nbsp;
-												<button type="button" id="buttonUpdateOrderSendEmail" class="btn btn-primary act-save" style="display:none;" title="保存" v-on:click="btnShowDialogOR = true">&nbsp;保存1&nbsp;</button> 
-												<button type="submit" id="btnUpdateOrder" class="btn btn-primary act-save " title="保存"  >&nbsp;保存2&nbsp;</button>			 
+												<button type="button" id="buttonUpdateOrderSendEmail" class="btn btn-primary act-save" style="display:none;" title="保存" v-on:click="btnShowDialogOR = true">&nbsp;保存&nbsp;</button> 
+												<button type="submit" id="btnUpdateOrder" class="btn btn-primary act-save " title="保存"  >&nbsp;保存&nbsp;</button>			 
 										</p>
 									</div>
 								</div>
