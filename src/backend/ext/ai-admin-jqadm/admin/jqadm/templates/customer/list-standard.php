@@ -240,7 +240,7 @@ $columnList = [
 								<td class="customer-telefax"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getTelefax() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'customer.ctime', $fields ) ) : ?>
-								<td class="customer-ctime"> <?= $enc->html( substr($enc->html( $item->getTimeCreated() ), 0, 10) ) ?> </td>
+								<td class="customer-ctime"><?=  date("Y年m⽉d⽇",strtotime($item->getTimeCreated())) ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'customer.email', $fields ) ) : ?>
 								<td class="customer-email"> <?= $enc->html( $address->getEmail() ) ?> </td>
