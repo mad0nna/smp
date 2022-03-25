@@ -313,7 +313,7 @@ $statusList = [
 								<td class="order-relatedid"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getRelatedId() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.ctime', $fields ) ) : ?>
-								<td class="order-ctime"> <?= substr($enc->html( $item->getTimeCreated() ), 0, 10) ?> </td>
+								<td class="order-ctime"> <?=  date("Y年m⽉d⽇",strtotime($item->getTimeCreated())) ?></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.mtime', $fields ) ) : ?>
 								<td class="order-mtime"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getTimeModified() ) ?></a></td>
