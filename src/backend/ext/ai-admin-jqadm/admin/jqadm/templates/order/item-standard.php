@@ -895,7 +895,7 @@ $paymentStatusList2 = [
 										<div class="row justify-content-center" style="margin-top: -30px;">
 											<label class="col-6 form-control-label">備考</label>
 											<div class="col-7 col-sm-12" style="padding-left: 1.5rem; padding-top: 0.5rem;">
-												<textarea class="form-control order-notes" rows="8" name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.notes' ) ) ) ?>" >
+												<textarea class="form-control order-notes" rows="7" name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.notes' ) ) ) ?>" >
 													<?= $enc->attr( $this->get( 'itemData/product/' . $pos . '/order.base.product.notes' ) ) ?>
 												</textarea>
 											</div>
