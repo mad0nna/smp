@@ -33,7 +33,7 @@
         $userData['postal'] = $user['postal'];
         $userData['city'] = $user['city'];
         $userData['state'] = $user['state'];
-        $userData['number'] = $user['telephone'];
+        $userData['number'] = $user['contact_num'];
         $userData['accountCode'] = $user['account_code'];
         $userData['userTypeId'] = $user['user_type_id'];
         $userData['title'] = $user['title'];        
