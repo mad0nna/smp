@@ -18,7 +18,7 @@ import CheckoutMessage from './CheckoutMessage'
 import CheckoutContent from './CheckoutContent'
 import CheckoutAddress from './CheckoutAddress'
 // eslint-disable-next-line
-const CartList = (props) => {
+const CartList = () => {
   const SERVICE_TYPE = 'payment'
   const [isAgreedTerms, setAgreedTerms] = useState(false)
   const [orderId, setOrderId] = useState({ orderId: null, token: null })
@@ -37,8 +37,6 @@ const CartList = (props) => {
     loader: false,
     isSubmit: false
   })
-
-  console.log('state', state)
 
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
@@ -139,7 +137,6 @@ const CartList = (props) => {
       })
     }
   }
-
   // const handleTelNumber = (event) => {
   //   const name = event.target.name
   //   const value = event.target.value
@@ -224,10 +221,9 @@ const CartList = (props) => {
         //
       }
       let url = '/jsonapi/basket?id=default&related=product'
-      let csrfItem = props.location.state.meta.csrf
-
+      // let csrfItem = props.location.state.meta.csrf
       // save state csrfItem
-      setCsrfToken(csrfItem)
+      // setCsrfToken(csrfItem)
 
       if (csrfItem) {
         // add CSRF token if available and therefore required
@@ -277,8 +273,6 @@ const CartList = (props) => {
         )
         .then((res1) => {
           console.info('fetch delivery services')
-
-          let csrfItem = res1.data.meta.csrf
           const urlParams = res1.data.data.filter(function (item) {
             // this should be selected config for company
             return (
@@ -298,7 +292,6 @@ const CartList = (props) => {
               }
             ]
           }
-
           if (csrfItem) {
             var csrf = {}
             csrf[csrfItem.name] = csrfItem.value
@@ -308,7 +301,6 @@ const CartList = (props) => {
                 .map((key) => key + '=' + csrf[key])
                 .join('&')
           }
-
           axios
             .post(url, JSON.stringify(params), {
               'Content-Type': 'application/json'
@@ -335,7 +327,6 @@ const CartList = (props) => {
   async function createAddressService(serviceId, addressUrl) {
     try {
       // let addressUrl = '/jsonapi/basket?id=default&related=address'
-      let csrfItem = props.location.state.meta.csrf
       const params = {
         data: [
           {
@@ -370,7 +361,7 @@ const CartList = (props) => {
           console.log('address', err)
         })
     } catch (err) {
-      console.log('saveBasketTryCatch', err)
+      console.log('createAddressService', err)
     }
   }
 
@@ -394,7 +385,6 @@ const CartList = (props) => {
           })[0]
           console.log('sasdx', urlParams)
           let url = urlParams.links['basket/service'].href
-          let csrfItem = res1.data.meta.csrf
           var params = {
             data: [
               {
@@ -425,7 +415,7 @@ const CartList = (props) => {
           }
         })
     } catch (err) {
-      console.log('saveBasketTryCatch', err)
+      console.log('createPaymentService', err)
     }
   }
 
@@ -437,7 +427,7 @@ const CartList = (props) => {
           console.info('@deleted basket items')
         })
     } catch (err) {
-      console.log('saveBasketTryCatch', err)
+      console.log('deleteBasketCache', err)
     }
   }
 
@@ -450,7 +440,6 @@ const CartList = (props) => {
         .then((res2) => {
           console.info('create payment service')
           let basketUrl = res2.data.links.self.href
-          let csrfItem = res2.data.meta.csrf
           if (csrfItem) {
             // add CSRF token if available and therefore required
             var csrf = {}
@@ -493,7 +482,7 @@ const CartList = (props) => {
           }
         })
     } catch (err) {
-      console.log('saveBasketTryCatch', err)
+      console.log('createServicePersistBasket', err)
     }
   }
   const handleCheckoutModalAddressClose = () => {
@@ -858,6 +847,14 @@ const CartList = (props) => {
   useEffect(() => {
     formValidation()
   }, [addressData, addressData.email, state.addressModalDisplay])
+
+  useEffect(() => {
+    axios
+      .options('/jsonapi', {
+        'Content-Type': 'application/json'
+      })
+      .then((res) => setCsrfToken(res.data.meta.csrf))
+  }, [])
   return (
     <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
       <div className="md:col-span-1 lg:col-span-3 pb-5">
