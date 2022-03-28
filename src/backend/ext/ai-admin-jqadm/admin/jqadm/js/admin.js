@@ -714,7 +714,7 @@ Aimeos.Form = {
 			}
 
 			if($(this).is(":invalid") === true) {
-				if (this.id !== "txtProductPrice" || this.id !== "txtUnitPrice" || this.id !== "txtTaxRate") {
+				if (this.id !== "txtProductPrice" || this.id !== "txtTaxRate") {
 					$(this).removeClass("is-valid").addClass("is-invalid");
 				}
 				
