@@ -68,7 +68,6 @@ const CartList = () => {
   const history = useHistory()
   const { cartTotal, items, updateItemQuantity, removeItem, emptyCart } =
     useCart()
-
   const [calculatedItem, setCalculatedItem] = useState({
     totalTax: 0,
     totalAmount: 0
@@ -383,7 +382,6 @@ const CartList = () => {
               item.attributes['service.type'] == SERVICE_TYPE
             )
           })[0]
-          console.log('sasdx', urlParams)
           let url = urlParams.links['basket/service'].href
           var params = {
             data: [
@@ -407,7 +405,6 @@ const CartList = () => {
                 .map((key) => key + '=' + csrf[key])
                 .join('&')
           }
-          console.log('url', url)
           if (res1) {
             createServicePersistBasket(params, url)
           } else {
@@ -451,7 +448,6 @@ const CartList = () => {
                 .join('&')
           }
           //  save basket order
-          console.log(res2)
           if (res2) {
             axios
               .post(basketUrl, {
@@ -653,11 +649,10 @@ const CartList = () => {
       },
       0
     )
-
     setCalculatedItem({
       ...calculatedItem,
-      totalTax: totalTax,
-      totalAmount: cartTotal + totalTax
+      totalTax: Math.round(totalTax),
+      totalAmount: cartTotal + Math.round(totalTax)
     })
   }
 

@@ -131,7 +131,6 @@ const ProductList = () => {
   }
 
   const handleNavigation = (change) => {
-    console.log(change, 'handleNavigation')
     setPagingConditions({
       ...pagingConditions,
       ...{ page: pagingConditions.page + change }
@@ -297,10 +296,12 @@ const ProductList = () => {
           )
         }
 
-        prodDescription =
-          prodDescription.length >= 80
-            ? `${prodDescription.substring(0, 80)}...`
-            : prodDescription
+        if (!_.isEmpty(prodDescription)) {
+          prodDescription =
+            prodDescription.length >= 80
+              ? `${prodDescription.substring(0, 80)}...`
+              : prodDescription
+        }
 
         return state.loaded ? (
           <div className="overflow-hidden mx-2 mt-6" key={index}>
@@ -334,7 +335,7 @@ const ProductList = () => {
               <div className="text-gray-500 font-bold">商品說明</div>
               <p
                 className="text-gray-400 text-left text-sm"
-                style={{ height: '60px' }}
+                style={{ height: '85px' }}
               >
                 {prodDescription}
               </p>
