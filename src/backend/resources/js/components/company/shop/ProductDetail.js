@@ -37,7 +37,6 @@ const ProductDetail = (props) => {
   // const hasRelaod = itemData.addItem || []
 
   const parseProductData = (data) => {
-    console.log('@data', data)
     const { media, price, product, text, stock, meta } = data
 
     if (_.isEmpty(price)) {
@@ -51,9 +50,7 @@ const ProductDetail = (props) => {
       : ''
     let prodPrice = !_.isEmpty(price) ? _.parseInt(price['price.value']) : ''
     let userData = JSON.parse(document.getElementById('userData').textContent)
-    let taxValue = !_.isEmpty(price)
-      ? _.parseInt(_.parseInt(price['price.taxvalue']))
-      : ''
+    let taxValue = !_.isEmpty(price) ? price['price.taxvalue'] : ''
 
     setProductDetail({
       ...productDetail,
