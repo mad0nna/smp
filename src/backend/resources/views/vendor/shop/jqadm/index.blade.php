@@ -7,7 +7,7 @@
 		<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'unsafe-inline' 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; script-src 'unsafe-eval' 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://*.tile.openstreetmap.org https://aimeos.org; frame-src https://www.youtube.com">
 
 		<title>iDaten Shopping Admin</title>
-
+		<link rel="shortcut icon" href="{{ asset('images/kotContractLogo.png') }}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css" />
 @if( $localeDir == 'rtl' )
@@ -27,7 +27,7 @@
 	<body class="light">
 		<div class="app-menu shadow-lg navbar navbar-expand-lg bg-white mb-8" style="height:6rem; z-index:1200">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="#"><img class="align-content-center h-auto" src="/images/KOT-menu-logo.png?3c627f756b89930856698fce8f8ea54d"></a>
+				<a class="navbar-brand" href="#"><img class="align-content-center h-auto" style="width: 12rem;" src="/images/KOT-menu-logo.png?3c627f756b89930856698fce8f8ea54d"></a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
