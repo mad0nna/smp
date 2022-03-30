@@ -134,3 +134,5 @@ Route::get('test', function() {
         $message->subject('asdfsgf');
     });
 });
+
+Route::get('service-check', 'ServiceCheckController');
