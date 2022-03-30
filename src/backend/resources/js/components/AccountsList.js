@@ -398,7 +398,7 @@ const AccountList = () => {
                                 }
                                 // update
                               >
-                                更新 &nbsp;
+                                詳細​&nbsp;
                               </span>
                             ) : null}
 

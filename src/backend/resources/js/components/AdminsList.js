@@ -118,7 +118,7 @@ const AdminsList = (props) => {
                       className="cursor-pointer"
                       onClick={() => props.handleDisplayUpdate(admin, i)}
                     >
-                      更新 &nbsp;
+                      詳細​&nbsp;
                     </span>
                   ) : null}
                   {(state.loggedUser.user_type_id === 3 &&

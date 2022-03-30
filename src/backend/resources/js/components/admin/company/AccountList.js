@@ -359,7 +359,7 @@ const AccountList = (props) => {
                           props.handleDisplaySelectedCompany(index)
                         }
                       >
-                        更新 &nbsp;&nbsp;
+                        詳細​&nbsp;&nbsp;
                       </a>
                       <a
                         className="cursor-pointer"
