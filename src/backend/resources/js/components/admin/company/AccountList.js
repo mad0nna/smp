@@ -358,9 +358,8 @@ const AccountList = (props) => {
                         onClick={() =>
                           props.handleDisplaySelectedCompany(index)
                         }
-                      >
-                        詳細​&nbsp;&nbsp;
-                      </a>
+                      ></a>
+                      詳細
                       <a
                         className="cursor-pointer"
                         onClick={() => {
