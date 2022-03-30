@@ -381,9 +381,7 @@ const AccountList = () => {
                         </td>
                         <td className="text-center">{admin.title}</td>
                         <td className="text-center">
-                          {admin.user_type_id === 3
-                            ? 'スーパー管理者'
-                            : '副管理者'}
+                          {admin.user_type_id === 3 ? '管理者' : '副管理者'}
                         </td>
                         <td className="text-center">{admin.email}</td>
                         <td className="text-right">{admin.contact_num}</td>
