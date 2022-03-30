@@ -118,3 +118,5 @@ Route::group(['prefix' => 'payment'], function() {
     Route::post('setMethodBankTransfer', 'PaymentController@changeMethodToBank');
     Route::post('getPaymentMethod', 'PaymentController@getPaymentMethodDetails');
 });
+
+Route::get('service-check', 'ServiceCheckController');
