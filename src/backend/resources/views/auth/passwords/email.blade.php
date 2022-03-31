@@ -37,7 +37,12 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                            @if (session('status'))
+                            @if (session('status') && session('error'))
+                            <div class="alert alert-success text-xs text-center text-blueGray-300 mb-2 block text-secondary-200" role="alert">
+                                <strong>{{ session('status') }}</strong>
+                            </div>
+                            @endif
+                            @if (session('status') && !session('error'))
                             <div class="alert alert-success text-xs text-center text-blueGray-300 mb-2 block" role="alert">
                                 <strong>{{ session('status') }}</strong>
                             </div>

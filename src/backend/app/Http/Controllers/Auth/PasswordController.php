@@ -74,7 +74,7 @@ class PasswordController extends Controller
         メールボックスをご確認ください。');
         }
 
-        return redirect()->back()->with('status', 'ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。');
+        return redirect()->back()->with(['status' => 'ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。', 'error' => true]);
     }
 
     /**

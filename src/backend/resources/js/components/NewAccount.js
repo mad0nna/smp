@@ -33,7 +33,9 @@ const NewAccount = (props) => {
     setState((prevState) => {
       return {
         ...prevState,
-        email: e.target.value
+        email: e.target.value,
+        foundAccount: {},
+        fullName: ''
       }
     })
   }
