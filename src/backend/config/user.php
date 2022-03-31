@@ -41,7 +41,7 @@ return [
             'client' => [
                 'name' => 'Company Admin',
                 'dashboard_url' => '/company/dashboard',
-                'type_alias' => 'スーパー管理者'
+                'type_alias' => '副管理者'
             ],
             'subClient' => [
                 'name' => 'Sub Company Admin',

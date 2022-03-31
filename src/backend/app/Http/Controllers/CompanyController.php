@@ -6,7 +6,6 @@ use App\Services\CompanyService;
 use App\Services\ContactService;
 use App\Services\DataSynchronizer;
 use App\Services\OpportunityService;
-use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Resources\CompanyResource;
@@ -26,14 +25,13 @@ class CompanyController extends Controller
         return Session::get('kotStartDate');
     }
 
-    public function getLoggedinUser($field)
+    public function getLoggedinUser()
     {
-        if ($field === 'lastname') {
-            return Session::get('CompanyContactLastname');
-        }
-        if ($field === 'companyname') {
-            return Session::get('companyName');
-        }
+        return [
+            'companyName' => Session::get('companyName'),
+            'contactFirstName' => Session::get('CompanyContactFirstname'),
+            'contactLastName' => Session::get('CompanyContactLastname')
+        ];
     }
 
     public function getCompanyDetails(CompanyService $companyService)
@@ -59,35 +57,6 @@ class CompanyController extends Controller
     public function getUpdatedDataForEditCompanyDetails(DataSynchronizer $synchronizer)
     {
         return $synchronizer->getUpdatedDataForEditCompanyDetails(Session::get('salesforceCompanyID'));
-    }
-
-    public function getUnpaidOrders()
-    {
-        $result = [];
-        $orders = OrderService::getUnpaidOrders(Session::get('userId'));
-        if ($orders) {
-            $i = 0;
-            foreach ($orders as $order) {
-                
-                if ($order->orders) {                    
-                    $result[$i]['id'] = $order->id;
-                    $result[$i]['datepayment'] = $order->datepayment;
-                    $result[$i]['datedelivery'] = $order->datedelivery;
-                    $result[$i]['statuspayment'] = $order->statuspayment;
-                    $result[$i]['statusdelivery'] = $order->statusdelivery;
-                    $result[$i]['ctime'] = $order->ctime;
-                     
-                    $result[$i]['orderBase']['id'] = $order->orders->id;
-                    $result[$i]['orderBase']['customerid'] = $order->orders->customerid;
-                    $result[$i]['orderBase']['price'] = $order->orders->price;
-                    $result[$i]['orderBase']['paymenttype'] = $order->orders->comment;
-                    $i++;
-                }                
-            }
-        }
-
-        return response()->json($result);
-
     }
 
     public function index(SearchCompanyRequest $request, CompanyService $companyService)
@@ -131,7 +100,7 @@ class CompanyController extends Controller
                 return response()->json([
                     'success' => true,
                     'exists' => true,
-                    'data' => 'ご入力された顧客企業コードは既に登録されています。',
+                    'data' => 'ご入力されたKoT企業コードは既に登録されています',
                   ]);
             }
             $result = $companyService->getAllDetailsInSFByID($request->code);
@@ -158,10 +127,10 @@ class CompanyController extends Controller
     {
         $code = 200;
         try {
-            $company = $companyService->getCompanyById($request->companyId);
+            $company = $companyService->getCompanyById($request->company_id);
             $result = $companyService->getAllDetailsInSFByID($company['company_code']);
             if ($result) {
-                $result = (new CompanyResource([]))->filterFromSFToFront($result, $company['company_code'], $company['id']);
+                $result = (new CompanyResource([]))->filterFromDbToFront($company);
             }
 
             $this->response = [
@@ -192,7 +161,7 @@ class CompanyController extends Controller
 
     public function updateSaveAccount(Request $request, CompanyService $companyService)
     {
-        $dbId = $request->get('companyId');
+        $dbId = $request->get('id');
         $formData = $this->getRecord($request);
         $result = $companyService->updateSaveAccount($dbId, $formData);
         $response = [

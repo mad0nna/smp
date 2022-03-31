@@ -22,7 +22,7 @@ const NewAccount = (props) => {
       <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
         <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 justify-center">
           <label className=" text-sm w-full block text-white w-48  h-8 px-3 leading-8 text-center">
-            顧客企業コードを入力してください :
+            KoT企業コードを入力してください
           </label>
           <input
             className=" text-sm   h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"

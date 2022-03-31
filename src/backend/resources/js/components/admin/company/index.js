@@ -66,7 +66,7 @@ const App = () => {
         `/admin/company/searchCompanyId`,
         {
           code: selectedItem.companyCode,
-          companyId: selectedItem.id,
+          company_id: selectedItem.id,
           _token: state.token
         },
         {

@@ -158,7 +158,7 @@ const AccountProfile = (props) => {
         return {
           ...prevState,
           dialogMessage:
-            '管理者の連絡先メールアドレスがないとアカウントを追加できません。\n 続行するには、Salesforceに連絡先情報を入力してください。',
+            '連絡先メールアドレスがないとアカウントを追加できません。\n 続行するには、Salesforceに連絡先情報を入力してください。',
           showPopupMessageDialog: !prevState.showPopupMessageDialog
         }
       })
@@ -380,7 +380,7 @@ const AccountProfile = (props) => {
 
       axios
         .post(url, {
-          companyId: id,
+          company_id: id,
           code: code,
           _token: document
             .querySelector('meta[name="csrf-token"]')
@@ -703,7 +703,7 @@ const AccountProfile = (props) => {
                 <label
                   className={' text-sm text-black w-full h-8 px-3 leading-8'}
                 >
-                  {state.company.kot_sales_phase__c}
+                  {state.company.sfRecords.kot_sales_phase__c}
                 </label>
               </div>
             </div>
@@ -716,7 +716,7 @@ const AccountProfile = (props) => {
                 <label
                   className={' text-sm text-black w-full h-8 px-3 leading-8'}
                 >
-                  {state.company.servername__c}
+                  {state.company.sfRecords.servername__c}
                 </label>
               </div>
             </div>

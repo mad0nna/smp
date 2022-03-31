@@ -30,7 +30,7 @@ const AccountProfileEdit = () => {
     dialogMessage: '',
     userTypes: [
       { name: '副管理者', value: 4 },
-      { name: 'スーパー管理者​', value: 3 }
+      { name: '管理者', value: 3 }
     ],
     isLoading: false,
     isEditingProfile: false,
@@ -231,12 +231,14 @@ const AccountProfileEdit = () => {
               <div className="align-top inline-block w-6/12 rounded-xl border-gray-200 border h-96 bg-white my-4 ml-5 mr-5 py-5 px-6">
                 <div className="mx-10 mt-11 mb-2">
                   <div className="flex flex-wrap gap-0 w-full justify-center mt-4 text-primary-200 text-xl">
-                    アカウントを更新
+                    プロフィールを編集
                   </div>
                   <div className="flex flex-wrap gap-0 w-full justify-start">
                     <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                       <div className="mb-1 md:mb-0 md:w-1/3">
-                        <label className="text-sm text-gray-400">苗字 :</label>
+                        <label className="text-sm text-gray-400">
+                          氏名（姓）
+                        </label>
                       </div>
                       <div className="md:w-2/3 flex-grow">
                         <label
@@ -255,7 +257,7 @@ const AccountProfileEdit = () => {
                           defaultValue={state.account.lastname}
                           type="text"
                           name="LastName"
-                          placeholder="苗字"
+                          placeholder="ラストネーム"
                           onChange={(e) =>
                             handleTextChange('lastname', e.target.value)
                           }
@@ -267,7 +269,9 @@ const AccountProfileEdit = () => {
                   <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
                     <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                       <div className="mb-1 md:mb-0 md:w-1/3">
-                        <label className="text-sm text-gray-400">名前 :</label>
+                        <label className="text-sm text-gray-400">
+                          氏名（名）
+                        </label>
                       </div>
                       <div className="md:w-2/3 flex-grow">
                         <label
@@ -286,7 +290,7 @@ const AccountProfileEdit = () => {
                           defaultValue={state.account.firstname}
                           type="text"
                           name="FirstName"
-                          placeholder="ファーストネーム"
+                          placeholder="ファーストネーム​"
                           onChange={(e) =>
                             handleTextChange('firstname', e.target.value)
                           }
@@ -452,8 +456,8 @@ const AccountProfileEdit = () => {
                             }
                           >
                             {state.account.userTypeId === 3
-                              ? 'スーパー管理者​'
-                              : '管理者​'}
+                              ? '管理者'
+                              : '副管理者​'}
                           </label>
                           {
                             <select

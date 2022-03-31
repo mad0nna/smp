@@ -1,6 +1,0 @@
-controller/common/tests/tmp
-controller/jobs/tests/tmp
-.phpunit.result.cache
-*.junit.xml
-*.log
-*.ser

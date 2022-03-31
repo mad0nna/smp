@@ -20,13 +20,12 @@ Route::group(['middleware' => 'zuora.api'], function () {
 
 Route::get('/', 'Auth\LoginController@login')->name('login');
 Route::post('/', 'Auth\LoginController@authenticate')->name('auth');
-Route::get('/login', 'Auth\LoginController@login')->name('login');
-Route::post('/login', 'Auth\LoginController@authenticate')->name('auth');
-Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
-Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/zeusLandingPage', function(Request $request) {
     return redirect($request->redirectTo);
 });
+Route::get('/getLoggedinUser', 'CompanyController@getLoggedinUser');
+
 
 Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('getCompanyDetails', 'CompanyController@getCompanyDetails');
@@ -44,7 +43,6 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('/resetCoordinates', 'WidgetController@resetCoordinates');
     Route::get('/getServiceUsage', 'CompanyController@getServiceUsage');
     Route::get('/getServiceUsageDate', 'CompanyController@getServiceUsageDate');
-    Route::get('/getLoggedinUser/{field}', 'CompanyController@getLoggedinUser');
     Route::view('/dashboard', 'dashboard');
     Route::get('/contracts', 'ContractController@list');
     Route::post('/contractslist', 'ContractController@index');
@@ -70,12 +68,8 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
     Route::view('/methodofpayment', 'methodOfPayment');
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
-    // Company Shop
-    Route::view('/productDetail', 'companyProductDetail');
-    Route::view('/cart', 'companyCart');
-    Route::get('/shop', 'ShoppingController@shop');
-    Route::get('/getUnpaidOrders', 'CompanyController@getUnpaidOrders');
 });
+Route::view('/pdf-to-html', 'admin.template');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
@@ -94,8 +88,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('company/updateSaveAccount', 'CompanyController@updateSaveAccount');
     Route::post('company/resendEmailInvite', 'CompanyController@resendEmailInvite');
 
-    Route::post('/uploadNewProductInventoryCsv', 'ShoppingController@uploadNewProductInventoryCsv');
-    Route::post('/uploadUpdateStockInventoryCsv', 'ShoppingController@uploadUpdateStockInventoryCsv');
+    Route::view('/settings', 'admin.settings');
 });
 
 Route::prefix('sales')->group(function () {
@@ -122,7 +115,6 @@ Route::group(['prefix' => 'sso'], function () {
 Route::group(['prefix' => 'payment'], function() {
     Route::get('status', 'PaymentController@getResult');
     Route::get('setMethodCreditCard', 'PaymentController@changeMethodToCard');
-    Route::get('creditCardPayment', 'PaymentController@creditCardPayment');
     Route::post('setMethodBankTransfer', 'PaymentController@changeMethodToBank');
     Route::post('getPaymentMethod', 'PaymentController@getPaymentMethodDetails');
 });
@@ -135,4 +127,5 @@ Route::get('test', function() {
     });
 });
 
+Route::get('service-check', 'ServiceCheckController');
 Route::get('service-check', 'ServiceCheckController');

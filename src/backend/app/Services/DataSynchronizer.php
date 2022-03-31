@@ -54,16 +54,12 @@ class DataSynchronizer
         if (!$dbResponse) {
             return MessageResult::error('Error on updating company details');
         }
-
-        $dbResponse = $this->mysql->updateUserAddress($contactID, $request['companyDetails'], true);
-        if (!$dbResponse) {
-            return MessageResult::error('Error on updating user details');
-        }
-
         Session::forget("companyName");
         Session::put('companyName', $request['companyDetails']['companyName']);
         Session::forget("CompanyContactLastname");
         Session::put('CompanyContactLastname', $request['adminDetails']['LastName']);
+        Session::forget("CompanyContactFirstname");
+        Session::put('CompanyContactFirstname', $request['adminDetails']['FirstName']);
         Cache::forget("{$companyID}:company:details");
         Cache::forget("{$companyID}:admin:details");
 

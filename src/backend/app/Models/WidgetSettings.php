@@ -115,7 +115,7 @@ class WidgetSettings extends Model
             //     'className' => 'relative',
             // ],
             4 => [
-                'label' => '物販',
+                'label' => '請求書',
                 'h' => 15,
                 'id' => 4,
                 'isBounded' => null,
