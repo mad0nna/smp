@@ -39,9 +39,9 @@ class FileService
 
         $file = $this->file->where($showConditions)->first();
 
-        if (!($file instanceof File)) {
+        if (!($file instanceof File)) { // @codeCoverageIgnoreStart
             throw new RuntimeException('File record does not exist.');
-        }
+        }  // @codeCoverageIgnoreStart
 
         return $file;
     }
@@ -59,13 +59,13 @@ class FileService
 
         $company = $this->company->where('account_id', $companyAccountID)->first();
 
-        if (!($company instanceof Company)) {
+        if (!($company instanceof Company)) { // @codeCoverageIgnoreStart
             throw new RuntimeException('Company does not exist given account ID.');
-        }
+        } // @codeCoverageIgnoreStart
 
-        if ($file->company_id !== $company->id) {
+        if ($file->company_id !== $company->id) { // @codeCoverageIgnoreStart
             throw new RuntimeException('User does not have the rights to access file.');
-        }
+        } // @codeCoverageIgnoreStart
 
         try {
             $file_exists = Storage::disk(config('app.storage_disk'))->exists($file->file_path);
@@ -75,9 +75,9 @@ class FileService
             }
 
             return $file;
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             throw $e;
-        }
+        } // @codeCoverageIgnoreStart
     }
 
     /**
@@ -94,9 +94,9 @@ class FileService
             // Find company given salesforce account id
             $company = $this->company->where('account_id', $data['salesforce_id'])->first();
 
-            if (!($company instanceof Company)) {
+            if (!($company instanceof Company)) { // @codeCoverageIgnoreStart
                 throw new RuntimeException('Company not found given salesforce id.');
-            }
+            } // @codeCoverageIgnoreStart
 
             // File naming convention with s3
             $fileUrl = 'BillingCSVs/';
@@ -129,10 +129,10 @@ class FileService
             DB::commit();
 
             return $file;
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             DB::rollback();
 
             throw $e;
-        }
+        } // @codeCoverageIgnoreEnd
     }
 }
