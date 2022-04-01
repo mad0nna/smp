@@ -70,7 +70,7 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
 
     Route::view('/setting/widget', 'company.widgetSetting');
-    Route::view('/setting/account', 'company.accountSetting');
+    Route::view('/setting/password', 'company.passwordSetting');
 
 });
 Route::view('/pdf-to-html', 'admin.template');
@@ -110,6 +110,7 @@ Route::prefix('password')->group(function () {
     Route::post('email', 'Auth\PasswordController@email')->name('password.email');
     Route::post('reset', 'Auth\PasswordController@update')->name('password.update');
     Route::get('reset', 'Auth\PasswordController@reset')->middleware('guest');
+    Route::post('change', 'Auth\PasswordController@change');
 });
 
 Route::group(['prefix' => 'sso'], function () {

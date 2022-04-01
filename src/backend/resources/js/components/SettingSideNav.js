@@ -25,8 +25,8 @@ const InvoiceTemplate = () => {
       link: '/company/setting/widget'
     },
     {
-      label: 'Account',
-      link: '/company/setting/account'
+      label: 'Password',
+      link: '/company/setting/password'
     }
   ]
   let aPathName = location.pathname.split('/')
