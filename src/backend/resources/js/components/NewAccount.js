@@ -12,6 +12,7 @@ const NewAccount = (props) => {
     lastName: '',
     isLoading: false,
     isLoadingOfAddingContact: false,
+    disableSendButton: true,
     source: '',
     foundAccount: {
       first_name: '',
@@ -52,6 +53,7 @@ const NewAccount = (props) => {
       axios
         .get(`/company/findInSFByEmail?email=${email}`)
         .then((response) => {
+          console.log(response)
           setState((prevState) => {
             let foundAccount = response.data.data
             return {
@@ -71,7 +73,8 @@ const NewAccount = (props) => {
               lastName: foundAccount.last_name,
               contact_num: foundAccount.contact_num,
               title: foundAccount.title,
-              account_code: foundAccount.account_code
+              account_code: foundAccount.account_code,
+              disableSendButton: false
             }
           })
         })
@@ -134,7 +137,6 @@ const NewAccount = (props) => {
         })
         .then((response) => {
           if (response.status == 200) {
-            console.log(response)
             setState((prevState) => {
               return {
                 ...prevState,
@@ -142,13 +144,28 @@ const NewAccount = (props) => {
                 isLoadingOfAddingContact: false,
                 showPopupMessageDialog: true,
                 dialogMessage:
-                  '管理者が追加されました。 \n 追加された管理者に招待メールが送信されます。'
+                  '管理者が追加されました。 \n 追加された管理者に招待メールが送信されます。',
+                disableSendButton: true
               }
             })
-            location.reload()
+            // location.reload()
           }
         })
         .catch(function (error) {
+          console.log(error.response)
+
+          if (error.response.status == 409) {
+            console.log(error.response.data.message)
+            setState((prevState) => {
+              return {
+                ...prevState,
+                searchResult: error.response.data.message,
+                isLoadingOfAddingContact: false,
+                disableSendButton: true
+              }
+            })
+            return
+          }
           if (error.response) {
             setState((prevState) => {
               return {
@@ -156,7 +173,8 @@ const NewAccount = (props) => {
                 isLoadingOfAddingContact: false,
                 showPopupNewAccount: false,
                 showPopupMessageDialog: true,
-                dialogMessage: '正しいメールアドレスを入力してください。'
+                dialogMessage: '正しいメールアドレスを入力してください。',
+                disableSendButton: true
               }
             })
           }
@@ -242,7 +260,13 @@ const NewAccount = (props) => {
               account_code: state.foundAccount.account_code
             })
           }}
-          className="rounded-xl cursor-pointer  font-extrabold w-40 py-2 px-3 mr-4 text-primary-200  tracking-tighter bg-white"
+          className={
+            (state.disableSendButton
+              ? 'text-gray-500 cursor-default'
+              : 'text-primary-200 cursor-pointer') +
+            ' rounded-xl font-extrabold w-40 py-2 px-3 mr-4 tracking-tighter bg-white'
+          }
+          disabled={state.disableSendButton}
         >
           招待を送信 &nbsp;
           <img
