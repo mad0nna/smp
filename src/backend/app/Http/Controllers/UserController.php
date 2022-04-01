@@ -141,7 +141,7 @@ class UserController extends Controller
             $sf = $request->all();
             $isExists = $this->userService->findByEmail($sf['email']);
             if(!empty($isExists)) {
-                return response()->json(['message' => 'Email already exist'], 409);
+                return response()->json(['message' => 'SMPにすでに存在する電子メール'], 409);
             }
             $pw = substr(md5(microtime()), rand(0, 26), 8);
             $pw_hash = Hash::make($pw);
