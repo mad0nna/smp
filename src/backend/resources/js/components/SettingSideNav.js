@@ -21,11 +21,11 @@ const InvoiceTemplate = () => {
   ]
   const companyNavigation = [
     {
-      label: 'Widget',
+      label: 'ウィジェット',
       link: '/company/setting/widget'
     },
     {
-      label: 'Password',
+      label: 'パスワード',
       link: '/company/setting/password'
     }
   ]
@@ -45,7 +45,7 @@ const InvoiceTemplate = () => {
   }
   return (
     <div className="col-span-1 py-8 px-4 space-x-2 border-r-2">
-      <h1 className="pl-8 text-lg font-black">Settings</h1>
+      <h1 className="pl-8 text-lg font-black">設定</h1>
       <div className="space-y-2">
         {mainNav.map((nav, index) => {
           return (

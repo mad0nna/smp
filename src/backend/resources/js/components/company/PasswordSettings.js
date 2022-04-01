@@ -194,9 +194,7 @@ const PasswordSettings = () => {
       <div className="bg-white rounded-lg my-10 w-8/12 mx-auto col-span-5">
         <div className="p-3 pb-6">
           <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
-            <h2 className="text-green-800 text-lg font-bold">
-              Change password
-            </h2>
+            <h2 className="text-green-800 text-lg font-bold">パスワード変更</h2>
           </div>
           <div className="text-center">
             <div className="align-top inline-block h-auto bg-white my-4 ml-5 mr-5 py-5 px-6">
@@ -205,7 +203,7 @@ const PasswordSettings = () => {
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                     <div className="mb-1 md:mb-0 md:w-1/3">
                       <label className="text-sm text-gray-400">
-                        Enter old password:
+                        現在のパスワードを入力 :
                       </label>
                     </div>
                     <div className="md:w-2/3 flex-grow">
@@ -233,7 +231,7 @@ const PasswordSettings = () => {
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                     <div className="mb-1 md:mb-0 md:w-1/3">
                       <label className="text-sm text-gray-400">
-                        Enter new password:{' '}
+                        新しいパスワードを入力 :
                       </label>
                     </div>
                     <div className="md:w-2/3 md:flex-grow">
@@ -260,7 +258,7 @@ const PasswordSettings = () => {
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                     <div className="mb-1 md:mb-0 md:w-1/3">
                       <label className="text-sm text-gray-400">
-                        Re-enter new password:
+                        新しいパスワード（確認 :
                       </label>
                     </div>
                     <div className="md:w-2/3 md:flex-grow">
@@ -311,7 +309,7 @@ const PasswordSettings = () => {
                       (state.isLoading ? ' ' : ' hidden ') + ' w-8 inline '
                     }
                   />
-                  Update
+                  変更
                 </button>
                 <button
                   className=" bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm w-32 h-12"
@@ -320,7 +318,7 @@ const PasswordSettings = () => {
                   }}
                 >
                   <img className="inline mr-2" />
-                  Cancel
+                  キャンセル
                 </button>
               </div>
             </div>
