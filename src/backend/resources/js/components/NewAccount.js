@@ -53,7 +53,6 @@ const NewAccount = (props) => {
       axios
         .get(`/company/findInSFByEmail?email=${email}`)
         .then((response) => {
-          console.log(response)
           setState((prevState) => {
             let foundAccount = response.data.data
             return {
@@ -148,14 +147,11 @@ const NewAccount = (props) => {
                 disableSendButton: true
               }
             })
-            // location.reload()
+            location.reload()
           }
         })
         .catch(function (error) {
-          console.log(error.response)
-
           if (error.response.status == 409) {
-            console.log(error.response.data.message)
             setState((prevState) => {
               return {
                 ...prevState,
