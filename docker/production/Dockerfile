@@ -24,6 +24,7 @@ ADD ./docker/production/supervisor.d/laravel-queue.ini /etc/supervisor.d/laravel
 ## PHP CONFIGURATION     ##
 ###########################
 COPY ./docker/production/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+RUN apk add --no-cache poppler-utils git bash libzip-dev vim pcre-dev ${PHPIZE_DEPS}
 # Disable xDebug on Production
 RUN mkdir -p /usr/local/etc/php/conf.d/disabled
 RUN mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/disabled/
