@@ -611,7 +611,7 @@ const AccountProfileEdit = () => {
                         <div className="md:w-2/3 md:flex-grow">
                           <a href="/company/setting/account">
                             <h1 className="text-sm text-black w-full h-8 px-3 leading-8 underline">
-                              Change passsowrd
+                              Change password
                             </h1>
                           </a>
                         </div>
