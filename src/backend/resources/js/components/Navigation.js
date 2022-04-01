@@ -375,7 +375,7 @@ const Navigation = () => {
   }
 
   return (
-    <div className="bg-white px-5 h-24 shadow-lg mb-8">
+    <div className="bg-white px-8 h-24 shadow-lg mb-8">
       {state.loading ? (
         ''
       ) : (
