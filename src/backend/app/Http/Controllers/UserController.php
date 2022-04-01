@@ -52,7 +52,7 @@ class UserController extends Controller
     public function findInSFByEmail(SearchUserInSFRequest $request)
     {
         try {
-            $user = (new Contact)->findByEmail($request->email);
+            $user = (new Contact)->findByEmailAndAccountId($request->email, Session::get('salesforceCompanyID'));
             $this->response['data'] = $this->getSFResource($user);
         } catch (Exception $e) {
             $this->response = [

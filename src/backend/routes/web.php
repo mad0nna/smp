@@ -68,6 +68,10 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
     Route::view('/methodofpayment', 'methodOfPayment');
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
+
+    Route::view('/setting/widget', 'company.widgetSetting');
+    Route::view('/setting/account', 'company.accountSetting');
+
 });
 Route::view('/pdf-to-html', 'admin.template');
 

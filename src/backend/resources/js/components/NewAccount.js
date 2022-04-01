@@ -105,6 +105,9 @@ const NewAccount = (props) => {
   }
 
   const handleDisplayAddedAdmin = (user) => {
+    if (_.isEmpty(state.foundAccount)) {
+      return
+    }
     if (validateEmail(user.email)) {
       if (user.source != 'salesforce') {
         const fullName = user.fullName

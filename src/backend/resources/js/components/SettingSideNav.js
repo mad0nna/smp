@@ -1,0 +1,69 @@
+import React from 'react'
+const InvoiceTemplate = () => {
+  let mainNav = []
+  const adminNavigation = [
+    {
+      label: 'Invoice Template List',
+      link: '#'
+    },
+    {
+      label: 'Invoice Template Details',
+      link: '#'
+    },
+    {
+      label: 'Widget',
+      link: '#'
+    },
+    {
+      label: 'Account',
+      link: '#'
+    }
+  ]
+  const companyNavigation = [
+    {
+      label: 'Widget',
+      link: '/company/setting/widget'
+    },
+    {
+      label: 'Account',
+      link: '/company/setting/account'
+    }
+  ]
+  let aPathName = location.pathname.split('/')
+  if (typeof aPathName[1] != 'undefined') {
+    switch (aPathName[1]) {
+      case 'company':
+        mainNav = companyNavigation
+        break
+      case 'admin':
+        mainNav = adminNavigation
+        break
+      default:
+        mainNav = companyNavigation
+        break
+    }
+  }
+  return (
+    <div className="col-span-1 py-8 px-4 space-x-2 border-r-2">
+      <h1 className="pl-8 text-lg font-black">Settings</h1>
+      <div className="space-y-2">
+        {mainNav.map((nav, index) => {
+          return (
+            <div
+              id="settings-navigation-item"
+              className="group cursor-pointer"
+              key={index}
+            >
+              <a href={nav.link}>
+                <div className="pl-8 py-4 group-hover:bg-green-500 group-hover:text-white">
+                  {nav.label}
+                </div>
+              </a>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+export default InvoiceTemplate

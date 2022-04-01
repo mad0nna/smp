@@ -36,7 +36,8 @@ const AccountProfileEdit = () => {
     isEditingProfile: false,
     authorityTransfer: false,
     updatedAccount: {},
-    validationFields: ['lastname', 'firstname', 'phone', 'position']
+    validationFields: ['lastname', 'firstname', 'phone', 'position'],
+    loggedInUser: {}
   })
   const [errorMessages, setErrorMessages] = useState({
     LastName: '',
@@ -332,6 +333,19 @@ const AccountProfileEdit = () => {
       .catch(function () {
         alert('記録が見当たりませんでした')
       })
+
+    axios.get(`/getLoggedinUser`).then((response) => {
+      if (response.status === 200) {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            loggedInUser: response.data
+          }
+        })
+        window.document.getElementById('companyDropwdownTitle').innerHTML =
+          response.data['companyName']
+      }
+    })
   }, [])
 
   return (
@@ -556,7 +570,7 @@ const AccountProfileEdit = () => {
                         </div>
                       </div>
                     </div>
-                    {/* <div className="flex flex-wrap gap-0 w-full justify-start">
+                    <div className="flex flex-wrap gap-0 w-full justify-start">
                       <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-4">
                         <div className="mb-1 md:mb-0 md:w-1/3">
                           <label className="text-sm text-gray-400">
@@ -564,13 +578,10 @@ const AccountProfileEdit = () => {
                           </label>
                         </div>
                         <div className="md:w-2/3 md:flex-grow">
-                          <label
-                            className={
-                              (state.isEditingProfile ? 'hidden' : '') +
-                              ' text-sm text-black w-full h-8 px-3 leading-8'
-                            }
-                          ></label>
-                          <input
+                          <label className="text-sm text-black w-full h-8 px-3 leading-8">
+                            ***********
+                          </label>
+                          {/* <input
                             className={
                               (state.isEditingProfile ? '' : 'hidden') +
                               ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
@@ -581,10 +592,31 @@ const AccountProfileEdit = () => {
                             placeholder="パスワード"
                             onChange={handleTextChange}
                             disabled
-                          />
+                          /> */}
                         </div>
                       </div>
-                    </div> */}
+                    </div>
+
+                    <div
+                      className={
+                        state.account.account_code ==
+                        state.loggedInUser.contactPersonId
+                          ? ''
+                          : 'hidden ' +
+                            'flex flex-wrap gap-0 w-full justify-start'
+                      }
+                    >
+                      <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center">
+                        <div className="mb-1 md:mb-0 md:w-1/3"></div>
+                        <div className="md:w-2/3 md:flex-grow">
+                          <a href="/company/setting/account">
+                            <h1 className="text-sm text-black w-full h-8 px-3 leading-8 underline">
+                              Change passsowrd
+                            </h1>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
