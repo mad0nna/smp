@@ -25,12 +25,12 @@ const PasswordSettings = () => {
     let hasError = false
     let errorMessage = ''
     let _errorMessages = errorMessages
-    // setState((prevState) => {
-    //   return {
-    //     ...prevState,
-    //     isLoading: true
-    //   }
-    // })
+    setState((prevState) => {
+      return {
+        ...prevState,
+        isLoading: true
+      }
+    })
     state.validationFields.map((field) => {
       clearErrors()
       const passwordRegex =
@@ -170,6 +170,7 @@ const PasswordSettings = () => {
 
     let _state = state
     _state[key] = val
+    _state['message'] = ''
     setState(() => {
       return {
         ..._state
