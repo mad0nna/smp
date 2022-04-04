@@ -43,7 +43,7 @@ class NotifyAddedCompanySuperAdminUser extends Mailable
         $this->company_name = $data['company_name'];
         $this->username = $data['email'];
         $this->pw = $pw;
-        $this->url = env('APP_URL') . '/?invite_token=' . $token;
+        $this->url = env('APP_URL') . '?invite_token=' . $token;
     }
 
     /**

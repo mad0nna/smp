@@ -119,9 +119,9 @@ const Navigation = () => {
             }
           },
           {
-            label: 'ウィジェット設定',
-            url: '/company/widgetSettings',
-            iconNormal: 'bg-widget-settings-icon',
+            label: 'ト設定',
+            url: '/company/setting/widget',
+            iconNormal: 'bg-settings-icon-white',
             iconHover: '',
             iconSize: 'h-5 w-5',
             extraStyle: ''
@@ -284,14 +284,14 @@ const Navigation = () => {
             iconSize: 'h-5 w-5',
             extraStyle: 'cursor-default'
           },
-          {
-            label: 'ト設定',
-            url: '/admin/settings',
-            iconNormal: 'bg-settings-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          },
+          // {
+          //   label: 'ト設定',
+          //   url: '/admin/settings',
+          //   iconNormal: 'bg-settings-icon-white',
+          //   iconHover: '',
+          //   iconSize: 'h-5 w-5',
+          //   extraStyle: ''
+          // },
           // {
           //   label: 'アカウント設定',
           //   url: '#',
@@ -375,7 +375,7 @@ const Navigation = () => {
   }
 
   return (
-    <div className="bg-white px-5 h-24 shadow-lg mb-8">
+    <div className="bg-white px-8 h-24 shadow-lg mb-8">
       {state.loading ? (
         ''
       ) : (

@@ -68,6 +68,10 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
     Route::view('/methodofpayment', 'methodOfPayment');
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
+
+    Route::view('/setting/widget', 'company.widgetSetting');
+    Route::view('/setting/password', 'company.passwordSetting');
+
 });
 Route::view('/pdf-to-html', 'admin.template');
 
@@ -106,6 +110,7 @@ Route::prefix('password')->group(function () {
     Route::post('email', 'Auth\PasswordController@email')->name('password.email');
     Route::post('reset', 'Auth\PasswordController@update')->name('password.update');
     Route::get('reset', 'Auth\PasswordController@reset')->middleware('guest');
+    Route::post('change', 'Auth\PasswordController@change');
 });
 
 Route::group(['prefix' => 'sso'], function () {
@@ -118,3 +123,5 @@ Route::group(['prefix' => 'payment'], function() {
     Route::post('setMethodBankTransfer', 'PaymentController@changeMethodToBank');
     Route::post('getPaymentMethod', 'PaymentController@getPaymentMethodDetails');
 });
+
+Route::get('service-check', 'ServiceCheckController');

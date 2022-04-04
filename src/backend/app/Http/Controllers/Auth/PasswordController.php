@@ -8,7 +8,10 @@ use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Services\PasswordService;
 use App\Http\Controllers\Controller;
-
+use App\Models\User;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 class PasswordController extends Controller
 {
     /** @var App\Services\PasswordService */
@@ -74,7 +77,7 @@ class PasswordController extends Controller
         メールボックスをご確認ください。');
         }
 
-        return redirect()->back()->with('status', 'ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。');
+        return redirect()->back()->with(['status' => 'ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。', 'error' => true]);
     }
 
     /**
@@ -108,5 +111,55 @@ class PasswordController extends Controller
         }
 
         return redirect()->back()->with('status', $this->response['error']);
+    }
+
+    public function change(Request $request) {
+        $passwords = $request->all();
+        $accountId = Auth::user()->account_code;
+        $pattern = '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/';
+        $hasEmpty = false;
+        $response = [
+            'errors' => [],
+            'status' => false,
+            'message' => ''
+        ];
+        foreach ($passwords as $key => $value) {
+            if (empty($value)) {
+                $hasEmpty = true;
+                $response['errors'][$key] = '必須フィールド';
+            }
+        }
+        if ($hasEmpty) {
+            return $response;
+        }
+        if (!Hash::check($passwords['oldPassword'], Auth::user()->password)) {
+            $response['errors']['oldPassword'] = 'Incorrect password';
+            return $response;
+        }
+        if ($passwords['newPassword'] !== $passwords['newPassword2']) {
+            $response['errors']['newPassword'] = 'Password not match';
+            $response['errors']['newPassword2'] = 'Password not match';
+            return $response;
+        }
+        if (!preg_match($pattern, $passwords['newPassword'])) {
+            $response['errors']['newPassword'] = 'パスワードは以下の内容を有する必要があります。　1文字以上の大文字、1文字以上の特殊記号を含む最低8桁以上の英数字';
+            $response['errors']['newPassword2'] = 'パスワードは以下の内容を有する必要があります。　1文字以上の大文字、1文字以上の特殊記号を含む最低8桁以上の英数字';
+            return $response;
+        }
+        $newPassword = Hash::make($passwords['newPassword']);
+        try {
+            User::where('account_code' , $accountId)->update(
+                [
+                    'password' => $newPassword
+                ]
+            );
+            $response['message'] = 'Password has been updated successfully.';
+            $response['status'] = true;
+            return $response;
+        } catch (QueryException $e) {
+            $response['message'] = 'Failed to update password';
+            return $response;
+            $e->getMessage();
+        }
     }
 }

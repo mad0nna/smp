@@ -93,7 +93,7 @@ const AdminsList = (props) => {
               </td>
               <td className="text-center">{admin.title}</td>
               <td className="text-center">
-                {admin.user_type_id === 3 ? 'スーパー管理者' : '副管理者'}
+                {admin.user_type_id === 3 ? '管理者' : '副管理者'}
               </td>
               <td className="text-center">{admin.email}</td>
               <td className="text-right">{admin.contact_num}</td>
@@ -108,7 +108,7 @@ const AdminsList = (props) => {
                       className="cursor-pointer"
                       onClick={() => props.handleDisplayView(admin)}
                     >
-                      詳細&nbsp;
+                      詳細
                     </div>
                   ) : null}
                   {(admin.user_type_id === 4 && admin.user_status_id != 5) ||
@@ -118,7 +118,7 @@ const AdminsList = (props) => {
                       className="cursor-pointer"
                       onClick={() => props.handleDisplayUpdate(admin, i)}
                     >
-                      更新 &nbsp;
+                      詳細
                     </span>
                   ) : null}
                   {(state.loggedUser.user_type_id === 3 &&
@@ -128,7 +128,7 @@ const AdminsList = (props) => {
                       className="cursor-pointer"
                       onClick={() => props.handleDisplayDelete(admin, i)}
                     >
-                      削除 &nbsp;
+                      削除
                     </span>
                   ) : null}
                   {admin.user_status_id === 5 ? (

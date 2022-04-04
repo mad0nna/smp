@@ -17,13 +17,6 @@ ADD ./docker/production/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD ./docker/production/nginx/php_fastcgi.conf /etc/nginx/php_fastcgi.conf
 ADD ./docker/production/nginx/security.conf /etc/nginx/security.conf
 ADD ./docker/production/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
-# Add SSL Certificates Directory & Copy Files
-RUN mkdir -p /etc/nginx/certificates
-RUN mkdir -p /etc/nginx/ssl
-RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
-
-####################################
-## SUPERVISOR.D CONFIGURATION     ##
 ####################################
 ADD ./docker/production/supervisor.d/laravel-queue.ini /etc/supervisor.d/laravel-queue.ini
 
@@ -31,6 +24,7 @@ ADD ./docker/production/supervisor.d/laravel-queue.ini /etc/supervisor.d/laravel
 ## PHP CONFIGURATION     ##
 ###########################
 COPY ./docker/production/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+RUN apk add --no-cache poppler-utils git bash libzip-dev vim pcre-dev ${PHPIZE_DEPS}
 # Disable xDebug on Production
 RUN mkdir -p /usr/local/etc/php/conf.d/disabled
 RUN mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/disabled/

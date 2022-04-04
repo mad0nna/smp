@@ -52,7 +52,7 @@ class UserController extends Controller
     public function findInSFByEmail(SearchUserInSFRequest $request)
     {
         try {
-            $user = (new Contact)->findByEmail($request->email);
+            $user = (new Contact)->findByEmailAndAccountId($request->email, Session::get('salesforceCompanyID'));
             $this->response['data'] = $this->getSFResource($user);
         } catch (Exception $e) {
             $this->response = [
@@ -139,6 +139,10 @@ class UserController extends Controller
     {
         try {
             $sf = $request->all();
+            $isExists = $this->userService->findByEmail($sf['email']);
+            if(!empty($isExists)) {
+                return response()->json(['message' => 'SMPにすでに存在する電子メール'], 409);
+            }
             $pw = substr(md5(microtime()), rand(0, 26), 8);
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());

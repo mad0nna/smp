@@ -37,7 +37,7 @@ class UsersTableSeeder extends Seeder
             'account_code' => '0030l00000g5JSjAAM',
             'username' => 'admin@tcg.sprobe.ph',
             'email' => 'admin@tcg.sprobe.ph',
-            'contact_num' => '12345',
+            'contact_num' => '1234567',
             'password' => Hash::make('Password2021!'),
             'company_id' => '1',
             'first_name' => 'sprobe',
@@ -45,7 +45,25 @@ class UsersTableSeeder extends Seeder
             'user_status_id' => $status->id,
             'user_type_id' => '1',
             'email_verified_at' => Carbon::now(),
-        ]);
+            ]
+        );
+
+        User::create([
+            'account_code' => '0030l00000g5JSjAAM-',
+            'username' => 'ryuichi.murai@ht.co.jp',
+            'email' => 'ryuichi.murai@ht.co.jp',
+            'contact_num' => '1234567',
+            'password' => Hash::make('3KqCHEIX!'),
+            'company_id' => '1',
+            'first_name' => 'murai',
+            'last_name' => 'ryuichi',
+            'user_status_id' => $status->id,
+            'user_type_id' => '1',
+            'email_verified_at' => Carbon::now(),
+            ]
+        );
+
+
     }
 
     // private function _createHTAdmin()

@@ -30,12 +30,21 @@ const AccountProfileEdit = () => {
     dialogMessage: '',
     userTypes: [
       { name: '副管理者', value: 4 },
-      { name: 'スーパー管理者​', value: 3 }
+      { name: '管理者', value: 3 }
     ],
     isLoading: false,
     isEditingProfile: false,
     authorityTransfer: false,
-    updatedAccount: {}
+    updatedAccount: {},
+    validationFields: ['lastname', 'firstname', 'phone', 'position'],
+    loggedInUser: {}
+  })
+  const [errorMessages, setErrorMessages] = useState({
+    LastName: '',
+    FirstName: '',
+    MobilePhone: '',
+    Title: '',
+    hasError: false
   })
 
   function handleNumberChange(evt) {
@@ -48,7 +57,24 @@ const AccountProfileEdit = () => {
     return true
   }
 
+  const clearErrors = () => {
+    setErrorMessages((prevState) => {
+      return {
+        ...prevState,
+        LastName: '',
+        FirstName: '',
+        MobilePhone: '',
+        Title: '',
+        hasError: false
+      }
+    })
+  }
+
   const handleTextChange = (key, val) => {
+    const re = /^[0-9\b]+$/
+    let hasError = false
+    let errorMessage = ''
+
     let account = { ...state.account }
     account[key] = val
     setState((prevState) => {
@@ -58,38 +84,55 @@ const AccountProfileEdit = () => {
       }
     })
 
-    switch (key) {
-      case 'name':
-        key = 'Fullname'
-        break
-      case 'firstname':
-        key = 'Firstname'
-        break
-      case 'lastname':
-        key = 'Lastname'
-        break
-      case 'email':
-        key = 'Email'
-        break
-      case 'phone':
-        key = 'MobilePhone'
-        break
-      case 'userTypeId':
-        key = 'section_c'
-        break
-      case 'position':
-        key = 'Title'
-        break
-      default:
-        key = ''
-    }
-
     let accountSFValues = { ...state.accountSFValues }
     accountSFValues[key] = val
     setState((prevState) => {
       return {
         ...prevState,
         accountSFValues: accountSFValues
+      }
+    })
+    switch (key) {
+      case 'firstname':
+        key = 'FirstName'
+        if (val === '') {
+          errorMessage = '必須フィールド'
+          hasError = true
+        }
+        break
+      case 'lastname':
+        key = 'LastName'
+        if (val === '') {
+          errorMessage = '必須フィールド'
+          hasError = true
+        }
+        break
+      case 'phone':
+        key = 'MobilePhone'
+        if (re.test(val)) {
+          errorMessage = ''
+        } else {
+          errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
+          hasError = true
+        }
+        break
+      case 'position':
+        key = 'Title'
+        if (val === '') {
+          errorMessage = '必須フィールド'
+          hasError = true
+        }
+        break
+      default:
+        key = ''
+    }
+
+    let _errorMessages = errorMessages
+    _errorMessages[key] = errorMessage
+    _errorMessages['hasError'] = hasError
+    setErrorMessages(() => {
+      return {
+        ..._errorMessages
       }
     })
   }
@@ -106,6 +149,13 @@ const AccountProfileEdit = () => {
   }
 
   const handleUpdateSave = () => {
+    clearErrors()
+    const re = /^[0-9\b]+$/
+    let hasError = false
+    let errorMessage = ''
+    let _errorMessages = errorMessages
+    let val = ''
+
     if (confirm('本当にこのデータを更新してもよろしいですか？')) {
       setState((prevState) => {
         return {
@@ -113,6 +163,77 @@ const AccountProfileEdit = () => {
           isLoading: true
         }
       })
+      state.validationFields.map((field) => {
+        val = ''
+        let key = ''
+        errorMessage = ''
+
+        switch (field) {
+          case 'lastname':
+            key = 'LastName'
+            val = state.account.lastname
+            if (val == null || val.trim() === '') {
+              errorMessage = '必須フィールド'
+              hasError = true
+            }
+            break
+
+          case 'firstname':
+            key = 'FirstName'
+            val = state.account.firstname
+            if (val == null || val.trim() === '') {
+              errorMessage = '必須フィールド'
+              hasError = true
+            }
+            break
+
+          case 'position':
+            key = 'Title'
+            val = state.account.position
+            if (val === '' || val == null) {
+              errorMessage = '必須フィールド'
+              hasError = true
+            }
+            break
+
+          case 'phone':
+            key = 'MobilePhone'
+            val = state.account.phone
+            if (val == null || val == '') {
+              errorMessage =
+                'ハイフンなしの10桁～11桁の電話番号を入力してください'
+              hasError = true
+              break
+            }
+            if (val.length >= 10 && re.test(val)) {
+              errorMessage = ''
+            } else {
+              errorMessage =
+                'ハイフンなしの10桁～11桁の電話番号を入力してください'
+              hasError = true
+            }
+            break
+        }
+
+        _errorMessages[key] = errorMessage
+        _errorMessages['hasError'] = hasError
+      })
+
+      setErrorMessages(() => {
+        return {
+          ..._errorMessages
+        }
+      })
+
+      if (hasError === true && state.isEditingProfile) {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            isLoading: false
+          }
+        })
+        return
+      }
 
       const _accountSFValues = {
         Email: state.account.email,
@@ -187,7 +308,6 @@ const AccountProfileEdit = () => {
     axios
       .post(`/company/getContactDetails`, { id: id })
       .then((response) => {
-        console.log(response.data.data)
         let data = response.data.data
         let acct = {}
         acct.username = data.email
@@ -213,6 +333,19 @@ const AccountProfileEdit = () => {
       .catch(function () {
         alert('記録が見当たりませんでした')
       })
+
+    axios.get(`/getLoggedinUser`).then((response) => {
+      if (response.status === 200) {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            loggedInUser: response.data
+          }
+        })
+        window.document.getElementById('companyDropwdownTitle').innerHTML =
+          response.data['companyName']
+      }
+    })
   }, [])
 
   return (
@@ -228,7 +361,7 @@ const AccountProfileEdit = () => {
           </div>
           <div className="px-3">
             <div className="w-full">
-              <div className="align-top inline-block w-6/12 rounded-xl border-gray-200 border h-96 bg-white my-4 ml-5 mr-5 py-5 px-6">
+              <div className="align-top inline-block w-6/12 rounded-xl border-gray-200 border h-auto bg-white my-4 ml-5 mr-5 py-5 px-6">
                 <div className="mx-10 mt-11 mb-2">
                   <div className="flex flex-wrap gap-0 w-full justify-center mt-4 text-primary-200 text-xl">
                     プロフィールを編集
@@ -236,7 +369,9 @@ const AccountProfileEdit = () => {
                   <div className="flex flex-wrap gap-0 w-full justify-start">
                     <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                       <div className="mb-1 md:mb-0 md:w-1/3">
-                        <label className="text-sm text-gray-400">苗字 :</label>
+                        <label className="text-sm text-gray-400">
+                          氏名（姓）<span className="text-red-500">*</span>
+                        </label>
                       </div>
                       <div className="md:w-2/3 flex-grow">
                         <label
@@ -255,11 +390,19 @@ const AccountProfileEdit = () => {
                           defaultValue={state.account.lastname}
                           type="text"
                           name="LastName"
-                          placeholder="苗字"
+                          placeholder="ラストネーム"
                           onChange={(e) =>
                             handleTextChange('lastname', e.target.value)
                           }
                         />
+                        <label
+                          className={
+                            (errorMessages.LastName ? '' : 'hidden') +
+                            ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
+                          }
+                        >
+                          {errorMessages.LastName}
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -267,7 +410,9 @@ const AccountProfileEdit = () => {
                   <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
                     <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                       <div className="mb-1 md:mb-0 md:w-1/3">
-                        <label className="text-sm text-gray-400">名前 :</label>
+                        <label className="text-sm text-gray-400">
+                          氏名（名）<span className="text-red-500">*</span>
+                        </label>
                       </div>
                       <div className="md:w-2/3 flex-grow">
                         <label
@@ -286,18 +431,29 @@ const AccountProfileEdit = () => {
                           defaultValue={state.account.firstname}
                           type="text"
                           name="FirstName"
-                          placeholder="ファーストネーム"
+                          placeholder="ファーストネーム​"
                           onChange={(e) =>
                             handleTextChange('firstname', e.target.value)
                           }
                         />
+
+                        <label
+                          className={
+                            (errorMessages.FirstName ? '' : 'hidden') +
+                            ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
+                          }
+                        >
+                          {errorMessages.FirstName}
+                        </label>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-0 w-full justify-start">
                     <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                       <div className="mb-1 md:mb-0 md:w-1/3">
-                        <label className="text-sm text-gray-400">役職 :</label>
+                        <label className="text-sm text-gray-400">
+                          役職 : <span className="text-red-500">*</span>
+                        </label>
                       </div>
                       <div className="md:w-2/3 md:flex-grow">
                         <label
@@ -321,13 +477,21 @@ const AccountProfileEdit = () => {
                             handleTextChange('position', e.target.value)
                           }
                         />
+                        <label
+                          className={
+                            (errorMessages.Title ? '' : 'hidden') +
+                            ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
+                          }
+                        >
+                          {errorMessages.Title}
+                        </label>
                       </div>
                     </div>
 
                     <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                       <div className="mb-1 md:mb-0 md:w-1/3">
                         <label className="text-sm text-gray-400">
-                          電話番号 :
+                          電話番号 :<span className="text-red-500">*</span>
                         </label>
                       </div>
                       <div className="md:w-2/3 md:flex-grow">
@@ -355,6 +519,14 @@ const AccountProfileEdit = () => {
                             return handleNumberChange(e)
                           }}
                         />
+                        <label
+                          className={
+                            (errorMessages.MobilePhone ? '' : 'hidden') +
+                            ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
+                          }
+                        >
+                          {errorMessages.MobilePhone}
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -376,13 +548,14 @@ const AccountProfileEdit = () => {
                         <div className="md:w-2/3 flex-grow">
                           <label
                             className={
-                              (state.isEditingProfile ? 'hidden' : '') +
+                              // (state.isEditingProfile ? 'hidden' : '') +
                               ' text-sm text-black w-full h-8 px-3 leading-8'
                             }
                           >
                             {state.account.email}
                           </label>
-                          <input
+
+                          {/* <input
                             className={
                               (state.isEditingProfile ? '' : 'hidden') +
                               ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
@@ -393,7 +566,7 @@ const AccountProfileEdit = () => {
                             placeholder="会社名"
                             onChange={handleTextChange}
                             disabled
-                          />
+                          /> */}
                         </div>
                       </div>
                     </div>
@@ -405,13 +578,10 @@ const AccountProfileEdit = () => {
                           </label>
                         </div>
                         <div className="md:w-2/3 md:flex-grow">
-                          <label
-                            className={
-                              (state.isEditingProfile ? 'hidden' : '') +
-                              ' text-sm text-black w-full h-8 px-3 leading-8'
-                            }
-                          ></label>
-                          <input
+                          <label className="text-sm text-black w-full h-8 px-3 leading-8">
+                            ***********
+                          </label>
+                          {/* <input
                             className={
                               (state.isEditingProfile ? '' : 'hidden') +
                               ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
@@ -422,7 +592,28 @@ const AccountProfileEdit = () => {
                             placeholder="パスワード"
                             onChange={handleTextChange}
                             disabled
-                          />
+                          /> */}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className={
+                        state.account.account_code ==
+                        state.loggedInUser.contactPersonId
+                          ? ''
+                          : 'hidden ' +
+                            'flex flex-wrap gap-0 w-full justify-start'
+                      }
+                    >
+                      <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center">
+                        <div className="mb-1 md:mb-0 md:w-1/3"></div>
+                        <div className="md:w-2/3 md:flex-grow">
+                          <a href="/company/setting/password">
+                            <h1 className="text-sm text-black w-full h-8 px-3 leading-8 underline">
+                              パスワード変更
+                            </h1>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -452,8 +643,8 @@ const AccountProfileEdit = () => {
                             }
                           >
                             {state.account.userTypeId === 3
-                              ? 'スーパー管理者​'
-                              : '管理者​'}
+                              ? '管理者'
+                              : '副管理者​'}
                           </label>
                           {
                             <select
@@ -497,11 +688,16 @@ const AccountProfileEdit = () => {
               <div className="my-4 ml-6 mr-32 py-5 px-6 mt-0 pt-3 pl-0 text-center">
                 <button
                   onClick={handleUpdateSave}
-                  className="
-              bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm mr-5 space-x-2"
+                  className={
+                    (errorMessages.hasError
+                      ? 'bg-primary-100 pointer-events-none'
+                      : 'bg-primary-200') +
+                    ' bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm mr-5 space-x-2'
+                  }
                   style={{
                     display: state.isEditingProfile ? '' : 'none'
                   }}
+                  disabled={errorMessages.hasError || state.isLoading}
                 >
                   {state.isEditingProfile ? '編集する' : '変更を保存'}&nbsp;
                   <img

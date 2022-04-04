@@ -30,7 +30,8 @@ class CompanyController extends Controller
         return [
             'companyName' => Session::get('companyName'),
             'contactFirstName' => Session::get('CompanyContactFirstname'),
-            'contactLastName' => Session::get('CompanyContactLastname')
+            'contactLastName' => Session::get('CompanyContactLastname'),
+            'contactPersonId' => Session::get('salesforceContactID')
         ];
     }
 
