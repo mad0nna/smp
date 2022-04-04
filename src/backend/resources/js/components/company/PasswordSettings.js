@@ -58,7 +58,7 @@ const PasswordSettings = () => {
             errorMessage = '必須フィールド'
             hasError = true
           } else if (state.newPassword2 !== state.newPassword) {
-            errorMessage = 'Password not match'
+            errorMessage = 'パスワードが一致しません'
             hasError = true
             _errorMessages['newPassword'] = errorMessage
           } else if (!passwordRegex.test(state.newPassword2)) {
