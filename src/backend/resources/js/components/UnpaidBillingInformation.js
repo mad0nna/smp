@@ -35,7 +35,7 @@ const UnpaidBillingInformation = (props) => {
               {data.due_billed_payment_period}
             </td>
             <td className="text-red-600 text-center font-semibold p-3">
-              {data.total_billed_amount}
+              {data.total_billed_amount} 円(税込)
             </td>
           </tr>
         </tbody>

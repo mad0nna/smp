@@ -70,8 +70,8 @@ class BillingController extends Controller
             $paymentMethod = $opportunityService->getLatestKOTOpportunityPaymentMethod(Session::get('salesforceCompanyID'));
 
             if ($paymentMethod === null || $paymentMethod !== 'クレジット') {
-                $this->response['data']['is_bank_transfer'] = true;
                 $this->response['data'] = $billingService->getUnpaidBillingInformation(Session::get('companyName'), Session::get('salesforceCompanyID'));
+                $this->response['data']['is_bank_transfer'] = true;
             }
 
             $this->response['code'] = 200;
