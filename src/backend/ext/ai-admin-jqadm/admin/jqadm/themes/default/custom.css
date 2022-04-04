@@ -247,6 +247,10 @@ p.upload-csv input {
   padding-left: 1em;
 }
 
+.aimeos table.list-items td.custom-actions {
+  text-align: center;
+}
+
 
 .btn-primary {
   background-color: #1D9E48;

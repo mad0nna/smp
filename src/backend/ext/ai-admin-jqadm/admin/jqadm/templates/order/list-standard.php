@@ -198,7 +198,7 @@ $columnList = [
 	'order.base.service.price' => $this->translate( 'admin', 'Service price' ),
 	'order.base.service.costs' => $this->translate( 'admin', 'Service costs' ),
 	'order.base.service.rebate' => $this->translate( 'admin', 'Service rebate' ),
-	'order.option' => $this->translate( 'admin', '詳細' ),
+	'order.option' => $this->translate( 'admin', '操作' ),
 ];
 
 $paymentStatusList = [

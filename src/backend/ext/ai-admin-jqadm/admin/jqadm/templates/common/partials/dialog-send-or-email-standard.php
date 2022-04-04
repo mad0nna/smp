@@ -35,7 +35,7 @@ $statusPaymentCode = $this->get( 'statusPaymentCode', [] );
 						キャンセル
 					</button>		
 					<button type="submit" class="btn btn-primary" v-on:click="$emit('confirm')">
-						オーケー
+						OK
 					</button>
 				</div> 
 			</div>

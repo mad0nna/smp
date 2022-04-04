@@ -249,10 +249,10 @@ $after = is_array( $after ) ? $after[''] ?? reset( $after ) : $after;
 					</li>
 
 				<?php endif ?>
-				<li class="treeview">
+				<li class="treeview menuitem-custom-users <?= in_array( $resource, $navlist['30'] ) !== false ? 'active' : '' ?> <?= $navlist['30']['10'] === $after ? '_after' : '' ?>">
 					<a class="item-group" href="/admin/shop/jqadm/search/customer?locale=ja">
 						<i class="icon fa fa-user-circle-o"></i>
-						<span class="title">顧客</span>
+						<span class="title"><?= $enc->attr( $this->translate( 'admin', $navlist['30']['10'] ) ) ?></span>
 					</a>
 				</li>					
 				 
