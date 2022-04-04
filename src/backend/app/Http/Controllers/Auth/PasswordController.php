@@ -133,12 +133,12 @@ class PasswordController extends Controller
             return $response;
         }
         if (!Hash::check($passwords['oldPassword'], Auth::user()->password)) {
-            $response['errors']['oldPassword'] = 'Incorrect password';
+            $response['errors']['oldPassword'] = 'パスワードが間違っています';
             return $response;
         }
         if ($passwords['newPassword'] !== $passwords['newPassword2']) {
-            $response['errors']['newPassword'] = 'Password not match';
-            $response['errors']['newPassword2'] = 'Password not match';
+            $response['errors']['newPassword'] = 'パスワードが一致しません';
+            $response['errors']['newPassword2'] = 'パスワードが一致しません';
             return $response;
         }
         if (!preg_match($pattern, $passwords['newPassword'])) {
@@ -153,11 +153,11 @@ class PasswordController extends Controller
                     'password' => $newPassword
                 ]
             );
-            $response['message'] = 'Password has been updated successfully.';
+            $response['message'] = 'パスワードの変更に成功しました';
             $response['status'] = true;
             return $response;
         } catch (QueryException $e) {
-            $response['message'] = 'Failed to update password';
+            $response['message'] = 'パスワードの変更に失敗しました';
             return $response;
             $e->getMessage();
         }
