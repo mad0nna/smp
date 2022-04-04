@@ -303,7 +303,7 @@ class Standard
 
 			if (($item['statusPayment'] == null || $item['statusPayment'] == 5 ) && $value == 6 ) {			
 				Session::put('aimeos/admin/jqadm/order/notification-status', 'success');
-				Session::put('aimeos/admin/jqadm/order/notification-message', '注文明細を送信する');
+				// Session::put('aimeos/admin/jqadm/order/notification-message', '注文明細を送信する');
 			}
 			$manager->save( $item );
 		}

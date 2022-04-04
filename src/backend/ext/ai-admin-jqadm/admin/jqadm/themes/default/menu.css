@@ -502,10 +502,6 @@ body:not(.dark) .aimeos .main-sidebar .sidebar-menu>li:hover:not(.none) {
 	content: "\f0d6"
 }
 
-.aimeos .main-sidebar .menuitem-order i.icon:before {
-	content: "\f07a"
-}
-
 .aimeos .main-sidebar .menuitem-subscription i.icon:before {
 	content: "\f073"
 }

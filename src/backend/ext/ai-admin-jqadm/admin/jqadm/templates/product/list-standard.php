@@ -671,7 +671,7 @@ $columnList = [
 						<th class="product-table-column product-table-column-product-stock">在庫</th>
 						<th class="product-table-column product-table-column-product-price">販売価格</th>
 						<th class="product-table-column">&nbsp;&nbsp;&nbsp;&nbsp;販売状況</th>
-						<th class="product-table-column" style="width:9%">アクション</th>
+						<th class="product-table-column" style="width:9%">操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -760,7 +760,7 @@ $columnList = [
 								<td class="product-status"><? if ($item->getStatus() == 1) {echo "販売中";} else {echo "⾮公開";}  ?></div></td>
 							<?php endif ?>
 
-							<td class="actions">
+							<td class="custom-actions">
 								<a class="items-field" href="<?= $url ?>">詳細</a>
 							</td>
 
