@@ -618,11 +618,11 @@ $columnList = [
 
 				<input type="hidden" value="product.code" name="filter[key][5]">
 				<input type="hidden" value="=~" name="filter[op][5]">
-				<input type="text" id="txtProductCode" name="filter[val][5]" class="d-none" value="<?= $this->session( 'aimeos/admin/jqadm/product/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/product/filter', [] )['val']['5'] : ''; ?>"   >
+				<input type="text" id="txtProductCodeFilter" name="filter[val][5]" class="d-none" value="<?= $this->session( 'aimeos/admin/jqadm/product/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/product/filter', [] )['val']['5'] : ''; ?>"   >
 				
 				<input type="hidden" value="product.label" name="filter[key][6]">
 				<input type="hidden" value="=~" name="filter[op][6]">
-				<input type="text" id="txtProductName" name="filter[val][6]" class="d-none" value="<?= $this->session( 'aimeos/admin/jqadm/product/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/product/filter', [] )['val']['6'] : ''; ?>" >
+				<input type="text" id="txtProductNameFilter" name="filter[val][6]" class="d-none" value="<?= $this->session( 'aimeos/admin/jqadm/product/filter', [] ) ? $this->session( 'aimeos/admin/jqadm/product/filter', [] )['val']['6'] : ''; ?>" >
 				<input type="hidden" value="product.status" name="filter[key][3]"> <input type="hidden" value="==" name="filter[op][3]">
 				<select id="selectProductStatus" name="filter[val][3]" class="d-none">
 					<?php
