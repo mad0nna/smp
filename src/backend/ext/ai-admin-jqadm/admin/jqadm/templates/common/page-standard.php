@@ -247,8 +247,13 @@ $after = is_array( $after ) ? $after[''] ?? reset( $after ) : $after;
 							</ul>
 						</div>
 					</li>
-
 				<?php endif ?>		
+				<li class="treeview">
+					<a class="item-group" href="/admin/shop/jqadm/search/customer?locale=ja">
+						<i class="icon fa fa-user-circle-o"></i>
+						<span class="title">顧客</span>
+					</a>
+				</li>	
 			</ul>
 
 		</div>
