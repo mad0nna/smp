@@ -1,12 +1,5 @@
-$(document).ready(function () {
-    var uploader = document.getElementById("input_upload_new_product");
-
-    if (uploader !== null) {
-        document.getElementById("linkSetProductAllActive").addEventListener('click', setProductAllStatus);
-        document.getElementById("linkSetProductActive").addEventListener('click', setProductActive);
-        document.getElementById("linkSetProductInActive").addEventListener('click', setProductInActive);
-        document.getElementById("linkSetProductArchived").addEventListener('click', setProductArchived);
-    }
+window.onload=function(){
+    
 
     const textItems = document.querySelector('#item-text-group');
     const priceItems = document.querySelector('#item-price-group');
@@ -45,9 +38,9 @@ $(document).ready(function () {
         }
     });
     
-    $("#txtProductFilter").on("input", function(){
-        $("#txtProductCode").val(this.value);
-        $("#txtProductName").val(this.value);
+    $("#txtProductFilter").on("input", function(){ console.log(this.value);
+        $("#txtProductCodeFilter").val(this.value);
+        $("#txtProductNameFilter").val(this.value);
     });
 
     $("#txtFilterCustomer").on("input", function(){
@@ -122,7 +115,17 @@ $(document).ready(function () {
           });        
     }
 
-});
+    var uploader = document.getElementById("input_upload_new_product");
+
+    if (uploader && document.getElementById("linkSetProductAllActive") && document.getElementById("linkSetProductActive") &&
+        document.getElementById("linkSetProductInActive") && document.getElementById("linkSetProductArchived")) {
+        document.getElementById("linkSetProductAllActive").addEventListener('click', setProductAllStatus);
+        document.getElementById("linkSetProductActive").addEventListener('click', setProductActive);
+        document.getElementById("linkSetProductInActive").addEventListener('click', setProductInActive);
+        document.getElementById("linkSetProductArchived").addEventListener('click', setProductArchived);         
+    }
+
+}
 
 function setProductAllStatus() {
     document.getElementById("selectProductStatus").value = "";
