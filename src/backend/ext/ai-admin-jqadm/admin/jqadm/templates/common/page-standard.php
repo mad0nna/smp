@@ -248,18 +248,12 @@ $after = is_array( $after ) ? $after[''] ?? reset( $after ) : $after;
 						</div>
 					</li>
 				<?php endif ?>		
-				<?php foreach( $navlist as $nav => $navitem ) : ?>
-					<?php if( is_array( $navitem ) ) : $nav = $navitem[''] ?? current( $nav ) ?>
-						<?php if($nav == "users") : ?>
-							<li class="treeview menuitem <?= $nav === $before ? '_before' : '' ?> <?= in_array( $resource, $navitem ) !== false ? 'active' : '' ?> <?= $nav === $after ? '_after' : '' ?>">
-								<a class="item-group" href="/admin/shop/jqadm/search/customer?locale=ja">
-									<i class="icon fa fa-user-circle-o"></i>
-									<span class="title"><?= $enc->attr( $this->translate( 'admin', $nav ) ) ?></span>
-								</a>
-							</li>	
-					<?php endif ?>
-					<?php endif ?>	
-				<?php endforeach ?>
+				<li class="treeview">
+					<a class="item-group" href="/admin/shop/jqadm/search/customer?locale=ja">
+						<i class="icon fa fa-user-circle-o"></i>
+						<span class="title">顧客</span>
+					</a>
+				</li>	
 			</ul>
 
 		</div>
