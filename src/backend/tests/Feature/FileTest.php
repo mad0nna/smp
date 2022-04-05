@@ -30,6 +30,7 @@ class FileTest extends TestCase
     private static $companyName;
     private static $kotToken;
     private static $kotStartDate;
+    private static $sessionData;
 
     public function setUp(): void
     {
@@ -60,13 +61,24 @@ class FileTest extends TestCase
         Session::put('companyName', self::$companyName);
         Session::put('kotToken', self::$kotToken);
         Session::put('kotStartDate', self::$kotStartDate);
+
+        self::$sessionData = [
+            'companyID' => self::$companyID,
+            'salesforceComppanyID' => self::$salesforceCompanyID,
+            'email' => self::$email,
+            'salesforceContactID' => self::$salesforceContactID,
+            'CompanyContactFirstname' => self::$CompanyContactFirstname,
+            'CompanyContactLastname' => self::$CompanyContactLastname,
+            'companyName' => self::$companyName,
+            'kotToken' => self::$kotToken,
+            'kotStartDate' =>  self::$kotStartDate,
+        ];
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
         Auth::logout();
-
         Session::forget('salesforceCompanyID');
         Session::forget('salesforceContactID');
         Session::forget('CompanyContactLastname');
@@ -74,6 +86,7 @@ class FileTest extends TestCase
         Session::forget('kotToken');
         Session::forget('kotStartDate');
         Session::forget('email');
+        session()->invalidate();
     }
 
     /**
@@ -141,18 +154,8 @@ class FileTest extends TestCase
             'id' => $latestFile->id,
         ];
 
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession([
-                            'companyID' => self::$companyID,
-                            'salesforceComppanyID' => self::$salesforceCompanyID,
-                            'email' => self::$email,
-                            'salesforceContactID' => self::$salesforceContactID,
-                            'CompanyContactFirstname' => self::$CompanyContactFirstname,
-                            'CompanyContactLastname' => self::$CompanyContactLastname,
-                            'companyName' => self::$companyName,
-                            'kotToken' => self::$kotToken,
-                            'kotStartDate' =>  self::$kotStartDate,
-                        ])
-                        ->json('POST', '/company/downloadBillingHistoryCSV', $params);
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/downloadBillingHistoryCSV', $params);
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
@@ -167,18 +170,8 @@ class FileTest extends TestCase
             '__ID' => '99999999',
         ];
 
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession([
-                            'companyID' => self::$companyID,
-                            'salesforceComppanyID' => self::$salesforceCompanyID,
-                            'email' => self::$email,
-                            'salesforceContactID' => self::$salesforceContactID,
-                            'CompanyContactFirstname' => self::$CompanyContactFirstname,
-                            'CompanyContactLastname' => self::$CompanyContactLastname,
-                            'companyName' => self::$companyName,
-                            'kotToken' => self::$kotToken,
-                            'kotStartDate' =>  self::$kotStartDate,
-                        ])
-                        ->json('POST', '/company/downloadBillingHistoryCSV', $params);
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/downloadBillingHistoryCSV', $params);
 
         $response->assertStatus(422);
         $result = json_decode((string) $response->getContent());
@@ -193,17 +186,7 @@ class FileTest extends TestCase
             'id' => 99999999,
         ];
 
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession([
-                            'companyID' => self::$companyID,
-                            'salesforceComppanyID' => self::$salesforceCompanyID,
-                            'email' => self::$email,
-                            'salesforceContactID' => self::$salesforceContactID,
-                            'CompanyContactFirstname' => self::$CompanyContactFirstname,
-                            'CompanyContactLastname' => self::$CompanyContactLastname,
-                            'companyName' => self::$companyName,
-                            'kotToken' => self::$kotToken,
-                            'kotStartDate' =>  self::$kotStartDate,
-                        ])
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                         ->json('POST', '/company/downloadBillingHistoryCSV', $params);
 
         $response->assertStatus(422);

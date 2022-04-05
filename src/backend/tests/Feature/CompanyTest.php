@@ -26,6 +26,7 @@ class CompanyTest extends TestCase
     private static $companyName;
     private static $kotToken;
     private static $kotStartDate;
+    private static $sessionData;
 
     public function setUp(): void
     {
@@ -54,20 +55,32 @@ class CompanyTest extends TestCase
         Session::put('companyName', self::$companyName);
         Session::put('kotToken', self::$kotToken);
         Session::put('kotStartDate', self::$kotStartDate);
+
+        self::$sessionData = [
+            'companyID' => self::$companyID,
+            'salesforceComppanyID' => self::$salesforceCompanyID,
+            'email' => self::$email,
+            'salesforceContactID' => self::$salesforceContactID,
+            'CompanyContactFirstname' => self::$CompanyContactFirstname,
+            'CompanyContactLastname' => self::$CompanyContactLastname,
+            'companyName' => self::$companyName,
+            'kotToken' => self::$kotToken,
+            'kotStartDate' =>  self::$kotStartDate,
+        ];
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
         Auth::logout();
-
         Session::forget('salesforceCompanyID');
-        Session::forget('salesforcgetUsageDataeContactID');
+        Session::forget('salesforceContactID');
         Session::forget('CompanyContactLastname');
         Session::forget('companyName');
         Session::forget('kotToken');
         Session::forget('kotStartDate');
         Session::forget('email');
+        session()->invalidate();
     }
 
     /**
@@ -84,18 +97,8 @@ class CompanyTest extends TestCase
      */
     public function testGetServiceUsageSuccess()
     {
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession([
-            'companyID' => self::$companyID,
-            'salesforceComppanyID' => self::$salesforceCompanyID,
-            'email' => self::$email,
-            'salesforceContactID' => self::$salesforceContactID,
-            'CompanyContactFirstname' => self::$CompanyContactFirstname,
-            'CompanyContactLastname' => self::$CompanyContactLastname,
-            'companyName' => self::$companyName,
-            'kotToken' => self::$kotToken,
-            'kotStartDate' =>  self::$kotStartDate,
-        ])
-        ->json('GET', '/company/getServiceUsage');
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/getServiceUsage');
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
@@ -108,23 +111,161 @@ class CompanyTest extends TestCase
     {
         // purposely using different input
         $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
-        $companyName = 'aaaaaaaaaa';
+        $incorrectCompanyName = 'aaaaaaaaaa';
 
         Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
-        Session::put('companyName', $companyName);
+        Session::put('companyName', $incorrectCompanyName);
+        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
+        self::$sessionData['companyName'] = $incorrectCompanyName;
 
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession([
-            'companyID' => self::$companyID,
-            'salesforceComppanyID' => self::$salesforceCompanyID,
-            'email' => self::$email,
-            'salesforceContactID' => self::$salesforceContactID,
-            'CompanyContactFirstname' => self::$CompanyContactFirstname,
-            'CompanyContactLastname' => self::$CompanyContactLastname,
-            'companyName' => self::$companyName,
-            'kotToken' => self::$kotToken,
-            'kotStartDate' =>  self::$kotStartDate,
-        ])
-        ->json('GET', '/company/getServiceUsage');
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/getServiceUsage');
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get Service Usage Date test success
+     */
+    public function testGetServiceUsageDateSuccess()
+    {
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/getServiceUsageDate');
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get logged in user test success
+     */
+    public function testGetLoggedInUserSuccess()
+    {
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/getLoggedinUser');
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get company details test success
+     */
+    public function testGetCompanyDetailsSuccess()
+    {
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/getCompanyDetails');
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get company details test fail
+     */
+    public function testGetCompanyDetailsFail()
+    {
+        // purposely using different input
+        $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
+
+        Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
+        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/getCompanyDetails');
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get company admin details test success
+     */
+    public function testGetCompanyAdminDetailsSuccess()
+    {
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/getCompanyAdminDetails');
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get company admin details test fail
+     */
+    public function testGetCompanyAdminDetailsFail()
+    {
+        // purposely using different input
+        $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
+        $incorrectSalesforceContactID = 'aaaaaaaaaa';
+
+        Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
+        Session::put('salesforceContactID', $incorrectSalesforceContactID);
+        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
+        self::$sessionData['salesforceContactID'] = $incorrectSalesforceContactID;
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/getCompanyAdminDetails');
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get opportunity details test success
+     */
+    public function testGetOpportunityDetailsSuccess()
+    {
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/getOpportunityDetails');
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get opportunity details test fail
+     */
+    public function testGetOpportunityDetailsFail()
+    {
+        // purposely using different input
+        $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
+        Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
+        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/getOpportunityDetails');
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get updated data for edit company details test success
+     */
+    public function testGetUpdatedDataForEditCompanyDetailsSuccess()
+    {
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/getUpdatedDataForEditCompanyDetails');
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get updated data for edit company details fail
+     */
+    public function testGetUpdatedDataForEditCompanyDetailsFail()
+    {
+        // purposely using different input
+        $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
+
+        Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
+        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/getUpdatedDataForEditCompanyDetails');
 
         $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());

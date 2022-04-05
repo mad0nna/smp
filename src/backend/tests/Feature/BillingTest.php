@@ -26,6 +26,7 @@ class BillingTest extends TestCase
     private static $companyName;
     private static $kotToken;
     private static $kotStartDate;
+    private static $sessionData;
 
     public function setUp(): void
     {
@@ -54,13 +55,24 @@ class BillingTest extends TestCase
         Session::put('companyName', self::$companyName);
         Session::put('kotToken', self::$kotToken);
         Session::put('kotStartDate', self::$kotStartDate);
+
+        self::$sessionData = [
+            'companyID' => self::$companyID,
+            'salesforceComppanyID' => self::$salesforceCompanyID,
+            'email' => self::$email,
+            'salesforceContactID' => self::$salesforceContactID,
+            'CompanyContactFirstname' => self::$CompanyContactFirstname,
+            'CompanyContactLastname' => self::$CompanyContactLastname,
+            'companyName' => self::$companyName,
+            'kotToken' => self::$kotToken,
+            'kotStartDate' =>  self::$kotStartDate,
+        ];
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
         Auth::logout();
-
         Session::forget('salesforceCompanyID');
         Session::forget('salesforceContactID');
         Session::forget('CompanyContactLastname');
@@ -68,6 +80,7 @@ class BillingTest extends TestCase
         Session::forget('kotToken');
         Session::forget('kotStartDate');
         Session::forget('email');
+        session()->invalidate();
     }
 
     /**
@@ -84,18 +97,8 @@ class BillingTest extends TestCase
      */
     public function testUnpaidBillingInformationSuccess()
     {
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession([
-                            'companyID' => self::$companyID,
-                            'salesforceCompanyID' => self::$salesforceCompanyID,
-                            'email' => self::$email,
-                            'salesforceContactID' => self::$salesforceContactID,
-                            'CompanyContactFirstname' => self::$CompanyContactFirstname,
-                            'CompanyContactLastname' => self::$CompanyContactLastname,
-                            'companyName' => self::$companyName,
-                            'kotToken' => self::$kotToken,
-                            'kotStartDate' =>  self::$kotStartDate,
-                        ])
-                        ->json('GET', '/company/getUnpaidBillingInformation');
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/getUnpaidBillingInformation');
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
@@ -108,23 +111,15 @@ class BillingTest extends TestCase
     {
         // purposely using different input
         $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
-        $companyName = 'aaaaaaaaaa';
+        $incorrectCompanyName = 'aaaaaaaaaa';
 
         Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
-        Session::put('companyName', $companyName);
+        Session::put('companyName', $incorrectCompanyName);
+        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
+        self::$sessionData['companyName'] = $incorrectCompanyName;;
 
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession([
-                            'companyID' => self::$companyID,
-                            'salesforceCompanyID' => $incorrectSalesforceCompanyID,
-                            'email' => self::$email,
-                            'salesforceContactID' => self::$salesforceContactID,
-                            'CompanyContactFirstname' => self::$CompanyContactFirstname,
-                            'CompanyContactLastname' => self::$CompanyContactLastname,
-                            'companyName' => $companyName,
-                            'kotToken' => self::$kotToken,
-                            'kotStartDate' =>  self::$kotStartDate,
-                        ])
-                        ->json('GET', '/company/getUnpaidBillingInformation');
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/getUnpaidBillingInformation');
 
         $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());
