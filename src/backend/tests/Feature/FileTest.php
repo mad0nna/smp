@@ -77,7 +77,7 @@ class FileTest extends TestCase
     }
 
     /**
-     * BillingTest constructor.
+     * FileTest constructor.
      */
     public function __construct()
     {

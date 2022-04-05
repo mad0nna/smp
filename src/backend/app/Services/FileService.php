@@ -39,9 +39,9 @@ class FileService
 
         $file = $this->file->where($showConditions)->first();
 
-        if (!($file instanceof File)) { // @codeCoverageIgnoreStart
+        if (!($file instanceof File)) {
             throw new RuntimeException('File record does not exist.');
-        }  // @codeCoverageIgnoreStart
+        }
 
         return $file;
     }
@@ -59,13 +59,13 @@ class FileService
 
         $company = $this->company->where('account_id', $companyAccountID)->first();
 
-        if (!($company instanceof Company)) { // @codeCoverageIgnoreStart
+        if (!($company instanceof Company)) {
             throw new RuntimeException('Company does not exist given account ID.');
-        } // @codeCoverageIgnoreStart
+        }
 
-        if ($file->company_id !== $company->id) { // @codeCoverageIgnoreStart
+        if ($file->company_id !== $company->id) {
             throw new RuntimeException('User does not have the rights to access file.');
-        } // @codeCoverageIgnoreStart
+        }
 
         try {
             $file_exists = Storage::disk(config('app.storage_disk'))->exists($file->file_path);
@@ -77,7 +77,7 @@ class FileService
             return $file;
         } catch (\Exception $e) { // @codeCoverageIgnoreStart
             throw $e;
-        } // @codeCoverageIgnoreStart
+        } // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -94,9 +94,9 @@ class FileService
             // Find company given salesforce account id
             $company = $this->company->where('account_id', $data['salesforce_id'])->first();
 
-            if (!($company instanceof Company)) { // @codeCoverageIgnoreStart
+            if (!($company instanceof Company)) {
                 throw new RuntimeException('Company not found given salesforce id.');
-            } // @codeCoverageIgnoreStart
+            }
 
             // File naming convention with s3
             $fileUrl = 'BillingCSVs/';
