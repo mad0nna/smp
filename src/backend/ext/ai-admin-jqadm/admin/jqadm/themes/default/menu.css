@@ -514,6 +514,10 @@ body:not(.dark) .aimeos .main-sidebar .sidebar-menu>li:hover:not(.none) {
 	content: "\f007"
 }
 
+.aimeos .main-sidebar .menuitem-order i.icon:before {
+	content: "\f07a"
+}
+
 .aimeos .main-sidebar .menuitem-group i.icon:before {
 	content: "\f0c0"
 }
