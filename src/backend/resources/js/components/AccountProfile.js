@@ -233,51 +233,51 @@ const AccountProfileEdit = () => {
         return
       }
 
-      // const _accountSFValues = {
-      //   Email: state.account.email,
-      //   FirstName: state.account.firstname,
-      //   Fullname: state.account.firstname + ' ' + state.account.lastname,
-      //   LastName: state.account.lastname,
-      //   MobilePhone: state.account.phone,
-      //   Title: state.account.position,
-      //   admin__c: state.account.userTypeId,
-      //   username: state.account.email,
-      //   Id: state.account.account_code
-      // }
-      // axios
-      //   .put('/company/updateAdminByEmail', _accountSFValues, {
-      //     'Content-Type': 'application/json'
-      //   })
-      //   .then((response) => {
-      //     if (
-      //       !response['data']['status'] ||
-      //       response['data']['status'] === undefined
-      //     ) {
-      //       setState((prevState) => {
-      //         return {
-      //           ...prevState,
-      //           isLoading: false,
-      //           showPopupMessageDialog: true,
-      //           dialogMessage: 'Customer company information failed to update!'
-      //         }
-      //       })
-      //       return
-      //     }
-      //     setState((prevState) => {
-      //       return {
-      //         ...prevState,
-      //         isLoading: false,
-      //         updatedAccount: response.data.data,
-      //         showPopupMessageDialog: true,
-      //         dialogMessage: '顧客企業情報の更新に成功しました！'
-      //       }
-      //     })
-      //   })
-      //   .catch(function (error) {
-      //     if (error.response) {
-      //       console.log(error.response.status)
-      //     }
-      //   })
+      const _accountSFValues = {
+        Email: state.account.email,
+        FirstName: state.account.firstname,
+        Fullname: state.account.firstname + ' ' + state.account.lastname,
+        LastName: state.account.lastname,
+        MobilePhone: state.account.phone,
+        Title: state.account.position,
+        admin__c: state.account.userTypeId,
+        username: state.account.email,
+        Id: state.account.account_code
+      }
+      axios
+        .put('/company/updateAdminByEmail', _accountSFValues, {
+          'Content-Type': 'application/json'
+        })
+        .then((response) => {
+          if (
+            !response['data']['status'] ||
+            response['data']['status'] === undefined
+          ) {
+            setState((prevState) => {
+              return {
+                ...prevState,
+                isLoading: false,
+                showPopupMessageDialog: true,
+                dialogMessage: 'Customer company information failed to update!'
+              }
+            })
+            return
+          }
+          setState((prevState) => {
+            return {
+              ...prevState,
+              isLoading: false,
+              updatedAccount: response.data.data,
+              showPopupMessageDialog: true,
+              dialogMessage: '顧客企業情報の更新に成功しました！'
+            }
+          })
+        })
+        .catch(function (error) {
+          if (error.response) {
+            console.log(error.response.status)
+          }
+        })
     }
   }
 
