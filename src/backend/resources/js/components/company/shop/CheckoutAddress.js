@@ -411,7 +411,7 @@ const CheckoutAddress = (props) => {
                         id="inline-address-name"
                         type="text"
                         name="number"
-                        onChange={props.handleAddressPostalOnChange}
+                        onChange={props.handleNumberOnChange}
                         value={props.state.number || ''}
                         required
                         maxLength="13"

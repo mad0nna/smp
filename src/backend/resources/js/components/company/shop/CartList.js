@@ -116,7 +116,7 @@ const CartList = () => {
     const name = event.target.name
     const value = event.target.value
     const numberValue = value.replace(/(\..*)\./g, '$1')
-    const re = /^[0-9]+$/
+    const re = /[\d -]+/
     if (value === '' || re.test(numberValue)) {
       setAddressData({
         ...addressData,
@@ -129,7 +129,7 @@ const CartList = () => {
     const name = event.target.name
     const value = event.target.value
     const numberValue = value.replace(/(\..*)\./g, '$1')
-    const re = /^[0-9]+$/
+    const re = /[\d -]+/
     if (value === '' || re.test(numberValue)) {
       setAddressData({
         ...addressData,
