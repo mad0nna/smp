@@ -134,8 +134,12 @@ const App = () => {
     setCurrentPage(n)
   }
 
+  var timer = null
   const handleFilter = (keyword) => {
-    setPagingConditions({ ...pagingConditions, keyword: keyword })
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      setPagingConditions({ ...pagingConditions, keyword: keyword })
+    }, 500)
   }
 
   const handleNavigation = (change) => {

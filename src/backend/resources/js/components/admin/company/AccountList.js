@@ -47,11 +47,7 @@ const AccountList = (props) => {
   }
 
   const handleKeywordChange = (e) => {
-    if (e.target.value.length > 1) {
-      props.handleFilter(e.target.value)
-    } else if (e.target.value.length == 0) {
-      props.handleFilter('')
-    }
+    props.handleFilter(e.target.value)
   }
 
   const searchCompanyCode = (code) => {
