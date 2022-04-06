@@ -71,7 +71,7 @@ const AccountProfileEdit = () => {
   }
 
   const handleTextChange = (key, val) => {
-    const re = /^[0-9\b]+$/
+    val = val.trim()
     let hasError = false
     let errorMessage = ''
 
@@ -109,7 +109,7 @@ const AccountProfileEdit = () => {
         break
       case 'phone':
         key = 'MobilePhone'
-        if (re.test(val)) {
+        if ((val.length == 10 || val.length == 11) && !isNaN(val)) {
           errorMessage = ''
         } else {
           errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
@@ -150,7 +150,6 @@ const AccountProfileEdit = () => {
 
   const handleUpdateSave = () => {
     clearErrors()
-    const re = /^[0-9\b]+$/
     let hasError = false
     let errorMessage = ''
     let _errorMessages = errorMessages
@@ -204,8 +203,7 @@ const AccountProfileEdit = () => {
                 'ハイフンなしの10桁～11桁の電話番号を入力してください'
               hasError = true
               break
-            }
-            if (val.length >= 10 && re.test(val)) {
+            } else if ((val.length == 10 || val.length == 11) && !isNaN(val)) {
               errorMessage = ''
             } else {
               errorMessage =
@@ -235,51 +233,51 @@ const AccountProfileEdit = () => {
         return
       }
 
-      const _accountSFValues = {
-        Email: state.account.email,
-        FirstName: state.account.firstname,
-        Fullname: state.account.firstname + ' ' + state.account.lastname,
-        LastName: state.account.lastname,
-        MobilePhone: state.account.phone,
-        Title: state.account.position,
-        admin__c: state.account.userTypeId,
-        username: state.account.email,
-        Id: state.account.account_code
-      }
-      axios
-        .put('/company/updateAdminByEmail', _accountSFValues, {
-          'Content-Type': 'application/json'
-        })
-        .then((response) => {
-          if (
-            !response['data']['status'] ||
-            response['data']['status'] === undefined
-          ) {
-            setState((prevState) => {
-              return {
-                ...prevState,
-                isLoading: false,
-                showPopupMessageDialog: true,
-                dialogMessage: 'Customer company information failed to update!'
-              }
-            })
-            return
-          }
-          setState((prevState) => {
-            return {
-              ...prevState,
-              isLoading: false,
-              updatedAccount: response.data.data,
-              showPopupMessageDialog: true,
-              dialogMessage: '顧客企業情報の更新に成功しました！'
-            }
-          })
-        })
-        .catch(function (error) {
-          if (error.response) {
-            console.log(error.response.status)
-          }
-        })
+      // const _accountSFValues = {
+      //   Email: state.account.email,
+      //   FirstName: state.account.firstname,
+      //   Fullname: state.account.firstname + ' ' + state.account.lastname,
+      //   LastName: state.account.lastname,
+      //   MobilePhone: state.account.phone,
+      //   Title: state.account.position,
+      //   admin__c: state.account.userTypeId,
+      //   username: state.account.email,
+      //   Id: state.account.account_code
+      // }
+      // axios
+      //   .put('/company/updateAdminByEmail', _accountSFValues, {
+      //     'Content-Type': 'application/json'
+      //   })
+      //   .then((response) => {
+      //     if (
+      //       !response['data']['status'] ||
+      //       response['data']['status'] === undefined
+      //     ) {
+      //       setState((prevState) => {
+      //         return {
+      //           ...prevState,
+      //           isLoading: false,
+      //           showPopupMessageDialog: true,
+      //           dialogMessage: 'Customer company information failed to update!'
+      //         }
+      //       })
+      //       return
+      //     }
+      //     setState((prevState) => {
+      //       return {
+      //         ...prevState,
+      //         isLoading: false,
+      //         updatedAccount: response.data.data,
+      //         showPopupMessageDialog: true,
+      //         dialogMessage: '顧客企業情報の更新に成功しました！'
+      //       }
+      //     })
+      //   })
+      //   .catch(function (error) {
+      //     if (error.response) {
+      //       console.log(error.response.status)
+      //     }
+      //   })
     }
   }
 
@@ -512,6 +510,7 @@ const AccountProfileEdit = () => {
                           name="phone"
                           defaultValue={state.account.phone}
                           placeholder="電話番号"
+                          maxLength={11}
                           onChange={(e) =>
                             handleTextChange('phone', e.target.value)
                           }
