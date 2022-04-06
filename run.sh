@@ -7,8 +7,8 @@ aws s3 cp s3://idaten-creds/.env /home/ec2-user/idaten/.env
 aws s3 cp s3://idaten-creds/backend/.env /home/ec2-user/idaten/src/backend/.env
 
 # Build Docker Containers
-# docker-compose stop
-# docker-compose build --no-cache
+docker-compose stop
+docker-compose build --no-cache
 
 # Install Composer Packages
 docker-compose run --rm composer update

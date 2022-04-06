@@ -7,7 +7,7 @@ import MessageDialog from './MessageDialog'
 import emailSent from '../../../../img/email/email-sent.png' /* eslint-disable-line */
 import emailStamp from '../../../../img/email/email-stamp.png' /* eslint-disable-line */
 import emailLogo from '../../../../img/email/email-logo.png' /* eslint-disable-line */
-import kotFabIcon from '../../../../img/kotContractLogo.png' /* eslint-disable-line */
+import kotFabIcon from '../../../../img/kotFabIcon.png' /* eslint-disable-line */
 
 import {
   BrowserRouter as Router,
@@ -66,7 +66,7 @@ const App = () => {
         `/admin/company/searchCompanyId`,
         {
           code: selectedItem.companyCode,
-          companyId: selectedItem.id,
+          company_id: selectedItem.id,
           _token: state.token
         },
         {

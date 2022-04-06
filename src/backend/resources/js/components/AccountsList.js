@@ -34,8 +34,7 @@ const AccountList = () => {
     showPopupDelete: false,
     showPopupMessageDialog: false,
     dialogMessage: '',
-    isLoading: false,
-    searchKeyword: ''
+    isLoading: false
   })
 
   useEffect(() => {
@@ -98,24 +97,8 @@ const AccountList = () => {
     setPagingConditions({ ...pagingConditions, ...{ page: n } })
   }
 
-  const handleFilterClick = () => {
-    setPagingConditions({
-      ...pagingConditions,
-      keyword: state.searchKeyword
-    })
-  }
-
   const handleFilter = (e) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        searchKeyword: e.target.value
-      }
-    })
-
-    if (e.key === 'Enter') {
-      setPagingConditions({ ...pagingConditions, keyword: state.searchKeyword })
-    }
+    setPagingConditions({ ...pagingConditions, keyword: e.target.value })
   }
 
   const handleNavigation = (change) => {
@@ -312,8 +295,7 @@ const AccountList = () => {
                       className="bg-gray-100 h-10 rounded-lg 2xl:w-96 xl:w-92 lg:w-64 mx-0 my-auto"
                     >
                       <svg
-                        className="text-gray-500 fill-current w-auto h-11 float-left p-3 rounded-lg cursor-pointer"
-                        onClick={handleFilterClick}
+                        className="text-gray-500 fill-current w-auto h-11 float-left p-3 rounded-lg"
                         xmlns="http://www.w3.org/2000/svg"
                         x="30px"
                         y="30px"
@@ -332,7 +314,7 @@ const AccountList = () => {
                         type="text"
                         className="h-full 2xl:w-80 xl:w-76 lg:w-44 bg-gray-100 custom-outline-none rounded-lg"
                         placeholder="検索"
-                        onKeyUp={handleFilter}
+                        onChange={handleFilter}
                       />
                     </div>
                   </div>
@@ -399,9 +381,7 @@ const AccountList = () => {
                         </td>
                         <td className="text-center">{admin.title}</td>
                         <td className="text-center">
-                          {admin.user_type_id === 3
-                            ? 'スーパー管理者'
-                            : '副管理者'}
+                          {admin.user_type_id === 3 ? '管理者' : '副管理者'}
                         </td>
                         <td className="text-center">{admin.email}</td>
                         <td className="text-right">{admin.contact_num}</td>
@@ -418,7 +398,7 @@ const AccountList = () => {
                                 }
                                 // update
                               >
-                                更新 &nbsp;
+                                詳細&nbsp;
                               </span>
                             ) : null}
 

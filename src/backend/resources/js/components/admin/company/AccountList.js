@@ -29,8 +29,7 @@ const AccountList = (props) => {
     renderPageNumbers: '',
     currentPage: 1,
     lastPage: 1,
-    pageNumbers: '',
-    searchKeyword: ''
+    pageNumbers: ''
   })
 
   const togglePopupNewAccount = () => {
@@ -47,28 +46,11 @@ const AccountList = (props) => {
     })
   }
 
-  const handleSearchClick = () => {
-    if (state.searchKeyword !== '') {
-      props.handleFilter(state.searchKeyword)
-    } else {
-      props.handleFilter('')
-    }
-  }
-
   const handleKeywordChange = (e) => {
-    let searchValue = e.target.value
-    setState((prevState) => {
-      return {
-        ...prevState,
-        searchKeyword: searchValue
-      }
-    })
-    if (e.key === 'Enter') {
-      if (searchValue.length > 1) {
-        props.handleFilter(searchValue)
-      } else {
-        props.handleFilter('')
-      }
+    if (e.target.value.length > 1) {
+      props.handleFilter(e.target.value)
+    } else if (e.target.value.length == 0) {
+      props.handleFilter('')
     }
   }
 
@@ -288,8 +270,7 @@ const AccountList = (props) => {
                   className="bg-mainbg h-12 rounded-3xl w-96 mx-0 my-auto"
                 >
                   <svg
-                    className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3 cursor-pointer"
-                    onClick={handleSearchClick}
+                    className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
                     xmlns="http://www.w3.org/2000/svg"
                     x="30px"
                     y="30px"
@@ -309,7 +290,7 @@ const AccountList = (props) => {
                     id="billingSearch"
                     className="h-full w-80 bg-mainbg custom-outline-none"
                     placeholder="検索"
-                    onKeyUp={handleKeywordChange}
+                    onChange={handleKeywordChange}
                   />
                 </div>
               </div>
@@ -378,7 +359,7 @@ const AccountList = (props) => {
                           props.handleDisplaySelectedCompany(index)
                         }
                       >
-                        更新 &nbsp;&nbsp;
+                        詳細
                       </a>
                       <a
                         className="cursor-pointer"
@@ -401,7 +382,7 @@ const AccountList = (props) => {
                       className="cursor-pointer"
                       onClick={() => props.handleDisplaySelectedCompany(index)}
                     >
-                      更新
+                      詳細
                     </a>
                   )
 

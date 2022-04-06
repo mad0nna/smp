@@ -211,7 +211,8 @@ const CompanyProfile = () => {
     setState((prevState) => {
       return {
         ...prevState,
-        isLoading: true
+        isLoading: true,
+        isGettingData: true
       }
     })
 
@@ -550,7 +551,7 @@ const CompanyProfile = () => {
         <div className="pt-3 pb-6">
           <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
             <h2 className="text-green-800 text-lg font-bold">
-              顧客企業プロフィール
+              企業プロフィール
             </h2>
           </div>
         </div>
@@ -567,7 +568,8 @@ const CompanyProfile = () => {
               >
                 <div className="md:mb-0 md:w-1/3">
                   <label className="text-sm text-gray-400">
-                    会社名を入力してください*
+                    会社名を入力してください
+                    <span className="text-red-500">*</span>
                   </label>
                 </div>
                 <div className="md:w-2/3 flex-grow">
@@ -616,7 +618,9 @@ const CompanyProfile = () => {
                 }
               >
                 <div className="md:mb-0 md:w-1/3">
-                  <label className="text-sm text-gray-400">所在地*</label>
+                  <label className="text-sm text-gray-400">
+                    所在地<span className="text-red-500">*</span>
+                  </label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
                   <label
@@ -754,7 +758,9 @@ const CompanyProfile = () => {
                 }
               >
                 <div className="md:mb-0 md:w-1/3">
-                  <label className="text-sm text-gray-400">電話番号*</label>
+                  <label className="text-sm text-gray-400">
+                    電話番号<span className="text-red-500">*</span>
+                  </label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
                   <label
@@ -873,7 +879,7 @@ const CompanyProfile = () => {
               >
                 <div className="md:mb-0 md:w-1/3">
                   <label className="text-sm text-gray-400">
-                    連絡サポート担当者名*
+                    連絡サポート担当者名<span className="text-red-500">*</span>
                   </label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
@@ -981,7 +987,8 @@ const CompanyProfile = () => {
               >
                 <div className="md:mb-0 md:w-1/3">
                   <label className="text-sm text-gray-400">
-                    連絡サポート担当者電話番号*
+                    連絡サポート担当者電話番号
+                    <span className="text-red-500">*</span>
                   </label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
