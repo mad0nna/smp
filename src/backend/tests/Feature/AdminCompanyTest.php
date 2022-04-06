@@ -176,7 +176,7 @@ class AdminCompanyTest extends TestCase
     /**
      * Search company code test success
      */
-    public function testSearchByCompanyCodeSuccessAvailable()
+    public function testSearchByCompanyCodeSuccess()
     {
         $params = [
             'code' => '12345',
@@ -189,5 +189,43 @@ class AdminCompanyTest extends TestCase
         $result = json_decode((string) $response->getContent());
         $this->assertEquals($result->success, true);
         $this->assertEquals($result->exists, false);
+    }
+
+    /**
+     * Search company code test used code and exisiing
+     */
+    public function testSearchByCompanyCodeUsed()
+    {
+        $params = [
+            'code' => 'Sprobe',
+        ];
+
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/searchCompanyCode', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+        $this->assertEquals($result->success, true);
+        $this->assertEquals($result->exists, true);
+        $this->assertEquals($result->data, 'ご入力されたKoT企業コードは既に登録されています');
+    }
+
+    /**
+     * Search company code test with non-existant code
+     */
+    public function testSearchByCompanyCodeNotExisting()
+    {
+        $params = [
+            'code' => 'asdfjklk;123',
+        ];
+
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/searchCompanyCode', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+        $this->assertEquals($result->success, false);
+        $this->assertEquals($result->exists, false);
+        $this->assertEquals($result->data, 'コードが見つかりません');
     }
 }

@@ -124,4 +124,82 @@ class BillingTest extends TestCase
         $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());
     }
+
+    /**
+     * Get invoice index success
+     */
+    public function testGetInvoiceIndexSuccess()
+    {
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/getBilling');
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get invoice index success
+     */
+    public function testGetInvoiceIndexFail()
+    {
+        // purposely using different input
+        $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
+
+        Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
+        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/getBilling');
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get invoice index success with list or an empty list
+     */
+    public function testGetInvoicePDFSuccess()
+    {
+        $invoiceList = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/getBilling');
+
+        if (!empty($invoiceList)) {
+            $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                                ->withHeaders([
+                                    'invoiceFileId' => $invoiceList[0]['body'],
+                                    'invoiceNumber' => $invoiceList[0]['invoiceNumber'],
+                                    'accountNumber' => $invoiceList[0]['accountNumber'],
+                                ])
+                                ->json('POST', '/company/getInvoicePDF');
+
+            $response->assertStatus(200);
+            $result = json_decode((string) $response->getContent());
+        } else {
+            $this->assertEmpty($invoiceList);
+        }
+    }
+
+    /**
+     * Get invoice index success with wrong input
+     */
+    public function testGetInvoicePDFWrongInput()
+    {
+        $invoiceList = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/getBilling');
+
+        if (!empty($invoiceList)) {
+            $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                                ->withHeaders([
+                                    'invoiceFileId' => 'randomString123456',
+                                    'invoiceNumber' => 'randomString123456',
+                                    'accountNumber' => 'randomString123456',
+                                ])
+                                ->json('POST', '/company/getInvoicePDF');
+
+            $response->assertStatus(500);
+            $result = json_decode((string) $response->getContent());
+        } else {
+            $this->assertEmpty($invoiceList);
+        }
+    }
 }
