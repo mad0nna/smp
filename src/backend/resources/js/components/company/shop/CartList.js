@@ -46,9 +46,9 @@ const CartList = () => {
     street_address: userData.address1 || '',
     building_name: userData.address2 || '',
     city: userData.city || '',
-    postal_code: userData.postal.replace(/-/g, '') || '',
+    postal_code: userData.postal || '',
     prefecture: userData.state || '',
-    number: userData.number.replace(/-/g, '') || ''
+    number: userData.number || ''
   })
   const [errorData, setErrorData] = useState({
     email: false,
@@ -112,15 +112,28 @@ const CartList = () => {
     const value = event.target.value
     setAddressData({ ...addressData, [name]: value })
   }
+  const handleAddressPostalOnChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+    const numberValue = value.replace(/(\..*)\./g, '$1')
+    const re = /[\d -]+/
+    if (value === '' || re.test(numberValue)) {
+      setAddressData({
+        ...addressData,
+        [name]: numberValue.replace(/\s/gi, '')
+      })
+    }
+  }
+
   const handleAddressNumberOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
-    const numberValue = value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
-    const re = /^[0-9\b]+$/
-    if (value === '' || re.test(parseInt(numberValue))) {
+    const numberValue = value.replace(/(\..*)\./g, '$1')
+    const re = /[\d -]+/
+    if (value === '' || re.test(numberValue)) {
       setAddressData({
         ...addressData,
-        [name]: numberValue.replace(/[^\w\s]/gi, '')
+        [name]: numberValue.replace(/\s/gi, '')
       })
     }
   }
@@ -156,9 +169,9 @@ const CartList = () => {
       street_address: userData.address1 || '',
       building_name: userData.address2 || '',
       city: userData.city || '',
-      postal_code: userData.postal.replace(/-/g, '') || '',
+      postal_code: userData.postal || '',
       prefecture: userData.state || '',
-      number: userData.number.replace(/-/g, '') || ''
+      number: userData.number || ''
     })
     setState((prevState) => {
       return {
@@ -778,17 +791,29 @@ const CartList = () => {
             return { ...prevState, emailIsValid: true }
           })
     }
-    if (addressData.number.length >= 1) {
-      addressData.number.length >= 10 && addressData.number.length <= 11
-        ? setErrorData((prevState) => {
-            return { ...prevState, numberIsValid: false }
-          })
-        : setErrorData((prevState) => {
-            return { ...prevState, numberIsValid: true }
-          })
+    if (addressData.number.length >= 12 && addressData.number.length <= 13) {
+      if (
+        new RegExp(/[0-9]{2}-[0-9]{4}-[0-9]{4}/).test(addressData.number) ||
+        new RegExp(/[0-9]{3}-[0-9]{3}-[0-9]{4}/).test(addressData.number) ||
+        new RegExp(/[0-9]{4}-[0-9]{3}-[0-9]{3}/).test(addressData.number) ||
+        new RegExp(/[0-9]{3}-[0-9]{4}-[0-9]{4}/).test(addressData.number)
+      ) {
+        setErrorData((prevState) => {
+          return { ...prevState, numberIsValid: false }
+        })
+      } else {
+        setErrorData((prevState) => {
+          return { ...prevState, numberIsValid: true }
+        })
+      }
+    } else {
+      setErrorData((prevState) => {
+        return { ...prevState, numberIsValid: true }
+      })
     }
+
     if (addressData.postal_code.length >= 1) {
-      new RegExp(/^\d{7}$/).test(addressData.postal_code)
+      new RegExp(/[0-9]{3}-[0-9]{4}/).test(addressData.postal_code)
         ? setErrorData((prevState) => {
             return { ...prevState, postalCodeIsValid: false }
           })
@@ -966,6 +991,7 @@ const CartList = () => {
           handleOnChange={handleAddressOnChange}
           handleSelectOnChange={handleAddressSelectOnChange}
           handleNumberOnChange={handleAddressNumberOnChange}
+          handleAddressPostalOnChange={handleAddressPostalOnChange}
           handleTextOnChanage={handleAddressTextOnChange}
           // handleTelOnChange={handleTelNumber}
           handleSubmit={handleCheckoutModalOpen}
