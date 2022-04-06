@@ -986,22 +986,22 @@ const CartList = () => {
           </div>
         </div>
       </div>
-      {/* {state.addressModalDisplay ? ( */}
-      <CheckoutAddress
-        handleOnChange={handleAddressOnChange}
-        handleSelectOnChange={handleAddressSelectOnChange}
-        handleNumberOnChange={handleAddressNumberOnChange}
-        handleAddressPostalOnChange={handleAddressPostalOnChange}
-        handleTextOnChanage={handleAddressTextOnChange}
-        // handleTelOnChange={handleTelNumber}
-        handleSubmit={handleCheckoutModalOpen}
-        handleCloseModal={handleCheckoutModalAddressClose}
-        state={addressData}
-        loader={state.loader}
-        error={errorData}
-        isSubmit={state.isSubmit}
-      />
-      {/* ) : null} */}
+      {state.addressModalDisplay ? (
+        <CheckoutAddress
+          handleOnChange={handleAddressOnChange}
+          handleSelectOnChange={handleAddressSelectOnChange}
+          handleNumberOnChange={handleAddressNumberOnChange}
+          handleAddressPostalOnChange={handleAddressPostalOnChange}
+          handleTextOnChanage={handleAddressTextOnChange}
+          // handleTelOnChange={handleTelNumber}
+          handleSubmit={handleCheckoutModalOpen}
+          handleCloseModal={handleCheckoutModalAddressClose}
+          state={addressData}
+          loader={state.loader}
+          error={errorData}
+          isSubmit={state.isSubmit}
+        />
+      ) : null}
       {state.modalDisplay ? (
         <CheckoutOption
           handleCloseModal={handleCheckoutModalClose}
