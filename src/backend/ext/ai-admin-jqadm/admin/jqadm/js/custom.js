@@ -118,11 +118,10 @@ window.onload=function(){
     var uploader = document.getElementById("input_upload_new_product");
 
     if (uploader && document.getElementById("linkSetProductAllActive") && document.getElementById("linkSetProductActive") &&
-        document.getElementById("linkSetProductInActive") && document.getElementById("linkSetProductArchived")) {
+        document.getElementById("linkSetProductInActive")) {
         document.getElementById("linkSetProductAllActive").addEventListener('click', setProductAllStatus);
         document.getElementById("linkSetProductActive").addEventListener('click', setProductActive);
         document.getElementById("linkSetProductInActive").addEventListener('click', setProductInActive);
-        document.getElementById("linkSetProductArchived").addEventListener('click', setProductArchived);         
     }
 
 }
