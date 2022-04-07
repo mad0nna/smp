@@ -106,6 +106,7 @@ $jsonConfig = $this->config( 'admin/jsonadm/url/options/config', [] );
  * @see admin/jqadm/navbar-limit
  */
 $navlist = map( $this->config( 'admin/jqadm/navbar', [] ) )->ksort();
+$navlistcustom = map( $this->config( 'admin/jqadm/navbar', [] ) )->ksort();
 
 foreach( $navlist as $key => $navitem )
 {
@@ -248,12 +249,18 @@ $after = is_array( $after ) ? $after[''] ?? reset( $after ) : $after;
 						</div>
 					</li>
 				<?php endif ?>		
-				<li class="treeview">
-					<a class="item-group" href="/admin/shop/jqadm/search/customer?locale=ja">
-						<i class="icon fa fa-user-circle-o"></i>
-						<span class="title">顧客</span>
-					</a>
-				</li>	
+				<?php foreach( $navlistcustom as $nav => $navitem ) : ?>
+				<?php if( is_array( $navitem ) ) : $nav = $navitem[''] ?? current( $nav ) ?>
+					<?php if($nav == "users") : ?>
+						<li class="treeview menuitem <?= $nav === $before ? '_before' : '' ?> <?= in_array( $resource, $navitem ) !== false ? 'active' : '' ?> <?= $nav === $after ? '_after' : '' ?>">
+							<a class="item-group" href="/admin/shop/jqadm/search/customer?locale=ja">
+								<i class="icon fa fa-user-circle-o"></i>
+								<span class="title">顧客</span>
+							</a>
+						</li>  
+					<?php endif ?>
+				<?php endif ?>  
+				<?php endforeach ?>
 			</ul>
 
 		</div>

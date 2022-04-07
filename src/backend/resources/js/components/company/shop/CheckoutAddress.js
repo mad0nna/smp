@@ -186,8 +186,8 @@ const CheckoutAddress = (props) => {
                         type="text"
                         name="postal_code"
                         value={props.state.postal_code || ''}
-                        onChange={props.handleNumberOnChange}
-                        maxLength="7"
+                        onChange={props.handleAddressPostalOnChange}
+                        maxLength="8"
                         required
                       />
                       {props.error.postal_code && props.isSubmit ? (
@@ -202,7 +202,7 @@ const CheckoutAddress = (props) => {
                           className="text-xs text-red-700 w-full pt-1"
                           id="passwordHelp"
                         >
-                          ハイフンなしの７桁の郵便番号を入力してください
+                          ハイフン（ ー ）付きの郵便番号を入力してください
                         </p>
                       ) : null}
                     </div>
@@ -414,7 +414,7 @@ const CheckoutAddress = (props) => {
                         onChange={props.handleNumberOnChange}
                         value={props.state.number || ''}
                         required
-                        maxLength="11"
+                        maxLength="13"
                       />
                       {props.error.number && props.isSubmit ? (
                         <p
@@ -428,7 +428,7 @@ const CheckoutAddress = (props) => {
                           className="text-xs text-red-700 w-full pt-1"
                           id="passwordHelp"
                         >
-                          ハイフンなしの10桁～11桁の電話番号を入力してください
+                          ハイフン（ ー ）付きの電話番号を入力してください
                         </p>
                       ) : null}
                     </div>
