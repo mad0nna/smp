@@ -487,7 +487,6 @@ abstract class Base
 	protected function getCriteriaConditions( array $params ) : array
 	{
 		$expr = [];
-
 		if( isset( $params['key'] ) )
 		{
 			foreach( (array) $params['key'] as $idx => $key )
@@ -501,6 +500,28 @@ abstract class Base
 			
 			if( !empty( $expr ) ) {		 
 				$expr = ['||' => $expr];
+			}
+		}
+
+		return $expr;
+	}
+
+	protected function getCriteriaConditions2( array $params ) : array
+	{
+		$expr = [];
+		if( isset( $params['key'] ) )
+		{
+			foreach( (array) $params['key'] as $idx => $key )
+			{
+				if( $key != '' && isset( $params['op'][$idx] ) && $params['op'][$idx] != ''
+					&& isset( $params['val'][$idx] ) && $params['val'][$idx] != ''
+				) {
+					$expr[] = [$params['op'][$idx] => [$key => $params['val'][$idx]]];
+				}
+			}
+			
+			if( !empty( $expr ) ) {		 
+				$expr = ['&&' => $expr];
 			}
 		}
 
@@ -556,8 +577,16 @@ abstract class Base
 			$criteria->order( $params['sort'] );
 		}
 
-		return $criteria->slice( $params['page']['offset'] ?? 0, $params['page']['limit'] ?? 25 )
-			->add( $criteria->parse( $this->getCriteriaConditions( $params['filter'] ?? [] ) ) );
+		if (isset($params['filter2'])) {
+			$filter =  $criteria->slice( $params['page']['offset'] ?? 0, $params['page']['limit'] ?? 25 )
+				->add( $criteria->parse( $this->getCriteriaConditions( $params['filter'] ?? [] ) ) )
+				->add( $criteria->parse( $this->getCriteriaConditions2( $params['filter2'] ?? [] ) ) );
+		} else {
+			$filter =  $criteria->slice( $params['page']['offset'] ?? 0, $params['page']['limit'] ?? 25 )
+				->add( $criteria->parse( $this->getCriteriaConditions( $params['filter'] ?? [] ) ) );
+		}
+		
+		return $filter;
 	}
 
 
