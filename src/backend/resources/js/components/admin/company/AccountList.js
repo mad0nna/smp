@@ -47,11 +47,7 @@ const AccountList = (props) => {
   }
 
   const handleKeywordChange = (e) => {
-    if (e.target.value.length > 1) {
-      props.handleFilter(e.target.value)
-    } else if (e.target.value.length == 0) {
-      props.handleFilter('')
-    }
+    props.handleFilter(e.target.value)
   }
 
   const searchCompanyCode = (code) => {
@@ -354,7 +350,7 @@ const AccountList = (props) => {
                   item.admin[0].emailVerifiedAt === null ? (
                     <div>
                       <a
-                        className="cursor-pointer"
+                        className="cursor-pointer mr-2"
                         onClick={() =>
                           props.handleDisplaySelectedCompany(index)
                         }
@@ -362,7 +358,7 @@ const AccountList = (props) => {
                         詳細
                       </a>
                       <a
-                        className="cursor-pointer"
+                        className="cursor-pointer mr-2"
                         onClick={() => {
                           state.isLoadingResendEmail
                             ? null
@@ -379,7 +375,7 @@ const AccountList = (props) => {
                     </div>
                   ) : (
                     <a
-                      className="cursor-pointer"
+                      className="cursor-pointer mr-2"
                       onClick={() => props.handleDisplaySelectedCompany(index)}
                     >
                       詳細
