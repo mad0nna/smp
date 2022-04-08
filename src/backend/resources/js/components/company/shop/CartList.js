@@ -37,7 +37,7 @@ const CartList = () => {
     loader: false,
     isSubmit: false
   })
-
+  console.log(state.addressModalDisplay)
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
     email: userData.email || '',
@@ -129,12 +129,27 @@ const CartList = () => {
     const name = event.target.name
     const value = event.target.value
     const numberValue = value.replace(/(\..*)\./g, '$1')
+    const numberInput = numberValue.split('') || []
+    const numberInputLength = numberValue.split('').length
+    const hypen =
+      numberInput[numberInputLength - 2] === '-' &&
+      numberInput[numberInputLength - 1] === '-'
+
+    let i = 0
+    numberInput.forEach((data) => {
+      data === '-' && i++
+    })
+    console.log(i <= 2 === false)
     const re = /^[0-9-]+$/gm
     if (value === '' || re.test(numberValue)) {
-      setAddressData({
-        ...addressData,
-        [name]: numberValue.replace(/\s/gi, '')
-      })
+      if (!hypen) {
+        if (i <= 2 === true) {
+          setAddressData({
+            ...addressData,
+            [name]: numberValue.replace(/\s/gi, '')
+          })
+        }
+      }
     }
   }
 
@@ -233,9 +248,6 @@ const CartList = () => {
         //
       }
       let url = '/jsonapi/basket?id=default&related=product'
-      // let csrfItem = props.location.state.meta.csrf
-      // save state csrfItem
-      // setCsrfToken(csrfItem)
 
       if (csrfItem) {
         // add CSRF token if available and therefore required
@@ -358,6 +370,7 @@ const CartList = () => {
           }
         ]
       }
+      console.log('#s', params)
       await axios
         .post(
           `${addressUrl}&_token=${csrfItem.value}`,
@@ -494,6 +507,7 @@ const CartList = () => {
       console.log('createServicePersistBasket', err)
     }
   }
+  console.log(state)
   const handleCheckoutModalAddressClose = () => {
     setState((prevState) => {
       return {
@@ -791,17 +805,23 @@ const CartList = () => {
             return { ...prevState, emailIsValid: true }
           })
     }
-    if (addressData.number.length >= 12 && addressData.number.length <= 13) {
+    const numberInput = addressData.number.split('') || []
+    let i = 0
+    numberInput.forEach((data) => {
+      data === '-' && i++
+    })
+    if (
+      addressData.number.length >= 12 &&
+      addressData.number.length <= 13 &&
+      i === 2
+    ) {
+      setErrorData((prevState) => {
+        return { ...prevState, numberIsValid: false }
+      })
       if (
-        new RegExp(/[0-9]{2}-[0-9]{4}-[0-9]{4}/).test(addressData.number) ||
-        new RegExp(/[0-9]{3}-[0-9]{3}-[0-9]{4}/).test(addressData.number) ||
-        new RegExp(/[0-9]{4}-[0-9]{3}-[0-9]{3}/).test(addressData.number) ||
-        new RegExp(/[0-9]{3}-[0-9]{4}-[0-9]{4}/).test(addressData.number)
+        (numberInput[12] === '-' && numberInput[11] !== '-') ||
+        (numberInput[11] === '-' && numberInput[12] === undefined)
       ) {
-        setErrorData((prevState) => {
-          return { ...prevState, numberIsValid: false }
-        })
-      } else {
         setErrorData((prevState) => {
           return { ...prevState, numberIsValid: true }
         })
