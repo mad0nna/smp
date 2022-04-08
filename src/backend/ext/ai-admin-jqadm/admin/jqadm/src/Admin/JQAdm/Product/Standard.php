@@ -250,16 +250,23 @@ class Standard
 				$params['filter']['val']['6'] = "";
 			}
 			
-			if (isset($params['filter']['val']['6'])) {
-				$params['filter']['val']['5'] = $params['filter']['val']['6'];
+			$params['filter']['val']['5'] = $params['filter']['val']['6'];
+			 
+			if (strlen($params['filter']['val']['5']) > 0) {
+				$params['filter2']['val']['3'] = $params['filter']['val']['3'];
+				$params['filter2']['key']['3'] = $params['filter']['key']['3'];
+				$params['filter2']['op']['3'] = $params['filter']['op']['3'];
+				$params['filter']['val']['3'] = null;
+				$params['filter']['key']['3'] = null;
+				$params['filter']['op']['3'] = null;
 			}
-			
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );			
+
+			$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
 			$search = $manager->filter();
 			$search->setSortations( [$search->sort( '+', 'product.id' )] );
 			$search = $this->initCriteria( $search, $params );
 
-			$view->items = $manager->search( $search, $domains->toArray(), $total );
+			$view->items = $manager->search( $search, $domains->toArray(), $total ); //dd($view->items);
 			$view->filterAttributes = $manager->getSearchAttributes( true );
 			$view->filterOperators = $search->getOperators();
 			$view->itemTypes = $this->getTypeItems();
