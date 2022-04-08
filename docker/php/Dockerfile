@@ -32,7 +32,7 @@ RUN docker-php-ext-configure intl \
     && docker-php-ext-install \
     intl \
     gettext
-RUN apk add --no-cache git bash libzip-dev vim pcre-dev ${PHPIZE_DEPS}
+RUN apk add --no-cache poppler-utils git bash libzip-dev vim pcre-dev ${PHPIZE_DEPS}
 RUN docker-php-ext-install zip mysqli pdo_mysql
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
 RUN pecl install redis \
