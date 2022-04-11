@@ -64,7 +64,7 @@ $enc = $this->encoder();
         <td style="text-align:left; font-size: 25px; font-weight: bold">請求書​</td>
         <td style="text-align:right;font-weight: bold"><div>発行日​</td>
         <?php if($this->extOrderItem->getStatusPayment() === 5): ?>
-        <td style="text-align:right;font-weight: bold"><div> <?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem->getDatePayment()) ))?></td>
+        <td style="text-align:right;font-weight: bold"><div> <?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem["order.mtime"]) ))?></td>
         <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?>
         <td style="text-align:right;font-weight: bold"><div> <?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem["order.mtime"]) ))?></td>
         <?php endif ?>
@@ -134,7 +134,7 @@ $enc = $this->encoder();
       <?php $index++ ?>
         <tr>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($index , $enc::TRUST) ?></td>
-          <td style="border: solid 1px #000000; padding: 10px"><?=$enc->html($product->getName() , $enc::TRUST) ?> <br>  <?php if ($this->extOrderItem->getStatusPayment() === 5) :?><?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem->getDatePayment()) ))?> <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?><?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem["order.mtime"]) ))?> <?php endif?></td>
+          <td style="border: solid 1px #000000; padding: 10px"><?=$enc->html($product->getName() , $enc::TRUST) ?> <br>  <?php if ($this->extOrderItem->getStatusPayment() === 5) :?><?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem["order.mtime"]) ))?> <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?><?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem["order.mtime"]) ))?> <?php endif?></td>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getQuantity() , $enc::TRUST) ?></td>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html((int)$product->getPrice()->getValue() , $enc::TRUST) ?></td>
         </tr>
