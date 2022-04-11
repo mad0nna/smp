@@ -127,31 +127,28 @@ class CompanyService
         }
 
         $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
-
-        // initialize query
-        $query = $this->company;
-
-        // if keyword is provided
         if (array_key_exists('keyword', $conditions) && strlen($conditions['keyword'])) {
-            $query = $query->join('users', function ($join) use ($conditions) {                
-                $join->on('users.company_id', '=', 'companies.id');
-            }); 
-            
-            $query = $query->where('name', 'LIKE', "%{$conditions['keyword']}%")
+            $results = $this->company->whereHas('users', function ($query) use ($conditions)  {
+                return $query
+                        ->where(function ($query) {
+                            $query->where('user_type_id', '!=', 1);
+                        })
+                        ->where(function ($query) use ($conditions) {
+                        $query->where('name', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('company_code', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('industry', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('companies.contact_num', 'LIKE', "%{$conditions['keyword']}%")
-                        ->orWhere('users.email', 'LIKE', "%{$conditions['keyword']}%")
+                        ->orWhere('users.email', 'LIKE', "%{$conditions['keyword']}%");
+                        })
                         ->select(['users.id AS user_id', 'users.contact_num as user_contact_num', 'companies.*']);
-
-            $results = $query->with(['users' => function ($query) {            
-                $query->where('user_type_id', '=', 3);
-            }])->skip($skip)->orderBy('companies.id', 'desc')->paginate($limit);
-
+            })->skip($skip)->orderBy('companies.id', 'desc')->paginate($limit);
         } else {
-            $results = $query->with(['users' => function ($query) use ($conditions) {            
-                $query->where('user_type_id', '=', 3);
-            }])->skip($skip)->orderBy('companies.id', 'desc')->paginate($limit);
+            $results =  $this->company->whereHas('users', function ($query)  {
+                return $query->where('user_type_id', '!=', 1);
+            })
+            ->skip($skip)
+            ->orderBy('companies.id', 'desc')
+            ->paginate($limit);
         }     
 
         // append query to pagination routes

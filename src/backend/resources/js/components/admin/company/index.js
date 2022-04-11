@@ -4,7 +4,11 @@ import AccountProfile from './AccountProfile'
 import AccountList from './AccountList'
 import axios from 'axios'
 import MessageDialog from './MessageDialog'
+import emailSent from '../../../../img/email/email-sent.png' /* eslint-disable-line */
+import emailStamp from '../../../../img/email/email-stamp.png' /* eslint-disable-line */
+import emailLogo from '../../../../img/email/email-logo.png' /* eslint-disable-line */
 import kotFabIcon from '../../../../img/kotFabIcon.png' /* eslint-disable-line */
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -134,8 +138,12 @@ const App = () => {
     setCurrentPage(n)
   }
 
+  var timer = null
   const handleFilter = (keyword) => {
-    setPagingConditions({ ...pagingConditions, keyword: keyword })
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      setPagingConditions({ ...pagingConditions, keyword: keyword })
+    }, 500)
   }
 
   const handleNavigation = (change) => {
