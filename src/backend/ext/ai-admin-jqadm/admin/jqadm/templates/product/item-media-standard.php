@@ -247,7 +247,7 @@ $enc = $this->encoder();
 			</div>
 
 			<div slot="footer" class="card-tools-more">
-				<div class="btn btn-primary btn-card-more act-add fa" tabindex="<?= $this->get( 'tabindex' ) ?>"
+				<div id='btnAddProdImg' class="btn btn-primary btn-card-more act-add fa" tabindex="<?= $this->get( 'tabindex' ) ?>"
 					title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)' ) ) ?>"
 					v-on:click="$refs.add.click()" >
 					<input ref="add" class="d-none" type="file" multiple v-on:change="create($event)" accept="image/jpeg" /> 画像をアップロード
