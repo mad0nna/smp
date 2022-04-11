@@ -259,7 +259,7 @@ $enc = $this->encoder();
 												<tr class="footer tax">
 													<td class="label"> 10% 税</td>
 													<td class="quantity"></td>
-													<td class="price">¥<?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $taxValue, 0 ), '') ) ?></td>
+													<td class="price" style="text-align:right;">¥<?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $taxValue, 0 ), '') ) ?></td>
 												</tr> 
 											<?php endif ?> 
 										<?php endforeach ?> 
@@ -274,7 +274,7 @@ $enc = $this->encoder();
 										<tr class="footer rebate">
 											<td class="label"><?= $enc->html( $this->translate( 'client', 'Included rebates' ) ) ?></td>
 											<td class="quantity"></td>
-											<td class="price"><?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $this->summaryBasket->getPrice()->getRebate(), $this->summaryBasket->getPrice()->getPrecision() ), $this->translate( 'currency', $this->summaryBasket->getPrice()->getCurrencyId() ) ) ) ?></td>
+											<td class="price" style="text-align:right;"><?= $enc->html( sprintf( $this->get( 'priceFormat' ), $this->number( $this->summaryBasket->getPrice()->getRebate(), $this->summaryBasket->getPrice()->getPrecision() ), $this->translate( 'currency', $this->summaryBasket->getPrice()->getCurrencyId() ) ) ) ?></td>
 										</tr> 
 									<?php endif ?> 
 							</table>
