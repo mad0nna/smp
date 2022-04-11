@@ -134,7 +134,7 @@ $enc = $this->encoder();
       <?php $index++ ?>
         <tr>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($index , $enc::TRUST) ?></td>
-          <td style="border: solid 1px #000000; padding: 10px"><?=$enc->html($product->getName() , $enc::TRUST) ?> <br>  <?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem->getDatePayment()) ))?></td>
+          <td style="border: solid 1px #000000; padding: 10px"><?=$enc->html($product->getName() , $enc::TRUST) ?> <br>  <?php if ($this->extOrderItem->getStatusPayment() === 5) :?><?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem->getDatePayment()) ))?> <?php elseif($this->extOrderItem->getStatusPayment() === 6): ?><?=$enc->html(date( "Y/m/d", strtotime($this->extOrderItem["order.mtime"]) ))?> <?php endif?></td>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html($product->getQuantity() , $enc::TRUST) ?></td>
           <td style="border: solid 1px #000000; text-align:right; padding: 10px"><?=$enc->html((int)$product->getPrice()->getValue() , $enc::TRUST) ?></td>
         </tr>
