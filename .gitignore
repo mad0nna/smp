@@ -5,6 +5,7 @@ src/backend/public/js
 src/backend/public/images
 src/backend/public/fonts
 src/backend/public/report/*
+src/backend/public/aimeos
 .env
 src/backend/package-lock.json
 
