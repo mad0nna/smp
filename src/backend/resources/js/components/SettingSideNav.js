@@ -48,6 +48,9 @@ const InvoiceTemplate = () => {
       <h1 className="pl-8 text-lg font-black">設定</h1>
       <div className="space-y-2">
         {mainNav.map((nav, index) => {
+          let active = nav.link == location.pathname
+          let activeStyle = 'bg-green-500 text-white'
+          console.log(active)
           return (
             <div
               id="settings-navigation-item"
@@ -55,7 +58,12 @@ const InvoiceTemplate = () => {
               key={index}
             >
               <a href={nav.link}>
-                <div className="pl-8 py-4 group-hover:bg-green-500 group-hover:text-white">
+                <div
+                  className={
+                    (active ? activeStyle : '') +
+                    ' pl-8 py-4 group-hover:bg-green-500 group-hover:text-white'
+                  }
+                >
                   {nav.label}
                 </div>
               </a>

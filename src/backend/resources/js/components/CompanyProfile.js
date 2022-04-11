@@ -489,6 +489,16 @@ const CompanyProfile = () => {
 
           window.document.getElementById('iconContainer').src = saveIcon
           window.document.getElementById('iconContainer').disabled = false
+          window.document
+            .getElementById('nav-dropdown')
+            .nextSibling.getElementsByTagName('span')[0].innerHTML =
+            state.adminDetailsEditValues.LastName
+          window.document
+            .getElementById('nav-dropdown')
+            .nextSibling.getElementsByTagName('span')[1].innerHTML =
+            state.adminDetailsEditValues.FirstName
+          window.document.getElementById('companyDropwdownTitle').innerHTML =
+            state.companyEditValues.companyName
           alert('入力内容を更新しました.')
         })
     }
