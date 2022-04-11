@@ -820,7 +820,8 @@ const CartList = () => {
       })
       if (
         (numberInput[12] === '-' && numberInput[11] !== '-') ||
-        (numberInput[11] === '-' && numberInput[12] === undefined)
+        (numberInput[11] === '-' && numberInput[12] === undefined) ||
+        numberInput[0] === '-'
       ) {
         setErrorData((prevState) => {
           return { ...prevState, numberIsValid: true }
