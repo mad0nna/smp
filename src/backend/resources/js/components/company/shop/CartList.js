@@ -248,6 +248,9 @@ const CartList = () => {
         //
       }
       let url = '/jsonapi/basket?id=default&related=product'
+      // let csrfItem = props.location.state.meta.csrf
+      // save state csrfItem
+      // setCsrfToken(csrfItem)
 
       if (csrfItem) {
         // add CSRF token if available and therefore required
