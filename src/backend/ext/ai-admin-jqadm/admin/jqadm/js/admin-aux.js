@@ -252,6 +252,7 @@ Aimeos.Media = {
 						return;
 					} else if(files[i].type.startsWith('image/')) {
 						self.$set(self.items[idx], 'media.preview', URL.createObjectURL(files[i]));
+						$("#btnAddProdImg").hide();
 					} 
 					// else if(files[i].type.startsWith('video/')) {
 					// 	const video = document.createElement('video');
