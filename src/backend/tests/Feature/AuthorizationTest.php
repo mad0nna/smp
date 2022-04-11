@@ -26,7 +26,7 @@ class AuthorizationTest extends TestCase
     }
 
     /**
-     * Login test authorization
+     * Login authorization test
      */
     public function testLoginAuthorization()
     {
@@ -43,7 +43,7 @@ class AuthorizationTest extends TestCase
     }
 
     /**
-     * Login test authorization with wrong credentials
+     * Login authorization test with wrong credentials
      */
     public function testLoginAuthorizationWrongCredentials()
     {
@@ -60,7 +60,7 @@ class AuthorizationTest extends TestCase
     }
 
     /**
-     * Login test authorization with wrong credentials
+     * Logout authorization test
      */
     public function testLogoutAuthorization()
     {
