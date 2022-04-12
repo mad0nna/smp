@@ -428,8 +428,8 @@ const CheckoutAddress = (props) => {
                           className="text-xs text-red-700 w-full pt-1"
                           id="passwordHelp"
                         >
-                          ハイフン（ ー
-                          ）付きの電話番号を入力してください。（例：０３ー１２３４ー１２３４）
+                          ハイフン（ ー ）付きの電話番号を入力してください。
+                          <div>例：０３ー１２３４ー１２３４）</div>
                         </p>
                       ) : null}
                     </div>

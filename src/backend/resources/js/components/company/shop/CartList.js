@@ -816,27 +816,29 @@ const CartList = () => {
     numberInput.forEach((data) => {
       data === '-' && i++
     })
-    if (
-      addressData.number.length >= 12 &&
-      addressData.number.length <= 13 &&
-      i === 2
-    ) {
-      setErrorData((prevState) => {
-        return { ...prevState, numberIsValid: false }
-      })
+    if (addressData.number.length >= 1) {
       if (
-        (numberInput[12] === '-' && numberInput[11] !== '-') ||
-        (numberInput[11] === '-' && numberInput[12] === undefined) ||
-        numberInput[0] === '-'
+        addressData.number.length >= 12 &&
+        addressData.number.length <= 13 &&
+        i === 2
       ) {
+        setErrorData((prevState) => {
+          return { ...prevState, numberIsValid: false }
+        })
+        if (
+          (numberInput[12] === '-' && numberInput[11] !== '-') ||
+          (numberInput[11] === '-' && numberInput[12] === undefined) ||
+          numberInput[0] === '-'
+        ) {
+          setErrorData((prevState) => {
+            return { ...prevState, numberIsValid: true }
+          })
+        }
+      } else {
         setErrorData((prevState) => {
           return { ...prevState, numberIsValid: true }
         })
       }
-    } else {
-      setErrorData((prevState) => {
-        return { ...prevState, numberIsValid: true }
-      })
     }
 
     if (addressData.postal_code.length >= 1) {
