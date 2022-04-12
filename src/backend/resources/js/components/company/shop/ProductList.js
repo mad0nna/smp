@@ -249,7 +249,11 @@ const ProductList = () => {
             <li
               key={number}
               id={number}
-              onClick={() => pagingConditions.handlePageClick(number)}
+              onClick={() =>
+                pagingConditions.page === number
+                  ? null
+                  : pagingConditions.handlePageClick(number)
+              }
               className=""
             >
               <span

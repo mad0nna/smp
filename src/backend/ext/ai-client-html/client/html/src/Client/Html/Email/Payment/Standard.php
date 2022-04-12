@@ -89,7 +89,7 @@ class Standard
 	 * @since 2020.07
 	 * @category Developer
 	 */
-	private $subPartNames = array( 'text', 'html', 'pdf' );
+	private $subPartNames = array( 'text', 'html' );
 
 
 	/**

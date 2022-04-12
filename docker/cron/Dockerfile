@@ -11,7 +11,7 @@ RUN docker-php-ext-configure intl \
     intl \
     gettext
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
-RUN echo "* * * * * cd /var/www/backend && php artisan aimeos:jobs \"order/email/delivery order/email/payment\"" >> /etc/crontabs/root
+RUN echo "* * * * * cd /var/www/backend && php artisan aimeos:jobs \"order/email/payment\"" >> /etc/crontabs/root
 RUN echo "* * * * * cd /var/www/backend && php artisan aimeos:jobs \"order/cleanup/unfinished\"" >> /etc/crontabs/root
 RUN echo "* * * * * cd /var/www/backend && php artisan schedule:run" >> /etc/crontabs/root
 RUN pecl install redis && docker-php-ext-enable redis
