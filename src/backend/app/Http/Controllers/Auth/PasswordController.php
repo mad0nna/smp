@@ -73,8 +73,7 @@ class PasswordController extends Controller
             ];
         }
         if ($this->response['code'] === 200) {
-            return redirect()->back()->with('status', 'パスワード再設定用メールの送信に成功しました。
-        メールボックスをご確認ください。');
+            return redirect()->back()->with('status', 'パスワード再設定用メールの送信に成功しました。メールボックスをご確認ください。');
         }
 
         return redirect()->back()->with(['status' => 'ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。', 'error' => true]);

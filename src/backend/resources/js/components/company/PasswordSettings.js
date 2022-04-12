@@ -135,9 +135,21 @@ const PasswordSettings = () => {
         }
       })
   }
-  const handleTextChange = (key, val) => {
+
+  function keyPressed(event) {
+    var key = event.keyCode || event.charCode || event.which
+    return key
+  }
+
+  const handleTextChange = (key, e) => {
     let hasError = false
     let errorMessage = ''
+    let val = e.target.value
+    var keycode = keyPressed(e)
+    if (keycode == 32) {
+      e.preventDefault()
+      return false
+    }
     switch (key) {
       case 'oldPassword':
         if (val === '') {
@@ -212,9 +224,7 @@ const PasswordSettings = () => {
                         type="password"
                         name="oldPassword"
                         defaultValue={state.oldPassword}
-                        onChange={(e) =>
-                          handleTextChange('oldPassword', e.target.value)
-                        }
+                        onKeyDown={(e) => handleTextChange('oldPassword', e)}
                       />
                       <h1
                         className={
@@ -240,9 +250,7 @@ const PasswordSettings = () => {
                         type="password"
                         name="newPassword"
                         defaultValue={state.newPassword}
-                        onChange={(e) =>
-                          handleTextChange('newPassword', e.target.value)
-                        }
+                        onKeyDown={(e) => handleTextChange('newPassword', e)}
                       />
                       <h1
                         className={
@@ -267,9 +275,7 @@ const PasswordSettings = () => {
                         type="password"
                         name="newPassword2"
                         defaultValue={state.newPassword2}
-                        onChange={(e) =>
-                          handleTextChange('newPassword2', e.target.value)
-                        }
+                        onKeyDown={(e) => handleTextChange('newPassword2', e)}
                       />
                       <h1
                         className={
