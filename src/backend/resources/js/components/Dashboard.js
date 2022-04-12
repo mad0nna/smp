@@ -15,11 +15,18 @@ import resize from '../../img/resize.png'
 import { findMissingWidget } from '../utilities/constants'
 import spinner from '../../img/spinner.gif'
 import ProductWidget from './company/ProductWidget'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import ProductDetail from './company/shop/ProductDetail'
+import CartList from './company/shop/CartList'
+import { CartProvider } from 'react-use-cart'
 
 const Dashboard = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive)
   const [isGettingCoordinates, setStatus] = useState(false)
   const [unpaidBillingData, setUnpaidBillingData] = useState(null)
+  let userId = JSON.parse(
+    document.getElementById('userData').textContent
+  ).userId
 
   useEffect(() => {
     fetch('/company/getUnpaidBillingInformation', {
@@ -43,8 +50,7 @@ const Dashboard = () => {
       { component: <ProductWidget /> },
       { component: <BillingHistory /> },
       { component: <Notification /> },
-      { component: <Settings /> },
-      { component: <UnpaidBillingInformation /> }
+      { component: <Settings /> }
     ]
     getCoordinates()
     function getCoordinates() {
@@ -143,115 +149,143 @@ const Dashboard = () => {
     return noDifference
   }
 
-  return (
-    <div className="-mt-8">
-      {unpaidBillingData &&
-        unpaidBillingData.is_bank_transfer == true &&
-        unpaidBillingData.total_billed_amount != null && (
-          <a href="/company/billing">
-            <div className="flex justify-center bg-gray-100 px-4 py-9 relative shadow-md mb-3">
-              <span className="text-center inline-block align-middle text-white bg-red-500 h-4 w-4 rounded-full text-xs mt-1">
-                !
-              </span>
-              <span className="text-red-500 font-semibold block sm:inline text-xl ml-1">
-                未払額が合計{' '}
-                <span className="text-red-600">
-                  {unpaidBillingData.total_billed_amount}
-                </span>{' '}
-                円(税込)ございます。
-              </span>
-            </div>
-          </a>
-        )}
+  function DashboardItem() {
+    return (
+      <div className="-mt-8">
+        {unpaidBillingData &&
+          unpaidBillingData.is_bank_transfer == true &&
+          unpaidBillingData.total_billed_amount != null && (
+            <a href="/company/billing">
+              <div className="flex justify-center bg-gray-100 px-4 py-9 relative shadow-md mb-3">
+                <span className="text-center inline-block align-middle text-white bg-red-500 h-4 w-4 rounded-full text-xs mt-1">
+                  !
+                </span>
+                <span className="text-red-500 font-semibold block sm:inline text-xl ml-1">
+                  未払額が合計{' '}
+                  <span className="text-red-600">
+                    {unpaidBillingData.total_billed_amount}
+                  </span>{' '}
+                  円(税込)ございます。
+                </span>
+              </div>
+            </a>
+          )}
 
-      <div className="px-10">
-        {isGettingCoordinates ? (
-          <div className="w-full h-96 relative mt-12">
-            <div className="mx-auto absolute bottom-1 w-full text-center">
-              ウィジェット設定をデータベースから読み込みました。
-              <img className="mx-auto h-12 mt-5" src={spinner}></img>
+        <div className="px-10">
+          {isGettingCoordinates ? (
+            <div className="w-full h-96 relative mt-12">
+              <div className="mx-auto absolute bottom-1 w-full text-center">
+                ウィジェット設定をデータベースから読み込みました。
+                <img className="mx-auto h-12 mt-5" src={spinner}></img>
+              </div>
             </div>
-          </div>
-        ) : (
-          <ResponsiveGridLayout
-            onLayoutChange={(layout) => {
-              !compareCoordinates(widgetState, layout)
-                ? savePendingCoordinatesInLS(layout)
-                : clearPendingCoordinatesInLS()
-            }}
-            className="dashboardGrid"
-            layouts={{
-              lg: widgetState,
-              md: widgetState
-            }}
-            breakpoints={{ lg: 1200, md: 768, sm: 640, xs: 480 }}
-            cols={{ lg: 10, md: 10, sm: 10, xs: 10 }}
-            draggableCancel=".staticWidgets"
-            margin={[25, 30]}
-            rowHeight={30}
-            compactType={'horizontal'}
-            containerPadding={[10, 20]}
-            isBounded={true}
-            useCSSTransforms={true}
-            verticalCompact={false}
-          >
-            {widgetState
-              .filter((widget) => widget.state !== false)
-              .map((item, index) => {
-                return (
-                  <div
-                    id={item.id}
-                    data-id={index}
-                    className={
-                      item.className +
-                      ' widgetComponent group ' +
-                      (!item.isResizable || item.static
-                        ? 'react-resizable-hide'
-                        : '')
-                    }
-                    key={index}
-                    data-grid={{
-                      x: item.x,
-                      y: item.y,
-                      w: item.w,
-                      h: item.h,
-                      static: item.static,
-                      isResizable: item.static ? false : item.isResizable,
-                      minW: item.minW,
-                      minH: item.minH
-                    }}
-                  >
-                    {item.component}{' '}
-                    {item.isResizable && !item.static ? (
-                      <img
-                        src={resize}
-                        className="absolute bottom-1 right-1 z-10 h-4 w-4"
-                      />
-                    ) : null}
-                    {!item.static ? (
-                      <div
-                        className={
-                          'absolute test w-16 h-4 -top-3.5 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-tl-md rounded-tr-md border-gray-200 cursor-move hidden group-hover:block'
-                        }
-                      >
-                        Unlocked
-                      </div>
-                    ) : (
-                      <div
-                        className={
-                          'absolute test w-16 h-4 -top-3.5 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-tl-md rounded-tr-md border-gray-200 cursor-move hidden group-hover:block'
-                        }
-                      >
-                        Locked
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-          </ResponsiveGridLayout>
-        )}
+          ) : (
+            <ResponsiveGridLayout
+              onLayoutChange={(layout) => {
+                !compareCoordinates(widgetState, layout)
+                  ? savePendingCoordinatesInLS(layout)
+                  : clearPendingCoordinatesInLS()
+              }}
+              className="dashboardGrid"
+              layouts={{
+                lg: widgetState,
+                md: widgetState
+              }}
+              breakpoints={{ lg: 1200, md: 768, sm: 640, xs: 480 }}
+              cols={{ lg: 10, md: 10, sm: 10, xs: 10 }}
+              draggableCancel=".staticWidgets"
+              margin={[25, 30]}
+              rowHeight={30}
+              compactType={'horizontal'}
+              containerPadding={[10, 20]}
+              isBounded={true}
+              useCSSTransforms={true}
+              verticalCompact={false}
+            >
+              {widgetState
+                .filter((widget) => widget.state !== false)
+                .map((item, index) => {
+                  return (
+                    <div
+                      id={item.id}
+                      data-id={index}
+                      className={
+                        item.className +
+                        ' widgetComponent group ' +
+                        (!item.isResizable || item.static
+                          ? 'react-resizable-hide'
+                          : '')
+                      }
+                      key={index}
+                      data-grid={{
+                        x: item.x,
+                        y: item.y,
+                        w: item.w,
+                        h: item.h,
+                        static: item.static,
+                        isResizable: item.static ? false : item.isResizable,
+                        minW: item.minW,
+                        minH: item.minH
+                      }}
+                    >
+                      {item.component}{' '}
+                      {item.isResizable && !item.static ? (
+                        <img
+                          src={resize}
+                          className="absolute bottom-1 right-1 z-10 h-4 w-4"
+                        />
+                      ) : null}
+                      {!item.static ? (
+                        <div
+                          className={
+                            'absolute test w-16 h-4 -top-3.5 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-tl-md rounded-tr-md border-gray-200 cursor-move hidden group-hover:block'
+                          }
+                        >
+                          Unlocked
+                        </div>
+                      ) : (
+                        <div
+                          className={
+                            'absolute test w-16 h-4 -top-3.5 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-tl-md rounded-tr-md border-gray-200 cursor-move hidden group-hover:block'
+                          }
+                        >
+                          Locked
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+            </ResponsiveGridLayout>
+          )}
+        </div>
       </div>
-    </div>
+    )
+  }
+
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/company/dashboard">
+          <DashboardItem />
+        </Route>
+        <Route
+          path="/company/productDetail"
+          render={(props) => (
+            <CartProvider id={userId}>
+              <ProductDetail {...props} />
+            </CartProvider>
+          )}
+        />
+        <Route
+          path="/company/cart"
+          render={(props) => (
+            <CartProvider id={userId}>
+              <CartList {...props} />
+            </CartProvider>
+          )}
+        />
+      </Switch>
+    </Router>
   )
 }
 
