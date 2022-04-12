@@ -744,6 +744,9 @@ const CartList = () => {
                   handleOrderChange(e.target.value, item)
                 }}
                 onKeyDown={(event) => {
+                  if (event.keyCode === 8) {
+                    updateItemQuantity(item.id, parseInt(1))
+                  }
                   event.preventDefault()
                 }}
               />
