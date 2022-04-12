@@ -323,6 +323,10 @@ class UserController extends Controller
                 'user_type_id' => $data['admin__c'] ? $data['admin__c'] : '',
                 'username' => $data['username'] ? $data['username'] : '',
             ];
+            if (Session::get('salesforceContactID') == $data['Id']) {
+                Session::put('CompanyContactFirstname', $data['FirstName']);
+                Session::put('CompanyContactLastname', $data['LastName']);
+            }
 
             return $this->userService->update($formData);
         } catch (Exception $e) {
