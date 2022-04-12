@@ -81,7 +81,7 @@
                         </button>
                         </div>
                         <div class="text-xs text-center static bottom-10 mt-6 mb-1 text-gray-600">
-                            <a href="password/forgot">パスワード変更はこちらから</a>
+                            <a href="password/forgot" class="cursor-pointer hover:bg-green-700 text-decoration-line:underline">パスワード変更はこちらから</a>
                         </div>
                     </form>
                 </div>
