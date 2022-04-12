@@ -64,7 +64,7 @@ class LoginController extends Controller
      */
     public function login()
     {
-        if (! Auth::user()) {
+        if (!Auth::user()) {
             if (isset($_GET['invite_token'])) {
                 $user = User::with('company')->where('email_verified_at', '=', null)->where('invite_token', '=', $_GET['invite_token'])->first();
                 if ($user && ($user['user_type_id'] == 4 || $user['user_type_id'] == 3) && $user['user_status_id'] === 5) {
@@ -76,14 +76,14 @@ class LoginController extends Controller
                         'Title' => $user['title'],
                     ];
                     $sf_user = $this->userService->contactVerification($salesforceFormat, $user['company']['account_id']);
-                    if($sf_user) {
-                        User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(),'user_status_id' => 1, 'account_code' => $sf_user['Id'], 'invite_token' => '', 'temp_pw' => '']);
+                    if ($sf_user) {
+                        User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(), 'user_status_id' => 1, 'account_code' => $sf_user['Id'], 'invite_token' => '', 'temp_pw' => '']);
                     }
                     $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
                     $currentURL = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                     $key = 'page';
                     // Remove specific parameter from query string
-                    $filteredURL = preg_replace('~(\?|&)'.$key.'=[^&]*~', '$1', $currentURL);
+                    $filteredURL = preg_replace('~(\?|&)' . $key . '=[^&]*~', '$1', $currentURL);
                     return redirect($filteredURL);
                 }
                 if ($user && $user['user_status_id'] === 1) {
@@ -116,8 +116,8 @@ class LoginController extends Controller
 
                 return redirect()->back()->with('status', '招待メール記載の利用開始ボタンよりログインしてください。');
             }
-            Session::put('companyID', Auth::user()->company->id);
-            Session::put('salesforceCompanyID', Auth::user()->company->account_id);
+            Session::put('companyID', Auth::user()->company()->first()->id);
+            Session::put('salesforceCompanyID', Auth::user()->company()->first()->account_id);
             Session::put('email', Auth::user()->email);
             Session::put('salesforceContactID', Auth::user()->account_code);
             Session::put('CompanyContactFirstname', Auth::user()->first_name);
@@ -159,18 +159,19 @@ class LoginController extends Controller
         }
     }
 
-    public function zendeskSSO() {
+    public function zendeskSSO()
+    {
         if (empty(Session::get('email'))) {
             redirect("404");
         }
         $now = time();
 
         $token = array(
-          "jti"   => md5($now . rand()),
-          "iat"   => $now,
-          "email" => Session::get('email'),
-          "name"  => Session::get('CompanyContactFirstname') . ' ' . Session::get('CompanyContactLastname'),
-          "organization" => Session::get('companyName'),
+            "jti"   => md5($now . rand()),
+            "iat"   => $now,
+            "email" => Session::get('email'),
+            "name"  => Session::get('CompanyContactFirstname') . ' ' . Session::get('CompanyContactLastname'),
+            "organization" => Session::get('companyName'),
         );
         $jwt = JWT::encode($token, env('ZENDESK_SSO_SECRET'));
 

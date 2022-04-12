@@ -389,7 +389,7 @@ const AccountProfileEdit = () => {
                           type="text"
                           name="LastName"
                           placeholder="ラストネーム"
-                          onChange={(e) =>
+                          onKeyUp={(e) =>
                             handleTextChange('lastname', e.target.value)
                           }
                         />
@@ -430,7 +430,7 @@ const AccountProfileEdit = () => {
                           type="text"
                           name="FirstName"
                           placeholder="ファーストネーム​"
-                          onChange={(e) =>
+                          onKeyUp={(e) =>
                             handleTextChange('firstname', e.target.value)
                           }
                         />
@@ -471,7 +471,7 @@ const AccountProfileEdit = () => {
                           name="position"
                           defaultValue={state.account.position}
                           placeholder="役職"
-                          onChange={(e) =>
+                          onKeyUp={(e) =>
                             handleTextChange('position', e.target.value)
                           }
                         />
@@ -511,7 +511,7 @@ const AccountProfileEdit = () => {
                           defaultValue={state.account.phone}
                           placeholder="電話番号"
                           maxLength={11}
-                          onChange={(e) =>
+                          onKeyUp={(e) =>
                             handleTextChange('phone', e.target.value)
                           }
                           onKeyPress={(e) => {

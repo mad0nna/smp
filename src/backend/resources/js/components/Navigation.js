@@ -5,7 +5,8 @@ import ArrowDownIcon from '../../img/arrowdown.png'
 import AdminIcon from '../../img/admin-icon.png'
 import idpIcon from '../../img/idp_logo.png'
 import axios from 'axios'
-
+import shopIcon from '../../img/shop-icon.png'
+import shopIcon2 from '../../img/shop-icon-green.png'
 const Navigation = () => {
   const [state, setState] = useState({
     mainNav: {},
@@ -89,6 +90,17 @@ const Navigation = () => {
           iconNormal: 'bg-account-list-icon',
           iconHover: 'group-hover:bg-account-list-icon-hover',
           iconActive: 'bg-account-list-icon-hover',
+          iconSize: 'h-8 w-8',
+          isActive: false,
+          extraStyle: ''
+        },
+        {
+          label: 'ショップ',
+          url: '/company/shop',
+          childUrl: ['/company/productDetail/', 'company/cart/'],
+          iconNormal: 'bg-shop-icon',
+          iconHover: 'group-hover:bg-shop-icon-hover',
+          iconActive: 'bg-shop-icon-hover',
           iconSize: 'h-8 w-8',
           isActive: false,
           extraStyle: ''
@@ -262,6 +274,17 @@ const Navigation = () => {
           iconSize: 'h-8 w-9',
           isActive: false,
           extraStyle: 'cursor-default'
+        },
+        {
+          label: 'ショップ',
+          url: '/admin/shop/jqadm/search/product?locale=ja',
+          childUrl: [],
+          iconNormal: 'bg-shop-icon',
+          iconHover: 'group-hover:bg-shop-icon-hover',
+          iconActive: 'bg-shop-icon-hover',
+          iconSize: 'h-8 w-8',
+          isActive: false,
+          extraStyle: ''
         }
       ],
       dropDownNav: {
@@ -466,6 +489,8 @@ const Navigation = () => {
               ref={refMenu}
             >
               <div className="my-auto">
+                <img alt="" className="hidden" src={shopIcon} />
+                <img alt="" className="hidden" src={shopIcon2} />
                 {state.mainNav.dropDownNav.logo !== '' ? (
                   <img
                     alt="setting icon"
@@ -517,9 +542,9 @@ const Navigation = () => {
               )}
             </div>
             <div className="pl-2">
-              <span>{state.contactLastName} </span>
-              <span>{state.contactFirstName} </span>
-              <span>様</span>
+              <span className="mr-1">{state.contactLastName} </span>
+              <span className="mr-1">{state.contactFirstName} </span>
+              <span className="mr-1">様</span>
             </div>
           </div>
         </div>

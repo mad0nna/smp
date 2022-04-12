@@ -27,9 +27,7 @@
                             </a>
                         </div>
                         <div class="form-group flex flex-wrap flex-col gap-0 w-full justify-center">
-                                           
-                        
-                            @if (!session('status'))
+                            @if (!session('status') || session('error'))
                             <input id="email" type="email"  placeholder="ご登録のメールアドレスを入力してください" class="form-control @error('email') is-invalid @enderror w-7/12 px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none mx-auto mb-5 place-content-center" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                             @endif
                             @error('email')
@@ -47,7 +45,7 @@
                                 <strong>{{ session('status') }}</strong>
                             </div>
                             @endif
-                            @if (!session('status'))
+                            @if (!session('status') || session('error'))
                             <div class="form-group flex flex-wrap gap-0 w-full justify-center mt-2 mb-6 ">
                             <button type="submit" class="btn btn-primary btn-block bg-primary-200 hover:bg-green-700 text-white font-bold py-2 px-3 rounded w-7/12">
                                 {{ __('パスワード再設定用のリンクを送信する') }}

@@ -47,7 +47,13 @@ RUN chmod -R 777 /var/www/backend/storage/logs /var/www/backend/storage/framewor
 
 # Install composer packages
 RUN rm -rf /var/www/backend/vendor /var/www/backend/composer.lock
+RUN mv /var/www/backend/ext /var/www/backend/ext-temp
 RUN composer install
+RUN rm -rf /var/www/backend/ext
+RUN mv /var/www/backend/ext-temp /var/www/backend/ext
+RUN composer dump-autoload
+RUN mkdir /var/www/backend/public/aimeos /var/www/backend/public/vendor
+RUN chmod -R 777 /var/www/backend/public/aimeos /var/www/backend/public/vendor
 
 # Generate passport keys
 RUN php artisan passport:keys

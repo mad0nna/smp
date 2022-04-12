@@ -1,0 +1,146 @@
+window.onload=function(){
+    
+
+    const textItems = document.querySelector('#item-text-group');
+    const priceItems = document.querySelector('#item-price-group');
+    const mediaItems = document.querySelector('#item-media-group');
+    var textItemsData = "[]";
+    var priceItemsData = "[]";
+    var mediaItemsData  = "[]";
+    
+   
+    if ( textItems !== undefined && textItems !== null ) {
+        textItemsData = textItems.getAttribute('data-items');
+        if (textItemsData === "[]") {
+            $('#item-text-group .btn').click();
+        }        
+    }
+
+    if ( priceItems !== undefined && priceItems !== null ) {
+        priceItemsData = priceItems.getAttribute('data-items');
+        if (priceItemsData === "[]") {
+            $('#item-price-group .btn').click();
+        }
+    }
+
+    if ( mediaItems !== undefined && mediaItems !== null ) {
+        mediaItemsData = mediaItems.getAttribute('data-items');
+        if (mediaItemsData !== "[]") {
+            $('#item-media-group').find('.card-tools-more').addClass(" d-none");
+        }
+    }
+
+
+    $("#cboProdStatus").change(function() {
+        if ($( this ).val() == 1 && (mediaItemsData === "[]" || priceItemsData === "[]" || textItemsData === "[]")) {
+            alert("商品を販売する前に、画像のアップロード、商品説明の入力、販売価格の設定を行ってください。");
+            $( this ).val("0");
+        }
+    });
+    
+    $("#txtProductFilter").on("input", function(){ console.log(this.value);
+        $("#txtProductCodeFilter").val(this.value);
+        $("#txtProductNameFilter").val(this.value);
+    });
+
+    $("#txtFilterCustomer").on("input", function(){
+        $("#txtCustomerName").val(this.value);
+        $("#txtCustomerCompanyName").val(this.value);
+    });    
+
+    const cboDeliveryStatus = document.querySelector('#cboDeliveryStatus');
+    if ( cboDeliveryStatus !== undefined ) {
+        var selected_option = $('#cboDeliveryStatus option:selected').val();
+        if (selected_option == "") {
+            $('#cboDeliveryStatus').val("1").change();
+        }
+    }    
+
+    const txtProductCode = document.querySelector('#txtProductCode');
+    if ( txtProductCode == null ) {
+
+    } else if ( txtProductCode !== null  || txtProductCode !== undefined ) {
+        txtProductCode.addEventListener('blur', (event) => {
+            if(event.target.value.length > 64) {
+            	alert("６４文字以内で入力してください");
+                txtProductCode.classList.remove("is-valid");
+                txtProductCode.classList.add("is-invalid");
+            	return;
+            }
+            if(event.target.value.trim().length == 0) {
+                txtProductCode.classList.remove("is-valid");
+                txtProductCode.classList.add("is-invalid");
+            	return;
+            }
+          });
+    }
+
+    const txtProductLabel = document.querySelector('#txtProductLabel');
+    if ( txtProductLabel == null ) {
+
+    } else if ( txtProductLabel !== null  || txtProductLabel !== undefined ) {
+        txtProductLabel.addEventListener('blur', (event) => {
+            if(event.target.value.trim().length > 64) {
+            	alert("６４文字以内で入力してください")
+                txtProductLabel.classList.remove("is-valid");
+                txtProductLabel.classList.add("is-invalid");
+            	return;
+            }
+            if(event.target.value.trim().length == 0) {
+                txtProductLabel.classList.remove("is-valid");
+                txtProductLabel.classList.add("is-invalid");
+            	return;
+            }
+          });
+    }
+
+    const cboPaymentStatus = document.querySelector('#cboPaymentStatus');
+    if ( cboPaymentStatus == null ) {
+
+    } else if ( cboPaymentStatus !== null  || cboPaymentStatus !== undefined ) {
+        var selected_option = $('#cboPaymentStatus option:selected').val();
+        if (selected_option == "") {
+            $('#cboPaymentStatus').val("5").change();
+        }
+       
+        cboPaymentStatus.addEventListener('change', (event) => {
+            const statusPaymentCode = $("#statusPaymentCode").val();
+            if(parseInt(statusPaymentCode) == 5 && parseInt(event.target.value) == 6) {
+                $("#buttonUpdateOrderSendEmail").show();
+                $("#btnUpdateOrder").hide();                
+            } else {
+                $("#buttonUpdateOrderSendEmail").hide();
+                $("#btnUpdateOrder").show();             
+            }
+          });        
+    }
+
+    var uploader = document.getElementById("input_upload_new_product");
+
+    if (uploader && document.getElementById("linkSetProductAllActive") && document.getElementById("linkSetProductActive") &&
+        document.getElementById("linkSetProductInActive")) {
+        document.getElementById("linkSetProductAllActive").addEventListener('click', setProductAllStatus);
+        document.getElementById("linkSetProductActive").addEventListener('click', setProductActive);
+        document.getElementById("linkSetProductInActive").addEventListener('click', setProductInActive);
+    }
+
+}
+
+function setProductAllStatus() {
+    document.getElementById("selectProductStatus").value = "";
+    document.getElementById("btnSubmitFilterProduct").click();
+}
+
+function setProductActive() {
+    document.getElementById("selectProductStatus").value = "1";
+    document.getElementById("btnSubmitFilterProduct").click();
+}
+function setProductInActive() {
+    document.getElementById("selectProductStatus").value = "0";
+    document.getElementById("btnSubmitFilterProduct").click();
+}
+function setProductArchived() {
+    document.getElementById("selectProductStatus").value = "-2";
+    document.getElementById("btnSubmitFilterProduct").click();
+}
+
