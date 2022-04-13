@@ -16,7 +16,8 @@ const AccountProfileEdit = () => {
       phone: '',
       email: '',
       userTypeId: '',
-      changeRole: false
+      changeRole: false,
+      admin__c: ''
     },
     showPopupMessageDialog: false,
     dialogMessage: '',
@@ -122,24 +123,14 @@ const AccountProfileEdit = () => {
 
   const userTypesChange = (event) => {
     let value = event.target.value
-    if (state.account.userTypeId != value) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          account: {
-            ...prevState.account,
-            changeRole: true
-          }
-        }
-      })
-      return
-    }
+    let changeRole = state.account.userTypeId != value
     setState((prevState) => {
       return {
         ...prevState,
         account: {
           ...prevState.account,
-          changeRole: false
+          changeRole: changeRole,
+          admin__c: value
         }
       }
     })
@@ -237,7 +228,7 @@ const AccountProfileEdit = () => {
         LastName: state.account.lastname,
         MobilePhone: state.account.phone,
         Title: state.account.position,
-        admin__c: state.account.userTypeId,
+        admin__c: state.account.admin__c,
         username: state.account.email,
         Id: state.account.account_code,
         changeRole: state.account.changeRole
@@ -280,7 +271,7 @@ const AccountProfileEdit = () => {
   }
 
   const handleClose = () => {
-    // location.replace('/company/accountslist')
+    location.replace('/company/accountslist')
   }
 
   const handleCloseMessageDialog = () => {
