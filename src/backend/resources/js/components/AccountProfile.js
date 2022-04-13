@@ -15,22 +15,14 @@ const AccountProfileEdit = () => {
       position: '',
       phone: '',
       email: '',
-      userTypeId: ''
-    },
-    accountSFValues: {
-      Firstname: '',
-      Lastname: '',
-      Fullname: '',
-      Email: '',
-      MobilePhone: '',
-      section_c: '',
-      Title: ''
+      userTypeId: '',
+      changeRole: false
     },
     showPopupMessageDialog: false,
     dialogMessage: '',
     userTypes: [
-      { name: '副管理者', value: 4 },
-      { name: '管理者', value: 3 }
+      { name: '管理者', value: 4 },
+      { name: '副管理者', value: 3 }
     ],
     isLoading: false,
     isEditingProfile: false,
@@ -83,15 +75,6 @@ const AccountProfileEdit = () => {
         account: account
       }
     })
-
-    let accountSFValues = { ...state.accountSFValues }
-    accountSFValues[key] = val
-    setState((prevState) => {
-      return {
-        ...prevState,
-        accountSFValues: accountSFValues
-      }
-    })
     switch (key) {
       case 'firstname':
         key = 'FirstName'
@@ -137,13 +120,26 @@ const AccountProfileEdit = () => {
     })
   }
 
-  const userTypesChange = (value) => {
-    const val = value === 3 ? true : false
+  const userTypesChange = (event) => {
+    let value = event.target.value
+    if (state.account.userTypeId != value) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          account: {
+            changeRole: true
+          }
+        }
+      })
+      console.log(state.account.changeRole)
+      return
+    }
     setState((prevState) => {
       return {
         ...prevState,
-        account: { ...prevState.account, userTypeId: value },
-        accountSFValues: { ...prevState.accountSFValues, section_c: val }
+        account: {
+          changeRole: false
+        }
       }
     })
   }
@@ -242,7 +238,8 @@ const AccountProfileEdit = () => {
         Title: state.account.position,
         admin__c: state.account.userTypeId,
         username: state.account.email,
-        Id: state.account.account_code
+        Id: state.account.account_code,
+        changeRole: state.account.changeRole
       }
       axios
         .put('/company/updateAdminByEmail', _accountSFValues, {
@@ -282,7 +279,7 @@ const AccountProfileEdit = () => {
   }
 
   const handleClose = () => {
-    location.replace('/company/accountslist')
+    // location.replace('/company/accountslist')
   }
 
   const handleCloseMessageDialog = () => {
@@ -307,20 +304,21 @@ const AccountProfileEdit = () => {
       .post(`/company/getContactDetails`, { id: id })
       .then((response) => {
         let data = response.data.data
-        let acct = {}
-        acct.username = data.email
-        acct.name = data.FullName
-        acct.firstname = data.first_name
-        acct.lastname = data.last_name
-        acct.position = data.title
-        acct.phone = data.contact_num
-        acct.email = data.email
-        acct.userTypeId = data.user_type_id
-        acct.account_code = data.account_code
         setState((prevState) => {
           return {
             ...prevState,
-            account: acct,
+            account: {
+              username: data.email,
+              name: data.FullName,
+              firstname: data.first_name,
+              lastname: data.last_name,
+              position: data.title,
+              phone: data.contact_num,
+              email: data.email,
+              userTypeId: data.user_type_id,
+              account_code: data.account_code,
+              changeRole: false
+            },
             dataEmpty: false,
             isEditingProfile: data.canEdit,
             mode: data.canEdit ? 'edit' : 'view',
@@ -641,9 +639,9 @@ const AccountProfileEdit = () => {
                               'text-sm text-black w-full h-8 px-3 leading-8'
                             }
                           >
-                            {state.account.userTypeId === 3
+                            {state.account.userTypeId == 3
                               ? '管理者'
-                              : '副管理者​'}
+                              : '副管理者'}
                           </label>
                           {
                             <select
@@ -654,21 +652,16 @@ const AccountProfileEdit = () => {
                                     : 'none'
                                   : 'none'
                               }}
-                              value={state.account.userTypeId}
                               name="select"
-                              onChange={(event) =>
-                                userTypesChange(event.target.value)
-                              }
+                              onChange={(event) => userTypesChange(event)}
                             >
                               {state.userTypes.map(function (t) {
                                 return (
                                   <option
                                     key={t.value}
                                     value={t.value}
-                                    defaultValue={
-                                      state.account.userTypeId === 3
-                                        ? 'スーパー管理者​'
-                                        : '副管理者'
+                                    selected={
+                                      state.account.userTypeId != t.value
                                     }
                                   >
                                     {t.name}
