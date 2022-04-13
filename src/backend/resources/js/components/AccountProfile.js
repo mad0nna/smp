@@ -21,8 +21,8 @@ const AccountProfileEdit = () => {
     showPopupMessageDialog: false,
     dialogMessage: '',
     userTypes: [
-      { name: '管理者', value: 4 },
-      { name: '副管理者', value: 3 }
+      { name: '管理者', value: 3 },
+      { name: '副管理者', value: 4 }
     ],
     isLoading: false,
     isEditingProfile: false,
@@ -127,17 +127,18 @@ const AccountProfileEdit = () => {
         return {
           ...prevState,
           account: {
+            ...prevState.account,
             changeRole: true
           }
         }
       })
-      console.log(state.account.changeRole)
       return
     }
     setState((prevState) => {
       return {
         ...prevState,
         account: {
+          ...prevState.account,
           changeRole: false
         }
       }
@@ -652,7 +653,7 @@ const AccountProfileEdit = () => {
                                     : 'none'
                                   : 'none'
                               }}
-                              name="select"
+                              name="authoritySelect"
                               onChange={(event) => userTypesChange(event)}
                             >
                               {state.userTypes.map(function (t) {
@@ -661,7 +662,7 @@ const AccountProfileEdit = () => {
                                     key={t.value}
                                     value={t.value}
                                     selected={
-                                      state.account.userTypeId != t.value
+                                      state.account.userTypeId == t.value
                                     }
                                   >
                                     {t.name}
