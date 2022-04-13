@@ -226,7 +226,7 @@ const CompanyProfile = () => {
         if (!data.admin) {
           return setState((prevState) => {
             alert(
-              'ログインしたユーザーはセールスフォース内の「アドミン」ではありません'
+              'The logged in user is not a company administrator in Salesforce.'
             )
             return {
               ...prevState,
