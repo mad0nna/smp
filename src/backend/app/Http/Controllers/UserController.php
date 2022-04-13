@@ -70,8 +70,8 @@ class UserController extends Controller
             $result = $this->userService->findById($request->id);
             $user = (new Contact)->findByAccountID($result['account_code']);
             $this->response['data'] = $this->getSFResource($user);
-            $this->response['data']['canEdit'] = true;
-            $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3 && !$user['admin__c'];
+            $this->response['data']['canEdit'] = Auth::user()->user_type_id === 3 || (Auth::user()->id == $request->id);
+            $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3;
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
@@ -300,19 +300,14 @@ class UserController extends Controller
                 'LastName' => $data['LastName'],
                 'MobilePhone' => $data['MobilePhone'],
                 'Title' => $data['Title'],
-                'admin__c' => $data['admin__c'] === 4 ? false : true
             ];
+            if ($data['changeRole']) {
+                $salesforceData['admin__c'] = $data['admin__c'] == 3 ? true : false;
+            }
+
             $response = (new Contact)->update($salesforceData, $data['Id']);
             if (!$response['status']) {
                 return $response;
-            }
-
-            if ($data['admin__c'] == 3) {
-                $removeAdmin = (new Contact)->update(['admin__c' => false], Auth::user()->account_code);
-                if (!$removeAdmin['status']) {
-                    return $response;
-                }
-                $this->userService->removeAdminPermission(Auth::user()->account_code);
             }
             $formData = [
                 'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
@@ -327,8 +322,11 @@ class UserController extends Controller
                 Session::put('CompanyContactFirstname', $data['FirstName']);
                 Session::put('CompanyContactLastname', $data['LastName']);
             }
-
-            return $this->userService->update($formData);
+            $user = User::where('account_code', $data['Id']);
+            if ($user->update($formData)) {
+                return ['status' => true, 'data' => $user];
+            }
+            return ['status' => false];
         } catch (Exception $e) {
             $this->response = [
                 'status' => false,
