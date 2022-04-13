@@ -32,7 +32,7 @@ class BillingTest extends TestCase
     {
         parent::setUp();
 
-        $user = User::find(3);
+        $user = User::where('username','machida@tcg.sprobe.ph')->firstOrFail();
 
         self::$COMPANY_ADMIN = $user;
         self::$companyID = $user->company->id;

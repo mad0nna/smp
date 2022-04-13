@@ -4,13 +4,10 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\File;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 
-class FileTest extends TestCase
+class ContractTest extends TestCase
 {
     /** @var Object */
     private static $COMPANY_ADMIN;
@@ -20,7 +17,6 @@ class FileTest extends TestCase
      *
      * @var string
      */
-    private static $zuoraAccessToken;
     private static $companyID;
     private static $salesforceCompanyID;
     private static $email;
@@ -35,8 +31,6 @@ class FileTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        self::$zuoraAccessToken= config('app.zuora_api_token');
 
         $user = User::where('username','machida@tcg.sprobe.ph')->firstOrFail();
 
@@ -90,106 +84,41 @@ class FileTest extends TestCase
     }
 
     /**
-     * FileTest constructor.
+     * ContractTest constructor.
      */
     public function __construct()
     {
         parent::__construct();
-        $this->createApplication();
+    $this->createApplication();
     }
 
     /**
-     * File Test Upload test success
+     * Get contact index success
      */
-    public function testFileUpload()
+    public function testGetContractIndexSuccess()
     {
-        $file = UploadedFile::fake()->create('file.csv');
-
-        $params = [
-            'file' => $file,
-            'month_of_billing' => '2020-01',
-            'salesforce_id' => self::$salesforceCompanyID,
-        ];
-
-        $response = $this->withHeaders([
-                            'authorization-zuora' => self::$zuoraAccessToken,
-                            'accept' => 'application/json'
-                        ])->json('POST', '/zuora', $params);
-
-        $response->assertStatus(200);
-
-        $result = json_decode((string) $response->getContent());
-    }
-
-    /**
-     * File Test Upload test invalid file format
-     */
-    public function testFileUploadInvalidFileFormat()
-    {
-        $file = UploadedFile::fake()->create('file.pdf');
-
-        $params = [
-            'file' => $file,
-            'month_of_billing' => '2020-01',
-            'salesforce_id' => self::$salesforceCompanyID,
-        ];
-
-        $response = $this->withHeaders([
-                            'authorization-zuora' => self::$zuoraAccessToken,
-                            'accept' => 'application/json'
-                        ])->json('POST', '/zuora', $params);
-
-        // error code for invalid input
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-    }
-
-    /**
-     * File Test Download test success
-     */
-    public function testFileDownload()
-    {
-        $latestFile = File::latest()->first();
-        $params = [
-            'id' => $latestFile->id,
-        ];
-
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('POST', '/company/downloadBillingHistoryCSV', $params);
+                            ->json('POST', '/company/contractslist');
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
     }
 
     /**
-     * File Test Download test fail on invalid parameters
+     * Get contract index success
      */
-    public function testFileDownloadInvalidFileParameters()
+    public function testGetInvoiceIndexFail()
     {
-        $params = [
-            '__ID' => '99999999',
-        ];
+        // purposely using different input
+        $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
+
+        Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
+        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
 
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('POST', '/company/downloadBillingHistoryCSV', $params);
+                            ->json('POST', '/company/contractslist');
 
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-    }
-
-    /**
-     * File Test Download test fail on id that does not exist
-     */
-    public function testFileDownloadInvalidFileId()
-    {
-        $params = [
-            'id' => 99999999,
-        ];
-
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                        ->json('POST', '/company/downloadBillingHistoryCSV', $params);
-
-        $response->assertStatus(422);
+        $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());
     }
 }

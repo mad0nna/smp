@@ -38,7 +38,7 @@ class AdminCompanyTest extends TestCase
     {
         parent::setUp();
 
-        $user = User::find(1);
+        $user = User::where('admin@tcg.sprobe.ph', 'username')->firstOrFail();
 
         self::$ADMIN = $user;
         self::$companyID = $user->company->id;
