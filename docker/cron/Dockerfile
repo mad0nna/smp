@@ -1,4 +1,4 @@
-FROM php:7.4.13-fpm-alpine3.12
+FROM php:8.0-fpm-alpine
 RUN apk update
 RUN apk add --no-cache git bash supervisor pcre-dev ${PHPIZE_DEPS}
 RUN apk --no-cache add \

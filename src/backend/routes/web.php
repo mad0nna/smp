@@ -133,12 +133,4 @@ Route::group(['prefix' => 'payment'], function () {
     Route::get('creditCardPayment', 'PaymentController@creditCardPayment');
 });
 
-
-Route::get('test', function () {
-    \Mail::raw('asdfasdfasdfasdfadsfsdf', function ($message) {
-        $message->to('nessia.brb@sprobe.com');
-        $message->subject('asdfsgf');
-    });
-});
-
 Route::get('service-check', 'ServiceCheckController');
