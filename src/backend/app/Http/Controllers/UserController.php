@@ -70,8 +70,8 @@ class UserController extends Controller
             $result = $this->userService->findById($request->id);
             $user = (new Contact)->findByAccountID($result['account_code']);
             $this->response['data'] = $this->getSFResource($user);
-            $this->response['data']['canEdit'] = true;
-            $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3 && !$user['admin__c'];
+            $this->response['data']['canEdit'] = Auth::user()->user_type_id === 3 || (Auth::user()->id == $request->id);
+            $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3;
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
