@@ -301,23 +301,24 @@ class UserController extends Controller
                 'MobilePhone' => $data['MobilePhone'],
                 'Title' => $data['Title'],
             ];
-            if ($data['changeRole']) {
-                $salesforceData['admin__c'] = $data['admin__c'] == 3 ? true : false;
-            }
-
-            $response = (new Contact)->update($salesforceData, $data['Id']);
-            if (!$response['status']) {
-                return $response;
-            }
             $formData = [
                 'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
                 'last_name' => $data['LastName'] ? $data['LastName'] : '',
                 'email' => $data['Email'] ? $data['Email'] : '',
                 'contact_num' => $data['MobilePhone'] ? $data['MobilePhone'] : '',
                 'title' => $data['Title'] ? $data['Title'] : '',
-                'user_type_id' => $data['admin__c'] ? $data['admin__c'] : '',
                 'username' => $data['username'] ? $data['username'] : '',
             ];
+
+            if ($data['changeRole']) {
+                $salesforceData['admin__c'] = $data['admin__c'] == 3 ? true : false;
+                $formData['user_type_id'] = $data['admin__c'];
+            }
+
+            $response = (new Contact)->update($salesforceData, $data['Id']);
+            if (!$response['status']) {
+                return $response;
+            }
             if (Session::get('salesforceContactID') == $data['Id']) {
                 Session::put('CompanyContactFirstname', $data['FirstName']);
                 Session::put('CompanyContactLastname', $data['LastName']);
