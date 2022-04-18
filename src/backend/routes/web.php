@@ -78,7 +78,6 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::get('/shop', 'ShoppingController@shop');
     Route::get('/getUnpaidOrders', 'CompanyController@getUnpaidOrders');
 });
-Route::view('/pdf-to-html', 'admin.template');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
@@ -96,12 +95,21 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('company/saveAddedCompany', 'CompanyController@saveAddedCompany');
     Route::post('company/updateSaveAccount', 'CompanyController@updateSaveAccount');
     Route::post('company/resendEmailInvite', 'CompanyController@resendEmailInvite');
-
     Route::view('/settings', 'admin.settings');
 
     Route::post('/uploadNewProductInventoryCsv', 'ShoppingController@uploadNewProductInventoryCsv');
     Route::post('/uploadUpdateStockInventoryCsv', 'ShoppingController@uploadUpdateStockInventoryCsv');
+    // invoice Template
+    Route::view('/settings/invoice/detail', 'admin.invoiceDetail');
+    Route::get('template/getListOfCompany', 'CompanyController@index');
+    Route::post("template/uploadNewTemplate", 'TemplateController@uploadNewTemplate');
+    Route::get("template/getListOfTemplate", 'TemplateController@getListOfTemplate');
+    Route::post("template/getTemplateDetail", 'TemplateController@getTemplateDetail');
+    Route::post('template/updateTemplate', 'TemplateController@updateTemplate');
 });
+// This route is for testing purposes.
+Route::get('template/fillData', 'TemplateController@fillData');
+
 
 Route::prefix('sales')->group(function () {
     Route::view('/dashboard', 'sales.dashboard')->name('dashboard');
