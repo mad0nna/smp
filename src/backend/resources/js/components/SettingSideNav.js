@@ -30,7 +30,6 @@ const SettingSideNav = () => {
     }
   ]
   let aPathName = location.pathname.split('/')
-  console.log(location.pathname)
   if (typeof aPathName[1] != 'undefined') {
     switch (aPathName[1]) {
       case 'company':
@@ -51,7 +50,6 @@ const SettingSideNav = () => {
         {mainNav.map((nav, index) => {
           let active = nav.link == location.pathname
           let activeStyle = 'bg-green-500 text-white'
-          console.log(active)
           return (
             <div
               id="settings-navigation-item"
