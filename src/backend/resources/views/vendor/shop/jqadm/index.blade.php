@@ -84,14 +84,6 @@
 									<a class="dropdown-item" href="#">お問合せ</a>
 								</li>
 								<li>
-									<label class="bg-settings-icon-white" style=""></label>
-									<a class="dropdown-item" href="#">アカウント設定</a>
-								</li>
-								<li>
-									<label class="bg-widget-settings-icon" style=""></label>
-									<a class="dropdown-item" href="#">ウィジェット設定</a>
-								</li>
-								<li>
 									<label class="bg-signout-icon" style=""></label>
 									<a class="dropdown-item" href="/logout">ログアウト</a>
 								</li>
