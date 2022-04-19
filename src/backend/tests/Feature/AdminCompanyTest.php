@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Company;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -30,6 +32,15 @@ class AdminCompanyTest extends TestCase
 
     /** @var string */
     private static $KEYWORD = 's';
+
+    /** @var string */
+    private static $newlyCreatedContactID;
+
+    /** @var string */
+    private static $newlyCreatedCompanyID;
+
+    /** @var array */
+    private static $arrayParams;
 
     public function setUp(): void
     {
@@ -166,9 +177,9 @@ class AdminCompanyTest extends TestCase
     }
 
     /**
-     * Search company code test success
+     * Search company code test available
      */
-    public function testSearchByCompanyCodeSuccess()
+    public function testSearchByCompanyCodeAvailable()
     {
         $params = [
             'code' => '12345',
@@ -176,6 +187,10 @@ class AdminCompanyTest extends TestCase
 
         $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/admin/company/searchCompanyCode', $params);
+
+        // saves the details for adding later
+        $codeResult = json_decode($response->getContent(), $associative = true);
+        self::$arrayParams = $codeResult['data'];
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
@@ -253,5 +268,74 @@ class AdminCompanyTest extends TestCase
 
         $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Saves a new company by super admin success
+     */
+    public function testSaveAddedCompanySuccess()
+    {
+        $params = self::$arrayParams;
+
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/saveAddedCompany', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+        $this->assertEquals($result->success, true);
+
+        DB::beginTransaction();
+
+        try {
+            // delete newly created rows after unit testing
+            $user = User::where('account_code', $params['contactID'])->first();
+
+            if ($user instanceof User) {
+                $user->delete();
+            }
+
+            $company = Company::where('account_id', $params['companyID'])->first();
+
+            if($company instanceof Company) {
+                $company->delete();
+            }
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
+
+            throw $th;
+        }
+    }
+
+    /**
+     * Attempts to save a new company by super admin with empty parameters
+     */
+    public function testSaveAddedCompanyEmptyParameters()
+    {
+        $params = [];
+
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/saveAddedCompany', $params);
+
+        $response->assertStatus(422);
+        $result = json_decode((string) $response->getContent());
+    }
+
+
+    /**
+     * Attempts to save a new company by super admin with no contact email provided
+     */
+    public function testSaveAddedCompanyWithNoContactEmail()
+    {
+        $params = self::$arrayParams;
+        $params['admin'][0]['email'] = '';
+
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/saveAddedCompany', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+        $this->assertEquals($result->success, false);
     }
 }
