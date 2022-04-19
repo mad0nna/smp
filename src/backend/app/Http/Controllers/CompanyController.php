@@ -81,8 +81,6 @@ class CompanyController extends Controller
                 'message' => 'Company with admin retrieved successfully.',
                 'code' => 200,
             ];
-
-            return response()->json($this->response, $this->response['code']);
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),

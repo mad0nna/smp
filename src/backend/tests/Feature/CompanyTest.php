@@ -270,4 +270,175 @@ class CompanyTest extends TestCase
         $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());
     }
+
+    /**
+     * Updates company details success
+     */
+    public function testUpdateCompanyDetailsSuccess()
+    {
+        $params = [
+            'adminDetails' => [
+                'Email' => 'pineda.pcb@sprobe.com',
+                'FirstName' => 'Aurelio',
+                'Id' => '0030l00000g4k23AAA',
+                'LastName' => 'CronaUpdated',
+                'MobilePhone' => '12345678910',
+                'Title' => 'Title updated',
+                'admin__c' => true,
+                'section__c' => '管理',
+            ],
+            'companyDetails' => [
+                'city' => '港区',
+                'companyName' => '株式会社町田updated',
+                'contactNumber' => '12345678910',
+                'country' => 'Japan',
+                'industry' => '建設',
+                'postalCode' => '1234567',
+                'state' => '東京都',
+                'street' => '虎ノ門4-1-28 虎ノ門タワーズオフィス',
+                'website' => 'https://www.h-t.co.jp',
+            ],
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/updateCompanyDetails', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+        $this->assertEquals($result->status, true);
+    }
+
+    /**
+     * Updates company details wrong parameters
+     */
+    public function testUpdateCompanyDetailsWrongParameters()
+    {
+        $params = [
+            'invalidkey' => 'invalidvalue'
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/updateCompanyDetails', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Updates company details on existing email
+     */
+    public function testUpdateCompanyDetailsExistingEmail()
+    {
+        $params = [
+            'adminDetails' => [
+                'Email' => 'admin@tcg.sprobe.ph',
+                'FirstName' => 'Aurelio',
+                'Id' => '0030l00000g4k23AAA',
+                'LastName' => 'CronaUpdated',
+                'MobilePhone' => '12345678910',
+                'Title' => 'Title updated',
+                'admin__c' => true,
+                'section__c' => '管理',
+            ],
+            'companyDetails' => [
+                'city' => '港区',
+                'companyName' => '株式会社町田updated',
+                'contactNumber' => '12345678910',
+                'country' => 'Japan',
+                'industry' => '建設',
+                'postalCode' => '1234567',
+                'state' => '東京都',
+                'street' => '虎ノ門4-1-28 虎ノ門タワーズオフィス',
+                'website' => 'https://www.h-t.co.jp',
+            ],
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/updateCompanyDetails', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Updates company details on invalid email
+     */
+    public function testUpdateCompanyDetailsInvalidEmail()
+    {
+        $params = [
+            'adminDetails' => [
+                'Email' => 'invalidEmail',
+                'FirstName' => 'Aurelio',
+                'Id' => '0030l00000g4k23AAA',
+                'LastName' => 'CronaUpdated',
+                'MobilePhone' => '12345678910',
+                'Title' => 'Title updated',
+                'admin__c' => true,
+                'section__c' => '管理',
+            ],
+            'companyDetails' => [
+                'city' => '港区',
+                'companyName' => '株式会社町田updated',
+                'contactNumber' => '12345678910',
+                'country' => 'Japan',
+                'industry' => '建設',
+                'postalCode' => '1234567',
+                'state' => '東京都',
+                'street' => '虎ノ門4-1-28 虎ノ門タワーズオフィス',
+                'website' => 'https://www.h-t.co.jp',
+            ],
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/updateCompanyDetails', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Updates company details on empty contact and company id
+     */
+    public function testUpdateCompanyDetailsEmptyContactAndCompanyId()
+    {
+        // purposely using different input
+        $emptySalesforceCompanyID = '';
+        $emptySalesforceContactID = '';
+
+        Session::put('salesforceCompanyID', $emptySalesforceCompanyID);
+        Session::put('salesforceContactID', $emptySalesforceContactID);
+        self::$sessionData['salesforceCompanyID'] = $emptySalesforceCompanyID;
+        self::$sessionData['salesforceContactID'] = $emptySalesforceContactID;
+
+        $params = [
+            'adminDetails' => [
+                'Email' => 'pineda.pcb@sprobe.com',
+                'FirstName' => 'Aurelio',
+                'Id' => '0030l00000g4k23AAA',
+                'LastName' => 'CronaUpdated',
+                'MobilePhone' => '12345678910',
+                'Title' => 'Title updated',
+                'admin__c' => true,
+                'section__c' => '管理',
+            ],
+            'companyDetails' => [
+                'city' => '港区',
+                'companyName' => '株式会社町田updated',
+                'contactNumber' => '12345678910',
+                'country' => 'Japan',
+                'industry' => '建設',
+                'postalCode' => '1234567',
+                'state' => '東京都',
+                'street' => '虎ノ門4-1-28 虎ノ門タワーズオフィス',
+                'website' => 'https://www.h-t.co.jp',
+            ],
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/updateCompanyDetails', $params);
+
+        $response->assertStatus(200);
+        $response->assertJson($params, $strict = false);
+        $result = json_decode((string) $response->getContent());
+    }
 }
