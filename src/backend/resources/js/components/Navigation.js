@@ -364,7 +364,7 @@ const Navigation = () => {
       }
     }
 
-    axios.get(`/getLoggedinUser`).then((response) => {
+    axios.get(`../getLoggedinUser`).then((response) => {
       if (response.status === 200) {
         setState((prevState) => {
           return {
