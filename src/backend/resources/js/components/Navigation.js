@@ -4,14 +4,15 @@ import KotLogo from '../../img/KOT-menu-logo.png'
 import ArrowDownIcon from '../../img/arrowdown.png'
 import AdminIcon from '../../img/admin-icon.png'
 import idpIcon from '../../img/idp_logo.png'
+import axios from 'axios'
 import shopIcon from '../../img/shop-icon.png'
 import shopIcon2 from '../../img/shop-icon-green.png'
-import axios from 'axios'
-
 const Navigation = () => {
   const [state, setState] = useState({
     mainNav: {},
-    loading: true
+    loading: true,
+    contactLastName: '',
+    contactFirstName: ''
   })
 
   const refMenu = useRef()
@@ -110,7 +111,7 @@ const Navigation = () => {
         logo: '',
         items: [
           {
-            label: 'アカウント プロファイル',
+            label: '企業プロフィール',
             url: '/company/companyProfile',
             iconNormal: 'bg-profile-icon-white',
             iconHover: '',
@@ -130,17 +131,9 @@ const Navigation = () => {
             }
           },
           {
-            label: 'アカウント設定',
-            url: '#',
+            label: 'ト設定',
+            url: '/company/setting/widget',
             iconNormal: 'bg-settings-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
-          },
-          {
-            label: 'ウィジェット設定',
-            url: '/company/widgetSettings',
-            iconNormal: 'bg-widget-settings-icon',
             iconHover: '',
             iconSize: 'h-5 w-5',
             extraStyle: ''
@@ -314,22 +307,30 @@ const Navigation = () => {
             iconSize: 'h-5 w-5',
             extraStyle: 'cursor-default'
           },
-          {
-            label: 'アカウント設定',
-            url: '#',
-            iconNormal: 'bg-settings-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
-          },
-          {
-            label: 'ウィジェット設定',
-            url: '#',
-            iconNormal: 'bg-widget-settings-icon',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
-          },
+          // {
+          //   label: 'ト設定',
+          //   url: '/admin/settings',
+          //   iconNormal: 'bg-settings-icon-white',
+          //   iconHover: '',
+          //   iconSize: 'h-5 w-5',
+          //   extraStyle: ''
+          // },
+          // {
+          //   label: 'アカウント設定',
+          //   url: '#',
+          //   iconNormal: 'bg-settings-icon-white',
+          //   iconHover: '',
+          //   iconSize: 'h-5 w-5',
+          //   extraStyle: 'cursor-default'
+          // },
+          // {
+          //   label: 'ウィジェット設定',
+          //   url: '#',
+          //   iconNormal: 'bg-widget-settings-icon',
+          //   iconHover: '',
+          //   iconSize: 'h-5 w-5',
+          //   extraStyle: 'cursor-default'
+          // },
           {
             label: 'ログアウト',
             url: '/logout',
@@ -348,10 +349,6 @@ const Navigation = () => {
       switch (aPathName[1]) {
         case 'company':
           mainNav = companyNavigation
-          axios.get(`/company/getLoggedinUser/companyname`).then((response) => {
-            window.document.getElementById('companyDropwdownTitle').innerHTML =
-              response.data
-          })
           break
         case 'admin':
           mainNav = adminNavigation
@@ -366,6 +363,20 @@ const Navigation = () => {
           break
       }
     }
+
+    axios.get(`../getLoggedinUser`).then((response) => {
+      if (response.status === 200) {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            contactFirstName: response.data['contactFirstName'],
+            contactLastName: response.data['contactLastName']
+          }
+        })
+        window.document.getElementById('companyDropwdownTitle').innerHTML =
+          response.data['companyName']
+      }
+    })
 
     let childPages = ['/admin/account/company', '/admin/account/sales']
     mainNav.navItem.map((item) => {
@@ -529,6 +540,11 @@ const Navigation = () => {
                   })}
                 </div>
               )}
+            </div>
+            <div className="pl-2">
+              <span className="mr-1">{state.contactLastName} </span>
+              <span className="mr-1">{state.contactFirstName} </span>
+              <span className="mr-1">様</span>
             </div>
           </div>
         </div>

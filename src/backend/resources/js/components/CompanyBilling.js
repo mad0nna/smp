@@ -377,7 +377,9 @@ const CompanyBilling = () => {
                       {/* <td className="text-center">{item.billingName}</td> */}
                       <td className="text-center"> {item.invoiceDate}</td>
                       <td className="text-center">{item.dueDate}</td>
-                      <td className="text-right">{`${item.amount} 円(税込)`}</td>
+                      <td className="text-right">
+                        <p className="relative lg:-left-16 sm:-left-0">{`${item.amount} 円(税込)`}</p>
+                      </td>
                       {/* <td className={txtcolor + ' text-center'}>-</td> */}
                       <td className="text-center text-primary-200">
                         <div

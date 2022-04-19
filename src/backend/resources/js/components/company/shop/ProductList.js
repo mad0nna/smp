@@ -76,7 +76,7 @@ const ProductList = () => {
       ...sortItem,
       selectedSortValue: value
     })
-    fetchProductList()
+    fetchProductList(value)
     setLoadedImage(true)
   }
 
@@ -141,7 +141,7 @@ const ProductList = () => {
     setPagingConditions({ ...pagingConditions, ...{ page: n } })
   }
 
-  function fetchProductList() {
+  function fetchProductList(value) {
     let offset = pagingConditions.page * pagingConditions.limit - 10
     setLoadedImage(false)
 
@@ -149,8 +149,7 @@ const ProductList = () => {
       searchItem.searchText !== ''
         ? `&filter[%7E%3D][product.label]=${searchItem.searchText}`
         : ''
-
-    let sortProduct = sortParam(sortItem.selectedSortValue)
+    let sortProduct = sortParam(value)
 
     axios({
       url: `/jsonapi/product?page[offset]=${offset}&page[limit]=${pagingConditions.limit}&include=media,text,price,stock${searchParam}${sortProduct}`,
@@ -249,7 +248,11 @@ const ProductList = () => {
             <li
               key={number}
               id={number}
-              onClick={() => pagingConditions.handlePageClick(number)}
+              onClick={() =>
+                pagingConditions.page === number
+                  ? null
+                  : pagingConditions.handlePageClick(number)
+              }
               className=""
             >
               <span

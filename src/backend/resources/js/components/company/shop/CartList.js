@@ -37,7 +37,6 @@ const CartList = () => {
     loader: false,
     isSubmit: false
   })
-  console.log(state.addressModalDisplay)
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
     email: userData.email || '',
@@ -139,7 +138,6 @@ const CartList = () => {
     numberInput.forEach((data) => {
       data === '-' && i++
     })
-    console.log(i <= 2 === false)
     const re = /^[0-9-]+$/gm
     if (value === '' || re.test(numberValue)) {
       if (!hypen) {
@@ -510,7 +508,6 @@ const CartList = () => {
       console.log('createServicePersistBasket', err)
     }
   }
-  console.log(state)
   const handleCheckoutModalAddressClose = () => {
     setState((prevState) => {
       return {
@@ -598,11 +595,18 @@ const CartList = () => {
 
         generateFinalOrder(ccData)
           .then((res) => {
-            console.info('successfully created order')
+            console.log('sucessfully created order')
             deleteBasketCache(res.data.meta.csrf)
             // display modal submit
             let totalAmount = calculatedItem.totalAmount.toLocaleString('jp')
             openZeusPaymentForm(orderId.orderId, totalAmount)
+
+            setState((prevState) => {
+              return {
+                ...prevState,
+                orderInvoiceSuccess: true
+              }
+            })
 
             setState((prevState) => {
               return {
@@ -744,6 +748,9 @@ const CartList = () => {
                   handleOrderChange(e.target.value, item)
                 }}
                 onKeyDown={(event) => {
+                  if (event.keyCode === 8) {
+                    updateItemQuantity(item.id, parseInt(1))
+                  }
                   event.preventDefault()
                 }}
               />
@@ -813,27 +820,29 @@ const CartList = () => {
     numberInput.forEach((data) => {
       data === '-' && i++
     })
-    if (
-      addressData.number.length >= 12 &&
-      addressData.number.length <= 13 &&
-      i === 2
-    ) {
-      setErrorData((prevState) => {
-        return { ...prevState, numberIsValid: false }
-      })
+    if (addressData.number.length >= 1) {
       if (
-        (numberInput[12] === '-' && numberInput[11] !== '-') ||
-        (numberInput[11] === '-' && numberInput[12] === undefined) ||
-        numberInput[0] === '-'
+        addressData.number.length >= 12 &&
+        addressData.number.length <= 13 &&
+        i === 2
       ) {
+        setErrorData((prevState) => {
+          return { ...prevState, numberIsValid: false }
+        })
+        if (
+          (numberInput[12] === '-' && numberInput[11] !== '-') ||
+          (numberInput[11] === '-' && numberInput[12] === undefined) ||
+          numberInput[0] === '-'
+        ) {
+          setErrorData((prevState) => {
+            return { ...prevState, numberIsValid: true }
+          })
+        }
+      } else {
         setErrorData((prevState) => {
           return { ...prevState, numberIsValid: true }
         })
       }
-    } else {
-      setErrorData((prevState) => {
-        return { ...prevState, numberIsValid: true }
-      })
     }
 
     if (addressData.postal_code.length >= 1) {

@@ -1,4 +1,4 @@
-FROM php:7.4.13-fpm-alpine3.12
+FROM php:8.0-fpm-alpine
 RUN apk update
 RUN apk add --no-cache git bash supervisor pcre-dev ${PHPIZE_DEPS}
 RUN apk --no-cache add \
@@ -11,7 +11,7 @@ RUN docker-php-ext-configure intl \
     intl \
     gettext
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
-RUN echo "* * * * * cd /var/www/backend && php artisan aimeos:jobs \"order/email/delivery order/email/payment\"" >> /etc/crontabs/root
+RUN echo "* * * * * cd /var/www/backend && php artisan aimeos:jobs \"order/email/payment\"" >> /etc/crontabs/root
 RUN echo "* * * * * cd /var/www/backend && php artisan aimeos:jobs \"order/cleanup/unfinished\"" >> /etc/crontabs/root
 RUN echo "* * * * * cd /var/www/backend && php artisan schedule:run" >> /etc/crontabs/root
 RUN pecl install redis && docker-php-ext-enable redis

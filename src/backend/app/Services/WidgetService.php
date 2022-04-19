@@ -17,12 +17,15 @@ class WidgetService
         if (!empty($companyCoordinates)) {
             $companyCoordinates = reset($companyCoordinates);
             $rawCoordinates = json_decode($companyCoordinates['coordinates'], true);
-            $tempCoordinates = [];
-            foreach ($rawCoordinates as $key => $value) {
-                $tempCoordinates[$key] = $value;
+            if (!empty($rawCoordinates)) {
+                $tempCoordinates = [];
+                foreach ($rawCoordinates as $key => $value) {
+                    $tempCoordinates[$key] = $value;
+                }
+                $companyCoordinates['coordinates'] = $tempCoordinates;
+                $companyCoordinates['id'] = $accountID;
             }
-            $companyCoordinates['coordinates'] = $tempCoordinates;
-            $companyCoordinates['id'] = $accountID;
+          
         }
 
         return json_encode($companyCoordinates);

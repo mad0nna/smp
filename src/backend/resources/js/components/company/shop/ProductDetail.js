@@ -101,6 +101,19 @@ const ProductDetail = (props) => {
       }
     })
   }
+
+  const onDelete = (e) => {
+    if (e.keyCode === 8) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          orderNum: 2,
+          stock: state.stock + state.orderNum
+        }
+      })
+    }
+  }
+
   const handleOrderChange = (n) => {
     let currentOrder = n - 1 <= 0 ? 1 : n - 1
     // disable if stock is reach to limit
@@ -205,6 +218,7 @@ const ProductDetail = (props) => {
               onChange={(e) => {
                 handleOrderChange(e.target.value)
               }}
+              onKeyDown={onDelete}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
