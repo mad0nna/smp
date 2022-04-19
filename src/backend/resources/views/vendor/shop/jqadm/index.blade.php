@@ -32,7 +32,7 @@
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample07" style="overflow:hidden">
-					<ul class="navbar-nav">
+					<ul class="navbar-nav" style="margin-left: -75px;">
 						<li class="nav-item" style="width:130px; height:103px">
 							<a href="/admin/dashboard" class="nav-link">
 								<div class="mt-4"><div class="bg-dashboard-icon mx-5" style="height:27px; width:29px;"></div></div>
@@ -51,7 +51,7 @@
 								<div><p class="font-sans mt-1 text-center text-muted">ドキュメント</p></div>
 							</a>
 						</li>
-						<li class="nav-item bg-success" style="width:130px; height:99px">
+						<li class="nav-item bg-green-500" style="width:130px; height:99px">
 							<a href="/admin/shop/jqadm/search/product?locale=ja" class="nav-link active" style="padding-left: 23px;">
 								<div class="mt-3" style="padding-left:1.1rem"> 
 								<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="35px" viewBox="0 0 20 25" width="35px" fill="#FFFFFF"><g><rect fill="none" height="24" width="24"></rect></g><g><g></g><g><path d="M21.9,8.89l-1.05-4.37c-0.22-0.9-1-1.52-1.91-1.52H5.05C4.15,3,3.36,3.63,3.15,4.52L2.1,8.89 c-0.24,1.02-0.02,2.06,0.62,2.88C2.8,11.88,2.91,11.96,3,12.06V19c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2v-6.94 c0.09-0.09,0.2-0.18,0.28-0.28C21.92,10.96,22.15,9.91,21.9,8.89z M18.91,4.99l1.05,4.37c0.1,0.42,0.01,0.84-0.25,1.17 C19.57,10.71,19.27,11,18.77,11c-0.61,0-1.14-0.49-1.21-1.14L16.98,5L18.91,4.99z M13,5h1.96l0.54,4.52 c0.05,0.39-0.07,0.78-0.33,1.07C14.95,10.85,14.63,11,14.22,11C13.55,11,13,10.41,13,9.69V5z M8.49,9.52L9.04,5H11v4.69 C11,10.41,10.45,11,9.71,11c-0.34,0-0.65-0.15-0.89-0.41C8.57,10.3,8.45,9.91,8.49,9.52z M4.04,9.36L5.05,5h1.97L6.44,9.86 C6.36,10.51,5.84,11,5.23,11c-0.49,0-0.8-0.29-0.93-0.47C4.03,10.21,3.94,9.78,4.04,9.36z M5,19v-6.03C5.08,12.98,5.15,13,5.23,13 c0.87,0,1.66-0.36,2.24-0.95c0.6,0.6,1.4,0.95,2.31,0.95c0.87,0,1.65-0.36,2.23-0.93c0.59,0.57,1.39,0.93,2.29,0.93 c0.84,0,1.64-0.35,2.24-0.95c0.58,0.59,1.37,0.95,2.24,0.95c0.08,0,0.15-0.02,0.23-0.03V19H5z"></path></g></g></svg>
@@ -61,17 +61,18 @@
 						</li>				
 					</ul>
 				</div>
-				<div class="" style="width:150px">
-					<div id="nav-dropdown" name="nav-dropdown" class="relative d-flex  pe-auto">
+				<div class="justify-content-center" style="width:170px">
+					<div id="nav-dropdown" name="nav-dropdown" class="relative d-flex  pe-auto" >
 						<div class="">
-							
-								<img alt="setting icon" src="/images/admin-icon.png?da531b3ff0ecbcc369be6265fc8a1b04" >
-							
+							<img alt="setting icon" src="/images/admin-icon.png" >							
 						</div>
-							<p class="text-base h6 fs-6 fw-bold text-success px-2 py-1" id="companyDropwdownTitle">管理者</p>
+							@php
+								$user = \App\Models\User::find(Auth::user()->id);
+							@endphp
+							<p class="text-base h6 fs-6 fw-bold text-primary-200 px-2 pt-1" id="companyDropwdownTitle" style="letter-spacing: 1px; text-shadow: 1px 1px 2px #e8e8e8;">@php echo $user['company_name'] @endphp</p>
 							<div class="" style="position:relative">
 							<a class="" href="#" id="dropdown05" data-bs-toggle="dropdown" aria-expanded="false">
-									<img alt="setting icon" src="/images/arrowdown.png?286d79e9128ef8a5093b0d6fc8284840">
+									<img alt="setting icon" src="/images/arrowdown.png">
 								</a>
 							<ul class="dropdown-menu dd-nav" aria-labelledby="dropdown05" data-bs-popper="none"  >
 								<li>
@@ -83,21 +84,21 @@
 									<a class="dropdown-item" href="#">お問合せ</a>
 								</li>
 								<li>
-									<label class="bg-settings-icon-white" style=""></label>
-									<a class="dropdown-item" href="#">アカウント設定</a>
-								</li>
-								<li>
-									<label class="bg-widget-settings-icon" style=""></label>
-									<a class="dropdown-item" href="#">ウィジェット設定</a>
-								</li>
-								<li>
 									<label class="bg-signout-icon" style=""></label>
 									<a class="dropdown-item" href="/logout">ログアウト</a>
 								</li>
 							</ul>	
 							</div>
 						</div>
+						<div class="nav-user-name">
+							@php
+								echo "" . $user['last_name'] . " ";
+								echo "" . $user['first_name']  . " ";
+							@endphp
+							様
+						</div>
 					</div>
+					
 				</div>
 			</div>
 		</div>

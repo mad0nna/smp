@@ -37,7 +37,6 @@ const CartList = () => {
     loader: false,
     isSubmit: false
   })
-  console.log(state.addressModalDisplay)
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
     email: userData.email || '',
@@ -139,7 +138,6 @@ const CartList = () => {
     numberInput.forEach((data) => {
       data === '-' && i++
     })
-    console.log(i <= 2 === false)
     const re = /^[0-9-]+$/gm
     if (value === '' || re.test(numberValue)) {
       if (!hypen) {
@@ -510,7 +508,6 @@ const CartList = () => {
       console.log('createServicePersistBasket', err)
     }
   }
-  console.log(state)
   const handleCheckoutModalAddressClose = () => {
     setState((prevState) => {
       return {

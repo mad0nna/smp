@@ -159,6 +159,7 @@ class UserController extends Controller
                     'password' => $pw_hash,
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
+                    'name' => ($sf['lastname'] ? $sf['lastname'] : '') . ' ' . ($sf['firstname'] ? $sf['firstname'] : ''),
                 ];
             } else {
                 $formData = [
@@ -175,6 +176,7 @@ class UserController extends Controller
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
                     'account_code' => $sf['account_code'] ? $sf['account_code'] : '',
+                    'name' => ($sf['lastname'] ? $sf['lastname'] : '') . ' ' . ($sf['firstname'] ? $sf['firstname'] : ''),                    
                 ];
             }
 
