@@ -7,7 +7,7 @@ const Welcome = () => {
     lastName: ''
   })
   useEffect(() => {
-    axios.get(`../getLoggedinUser`).then((response) => {
+    axios.get(location.origin + '/getLoggedinUser').then((response) => {
       if (response.status === 200) {
         let Lastnane = response['contactLastName']
         setState({

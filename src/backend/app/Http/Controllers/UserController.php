@@ -67,9 +67,7 @@ class UserController extends Controller
     public function getContactDetails(Request $request)
     {
         try {
-            $result = $this->userService->findById($request->id);
-            $user = (new Contact)->findByAccountID($result['account_code']);
-            $this->response['data'] = $this->getSFResource($user);
+            $this->response['data'] = $this->userService->findById($request->id);
             $this->response['data']['canEdit'] = Auth::user()->user_type_id === 3 || (Auth::user()->id == $request->id);
             $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3;
         } catch (Exception $e) {
