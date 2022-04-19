@@ -31,14 +31,11 @@ class AdminCompanyTest extends TestCase
     /** @var string */
     private static $KEYWORD = 's';
 
-    /** @var string */
-    private static $TOTAL;
-
     public function setUp(): void
     {
         parent::setUp();
 
-        $user = User::where('admin@tcg.sprobe.ph', 'username')->firstOrFail();
+        $user = User::where('username', 'admin@tcg.sprobe.ph')->firstOrFail();
 
         self::$ADMIN = $user;
         self::$companyID = $user->company->id;
@@ -97,8 +94,6 @@ class AdminCompanyTest extends TestCase
         parent::__construct();
         $this->createApplication();
     }
-    // search by keyword
-    // search with limit
 
     /**
      * Company Index Search success
@@ -140,7 +135,7 @@ class AdminCompanyTest extends TestCase
         $result = json_decode((string) $response->getContent());
 
 
-        // verify if the keyword exists either in first name, last name or email
+        // verify if the keyword exists either in name, company code, industry, contact number or email
         foreach ($result->data as $company) {
             $hasKeyword = false;
 
@@ -168,9 +163,6 @@ class AdminCompanyTest extends TestCase
 
             $this->assertTrue($hasKeyword);
         }
-
-        // store total for limit testing
-        self::$TOTAL = $result->pageCount;
     }
 
     /**
@@ -227,5 +219,39 @@ class AdminCompanyTest extends TestCase
         $this->assertEquals($result->success, false);
         $this->assertEquals($result->exists, false);
         $this->assertEquals($result->data, 'コードが見つかりません');
+    }
+
+    /**
+     * Searches up company id given company code
+     */
+    public function testSearchCompanyIDSuccess()
+    {
+        $params = [
+            'company_id' => 1,
+            'company_code' => 'Sprobe',
+        ];
+
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/searchCompanyId', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Get updated data for edit company details wrong input
+     */
+    public function testSearchCompanyIDWrongInput()
+    {
+        $params = [
+            'company_id' => 999999999,
+            'company_code' => 'invalidCompanyCode',
+        ];
+
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/searchCompanyId', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
     }
 }
