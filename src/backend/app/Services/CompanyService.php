@@ -38,7 +38,6 @@ class CompanyService
             try {
                 $usageData['serviceUsageDate'] = $kotUsageData;
                 $usageData['numberOfSubscribers'] = $this->getNumberSubscribers($companyID);
-                
                 $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getAllQtyEmployees($kotToken, date("Y-m-d", strtotime("last day of previous month")));
                 $invoice = (new BillingController)->getLatestInvoiceDetails($companyID);
 
@@ -48,10 +47,9 @@ class CompanyService
 
                 return $usageData;
 
-            } catch(Exception $e) {
+            } catch(\Exception $e) {
                 return $e->getMessage();
-            } 
-            
+            }
         });
 
         return $usage;
@@ -230,12 +228,10 @@ class CompanyService
     public function updateTableFromSf($id, $data)
     {
         try {
-            return $company = Company::findOrfail($id)->update($data);
-        } catch (Exception $e) {
+            return Company::findOrfail($id)->update($data);
+        } catch (\Exception $e) {
             throw $e;
         }
-
-        return $company;
     }
 
     public function updateSaveAccount($dbId, $data)
@@ -262,7 +258,7 @@ class CompanyService
 
             DB::commit();
             return $status;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
 
             throw $e;

@@ -40,7 +40,10 @@ class AdminCompanyTest extends TestCase
     private static $newlyCreatedCompanyID;
 
     /** @var array */
-    private static $arrayParams;
+    private static $arrayAddCompanyParams;
+
+    /** @var array */
+    private static $arrayUpdateCompanyParams;
 
     public function setUp(): void
     {
@@ -190,7 +193,7 @@ class AdminCompanyTest extends TestCase
 
         // saves the details for adding later
         $codeResult = json_decode($response->getContent(), $associative = true);
-        self::$arrayParams = $codeResult['data'];
+        self::$arrayAddCompanyParams = $codeResult['data'];
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
@@ -249,6 +252,10 @@ class AdminCompanyTest extends TestCase
         $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/admin/company/searchCompanyId', $params);
 
+        // saves the details for updating later
+        $codeResult = json_decode($response->getContent(), $associative = true);
+        self::$arrayUpdateCompanyParams = $codeResult['data'];
+
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
     }
@@ -271,11 +278,11 @@ class AdminCompanyTest extends TestCase
     }
 
     /**
-     * Saves a new company by super admin success
+     * Saves a new company and company admin  by super admin success
      */
     public function testSaveAddedCompanySuccess()
     {
-        $params = self::$arrayParams;
+        $params = self::$arrayAddCompanyParams;
 
         $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/admin/company/saveAddedCompany', $params);
@@ -309,7 +316,7 @@ class AdminCompanyTest extends TestCase
     }
 
     /**
-     * Attempts to save a new company by super admin with empty parameters
+     * Attempts to save a new company and company admin by super admin with empty parameters
      */
     public function testSaveAddedCompanyEmptyParameters()
     {
@@ -324,11 +331,11 @@ class AdminCompanyTest extends TestCase
 
 
     /**
-     * Attempts to save a new company by super admin with no contact email provided
+     * Attempts to save a new company and company admin by super admin with no contact email provided
      */
     public function testSaveAddedCompanyWithNoContactEmail()
     {
-        $params = self::$arrayParams;
+        $params = self::$arrayAddCompanyParams;
         $params['admin'][0]['email'] = '';
 
         $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
@@ -338,4 +345,50 @@ class AdminCompanyTest extends TestCase
         $result = json_decode((string) $response->getContent());
         $this->assertEquals($result->success, false);
     }
+
+    // /**
+    //  * Updates an existing company and company admin details by super admin success
+    //  */
+    // public function testUpdateSaveCompanySuccess()
+    // {
+    //     $params = self::$arrayUpdateCompanyParams;
+    //     $params['name'] = "Sprobe Updated";
+
+    //     $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+    //                         ->json('POST', '/admin/company/updateSaveAccount', $params);
+
+    //     $response->assertStatus(200);
+    //     $result = json_decode((string) $response->getContent());
+
+    //     $this->assertEquals($result->success['status'], true);
+    // }
+
+    // /**
+    //  * Updates an existing company and company admin with empty parameters
+    //  */
+    // public function testUpdateSaveCompanyWithEmptyParameters()
+    // {
+    //     $params = [];
+    //     $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+    //                         ->json('POST', '/admin/company/updateSaveAccount', $params);
+
+    //     $response->assertStatus(500);
+    //     $result = json_decode((string) $response->getContent());
+    // }
+
+    // /**
+    //  * Updates an existing company and company admin details by super admin with no salesforce id
+    //  */
+    // public function testUpdateSaveCompanyWithNoSalesforceId()
+    // {
+    //     $params = self::$arrayUpdateCompanyParams;
+    //     $params['accountId'] = "";
+
+    //     $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+    //                         ->json('POST', '/admin/company/updateSaveAccount', $params);
+
+    //     $response->assertStatus(500);
+    //     $result = json_decode((string) $response->getContent());
+    //     $this->assertEquals($result->status, false);
+    // }
 }

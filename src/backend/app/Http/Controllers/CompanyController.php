@@ -125,6 +125,7 @@ class CompanyController extends Controller
     public function searchCompanyId(Request $request, CompanyService $companyService)
     {
         $code = 200;
+
         try {
             $company = $companyService->getCompanyById($request->company_id);
             $result = $companyService->getAllDetailsInSFByID($company['company_code']);
