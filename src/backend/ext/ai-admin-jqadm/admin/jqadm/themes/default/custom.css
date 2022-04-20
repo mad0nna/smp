@@ -432,3 +432,25 @@ p.upload-csv input {
 .aimeos a.shop-logo:hover{
   text-decoration: none;
 }
+
+.nav-user-name {
+  display: inline-block;
+  color: #212529;
+  padding-left: 0.5rem;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px #e8e8e8;
+  font-size: 115%;
+  margin-top: -20px;
+}
+
+.nav-user-name span {
+  float:right;
+}
+
+.bg-green-500 {
+  background-color: rgba(16, 185, 129);
+}
+
+.text-primary-200 {
+  color: rgba(29, 158, 72);
+}

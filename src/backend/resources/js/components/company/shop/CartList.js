@@ -37,7 +37,6 @@ const CartList = () => {
     loader: false,
     isSubmit: false
   })
-  console.log(state.addressModalDisplay)
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
     email: userData.email || '',
@@ -102,10 +101,10 @@ const CartList = () => {
   const handleAddressOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
-    const reg = /^[A-Za-z_][A-Za-z\d_]*$/
-    if (value === '' || reg.test(parseInt(value))) {
-      setAddressData({ ...addressData, [name]: value.replace(/[^\w\s]/gi, '') })
-    }
+    // const reg = /^[A-Za-z_][A-Za-z\d_]*$/
+    // if (value === '' || reg.test(parseInt(value))) { .replace(/[^\w\s]/gi, '')
+    setAddressData({ ...addressData, [name]: value })
+    // }
   }
   const handleAddressSelectOnChange = (event) => {
     const name = event.target.name
@@ -139,7 +138,6 @@ const CartList = () => {
     numberInput.forEach((data) => {
       data === '-' && i++
     })
-    console.log(i <= 2 === false)
     const re = /^[0-9-]+$/gm
     if (value === '' || re.test(numberValue)) {
       if (!hypen) {
@@ -156,13 +154,13 @@ const CartList = () => {
   const handleAddressTextOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
-    const reg_txt = /^[a-zA-Z\s]*$/
-    if (value === '' || reg_txt.test(value)) {
-      setAddressData({
-        ...addressData,
-        [name]: value.replace(/[^\w\s]/gi, '')
-      })
-    }
+    // const reg_txt = /^[a-zA-Z\s]*$/
+    // if (value === '' || reg_txt.test(value)) {.replace(/[^\w\s]/gi, '')
+    setAddressData({
+      ...addressData,
+      [name]: value
+    })
+    // }
   }
   // const handleTelNumber = (event) => {
   //   const name = event.target.name
@@ -510,7 +508,6 @@ const CartList = () => {
       console.log('createServicePersistBasket', err)
     }
   }
-  console.log(state)
   const handleCheckoutModalAddressClose = () => {
     setState((prevState) => {
       return {
@@ -988,7 +985,13 @@ const CartList = () => {
                   onChange={handleAcceptAgreement}
                 />
                 <div className="text-sm  text-primary-200 ">
-                  利用規約
+                  <a
+                    href={'/pdf/TermsOfUse.pdf'}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    利用規約
+                  </a>
                   <span className="text-gray-400 cursor-pointer">
                     に同意します
                   </span>
