@@ -24,6 +24,7 @@
         "league/flysystem-aws-s3-v3": "~1.0",
         "paquettg/php-html-parser": "~1",
         "phpunit/phpunit": "^9.5",
+        "tonchik-tm/pdf-to-html": "~1",
         "laravel/ui": "^1.0",
         "predis/predis": "^1.1"
     },
