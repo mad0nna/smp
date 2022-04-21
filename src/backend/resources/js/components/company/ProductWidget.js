@@ -170,7 +170,7 @@ const ProductWidget = () => {
                       href={`/company/productDetail/?id=${item.product['product.id']}`}
                     >
                       <img
-                        className="mx-auto h-40 p-4"
+                        className="mx-auto p-4"
                         src={`/aimeos/${item.media['media.url']}`}
                       ></img>
                     </a>

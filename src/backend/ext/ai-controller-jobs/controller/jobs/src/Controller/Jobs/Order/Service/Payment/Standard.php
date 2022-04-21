@@ -13,7 +13,6 @@ namespace Aimeos\Controller\Jobs\Order\Service\Payment;
 
 use \Aimeos\MW\Logger\Base as Log;
 
-
 /**
  * Captures the money for authorized orders
  *

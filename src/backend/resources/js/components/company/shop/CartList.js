@@ -371,7 +371,6 @@ const CartList = () => {
           }
         ]
       }
-      console.log('#s', params)
       await axios
         .post(
           `${addressUrl}&_token=${csrfItem.value}`,
@@ -595,7 +594,7 @@ const CartList = () => {
 
         generateFinalOrder(ccData)
           .then((res) => {
-            console.log('sucessfully created order')
+            // console.log('sucessfully created order')
             deleteBasketCache(res.data.meta.csrf)
             // display modal submit
             let totalAmount = calculatedItem.totalAmount.toLocaleString('jp')
@@ -817,9 +816,15 @@ const CartList = () => {
     }
     const numberInput = addressData.number.split('') || []
     let i = 0
-    numberInput.forEach((data) => {
+    let preLoadHypen = []
+    numberInput.forEach((data, index) => {
       data === '-' && i++
+      data === '-' && preLoadHypen.push(index)
     })
+    const differenceAry = preLoadHypen.slice(1).map(function (n, i) {
+      return n - preLoadHypen[i]
+    })
+    const isDifference = differenceAry.every((value) => value === 1)
     if (addressData.number.length >= 1) {
       if (
         addressData.number.length >= 12 &&
@@ -834,6 +839,12 @@ const CartList = () => {
           (numberInput[11] === '-' && numberInput[12] === undefined) ||
           numberInput[0] === '-'
         ) {
+          setErrorData((prevState) => {
+            return { ...prevState, numberIsValid: true }
+          })
+        }
+
+        if (isDifference) {
           setErrorData((prevState) => {
             return { ...prevState, numberIsValid: true }
           })
