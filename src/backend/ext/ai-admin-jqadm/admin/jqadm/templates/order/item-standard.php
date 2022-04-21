@@ -871,6 +871,7 @@ $paymentStatusList2 = [
 													<div class="col-4 value" style="padding-right:0"><?= number_format( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() + $basket->getPrice()->getTaxValue() ) ?>円</div>
 												</div>
 											</div>
+											<div class="form-group row"></div>
 										<?php endif ?>
 									</div>
 
@@ -883,7 +884,7 @@ $paymentStatusList2 = [
 												</textarea>
 											</div>
 										</div>
-										<p class="" style="position:absolute; bottom: 0; left: 19%;">
+										<p class="" style="position:absolute; bottom: 0; text-align: center; margin-top: 0; margin-bottom: 0; width: 100%;">
 											<a class="btn btn-secondary act-cancel"
 												title="キャンセル"
 												href="<?= $enc->attr( $this->url( $listTarget, $listCntl, $listAction, $searchParams, [], $listConfig ) ) ?>">
