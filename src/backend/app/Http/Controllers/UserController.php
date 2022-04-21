@@ -16,6 +16,7 @@ use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Contact;
 use App\Services\API\Zuora\Exceptions\UnauthorizedAccessException;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
@@ -325,6 +326,7 @@ class UserController extends Controller
             }
             $user = User::where('account_code', $data['Id']);
             if ($user->update($formData)) {
+                $companyID = Session::get('salesforceCompanyID');
                 return ['status' => true, 'data' => $user];
             }
             return ['status' => false];

@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Contact;
-use Illuminate\Support\Facades\Cache;
 
 class ContactService
 {
@@ -15,23 +14,40 @@ class ContactService
 
     public function getCompanyAdminDetails($companyID, $accountID = '')
     {
-        $oCached = Cache::remember("{$companyID}:admin:details", now()->addMinutes(5), function () use ($companyID, $accountID) {
-            $adminDetails = $this->getCompanyAdminDetailsInDB($companyID);
-            if (!empty($adminDetails)) {
-                $adminDetails['ableToEdit'] = $accountID === $adminDetails['Id'];
-                $adminDetails['admin__c'] = '3';
+        $adminDetails = $this->getCompanyAdminDetailsByContactID($accountID);
+        if (!empty($adminDetails)) {
+            $adminDetails['ableToEdit'] = true;
+            return $adminDetails;
+        }
+        
+        $adminDetails = $this->getCompanyAdminDetailsInDB($companyID);
+        if (!empty($adminDetails)) {
+            $adminDetails['ableToEdit'] = false;
+            return $adminDetails;
+        }
 
-                return $adminDetails;
-            }
-            $adminDetails = (new Contact)->getAdminByAccountId($companyID);
-            $adminDetails['ableToEdit'] = $accountID === $adminDetails['Id'];
-
+        $adminDetails = (new Contact)->getAdminByContactId($accountID);
+        if ($adminDetails) {
+            $adminDetails['ableToEdit'] = true;
             return json_encode($adminDetails);
-        });
-
-        return $oCached;
+        }
+        $adminDetails = (new Contact)->getAdminByAccountId($companyID);
+        $adminDetails['ableToEdit'] = false;
+        return json_encode($adminDetails);
     }
 
+
+
+    private function getCompanyAdminDetailsByContactID($contactID)
+    {
+        $adminDetails = $this->mysql->getCompanyAdminDetailsByContactID($contactID);
+        if (!empty($adminDetails)) {
+            return reset($adminDetails);
+        }
+
+        return $adminDetails;
+    }
+    
     private function getCompanyAdminDetailsInDB($companyID)
     {
         $adminDetails = $this->mysql->getCompanyAdminDetailsByID($companyID);

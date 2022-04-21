@@ -45,6 +45,16 @@ class Contact extends Model
         return reset($adminDetails['records']);
     }
 
+    public function getAdminByContactId($contactID) {
+        $adminDetails = $this->client->get("/services/data/v34.0/query/?q=SELECT+Name, Id, FirstName, LastName, Email, Title, MobilePhone, section__c, admin__c, CreatedDate+from+Contact+WHERE+Id='" . $contactID . "'+And+admin__c=true+Order+By+CreatedDate+ASC+LIMIT+1");
+        if (isset($adminDetails['status']) && !$adminDetails['status']) {
+            return $adminDetails;
+        }
+        return reset($adminDetails['records']);
+    }
+
+    
+
     public function create($data) {
         return $this->client->create('/services/data/v34.0/sobjects/contact', $data);
     }
