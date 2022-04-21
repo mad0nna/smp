@@ -12,7 +12,7 @@
 namespace Aimeos\Controller\Jobs\Order\Service\Payment;
 
 use \Aimeos\MW\Logger\Base as Log;
-
+use Illuminate\Support\Facades\Log as Logger;
 
 /**
  * Captures the money for authorized orders
@@ -53,6 +53,7 @@ class Standard
 	 */
 	public function run()
 	{
+		Logger::info('run payment test');
 		$context = $this->getContext();
 		$config = $context->getConfig();
 

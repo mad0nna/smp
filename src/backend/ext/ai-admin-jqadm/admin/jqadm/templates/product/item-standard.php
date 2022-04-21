@@ -269,23 +269,6 @@ $navlist2 = [
 						</li>
 					<?php endforeach ?>
 				</ul>
-
-				<div class="item-meta text-muted">
-					<small>
-						<?= $enc->html( $this->translate( 'admin', '変更日' ) ) ?>:
-						<span class="meta-value"><?= $enc->html( $this->get( 'itemData/product.mtime' ) ) ?></span>
-					</small>
-					<small>
-						<?= $enc->html( $this->translate( 'admin', '作成日' ) ) ?>:
-						<span class="meta-value"><?= $enc->html( $this->get( 'itemData/product.ctime' ) ) ?></span>
-					</small>
-					<small>
-						<?= $enc->html( $this->translate( 'admin', 'Editor' ) ) ?>:
-						<span class="meta-value"><?= $enc->html( $this->get( 'itemData/product.editor' ) ) ?></span>
-					</small>
-				</div>
-
-				<div class="more"></div>
 			</div>
 		</div>
 

@@ -188,23 +188,6 @@ $paymentStatusList2 = [
 						<?php endforeach ?>
 
 					</ul>
-
-					<div class="item-meta text-muted">
-						<small>
-							<?= $enc->html( $this->translate( 'admin', 'Modified' ) ) ?>:
-							<span class="meta-value"><?= $enc->html( $basket->getTimeModified() ) ?></span>
-						</small>
-						<small>
-							<?= $enc->html( $this->translate( 'admin', 'Created' ) ) ?>:
-							<span class="meta-value"><?= $enc->html( $basket->getTimeCreated() ) ?></span>
-						</small>
-						<small>
-							<?= $enc->html( $this->translate( 'admin', 'Editor' ) ) ?>:
-							<span class="meta-value"><?= $enc->html( $basket->getEditor() ) ?></span>
-						</small>
-					</div>
-
-					<div class="more"></div>
 				</div>
 			</div>
 
@@ -900,14 +883,14 @@ $paymentStatusList2 = [
 												</textarea>
 											</div>
 										</div>
-										<p class="" style="position:absolute; bottom: 0; left: 25%;">
+										<p class="" style="position:absolute; bottom: 0; left: 19%;">
 											<a class="btn btn-secondary act-cancel"
 												title="キャンセル"
 												href="<?= $enc->attr( $this->url( $listTarget, $listCntl, $listAction, $searchParams, [], $listConfig ) ) ?>">
 												キャンセル
 											</a> &nbsp;
 												<button type="button" id="buttonUpdateOrderSendEmail" class="btn btn-primary act-save" style="display:none;" title="保存" v-on:click="btnShowDialogOR = true">&nbsp;保存&nbsp;</button> 
-												<button type="submit" id="btnUpdateOrder" class="btn btn-primary act-save " title="保存"  >&nbsp;保存&nbsp;</button>			 
+												<button type="submit" id="btnUpdateOrder" class="btn btn-primary act-save " title="保存"  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>			 
 										</p>
 									</div>
 								</div>
