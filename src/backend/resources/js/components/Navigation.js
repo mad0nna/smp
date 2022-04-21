@@ -340,8 +340,7 @@ const Navigation = () => {
           break
       }
     }
-
-    axios.get(`/getLoggedinUser`).then((response) => {
+    axios.get(location.origin + '/getLoggedinUser').then((response) => {
       if (response.status === 200) {
         setState((prevState) => {
           return {
@@ -517,9 +516,9 @@ const Navigation = () => {
               )}
             </div>
             <div className="pl-2">
-              <span>{state.contactLastName} </span>
-              <span>{state.contactFirstName} </span>
-              <span>様</span>
+              <span className="mr-1">{state.contactLastName} </span>
+              <span className="mr-1">{state.contactFirstName} </span>
+              <span className="mr-1">様</span>
             </div>
           </div>
         </div>
