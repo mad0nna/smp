@@ -263,8 +263,6 @@ class CompanyService
 
             throw $e;
         }
-
-        return $company;
     }
 
     public function resendEmailInvite($user_id)

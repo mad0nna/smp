@@ -165,22 +165,22 @@ class CompanyController extends Controller
         $formData = $this->getRecord($request);
         $result = $companyService->updateSaveAccount($dbId, $formData);
         $response = [
-        'success' => $result,
-      ];
+            'success' => $result,
+        ];
 
-        return response()->json($response, $result ? 200 : 400);
+        return response()->json($response, $result['status'] ? 200 : 500);
     }
 
 
     public function resendEmailInvite(Request $request, CompanyService $companyService)
     {
-        $result = $companyService->resendEmailInvite($request->user_id);
+        $status = $companyService->resendEmailInvite($request->user_id);
 
         $response = [
-        'success' => $result,
-      ];
+            'success' => $status,
+        ];
 
-        return response()->json($response, $result ? 200 : 400);
+        return response()->json($response, $status ? 200 : 500 );
     }
 
     private function parseSfToDbColumn($data)

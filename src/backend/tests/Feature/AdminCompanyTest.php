@@ -287,6 +287,28 @@ class AdminCompanyTest extends TestCase
         $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/admin/company/saveAddedCompany', $params);
 
+        // stored for deletion later
+        self::$newlyCreatedContactID = $params['contactID'];
+        self::$newlyCreatedCompanyID = $params['companyID'];
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+        $this->assertEquals($result->success, true);
+    }
+
+    /**
+     * Resends an email invite to a newly created unverified company and deletes after
+     */
+    public function testResendEmailInviteSuccess()
+    {
+        $user = User::where('account_code', self::$newlyCreatedContactID)->first();
+        $params = [
+            'user_id' => $user->id
+        ];
+
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/resendEmailInvite', $params);
+
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
         $this->assertEquals($result->success, true);
@@ -295,13 +317,13 @@ class AdminCompanyTest extends TestCase
 
         try {
             // delete newly created rows after unit testing
-            $user = User::where('account_code', $params['contactID'])->first();
+            $user = User::where('account_code', self::$newlyCreatedContactID)->first();
 
             if ($user instanceof User) {
                 $user->delete();
             }
 
-            $company = Company::where('account_id', $params['companyID'])->first();
+            $company = Company::where('account_id', self::$newlyCreatedCompanyID)->first();
 
             if($company instanceof Company) {
                 $company->delete();
@@ -313,6 +335,38 @@ class AdminCompanyTest extends TestCase
 
             throw $th;
         }
+    }
+
+    /**
+     * Resends an email invite to a newly created unverified company with wrong parameters
+     */
+    public function testResendEmailInviteWrongParameters()
+    {
+        $params = [
+            'key' => 'value',
+        ];
+
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/resendEmailInvite', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Resends an email invite to a newly created unverified company with non-exising user id
+     */
+    public function testResendEmailInviteNonExisingUser()
+    {
+        $params = [
+            'user_id' => 99999999,
+        ];
+
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/resendEmailInvite', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
     }
 
     /**
@@ -346,49 +400,49 @@ class AdminCompanyTest extends TestCase
         $this->assertEquals($result->success, false);
     }
 
-    // /**
-    //  * Updates an existing company and company admin details by super admin success
-    //  */
-    // public function testUpdateSaveCompanySuccess()
-    // {
-    //     $params = self::$arrayUpdateCompanyParams;
-    //     $params['name'] = "Sprobe Updated";
+    /**
+     * Updates an existing company and company admin details by super admin success
+     */
+    public function testUpdateSaveCompanySuccess()
+    {
+        $params = self::$arrayUpdateCompanyParams;
+        $params['name'] = "Sprobe Updated";
 
-    //     $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
-    //                         ->json('POST', '/admin/company/updateSaveAccount', $params);
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/updateSaveAccount', $params);
 
-    //     $response->assertStatus(200);
-    //     $result = json_decode((string) $response->getContent());
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
 
-    //     $this->assertEquals($result->success['status'], true);
-    // }
+        $this->assertEquals($result->success->status, true);
+    }
 
-    // /**
-    //  * Updates an existing company and company admin with empty parameters
-    //  */
-    // public function testUpdateSaveCompanyWithEmptyParameters()
-    // {
-    //     $params = [];
-    //     $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
-    //                         ->json('POST', '/admin/company/updateSaveAccount', $params);
+    /**
+     * Updates an existing company and company admin with empty parameters
+     */
+    public function testUpdateSaveCompanyWithEmptyParameters()
+    {
+        $params = [];
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/updateSaveAccount', $params);
 
-    //     $response->assertStatus(500);
-    //     $result = json_decode((string) $response->getContent());
-    // }
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
 
-    // /**
-    //  * Updates an existing company and company admin details by super admin with no salesforce id
-    //  */
-    // public function testUpdateSaveCompanyWithNoSalesforceId()
-    // {
-    //     $params = self::$arrayUpdateCompanyParams;
-    //     $params['accountId'] = "";
+    /**
+     * Updates an existing company and company admin details by super admin with no salesforce id
+     */
+    public function testUpdateSaveCompanyWithNoSalesforceId()
+    {
+        $params = self::$arrayUpdateCompanyParams;
+        $params['accountId'] = "";
 
-    //     $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
-    //                         ->json('POST', '/admin/company/updateSaveAccount', $params);
+        $response = $this->actingAs(self::$ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/admin/company/updateSaveAccount', $params);
 
-    //     $response->assertStatus(500);
-    //     $result = json_decode((string) $response->getContent());
-    //     $this->assertEquals($result->status, false);
-    // }
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+        $this->assertEquals($result->success->status, false);
+    }
 }
