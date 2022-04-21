@@ -19,7 +19,8 @@ const NewAccount = (props) => {
       last_name: '',
       contact_num: '',
       title: '',
-      account_code: ''
+      account_code: '',
+      user_type_id: ''
     }
   })
   const handleNameChange = (e) => {
@@ -73,6 +74,7 @@ const NewAccount = (props) => {
               contact_num: foundAccount.contact_num,
               title: foundAccount.title,
               account_code: foundAccount.account_code,
+              user_type_id: foundAccount.user_type_id,
               disableSendButton: false
             }
           })
@@ -253,7 +255,8 @@ const NewAccount = (props) => {
               fullName: state.fullName,
               contact_num: state.foundAccount.contact_num,
               title: state.foundAccount.title,
-              account_code: state.foundAccount.account_code
+              account_code: state.foundAccount.account_code,
+              user_type_id: state.foundAccount.user_type_id
             })
           }}
           className={

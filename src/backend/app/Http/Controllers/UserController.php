@@ -157,6 +157,7 @@ class UserController extends Controller
                     'password' => $pw_hash,
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
+                    'user_type_id' => $sf['user_type_id'] ?? ''
                 ];
             } else {
                 $formData = [
@@ -173,6 +174,7 @@ class UserController extends Controller
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
                     'account_code' => $sf['account_code'] ? $sf['account_code'] : '',
+                    'user_type_id' => $sf['user_type_id'] ?? ''
                 ];
             }
 
