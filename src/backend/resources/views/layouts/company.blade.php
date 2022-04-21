@@ -20,7 +20,7 @@
     <main>
         @yield('content')
     </main>
-    <script id="userData" type="application/json">{!! json_encode($user_data ?? '', JSON_HEX_TAG) !!}</script>
+    <script id="userData" type="application/json">{!! json_encode($userData ?? '', JSON_HEX_TAG) !!}</script>
     <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
 </body>
 </html>
