@@ -66,10 +66,10 @@ class DataSynchronizer
         return MessageResult::success('Data synchronization success!');
     }
 
-    public function getUpdatedDataForEditCompanyDetails($companyID)
+    public function getUpdatedDataForEditCompanyDetails($companyID, $contactID)
     {
         $companyInformation = (new Account)->findByID($companyID);
-        $adminInformation =(new Contact)->getAdminByAccountId($companyID);
+        $adminInformation =(new Contact)->getAdminByContactId($contactID);
         return [
             'company' => $companyInformation,
             'admin' => $adminInformation,

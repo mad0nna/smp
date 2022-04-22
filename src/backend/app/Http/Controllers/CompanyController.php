@@ -57,7 +57,7 @@ class CompanyController extends Controller
 
     public function getUpdatedDataForEditCompanyDetails(DataSynchronizer $synchronizer)
     {
-        return $synchronizer->getUpdatedDataForEditCompanyDetails(Session::get('salesforceCompanyID'));
+        return $synchronizer->getUpdatedDataForEditCompanyDetails(Session::get('salesforceCompanyID'), Session::get('salesforceContactID'));
     }
 
     public function index(SearchCompanyRequest $request, CompanyService $companyService)
