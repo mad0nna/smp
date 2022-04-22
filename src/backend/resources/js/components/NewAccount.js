@@ -54,6 +54,7 @@ const NewAccount = (props) => {
       axios
         .get(`/company/findInSFByEmail?email=${email}`)
         .then((response) => {
+          console.log(response.data.data)
           setState((prevState) => {
             let foundAccount = response.data.data
             return {
