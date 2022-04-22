@@ -328,7 +328,6 @@ class UserController extends Controller
             }
             $user = User::where('account_code', $data['Id']);
             if ($user->update($formData)) {
-                $companyID = Session::get('salesforceCompanyID');
                 return ['status' => true, 'data' => $user];
             }
             return ['status' => false];
