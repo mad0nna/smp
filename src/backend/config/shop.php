@@ -115,4 +115,17 @@ return [
 	'backend' => [
 	],
 
+	// 'resource' => [
+    //     'fs' => [
+    //         'adapter' => 'FlyAwsS3',
+    //         'credentials' => [
+    //             'key'    => env('AWS_ACCESS_KEY_ID'),
+    //             'secret' => env('AWS_SECRET_ACCESS_KEY'),
+    //         ],
+    //         'region' => env('AWS_DEFAULT_REGION'),
+    //         'version' => 'latest',
+    //         'bucket' => env('AWS_BUCKET'),
+    //         'baseurl' => env('AWS_URL').env('STORAGE_DISK_URL_SERVER_BUCKET'),
+    //     ],
+    // ],
 ];

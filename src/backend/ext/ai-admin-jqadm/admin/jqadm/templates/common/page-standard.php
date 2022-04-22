@@ -275,7 +275,7 @@ $after = is_array( $after ) ? $after[''] ?? reset( $after ) : $after;
 		<?= $this->block()->get( 'jqadm_content' ) ?>
 	</main>
 
-	<footer class="main-footer">
+	<footer class="main-footer d-none">
 		<a href="https://github.com/aimeos/ai-admin-jqadm/issues" target="_blank">
 			<?= $enc->html( $this->translate( 'admin', 'Bug or suggestion?' ) ) ?>
 		</a>
