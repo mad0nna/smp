@@ -290,7 +290,7 @@ class UserService
         }
     }
 
-    public function findInSFById($contactID) 
+    public function findInSFById($contactID)
     {
         try {
             return (new Contact)->findById($contactID);

@@ -54,12 +54,12 @@ class UserController extends Controller
         try {
             $user = (new Contact)->findByEmailAndAccountId($request->email, Session::get('salesforceCompanyID'));
             $this->response['data'] = $this->getSFResource($user);
-        } catch (Exception $e) {
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-        }
+        } // @codeCoverageIgnoreEnd
 
         return response()->json($this->response, $this->response['code']);
     }
@@ -72,12 +72,12 @@ class UserController extends Controller
             $this->response['data'] = $this->getSFResource($user);
             $this->response['data']['canEdit'] = Auth::user()->user_type_id === 3 || (Auth::user()->id == $request->id);
             $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3;
-        } catch (Exception $e) {
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-        }
+        } // @codeCoverageIgnoreEnd
 
         return response()->json($this->response, $this->response['code']);
     }
@@ -109,12 +109,12 @@ class UserController extends Controller
                 'message' => 'Company admin retrieved successfully.',
                 'code' => 200,
             ];
-        } catch (Exception $e) {
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-        }
+        } // @codeCoverageIgnoreEnd
 
         return response()->json($this->response, $this->response['code']);
     }
@@ -176,10 +176,9 @@ class UserController extends Controller
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
                     'account_code' => $sf['account_code'] ? $sf['account_code'] : '',
-                    'name' => ($sf['lastname'] ? $sf['lastname'] : '') . ' ' . ($sf['firstname'] ? $sf['firstname'] : ''),                    
+                    'name' => ($sf['last_name'] ? $sf['last_name'] : '') . ' ' . ($sf['first_name'] ? $sf['first_name'] : ''),
                 ];
             }
-
 
             // create the user
             $user = $this->userService->create($formData);

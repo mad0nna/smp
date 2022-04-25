@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -28,6 +29,12 @@ class UserTest extends TestCase
     private static $kotStartDate;
     private static $sessionData;
 
+    /** @var int */
+    private static $userId;
+
+    /** @var array */
+    private static $arrayAddCompanyParams;
+
     /** @var string */
     private static $KEYWORD = 's';
 
@@ -38,6 +45,7 @@ class UserTest extends TestCase
         $user = User::where('username','machida@tcg.sprobe.ph')->firstOrFail();
 
         self::$COMPANY_ADMIN = $user;
+        self::$userId = $user->id;
         self::$companyID = $user->company->id;
         self::$salesforceCompanyID = $user->company->account_id;
         self::$email = $user->email;
@@ -159,6 +167,202 @@ class UserTest extends TestCase
             }
 
             $this->assertTrue($hasKeyword);
+        }
+    }
+
+    /**
+     * Find user in salesforce by email
+     */
+    public function testFindInSalesforceByEmailSuccess()
+    {
+        $params = [
+            'email' => 'admin@tcg.sprobe.ph',
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/findInSFByEmail', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Find user in salesforce by email with incorrect parameters
+     */
+    public function testFindInSalesforceByEmailIncorrectParameters()
+    {
+        $params = [
+            'key' => 'value'
+        ];
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/findInSFByEmail', $params);
+        $response->assertStatus(422);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Find user in salesforce by email with no email
+     */
+    public function testFindInSalesforceByEmailNoEmail()
+    {
+        $params = [
+            'email' => ''
+        ];
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('GET', '/company/findInSFByEmail', $params);
+        $response->assertStatus(422);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Gets the users contact details success
+     */
+    public function testGetContactDetailsSuccess()
+    {
+        $params = [
+            'id' => self::$userId,
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/getContactDetails', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Gets the users contact details with non-existing id
+     */
+    public function testGetContactDetailsNonExistingId()
+    {
+        $params = [
+            'id' => 99999999,
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/getContactDetails', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Stores a new user successfully and deletes it after
+     */
+    public function testUserStoreSuccess()
+    {
+        $findSFByEmailParams = [
+            'email' => 'test123@test.com',
+        ];
+
+        $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                                      ->json('GET', '/company/findInSFByEmail', $findSFByEmailParams);
+
+        $findSFByEmailResult = json_decode($findSFByEmailResponse->getContent(), $associative = true);
+
+        $params = $findSFByEmailResult['data'];
+        $params['isPartial'] = 0;
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/addCompanyAdmin', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+
+        $email = $result->data->email;
+        $this->deleteUserByEmail($email);
+    }
+
+    /**
+     * Stores a new user in partial state and deletes it after
+     */
+    public function testUserStorePartial()
+    {
+        $findSFByEmailParams = [
+            'email' => 'test123@test.com',
+        ];
+
+        $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                                      ->json('GET', '/company/findInSFByEmail', $findSFByEmailParams);
+
+        $findSFByEmailResult = json_decode($findSFByEmailResponse->getContent(), $associative = true);
+
+        $params = $findSFByEmailResult['data'];
+        $params['firstname'] = $findSFByEmailResult['data']['first_name'];
+        $params['lastname'] = $findSFByEmailResult['data']['last_name'];
+        $params['isPartial'] = 1;
+
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/addCompanyAdmin', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+
+        $email = $result->data->email;
+        $this->deleteUserByEmail($email);
+    }
+
+    /**
+     * Attempts to store a new user with an existing email
+     */
+    public function testUserStoreEmailExists()
+    {
+        $findSFByEmailParams = [
+            'email' => 'admin@tcg.sprobe.ph',
+        ];
+
+        $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                                      ->json('GET', '/company/findInSFByEmail', $findSFByEmailParams);
+
+        $findSFByEmailResult = json_decode($findSFByEmailResponse->getContent(), $associative = true);
+
+        $params = $findSFByEmailResult['data'];
+        $params['isPartial'] = 0;
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/addCompanyAdmin', $params);
+
+        $response->assertStatus(409);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Attempts to store a new user with wrong input
+     */
+    public function testUserStoreWrongInput()
+    {
+        $params = [
+            'key' => 'value',
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/addCompanyAdmin', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Helper function that deletes a newly created user by email
+     */
+    private function deleteUserByEmail(string $email)
+    {
+        DB::beginTransaction();
+
+        try {
+            // delete newly created rows after unit testing
+            $user = User::where('email', $email)->first();
+
+            if ($user instanceof User) {
+                $user->delete();
+            }
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
+
+            throw $th;
         }
     }
 }

@@ -23,8 +23,8 @@ class UsersTableSeeder extends Seeder
         //create the HT admin
         // $this->_createHTAdmin();
 
-        //create the Company admin
-        // $this->_createCompanyAdmin();
+        // create the Company admin
+        $this->_createCompanyAdmin();
     }
 
     private function _createSystemAdmin()
@@ -100,23 +100,23 @@ class UsersTableSeeder extends Seeder
     //     ]);
     // }
 
-    // private function _createCompanyAdmin()
-    // {
-    //     // retrieve user status
-    //     $status = UserStatus::where('name', config('user.statuses.active'))->first();
+    private function _createCompanyAdmin()
+    {
+        // retrieve user status
+        $status = UserStatus::where('name', config('user.statuses.active'))->first();
 
-    //     User::create([
-    //         'account_code' => '0030l00000g4k23AAA',
-    //         'username' => 'machida@tcg.sprobe.ph',
-    //         'email' => 'machida@tcg.sprobe.ph',
-    //         'contact_num' => '45678965',
-    //         'password' => Hash::make('Password2021!'),
-    //         'company_id' => '3',
-    //         'first_name' => 'Machida',
-    //         'last_name' => 'Brock',
-    //         'user_status_id' => $status->id,
-    //         'user_type_id' => '3',
-    //         'email_verified_at' => Carbon::now(),
-    //     ]);
-    // }
+        User::create([
+            'account_code' => '0030l00000g4k23AAA',
+            'username' => 'machida@tcg.sprobe.ph',
+            'email' => 'machida@tcg.sprobe.ph',
+            'contact_num' => '45678965',
+            'password' => Hash::make('Password2021!'),
+            'company_id' => '3',
+            'first_name' => 'Machida',
+            'last_name' => 'Brock',
+            'user_status_id' => $status->id,
+            'user_type_id' => '3',
+            'email_verified_at' => Carbon::now(),
+        ]);
+    }
 }
