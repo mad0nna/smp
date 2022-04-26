@@ -5,7 +5,7 @@
 <div style="display:hidden !important;">
               <form
                   method="POST"
-                  action="https://linkpt.cardservice.co.jp/cgi-bin/credit/order.cgi"
+                  action="<?=$host?>"
                   target="_top"
                 >
                   <input type="hidden" name="clientip" value="<?=$clientIP?>" />
