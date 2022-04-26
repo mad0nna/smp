@@ -386,7 +386,7 @@ class UserController extends Controller
           'success' => $result,
         ];
 
-        return response()->json($response, $result ? 200 : 400);
+        return response()->json($response, $result ? 200 : 500);
     }
 
     /**

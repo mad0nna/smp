@@ -469,6 +469,57 @@ class UserTest extends TestCase
     }
 
     /**
+     * Resends an email invite a newly created unverified user given selected user id success
+     * and deletes the added email after
+     */
+    public function testResendEmailInviteSuccess()
+    {
+        $findSFByEmailParams = [
+            'email' => 'test123@test.com',
+        ];
+
+        $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                                      ->json('GET', '/company/findInSFByEmail', $findSFByEmailParams);
+
+        $findSFByEmailResult = json_decode($findSFByEmailResponse->getContent(), $associative = true);
+
+        $addUserParams = $findSFByEmailResult['data'];
+        $addUserParams['isPartial'] = 0;
+
+        $addUserResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/addCompanyAdmin', $addUserParams);
+
+        $addUserResult = json_decode((string) $addUserResponse->getContent());
+
+        $params = [
+            'id' => $addUserResult->data->id
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/resendEmailInvite', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+        $this->deleteUserByEmail($addUserResult->data->email);
+    }
+
+    /**
+     * Attemps to Resends an email invite with a non-existing user id
+     */
+    public function testResendEmailInviteNonExistingId()
+    {
+        $params = [
+            'id' => 99999999,
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/resendEmailInvite', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
      * Helper function that deletes a newly created user by email
      */
     private function deleteUserByEmail(string $email)

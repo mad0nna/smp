@@ -171,7 +171,6 @@ class CompanyController extends Controller
         return response()->json($response, $result['status'] ? 200 : 500);
     }
 
-
     public function resendEmailInvite(Request $request, CompanyService $companyService)
     {
         $status = $companyService->resendEmailInvite($request->user_id);
@@ -180,7 +179,7 @@ class CompanyController extends Controller
             'success' => $status,
         ];
 
-        return response()->json($response, $status ? 200 : 500 );
+        return response()->json($response, $status ? 200 : 500);
     }
 
     private function parseSfToDbColumn($data)
