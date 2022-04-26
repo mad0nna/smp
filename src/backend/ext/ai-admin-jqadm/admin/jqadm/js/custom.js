@@ -8,18 +8,17 @@ window.onload=function(){
     var priceItemsData = "[]";
     var mediaItemsData  = "[]";
     
-   
     if ( textItems !== undefined && textItems !== null ) {
         textItemsData = textItems.getAttribute('data-items');
         if (textItemsData === "[]") {
-            $('#item-text-group .btn').click();
+            setTimeout(function() { $('#item-text-group .btn').click(); }, 2000);
         }        
     }
 
     if ( priceItems !== undefined && priceItems !== null ) {
         priceItemsData = priceItems.getAttribute('data-items');
-        if (priceItemsData === "[]") {
-            $('#item-price-group .btn').click();
+        if (priceItemsData === "[]") {           
+            setTimeout(function() {  $('#item-price-group .btn').click(); }, 2000);
         }
     }
 
@@ -38,7 +37,7 @@ window.onload=function(){
         }
     });
     
-    $("#txtProductFilter").on("input", function(){ console.log(this.value);
+    $("#txtProductFilter").on("input", function(){
         $("#txtProductCodeFilter").val(this.value);
         $("#txtProductNameFilter").val(this.value);
     });
