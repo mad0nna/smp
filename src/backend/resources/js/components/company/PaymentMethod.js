@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import PaymentSelection from '../PaymentSelection'
+import PaymentSelection from './PaymentSelection'
 import axios from 'axios'
 import waitingIcon from '../../../img/loading-spinner.gif'
 import visa from '../../../img/visa.png'
