@@ -255,37 +255,6 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\UpdateRequest $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-        try {
-            $data = $request->all();
-            $formData = [
-                    'username' => $data['email'] ? $data['email'] : '',
-                    'first_name' => $data['firstname'] ? $data['firstname'] : '',
-                    'last_name' => $data['lastname'] ? $data['lastname'] : '',
-                    'email' => $data['email'] ? $data['email'] : '',
-                    'contact_num' => $data['phone'] ? $data['phone'] : '',
-                    'title' => $data['position'] ? $data['position'] : '',
-                    'user_type_id' => $data['userTypeId'],
-                ];
-            // perform user update
-            $user = $this->userService->update($formData);
-            $this->response['data'] = new UserResource($user);
-        } catch (Exception $e) { // @codeCoverageIgnoreStart
-            $this->response = [
-                'error' => $e->getMessage(),
-                'code' => 500,
-            ];
-        } // @codeCoverageIgnoreEnd
-        return response()->json($this->response, $this->response['code']);
-    }
-
-    /**
      * Update user in Salesforce.
      *
      * @param  \Illuminate\Http\Request $request
@@ -302,6 +271,7 @@ class UserController extends Controller
                 'MobilePhone' => $data['MobilePhone'],
                 'Title' => $data['Title'],
             ];
+
             $formData = [
                 'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
                 'last_name' => $data['LastName'] ? $data['LastName'] : '',
@@ -320,14 +290,17 @@ class UserController extends Controller
             if (!$response['status']) {
                 return $response;
             }
+
             if (Session::get('salesforceContactID') == $data['Id']) {
                 Session::put('CompanyContactFirstname', $data['FirstName']);
                 Session::put('CompanyContactLastname', $data['LastName']);
             }
+
             $user = User::where('account_code', $data['Id']);
             if ($user->update($formData)) {
                 return ['status' => true, 'data' => $user];
             }
+
             return ['status' => false];
         } catch (Exception $e) {
             $this->response = [

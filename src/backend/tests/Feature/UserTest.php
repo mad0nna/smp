@@ -344,6 +344,131 @@ class UserTest extends TestCase
     }
 
     /**
+     * Updates user by newly creating it and then updating salesforce successfully
+     */
+    public function testUserUpdateSuccess()
+    {
+        // creates a user to be updated
+        $findSFByEmailParams = [
+            'email' => 'test123@test.com',
+        ];
+
+        $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                                      ->json('GET', '/company/findInSFByEmail', $findSFByEmailParams);
+
+        $findSFByEmailResult = json_decode($findSFByEmailResponse->getContent(), $associative = true);
+
+        $params = $findSFByEmailResult['data'];
+        $params['isPartial'] = 0;
+
+        $addUserResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/addCompanyAdmin', $params);
+
+        $addUserResult = json_decode($addUserResponse->getContent(), $associative = true);
+
+        // updates the user with the results given from creation
+        $params = [
+            'Email' => $addUserResult['data']['email'],
+            'FirstName' => $addUserResult['data']['first_name'],
+            'FullName' => $addUserResult['data']['fullName'],
+            'Id' => $addUserResult['data']['account_code'],
+            'LastName' => $addUserResult['data']['last_name'],
+            'MobilePhone' => '1234567890',
+            'Title' => 'Updated title',
+            'changeRole' => true,
+            'admin__c' => 3,
+            'username' => $addUserResult['data']['username'],
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('PUT', '/company/updateAdminByEmail', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+
+        $this->deleteUserByEmail($addUserResult['data']['email']);
+    }
+
+    /**
+     * Updates user by newly creating it and then updating in salesforce fail update
+     */
+    public function testUserUpdateFail()
+    {
+        // creates a user to be updated
+        $findSFByEmailParams = [
+            'email' => 'test123@test.com',
+        ];
+
+        $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                                      ->json('GET', '/company/findInSFByEmail', $findSFByEmailParams);
+
+        $findSFByEmailResult = json_decode($findSFByEmailResponse->getContent(), $associative = true);
+
+        $params = $findSFByEmailResult['data'];
+        $params['isPartial'] = 0;
+
+        $addUserResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/addCompanyAdmin', $params);
+
+        $addUserResult = json_decode($addUserResponse->getContent(), $associative = true);
+
+        // updates the user with the results given from creation
+        $params = [
+            'Email' => $addUserResult['data']['email'],
+            'FirstName' => $addUserResult['data']['first_name'],
+            'FullName' => $addUserResult['data']['fullName'],
+            'Id' => $addUserResult['data']['account_code'],
+            'LastName' => $addUserResult['data']['last_name'],
+            // 'MobilePhone' => '1234567890',
+            // 'Title' => 'Updated title',
+            'changeRole' => false,
+            'username' => $addUserResult['data']['username'],
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('PUT', '/company/updateAdminByEmail', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+
+        $this->deleteUserByEmail($addUserResult['data']['email']);
+    }
+
+    /**
+     * Updates an existing user in salesforce fail update
+     */
+    public function testUserUpdateExistingSameLoggedInUser()
+    {
+        $getContactDetailsparams = [
+            'id' => self::$userId,
+        ];
+
+        $getContactDetailsResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/getContactDetails', $getContactDetailsparams);
+
+        $getContactDetailsResult = json_decode($getContactDetailsResponse->getContent(), $associative = true);
+
+        // updates the user with the results given from get contact details
+        $params = [
+            'Email' => self::$email,
+            'FirstName' => $getContactDetailsResult['data']['first_name'],
+            'FullName' => $getContactDetailsResult['data']['fullName'],
+            'Id' => $getContactDetailsResult['data']['account_code'],
+            'LastName' => $getContactDetailsResult['data']['last_name'],
+            'MobilePhone' => '1234567890',
+            'Title' => 'Updated title',
+            'changeRole' => false,
+            'username' => 'machida@tcg.sprobe.ph',
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('PUT', '/company/updateAdminByEmail', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
      * Helper function that deletes a newly created user by email
      */
     private function deleteUserByEmail(string $email)

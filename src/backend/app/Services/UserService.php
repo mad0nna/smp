@@ -131,42 +131,6 @@ class UserService
         return $user;
     }
 
-    /**
-     * Updates user in the database
-     *
-     * @param array $params
-     * @return App\Models\User $user
-     */
-    public function update(array $params)
-    {
-        // retrieve user information
-        $user = $this->user->where('username', $params['username'])->first();
-        if ($user instanceof User) {
-            $user->fill($params);
-            $user->save();
-        }
-
-        // if (array_key_exists('password', $params)) {
-        //     // update user password if provided in request or retain the current password
-        //     $params['password'] = strlen($params['password']) > 0 ?
-        //                             Hash::make($params['password']) :
-        //                             $user->password;
-        // }
-
-        // // upload avatar if present
-        // if (array_key_exists('avatar', $params)) {
-        //     $params['avatar'] = ($params['avatar'] instanceof UploadedFile) ?
-        //                         config('app.storage_disk_url') . '/' . $this->uploadOne($params['avatar'], 'avatars') :
-        //                         $user->avatar;
-        // }
-
-        // perform update
-        if ($user->update($params)) {
-            return ['status' => true, 'data' => $user];
-        }
-        return ['status' => false];
-    }
-
     public function removeAdminPermission($account_code) {
         $user = $this->user->where('account_code', $account_code);
         return $user->update(['user_type_id' => 4]);
