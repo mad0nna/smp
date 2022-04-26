@@ -31,7 +31,6 @@
                     type="hidden"
                     name="failure_url"
                     value=''> 
-                  />
                   <input type="hidden" name="failure_str" value="ページに戻る" />
                   <input
                     type="submit"
