@@ -11,14 +11,14 @@ window.onload=function(){
     if ( textItems !== undefined && textItems !== null ) {
         textItemsData = textItems.getAttribute('data-items');
         if (textItemsData === "[]") {
-            setTimeout(function() { $('#item-text-group .btn').click(); }, 2000);
+            setTimeout(function() { $('#item-text-group .btn').click(); }, 1000);
         }        
     }
 
     if ( priceItems !== undefined && priceItems !== null ) {
         priceItemsData = priceItems.getAttribute('data-items');
         if (priceItemsData === "[]") {           
-            setTimeout(function() {  $('#item-price-group .btn').click(); }, 2000);
+            setTimeout(function() {  $('#item-price-group .btn').click(); }, 1000);
         }
     }
 
