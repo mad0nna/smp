@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import Welcome from './Welcome'
-import PaymentSelection from './PaymentSelection'
+import PaymentSelection from '../PaymentSelection'
 import axios from 'axios'
-import waitingIcon from '../../img/loading-spinner.gif'
-import visa from '../../img/visa.png'
-import MasterCard from '../../img/mastercard.png'
-import JCB from '../../img/jcb.png'
-import amex from '../../img/amex.png'
-import Diners from '../../img/diners.png'
+import waitingIcon from '../../../img/loading-spinner.gif'
+import visa from '../../../img/visa.png'
+import MasterCard from '../../../img/mastercard.png'
+import JCB from '../../../img/jcb.png'
+import amex from '../../../img/amex.png'
+import Diners from '../../../img/diners.png'
+import SettingSideNav from '../SettingSideNav'
 import _ from 'lodash'
 const PaymentMethod = () => {
+  var minheight = { 'min-height': '700px' }
   const [state, setState] = useState({
     modalDisplay: false,
     loading: true,
@@ -103,9 +104,9 @@ const PaymentMethod = () => {
     })
   }
   return (
-    <div className="relative px-10 py-5 bg-mainbg ">
-      <Welcome />
-      <div className="bg-white font-meiryo px-24 py-12 mx-40 mt-12 justify-items-center items-center">
+    <div className="mx-10 grid grid-cols-6 bg-white" style={minheight}>
+      <SettingSideNav />
+      <div className="bg-white font-meiryo px-24 py-12 mx-40 mt-12 justify-items-center items-center col-span-5">
         <div className="relative">
           <div className="text-xl mb-10 font-semibold text-customGray">
             お支払い方法
