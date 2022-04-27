@@ -63,9 +63,5 @@ class Contact extends Model
         return $this->client->patch("/services/data/v34.0/sobjects/contact/{$contactID}", $data);
     }
 
-    public function delete($contactID) {
-        return $this->client->delete("/services/data/v34.0/sobjects/contact/{$contactID}");
-    }    
-
 }
 ?>
