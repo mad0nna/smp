@@ -95,7 +95,7 @@ class UserTest extends TestCase
     }
 
     /**
-     * CompanyTest constructor.
+     * UserTest constructor.
      */
     public function __construct()
     {

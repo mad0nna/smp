@@ -147,16 +147,26 @@ class CompanyController extends Controller
     public function saveAddedCompany(Request $request, CompanyService $companyService)
     {
         $formData = $request->validate([
-          'companyCode' => ['required', 'unique:companies,company_code']
-        ]);
-        $formData = $this->getRecord($request);
-        $result = $companyService->addCompanyToDB($formData);
+            'companyCode' => ['required', 'unique:companies,company_code']
+          ]);
 
-        $response = [
-        'success' => $result,
-      ];
+        try {
+            $formData = $this->getRecord($request);
+            $result = $companyService->addCompanyToDB($formData);
+            $this->response = [
+                'success' => $result,
+                'code' => 200,
+            ];
 
-        return response()->json($response, 200);
+        } catch (\Exception $e) {
+            $this->response = [
+                'success' => ['status' => false],
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
+        }
+
+        return response()->json($this->response, $this->response['code']);
     }
 
     public function updateSaveAccount(Request $request, CompanyService $companyService)

@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class ContractTest extends TestCase
+class PaymentTest extends TestCase
 {
     /** @var Object */
     private static $COMPANY_ADMIN;
@@ -84,7 +84,7 @@ class ContractTest extends TestCase
     }
 
     /**
-     * ContractTest constructor.
+     * PaymentTest constructor.
      */
     public function __construct()
     {
@@ -93,9 +93,9 @@ class ContractTest extends TestCase
     }
 
     /**
-     * Get contract index success
+     * Get payment result success
      */
-    public function testGetContractIndexSuccess()
+    public function testGetResultSuccess()
     {
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/company/contractslist');
@@ -105,9 +105,9 @@ class ContractTest extends TestCase
     }
 
     /**
-     * Get contract index fail
+     * Get payment result fail
      */
-    public function testGetContractIndexFail()
+    public function testGetResultFail()
     {
         // purposely using different input
         $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
