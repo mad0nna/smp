@@ -252,16 +252,27 @@ const Navigation = () => {
           isActive: false,
           extraStyle: ''
         },
+        // {
+        //   label: 'ドキュメント',
+        //   url: '#',
+        //   childUrl: [],
+        //   iconNormal: 'bg-document-icon',
+        //   iconHover: 'group-hover:bg-document-icon-hover',
+        //   iconActive: 'bg-document-icon-hover',
+        //   iconSize: 'h-8 w-9',
+        //   isActive: false,
+        //   extraStyle: 'cursor-default'
+        // },
         {
-          label: 'ドキュメント',
-          url: '#',
+          label: 'ショップ',
+          url: '/admin/shop/jqadm/search/product?locale=ja',
           childUrl: [],
-          iconNormal: 'bg-document-icon',
-          iconHover: 'group-hover:bg-document-icon-hover',
-          iconActive: 'bg-document-icon-hover',
-          iconSize: 'h-8 w-9',
+          iconNormal: 'bg-shop-icon',
+          iconHover: 'group-hover:bg-shop-icon-hover',
+          iconActive: 'bg-shop-icon-hover',
+          iconSize: 'h-8 w-8',
           isActive: false,
-          extraStyle: 'cursor-default'
+          extraStyle: ''
         }
       ],
       dropDownNav: {
