@@ -520,6 +520,70 @@ class UserTest extends TestCase
     }
 
     /**
+     * Deletes the user successfully in the database
+     */
+    public function testDestroySuccess()
+    {
+        $findSFByEmailParams = [
+            'email' => 'test123@test.com',
+        ];
+
+        $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                                      ->json('GET', '/company/findInSFByEmail', $findSFByEmailParams);
+
+        $findSFByEmailResult = json_decode($findSFByEmailResponse->getContent(), $associative = true);
+
+        $addUserParams = $findSFByEmailResult['data'];
+        $addUserParams['isPartial'] = 0;
+
+        $addUserResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/addCompanyAdmin', $addUserParams);
+
+        $addUserResult = json_decode((string) $addUserResponse->getContent());
+
+        $params['admin']['id'] = $addUserResult->data->id;
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('DELETE', '/company/deleteAdmin', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Deletes the user in the database fail
+     */
+    public function testDestroyFail()
+    {
+        // purposely using different input
+        $incorrectCompanyID = '';
+
+        Session::put('companyID', $incorrectCompanyID);
+
+        $params['admin']['id'] = 1;
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('DELETE', '/company/deleteAdmin', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Deletes the user in the database with non-existing user id
+     */
+    public function testDestroyNonExistingId()
+    {
+        $params['admin']['id'] = 99999999;
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('DELETE', '/company/deleteAdmin', $params);
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
      * Helper function that deletes a newly created user by email
      */
     private function deleteUserByEmail(string $email)

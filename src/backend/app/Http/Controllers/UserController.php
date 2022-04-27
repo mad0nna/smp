@@ -332,12 +332,15 @@ class UserController extends Controller
             // perform delete
 
             $user = $this->userService->delete((int) $id);
+            $this->response['success'] = $user;
+            
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
         } // @codeCoverageIgnoreEnd
+
         return response()->json($this->response, $this->response['code']);
     }
 
