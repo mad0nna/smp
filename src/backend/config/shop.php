@@ -124,8 +124,8 @@ return [
             ],
             'region' => env('AWS_DEFAULT_REGION'),
             'version' => 'latest',
-            'bucket' => env('AWS_BUCKET'),
-            'baseurl' => env('AWS_URL_SHOPPING_BUCKET'),
+            'bucket' => env('AWS_BUCKET_SHOPPING'),
+            'baseurl' => env('AWS_URL_SHOPPING'),
         ],
     ],
 ];
