@@ -48,7 +48,7 @@ $enc = $this->encoder();
 			<div is="draggable" v-model="items" group="price" handle=".act-move">
 				<div v-for="(item, idx) in items" v-bind:key="idx" class="group-item card">
 
-					<div v-bind:id="'item-price-group-item-' + idx" class="card-header header">
+					<div v-bind:id="'item-price-group-item-' + idx" class="card-header header d-none">
 						<div class="card-tools-start">
 							<div class="btn btn-card-header act-show fa" v-bind:class="item['_show'] ? 'show' : 'collapsed'" v-on:click="toggle('_show', idx)"
 								v-bind:data-bs-target="'#item-price-group-data-' + idx" data-bs-toggle="collapse"
