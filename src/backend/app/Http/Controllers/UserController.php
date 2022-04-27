@@ -371,38 +371,6 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyinSF(Request $request)
-    {
-        try {
-            $data = $request->all();
-            if (Session::get('companyID') === '') {
-                throw new UnauthorizedAccessException();
-            }
-
-            if ($data['admin']['account_code'] === null) {
-                return ['status' => false];
-            }
-
-            $result = (new Contact)->delete($data['admin']['account_code']);
-            if ($result['status']) {
-                return ['status' => true];
-            };
-            return ['status' => false];
-        } catch (Exception $e) { // @codeCoverageIgnoreStart
-            $this->response = [
-                'error' => $e->getMessage(),
-                'code' => 500,
-            ];
-        } // @codeCoverageIgnoreEnd
-        return response()->json($this->response, $this->response['code']);
-    }
-
-    /**
      * Resend email invite
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
