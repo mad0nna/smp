@@ -16,6 +16,7 @@ use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Contact;
 use App\Services\API\Zuora\Exceptions\UnauthorizedAccessException;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
@@ -67,9 +68,7 @@ class UserController extends Controller
     public function getContactDetails(Request $request)
     {
         try {
-            $result = $this->userService->findById($request->id);
-            $user = (new Contact)->findByAccountID($result['account_code']);
-            $this->response['data'] = $this->getSFResource($user);
+            $this->response['data'] = $this->userService->findById($request->id);
             $this->response['data']['canEdit'] = Auth::user()->user_type_id === 3 || (Auth::user()->id == $request->id);
             $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3;
         } catch (Exception $e) { // @codeCoverageIgnoreStart
@@ -160,6 +159,7 @@ class UserController extends Controller
                     'temp_pw' => $pw,
                     'invite_token' => $invite_token,
                     'name' => ($sf['lastname'] ? $sf['lastname'] : '') . ' ' . ($sf['firstname'] ? $sf['firstname'] : ''),
+                    'user_type_id' => $sf['user_type_id'] ?? ''
                 ];
             } else {
                 $formData = [
@@ -177,6 +177,7 @@ class UserController extends Controller
                     'invite_token' => $invite_token,
                     'account_code' => $sf['account_code'] ? $sf['account_code'] : '',
                     'name' => ($sf['last_name'] ? $sf['last_name'] : '') . ' ' . ($sf['first_name'] ? $sf['first_name'] : ''),
+                    'user_type_id' => $sf['user_type_id'] ?? ''
                 ];
             }
 
@@ -340,7 +341,6 @@ class UserController extends Controller
                 'code' => 500,
             ];
         } // @codeCoverageIgnoreEnd
-
         return response()->json($this->response, $this->response['code']);
     }
 

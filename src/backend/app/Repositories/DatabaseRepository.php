@@ -30,6 +30,17 @@ class DatabaseRepository
         ->toArray();
     }
 
+    public function getCompanyAdminDetailsByContactID($contactID)
+    {
+        return User::leftjoin('companies', 'companies.id', '=', 'company_id')
+        ->select('users.*')
+        ->where('users.account_code', $contactID)
+        ->where('users.user_type_id', 3)
+        ->get()
+        ->map->salesforceFormat()
+        ->toArray();
+    }
+
     public function getPaymentMethod($sfCompanyID) {
         return Opportunity::leftjoin('companies', 'companies.id', '=', 'company_id')
         ->select('opportunities.*')
