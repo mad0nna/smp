@@ -214,23 +214,6 @@ const AccountList = () => {
           })
         }
       })
-
-    axios
-      .delete('/company/deleteSFAdmin', {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data: {
-          admin
-        }
-      })
-      .catch(function (error) {
-        if (error.response) {
-          setState({
-            deletedAccount: null
-          })
-        }
-      })
   }
 
   const handleCloseDeleteConfirmation = () => {
