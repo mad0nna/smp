@@ -45,7 +45,11 @@ class BillingService
         foreach ($invoices as $key => $invoiceItem) {
 
             if (strtolower($invoiceItem['status']) === "posted") {
-                $file = $company->files()->where('month_of_billing', $invoiceItem['invoiceDate'])->first();
+                $date = Carbon::createFromFormat('Y-m-d', $invoiceItem['invoiceDate']);
+
+                $file = $company->files()->whereYear('month_of_billing', $date)
+                                            ->whereMonth('month_of_billing', $date)
+                                            ->first();
 
                 $invoices[$key]['billingCSVFileId'] = $file === null ? null : $file->id;
                 $invoices[$key]['billingCSVFileName'] = $file === null ? null : $file->name;
@@ -68,7 +72,7 @@ class BillingService
             return $this->getInvoiceDetails($invoices[0]['id']);
         }
 
-        return false;        
+        return false;
     }
 
     public function getAccountInfo($companyID)
@@ -124,7 +128,7 @@ class BillingService
     public function getAccountUsageData($companyID)
     {
         $accountInfo = $this->getAccountInfo($companyID);
-        
+
         if (!$accountInfo) {
             MessageResult::error("The company id doesn't exist!");
         }
@@ -139,7 +143,7 @@ class BillingService
             $usage = $this->getUsage($accountID, $i);
 
             if (count($usage)) {
-                $data_usage = array_merge($data_usage, $usage['usage']);         
+                $data_usage = array_merge($data_usage, $usage['usage']);
             }
             $i++;
         } while ($usage === false || (count($usage) && isset($usage['nextPage']) !== false));
