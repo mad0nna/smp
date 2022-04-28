@@ -251,7 +251,7 @@ const Navigation = () => {
           iconSize: 'h-8 w-9',
           isActive: false,
           extraStyle: ''
-        },
+        }
         // {
         //   label: 'ドキュメント',
         //   url: '#',
