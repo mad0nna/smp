@@ -6,7 +6,7 @@ const CompanyBillingSettings = () => {
       label: 'お支払い方法',
       onClick: '',
       font: '3xl:text-lg 2xl:text-md xl:text-sm lg:text-xs md: text-xxs',
-      url: '/company/methodofpayment/',
+      url: '/company/setting/payment/method',
       photo: '',
       newTab: false
     },

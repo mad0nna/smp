@@ -33,10 +33,10 @@ class FileController extends Controller
 
         try {
             $file = $this->fileService->getFile($request->getId(), Session::get('salesforceCompanyID'));
-            $fileLocation = Storage::disk(config('app.storage_disk'))->get($file->file_path);
+            $fileLocation = Storage::disk(config('app.storage_disk_csv'))->get($file->file_path);
 
             $headers = [
-                'Content-Type' => Storage::disk(config('app.storage_disk'))->getDriver()->getMimetype($file->file_path),
+                'Content-Type' => Storage::disk(config('app.storage_disk_csv'))->getDriver()->getMimetype($file->file_path),
                 'Content-Description' => 'File Transfer',
                 'Content-Disposition' => "attachment; filename={$file->name}",
                 'filename' => $file->name,
@@ -54,7 +54,7 @@ class FileController extends Controller
     }
 
     /**
-     * Uploads the file specific to S3 from Zuora request
+     * Uploads the file a specific disk from Zuora request
      *
      * @param App\Http\Requests\UploadFileRequest $request
      * @return Response
@@ -70,7 +70,7 @@ class FileController extends Controller
                 'salesforce_id' => $request->getSalesForceId(),
             ];
 
-            $file = $this->fileService->uploadToS3($data);
+            $file = $this->fileService->uploadToDisk($data);
             $this->response['data'] = new FileResource($file);
             $this->response['message'] = 'Successfully uploaded file.';
         } catch (\Exception $e) { // @codeCoverageIgnoreStart

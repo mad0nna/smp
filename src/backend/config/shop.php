@@ -1,5 +1,20 @@
 <?php
 
+$fs = [];
+if (env('APP_ENV') !== 'development') {
+	$fs = ['fs' => [
+		'adapter' => 'FlyAwsS3',
+		'credentials' => [
+			'key'    => env('AWS_ACCESS_KEY_ID'),
+			'secret' => env('AWS_SECRET_ACCESS_KEY'),
+		],
+		'region' => env('AWS_DEFAULT_REGION'),
+		'version' => 'latest',
+		'bucket' => env('AWS_BUCKET_SHOPPING'),
+		'baseurl' => env('AWS_URL_SHOPPING'),
+	]];
+}
+
 return [
 
 	'apc_enabled' => false, // enable for maximum performance if APCu is availalbe
@@ -115,4 +130,5 @@ return [
 	'backend' => [
 	],
 
+	'resource' => $fs,
 ];

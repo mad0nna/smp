@@ -13,6 +13,7 @@ const ProductList = () => {
     keyword: '',
     handlePageClick: handlePageClick
   })
+  let userData = JSON.parse(document.getElementById('userData').textContent)
   const { items } = useCart()
   const [sortItem, setSortItem] = useState({
     selectedSortValue: '',
@@ -49,7 +50,8 @@ const ProductList = () => {
     detailData: [],
     lastPage: 1,
     pageNumbers: '',
-    loaded: false
+    loaded: false,
+    img_domain: userData.img_domain || '/aimeos'
   })
 
   function sortDropdown(options) {
@@ -322,7 +324,7 @@ const ProductList = () => {
               <img
                 style={{ position: 'absolute', bottom: 0 }}
                 className={loadedImage ? 'mx-auto p-5' : 'hidden'}
-                src={`/aimeos/${product.media['media.preview']}`}
+                src={`${state.img_domain}/${product.media['media.preview']}`}
                 onLoad={() => {
                   setLoadedImage(true)
                 }}
