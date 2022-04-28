@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { Responsive, WidthProvider } from 'react-grid-layout'
@@ -166,9 +166,9 @@ const AdminDashboard = () => {
 
 export default AdminDashboard
 
-if (document.getElementById('admin-dashboard')) {
-  ReactDOM.render(
-    <AdminDashboard />,
-    document.getElementById('admin-dashboard')
-  )
-}
+// if (document.getElementById('admin-dashboard')) {
+//   ReactDOM.render(
+//     <AdminDashboard />,
+//     document.getElementById('admin-dashboard')
+//   )
+// }

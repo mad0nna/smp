@@ -154,23 +154,44 @@ const CompanyProfile = () => {
         }
 
         setState((prevState) => {
-          let adminDetails = { ...data.adminDetails }
-          ;(adminDetails.Id = data.Id ?? ''),
-            (adminDetails.FirstName = data.FirstName ?? ''),
-            (adminDetails.LastName = data.LastName ?? ''),
-            (adminDetails.Email = data.Email ?? ''),
-            (adminDetails.Title = data.Title ?? ''),
-            (adminDetails.MobilePhone = data.MobilePhone ?? ''),
-            (adminDetails.section__c = data.section__c ?? ''),
-            (adminDetails.admin__c = data.admin__c == '3' ? true : false)
-
           return {
             ...prevState,
-            adminDetails: adminDetails,
-            adminDetailsEditValues: adminDetails,
+            adminDetails: {
+              Id: data.Id ?? '',
+              FirstName: data.FirstName ?? '',
+              LastName: data.LastName ?? '',
+              Email: data.Email ?? '',
+              Title: data.Title ?? '',
+              MobilePhone: data.MobilePhone ?? '',
+              section__c: data.section__c ?? '',
+              admin__c: data.admin__c ?? ''
+            },
+            adminDetailsEditValues: {
+              Id: data.Id ?? '',
+              FirstName: data.FirstName ?? '',
+              LastName: data.LastName ?? '',
+              Email: data.Email ?? '',
+              Title: data.Title ?? '',
+              MobilePhone: data.MobilePhone ?? '',
+              section__c: data.section__c ?? '',
+              admin__c: data.admin__c ?? ''
+            },
             isAbleToEdit: data.ableToEdit
           }
         })
+
+        if (!data.ableToEdit) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              isEditingContact: false,
+              isAbleToEdit: false,
+              isGettingData: false,
+              isEditingProfile: false
+            }
+          })
+        }
+
         return true
       })
 
@@ -533,6 +554,7 @@ const CompanyProfile = () => {
             />
             {state.isEditingProfile ? '変更を保存' : '編集する'}
           </button>
+
           {state.isEditingProfile ? (
             <button
               onClick={() =>

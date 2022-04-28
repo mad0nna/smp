@@ -16,6 +16,7 @@ use App\Repositories\DatabaseRepository;
 use App\Services\API\Salesforce\Model\Contact;
 use App\Services\API\Zuora\Exceptions\UnauthorizedAccessException;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
@@ -358,38 +359,6 @@ class UserController extends Controller
             // perform delete
 
             $user = $this->userService->delete((int) $id);
-        } catch (Exception $e) { // @codeCoverageIgnoreStart
-            $this->response = [
-                'error' => $e->getMessage(),
-                'code' => 500,
-            ];
-        } // @codeCoverageIgnoreEnd
-        return response()->json($this->response, $this->response['code']);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyinSF(Request $request)
-    {
-        try {
-            $data = $request->all();
-            if (Session::get('companyID') === '') {
-                throw new UnauthorizedAccessException();
-            }
-
-            if ($data['admin']['account_code'] === null) {
-                return ['status' => false];
-            }
-
-            $result = (new Contact)->delete($data['admin']['account_code']);
-            if ($result['status']) {
-                return ['status' => true];
-            };
-            return ['status' => false];
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
