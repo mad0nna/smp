@@ -93,21 +93,21 @@ class PaymentTest extends TestCase
     }
 
     /**
-     * Get payment result success
+     * Get change method to card success
      */
-    public function testGetResultSuccess()
+    public function testChangeMethodToCardSuccess()
     {
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('POST', '/company/contractslist');
+                            ->json('GET', '/payment/status');
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
     }
 
     /**
-     * Get payment result fail
+     * Get change method to card success
      */
-    public function testGetResultFail()
+    public function testChangeMethodToCardFail()
     {
         // purposely using different input
         $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
@@ -116,7 +116,7 @@ class PaymentTest extends TestCase
         self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
 
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('POST', '/company/contractslist');
+                            ->json('POST', '/payment/status');
 
         $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());
