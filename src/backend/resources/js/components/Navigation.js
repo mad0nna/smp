@@ -251,7 +251,7 @@ const Navigation = () => {
           iconSize: 'h-8 w-9',
           isActive: false,
           extraStyle: ''
-        },
+        }
         // {
         //   label: 'ドキュメント',
         //   url: '#',
@@ -263,17 +263,6 @@ const Navigation = () => {
         //   isActive: false,
         //   extraStyle: 'cursor-default'
         // },
-        {
-          label: 'ショップ',
-          url: '/admin/shop/jqadm/search/product?locale=ja',
-          childUrl: [],
-          iconNormal: 'bg-shop-icon',
-          iconHover: 'group-hover:bg-shop-icon-hover',
-          iconActive: 'bg-shop-icon-hover',
-          iconSize: 'h-8 w-8',
-          isActive: false,
-          extraStyle: ''
-        }
       ],
       dropDownNav: {
         title: '管理者',

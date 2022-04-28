@@ -26,7 +26,7 @@ const NotificationPage = () => {
               type: 'お支払い',
               type_eng: 'payment',
               message: zendeskNotifs[i].message,
-              link: '/company/methodofpayment/',
+              link: '/company/setting/payment/method',
               newTab: true,
               status: zendeskNotifs[i].seen ? '既読' : '未読',
               notif_id: zendeskNotifs[i].notif_id
