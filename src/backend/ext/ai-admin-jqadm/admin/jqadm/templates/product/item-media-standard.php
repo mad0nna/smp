@@ -33,7 +33,7 @@ $enc = $this->encoder();
 			<div is="draggable" group="media" v-model="items" handle=".act-move">
 				<div v-for="(item, idx) in items" v-bind:key="idx" class="group-item card">
 
-					<div v-bind:id="'item-media-group-item-' + idx" class="card-header header">
+					<div v-bind:id="'item-media-group-item-' + idx" class="card-header header d-none">
 						<div class="card-tools-start">
 							<div class="btn btn-card-header act-show fa" v-bind:class="item['_show'] ? 'show' : 'collapsed'"
 								title="<?= $enc->attr( $this->translate( 'admin', 'Show/hide this entry' ) ) ?>"

@@ -35,7 +35,8 @@ const CartList = () => {
     messageContent:
       'ご請求書を発行いたしました。ご登録のメールアドレスをご確認してください。',
     loader: false,
-    isSubmit: false
+    isSubmit: false,
+    img_domain: userData.img_domain || '/aimeos'
   })
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
@@ -709,7 +710,7 @@ const CartList = () => {
             <div className="flex flex-col p-2">
               <img
                 className="w-auto h-auto p-5 tex-center m-auto"
-                src={`/aimeos/${item.imgSrc}`}
+                src={`${state.img_domain}/${item.imgSrc}`}
               ></img>
               <div className="text-red-500 font-bold">{item.title}</div>
             </div>
