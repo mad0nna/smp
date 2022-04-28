@@ -33,7 +33,7 @@ const Notification = (props) => {
                 : response[i].title,
             link:
               response[i].notification_type === 'payment'
-                ? '/setting/payment/method'
+                ? '/company/setting/payment/method'
                 : response[i].html_url,
             newTab: true,
             status: response[i].seen ? '既読' : '未読',
