@@ -91,7 +91,7 @@ const AccountProfileEdit = () => {
           hasError = true
         }
         break
-      case 'phone':
+      case '_phone': //Rename na field name for future use if the client might later require these fields
         key = 'MobilePhone'
         if ((val.length == 10 || val.length == 11) && !isNaN(val)) {
           errorMessage = ''
@@ -100,7 +100,7 @@ const AccountProfileEdit = () => {
           hasError = true
         }
         break
-      case 'position':
+      case '_position': //Rename na field name for future use if the client might later require these fields
         key = 'Title'
         if (val === '') {
           errorMessage = '必須フィールド'
@@ -174,7 +174,7 @@ const AccountProfileEdit = () => {
             }
             break
 
-          case 'position':
+          case '_position': //Rename na field name for future use if the client might later require these fields
             key = 'Title'
             val = state.account.position
             if (val === '' || val == null) {
@@ -183,7 +183,7 @@ const AccountProfileEdit = () => {
             }
             break
 
-          case 'phone':
+          case '_phone': //Rename na field name for future use if the client might later require these fields
             key = 'MobilePhone'
             val = state.account.phone
             if (val == null || val == '') {
@@ -439,9 +439,7 @@ const AccountProfileEdit = () => {
                   <div className="flex flex-wrap gap-0 w-full justify-start">
                     <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                       <div className="mb-1 md:mb-0 md:w-1/3">
-                        <label className="text-sm text-gray-400">
-                          役職 : <span className="text-red-500">*</span>
-                        </label>
+                        <label className="text-sm text-gray-400">役職 :</label>
                       </div>
                       <div className="md:w-2/3 md:flex-grow">
                         <label
@@ -479,7 +477,7 @@ const AccountProfileEdit = () => {
                     <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                       <div className="mb-1 md:mb-0 md:w-1/3">
                         <label className="text-sm text-gray-400">
-                          電話番号 :<span className="text-red-500">*</span>
+                          電話番号 :
                         </label>
                       </div>
                       <div className="md:w-2/3 md:flex-grow">
@@ -533,6 +531,7 @@ const AccountProfileEdit = () => {
                           <label className="text-sm text-gray-400">
                             メールアドレス:{' '}
                           </label>
+                          <div className="text-sm text-gray-400">&nbsp;</div>
                         </div>
                         <div className="md:w-2/3 flex-grow">
                           <label
@@ -543,7 +542,9 @@ const AccountProfileEdit = () => {
                           >
                             {state.account.email}
                           </label>
-
+                          <div className="px-3 text-sm text-gray-400">
+                            ※メールアドレスの変更はできません
+                          </div>
                           {/* <input
                             className={
                               (state.isEditingProfile ? '' : 'hidden') +
