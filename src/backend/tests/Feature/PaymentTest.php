@@ -32,9 +32,9 @@ class PaymentTest extends TestCase
     {
         parent::setUp();
 
-        // for now this test requires the user "santos.ma@sprobe.com" from salesforce
+        // for now this test requires the user "santos.ma@sprobe.com" from salesforce API
         // since it has a working zues payment change for local testing
-        // kindly go to super admin and add company > "demo" code to continue testing
+        // kindly go to super admin and add company > "demo" code, before executing tests
         $user = User::where('username','santos.ma@sprobe.com')->firstOrFail();
 
         self::$COMPANY_ADMIN = $user;
@@ -131,7 +131,7 @@ class PaymentTest extends TestCase
     public function testChangeMethodToBankSuccess()
     {
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('POST', '/payment/getPaymentMethod');
+                            ->json('POST', '/payment/setMethodBankTransfer');
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
@@ -152,7 +152,7 @@ class PaymentTest extends TestCase
         self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
 
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('POST', '/payment/getPaymentMethod');
+                            ->json('POST', '/payment/setMethodBankTransfer');
 
         $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());

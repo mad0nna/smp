@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Support\Facades\Cache;
+
 class PaymentController extends Controller
 {
     private $failed = 'NG';
-    public function getResult(Request $request, PaymentService $paymentService) {
+
+    public function getResult(Request $request, PaymentService $paymentService)
+    {
         Log::info('payment test', $request->all());
         $cgiResult = $request->all();
         if ($cgiResult['result'] != $this->failed) {
@@ -26,9 +29,10 @@ class PaymentController extends Controller
         }
     }
 
-    public function changeMethodToCard() {
+    public function changeMethodToCard()
+    {
         Cache::forget(Session::get('salesforceCompanyID').":company:details");
-        return view('zeusPayment', 
+        return view('zeusPayment',
         [
             'host' => env('ZEUS_HOST'),
             'salesforceCompanyID' => Session::get('salesforceCompanyID'),
@@ -42,7 +46,8 @@ class PaymentController extends Controller
     }
 
 
-    public function creditCardPayment(Request $request) {
+    public function creditCardPayment(Request $request)
+    {
         Cache::forget(Session::get('salesforceCompanyID').":company:details");
         return view('zeusPayment',
         [
@@ -57,19 +62,35 @@ class PaymentController extends Controller
         ]);
     }
 
-    public function changeMethodToBank(PaymentService $paymentService) {
+    public function changeMethodToBank(PaymentService $paymentService)
+    {
         try {
-            return $paymentService->setBankTransferMethod(Session::get('salesforceCompanyID'), Session::get('companyID'));
+            $result = $paymentService->setBankTransferMethod(Session::get('salesforceCompanyID'), Session::get('companyID'));
+            $this->response = $result;
+            $this->response['code'] = $result['status'] == true ? 200 : 500;
         } catch(UnauthorizedException $e) {
-            return $e->getMessage();
+            $this->response = [
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
         }
+
+        return response()->json($this->response, $this->response['code']);
     }
 
-    public function getPaymentMethodDetails(PaymentService $paymentService) {
+    public function getPaymentMethodDetails(PaymentService $paymentService)
+    {
         try {
-            return $paymentService->getPaymentMethodDetails(Session::get('salesforceCompanyID'));
+            $result = $paymentService->getPaymentMethodDetails(Session::get('salesforceCompanyID'));
+            $this->response = $result;
+            $this->response['code'] = $result == true ? 200 : 500;
         } catch(UnauthorizedException $e) {
-            return $e->getMessage();
+            $this->response = [
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
         }
+
+        return response()->json($this->response, $this->response['code']);
     }
 }
