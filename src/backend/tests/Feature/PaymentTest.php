@@ -32,7 +32,10 @@ class PaymentTest extends TestCase
     {
         parent::setUp();
 
-        $user = User::where('username','machida@tcg.sprobe.ph')->firstOrFail();
+        // for now this test requires the user "santos.ma@sprobe.com" from salesforce
+        // since it has a working zues payment change for local testing
+        // kindly go to super admin and add company > "demo" code to continue testing
+        $user = User::where('username','santos.ma@sprobe.com')->firstOrFail();
 
         self::$COMPANY_ADMIN = $user;
         self::$companyID = $user->company->id;
@@ -89,25 +92,25 @@ class PaymentTest extends TestCase
     public function __construct()
     {
         parent::__construct();
-    $this->createApplication();
+        $this->createApplication();
     }
 
     /**
-     * Get change method to card success
+     * Get Payment Method Details Success
      */
-    public function testChangeMethodToCardSuccess()
+    public function testGetPaymentMethodDetailsSuccess()
     {
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/payment/status');
+                            ->json('POST', '/payment/getPaymentMethod');
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
     }
 
     /**
-     * Get change method to card success
+     * Get Payment Method Details Fail
      */
-    public function testChangeMethodToCardFail()
+    public function testGetPaymentMethodDetailsFail()
     {
         // purposely using different input
         $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
@@ -116,7 +119,40 @@ class PaymentTest extends TestCase
         self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
 
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('POST', '/payment/status');
+                            ->json('POST', '/payment/getPaymentMethod');
+
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Change method to bank transfer  Success
+     */
+    public function testChangeMethodToBankSuccess()
+    {
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/payment/getPaymentMethod');
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Change method to bank transfer fail
+     */
+    public function testChangeMethodToBankFail()
+    {
+        // purposely using different input
+        $incorrectCompanyID = 'aaaaaaaaaa';
+        $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
+
+        Session::put('companyID', $incorrectCompanyID);
+        Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
+        self::$sessionData['companyID'] = $incorrectCompanyID;
+        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/payment/getPaymentMethod');
 
         $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());

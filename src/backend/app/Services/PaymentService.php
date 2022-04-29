@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class PaymentService {
-    
+class PaymentService
+{
     private $success = 'OK';
+
     private $cardBrand = [
         'V' => 'VISA',
         'M' => 'MasterCard',
@@ -21,10 +22,12 @@ class PaymentService {
         'D' => 'Diners',
         'P' => 'Proper Card'
     ];
+
     private $method = [
         'credit_card' => 'クレジット',
         'bank_transfer' => '口座振替'
     ];
+
     public function setCreditCardMethod($cardInfo) {
         if ($cardInfo['result'] != $this->success) {
             return;
@@ -79,7 +82,7 @@ class PaymentService {
      * Directly update order status via Query Builder
      * After pay through credit card
      */
-    public function updateOrderStatus($params) 
+    public function updateOrderStatus($params)
     {
         $sendID = $params['sendid'];
         $orderBaseId = explode('-',$sendID)[1];

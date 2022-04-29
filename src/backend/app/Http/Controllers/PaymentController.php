@@ -44,7 +44,7 @@ class PaymentController extends Controller
 
     public function creditCardPayment(Request $request) {
         Cache::forget(Session::get('salesforceCompanyID').":company:details");
-        return view('zeusPayment', 
+        return view('zeusPayment',
         [
             'host' => env('ZEUS_HOST'),
             'salesforceCompanyID' => Session::get('salesforceCompanyID'),
