@@ -47,7 +47,7 @@ class CompanyService
 
                 return $usageData;
 
-            } catch(\Exception $e) {
+            } catch(Exception $e) {
                 return $e->getMessage();
             }
         });
@@ -229,7 +229,7 @@ class CompanyService
     {
         try {
             return Company::findOrfail($id)->update($data);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw $e;
         }
     }
@@ -258,7 +258,7 @@ class CompanyService
 
             DB::commit();
             return $status;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
 
             throw $e;

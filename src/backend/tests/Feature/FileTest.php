@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\File;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -147,7 +148,7 @@ class FileTest extends TestCase
     /**
      * File Test Download test success
      */
-    public function testFileDownload()
+    public function testFileDownloadSuccess()
     {
         $latestFile = File::latest()->first();
         $params = [
@@ -159,6 +160,8 @@ class FileTest extends TestCase
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
+
+        $this->deleteLatestFile();
     }
 
     /**
@@ -191,5 +194,28 @@ class FileTest extends TestCase
 
         $response->assertStatus(422);
         $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Helper function that deletes a newly created file
+     */
+    private function deleteLatestFile()
+    {
+        DB::beginTransaction();
+
+        try {
+            // delete newly created file
+            $file = File::latest()->first();
+
+            if ($file instanceof File) {
+                $file->delete();
+            }
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
+
+            throw $th;
+        }
     }
 }

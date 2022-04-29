@@ -274,6 +274,11 @@ class UserService
         try {
             // retrieve the user
             $user = $this->user->where('id', '=', $id)->where('company_id', '=', Session::get('companyID'))->first();
+
+            if (!($user instanceof User)) {
+                throw new UserNotFoundException;
+            }
+
         } catch (ModelNotFoundException $e) {
             throw new UserNotFoundException;
         }
