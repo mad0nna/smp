@@ -1,20 +1,5 @@
 <?php
 
-$fs = [];
-if (env('APP_ENV') !== 'development') {
-	$fs = ['fs' => [
-		'adapter' => 'FlyAwsS3',
-		'credentials' => [
-			'key'    => env('AWS_ACCESS_KEY_ID'),
-			'secret' => env('AWS_SECRET_ACCESS_KEY'),
-		],
-		'region' => env('AWS_DEFAULT_REGION'),
-		'version' => 'latest',
-		'bucket' => env('AWS_BUCKET_SHOPPING'),
-		'baseurl' => env('AWS_URL_SHOPPING'),
-	]];
-}
-
 return [
 
 	'apc_enabled' => false, // enable for maximum performance if APCu is availalbe
@@ -143,6 +128,14 @@ return [
 			'baseurl' => (env('APP_ENV') == 'development' || env('APP_ENV') == 'local') ? '/aimeos' : env('AWS_URL_SHOPPING'),
 			'basedir' => public_path( 'aimeos' ),
 			'tempdir' => storage_path( 'tmp' ),
-		]
+		], 
+		'db' => array(
+			'adapter' => 'mysql',
+			'host' => env('DB_HOST', 'mysql'),
+			'port' => env('DB_PORT', 3306),
+			'database' => env('DB_DATABASE', 'idaten'),
+			'username' => env('DB_USERNAME', 'idaten'),
+			'password' => env('DB_PASSWORD', 'password'),
+		)
 	]
 ];
