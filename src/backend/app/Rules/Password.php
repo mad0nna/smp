@@ -25,7 +25,13 @@ class Password implements Rule
      */
     public function passes($attribute, $value)
     {
-        return (bool) preg_match(self::$RULES, $value);
+        /**
+         * Convert "zen-kaku" alphabets, numbers, spaces, special characters to "han-kaku".
+         * 
+         * Documentation: https://www.php.net/mb_convert_kana
+         */
+        $convertedValue = mb_convert_kana($value, $mode = "asnA");
+        return (bool) preg_match(self::$RULES, $convertedValue);
     }
 
     /**
