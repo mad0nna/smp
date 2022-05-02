@@ -41,13 +41,11 @@
                             </div>
                         @enderror
 
-                        <div class="grid grid-cols-5 gap-4 my-3">
-                            <div class="col-start-2 col-span-3">
-                                <small id="passwordHelp" class="form-text text-muted my-3">
-                                    パスワードは以下の内容を有する必要があります。<br> 1文字以上の大文字、1文字以上の特殊記号を含む最低8桁以上の英数字
-                                </small>
-                            </div>
-                        </div>
+                        <span class="invalid-feedback text-xs text-center mt-3" role="alert">
+                            <strong>
+                                パスワードは以下の内容を有する必要があります。1文字以上の大文字、1文字以上の特殊記号を含む最低8桁以上の英数字
+                            </strong>
+                        </span>
 
                         @if (session('status'))
                             <div class="alert alert-success text-xs text-center text-blueGray-300 mb-2 block" role="alert">
