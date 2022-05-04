@@ -359,6 +359,8 @@ class UserController extends Controller
                     $formData['user_type_id'] = $data['admin__c'];
                     $message = "顧客企業情報の更新に成功しました！";
                 }
+            } else {
+                $message = "顧客企業情報の更新に成功しました！";
             }
 
             $response = (new Contact)->update($salesforceData, $data['Id']);
