@@ -849,7 +849,7 @@ $paymentStatusList2 = [
 													<?php endif ?>
 												</div>
 												<div class="col-4 value" style="padding-right:0"> 
-													<?= number_format( $basket->getPrice()->getTaxValue() ) ?>円
+													<?= number_format( floor($basket->getPrice()->getTaxValue()) ) ?>円
 												</div>
 											</div>
 										</div> 
