@@ -868,7 +868,7 @@ $paymentStatusList2 = [
 												<div class="col-6 name"> </div>
 												<div class="col-6 value row" style="padding:0"> 
 													<div class="col-8 value"><?= $enc->html( $this->translate( 'admin', '合計:' ) ) ?></div>
-													<div class="col-4 value" style="padding-right:0"><?= number_format( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() + $basket->getPrice()->getTaxValue() ) ?>円</div>
+													<div class="col-4 value" style="padding-right:0"><?= number_format( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() + floor($basket->getPrice()->getTaxValue()) ) ?>円</div>
 												</div>
 											</div>
 											<div class="form-group row"></div>
