@@ -129,9 +129,9 @@ class Salesforce
                     $this->authenticate();
 
                     // retry the failed request
-                    return $this->patch($path, $data, $headers);
+                    return $this->create($path, $data, $headers);
                 }
-
+                dd($response);
                 throw new UnauthorizedAccessException($response['message']);
             }
 
