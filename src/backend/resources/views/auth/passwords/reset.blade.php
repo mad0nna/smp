@@ -31,11 +31,22 @@
                             <input id="password-confirm" type="password" placeholder="新しいパスワードを再入力してください。" class="form-control px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none mx-auto w-7/12 mb-3" name="password_confirmation" value="{{old('password_confirmation')}}" required autocomplete="new-password">
                         </div>
                         @error('password')
-                                <span class="invalid-feedback text-xs text-center mt-3" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                            @if (session('status'))
+                            <div class="grid grid-cols-5 gap-4 mb-5">
+                                <div class="col-start-2 col-span-3">
+                                    <span class="invalid-feedback text-xs text-center mt-3 text-red-600 mb-5" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                </div>
+                            </div>
+                        @enderror
+
+                        <span class="invalid-feedback text-xs text-center mt-3" role="alert">
+                            <strong>
+                            1文字以上の大文字、1文字以上の小文字、1文字以上の特殊記号(　! " # $ % & ' ( ) = ~ ^ \　など　）を含む最低8桁以上の英数字のパスワードを入力してください
+                            </strong>
+                        </span>
+
+                        @if (session('status'))
                             <div class="alert alert-success text-xs text-center text-blueGray-300 mb-2 block" role="alert">
                                 <strong>{{ session('status') }}</strong>
                             </div>

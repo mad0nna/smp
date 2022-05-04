@@ -25,7 +25,26 @@ class Password implements Rule
      */
     public function passes($attribute, $value)
     {
-        return (bool) preg_match(self::$RULES, $value);
+        $convertedValue = $value;
+
+        /**
+         * There's an issue if we convert han-kaku characters to "han-kaku" again,
+         * It will be converted to zen-kaku. I don't know why.
+         * 
+         * Zen-kaku (full width) characters are using UTF-8 encoding while
+         * han-kaku (half width) characters are using ASCII encoding.
+         * 
+         */
+        if (mb_detect_encoding($value) === 'UTF-8') {
+            /**
+             * Convert "zen-kaku" alphabets, numbers, spaces, special characters to "han-kaku".
+             * 
+             * Documentation: https://www.php.net/mb_convert_kana
+             */
+            $convertedValue = mb_convert_kana($value, $mode = "asnA");
+        }
+        
+        return (bool) preg_match(self::$RULES, $convertedValue);
     }
 
     /**
