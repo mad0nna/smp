@@ -131,7 +131,6 @@ class Salesforce
                     // retry the failed request
                     return $this->create($path, $data, $headers);
                 }
-                dd($response);
                 throw new UnauthorizedAccessException($response['message']);
             }
 
