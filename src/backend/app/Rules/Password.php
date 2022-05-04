@@ -38,7 +38,7 @@ class Password implements Rule
          * It will be converted to zen-kaku. I don't know why.
          * 
          * Zen-kaku (full width) characters are using UTF-8 encoding while
-         * han-kaku (hald width) characters are using ASCII encoding.
+         * han-kaku (half width) characters are using ASCII encoding.
          * 
          */
         if (mb_detect_encoding($value) === 'UTF-8') {
