@@ -4,7 +4,7 @@
 <div class="container mx-auto my-auto w-4/6">
     <div class="row justify-content-center">
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0">
                 <div class="card-body bg-white rounded-lg border-2 border-gray-200 mt-40 w-2/5 mx-auto my-auto shadow-sm p-10 flex flex-wrap flex-col gap-0 justify-center relative">
                     <div class="absolute w-16 h-16 top-3 -left-16 border-2 border-gray-200 rounded-l-2xl mt-4">  
                     <a href="/">
@@ -43,7 +43,7 @@
 
                         <span class="invalid-feedback text-xs text-center mt-3" role="alert">
                             <strong>
-                                パスワードは以下の内容を有する必要があります。1文字以上の大文字、1文字以上の特殊記号を含む最低8桁以上の英数字
+                            1文字以上の大文字、1文字以上の小文字、1文字以上の特殊記号(　! " # $ % & ' ( ) = ~ ^ \　など　）を含む最低8桁以上の英数字のパスワードを入力してください
                             </strong>
                         </span>
 
