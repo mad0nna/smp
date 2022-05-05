@@ -24,7 +24,26 @@ const NewAccount = (props) => {
     }
   })
   const handleNameChange = (e) => {
-    let regex = new RegExp("^[a-zA-Z.'-]{1,50}(?: [a-zA-Z.'-]{1,50})+$")
+    let regex = new RegExp('^[a-zA-Z]+ [a-zA-Z]+[ ]*?$')
+
+    if (e.shiftKey || e.ctrlKey || e.altKey) {
+      e.preventDefault()
+    } else {
+      var key = e.keyCode
+
+      if (
+        !(
+          key == 8 ||
+          key == 32 ||
+          key == 46 ||
+          (key >= 35 && key <= 40) ||
+          (key >= 65 && key <= 90)
+        )
+      ) {
+        e.preventDefault()
+      }
+    }
+
     if (isEmpty(e.target.value) || !regex.test(e.target.value)) {
       return setState((prevState) => {
         return {
@@ -158,7 +177,7 @@ const NewAccount = (props) => {
   const handleDisplayAddedAdmin = (user) => {
     if (validateEmail(user.email)) {
       if (user.source != 'salesforce') {
-        const fullName = user.fullName
+        const fullName = user.fullName.trim()
         let arr = []
         arr = fullName.split(' ')
         user.firstname = arr[1] ? arr[1] : ''
@@ -271,8 +290,8 @@ const NewAccount = (props) => {
             </label>
             <input
               className=" text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
-              onChange={handleNameChange}
-              value={state.fullName}
+              onKeyDownCapture={handleNameChange}
+              defaultValue={state.fullName}
               type="text"
             />
           </div>
