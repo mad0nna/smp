@@ -6,12 +6,12 @@ KING OF TIMEサポートセンターです。<br/><br/>
 
 パスワードの変更が完了致しました。<br/><br/>
 
-下記ログインボタンよりログインを行ってください。<br/><br/>
+下記ログインボタンよりログインを行ってください。<br/><br/><br/>
 
 @component('mail::button', ['url' => $url])
 ログイン
 @endcomponent
-
+<br/><br/>
 ※本メールは自動配信されております。<br/>
-&nbsp;&nbsp;お心当たりがない場合は、ご容赦ください。
+&nbsp;&nbsp;&nbsp;&nbsp;お心当たりがない場合は、ご容赦ください。
 @endcomponent
