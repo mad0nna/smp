@@ -25,67 +25,48 @@ const NewAccount = (props) => {
   })
   const handleNameChange = (e) => {
     let regex = new RegExp('^[a-zA-Z]+ [a-zA-Z]+[ ]*?$')
+    let value = e.target.value.replace(/\d+/g, '')
 
-    if (e.shiftKey || e.ctrlKey || e.altKey) {
-      e.preventDefault()
-    } else {
-      var key = e.keyCode
-
-      if (
-        !(
-          key == 8 ||
-          key == 32 ||
-          key == 46 ||
-          (key >= 35 && key <= 40) ||
-          (key >= 65 && key <= 90)
-        )
-      ) {
-        e.preventDefault()
-      }
-    }
-
-    if (isEmpty(e.target.value) || !regex.test(e.target.value)) {
+    if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
         return {
           ...prevState,
           disableSendButton: true,
-          fullName: e.target.value
+          fullName: value
         }
       })
     }
     if (
       !isEmpty(state.foundAccount) &&
       !isEmpty(state.email) &&
-      regex.test(e.target.value)
+      regex.test(value)
     ) {
-      setState((prevState) => {
+      return setState((prevState) => {
         return {
           ...prevState,
-          fullName: e.target.value,
+          fullName: value,
           disableSendButton: false
         }
       })
     }
-    if (
-      !isEmpty(state.email) &&
-      state.source === 'smp' &&
-      regex.test(e.target.value)
-    ) {
-      setState((prevState) => {
+    if (!isEmpty(state.email) && state.source === 'smp' && regex.test(value)) {
+      return setState((prevState) => {
         return {
           ...prevState,
-          fullName: e.target.value,
+          fullName: value,
           disableSendButton: false
         }
       })
     }
-    setState((prevState) => {
+
+    return setState((prevState) => {
       return {
         ...prevState,
-        fullName: e.target.value
+        fullName: value
       }
     })
   }
+
   const handleEmailChange = (e) => {
     setState((prevState) => {
       return {
@@ -290,8 +271,8 @@ const NewAccount = (props) => {
             </label>
             <input
               className=" text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
-              onKeyDownCapture={handleNameChange}
-              defaultValue={state.fullName}
+              onChange={handleNameChange}
+              value={state.fullName}
               type="text"
             />
           </div>
