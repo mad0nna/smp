@@ -23,22 +23,59 @@ p.upload-csv input {
   justify-content:left;
 }
 
+#navbarsExample07 {
+  margin-right: 30px !important;
+}
+
 .bg-dashboard-icon {
   background-image: url('/images/dashboard-normal.png');
+  background-repeat: no-repeat;
+  margin-right:2.5rem!important;
+  margin-left:3rem!important;
+  background-size: 36px 32px;
 }
 
 .bg-dashboard-icon-hover {
   background-image: url('/images/dashboard-hover.png');
+  background-repeat: no-repeat;
+  margin-right:2.5rem!important;
+  margin-left:3rem!important;
+  background-size: 36px 32px;
 }
 
 .bg-account-list-icon {
   background-image: url('/images/AccountList-normal.png');
+  background-repeat: no-repeat;
+  margin-right:2.6rem!important;
+  margin-left:2.9rem!important;
+  background-size: 36px 32px;
 }
 
 .bg-account-list-icon-hover {
   background-image: url('/images/AccountList-hover.png');
+  background-repeat: no-repeat;
+  margin-right:2.6rem!important;
+  margin-left:2.9rem!important;
+  background-size: 36px 32px;
 }
 
+.hovered{
+  display: none;
+  color: white;
+  text-align: left !important;
+}
+
+.nav-item-element:hover .original
+{
+  display: none;
+}
+
+.nav-item-element:hover .hovered
+{
+  height: 99px;
+  background-color: rgba(16, 185, 129) !important;
+  display: block;
+}
 
 .bg-document-icon {
   background-image: url('/images/document-normal.png');
@@ -118,8 +155,6 @@ p.upload-csv input {
 }
 
 .aimeos .sidebar-menu li:hover {
-  
- 
 
 }
 
@@ -138,7 +173,6 @@ p.upload-csv input {
 .aimeos .main-sidebar .sidebar-menu li.active {
   background-color: #c5e7c8 !important;
   color: #22a144;
-  
 }
 
 .aimeos form.list {
@@ -193,10 +227,10 @@ p.upload-csv input {
 .list-orders {
   border-collapse: collapse;
 }
- 
+
 .list-orders th {
   border-bottom: 1pt solid #15742e !important;
-  
+
 }
 
 .aimeos table.list-items th{
@@ -362,7 +396,7 @@ p.upload-csv input {
 }
 
 .dd-nav li
-{  
+{
   display: flex;
   align-items: center;
   padding: 3px 0;
@@ -372,7 +406,6 @@ p.upload-csv input {
   color:white !important;
   width: 75%;
   display: inline-block;
-  
 }
 
 .dd-nav .dropdown-item:hover{

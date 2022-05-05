@@ -16,7 +16,7 @@ class ResetPasswordRequest extends FormRequest
     {
         return [
             'token' => 'required',
-            'password' => ['required', new Password, 'confirmed'],
+            'password' => ['required', new Password('無効なパスワードです'), 'confirmed'],
         ];
     }
 

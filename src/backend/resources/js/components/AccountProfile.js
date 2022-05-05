@@ -247,7 +247,7 @@ const AccountProfileEdit = () => {
                 ...prevState,
                 isLoading: false,
                 showPopupMessageDialog: true,
-                dialogMessage: 'Customer company information failed to update!'
+                dialogMessage: '企業情報の更新に失敗しました'
               }
             })
             return
@@ -258,7 +258,7 @@ const AccountProfileEdit = () => {
               isLoading: false,
               updatedAccount: response.data.data,
               showPopupMessageDialog: true,
-              dialogMessage: '顧客企業情報の更新に成功しました！'
+              dialogMessage: response['data']['message']
             }
           })
         })

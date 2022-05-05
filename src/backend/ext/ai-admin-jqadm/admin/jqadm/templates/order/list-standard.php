@@ -292,7 +292,7 @@ $statusList = [
 								<td class="order-id text-end" style="padding-right:2em"><a class="items-field" href="<?= $url ?>" tabindex="1"><?= $enc->html( $item->getId() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.price', $fields ) ) : ?>
-								<td class="order-base-price price text-end"><?= $baseItem ? number_format($enc->html( $baseItem->getPrice()->getValue() + $baseItem->getPrice()->getTaxValue() )) : '' ?>円</td>
+								<td class="order-base-price price text-end"><?= $baseItem ? number_format($enc->html( $baseItem->getPrice()->getValue() + floor($baseItem->getPrice()->getTaxValue()) )) : '' ?>円</td>
 							<?php endif ?>
 							<?php if( in_array( 'order.statuspayment', $fields ) ) : ?>
 								<td class="order-statuspayment"> <?= $item->getStatusPayment() === 6 ? "支払い済み" : "未払い" ?> </td>
@@ -343,7 +343,7 @@ $statusList = [
 								<td class="order-base-rebate"><a class="items-field" href="<?= $url ?>"><?= $baseItem ? $enc->html( $baseItem->getPrice()->getRebate() ) : '' ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.taxvalue', $fields ) ) : ?>
-								<td class="order-base-taxvalue"><a class="items-field" href="<?= $url ?>"><?= $baseItem ? $enc->html( $baseItem->getPrice()->getTaxValue() ) : '' ?></a></td>
+								<td class="order-base-taxvalue"><a class="items-field" href="<?= $url ?>"><?= $baseItem ? $enc->html( floor($baseItem->getPrice()->getTaxValue()) ) : '' ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'order.base.taxflag', $fields ) ) : ?>
 								<td class="order-base-taxflag"><a class="items-field" href="<?= $url ?>"><?= $baseItem ? $enc->html( $statusList[$baseItem->getPrice()->getTaxFlag()] ) : '' ?></a></td>
