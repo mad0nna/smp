@@ -194,6 +194,7 @@ const NewAccount = (props) => {
               }
             })
           }
+          location.reload()
         })
         .catch(function (error) {
           if (error.response.status == 409) {
@@ -220,7 +221,6 @@ const NewAccount = (props) => {
             })
           }
         })
-      location.reload()
     } else {
       setState((prevState) => {
         return {

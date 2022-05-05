@@ -194,7 +194,7 @@ class CompanyService
                 'invite_token' => $invite_token,
                 'company_name' => $data['name'],
                 'account_code' => $data['account_code'],
-                'name' => $data['contact_email']
+                'name' => $data['contact_first_name'] . ' ' . $data['contact_last_name']
             ];
             $_user = $user->create($userData);
             $this->mysql->makeUserWidgetSettings($_user->id);
