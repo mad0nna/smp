@@ -199,8 +199,8 @@ class UserController extends Controller
             if ($sf['source'] === 'smp') {
                 $addInSF = (new Contact)->create([
                     'AccountId' => Auth::user()->company()->first()->account_id,
-                    'LastName' => $sf['firstname'] ? $sf['firstname'] : '',
-                    'FirstName' => $sf['lastname'] ? $sf['lastname'] : '',
+                    'LastName' => $sf['lastname'] ? $sf['lastname'] : '',
+                    'FirstName' => $sf['firstname'] ? $sf['firstname'] : '',
                     'Email' => $sf['email'],
                     'admin__c' => false
                 ]);
