@@ -68,7 +68,7 @@ class FileService
         }
 
         try {
-            $file_exists = Storage::disk(config('app.storage_disk'))->exists($file->file_path);
+            $file_exists = Storage::disk(config('app.storage_disk_csv'))->exists($file->file_path);
 
             if ($file_exists === false) {
                 throw new RuntimeException('File does not exist.');

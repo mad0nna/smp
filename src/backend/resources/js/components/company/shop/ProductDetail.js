@@ -14,9 +14,11 @@ import CartList from './CartList'
 const ProductDetail = (props) => {
   const history = useHistory()
   const { addItem, items } = useCart()
+  let userData = JSON.parse(document.getElementById('userData').textContent)
   const [state, setState] = useState({
     orderNum: 1,
-    stock: 0
+    stock: 0,
+    img_domain: userData.img_domain || '/aimeos'
   })
   const [isLoaded, setLoaded] = useState(false)
 
@@ -363,7 +365,11 @@ const ProductDetail = (props) => {
                   <div className="grid col-span-1 text-center flex content-center">
                     <img
                       className="w-auto h-auto p-3 tex-center m-auto"
-                      src={isLoaded ? `/aimeos/${productDetail.imgSrc}` : ''}
+                      src={
+                        isLoaded
+                          ? `${state.img_domain}/${productDetail.imgSrc}`
+                          : ''
+                      }
                     ></img>
                   </div>
                   <div className="grid col-span-1 text-center flex content-center">

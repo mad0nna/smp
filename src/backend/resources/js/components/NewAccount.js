@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import _ from 'lodash'
+import _, { isEmpty } from 'lodash'
 import waitingIcon from '../../img/loading-spinner.gif'
 import axios from 'axios'
 
@@ -24,20 +24,57 @@ const NewAccount = (props) => {
     }
   })
   const handleNameChange = (e) => {
-    setState((prevState) => {
+    let regex = new RegExp('^[a-zA-Z]+ [a-zA-Z]+[ ]*?$')
+    let value = e.target.value.replace(/\d+/g, '')
+
+    if (isEmpty(value) || !regex.test(value)) {
+      return setState((prevState) => {
+        return {
+          ...prevState,
+          disableSendButton: true,
+          fullName: value
+        }
+      })
+    }
+    if (
+      !isEmpty(state.foundAccount) &&
+      !isEmpty(state.email) &&
+      regex.test(value)
+    ) {
+      return setState((prevState) => {
+        return {
+          ...prevState,
+          fullName: value,
+          disableSendButton: false
+        }
+      })
+    }
+    if (!isEmpty(state.email) && state.source === 'smp' && regex.test(value)) {
+      return setState((prevState) => {
+        return {
+          ...prevState,
+          fullName: value,
+          disableSendButton: false
+        }
+      })
+    }
+
+    return setState((prevState) => {
       return {
         ...prevState,
-        fullName: e.target.value
+        fullName: value
       }
     })
   }
+
   const handleEmailChange = (e) => {
     setState((prevState) => {
       return {
         ...prevState,
         email: e.target.value,
         foundAccount: {},
-        fullName: ''
+        fullName: '',
+        disableSendButton: true
       }
     })
   }
@@ -54,29 +91,38 @@ const NewAccount = (props) => {
       axios
         .get(`/company/findInSFByEmail?email=${email}`)
         .then((response) => {
-          console.log(response.data.data)
           setState((prevState) => {
             let foundAccount = response.data.data
-            return {
-              ...prevState,
-              // showPopupNewAccount: true,
-              isLoading: false,
-              foundAccount: foundAccount,
-              source: 'salesforce',
-              // : '',
-              searchResult:
-                foundAccount.source === 'salesforce'
-                  ? 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？'
-                  : '既に追加されているユーザーです。アカウント一覧をご確認ください',
-              email: email,
-              fullName: foundAccount.fullName,
-              firstName: foundAccount.first_name,
-              lastName: foundAccount.last_name,
-              contact_num: foundAccount.contact_num,
-              title: foundAccount.title,
-              account_code: foundAccount.account_code,
-              user_type_id: foundAccount.user_type_id,
-              disableSendButton: false
+            if (foundAccount === false) {
+              return {
+                ...prevState,
+                isLoading: false,
+                source: 'smp',
+                searchResult:
+                  '未登録のユーザーです。名前を入力して招待を送信してください。',
+                email: email
+              }
+            } else {
+              return {
+                ...prevState,
+                isLoading: false,
+                foundAccount: foundAccount,
+                source: 'salesforce',
+                // searchResult:
+                //   foundAccount.source === 'salesforce'
+                //     ? 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？'
+                //     : '既に追加されているユーザーです。アカウント一覧をご確認ください',
+                searchResult: foundAccount.message,
+                email: email,
+                fullName: foundAccount.fullName,
+                firstName: foundAccount.first_name,
+                lastName: foundAccount.last_name,
+                contact_num: foundAccount.contact_num,
+                title: foundAccount.title,
+                account_code: foundAccount.account_code,
+                user_type_id: foundAccount.user_type_id,
+                disableSendButton: false
+              }
             }
           })
         })
@@ -110,12 +156,9 @@ const NewAccount = (props) => {
   }
 
   const handleDisplayAddedAdmin = (user) => {
-    if (_.isEmpty(state.foundAccount)) {
-      return
-    }
     if (validateEmail(user.email)) {
       if (user.source != 'salesforce') {
-        const fullName = user.fullName
+        const fullName = user.fullName.trim()
         let arr = []
         arr = fullName.split(' ')
         user.firstname = arr[1] ? arr[1] : ''
@@ -150,8 +193,8 @@ const NewAccount = (props) => {
                 disableSendButton: true
               }
             })
-            location.reload()
           }
+          location.reload()
         })
         .catch(function (error) {
           if (error.response.status == 409) {

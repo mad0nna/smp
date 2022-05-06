@@ -1,14 +1,17 @@
 @component('mail::message')
-{{ $user->first_name }}様<br/>
+{{$user->last_name . ' ' . $user->first_name }}様<br/>
 <br/>
-平素よりお世話になっております。サブスク韋駄天管理事務局です。<br/>
-パスワードの変更が完了致しました。下記ログインボタンよりログインしてください。<br/>
+平素よりお世話になっております。<br/>
+KING OF TIMEサポートセンターです。<br/><br/>
+
+パスワードの変更が完了致しました。<br/><br/>
+
+下記ログインボタンよりログインを行ってください。<br/><br/><br/>
 
 @component('mail::button', ['url' => $url])
 ログイン
 @endcomponent
-
-何かご不明な点等ございましたら、お気軽にお問い合わせくださいませ。<br/><br/>
-
-サブスク韋駄天管理事務局
+<br/><br/>
+※本メールは自動配信されております。<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;お心当たりがない場合は、ご容赦ください。
 @endcomponent
