@@ -32,11 +32,11 @@ class UserTest extends TestCase
     /** @var int */
     private static $userId;
 
-    /** @var array */
-    private static $arrayAddCompanyParams;
-
     /** @var string */
     private static $KEYWORD = 's';
+
+    /** @var string */
+    private static $sfEmail = 'test123@test.com';
 
     public function setUp(): void
     {
@@ -252,7 +252,7 @@ class UserTest extends TestCase
     public function testUserStoreSuccess()
     {
         $findSFByEmailParams = [
-            'email' => 'test123@test.com',
+            'email' => self::$sfEmail,
         ];
 
         $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
@@ -262,6 +262,7 @@ class UserTest extends TestCase
 
         $params = $findSFByEmailResult['data'];
         $params['isPartial'] = 0;
+        $params['source'] = 'sf';
 
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/company/addCompanyAdmin', $params);
@@ -279,7 +280,7 @@ class UserTest extends TestCase
     public function testUserStorePartial()
     {
         $findSFByEmailParams = [
-            'email' => 'test123@test.com',
+            'email' => self::$sfEmail,
         ];
 
         $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
@@ -291,7 +292,7 @@ class UserTest extends TestCase
         $params['firstname'] = $findSFByEmailResult['data']['first_name'];
         $params['lastname'] = $findSFByEmailResult['data']['last_name'];
         $params['isPartial'] = 1;
-
+        $params['source'] = 'sf';
 
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/company/addCompanyAdmin', $params);
@@ -319,12 +320,40 @@ class UserTest extends TestCase
 
         $params = $findSFByEmailResult['data'];
         $params['isPartial'] = 0;
+        $params['source'] = 'sf';
 
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/company/addCompanyAdmin', $params);
 
-        $response->assertStatus(409);
+        $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Creates a new user with a randomly uniquely generated email in db and in salesforce account
+     */
+    public function testUserStoreSuccessAndCreateSalesforceAccount()
+    {
+        $number = rand(0, 99999999);
+        $email = 'unittestnumber'. $number.'@tcg.sprobe.ph';
+
+        $params = [
+            'email' => $email,
+            'firstname' => 'Unit',
+            'lastname' => 'Test',
+        ];
+
+        $params['isPartial'] = 1;
+        // executes create in salesforce when source is SMP
+        $params['source'] = 'smp';
+
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                            ->json('POST', '/company/addCompanyAdmin', $params);
+
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
+        // kindly delete the unit test generated email in salesforce as well
+        $this->deleteUserByEmail($email);
     }
 
     /**
@@ -350,7 +379,7 @@ class UserTest extends TestCase
     {
         // creates a user to be updated
         $findSFByEmailParams = [
-            'email' => 'test123@test.com',
+            'email' => self::$sfEmail,
         ];
 
         $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
@@ -360,6 +389,7 @@ class UserTest extends TestCase
 
         $params = $findSFByEmailResult['data'];
         $params['isPartial'] = 0;
+        $params['source'] = 'sf';
 
         $addUserResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/company/addCompanyAdmin', $params);
@@ -380,8 +410,10 @@ class UserTest extends TestCase
             'username' => $addUserResult['data']['username'],
         ];
 
+
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                             ->json('PUT', '/company/updateAdminByEmail', $params);
+
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
@@ -396,7 +428,7 @@ class UserTest extends TestCase
     {
         // creates a user to be updated
         $findSFByEmailParams = [
-            'email' => 'test123@test.com',
+            'email' => self::$sfEmail,
         ];
 
         $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
@@ -406,6 +438,7 @@ class UserTest extends TestCase
 
         $params = $findSFByEmailResult['data'];
         $params['isPartial'] = 0;
+        $params['source'] = 'sf';
 
         $addUserResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/company/addCompanyAdmin', $params);
@@ -452,7 +485,6 @@ class UserTest extends TestCase
         $params = [
             'Email' => self::$email,
             'FirstName' => $getContactDetailsResult['data']['first_name'],
-            'FullName' => $getContactDetailsResult['data']['fullName'],
             'Id' => $getContactDetailsResult['data']['account_code'],
             'LastName' => $getContactDetailsResult['data']['last_name'],
             'MobilePhone' => '1234567890',
@@ -475,7 +507,7 @@ class UserTest extends TestCase
     public function testResendEmailInviteSuccess()
     {
         $findSFByEmailParams = [
-            'email' => 'test123@test.com',
+            'email' => self::$sfEmail,
         ];
 
         $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
@@ -485,6 +517,7 @@ class UserTest extends TestCase
 
         $addUserParams = $findSFByEmailResult['data'];
         $addUserParams['isPartial'] = 0;
+        $addUserParams['source'] = 'sf';
 
         $addUserResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/company/addCompanyAdmin', $addUserParams);
@@ -525,7 +558,7 @@ class UserTest extends TestCase
     public function testDestroySuccess()
     {
         $findSFByEmailParams = [
-            'email' => 'test123@test.com',
+            'email' => self::$sfEmail,
         ];
 
         $findSFByEmailResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
@@ -535,6 +568,7 @@ class UserTest extends TestCase
 
         $addUserParams = $findSFByEmailResult['data'];
         $addUserParams['isPartial'] = 0;
+        $addUserParams['source'] = 'sf';
 
         $addUserResponse = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                             ->json('POST', '/company/addCompanyAdmin', $addUserParams);
