@@ -24,49 +24,49 @@ const NewAccount = (props) => {
     }
   })
   const handleNameChange = (e) => {
-    let regex = new RegExp("^[a-zA-Z.'-]{1,50}(?: [a-zA-Z.'-]{1,50})+$")
-    if (isEmpty(e.target.value) || !regex.test(e.target.value)) {
+    let regex = new RegExp('^[a-zA-Z]+ [a-zA-Z]+[ ]*?$')
+    let value = e.target.value.replace(/\d+/g, '')
+
+    if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
         return {
           ...prevState,
           disableSendButton: true,
-          fullName: e.target.value
+          fullName: value
         }
       })
     }
     if (
       !isEmpty(state.foundAccount) &&
       !isEmpty(state.email) &&
-      regex.test(e.target.value)
+      regex.test(value)
     ) {
-      setState((prevState) => {
+      return setState((prevState) => {
         return {
           ...prevState,
-          fullName: e.target.value,
+          fullName: value,
           disableSendButton: false
         }
       })
     }
-    if (
-      !isEmpty(state.email) &&
-      state.source === 'smp' &&
-      regex.test(e.target.value)
-    ) {
-      setState((prevState) => {
+    if (!isEmpty(state.email) && state.source === 'smp' && regex.test(value)) {
+      return setState((prevState) => {
         return {
           ...prevState,
-          fullName: e.target.value,
+          fullName: value,
           disableSendButton: false
         }
       })
     }
-    setState((prevState) => {
+
+    return setState((prevState) => {
       return {
         ...prevState,
-        fullName: e.target.value
+        fullName: value
       }
     })
   }
+
   const handleEmailChange = (e) => {
     setState((prevState) => {
       return {
@@ -158,7 +158,7 @@ const NewAccount = (props) => {
   const handleDisplayAddedAdmin = (user) => {
     if (validateEmail(user.email)) {
       if (user.source != 'salesforce') {
-        const fullName = user.fullName
+        const fullName = user.fullName.trim()
         let arr = []
         arr = fullName.split(' ')
         user.firstname = arr[1] ? arr[1] : ''
@@ -194,6 +194,7 @@ const NewAccount = (props) => {
               }
             })
           }
+          location.reload()
         })
         .catch(function (error) {
           if (error.response.status == 409) {
@@ -220,7 +221,6 @@ const NewAccount = (props) => {
             })
           }
         })
-      location.reload()
     } else {
       setState((prevState) => {
         return {
