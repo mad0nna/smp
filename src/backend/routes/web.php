@@ -36,7 +36,6 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::put('updateAdminByEmail', 'UserController@updateAdminByEmail');
     Route::get('getCompanyAdminDetailsbyEmail', 'UserController@searchSF');
     Route::view('/account/profile/', 'companyAdminProfile');
-    Route::delete('deleteSFAdmin', 'UserController@destroyInSF');
     Route::view('/widgetSettings', 'widgetSettings');
     Route::get('/getCoordinates', 'WidgetController@getCompanyCoordinates');
     Route::post('/saveCoordinates', 'WidgetController@saveCoordinates');
@@ -70,6 +69,7 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
 
     Route::view('/setting/widget', 'company.widgetSetting');
+    Route::view('/setting/payment/method', 'company.methodOfPayment');
     Route::view('/setting/password', 'company.passwordSetting');
 
     // Company Shop

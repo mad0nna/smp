@@ -4,7 +4,7 @@
 <div class="container mx-auto w-4/6" >
     <div class="row justify-content-center">
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0">
                 
                 <div class="card-body bg-white rounded-lg border-2 border-gray-200 mt-40 w-2/5 mx-auto my-auto shadow-sm p-10 relative">
                     

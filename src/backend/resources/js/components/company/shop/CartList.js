@@ -35,9 +35,9 @@ const CartList = () => {
     messageContent:
       'ご請求書を発行いたしました。ご登録のメールアドレスをご確認してください。',
     loader: false,
-    isSubmit: false
+    isSubmit: false,
+    img_domain: userData.img_domain || '/aimeos'
   })
-  console.log(state.addressModalDisplay)
   const [addressData, setAddressData] = useState({
     company_name: userData.companyCode || '',
     email: userData.email || '',
@@ -102,10 +102,10 @@ const CartList = () => {
   const handleAddressOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
-    const reg = /^[A-Za-z_][A-Za-z\d_]*$/
-    if (value === '' || reg.test(parseInt(value))) {
-      setAddressData({ ...addressData, [name]: value.replace(/[^\w\s]/gi, '') })
-    }
+    // const reg = /^[A-Za-z_][A-Za-z\d_]*$/
+    // if (value === '' || reg.test(parseInt(value))) { .replace(/[^\w\s]/gi, '')
+    setAddressData({ ...addressData, [name]: value })
+    // }
   }
   const handleAddressSelectOnChange = (event) => {
     const name = event.target.name
@@ -139,7 +139,6 @@ const CartList = () => {
     numberInput.forEach((data) => {
       data === '-' && i++
     })
-    console.log(i <= 2 === false)
     const re = /^[0-9-]+$/gm
     if (value === '' || re.test(numberValue)) {
       if (!hypen) {
@@ -156,13 +155,13 @@ const CartList = () => {
   const handleAddressTextOnChange = (event) => {
     const name = event.target.name
     const value = event.target.value
-    const reg_txt = /^[a-zA-Z\s]*$/
-    if (value === '' || reg_txt.test(value)) {
-      setAddressData({
-        ...addressData,
-        [name]: value.replace(/[^\w\s]/gi, '')
-      })
-    }
+    // const reg_txt = /^[a-zA-Z\s]*$/
+    // if (value === '' || reg_txt.test(value)) {.replace(/[^\w\s]/gi, '')
+    setAddressData({
+      ...addressData,
+      [name]: value
+    })
+    // }
   }
   // const handleTelNumber = (event) => {
   //   const name = event.target.name
@@ -373,7 +372,6 @@ const CartList = () => {
           }
         ]
       }
-      console.log('#s', params)
       await axios
         .post(
           `${addressUrl}&_token=${csrfItem.value}`,
@@ -510,7 +508,6 @@ const CartList = () => {
       console.log('createServicePersistBasket', err)
     }
   }
-  console.log(state)
   const handleCheckoutModalAddressClose = () => {
     setState((prevState) => {
       return {
@@ -598,7 +595,7 @@ const CartList = () => {
 
         generateFinalOrder(ccData)
           .then((res) => {
-            console.log('sucessfully created order')
+            // console.log('sucessfully created order')
             deleteBasketCache(res.data.meta.csrf)
             // display modal submit
             let totalAmount = calculatedItem.totalAmount.toLocaleString('jp')
@@ -713,7 +710,7 @@ const CartList = () => {
             <div className="flex flex-col p-2">
               <img
                 className="w-auto h-auto p-5 tex-center m-auto"
-                src={`/aimeos/${item.imgSrc}`}
+                src={`${state.img_domain}/${item.imgSrc}`}
               ></img>
               <div className="text-red-500 font-bold">{item.title}</div>
             </div>
@@ -820,9 +817,15 @@ const CartList = () => {
     }
     const numberInput = addressData.number.split('') || []
     let i = 0
-    numberInput.forEach((data) => {
+    let preLoadHypen = []
+    numberInput.forEach((data, index) => {
       data === '-' && i++
+      data === '-' && preLoadHypen.push(index)
     })
+    const differenceAry = preLoadHypen.slice(1).map(function (n, i) {
+      return n - preLoadHypen[i]
+    })
+    const isDifference = differenceAry.every((value) => value === 1)
     if (addressData.number.length >= 1) {
       if (
         addressData.number.length >= 12 &&
@@ -837,6 +840,12 @@ const CartList = () => {
           (numberInput[11] === '-' && numberInput[12] === undefined) ||
           numberInput[0] === '-'
         ) {
+          setErrorData((prevState) => {
+            return { ...prevState, numberIsValid: true }
+          })
+        }
+
+        if (isDifference) {
           setErrorData((prevState) => {
             return { ...prevState, numberIsValid: true }
           })
@@ -988,7 +997,13 @@ const CartList = () => {
                   onChange={handleAcceptAgreement}
                 />
                 <div className="text-sm  text-primary-200 ">
-                  利用規約
+                  <a
+                    href={'/pdf/TermsOfUse.pdf'}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    利用規約
+                  </a>
                   <span className="text-gray-400 cursor-pointer">
                     に同意します
                   </span>

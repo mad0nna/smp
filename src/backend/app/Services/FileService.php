@@ -68,7 +68,7 @@ class FileService
         }
 
         try {
-            $file_exists = Storage::disk(config('app.storage_disk'))->exists($file->file_path);
+            $file_exists = Storage::disk(config('app.storage_disk_csv'))->exists($file->file_path);
 
             if ($file_exists === false) {
                 throw new RuntimeException('File does not exist.');
@@ -81,12 +81,12 @@ class FileService
     }
 
     /**
-     * Uploads the file to s3 and saving the path to DB
+     * Uploads the file to a specific disk and saving the path to DB
      *
      * @param array $data
      * @return App\Models\File $file
      */
-    public function uploadToS3(array $data)
+    public function uploadToDisk(array $data)
     {
         DB::beginTransaction();
 
@@ -111,8 +111,8 @@ class FileService
             $formData['company_id'] = $company->id;
             $formData['month_of_billing'] = $monthOfBilling;
 
-            // Saves file to selected local or s3 disk
-            Storage::disk(config('app.storage_disk'))->putFileAs(
+            // Saves file to selected selected disk from env for CSVs
+            Storage::disk(config('app.storage_disk_csv'))->putFileAs(
                 $fileUrl,
                 $data['file'],
                 $fileName,

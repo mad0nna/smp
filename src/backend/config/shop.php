@@ -115,4 +115,27 @@ return [
 	'backend' => [
 	],
 
+	'resource' => [
+		'fs' => [
+			'adapter' => (env('APP_ENV') == 'development' || env('APP_ENV') == 'local') ? 'Standard' : 'FlyAwsS3',
+			'credentials' => [
+				'key' => env('AWS_ACCESS_KEY_ID'),
+				'secret' => env('AWS_SECRET_ACCESS_KEY'),
+			],
+			'region' => env('AWS_DEFAULT_REGION'),
+			'version' => 'latest',
+			'bucket' => env('AWS_BUCKET_SHOPPING'),
+			'baseurl' => (env('APP_ENV') == 'development' || env('APP_ENV') == 'local') ? '/aimeos' : env('AWS_URL_SHOPPING'),
+			'basedir' => public_path( 'aimeos' ),
+			'tempdir' => storage_path( 'tmp' ),
+		], 
+		'db' => array(
+			'adapter' => 'mysql',
+			'host' => env('DB_HOST', 'mysql'),
+			'port' => env('DB_PORT', 3306),
+			'database' => env('DB_DATABASE', 'idaten'),
+			'username' => env('DB_USERNAME', 'idaten'),
+			'password' => env('DB_PASSWORD', 'password'),
+		)
+	]
 ];

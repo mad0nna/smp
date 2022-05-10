@@ -61,7 +61,6 @@ const CheckoutAddress = (props) => {
             </div>
             <div className="md:flex md:items-center mb-5">
               <div className="md:w-3/6 pr-5">
-                {' '}
                 <form className="w-full">
                   <div className="md:flex md:items-center mb-4">
                     <div className="md:w-1/3">
@@ -424,13 +423,20 @@ const CheckoutAddress = (props) => {
                           配送先 電話番号を入力してください
                         </p>
                       ) : props.error.numberIsValid ? (
-                        <p
-                          className="text-xs text-red-700 w-full pt-1"
-                          id="passwordHelp"
-                        >
-                          ハイフン（ ー ）付きの電話番号を入力してください。
-                          <div>例：０３ー１２３４ー１２３４）</div>
-                        </p>
+                        <>
+                          <p
+                            className="text-xs text-red-700 w-full pt-1"
+                            id="passwordHelp"
+                          >
+                            ハイフン（ ー ）付きの電話番号を入力してください。
+                          </p>
+                          <p
+                            className="text-xs text-red-700 w-full pt-1"
+                            id="passwordHelp"
+                          >
+                            例：０３ー１２３４ー１２３４
+                          </p>
+                        </>
                       ) : null}
                     </div>
                   </div>

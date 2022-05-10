@@ -264,17 +264,17 @@ const Navigation = () => {
           isActive: false,
           extraStyle: ''
         },
-        {
-          label: 'ドキュメント',
-          url: '#',
-          childUrl: [],
-          iconNormal: 'bg-document-icon',
-          iconHover: 'group-hover:bg-document-icon-hover',
-          iconActive: 'bg-document-icon-hover',
-          iconSize: 'h-8 w-9',
-          isActive: false,
-          extraStyle: 'cursor-default'
-        },
+        // {
+        //   label: 'ドキュメント',
+        //   url: '#',
+        //   childUrl: [],
+        //   iconNormal: 'bg-document-icon',
+        //   iconHover: 'group-hover:bg-document-icon-hover',
+        //   iconActive: 'bg-document-icon-hover',
+        //   iconSize: 'h-8 w-9',
+        //   isActive: false,
+        //   extraStyle: 'cursor-default'
+        // },
         {
           label: 'ショップ',
           url: '/admin/shop/jqadm/search/product?locale=ja',
@@ -363,8 +363,7 @@ const Navigation = () => {
           break
       }
     }
-
-    axios.get(`/getLoggedinUser`).then((response) => {
+    axios.get(location.origin + '/getLoggedinUser').then((response) => {
       if (response.status === 200) {
         setState((prevState) => {
           return {

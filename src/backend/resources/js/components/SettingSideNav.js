@@ -25,6 +25,10 @@ const SettingSideNav = () => {
       link: '/company/setting/widget'
     },
     {
+      label: 'お支払い方法',
+      link: '/company/setting/payment/method'
+    },
+    {
       label: 'パスワード',
       link: '/company/setting/password'
     }

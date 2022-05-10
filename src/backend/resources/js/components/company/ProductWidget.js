@@ -6,9 +6,11 @@ import spinner from '../../../img/spinner.gif'
 const ProductWidget = () => {
   const API_URL =
     '/jsonapi/product?page[offset]=0&page[limit]=6&include=media,text,price,stock'
+  let userData = JSON.parse(document.getElementById('userData').textContent)
   const [state, setState] = useState({
     loading: true,
-    loadedComponent: false
+    loadedComponent: false,
+    img_domain: userData.img_domain || '/aimeos'
   })
   const [productList, setProductList] = useState([])
 
@@ -170,8 +172,8 @@ const ProductWidget = () => {
                       href={`/company/productDetail/?id=${item.product['product.id']}`}
                     >
                       <img
-                        className="mx-auto h-40 p-4"
-                        src={`/aimeos/${item.media['media.url']}`}
+                        className="mx-auto p-4"
+                        src={`${state.img_domain}/${item.media['media.url']}`}
                       ></img>
                     </a>
                     <div className="">{item.product['product.label']}</div>

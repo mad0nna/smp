@@ -188,23 +188,6 @@ $paymentStatusList2 = [
 						<?php endforeach ?>
 
 					</ul>
-
-					<div class="item-meta text-muted">
-						<small>
-							<?= $enc->html( $this->translate( 'admin', 'Modified' ) ) ?>:
-							<span class="meta-value"><?= $enc->html( $basket->getTimeModified() ) ?></span>
-						</small>
-						<small>
-							<?= $enc->html( $this->translate( 'admin', 'Created' ) ) ?>:
-							<span class="meta-value"><?= $enc->html( $basket->getTimeCreated() ) ?></span>
-						</small>
-						<small>
-							<?= $enc->html( $this->translate( 'admin', 'Editor' ) ) ?>:
-							<span class="meta-value"><?= $enc->html( $basket->getEditor() ) ?></span>
-						</small>
-					</div>
-
-					<div class="more"></div>
 				</div>
 			</div>
 
@@ -866,7 +849,7 @@ $paymentStatusList2 = [
 													<?php endif ?>
 												</div>
 												<div class="col-4 value" style="padding-right:0"> 
-													<?= number_format( $basket->getPrice()->getTaxValue() ) ?>円
+													<?= number_format( floor($basket->getPrice()->getTaxValue()) ) ?>円
 												</div>
 											</div>
 										</div> 
@@ -885,9 +868,10 @@ $paymentStatusList2 = [
 												<div class="col-6 name"> </div>
 												<div class="col-6 value row" style="padding:0"> 
 													<div class="col-8 value"><?= $enc->html( $this->translate( 'admin', '合計:' ) ) ?></div>
-													<div class="col-4 value" style="padding-right:0"><?= number_format( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() + $basket->getPrice()->getTaxValue() ) ?>円</div>
+													<div class="col-4 value" style="padding-right:0"><?= number_format( $basket->getPrice()->getValue() + $basket->getPrice()->getCosts() + floor($basket->getPrice()->getTaxValue()) ) ?>円</div>
 												</div>
 											</div>
+											<div class="form-group row"></div>
 										<?php endif ?>
 									</div>
 
@@ -895,19 +879,19 @@ $paymentStatusList2 = [
 										<div class="row justify-content-center" style="margin-top: -30px;">
 											<label class="col-6 form-control-label">備考</label>
 											<div class="col-7 col-sm-12" style="padding-left: 1.5rem; padding-top: 0.5rem;">
-												<textarea class="form-control order-notes" rows="7" name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.notes' ) ) ) ?>" >
+												<textarea class="form-control order-notes" rows="7" style="resize: none;" name="<?= $enc->attr( $this->formparam( array( 'item', 'product', $pos, 'order.base.product.notes' ) ) ) ?>" >
 													<?= $enc->attr( $this->get( 'itemData/product/' . $pos . '/order.base.product.notes' ) ) ?>
 												</textarea>
 											</div>
 										</div>
-										<p class="" style="position:absolute; bottom: 0; left: 25%;">
+										<p class="" style="position:absolute; bottom: 0; text-align: center; margin-top: 0; margin-bottom: 0; width: 100%;">
 											<a class="btn btn-secondary act-cancel"
 												title="キャンセル"
 												href="<?= $enc->attr( $this->url( $listTarget, $listCntl, $listAction, $searchParams, [], $listConfig ) ) ?>">
 												キャンセル
 											</a> &nbsp;
 												<button type="button" id="buttonUpdateOrderSendEmail" class="btn btn-primary act-save" style="display:none;" title="保存" v-on:click="btnShowDialogOR = true">&nbsp;保存&nbsp;</button> 
-												<button type="submit" id="btnUpdateOrder" class="btn btn-primary act-save " title="保存"  >&nbsp;保存&nbsp;</button>			 
+												<button type="submit" id="btnUpdateOrder" class="btn btn-primary act-save " title="保存"  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>			 
 										</p>
 									</div>
 								</div>

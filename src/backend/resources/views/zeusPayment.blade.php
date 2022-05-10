@@ -5,7 +5,7 @@
 <div style="display:hidden !important;">
               <form
                   method="POST"
-                  action="https://linkpt.cardservice.co.jp/cgi-bin/credit/order.cgi"
+                  action="<?=$host?>"
                   target="_top"
                 >
                   <input type="hidden" name="clientip" value="<?=$clientIP?>" />
@@ -31,7 +31,6 @@
                     type="hidden"
                     name="failure_url"
                     value=''> 
-                  />
                   <input type="hidden" name="failure_str" value="ページに戻る" />
                   <input
                     type="submit"
