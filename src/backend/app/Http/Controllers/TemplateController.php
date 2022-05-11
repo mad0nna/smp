@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TemplateRequest;
-use App\models\Template;
-use App\models\TemplateTarget;
+use App\Models\Template;
+use App\Models\TemplateTarget;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use RuntimeException;
