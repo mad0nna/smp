@@ -65,6 +65,11 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'template' => [
+            'driver' => 'local',
+            'root' => public_path(),
+        ],
+        
         's3_csv' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
