@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\models\TemplateTarget;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
@@ -13,6 +14,10 @@ class Company extends Model
      */
     protected $fillable = ['company_code', 'name', 'contact_num', 'website', 'industry', 'billing_street', 'billing_city', 'biling_state', 'billing_postal_code', 'billing_country',
                            'status', 'token', 'zen_org_name', 'industry_sub', 'industry_sub2', 'account_id', 'kot_trans_type', 'payment_method', 'kot_billing_start_date', 'record_type_code'];
+
+    public function template() {
+        return $this->hasOne(Template::class);
+    }
 
     /**
      * Retrieve all Users under this company
@@ -55,5 +60,9 @@ class Company extends Model
             'expyr' => $this->expyr,
 
         ];
+    }
+
+    public function templateTarget() {
+        return $this->hasOne(TemplateTarget::class);
     }
 }
