@@ -156,8 +156,14 @@ const NewAccount = (props) => {
         .get(`/company/findInSFByEmail?email=${email}`)
         .then((response) => {
           setState((prevState) => {
-            let foundAccount = response.data.data
-            if (foundAccount === false) {
+            let data = response.data.data
+            if (data.existsInDB) {
+              return {
+                disableSendButton: true,
+                searchResult: data.message
+              }
+            }
+            if (data === false) {
               return {
                 ...prevState,
                 isLoading: false,
@@ -172,21 +178,21 @@ const NewAccount = (props) => {
               return {
                 ...prevState,
                 isLoading: false,
-                foundAccount: foundAccount,
+                foundAccount: data,
                 source: 'salesforce',
                 // searchResult:
                 //   foundAccount.source === 'salesforce'
                 //     ? 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？'
                 //     : '既に追加されているユーザーです。アカウント一覧をご確認ください',
-                searchResult: foundAccount.message,
+                searchResult: data.message,
                 email: email,
-                fullName: foundAccount.fullName,
-                firstName: foundAccount.first_name,
-                lastName: foundAccount.last_name,
-                contact_num: foundAccount.contact_num,
-                title: foundAccount.title,
-                account_code: foundAccount.account_code,
-                user_type_id: foundAccount.user_type_id,
+                fullName: data.fullName,
+                firstName: data.first_name,
+                lastName: data.last_name,
+                contact_num: data.contact_num,
+                title: data.title,
+                account_code: data.account_code,
+                user_type_id: data.user_type_id,
                 disableSendButton: false
               }
             }
@@ -325,7 +331,7 @@ const NewAccount = (props) => {
               権限 :
             </label>
             <label className="ml-2 col-span-1 text-white w-1/2 my-2">
-              副管理者
+              {state.user_type_id == 3 ? '管理者' : '副管理者'}
             </label>
           </div>
           <div className="w-full">

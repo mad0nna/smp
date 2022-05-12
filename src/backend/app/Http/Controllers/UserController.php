@@ -53,6 +53,15 @@ class UserController extends Controller
     public function findInSFByEmail(SearchUserInSFRequest $request)
     {
         try {
+
+            $isExists = $this->userService->findByEmail($request->email);
+            if(!empty($isExists)) {
+                return response()->json(['data' => [
+                    'message' => 'SMPにすでに存在する電子メール',
+                    'existsInDB' => true
+                ]]);
+            }
+
             $user = (new Contact)->findByEmailAndAccountId($request->email, Session::get('salesforceCompanyID'));
             if ($user) {
                 $userData = [
@@ -66,7 +75,8 @@ class UserController extends Controller
                     'user_status_id' => 5,
                     'contact_num' => $user['MobilePhone'],
                     'user_type_id' => $user['admin__c'] ? 3 :4,
-                    'message' => 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？'
+                    'message' => 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？',
+                    'existsInDB' => false
                 ];
                 $this->response['data'] = $userData;
             } else {

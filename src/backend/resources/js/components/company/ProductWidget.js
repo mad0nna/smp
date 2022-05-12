@@ -171,14 +171,16 @@ const ProductWidget = () => {
                     <a
                       href={`/company/productDetail/?id=${item.product['product.id']}`}
                     >
-                      <img
-                        className="mx-auto p-4"
-                        src={`${state.img_domain}/${item.media['media.url']}`}
-                      ></img>
+                      <div className="prod-widget-img-holder">
+                        <img
+                          className="mx-auto p-4"
+                          src={`${state.img_domain}/${item.media['media.preview']}`}
+                        ></img>
+                      </div>
                     </a>
-                    <div className="">{item.product['product.label']}</div>
-                    <div className="">{prodPrice}円</div>
-                    <div className="text-primary-200">
+                    <div className="pl-1">{item.product['product.label']}</div>
+                    <div className="pl-1">{prodPrice}円</div>
+                    <div className="pl-1 text-primary-200">
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}
                       >
