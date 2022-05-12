@@ -3,6 +3,9 @@ import _, { isEmpty } from 'lodash'
 import waitingIcon from '../../img/loading-spinner.gif'
 import axios from 'axios'
 
+const nameRegex =
+  '^[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]{0,1}[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$'
+
 const NewAccount = (props) => {
   const [state, setState] = useState({
     addingAccount: '',
@@ -26,7 +29,7 @@ const NewAccount = (props) => {
 
   const handleLastNameChange = (e) => {
     // accepts english and full width (zenkaku) katakana
-    let regex = new RegExp('^[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]{0,1}[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$')
+    let regex = new RegExp(nameRegex)
     let value = e.target.value.replace(/\d+/g, '')
 
     if (isEmpty(value) || !regex.test(value)) {
@@ -74,7 +77,7 @@ const NewAccount = (props) => {
 
   const handleFirstNameChange = (e) => {
     // accepts english, hiragana, kanji and half and full-width katakana
-    let regex = new RegExp('^[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]{0,1}[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$')
+    let regex = new RegExp(nameRegex)
     let value = e.target.value.replace(/\d+/g, '')
 
     if (isEmpty(value) || !regex.test(value)) {
