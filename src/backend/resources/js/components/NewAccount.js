@@ -28,7 +28,7 @@ const NewAccount = (props) => {
   })
 
   const handleLastNameChange = (e) => {
-    let value = e.target.value.replace(/\d+/g, '')
+    let value = e.target.value
 
     if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
@@ -79,7 +79,7 @@ const NewAccount = (props) => {
   }
 
   const handleFirstNameChange = (e) => {
-    let value = e.target.value.replace(/\d+/g, '')
+    let value = e.target.value
 
     if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
@@ -187,8 +187,8 @@ const NewAccount = (props) => {
                 searchResult: data.message,
                 email: email,
                 fullName: data.fullName,
-                firstName: data.first_name,
-                lastName: data.last_name,
+                firstName: data.first_name.replace(' ', '').trim(),
+                lastName: data.last_name.replace(' ', '').trim(),
                 contact_num: data.contact_num,
                 title: data.title,
                 account_code: data.account_code,
