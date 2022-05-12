@@ -144,7 +144,7 @@ const PasswordSettings = () => {
   const handleTextChange = (key, e) => {
     let hasError = false
     let errorMessage = ''
-    let val = e.target.value
+    let val = e.target.value.replace(/\s+/g, '')
     var keycode = keyPressed(e)
     if (keycode == 32) {
       e.preventDefault()
@@ -224,8 +224,8 @@ const PasswordSettings = () => {
                         className="text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8"
                         type="password"
                         name="oldPassword"
-                        defaultValue={state.oldPassword}
-                        onKeyDown={(e) => handleTextChange('oldPassword', e)}
+                        value={state.oldPassword}
+                        onChange={(e) => handleTextChange('oldPassword', e)}
                       />
                       <h1
                         className={
@@ -251,8 +251,8 @@ const PasswordSettings = () => {
                         className="text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8"
                         type="password"
                         name="newPassword"
-                        defaultValue={state.newPassword}
-                        onKeyDown={(e) => handleTextChange('newPassword', e)}
+                        value={state.newPassword}
+                        onChange={(e) => handleTextChange('newPassword', e)}
                       />
                       <h1
                         className={
@@ -277,8 +277,8 @@ const PasswordSettings = () => {
                         className="text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8"
                         type="password"
                         name="newPassword2"
-                        defaultValue={state.newPassword2}
-                        onKeyDown={(e) => handleTextChange('newPassword2', e)}
+                        value={state.newPassword2}
+                        onChange={(e) => handleTextChange('newPassword2', e)}
                       />
                       <h1
                         className={
