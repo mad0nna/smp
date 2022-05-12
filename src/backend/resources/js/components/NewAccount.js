@@ -55,7 +55,12 @@ const NewAccount = (props) => {
       })
     }
 
-    if (!isEmpty(state.email) && state.source === 'smp' && regex.test(value)) {
+    if (
+      !isEmpty(state.email) &&
+      state.source === 'smp' &&
+      regex.test(value) &&
+      regex.test(state.firstName)
+    ) {
       return setState((prevState) => {
         return {
           ...prevState,
@@ -101,7 +106,12 @@ const NewAccount = (props) => {
       })
     }
 
-    if (!isEmpty(state.email) && state.source === 'smp' && regex.test(value)) {
+    if (
+      !isEmpty(state.email) &&
+      state.source === 'smp' &&
+      regex.test(value) &&
+      regex.test(state.lastName)
+    ) {
       return setState((prevState) => {
         return {
           ...prevState,
@@ -154,7 +164,9 @@ const NewAccount = (props) => {
                 source: 'smp',
                 searchResult:
                   '未登録のユーザーです。名前を入力して招待を送信してください。',
-                email: email
+                email: email,
+                firstName: '',
+                lastName: ''
               }
             } else {
               return {
