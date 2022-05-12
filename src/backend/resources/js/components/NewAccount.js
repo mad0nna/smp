@@ -3,8 +3,7 @@ import _, { isEmpty } from 'lodash'
 import waitingIcon from '../../img/loading-spinner.gif'
 import axios from 'axios'
 
-const nameRegex =
-  '^[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]{0,1}[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$'
+const nameRegex = '^[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+?$'
 
 const NewAccount = (props) => {
   const [state, setState] = useState({
@@ -45,8 +44,8 @@ const NewAccount = (props) => {
     if (
       !isEmpty(state.foundAccount) &&
       !isEmpty(state.email) &&
-      !isEmpty(state.firstName) &&
-      regex.test(value)
+      regex.test(value) &&
+      regex.test(state.firstName)
     ) {
       return setState((prevState) => {
         return {
@@ -93,8 +92,8 @@ const NewAccount = (props) => {
     if (
       !isEmpty(state.foundAccount) &&
       !isEmpty(state.email) &&
-      !isEmpty(state.lastName) &&
-      regex.test(value)
+      regex.test(value) &&
+      regex.test(state.lastName)
     ) {
       return setState((prevState) => {
         return {
