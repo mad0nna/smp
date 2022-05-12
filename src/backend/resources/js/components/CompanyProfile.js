@@ -524,6 +524,7 @@ const CompanyProfile = () => {
           window.document.getElementById('companyDropwdownTitle').innerHTML =
             state.companyEditValues.companyName
           alert('入力内容を更新しました.')
+          location.reload()
         })
     }
   }
