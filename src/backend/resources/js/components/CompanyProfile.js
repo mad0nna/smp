@@ -82,7 +82,7 @@ const CompanyProfile = () => {
     isLoading: false
   })
 
-  const [errorMessages, setErrorMessages] = useState({
+  let defaultErrorMessage = {
     companyName: '',
     country: '',
     state: '',
@@ -95,6 +95,10 @@ const CompanyProfile = () => {
     MobilePhone: '',
     email: '',
     hasError: false
+  }
+
+  const [errorMessages, setErrorMessages] = useState({
+    defaultErrorMessage
   })
 
   useEffect(() => {
@@ -303,7 +307,7 @@ const CompanyProfile = () => {
     switch (key) {
       case 'contactNumber':
         key = 'contactNumber'
-        if (val === '' || re.test(val)) {
+        if (val !== '' && re.test(val)) {
           errorMessage = ''
         } else {
           errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
@@ -365,7 +369,6 @@ const CompanyProfile = () => {
     state.validationFields.map((field) => {
       val = ''
       errorMessage = ''
-
       switch (field) {
         case 'companyName':
           key = 'companyName'
@@ -557,11 +560,16 @@ const CompanyProfile = () => {
 
           {state.isEditingProfile ? (
             <button
-              onClick={() =>
+              onClick={() => {
                 setState((prevState) => {
                   return { ...prevState, isEditingProfile: false }
                 })
-              }
+                setErrorMessages(() => {
+                  return {
+                    ...defaultErrorMessage
+                  }
+                })
+              }}
               className="bg-white text-gray-500 rounded-lg p-2 text-sm mr-1"
             >
               キャンセル
@@ -611,7 +619,7 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full px-3 leading-8'
                     }
                   >
-                    {state.companyEditValues.companyName}
+                    {state.companyDetails.companyName}
                   </label>
                   <input
                     className={
@@ -661,11 +669,11 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.companyEditValues.country ?? '' + ' '}
-                    {state.companyEditValues.state ?? '' + ' '}
-                    {state.companyEditValues.city ?? '' + ' '}
-                    {state.companyEditValues.street ?? '' + ' '}
-                    {state.companyEditValues.postalCode ?? ''}
+                    {state.companyDetails.country ?? '' + ' '}
+                    {state.companyDetails.state ?? '' + ' '}
+                    {state.companyDetails.city ?? '' + ' '}
+                    {state.companyDetails.street ?? '' + ' '}
+                    {state.companyDetails.postalCode ?? ''}
                   </label>
                   <div className="space-y-1">
                     <input
@@ -801,7 +809,7 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.companyEditValues.contactNumber}
+                    {state.companyDetails.contactNumber}
                   </label>
                   <input
                     className={
@@ -849,7 +857,7 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.companyEditValues.website}
+                    {state.companyDetails.website}
                   </label>
                   <input
                     className={
@@ -884,7 +892,7 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.companyEditValues.industry}
+                    {state.companyDetails.industry}
                   </label>
                   <input
                     className={
@@ -921,9 +929,9 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.adminDetailsEditValues.LastName +
+                    {state.adminDetails.LastName +
                       ' ' +
-                      state.adminDetailsEditValues.FirstName}
+                      state.adminDetails.FirstName}
                   </label>
                   <div className="space-y-1">
                     <input
@@ -991,7 +999,7 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.adminDetailsEditValues.Email}
+                    {state.adminDetails.Email}
                   </label>
                   <input
                     type="input"
@@ -1030,7 +1038,7 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.adminDetailsEditValues.MobilePhone}
+                    {state.adminDetails.MobilePhone}
                   </label>
                   <input
                     type="text"

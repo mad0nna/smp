@@ -215,7 +215,8 @@ const PasswordSettings = () => {
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                     <div className="mb-1 md:mb-0 md:w-1/3">
                       <label className="text-sm text-gray-400">
-                        現在のパスワードを入力 :
+                        現在のパスワードを入力 :{' '}
+                        <span className="text-red-500">*</span>
                       </label>
                     </div>
                     <div className="md:w-2/3 flex-grow">
@@ -241,7 +242,8 @@ const PasswordSettings = () => {
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                     <div className="mb-1 md:mb-0 md:w-1/3">
                       <label className="text-sm text-gray-400">
-                        新しいパスワードを入力 :
+                        新しいパスワードを入力 :{' '}
+                        <span className="text-red-500">*</span>
                       </label>
                     </div>
                     <div className="md:w-2/3 md:flex-grow">
@@ -266,7 +268,8 @@ const PasswordSettings = () => {
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                     <div className="mb-1 md:mb-0 md:w-1/3">
                       <label className="text-sm text-gray-400">
-                        新しいパスワード（確認 :
+                        新しいパスワード（確認 :{' '}
+                        <span className="text-red-500">*</span>
                       </label>
                     </div>
                     <div className="md:w-2/3 md:flex-grow">
