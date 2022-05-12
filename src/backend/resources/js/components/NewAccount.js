@@ -26,7 +26,7 @@ const NewAccount = (props) => {
 
   const handleLastNameChange = (e) => {
     // accepts english and full width (zenkaku) katakana
-    let regex = new RegExp('^[a-zA-Zァ-ヾＡ-ｚ]+[ ]{0,1}[a-zA-Zァ-ヶ]+?$')
+    let regex = new RegExp('^[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]{0,1}[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$')
     let value = e.target.value.replace(/\d+/g, '')
 
     if (isEmpty(value) || !regex.test(value)) {
@@ -73,8 +73,8 @@ const NewAccount = (props) => {
   }
 
   const handleFirstNameChange = (e) => {
-    // accepts english and full width (zenkaku) katakana
-    let regex = new RegExp('^[a-zA-Zァ-ヾＡ-ｚ]+[ ]{0,1}[a-zA-Zァ-ヶ]+?$')
+    // accepts english, hiragana, kanji and half and full-width katakana
+    let regex = new RegExp('^[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]{0,1}[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$')
     let value = e.target.value.replace(/\d+/g, '')
 
     if (isEmpty(value) || !regex.test(value)) {
