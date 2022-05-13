@@ -4,7 +4,7 @@ import waitingIcon from '../../img/loading-spinner.gif'
 import axios from 'axios'
 
 // accepts english, hiragana, kanji and half and full-width katakana
-const regex = new RegExp('^[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+?$')
+const regex = new RegExp('^[ ]*[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$')
 
 const NewAccount = (props) => {
   const [state, setState] = useState({
@@ -175,6 +175,18 @@ const NewAccount = (props) => {
                 lastName: ''
               }
             } else {
+              let firstName = data.first_name
+                ? data.first_name.replace(/\s/g, '').trim()
+                : ''
+              let lastName = data.last_name
+                ? data.last_name.replace(/\s/g, '').trim()
+                : ''
+              let regexStatus =
+                data.first_name !== '' &&
+                data.last_name !== '' &&
+                regex.test(firstName) &&
+                regex.test(lastName)
+
               return {
                 ...prevState,
                 isLoading: false,
@@ -187,13 +199,13 @@ const NewAccount = (props) => {
                 searchResult: data.message,
                 email: email,
                 fullName: data.fullName,
-                firstName: data.first_name.replace(' ', '').trim(),
-                lastName: data.last_name.replace(' ', '').trim(),
+                firstName: firstName,
+                lastName: lastName,
                 contact_num: data.contact_num,
                 title: data.title,
                 account_code: data.account_code,
                 user_type_id: data.user_type_id,
-                disableSendButton: false
+                disableSendButton: !regexStatus
               }
             }
           })
