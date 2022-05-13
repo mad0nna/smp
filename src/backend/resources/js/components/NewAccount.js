@@ -160,7 +160,9 @@ const NewAccount = (props) => {
             if (data.existsInDB) {
               return {
                 disableSendButton: true,
-                searchResult: data.message
+                searchResult: data.message,
+                firstName: data.first_name,
+                lastName: data.last_name
               }
             }
             if (data === false) {
