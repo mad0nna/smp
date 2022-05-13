@@ -3,6 +3,9 @@ import _, { isEmpty } from 'lodash'
 import waitingIcon from '../../img/loading-spinner.gif'
 import axios from 'axios'
 
+// accepts english, hiragana, kanji and half and full-width katakana
+const regex = new RegExp('^[ ]*[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$')
+
 const NewAccount = (props) => {
   const [state, setState] = useState({
     addingAccount: '',
@@ -23,37 +26,44 @@ const NewAccount = (props) => {
       user_type_id: ''
     }
   })
-  const handleNameChange = (e) => {
-    let regex = new RegExp('^[a-zA-Z]+ [a-zA-Z]+[ ]*?$')
-    let value = e.target.value.replace(/\d+/g, '')
 
+  const handleLastNameChange = (e) => {
+    let value = e.target.value.replace(/\d+/g, '')
     if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
         return {
           ...prevState,
           disableSendButton: true,
-          fullName: value
+          lastName: value
         }
       })
     }
+
     if (
       !isEmpty(state.foundAccount) &&
       !isEmpty(state.email) &&
-      regex.test(value)
+      regex.test(value) &&
+      regex.test(state.firstName)
     ) {
       return setState((prevState) => {
         return {
           ...prevState,
-          fullName: value,
-          disableSendButton: false
+          disableSendButton: false,
+          lastName: value
         }
       })
     }
-    if (!isEmpty(state.email) && state.source === 'smp' && regex.test(value)) {
+
+    if (
+      !isEmpty(state.email) &&
+      state.source === 'smp' &&
+      regex.test(value) &&
+      regex.test(state.firstName)
+    ) {
       return setState((prevState) => {
         return {
           ...prevState,
-          fullName: value,
+          lastName: value,
           disableSendButton: false
         }
       })
@@ -62,7 +72,57 @@ const NewAccount = (props) => {
     return setState((prevState) => {
       return {
         ...prevState,
-        fullName: value
+        lastName: value
+      }
+    })
+  }
+
+  const handleFirstNameChange = (e) => {
+    let value = e.target.value.replace(/\d+/g, '')
+    if (isEmpty(value) || !regex.test(value)) {
+      return setState((prevState) => {
+        return {
+          ...prevState,
+          disableSendButton: true,
+          firstName: value
+        }
+      })
+    }
+
+    if (
+      !isEmpty(state.foundAccount) &&
+      !isEmpty(state.email) &&
+      regex.test(value) &&
+      regex.test(state.lastName)
+    ) {
+      return setState((prevState) => {
+        return {
+          ...prevState,
+          disableSendButton: false,
+          firstName: value
+        }
+      })
+    }
+
+    if (
+      !isEmpty(state.email) &&
+      state.source === 'smp' &&
+      regex.test(value) &&
+      regex.test(state.lastName)
+    ) {
+      return setState((prevState) => {
+        return {
+          ...prevState,
+          firstName: value,
+          disableSendButton: false
+        }
+      })
+    }
+
+    return setState((prevState) => {
+      return {
+        ...prevState,
+        firstName: value
       }
     })
   }
@@ -73,6 +133,8 @@ const NewAccount = (props) => {
         ...prevState,
         email: e.target.value,
         foundAccount: {},
+        firstName: '',
+        lastName: '',
         fullName: '',
         disableSendButton: true
       }
@@ -92,36 +154,58 @@ const NewAccount = (props) => {
         .get(`/company/findInSFByEmail?email=${email}`)
         .then((response) => {
           setState((prevState) => {
-            let foundAccount = response.data.data
-            if (foundAccount === false) {
+            let data = response.data.data
+            if (data.existsInDB) {
+              return {
+                disableSendButton: true,
+                searchResult: data.message,
+                firstName: data.first_name,
+                lastName: data.last_name
+              }
+            }
+            if (data === false) {
               return {
                 ...prevState,
                 isLoading: false,
                 source: 'smp',
                 searchResult:
                   '未登録のユーザーです。名前を入力して招待を送信してください。',
-                email: email
+                email: email,
+                firstName: '',
+                lastName: ''
               }
             } else {
+              let firstName = data.first_name
+                ? data.first_name.replace(/\s/g, '').trim()
+                : ''
+              let lastName = data.last_name
+                ? data.last_name.replace(/\s/g, '').trim()
+                : ''
+              let regexStatus =
+                data.first_name !== '' &&
+                data.last_name !== '' &&
+                regex.test(firstName) &&
+                regex.test(lastName)
+
               return {
                 ...prevState,
                 isLoading: false,
-                foundAccount: foundAccount,
+                foundAccount: data,
                 source: 'salesforce',
                 // searchResult:
                 //   foundAccount.source === 'salesforce'
                 //     ? 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？'
                 //     : '既に追加されているユーザーです。アカウント一覧をご確認ください',
-                searchResult: foundAccount.message,
+                searchResult: data.message,
                 email: email,
-                fullName: foundAccount.fullName,
-                firstName: foundAccount.first_name,
-                lastName: foundAccount.last_name,
-                contact_num: foundAccount.contact_num,
-                title: foundAccount.title,
-                account_code: foundAccount.account_code,
-                user_type_id: foundAccount.user_type_id,
-                disableSendButton: false
+                fullName: data.fullName,
+                firstName: firstName,
+                lastName: lastName,
+                contact_num: data.contact_num,
+                title: data.title,
+                account_code: data.account_code,
+                user_type_id: data.user_type_id,
+                disableSendButton: !regexStatus
               }
             }
           })
@@ -158,11 +242,6 @@ const NewAccount = (props) => {
   const handleDisplayAddedAdmin = (user) => {
     if (validateEmail(user.email)) {
       if (user.source != 'salesforce') {
-        const fullName = user.fullName.trim()
-        let arr = []
-        arr = fullName.split(' ')
-        user.firstname = arr[1] ? arr[1] : ''
-        user.lastname = arr[0] ? arr[0] : ''
         user.isPartial = 1
       } else {
         user.isPartial = 0
@@ -232,15 +311,15 @@ const NewAccount = (props) => {
   }
 
   return (
-    <div className="rounded-lg border-2 border-gray-200 absolute inset-1/3 h-80 top-48 m-auto bg-primary-200 opacity-85 ">
+    <div className="rounded-lg border-2 border-gray-200 absolute md:inset-1/3 h-96 top-50 m-auto bg-primary-200 opacity-85">
       <div className="flex flex-wrap gap-0 w-full justify-center mt-8">
-        <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 justify-start 2xl:pl-14 xl:pl-8 lg:pl-6">
+        <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 lg:ml-6 md:ml-0 justify-start 2xl:pl-16 xl:pl-8 lg:pl-6">
           <div className="justify-center">
-            <label className="text-sm text-white 2xl:w-42 xl:w-42 lg:w-26 h-8 leading-8 col-span-1">
-              メールアドレス:
+            <label className="text-sm text-white 2xl:w-42 xl:w-42 lg:w-26 h-8 leading-8 col-span-1 pr-1">
+              メールアドレス :
             </label>
             <input
-              className="text-sm 2xl:w-60 xl:w-58 lg:w-36 col-span-1 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3 ml-2"
+              className="text-sm 2xl:w-60 xl:w-58 lg:w-36 col-span-1 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3 ml-1"
               defaultValue={state.email}
               type="text"
               onChange={handleEmailChange}
@@ -248,7 +327,7 @@ const NewAccount = (props) => {
             <button
               disabled={state.isLoading}
               onClick={() => searchAdminByEmail(state.email)}
-              className="w-24 xl:w-24 lg:w-24 cursor-pointer col-span-1 text-bold   text-primary-200   bg-white rounded p-1 text-sm"
+              className="w-24 xl:w-24 lg:w-24 cursor-pointer col-span-1 text-bold text-primary-200 bg-white rounded p-1 text-sm"
             >
               検索する
               <img
@@ -260,19 +339,32 @@ const NewAccount = (props) => {
             </button>
           </div>
           <div className=" w-96 mt-5">
-            <label className="ml-10 text-sm text-white w-48 h-8 pr-3 leading-8 text-left col-span-1">
+            <label className="ml-10 text-sm text-white w-48 h-8 pr-1 leading-8 text-left col-span-1">
               権限 :
             </label>
-            <label className="col-span-1 text-white w-1/2 my-2">副管理者</label>
+            <label className="ml-2 col-span-1 text-white w-1/2 my-2">
+              {state.user_type_id == 3 ? '管理者' : '副管理者'}
+            </label>
           </div>
           <div className="w-full">
-            <label className="ml-10 text-sm text-white w-48  h-8 pr-3 leading-8 text-left col-span-1 ">
-              名前 :
+            <label className="text-sm text-white w-48 h-8 pr-1 leading-8 text-left col-span-1">
+              氏名（姓）:
             </label>
             <input
-              className=" text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
-              onChange={handleNameChange}
-              value={state.fullName}
+              className="ml-2 text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
+              onChange={handleLastNameChange}
+              value={state.lastName}
+              type="text"
+            />
+          </div>
+          <div className="w-full">
+            <label className="text-sm text-white w-48 h-8 pr-1 leading-8 text-left col-span-1 ">
+              氏名（名）:
+            </label>
+            <input
+              className="ml-2 text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
+              onChange={handleFirstNameChange}
+              value={state.firstName}
               type="text"
             />
           </div>
@@ -288,7 +380,7 @@ const NewAccount = (props) => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-0 w-full justify-center mt-4">
+      <div className="flex flex-wrap gap-0 w-full justify-center mt-5">
         <button
           onClick={() => {
             handleDisplayAddedAdmin({

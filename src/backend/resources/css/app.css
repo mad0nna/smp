@@ -135,3 +135,17 @@
 ::placeholder { 
     opacity: 0.6 !important;
 }
+
+.prod-widget-img-holder {
+    position: relative;
+    height: 171px;
+    width: 171px;
+    overflow: hidden;
+}
+
+.prod-widget-img-holder img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
