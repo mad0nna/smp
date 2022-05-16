@@ -58,6 +58,8 @@ class UserController extends Controller
             if(!empty($isExists)) {
                 return response()->json(['data' => [
                     'message' => 'SMPにすでに存在する電子メール',
+                    'first_name' => $isExists['first_name'],
+                    'last_name' => $isExists['last_name'],
                     'existsInDB' => true
                 ]]);
             }
