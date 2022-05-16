@@ -66,9 +66,9 @@ const NewAccount = (props) => {
           onClick={() => props.handleDisplayAddedCompany(props.foundCompany)}
           className={
             (props.foundCompany && props.foundCompany.name
-              ? 'text-primary-200'
-              : 'text-gray-500') +
-            ' rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3 tracking-tighter bg-white mr-4'
+              ? 'block'
+              : 'hidden') +
+            ' rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3 tracking-tighter bg-white mr-4 text-primary-200'
           }
         >
           確定
