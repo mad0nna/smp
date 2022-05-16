@@ -53,6 +53,17 @@ class UserController extends Controller
     public function findInSFByEmail(SearchUserInSFRequest $request)
     {
         try {
+
+            $isExists = $this->userService->findByEmail($request->email);
+            if(!empty($isExists)) {
+                return response()->json(['data' => [
+                    'message' => 'SMPにすでに存在する電子メール',
+                    'first_name' => $isExists['first_name'],
+                    'last_name' => $isExists['last_name'],
+                    'existsInDB' => true
+                ]]);
+            }
+
             $user = (new Contact)->findByEmailAndAccountId($request->email, Session::get('salesforceCompanyID'));
             
             if ($user) {
@@ -67,7 +78,8 @@ class UserController extends Controller
                     'user_status_id' => 5,
                     'contact_num' => $user['MobilePhone'],
                     'user_type_id' => $user['admin__c'] ? 3 :4,
-                    'message' => 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？'
+                    'message' => 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？',
+                    'existsInDB' => false
                 ];
                 $this->response['data'] = $userData;
             } else {
@@ -157,53 +169,44 @@ class UserController extends Controller
         try {
             $sf = $request->all();
             $isExists = $this->userService->findByEmail($sf['email']);
+
             if(!empty($isExists) && $sf['source'] === 'salesforce') {
                 return response()->json(['message' => 'SMPにすでに存在する電子メール'], 409);
             }
+
             $pw = substr(md5(microtime()), rand(0, 26), 8);
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
             $company = Auth::user()->company_id;
-            if ($sf['isPartial']) {
-                $formData = [
-                    'username' => $sf['email'] ? $sf['email'] : '',
-                    'first_name' => $sf['firstname'] ? $sf['firstname'] : '',
-                    'last_name' => $sf['lastname'] ? $sf['lastname'] : '',
-                    'email' => $sf['email'] ? $sf['email'] : '',
-                    'user_type_id' => 4,
-                    'company_id' => $company,
-                    'user_status_id' => 5,
-                    'password' => $pw_hash,
-                    'temp_pw' => $pw,
-                    'invite_token' => $invite_token,
-                    'name' => ($sf['lastname'] ? $sf['lastname'] : '') . ' ' . ($sf['firstname'] ? $sf['firstname'] : ''),
-                ];
-            } else {
-                $formData = [
-                    'username' => $sf['email'] ? $sf['email'] : '',
-                    'first_name' => $sf['first_name'] ? $sf['first_name'] : '',
-                    'last_name' => $sf['last_name'] ? $sf['last_name'] : '',
-                    'email' => $sf['email'] ? $sf['email'] : '',
-                    'contact_num' => $sf['contact_num'] ? $sf['contact_num'] : '',
-                    'title' => $sf['title'] ? $sf['title'] : '',
-                    'user_type_id' => 4,
-                    'company_id' => $company,
-                    'user_status_id' => 5,
-                    'password' => $pw_hash,
-                    'temp_pw' => $pw,
-                    'invite_token' => $invite_token,
-                    'account_code' => $sf['account_code'] ? $sf['account_code'] : '',
-                    'name' => ($sf['last_name'] ? $sf['last_name'] : '') . ' ' . ($sf['first_name'] ? $sf['first_name'] : ''),
-                    'user_type_id' => $sf['user_type_id'] ?? ''
-                ];
+
+            $formData = [
+                'username' => $sf['email'] ?? '',
+                'first_name' => $sf['first_name'] ?? '',
+                'last_name' => $sf['last_name'] ?? '',
+                'email' => $sf['email'] ?? '',
+                'user_type_id' => 4,
+                'company_id' => $company,
+                'user_status_id' => 5,
+                'password' => $pw_hash,
+                'temp_pw' => $pw,
+                'invite_token' => $invite_token,
+                'account_code' => $sf['account_code'] ?? '',
+                'name' => ($sf['last_name'] ?? '') . ' ' . ($sf['first_name'] ?? ''),
+            ];
+
+            if (!$sf['isPartial']) {
+                $formData['contact_num'] = $sf['contact_num'] ?? '';
+                $formData['title'] = $sf['title'] ?? '';
+                $formData['account_code'] = $sf['account_code'] ?? '';
+                $formData['user_type_id'] = $sf['user_type_id'] ?? '';
             }
 
             // create user in Salesforce
             if ($sf['source'] === 'smp') {
                 $addInSF = (new Contact)->create([
                     'AccountId' => Auth::user()->company()->first()->account_id,
-                    'LastName' => $sf['lastname'] ? $sf['lastname'] : '',
-                    'FirstName' => $sf['firstname'] ? $sf['firstname'] : '',
+                    'LastName' => $sf['last_name'] ?? '',
+                    'FirstName' => $sf['first_name'] ?? '',
                     'Email' => $sf['email'],
                     'admin__c' => false
                 ]);

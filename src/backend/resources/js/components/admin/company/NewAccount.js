@@ -64,7 +64,12 @@ const NewAccount = (props) => {
             props.foundCompany && props.foundCompany.name ? '' : 'disabled'
           }
           onClick={() => props.handleDisplayAddedCompany(props.foundCompany)}
-          className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-primary-200  tracking-tighter bg-white mr-4"
+          className={
+            (props.foundCompany && props.foundCompany.name
+              ? 'block'
+              : 'hidden') +
+            ' rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3 tracking-tighter bg-white mr-4 text-primary-200'
+          }
         >
           確定
         </button>
