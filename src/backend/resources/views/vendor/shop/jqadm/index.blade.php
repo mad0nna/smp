@@ -113,7 +113,7 @@
 							@php
 								$user = \App\Models\User::find(Auth::user()->id);
 							@endphp
-							<p class="text-base h6 fs-6 fw-bold text-primary-200 px-2 pt-1" id="companyDropwdownTitle" style="letter-spacing: 1px; text-shadow: 1px 1px 2px #e8e8e8;">@php echo $user['company_name'] @endphp</p>
+							<p class="text-base h6 fs-6 fw-bold text-primary-200 px-2 pt-1 font-sans" id="companyDropwdownTitle" style="font-size: 1.1rem!important; margin-bottom: 0.2rem; text-shadow: 1px 1px 2px #e8e8e8;">@php echo $user['name'] @endphp</p>
 							<div class="" style="position:relative">
 							<a class="" href="#" id="dropdown05" data-bs-toggle="dropdown" aria-expanded="false">
 									<img alt="setting icon" src="/images/arrowdown.png">
@@ -126,6 +126,10 @@
 								<li>
 									<label class="bg-call-icon-white" style=""></label>
 									<a class="dropdown-item" href="#">お問合せ</a>
+								</li>
+								<li>
+									<label class="bg-settings-icon-white" style=""></label>
+									<a class="dropdown-item" href="/admin/settings">ト設定</a>
 								</li>
 								<li>
 									<label class="bg-signout-icon" style=""></label>

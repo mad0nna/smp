@@ -487,3 +487,13 @@ p.upload-csv input {
 .text-primary-200 {
   color: rgba(29, 158, 72);
 }
+
+.font-sans {
+  font-family: Meiryo-UI;
+}
+
+@font-face {
+  font-family: Meiryo-UI;
+  src: url(Meiryo-UI.ttf);
+  font-weight:400;
+}
