@@ -157,6 +157,8 @@ class CompanyResource extends JsonResource
         'industry_sub' => $data['Field19__c'],
         'industry_sub2' => $data['Field20__c'],
         'record_type_code' => $data['Field35__c'],
+        'kot_billing_start_date' => $data['Field41__c'],
+        'company_code' => $data['KotCompanyCode__c']
       ];
     }
 }
