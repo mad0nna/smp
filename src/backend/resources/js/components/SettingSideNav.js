@@ -1,23 +1,23 @@
 import React from 'react'
-const InvoiceTemplate = () => {
+const SettingSideNav = () => {
   let mainNav = []
   const adminNavigation = [
     {
       label: 'Invoice Template List',
-      link: '#'
+      link: '/admin/settings'
     },
     {
       label: 'Invoice Template Details',
-      link: '#'
-    },
-    {
-      label: 'Widget',
-      link: '#'
-    },
-    {
-      label: 'Account',
-      link: '#'
+      link: '/admin/settings/invoice/detail'
     }
+    // {
+    //   label: 'Widget',
+    //   link: '#'
+    // },
+    // {
+    //   label: 'Account',
+    //   link: '#'
+    // }
   ]
   const companyNavigation = [
     {
@@ -48,13 +48,12 @@ const InvoiceTemplate = () => {
     }
   }
   return (
-    <div className="col-span-1 py-8 px-4 space-x-2 border-r-2">
+    <div className="col-span-1 py-8 px-4 space-x-2">
       <h1 className="pl-8 text-lg font-black">設定</h1>
       <div className="space-y-2">
         {mainNav.map((nav, index) => {
           let active = nav.link == location.pathname
           let activeStyle = 'bg-green-500 text-white'
-          console.log(active)
           return (
             <div
               id="settings-navigation-item"
@@ -78,4 +77,4 @@ const InvoiceTemplate = () => {
     </div>
   )
 }
-export default InvoiceTemplate
+export default SettingSideNav

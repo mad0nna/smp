@@ -27,10 +27,6 @@ class Kernel extends ConsoleKernel
             ->hourly();
         $schedule->command('notify:cardExpiry')
             ->dailyAt('08:00');
-
-        $schedule->call(function () {
-            \Log::info('CRON TEST LOG');
-        })->everyMinute();
     }
 
     /**

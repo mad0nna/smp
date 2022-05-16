@@ -153,11 +153,12 @@ class CompanyResource extends JsonResource
         'billing_state' => $data['BillingState'],
         'billing_postal_code' => $data['BillingPostalCode'],
         'billing_country' => $data['BillingCountry'],
-        'payment_method' => $data['PaymentMethod__c'],
         'kot_trans_type' => $data['KOT_shubetsu__c'],
         'industry_sub' => $data['Field19__c'],
         'industry_sub2' => $data['Field20__c'],
         'record_type_code' => $data['Field35__c'],
+        'kot_billing_start_date' => $data['Field41__c'],
+        'company_code' => $data['KotCompanyCode__c']
       ];
     }
 }
