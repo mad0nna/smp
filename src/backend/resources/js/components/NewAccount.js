@@ -29,7 +29,7 @@ const NewAccount = (props) => {
   })
 
   const handleLastNameChange = (e) => {
-    let value = e.target.value.replace(/\d+/g, '')
+    let value = e.target.value.replace(/\d+|\s+/g, '')
     if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
         return {
@@ -79,7 +79,7 @@ const NewAccount = (props) => {
   }
 
   const handleFirstNameChange = (e) => {
-    let value = e.target.value.replace(/\d+/g, '')
+    let value = e.target.value.replace(/\d+|\s+/g, '')
     if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
         return {
