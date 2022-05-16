@@ -15,6 +15,7 @@ const NewAccount = (props) => {
     lastName: '',
     isLoading: false,
     isLoadingOfAddingContact: false,
+    isSearched: false,
     disableSendButton: true,
     source: '',
     foundAccount: {
@@ -136,6 +137,8 @@ const NewAccount = (props) => {
         firstName: '',
         lastName: '',
         fullName: '',
+        searchResult: '',
+        isSearched: false,
         disableSendButton: true
       }
     })
@@ -167,6 +170,7 @@ const NewAccount = (props) => {
               return {
                 ...prevState,
                 isLoading: false,
+                isSearched: true,
                 source: 'smp',
                 searchResult:
                   '未登録のユーザーです。名前を入力して招待を送信してください。',
@@ -175,21 +179,10 @@ const NewAccount = (props) => {
                 lastName: ''
               }
             } else {
-              let firstName = data.first_name
-                ? data.first_name.replace(/\s/g, '').trim()
-                : ''
-              let lastName = data.last_name
-                ? data.last_name.replace(/\s/g, '').trim()
-                : ''
-              let regexStatus =
-                data.first_name !== '' &&
-                data.last_name !== '' &&
-                regex.test(firstName) &&
-                regex.test(lastName)
-
               return {
                 ...prevState,
                 isLoading: false,
+                isSearched: true,
                 foundAccount: data,
                 source: 'salesforce',
                 // searchResult:
@@ -199,13 +192,13 @@ const NewAccount = (props) => {
                 searchResult: data.message,
                 email: email,
                 fullName: data.fullName,
-                firstName: firstName,
-                lastName: lastName,
+                firstName: data.first_name,
+                lastName: data.last_name,
                 contact_num: data.contact_num,
                 title: data.title,
                 account_code: data.account_code,
                 user_type_id: data.user_type_id,
-                disableSendButton: !regexStatus
+                disableSendButton: false
               }
             }
           })
@@ -217,6 +210,7 @@ const NewAccount = (props) => {
               return {
                 ...prevState,
                 isLoading: false,
+                isSearched: true,
                 foundAccount: '',
                 searchResult:
                   '未登録のユーザーです。名前を入力して招待を送信してください。'
@@ -311,7 +305,12 @@ const NewAccount = (props) => {
   }
 
   return (
-    <div className="rounded-lg border-2 border-gray-200 absolute md:inset-1/3 h-96 top-50 m-auto bg-primary-200 opacity-85">
+    <div
+      className={
+        (state.isSearched ? ' h-96 ' : ' h-64 ') +
+        ' rounded-lg border-2 border-gray-200 absolute md:inset-1/3 top-50 m-auto bg-primary-200 opacity-85'
+      }
+    >
       <div className="flex flex-wrap gap-0 w-full justify-center mt-8">
         <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 lg:ml-6 md:ml-0 justify-start 2xl:pl-16 xl:pl-8 lg:pl-6">
           <div className="justify-center">
@@ -338,37 +337,39 @@ const NewAccount = (props) => {
               />
             </button>
           </div>
-          <div className=" w-96 mt-5">
-            <label className="ml-10 text-sm text-white w-48 h-8 pr-1 leading-8 text-left col-span-1">
-              権限 :
-            </label>
-            <label className="ml-2 col-span-1 text-white w-1/2 my-2">
-              {state.user_type_id == 3 ? '管理者' : '副管理者'}
-            </label>
+          <div className={state.isSearched ? '' : 'hidden'}>
+            <div className=" w-96 mt-5">
+              <label className="ml-10 text-sm text-white w-48 h-8 pr-1 leading-8 text-left col-span-1">
+                権限 :
+              </label>
+              <label className="ml-2 col-span-1 text-white w-1/2 my-2">
+                {state.user_type_id == 3 ? '管理者' : '副管理者'}
+              </label>
+            </div>
+            <div className="w-full">
+              <label className="text-sm text-white w-48 h-8 pr-1 leading-8 text-left col-span-1">
+                氏名（姓）:
+              </label>
+              <input
+                className="ml-2 text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
+                onChange={handleLastNameChange}
+                value={state.lastName}
+                type="text"
+              />
+            </div>
+            <div className="w-full">
+              <label className="text-sm text-white w-48 h-8 pr-1 leading-8 text-left col-span-1 ">
+                氏名（名）:
+              </label>
+              <input
+                className="ml-2 text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
+                onChange={handleFirstNameChange}
+                value={state.firstName}
+                type="text"
+              />
+            </div>
           </div>
-          <div className="w-full">
-            <label className="text-sm text-white w-48 h-8 pr-1 leading-8 text-left col-span-1">
-              氏名（姓）:
-            </label>
-            <input
-              className="ml-2 text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
-              onChange={handleLastNameChange}
-              value={state.lastName}
-              type="text"
-            />
-          </div>
-          <div className="w-full">
-            <label className="text-sm text-white w-48 h-8 pr-1 leading-8 text-left col-span-1 ">
-              氏名（名）:
-            </label>
-            <input
-              className="ml-2 text-sm col-span-1 2xl:w-56 xl:w-56 lg:w-34 h-8 px-3 py-2 my-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3"
-              onChange={handleFirstNameChange}
-              value={state.firstName}
-              type="text"
-            />
-          </div>
-          <p className="text-sm inline-block text-white w-full h-8 leading-8 text-left pl-10">
+          <p className="text-sm inline-block text-white w-full h-8 leading-8 text-left pl-6 pt-3">
             {!_.isEmpty(state.searchResult) ? state.searchResult : ''}
           </p>
         </div>
@@ -380,38 +381,40 @@ const NewAccount = (props) => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-0 w-full justify-center mt-5">
-        <button
-          onClick={() => {
-            handleDisplayAddedAdmin({
-              source: state.source,
-              email: state.email,
-              first_name: state.firstName,
-              last_name: state.lastName,
-              fullName: state.fullName,
-              contact_num: state.foundAccount.contact_num,
-              title: state.foundAccount.title,
-              account_code: state.foundAccount.account_code,
-              user_type_id: state.foundAccount.user_type_id
-            })
-          }}
-          className={
-            (state.disableSendButton
-              ? 'text-gray-500 cursor-default'
-              : 'text-primary-200 cursor-pointer') +
-            ' rounded-xl font-extrabold w-40 py-2 px-3 mr-4 tracking-tighter bg-white'
-          }
-          disabled={state.disableSendButton}
-        >
-          招待を送信 &nbsp;
-          <img
-            src={waitingIcon}
+      <div className="flex flex-wrap gap-0 w-full justify-center mt-8">
+        <div className={state.isSearched ? '' : 'hidden'}>
+          <button
+            onClick={() => {
+              handleDisplayAddedAdmin({
+                source: state.source,
+                email: state.email,
+                first_name: state.firstName,
+                last_name: state.lastName,
+                fullName: state.fullName,
+                contact_num: state.foundAccount.contact_num,
+                title: state.foundAccount.title,
+                account_code: state.foundAccount.account_code,
+                user_type_id: state.foundAccount.user_type_id
+              })
+            }}
             className={
-              (state.isLoadingOfAddingContact ? ' ' : ' hidden ') +
-              ' w-7 inline '
+              (state.disableSendButton
+                ? 'text-gray-500 cursor-default'
+                : 'text-primary-200 cursor-pointer') +
+              ' rounded-xl font-extrabold w-40 py-2 px-3 mr-4 tracking-tighter bg-white'
             }
-          />
-        </button>
+            disabled={state.disableSendButton}
+          >
+            招待を送信 &nbsp;
+            <img
+              src={waitingIcon}
+              className={
+                (state.isLoadingOfAddingContact ? ' ' : ' hidden ') +
+                ' w-7 inline '
+              }
+            />
+          </button>
+        </div>
         <button
           onClick={props.closePopup}
           className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-primary-200  tracking-tighter bg-white mr-4"
