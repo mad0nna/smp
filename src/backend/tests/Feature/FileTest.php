@@ -39,7 +39,7 @@ class FileTest extends TestCase
 
         self::$zuoraAccessToken= config('app.zuora_api_token');
 
-        $user = User::where('username','machida@tcg.sprobe.ph')->firstOrFail();
+        $user = User::where('username','pineda.pcb@sprobe.com')->firstOrFail();
 
         self::$COMPANY_ADMIN = $user;
         self::$companyID = $user->company->id;

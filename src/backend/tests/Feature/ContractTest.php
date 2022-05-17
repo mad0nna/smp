@@ -32,7 +32,7 @@ class ContractTest extends TestCase
     {
         parent::setUp();
 
-        $user = User::where('username','machida@tcg.sprobe.ph')->firstOrFail();
+        $user = User::where('username','pineda.pcb@sprobe.com')->firstOrFail();
 
         self::$COMPANY_ADMIN = $user;
         self::$companyID = $user->company->id;

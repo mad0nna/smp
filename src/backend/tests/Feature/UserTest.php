@@ -42,7 +42,7 @@ class UserTest extends TestCase
     {
         parent::setUp();
 
-        $user = User::where('username','machida@tcg.sprobe.ph')->firstOrFail();
+        $user = User::where('username','pineda.pcb@sprobe.com')->firstOrFail();
 
         self::$COMPANY_ADMIN = $user;
         self::$userId = $user->id;
@@ -490,7 +490,7 @@ class UserTest extends TestCase
             'MobilePhone' => '1234567890',
             'Title' => 'Updated title',
             'changeRole' => false,
-            'username' => 'machida@tcg.sprobe.ph',
+            'username' => 'pineda.pcb@sprobe.com',
         ];
 
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
