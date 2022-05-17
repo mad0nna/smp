@@ -16,11 +16,11 @@ class PaymentController extends Controller
 
     public function getResult(Request $request, PaymentService $paymentService)
     {
-        Log::info('payment test', $request->all());
+        Log::info('payment result', $request->all());
         $cgiResult = $request->all();
         if ($cgiResult['result'] != $this->failed) {
 
-            if ($cgiResult['sendid'] == 'changePaymentMethodTEST') {
+            if ($cgiResult['sendid'] == 'changePaymentMethod') {
                     $paymentService->setCreditCardMethod($request->all());
             } else {
                 // order payment update here
@@ -40,7 +40,7 @@ class PaymentController extends Controller
             'email' => Auth::user()->email,
             'amount' => 0,
             'clientIP' => env('ZEUS_CLIENT_IP'),
-            'sendID' => 'changePaymentMethodTEST',
+            'sendID' => 'changePaymentMethod',
             'redirectTo' => '/company/dashboard'
         ]);
     }

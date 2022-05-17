@@ -33,16 +33,17 @@ class UserResource extends JsonResource
         ];
     }
 
-    public static function parseSfContactColumnToDbColumn($result)
+    public static function parseSfContactColumnToDbColumn($data)
     {
         return [
-            'account_code' => $result['Id'],
-            'first_name' => $result['FirstName'],
-            'last_name' => $result['LastName'],
-            'email' => $result['Email'],
-            'title' => $result['Title'],
-            'contact_num' => $result['MobilePhone'],
-            'user_type_id' => $result['admin__c'] ? 3 :4,
+            'username' => $data['Email'],
+            'account_code' => $data['Id'],
+            'first_name' => $data['FirstName'],
+            'last_name' => $data['LastName'],
+            'email' => $data['Email'],
+            'contact_num' => $data['MobilePhone'],
+            'title' => $data['Title'],
+            'user_type_id' => $data['admin__c'] ? 3 :4,
         ];
     }
 }
