@@ -85,7 +85,7 @@ class UserController extends Controller
             } else {
                 $this->response['data'] = false;
             }
-        } catch (Exception $e) {
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
