@@ -106,15 +106,15 @@
 					</ul>
 				</div>
 				<div class="justify-content-center" style="min-width:170px">
-					<div id="nav-dropdown" name="nav-dropdown" class="relative d-flex  pe-auto" >
-						<div class="">
+					<div id="nav-dropdown" name="nav-dropdown" class="relative d-flex  pe-auto" style="height:28px" >
+						<div class="my-auto">
 							<img alt="setting icon" src="/images/admin-icon.png" >
 						</div>
 							@php
 								$user = \App\Models\User::find(Auth::user()->id);
 							@endphp
-							<p class="text-base h6 fs-6 fw-bold text-primary-200 px-2 pt-1 font-sans" id="companyDropwdownTitle" style="font-size: 1.1rem!important; margin-bottom: 0.2rem; text-shadow: 1px 1px 2px #e8e8e8;">@php echo $user['last_name'] . ' ' . $user['first_name'] @endphp</p>
-							<div class="" style="position:relative">
+							<p class="text-base h6 fs-6 text-primary-200 px-2 pt-1 font-sans" id="companyDropwdownTitle" style="font-size: 1.1rem!important; font-weight: 600!important; text-shadow: 1px 1px 2px #e8e8e8;">@php echo $user['last_name'] . ' ' . $user['first_name'] @endphp</p>
+							<div class="" style="position:relative;">
 							<a class="" href="#" id="dropdown05" data-bs-toggle="dropdown" aria-expanded="false">
 									<img alt="setting icon" src="/images/arrowdown.png">
 								</a>
