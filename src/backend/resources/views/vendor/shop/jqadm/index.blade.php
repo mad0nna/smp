@@ -105,7 +105,7 @@
 						</li>
 					</ul>
 				</div>
-				<div class="justify-content-center" style="width:170px">
+				<div class="justify-content-center" style="min-width:170px">
 					<div id="nav-dropdown" name="nav-dropdown" class="relative d-flex  pe-auto" >
 						<div class="">
 							<img alt="setting icon" src="/images/admin-icon.png" >
@@ -113,7 +113,7 @@
 							@php
 								$user = \App\Models\User::find(Auth::user()->id);
 							@endphp
-							<p class="text-base h6 fs-6 fw-bold text-primary-200 px-2 pt-1 font-sans" id="companyDropwdownTitle" style="font-size: 1.1rem!important; margin-bottom: 0.2rem; text-shadow: 1px 1px 2px #e8e8e8;">@php echo $user['name'] @endphp</p>
+							<p class="text-base h6 fs-6 fw-bold text-primary-200 px-2 pt-1 font-sans" id="companyDropwdownTitle" style="font-size: 1.1rem!important; margin-bottom: 0.2rem; text-shadow: 1px 1px 2px #e8e8e8;">@php echo $user['last_name'] . ' ' . $user['first_name'] @endphp</p>
 							<div class="" style="position:relative">
 							<a class="" href="#" id="dropdown05" data-bs-toggle="dropdown" aria-expanded="false">
 									<img alt="setting icon" src="/images/arrowdown.png">
@@ -137,13 +137,6 @@
 								</li>
 							</ul>
 							</div>
-						</div>
-						<div class="nav-user-name">
-							@php
-								echo "" . $user['last_name'] . " ";
-								echo "" . $user['first_name']  . " ";
-							@endphp
-							様
 						</div>
 					</div>
 				</div>

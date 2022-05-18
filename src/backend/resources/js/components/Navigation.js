@@ -18,6 +18,7 @@ const Navigation = () => {
   const refMenu = useRef()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
+  let userData = JSON.parse(document.getElementById('userData').textContent)
 
   useEffect(() => {
     fetch('/company/getUnpaidBillingInformation', {
@@ -373,7 +374,9 @@ const Navigation = () => {
           }
         })
         window.document.getElementById('companyDropwdownTitle').innerHTML =
-          response.data['companyName']
+          response.data['contactLastName'] +
+          ' ' +
+          response.data['contactFirstName']
       }
     })
 
@@ -540,7 +543,9 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            <div className="pl-2">
+            <div
+              className={`pl-2 ` + (userData.userTypeId == 1) ? `hidden` : ``}
+            >
               <span className="mr-1">{state.contactLastName} </span>
               <span className="mr-1">{state.contactFirstName} </span>
               <span className="mr-1">様</span>

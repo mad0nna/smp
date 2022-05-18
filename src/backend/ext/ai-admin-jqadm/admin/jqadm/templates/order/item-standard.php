@@ -749,7 +749,7 @@ $paymentStatusList2 = [
 										</div>
 										<div class="col-xl-5 form-group row">
 											<div class="col-5 form-control-label">メールアドレス :</div>
-											<div class="col-6 value"><?= $basket->getAddresses()['payment'][0]['order.base.address.email'] ?></div>
+											<div class="col-6 value"><?= $this->get( 'customer/customer.email' ) ?></div>
 										</div>
 										<div class="col-xl-12 form-group row">
 											<div class="col-2 form-control-label">配送先住所 :</div>
