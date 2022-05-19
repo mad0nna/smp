@@ -164,6 +164,7 @@ const NewAccount = (props) => {
                 searchResult: data.message,
                 firstName: data.first_name,
                 lastName: data.last_name
+                email: email,
               }
             }
             if (data === false) {
@@ -369,12 +370,11 @@ const NewAccount = (props) => {
               />
             </div>
           </div>
-          <p className="text-sm inline-block text-white w-full h-8 leading-8 text-left pl-6 pt-3">
-            {!_.isEmpty(state.searchResult) ? state.searchResult : ''}
-          </p>
         </div>
       </div>
-
+      <p className="text-sm inline-block text-white w-full h-8 leading-8 text-left text-center pt-3">
+        {!_.isEmpty(state.searchResult) ? state.searchResult : ''}
+      </p>
       <div className="flex flex-wrap gap-0 w-full justify-start">
         <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center ">
           <p className="text-center w-full text-white"></p>
