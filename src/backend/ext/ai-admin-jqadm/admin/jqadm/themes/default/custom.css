@@ -357,6 +357,10 @@ p.upload-csv input {
 .aimeos table.customer-list td.customer-label {
   text-align:left;
   padding-left: 2rem;
+  max-width: 330px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .aimeos table.customer-list th.customer-company {
