@@ -163,8 +163,8 @@ const NewAccount = (props) => {
                 disableSendButton: true,
                 searchResult: data.message,
                 firstName: data.first_name,
-                lastName: data.last_name
-                email: email,
+                lastName: data.last_name,
+                email: email
               }
             }
             if (data === false) {
