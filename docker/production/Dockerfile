@@ -10,7 +10,7 @@ RUN \
     nginx \
     redis \
     supervisor \
-    poppler-utils git bash libzip-dev vim pcre-dev ${PHPIZE_DEPS}
+    poppler-utils git bash libzip-dev libpng-dev vim pcre-dev ${PHPIZE_DEPS}
 RUN docker-php-ext-install zip mysqli pdo_mysql
 RUN apk --no-cache add \
     icu-dev \
@@ -18,8 +18,10 @@ RUN apk --no-cache add \
     gettext-dev
 RUN docker-php-ext-configure intl \
     && docker-php-ext-configure gettext \
+    && docker-php-ext-install gd \
     && docker-php-ext-install \
     intl \
+    gd \
     gettext
 RUN pecl install redis \
     && docker-php-ext-enable redis
