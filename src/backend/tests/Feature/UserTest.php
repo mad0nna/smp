@@ -118,7 +118,7 @@ class UserTest extends TestCase
     /**
      * Get user index with no search results
      */
-    public function testGetInvoiceIndexSearchNoResults()
+    public function testGetUserIndexSearchNoResults()
     {
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                             ->json('GET', '/company/getCompanyAdmins?page=1&limit=10&keyword=randomString1234');
@@ -132,7 +132,7 @@ class UserTest extends TestCase
     /**
      * User Index Search by keyword
      */
-    public function testUserIndexSearchByKeyword()
+    public function testGetUserIndexSearchByKeyword()
     {
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
                             ->json('GET', '/company/getCompanyAdmins?page=1&limit=10&keyword=' . self::$KEYWORD);
