@@ -4,7 +4,7 @@ import KotLogo from '../../img/KOT-menu-logo.png'
 import ArrowDownIcon from '../../img/arrowdown.png'
 import AdminIcon from '../../img/admin-icon.png'
 import idpIcon from '../../img/idp_logo.png'
-import axios from 'axios'
+// import axios from 'axios'
 import shopIcon from '../../img/shop-icon.png'
 import shopIcon2 from '../../img/shop-icon-green.png'
 const Navigation = () => {
@@ -12,12 +12,14 @@ const Navigation = () => {
     mainNav: {},
     loading: true,
     contactLastName: '',
-    contactFirstName: ''
+    contactFirstName: '',
+    companyName: ''
   })
 
   const refMenu = useRef()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
+  let userData = JSON.parse(document.getElementById('userData').textContent)
 
   useEffect(() => {
     fetch('/company/getUnpaidBillingInformation', {
@@ -28,6 +30,14 @@ const Navigation = () => {
       .then((results) => {
         setUnpaidBillingInfo(results.data)
       })
+  }, [])
+
+  useEffect(() => {
+    setState({
+      contactLastName: userData.lastName,
+      contactFirstName: userData.firstName,
+      companyName: userData.companyName
+    })
   }, [])
 
   useEffect(() => {
@@ -363,19 +373,6 @@ const Navigation = () => {
           break
       }
     }
-    axios.get(location.origin + '/getLoggedinUser').then((response) => {
-      if (response.status === 200) {
-        setState((prevState) => {
-          return {
-            ...prevState,
-            contactFirstName: response.data['contactFirstName'],
-            contactLastName: response.data['contactLastName']
-          }
-        })
-        window.document.getElementById('companyDropwdownTitle').innerHTML =
-          response.data['companyName']
-      }
-    })
 
     let childPages = ['/admin/account/company', '/admin/account/sales']
     mainNav.navItem.map((item) => {
@@ -503,7 +500,7 @@ const Navigation = () => {
                 className="my-auto font-sans text-base text-primary-200 font-bold"
                 id="companyDropwdownTitle"
               >
-                {state.mainNav.dropDownNav.title}
+                {state.companyName}
               </p>
               <div className="my-auto">
                 <img alt="setting icon" src={ArrowDownIcon} />
