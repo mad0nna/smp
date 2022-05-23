@@ -20,6 +20,7 @@ const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
   let userData = JSON.parse(document.getElementById('userData').textContent)
+  let aPathName = location.pathname.split('/')
 
   useEffect(() => {
     fetch('/company/getUnpaidBillingInformation', {
@@ -373,6 +374,26 @@ const Navigation = () => {
           break
       }
     }
+    axios.get(location.origin + '/getLoggedinUser').then((response) => {
+      if (response.status === 200) {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            contactFirstName: response.data['contactFirstName'],
+            contactLastName: response.data['contactLastName'],
+            companyName: response.data['companyName']
+          }
+        })
+        if (aPathName[1] == 'admin') {
+          window.document.getElementById('companyDropwdownTitle').innerHTML =
+            response.data['contactLastName'] +
+            ' ' +
+            response.data['contactFirstName']
+        } else {
+          response.data['companyName']
+        }
+      }
+    })
 
     let childPages = ['/admin/account/company', '/admin/account/sales']
     mainNav.navItem.map((item) => {
@@ -500,7 +521,9 @@ const Navigation = () => {
                 className="my-auto font-sans text-base text-primary-200 font-bold"
                 id="companyDropwdownTitle"
               >
-                {state.companyName}
+                {aPathName[1] == 'admin'
+                  ? state.contactLastName + ' ' + state.contactFirstName
+                  : state.companyName}
               </p>
               <div className="my-auto">
                 <img alt="setting icon" src={ArrowDownIcon} />
@@ -537,7 +560,11 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            <div className="pl-2">
+            <div
+              className={
+                'pl-2 ' + (aPathName[1] == 'admin' ? 'hidden' : 'block')
+              }
+            >
               <span className="mr-1">{state.contactLastName} </span>
               <span className="mr-1">{state.contactFirstName} </span>
               <span className="mr-1">様</span>
