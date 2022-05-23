@@ -72,7 +72,9 @@ const CartList = () => {
     totalTax: 0,
     totalAmount: 0
   })
+
   const [modalMessage, setModalMessage] = useState()
+  const [modalIsMessageError, setModalIsMessageError] = useState(false)
 
   const handleIncOrder = (item) => {
     let updateQuantity = item.quantity + 1
@@ -228,6 +230,7 @@ const CartList = () => {
     setModalMessage(
       'システムエラーが発生しました。しばらくしてから再度実行してください。'
     )
+    setModalIsMessageError(true)
     handleCheckoutModalClose()
     handleCheckoutMessageModalOpen()
   }
@@ -558,6 +561,7 @@ const CartList = () => {
     setState((prevState) => {
       return {
         ...prevState,
+        modalIsMessageError: false,
         modalDisplayMessage: false
       }
     })
@@ -1064,6 +1068,7 @@ const CartList = () => {
         <CheckoutMessage
           handleCloseModal={handleCheckoutMessageModalClose}
           message={modalMessage}
+          isError={modalIsMessageError}
         />
       ) : null}
 

@@ -359,7 +359,7 @@ const AccountList = () => {
                         className="table-row font-sans text-sm text-gray-500 p-5 h-16 hover:bg-gray-50 border-b border-gray-100"
                         key={admin.id}
                       >
-                        <td className="text-center capitalize">
+                        <td className="text-center capitalize truncate max-w-xs">
                           {admin.last_name} {admin.first_name}
                         </td>
                         <td className="text-center">{admin.title}</td>
