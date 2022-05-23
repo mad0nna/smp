@@ -12,14 +12,12 @@ const Navigation = () => {
     mainNav: {},
     loading: true,
     contactLastName: '',
-    contactFirstName: '',
-    companyName: ''
+    contactFirstName: ''
   })
 
   const refMenu = useRef()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
-  let userData = JSON.parse(document.getElementById('userData').textContent)
   let aPathName = location.pathname.split('/')
 
   useEffect(() => {
@@ -31,14 +29,6 @@ const Navigation = () => {
       .then((results) => {
         setUnpaidBillingInfo(results.data)
       })
-  }, [])
-
-  useEffect(() => {
-    setState({
-      contactLastName: userData.lastName,
-      contactFirstName: userData.firstName,
-      companyName: userData.companyName
-    })
   }, [])
 
   useEffect(() => {
