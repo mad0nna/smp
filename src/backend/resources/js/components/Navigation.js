@@ -19,6 +19,7 @@ const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
   let userData = JSON.parse(document.getElementById('userData').textContent)
+  let aPathName = location.pathname.split('/')
 
   useEffect(() => {
     fetch('/company/getUnpaidBillingInformation', {
@@ -370,13 +371,25 @@ const Navigation = () => {
           return {
             ...prevState,
             contactFirstName: response.data['contactFirstName'],
-            contactLastName: response.data['contactLastName']
+            contactLastName: response.data['contactLastName'],
+            companyName: response.data['companyName']
           }
         })
+<<<<<<< HEAD
         window.document.getElementById('companyDropwdownTitle').innerHTML =
           response.data['contactLastName'] +
           ' ' +
           response.data['contactFirstName']
+=======
+        if (aPathName[1] == 'admin') {
+          window.document.getElementById('companyDropwdownTitle').innerHTML =
+            response.data['contactLastName'] +
+            ' ' +
+            response.data['contactFirstName']
+        } else {
+          response.data['companyName']
+        }
+>>>>>>> master_gitlab_merge_latest_dev4
       }
     })
 
@@ -506,7 +519,9 @@ const Navigation = () => {
                 className="my-auto font-sans text-base text-primary-200 font-bold"
                 id="companyDropwdownTitle"
               >
-                {state.mainNav.dropDownNav.title}
+                {aPathName[1] == 'admin'
+                  ? state.contactLastName + ' ' + state.contactFirstName
+                  : state.companyName}
               </p>
               <div className="my-auto">
                 <img alt="setting icon" src={ArrowDownIcon} />
@@ -544,7 +559,13 @@ const Navigation = () => {
               )}
             </div>
             <div
+<<<<<<< HEAD
               className={`pl-2 ` + (userData.userTypeId == 1) ? `hidden` : ``}
+=======
+              className={
+                'pl-2 ' + (aPathName[1] == 'admin' ? 'hidden' : 'block')
+              }
+>>>>>>> master_gitlab_merge_latest_dev4
             >
               <span className="mr-1">{state.contactLastName} </span>
               <span className="mr-1">{state.contactFirstName} </span>
