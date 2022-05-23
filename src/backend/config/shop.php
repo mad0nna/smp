@@ -117,7 +117,7 @@ return [
 
 	'resource' => [
 		'fs' => [
-			'adapter' => (env('APP_ENV') == 'development' || env('APP_ENV') == 'local') ? 'Standard' : 'FlyAwsS3',
+			'adapter' => env('AIMEOS_STORAGE_ADAPTER', 'Standard'),
 			'credentials' => [
 				'key' => env('AWS_ACCESS_KEY_ID'),
 				'secret' => env('AWS_SECRET_ACCESS_KEY'),
@@ -125,7 +125,7 @@ return [
 			'region' => env('AWS_DEFAULT_REGION'),
 			'version' => 'latest',
 			'bucket' => env('AWS_BUCKET_SHOPPING'),
-			'baseurl' => (env('APP_ENV') == 'development' || env('APP_ENV') == 'local') ? '/aimeos' : env('AWS_URL_SHOPPING'),
+			'baseurl' => env('AIMEOS_BASE_URL', '/aimeos'),
 			'basedir' => public_path( 'aimeos' ),
 			'tempdir' => storage_path( 'tmp' ),
 		], 

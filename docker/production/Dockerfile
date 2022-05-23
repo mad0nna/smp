@@ -18,11 +18,27 @@ RUN apk --no-cache add \
     gettext-dev
 RUN docker-php-ext-configure intl \
     && docker-php-ext-configure gettext \
-    && docker-php-ext-install gd \
+    && docker-php-ext-configure gd \
     && docker-php-ext-install \
     intl \
     gd \
     gettext
+RUN apk add --no-cache \
+      freetype \
+      libjpeg-turbo \
+      libpng \
+      freetype-dev \
+      libjpeg-turbo-dev \
+      libpng-dev \
+    && docker-php-ext-configure gd \
+      --with-freetype=/usr/include/ \
+      --with-jpeg=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-enable gd \
+    && apk del --no-cache \
+      freetype-dev \
+      libjpeg-turbo-dev \
+      libpng-dev
 RUN pecl install redis \
     && docker-php-ext-enable redis
 RUN rm -rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/*
