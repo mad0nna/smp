@@ -182,3 +182,22 @@ bg-shop-icon:hover {
     bottom: 0;
     margin: auto;
 }
+
+/* Scrollbar styles for webkit browsers */
+::-webkit-scrollbar {
+	background-color: var(--bs-bg, #f8fafc);
+	width: 0.35rem;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--bs-line-light, #dee2e6);
+	outline: none;
+}
+
+
+/* Scrollbar styles for Firefox */
+html {
+	scrollbar-color: var(--bs-line-light, #dee2e6) transparent;
+	scrollbar-width: thin;
+	overflow-y: scroll;
+}
