@@ -4,7 +4,7 @@ import KotLogo from '../../img/KOT-menu-logo.png'
 import ArrowDownIcon from '../../img/arrowdown.png'
 import AdminIcon from '../../img/admin-icon.png'
 import idpIcon from '../../img/idp_logo.png'
-// import axios from 'axios'
+import axios from 'axios'
 import shopIcon from '../../img/shop-icon.png'
 import shopIcon2 from '../../img/shop-icon-green.png'
 const Navigation = () => {
