@@ -18,7 +18,6 @@ const Navigation = () => {
   const refMenu = useRef()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
-  let userData = JSON.parse(document.getElementById('userData').textContent)
   let aPathName = location.pathname.split('/')
 
   useEffect(() => {
@@ -375,12 +374,6 @@ const Navigation = () => {
             companyName: response.data['companyName']
           }
         })
-<<<<<<< HEAD
-        window.document.getElementById('companyDropwdownTitle').innerHTML =
-          response.data['contactLastName'] +
-          ' ' +
-          response.data['contactFirstName']
-=======
         if (aPathName[1] == 'admin') {
           window.document.getElementById('companyDropwdownTitle').innerHTML =
             response.data['contactLastName'] +
@@ -389,7 +382,6 @@ const Navigation = () => {
         } else {
           response.data['companyName']
         }
->>>>>>> master_gitlab_merge_latest_dev4
       }
     })
 
@@ -559,13 +551,9 @@ const Navigation = () => {
               )}
             </div>
             <div
-<<<<<<< HEAD
-              className={`pl-2 ` + (userData.userTypeId == 1) ? `hidden` : ``}
-=======
               className={
                 'pl-2 ' + (aPathName[1] == 'admin' ? 'hidden' : 'block')
               }
->>>>>>> master_gitlab_merge_latest_dev4
             >
               <span className="mr-1">{state.contactLastName} </span>
               <span className="mr-1">{state.contactFirstName} </span>
