@@ -154,7 +154,7 @@ const ProductWidget = () => {
               </div>
             </div>
           ) : (
-            <div className="grid md:grid-cols-1 px-4 lg:grid-cols-2">
+            <div className="grid md:grid-cols-1 lg:grid-cols-2">
               {productList.map((item, index) => {
                 let prodPrice
                 if (!_.isEmpty(item.price)) {
@@ -165,7 +165,7 @@ const ProductWidget = () => {
 
                 return (
                   <div
-                    className="grid justify-center gap-2 pb-2 overflow-hidden mx-2 mb-2"
+                    className="grid justify-center gap-2 pb-2 overflow-hidden mb-2"
                     key={index}
                   >
                     <a
@@ -178,9 +178,9 @@ const ProductWidget = () => {
                         ></img>
                       </div>
                     </a>
-                    <div className="pl-1">{item.product['product.label']}</div>
-                    <div className="pl-1">{prodPrice}円</div>
-                    <div className="pl-1 text-primary-200">
+                    <div className="pl-2">{item.product['product.label']}</div>
+                    <div className="pl-2">{prodPrice}円</div>
+                    <div className="pl-2 text-primary-200">
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}
                       >
