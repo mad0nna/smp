@@ -942,7 +942,7 @@ const CompanyProfile = () => {
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                       }
                       value={state.adminDetailsEditValues.LastName}
-                      placeholder="性"
+                      placeholder="姓"
                       onChange={(e) =>
                         handleFormChanges('admin', 'LastName', e.target.value)
                       }

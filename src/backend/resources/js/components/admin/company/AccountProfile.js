@@ -331,10 +331,19 @@ const AccountProfile = (props) => {
   }
 
   const handleTextChange = (e) => {
+    let fieldName = e.target.name
+    if (fieldName == 'name') {
+      let nameLength = e.target.value.length
+      let kotCompanyCodeLength = state.company.companyCode.length + 2
+      if (nameLength + kotCompanyCodeLength > 100) {
+        e.preventDefault()
+        return
+      }
+    }
     setState((prevState) => {
       return {
         ...prevState,
-        company: { ...prevState.company, [e.target.name]: e.target.value }
+        company: { ...prevState.company, [fieldName]: e.target.value }
       }
     })
   }
@@ -464,7 +473,7 @@ const AccountProfile = (props) => {
                     ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                   }
                   name="name"
-                  defaultValue={state.company.name}
+                  value={state.company.name}
                   type="text"
                   onChange={handleTextChange}
                 />
