@@ -330,12 +330,30 @@ const AccountProfile = (props) => {
     return true
   }
 
+  let defaultErrorMessage = {
+    name: '',
+    hasError: false
+  }
+
+  const [errorMessages, setErrorMessages] = useState({
+    defaultErrorMessage
+  })
+
   const handleTextChange = (e) => {
     let fieldName = e.target.name
+    let _errorMessages = errorMessages
     if (fieldName == 'name') {
       let nameLength = e.target.value.length
       let kotCompanyCodeLength = state.company.companyCode.length + 2
       if (nameLength + kotCompanyCodeLength > 100) {
+        _errorMessages[fieldName] = '最大文字数は 100 文字です。'
+        _errorMessages['hasError'] = true
+
+        setErrorMessages(() => {
+          return {
+            ..._errorMessages
+          }
+        })
         e.preventDefault()
         return
       }
@@ -456,7 +474,9 @@ const AccountProfile = (props) => {
 
             <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
               <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">取引先名 :</label>
+                <label className="text-sm text-gray-400">
+                  取引先名 :<span className="text-red-500">*</span>
+                </label>
               </div>
               <div className="md:w-2/3 md:flex-grow">
                 <label
@@ -477,6 +497,15 @@ const AccountProfile = (props) => {
                   type="text"
                   onChange={handleTextChange}
                 />
+
+                <label
+                  className={
+                    (errorMessages.name ? '' : 'hidden') +
+                    ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
+                  }
+                >
+                  {errorMessages.name}
+                </label>
               </div>
             </div>
 
