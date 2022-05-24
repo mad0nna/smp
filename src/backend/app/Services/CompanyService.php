@@ -76,15 +76,11 @@ class CompanyService
 
     public function getDetailsByID($companyID)
     {
-        $companyDetails = Cache::remember("{$companyID}:company:details", now()->addMinutes(5), function () use ($companyID) {
-            $companyInformation = $this->mysql->getCompanyDetailsByID($companyID);
-            if (!empty($companyInformation)) {
-                return reset($companyInformation);
-            }
-            return (new Account)->findByID($companyID);
-        });
-
-        return json_encode($companyDetails);
+        $companyInformation = $this->mysql->getCompanyDetailsByID($companyID);
+        if (!empty($companyInformation)) {
+            return json_encode(reset($companyInformation));
+        }
+        return json_encode((new Account)->findByID($companyID));
     }
 
     public function getAllDetailsInSFByID($companyID)
