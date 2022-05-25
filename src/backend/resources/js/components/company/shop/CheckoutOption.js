@@ -71,7 +71,7 @@ const CheckoutOption = (props) => {
                 </button>
                 <button
                   className="bg-primary-200 text-white h-12 w-2/6 rounded-3xl font-semibold"
-                  enabled={props.loader ? 'disabled' : 'enabled'}
+                  readOnly={props.loader}
                   onClick={() => props.handleSubmitCheckout(state.optionValue)}
                 >
                   確定
