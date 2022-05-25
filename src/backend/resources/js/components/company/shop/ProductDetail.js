@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
 import _ from 'lodash'
@@ -38,7 +38,7 @@ const ProductDetail = (props) => {
   // const [itemData] = useState(useCart())
   // const hasRelaod = itemData.addItem || []
 
-  const parseProductData = (data) => {
+  const parseProductData = useCallback((data) => {
     const { media, price, product, text, stock, meta } = data
 
     if (_.isEmpty(price)) {
@@ -54,8 +54,8 @@ const ProductDetail = (props) => {
     let userData = JSON.parse(document.getElementById('userData').textContent)
     let taxValue = !_.isEmpty(price) ? price['price.taxvalue'] : ''
 
-    setProductDetail({
-      ...productDetail,
+    setProductDetail((prevProductDetail) => ({
+      ...prevProductDetail,
       id: product['product.id'],
       userId: userData.userId,
       description: prodDescription,
@@ -66,7 +66,7 @@ const ProductDetail = (props) => {
       imgSrc: media['media.preview'],
       defaultStock: stock['stock.stocklevel'] ?? 0,
       meta: meta
-    })
+    }))
     setState((prevState) => {
       return {
         ...prevState,
@@ -74,7 +74,7 @@ const ProductDetail = (props) => {
       }
     })
     setLoaded(true)
-  }
+  }, [])
 
   const itemCartQUantity = items.find((data) => data.id === productDetail.id)
   const handleIncrementOrder = () => {
@@ -333,7 +333,8 @@ const ProductDetail = (props) => {
         }
       })
     }
-  }, [props])
+  }, [props, parseProductData])
+
   const prodDescription =
     productDetail.description >= 450
       ? `${productDetail.description.substring(0, 450)}...`
