@@ -12,7 +12,7 @@ class Company extends Model
      * @var array
      */
     protected $fillable = ['company_code', 'name', 'contact_num', 'website', 'industry', 'billing_street', 'billing_city', 'biling_state', 'billing_postal_code', 'billing_country',
-                           'status', 'token', 'zen_org_name', 'industry_sub', 'industry_sub2', 'account_id', 'kot_trans_type', 'payment_method', 'kot_billing_start_date', 'record_type_code'];
+                           'status', 'token', 'zen_org_name', 'industry_sub', 'industry_sub2', 'account_id', 'kot_trans_type', 'payment_method', 'kot_billing_start_date', 'record_type_code', 'phase', 'server_name'];
 
     /**
      * Retrieve all Users under this company

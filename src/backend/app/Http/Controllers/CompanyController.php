@@ -133,7 +133,6 @@ class CompanyController extends Controller
             if ($result) {
                 $result = (new CompanyResource([]))->filterFromDbToFront($company);
             }
-
             $this->response = [
                 'success' => true,
                 'data' => $result,
@@ -229,7 +228,6 @@ class CompanyController extends Controller
         'billing_state' => $request['billingState'] ?? '',
         'billing_postal_code' => $request['billingPostalCode'] ?? '',
         'billing_country' => $request['billingCountry'] ?? '',
-        'license_version' => $request['licenseVersion'] ?? '',
         'billing_address' => $request['billingAddress'] ?? '',
         'token' => $request['token'] ?? '',
         'contact_first_name' => $request['admin'][0]['firstName'] ?? '',
@@ -245,6 +243,8 @@ class CompanyController extends Controller
         'opportunity' => $request['opportunity'] ?? [],
         'token' => $request['token'] ?? '',
         'kot_billing_start_date' => $request['kot_billing_start_date'] ?? '',
+        'phase'=>$request['phase'] ?? '',
+        'server_name' => $request['serverName'] ?? '',
       ];
     }
 }

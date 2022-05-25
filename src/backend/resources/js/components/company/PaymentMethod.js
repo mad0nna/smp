@@ -21,7 +21,8 @@ const PaymentMethod = () => {
     cardLogo: '',
     expmm: '',
     expyr: '',
-    message: ''
+    message: '',
+    expired: false
   })
 
   useEffect(() => {
@@ -79,7 +80,8 @@ const PaymentMethod = () => {
                 expmm: response.data.expmm,
                 expyr: response.data.expyr,
                 cardLogo: cardLogo,
-                message: message
+                message: message,
+                expired: response.data.expired
               }
             })
             return
@@ -141,8 +143,15 @@ const PaymentMethod = () => {
             >
               {state.lastDigits !== '' && state.lastDigits !== null
                 ? '有効期限日：' + state.expmm + '/' + state.expyr
-                : ''}
+                : ''}{' '}
+              <div className={state.expired ? 'block' : 'hidden'}>
+                <div className="bg-notification-active bg-cover bg-no-repeat w-5 h-5 mt-1 absolute"></div>
+                <p className="pl-8 text-secondary-200">
+                  有効期限が切れています
+                </p>
+              </div>
             </div>
+
             <div className="pl-20">
               {state.method === 'クレジット' && !_.isEmpty(state.lastDigits) ? (
                 <img

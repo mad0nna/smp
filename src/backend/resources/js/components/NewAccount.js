@@ -163,7 +163,8 @@ const NewAccount = (props) => {
                 disableSendButton: true,
                 searchResult: data.message,
                 firstName: data.first_name,
-                lastName: data.last_name
+                lastName: data.last_name,
+                email: email
               }
             }
             if (data === false) {
@@ -312,7 +313,7 @@ const NewAccount = (props) => {
       }
     >
       <div className="flex flex-wrap gap-0 w-full justify-center mt-8">
-        <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 lg:ml-6 md:ml-0 justify-start 2xl:pl-16 xl:pl-8 lg:pl-6">
+        <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 md:ml-2 justify-start 2xl:pl-16 xl:pl-4 lg:pl-3">
           <div className="justify-center">
             <label className="text-sm text-white 2xl:w-42 xl:w-42 lg:w-26 h-8 leading-8 col-span-1 pr-1">
               メールアドレス :
@@ -369,19 +370,18 @@ const NewAccount = (props) => {
               />
             </div>
           </div>
-          <p className="text-sm inline-block text-white w-full h-8 leading-8 text-left pl-6 pt-3">
-            {!_.isEmpty(state.searchResult) ? state.searchResult : ''}
-          </p>
         </div>
       </div>
-
+      <p className="text-sm inline-block text-white w-full h-8 leading-8 text-left text-center pt-3">
+        {!_.isEmpty(state.searchResult) ? state.searchResult : ''}
+      </p>
       <div className="flex flex-wrap gap-0 w-full justify-start">
         <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center ">
           <p className="text-center w-full text-white"></p>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-0 w-full justify-center mt-8">
+      <div className="flex flex-wrap gap-0 w-full justify-center mt-10">
         <div className={state.isSearched ? '' : 'hidden'}>
           <button
             onClick={() => {

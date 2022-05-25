@@ -5,7 +5,6 @@ import ArrowDownIcon from '../../img/arrowdown.png'
 import AdminIcon from '../../img/admin-icon.png'
 import idpIcon from '../../img/idp_logo.png'
 import axios from 'axios'
-
 const Navigation = () => {
   const [state, setState] = useState({
     mainNav: {},
@@ -17,6 +16,7 @@ const Navigation = () => {
   const refMenu = useRef()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
+  let aPathName = location.pathname.split('/')
 
   useEffect(() => {
     fetch('/company/getUnpaidBillingInformation', {
@@ -346,11 +346,18 @@ const Navigation = () => {
           return {
             ...prevState,
             contactFirstName: response.data['contactFirstName'],
-            contactLastName: response.data['contactLastName']
+            contactLastName: response.data['contactLastName'],
+            companyName: response.data['companyName']
           }
         })
-        window.document.getElementById('companyDropwdownTitle').innerHTML =
+        if (aPathName[1] == 'admin') {
+          window.document.getElementById('companyDropwdownTitle').innerHTML =
+            response.data['contactLastName'] +
+            ' ' +
+            response.data['contactFirstName']
+        } else {
           response.data['companyName']
+        }
       }
     })
 
@@ -478,7 +485,9 @@ const Navigation = () => {
                 className="my-auto font-sans text-base text-primary-200 font-bold"
                 id="companyDropwdownTitle"
               >
-                {state.mainNav.dropDownNav.title}
+                {aPathName[1] == 'admin'
+                  ? state.contactLastName + ' ' + state.contactFirstName
+                  : state.companyName}
               </p>
               <div className="my-auto">
                 <img alt="setting icon" src={ArrowDownIcon} />
@@ -515,7 +524,11 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            <div className="pl-2">
+            <div
+              className={
+                'pl-2 ' + (aPathName[1] == 'admin' ? 'hidden' : 'block')
+              }
+            >
               <span className="mr-1">{state.contactLastName} </span>
               <span className="mr-1">{state.contactFirstName} </span>
               <span className="mr-1">様</span>
