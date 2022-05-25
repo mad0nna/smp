@@ -311,13 +311,12 @@ const CompanyProfile = () => {
         if (val.trim() === '') {
           errorMessage = '必須フィールド'
           hasError = true
-        }
-        if (
+        } else if (
           val.length + state.companyDetails.kot_company_code.length + 2 >
           100
         ) {
-          val = state.companyEditValues[key]
           errorMessage = '最大文字数は 100 文字です。'
+          hasError = true
         }
         break
       case 'contactNumber':
