@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import Pagination from '../../Pagination'
 import { Link } from 'react-router-dom'
@@ -143,150 +143,153 @@ const ProductList = () => {
     setPagingConditions({ ...pagingConditions, ...{ page: n } })
   }
 
-  function fetchProductList(value) {
-    let offset = pagingConditions.page * pagingConditions.limit - 10
-    setLoadedImage(false)
+  const fetchProductList = useCallback(
+    (value) => {
+      let offset = pagingConditions.page * pagingConditions.limit - 10
+      setLoadedImage(false)
 
-    let searchParam =
-      searchItem.searchText !== ''
-        ? `&filter[%7E%3D][product.label]=${searchItem.searchText}`
-        : ''
-    let sortProduct = sortParam(value)
+      let searchParam =
+        searchItem.searchText !== ''
+          ? `&filter[%7E%3D][product.label]=${searchItem.searchText}`
+          : ''
+      let sortProduct = sortParam(value)
 
-    axios({
-      url: `/jsonapi/product?page[offset]=${offset}&page[limit]=${pagingConditions.limit}&include=media,text,price,stock${searchParam}${sortProduct}`,
-      method: 'get',
-      responseType: 'json'
-    }).then((response) => {
-      if (!_.isEmpty(response.data)) {
-        const pageNumbers = []
-        let data = response.data
-        let groupItems = []
-        let prodPriceId, prodMediaId, prodTextId, prodStockId
+      axios({
+        url: `/jsonapi/product?page[offset]=${offset}&page[limit]=${pagingConditions.limit}&include=media,text,price,stock${searchParam}${sortProduct}`,
+        method: 'get',
+        responseType: 'json'
+      }).then((response) => {
+        if (!_.isEmpty(response.data)) {
+          const pageNumbers = []
+          let data = response.data
+          let groupItems = []
+          let prodPriceId, prodMediaId, prodTextId, prodStockId
 
-        _.forEach(data.data, (items) => {
-          // getting id from relationship media
-          if (items.relationships.media !== undefined) {
-            prodMediaId = items.relationships.media.data[0]['id'] ?? null
+          _.forEach(data.data, (items) => {
+            // getting id from relationship media
+            if (items.relationships.media !== undefined) {
+              prodMediaId = items.relationships.media.data[0]['id'] ?? null
+            }
+            // for long description
+            if (items.relationships.text !== undefined) {
+              prodTextId = items.relationships.text.data[0]['id'] ?? null
+            }
+            //for price value
+            if (items.relationships.price !== undefined) {
+              prodPriceId = items.relationships.price.data[0]['id'] ?? null
+            }
+            // for stock
+            if (items.relationships.stock !== undefined) {
+              prodStockId = items.relationships.stock.data[0]['id'] ?? null
+            }
+
+            if (!_.isEmpty(items) || items !== undefined) {
+              let mediaObj = _.filter(data.included, (inc) => {
+                return (
+                  prodMediaId !== 0 &&
+                  inc.type === 'media' &&
+                  inc['id'] == prodMediaId
+                )
+              })
+
+              let textObj = _.filter(data.included, (inc) => {
+                return (
+                  prodTextId !== null &&
+                  inc.type === 'text' &&
+                  inc['id'] == prodTextId
+                )
+              })
+
+              let priceObj = _.filter(data.included, (inc) => {
+                return (
+                  prodPriceId !== null &&
+                  inc.type === 'price' &&
+                  inc['id'] === prodPriceId
+                )
+              })
+              let stockObj = _.filter(data.included, (inc) => {
+                return (
+                  prodStockId != null &&
+                  inc.type === 'stock' &&
+                  inc['id'] == prodStockId
+                )
+              })
+
+              groupItems.push({
+                product: items.attributes,
+                media:
+                  mediaObj !== undefined && mediaObj[0] !== undefined
+                    ? mediaObj[0].attributes
+                    : [],
+                text:
+                  textObj !== undefined && textObj[0] !== undefined
+                    ? textObj[0].attributes
+                    : [],
+                price:
+                  priceObj !== undefined && priceObj[0] !== undefined
+                    ? priceObj[0].attributes
+                    : [],
+                stock:
+                  stockObj !== undefined && stockObj[0] !== undefined
+                    ? stockObj[0].attributes
+                    : [],
+                meta: data.meta
+              })
+            }
+          })
+          // for pagination
+          for (
+            let i = 1;
+            i <= Math.ceil(data.meta.total / pagingConditions.limit);
+            i++
+          ) {
+            pageNumbers.push(i)
           }
-          // for long description
-          if (items.relationships.text !== undefined) {
-            prodTextId = items.relationships.text.data[0]['id'] ?? null
-          }
-          //for price value
-          if (items.relationships.price !== undefined) {
-            prodPriceId = items.relationships.price.data[0]['id'] ?? null
-          }
-          // for stock
-          if (items.relationships.stock !== undefined) {
-            prodStockId = items.relationships.stock.data[0]['id'] ?? null
-          }
 
-          if (!_.isEmpty(items) || items !== undefined) {
-            let mediaObj = _.filter(data.included, (inc) => {
-              return (
-                prodMediaId !== 0 &&
-                inc.type === 'media' &&
-                inc['id'] == prodMediaId
-              )
-            })
-
-            let textObj = _.filter(data.included, (inc) => {
-              return (
-                prodTextId !== null &&
-                inc.type === 'text' &&
-                inc['id'] == prodTextId
-              )
-            })
-
-            let priceObj = _.filter(data.included, (inc) => {
-              return (
-                prodPriceId !== null &&
-                inc.type === 'price' &&
-                inc['id'] === prodPriceId
-              )
-            })
-            let stockObj = _.filter(data.included, (inc) => {
-              return (
-                prodStockId != null &&
-                inc.type === 'stock' &&
-                inc['id'] == prodStockId
-              )
-            })
-
-            groupItems.push({
-              product: items.attributes,
-              media:
-                mediaObj !== undefined && mediaObj[0] !== undefined
-                  ? mediaObj[0].attributes
-                  : [],
-              text:
-                textObj !== undefined && textObj[0] !== undefined
-                  ? textObj[0].attributes
-                  : [],
-              price:
-                priceObj !== undefined && priceObj[0] !== undefined
-                  ? priceObj[0].attributes
-                  : [],
-              stock:
-                stockObj !== undefined && stockObj[0] !== undefined
-                  ? stockObj[0].attributes
-                  : [],
-              meta: data.meta
-            })
-          }
-        })
-        // for pagination
-        for (
-          let i = 1;
-          i <= Math.ceil(data.meta.total / pagingConditions.limit);
-          i++
-        ) {
-          pageNumbers.push(i)
-        }
-
-        const renderPageNumbers = pageNumbers.map((number) => {
-          return (
-            <li
-              key={number}
-              id={number}
-              onClick={() =>
-                pagingConditions.page === number
-                  ? null
-                  : pagingConditions.handlePageClick(number)
-              }
-              className=""
-            >
-              <span
-                className={
-                  pagingConditions.page == number
-                    ? `text-white bg-primary-200 rounded-2xl px-3 py-1`
-                    : `text-primary-200 px-3 py-1`
+          const renderPageNumbers = pageNumbers.map((number) => {
+            return (
+              <li
+                key={number}
+                id={number}
+                onClick={() =>
+                  pagingConditions.page === number
+                    ? null
+                    : pagingConditions.handlePageClick(number)
                 }
+                className=""
               >
-                {number}
-              </span>
-            </li>
-          )
-        })
-        const list = <ul id="page-numbers">{renderPageNumbers}</ul>
-        setState((prevState) => {
-          return {
-            ...prevState,
-            data: groupItems,
-            pageCount: pageNumbers.length,
-            pageNumbers: list,
-            currentPage: pagingConditions.page,
-            loaded: true
-          }
-        })
-      }
-    })
-  }
+                <span
+                  className={
+                    pagingConditions.page == number
+                      ? `text-white bg-primary-200 rounded-2xl px-3 py-1`
+                      : `text-primary-200 px-3 py-1`
+                  }
+                >
+                  {number}
+                </span>
+              </li>
+            )
+          })
+          const list = <ul id="page-numbers">{renderPageNumbers}</ul>
+          setState((prevState) => {
+            return {
+              ...prevState,
+              data: groupItems,
+              pageCount: pageNumbers.length,
+              pageNumbers: list,
+              currentPage: pagingConditions.page,
+              loaded: true
+            }
+          })
+        }
+      })
+    },
+    [pagingConditions, searchItem.searchText]
+  )
 
   useEffect(() => {
     fetchProductList()
-  }, [pagingConditions])
+  }, [pagingConditions, fetchProductList])
 
   const productItem = (products) => {
     if (!_.isEmpty(products)) {
