@@ -170,8 +170,9 @@ bg-shop-icon:hover {
 
 .prod-widget-img-holder {
     position: relative;
-    height: 171px;
-    width: 171px;
+    height: 151px;
+    min-width: 151px;
+    width: 100%;
     overflow: hidden;
 }
 
@@ -180,4 +181,23 @@ bg-shop-icon:hover {
     top: 0;
     bottom: 0;
     margin: auto;
+}
+
+/* Scrollbar styles for webkit browsers */
+::-webkit-scrollbar {
+	background-color: var(--bs-bg, #f8fafc);
+	width: 0.35rem;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--bs-line-light, #dee2e6);
+	outline: none;
+}
+
+
+/* Scrollbar styles for Firefox */
+html {
+	scrollbar-color: var(--bs-line-light, #dee2e6) transparent;
+	scrollbar-width: thin;
+	overflow-y: scroll;
 }

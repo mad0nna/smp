@@ -9,10 +9,9 @@ const Welcome = () => {
   useEffect(() => {
     axios.get(location.origin + '/getLoggedinUser').then((response) => {
       if (response.status === 200) {
-        let Lastnane = response['contactLastName']
         setState({
           loading: false,
-          lastName: Lastnane
+          lastName: response['data']['contactLastName']
         })
       }
     })

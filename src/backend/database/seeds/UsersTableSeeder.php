@@ -45,6 +45,7 @@ class UsersTableSeeder extends Seeder
             'user_status_id' => $status->id,
             'user_type_id' => '1',
             'email_verified_at' => Carbon::now(),
+            'name' => 'Admin',
             ]
         );
 
@@ -60,6 +61,7 @@ class UsersTableSeeder extends Seeder
             'user_status_id' => $status->id,
             'user_type_id' => '1',
             'email_verified_at' => Carbon::now(),
+            'name' => 'Ryuichi Murai',
             ]
         );
 
@@ -76,6 +78,7 @@ class UsersTableSeeder extends Seeder
             'user_status_id' => $status->id,
             'user_type_id' => '1',
             'email_verified_at' => Carbon::now(),
+            'name' => 'SU',
             ]
         );
     }

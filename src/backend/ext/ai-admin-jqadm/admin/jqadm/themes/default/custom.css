@@ -1,3 +1,8 @@
+html {
+  font-family: Meiryo-UI;
+  line-height: 1.5;
+}
+
 .app-menu {
     background: white;
 }
@@ -490,4 +495,9 @@ p.upload-csv input {
 
 .text-primary-200 {
   color: rgba(29, 158, 72);
+}
+
+.font-sans {
+  font-family: Meiryo-UI;
+  line-height: 1.2;
 }

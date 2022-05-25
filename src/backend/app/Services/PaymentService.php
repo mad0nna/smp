@@ -87,8 +87,16 @@ class PaymentService
     public function getPaymentMethodDetails($salesforceCompanyID)
     {
         $dbRepository = new DatabaseRepository();
-
-        return $dbRepository->getPaymentMethod($salesforceCompanyID);
+        $data = $dbRepository->getPaymentMethod($salesforceCompanyID);
+        if (empty($data['expmm']) || empty($data['expyr'])) {
+            $data['expired'] = false;
+            return $data;
+        }
+        $cardExpirationDate = date_create('20'.$data['expyr'].'-'.$data['expmm']);
+        $cardExpirationDate = date_format($cardExpirationDate, "Y/m");
+        $currentDate = date_format(now(), "Y/m");
+        $data['expired'] = $cardExpirationDate < $currentDate;
+        return $data;
     }
 
     /**
