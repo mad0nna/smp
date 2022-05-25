@@ -84,7 +84,8 @@ class Salesforce
                     return $this->post($path, $data, $headers);
                 }
 
-                throw new UnauthorizedAccessException($response['message']);
+                throw new UnauthorizedAccessException($response);
+
             }
 
             // Other Exceptions aside from Authentication
@@ -131,7 +132,8 @@ class Salesforce
                     // retry the failed request
                     return $this->create($path, $data, $headers);
                 }
-                throw new UnauthorizedAccessException($response['message']);
+                throw new UnauthorizedAccessException($response);
+
             }
 
             // Other Exceptions aside from Authentication
@@ -180,7 +182,8 @@ class Salesforce
                     return $this->delete($path, $headers);
                 }
 
-                throw new UnauthorizedAccessException($response['message']);
+                throw new UnauthorizedAccessException($response);
+
             }
 
             // Other Exceptions aside from Authentication
@@ -229,7 +232,8 @@ class Salesforce
                     return $this->patch($path, $data, $headers);
                 }
 
-                throw new UnauthorizedAccessException($response['message']);
+                throw new UnauthorizedAccessException($response);
+
             }
 
             // Other Exceptions aside from Authentication
@@ -270,8 +274,7 @@ class Salesforce
                     // retry the failed request
                     return $this->get($path, $headers);
                 }
-
-                throw new UnauthorizedAccessException($response['message']);
+                throw new UnauthorizedAccessException($response);
             }
 
             // Other Exceptions aside from Authentication
@@ -313,7 +316,8 @@ class Salesforce
                     return $this->getFile($path, $headers);
                 }
 
-                throw new UnauthorizedAccessException($response['message']);
+                throw new UnauthorizedAccessException($response);
+
             }
 
             // Other Exceptions aside from Authentication
@@ -364,8 +368,7 @@ class Salesforce
                     // retry the failed request
                     return $this->get($path, $headers);
                 }
-
-                throw new UnauthorizedAccessException($response['message']);
+                throw new UnauthorizedAccessException($response);
             }
 
             // Other Exceptions aside from Authentication

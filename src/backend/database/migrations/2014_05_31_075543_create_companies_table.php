@@ -34,6 +34,8 @@ class CreateCompaniesTable extends Migration
             $table->string('token')->nullable();
             $table->string('kot_trans_type')->nullable();
             $table->string('record_type_code')->nullable();
+            $table->string('server_name')->nullable();
+            $table->string('phase')->nullable();
             $table->timestamps();
 
             $table->unique('company_code');
