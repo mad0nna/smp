@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Ellipsis from '../../../img/ellipsis.png'
 import axios from 'axios'
 import _ from 'lodash'
@@ -94,7 +94,7 @@ const ProductWidget = () => {
     return groupItems
   }
 
-  const getProductListApi = () => {
+  const getProductListApi = useCallback(() => {
     axios({
       url: API_URL,
       method: 'get',
@@ -112,10 +112,8 @@ const ProductWidget = () => {
         }
       })
     })
-  }
-  /**
-   *
-   */
+  }, [])
+
   useEffect(() => {
     // set product list
     let isMounted = true
@@ -128,7 +126,7 @@ const ProductWidget = () => {
         loadedComponent: isMounted
       }
     })
-  }, [productList])
+  }, [productList, getProductListApi])
 
   return state.loadedComponent ? (
     <div className="h-full w-full relative group">
