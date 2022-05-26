@@ -84,7 +84,7 @@ class Salesforce
                     return $this->post($path, $data, $headers);
                 }
 
-                throw new UnauthorizedAccessException($response);
+                throw new UnauthorizedAccessException($response[0]['message']);
 
             }
 
@@ -132,7 +132,7 @@ class Salesforce
                     // retry the failed request
                     return $this->create($path, $data, $headers);
                 }
-                throw new UnauthorizedAccessException($response);
+                throw new UnauthorizedAccessException($response[0]['message']);
 
             }
 
@@ -182,7 +182,7 @@ class Salesforce
                     return $this->delete($path, $headers);
                 }
 
-                throw new UnauthorizedAccessException($response);
+                throw new UnauthorizedAccessException($response[0]['message']);
 
             }
 
@@ -232,7 +232,7 @@ class Salesforce
                     return $this->patch($path, $data, $headers);
                 }
 
-                throw new UnauthorizedAccessException($response);
+                throw new UnauthorizedAccessException($response[0]["message"]);
 
             }
 
@@ -274,7 +274,7 @@ class Salesforce
                     // retry the failed request
                     return $this->get($path, $headers);
                 }
-                throw new UnauthorizedAccessException($response);
+                throw new UnauthorizedAccessException($response[0]['message']);
             }
 
             // Other Exceptions aside from Authentication
@@ -316,7 +316,7 @@ class Salesforce
                     return $this->getFile($path, $headers);
                 }
 
-                throw new UnauthorizedAccessException($response);
+                throw new UnauthorizedAccessException($response[0]['message']);
 
             }
 
@@ -368,7 +368,7 @@ class Salesforce
                     // retry the failed request
                     return $this->get($path, $headers);
                 }
-                throw new UnauthorizedAccessException($response);
+                throw new UnauthorizedAccessException($response[0]['message']);
             }
 
             // Other Exceptions aside from Authentication
