@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import Pagination from '../../Pagination'
 import { useCart } from 'react-use-cart'
@@ -72,7 +72,9 @@ const CartList = () => {
     totalTax: 0,
     totalAmount: 0
   })
+
   const [modalMessage, setModalMessage] = useState()
+  const [modalIsMessageError, setModalIsMessageError] = useState(false)
 
   const handleIncOrder = (item) => {
     let updateQuantity = item.quantity + 1
@@ -228,6 +230,7 @@ const CartList = () => {
     setModalMessage(
       'システムエラーが発生しました。しばらくしてから再度実行してください。'
     )
+    setModalIsMessageError(true)
     handleCheckoutModalClose()
     handleCheckoutMessageModalOpen()
   }
@@ -558,6 +561,7 @@ const CartList = () => {
     setState((prevState) => {
       return {
         ...prevState,
+        modalIsMessageError: false,
         modalDisplayMessage: false
       }
     })
@@ -675,20 +679,24 @@ const CartList = () => {
     )
     return response
   }
-  function calculateTaxItem(items) {
-    let totalTax = _.reduce(
-      items,
-      (sum, curItem) => {
-        return sum + curItem.taxVal * curItem.quantity
-      },
-      0
-    )
-    setCalculatedItem({
-      ...calculatedItem,
-      totalTax: Math.round(totalTax),
-      totalAmount: cartTotal + Math.round(totalTax)
-    })
-  }
+
+  const calculateTaxItem = useCallback(
+    (items) => {
+      let totalTax = _.reduce(
+        items,
+        (sum, curItem) => {
+          return sum + curItem.taxVal * curItem.quantity
+        },
+        0
+      )
+      setCalculatedItem((prevCalculatedItem) => ({
+        ...prevCalculatedItem,
+        totalTax: Math.round(totalTax),
+        totalAmount: cartTotal + Math.round(totalTax)
+      }))
+    },
+    [cartTotal]
+  )
 
   const openZeusPaymentForm = (orderId, amount) => {
     window
@@ -805,86 +813,92 @@ const CartList = () => {
     })
   }
 
-  const formValidation = () => {
-    if (addressData.email.length >= 1) {
-      new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
-        ? setErrorData((prevState) => {
-            return { ...prevState, emailIsValid: false }
-          })
-        : setErrorData((prevState) => {
-            return { ...prevState, emailIsValid: true }
-          })
-    }
-    const numberInput = addressData.number.split('') || []
-    let i = 0
-    let preLoadHypen = []
-    numberInput.forEach((data, index) => {
-      data === '-' && i++
-      data === '-' && preLoadHypen.push(index)
-    })
-    const differenceAry = preLoadHypen.slice(1).map(function (n, i) {
-      return n - preLoadHypen[i]
-    })
-    const isDifference = differenceAry.every((value) => value === 1)
-    if (addressData.number.length >= 1) {
-      if (
-        addressData.number.length >= 12 &&
-        addressData.number.length <= 13 &&
-        i === 2
-      ) {
-        setErrorData((prevState) => {
-          return { ...prevState, numberIsValid: false }
-        })
+  const formValidation = useCallback(
+    () => {
+      if (addressData.email.length >= 1) {
+        new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
+          ? setErrorData((prevState) => {
+              return { ...prevState, emailIsValid: false }
+            })
+          : setErrorData((prevState) => {
+              return { ...prevState, emailIsValid: true }
+            })
+      }
+      const numberInput = addressData.number.split('') || []
+      let i = 0
+      let preLoadHypen = []
+      numberInput.forEach((data, index) => {
+        data === '-' && i++
+        data === '-' && preLoadHypen.push(index)
+      })
+      const differenceAry = preLoadHypen.slice(1).map(function (n, i) {
+        return n - preLoadHypen[i]
+      })
+      const isDifference = differenceAry.every((value) => value === 1)
+      if (addressData.number.length >= 1) {
         if (
-          (numberInput[12] === '-' && numberInput[11] !== '-') ||
-          (numberInput[11] === '-' && numberInput[12] === undefined) ||
-          numberInput[0] === '-'
+          addressData.number.length >= 12 &&
+          addressData.number.length <= 13 &&
+          i === 2
         ) {
           setErrorData((prevState) => {
-            return { ...prevState, numberIsValid: true }
+            return { ...prevState, numberIsValid: false }
           })
-        }
+          if (
+            (numberInput[12] === '-' && numberInput[11] !== '-') ||
+            (numberInput[11] === '-' && numberInput[12] === undefined) ||
+            numberInput[0] === '-'
+          ) {
+            setErrorData((prevState) => {
+              return { ...prevState, numberIsValid: true }
+            })
+          }
 
-        if (isDifference) {
+          if (isDifference) {
+            setErrorData((prevState) => {
+              return { ...prevState, numberIsValid: true }
+            })
+          }
+        } else {
           setErrorData((prevState) => {
             return { ...prevState, numberIsValid: true }
           })
         }
-      } else {
-        setErrorData((prevState) => {
-          return { ...prevState, numberIsValid: true }
-        })
       }
-    }
 
-    if (addressData.postal_code.length >= 1) {
-      new RegExp(/[0-9]{3}-[0-9]{4}/).test(addressData.postal_code)
-        ? setErrorData((prevState) => {
-            return { ...prevState, postalCodeIsValid: false }
-          })
-        : setErrorData((prevState) => {
-            return { ...prevState, postalCodeIsValid: true }
-          })
-    }
+      if (addressData.postal_code.length >= 1) {
+        new RegExp(/[0-9]{3}-[0-9]{4}/).test(addressData.postal_code)
+          ? setErrorData((prevState) => {
+              return { ...prevState, postalCodeIsValid: false }
+            })
+          : setErrorData((prevState) => {
+              return { ...prevState, postalCodeIsValid: true }
+            })
+      }
 
-    for (const [key, value] of Object.entries(addressData)) {
-      String(value).length === 0 || value.trim().length === 0
-        ? setErrorData((prevState) => {
-            return { ...prevState, [key]: true }
-          })
-        : setErrorData((prevState) => {
-            return { ...prevState, [key]: false }
-          })
-    }
-    Object.values(errorData).includes(true) && state.isSubmit
-      ? null
-      : setState((prevState) => {
+      for (const [key, value] of Object.entries(addressData)) {
+        String(value).length === 0 || value.trim().length === 0
+          ? setErrorData((prevState) => {
+              return { ...prevState, [key]: true }
+            })
+          : setErrorData((prevState) => {
+              return { ...prevState, [key]: false }
+            })
+      }
+    },
+    [addressData],
+    () => {
+      // cleanup will check isSubmit after setting the errors before
+      if (!Object.values(errorData).includes(true) && state.isSubmit) {
+        setState((prevState) => {
           return {
             ...prevState,
             isSubmit: false
           }
         })
-  }
+      }
+    }
+  )
 
   useEffect(() => {
     // if (_.isEmpty(items)) {
@@ -908,10 +922,16 @@ const CartList = () => {
     calculateTaxItem(items)
     // }
     // set as cart state
-  }, [items])
+  }, [items, calculateTaxItem])
+
   useEffect(() => {
     formValidation()
-  }, [addressData, addressData.email, state.addressModalDisplay])
+  }, [
+    addressData,
+    addressData.email,
+    state.addressModalDisplay,
+    formValidation
+  ])
 
   useEffect(() => {
     axios
@@ -1064,6 +1084,7 @@ const CartList = () => {
         <CheckoutMessage
           handleCloseModal={handleCheckoutMessageModalClose}
           message={modalMessage}
+          isError={modalIsMessageError}
         />
       ) : null}
 

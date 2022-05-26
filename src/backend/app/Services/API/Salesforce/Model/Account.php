@@ -7,7 +7,7 @@ class Account extends Model
 {
     public function findByID($accountId) {
         $companyInformation = $this->client->get('/services/data/v34.0/sobjects/account/' . $accountId . '?fields=Name, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c,
-        field41__c, kot_sales_phase__c, ServerName__c, HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId');
+        field41__c, Field40__c, ServerName__c, HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId');
         if (isset($companyInformation['status']) && !$companyInformation['status']) {
             return $companyInformation;
         }
@@ -16,7 +16,7 @@ class Account extends Model
 
     public function findByCompanyCode($companyCode) {
         $companyInformation = $this->client->get("/services/data/v34.0/query/?q=SELECT+Name, Id, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Website, Industry, Zendeskaccount__c,
-        Field41__c, kot_sales_phase__c, ServerName__c, HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId+from+Account+WHERE+KotCompanyCode__c='" . $companyCode . "'+LIMIT+200");
+        Field41__c, kot_sales_phase__c, HT_NEWCD__c, Field35__c, KoT_fps__c, Field19__c, Field20__c, KotCompanyCode__c, KOT_shubetsu__c, DP_ID__c, No__c, ID__c, PaymentMethod__c, LastModifiedDate, NumberOfEmployees, RecordTypeId, ServerName__c, Field40__c+from+Account+WHERE+KotCompanyCode__c='" . $companyCode . "'+LIMIT+200");
         if (isset($companyInformation['status']) && !$companyInformation['status']) {
             return $companyInformation;
         }

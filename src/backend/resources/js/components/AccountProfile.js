@@ -263,9 +263,14 @@ const AccountProfileEdit = () => {
           })
         })
         .catch(function (error) {
-          if (error.response) {
-            console.log(error.response.status)
-          }
+          setState((prevState) => {
+            return {
+              ...prevState,
+              isLoading: false,
+              showPopupMessageDialog: true,
+              dialogMessage: error.response.data.error
+            }
+          })
         })
     }
   }
