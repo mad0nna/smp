@@ -487,14 +487,25 @@ const Navigation = () => {
               })}
             </ul>
           </div>
-          <div className="justify-center">
+          <div className="justify-center flex flex-col w-64 text-right">
             <div
               id="nav-dropdown"
               name="nav-dropdown"
-              className="float-right relative flex h-full space-x-2 cursor-pointer z-20"
+              className="float-right relative flex flex-row-reverse h-full space-x-2 cursor-pointer z-20 w-full"
               onClick={() => setIsMenuOpen((oldState) => !oldState)}
               ref={refMenu}
             >
+              <div className="my-auto mx-1">
+                <img alt="setting icon" src={ArrowDownIcon} />
+              </div>
+              <div
+                className="my-auto font-sans text-base text-primary-200 font-bold"
+                id="companyDropwdownTitle"
+              >
+                {aPathName[1] == 'admin'
+                  ? state.contactLastName + ' ' + state.contactFirstName
+                  : state.companyName}
+              </div>
               <div className="my-auto">
                 <img alt="" className="hidden" src={shopIcon} />
                 <img alt="" className="hidden" src={shopIcon2} />
@@ -506,17 +517,6 @@ const Navigation = () => {
                 ) : (
                   ''
                 )}
-              </div>
-              <p
-                className="my-auto font-sans text-base text-primary-200 font-bold"
-                id="companyDropwdownTitle"
-              >
-                {aPathName[1] == 'admin'
-                  ? state.contactLastName + ' ' + state.contactFirstName
-                  : state.companyName}
-              </p>
-              <div className="my-auto">
-                <img alt="setting icon" src={ArrowDownIcon} />
               </div>
               {isMenuOpen && (
                 <div
@@ -552,12 +552,13 @@ const Navigation = () => {
             </div>
             <div
               className={
-                'pl-2 ' + (aPathName[1] == 'admin' ? 'hidden' : 'block')
+                'pl-2 flex flex-row-reverse ' +
+                (aPathName[1] == 'admin' ? 'hidden' : 'block')
               }
             >
-              <span className="mr-1">{state.contactLastName} </span>
-              <span className="mr-1">{state.contactFirstName} </span>
-              <span className="mr-1">様</span>
+              <div className="">様</div>
+              <div className="truncate">{state.contactFirstName} </div>
+              <div className="truncate">{state.contactLastName} </div>
             </div>
           </div>
         </div>
