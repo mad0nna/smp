@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import editIcon from '../../img/edit-icon.png'
 import saveIcon from '../../img/Icon awesome-save.png'
 import spinner from '../../img/spinner.gif'
+import MessageDialog from './MessageDialog'
+
 import axios from 'axios'
 
 const CompanyProfile = () => {
@@ -532,23 +534,28 @@ const CompanyProfile = () => {
               }
             })
           }
-
-          window.document.getElementById('iconContainer').src = saveIcon
-          window.document.getElementById('iconContainer').disabled = false
-          window.document
-            .getElementById('nav-dropdown')
-            .nextSibling.getElementsByTagName('span')[0].innerHTML =
-            state.adminDetailsEditValues.LastName
-          window.document
-            .getElementById('nav-dropdown')
-            .nextSibling.getElementsByTagName('span')[1].innerHTML =
-            state.adminDetailsEditValues.FirstName
-          window.document.getElementById('companyDropwdownTitle').innerHTML =
-            state.companyEditValues.companyName
           alert('入力内容を更新しました.')
           location.reload()
         })
+        .catch(function (error) {
+          window.document.getElementById('iconContainer').src = saveIcon
+          setState((prevState) => {
+            return {
+              ...prevState,
+              isLoading: true,
+              isEditingProfile: true,
+              showPopupMessageDialog: true,
+              dialogMessage: error.response.data.error
+            }
+          })
+        })
     }
+    setState((prevState) => {
+      return {
+        ...prevState,
+        isLoading: false
+      }
+    })
   }
 
   const displayEditButton = () => {
@@ -1170,6 +1177,21 @@ const CompanyProfile = () => {
                 {state.ZenDetails.opportunityId ?? 'N/A'}
               </div>
             </div>
+
+            {state.showPopupMessageDialog ? (
+              <MessageDialog
+                handleCloseMessageDialog={() => {
+                  setState((prevState) => {
+                    return {
+                      ...prevState,
+                      showPopupMessageDialog: false,
+                      isLoading: false
+                    }
+                  })
+                }}
+                message={state.dialogMessage}
+              />
+            ) : null}
           </div>
         </div>
       </div>
