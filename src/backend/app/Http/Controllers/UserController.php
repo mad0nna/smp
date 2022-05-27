@@ -215,12 +215,10 @@ class UserController extends Controller
                     //create the user in DB
                     $formData['email'] = $userInfo['Email'];
                     $user = $this->userService->create($formData);
-                    $this->userService->resendEmailInvite($user->id);
                     $this->dbRepo->makeUserWidgetSettings($user->id);
                 }
             } else {
                 $user = $this->userService->create($formData);
-                $this->userService->resendEmailInvite($user->id);
                 $this->dbRepo->makeUserWidgetSettings($user->id);
             }
             $this->response['data'] = new UserResource($user);

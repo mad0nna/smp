@@ -7,142 +7,91 @@ import ConfirmAddAccountDialog from './ConfirmDialog'
 import ConfirmSaveUpdateDialog from './ConfirmDialog'
 import MessageDialog from './MessageDialog'
 import _ from 'lodash'
-import Select from 'react-select'
 import queryString from 'query-string'
 import axios from 'axios'
-// eslint-disable-next-line
-let validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
 
 const AccountProfile = (props) => {
+  console.log(props)
+  let defaultCompanyState = {
+    companyCode: '',
+    id: 0,
+    companyId: '',
+    sfId: '',
+    email: '',
+    accountType: '',
+    customerClassification: '',
+    name: '',
+    industry: null,
+    industrySub: '',
+    industrySub2: '',
+    kotTransType: '',
+    paymentType: '',
+    kotAccountId: '',
+    zenOrgName: '',
+    zendeskOpportunityId: '',
+    phoneNumber: '',
+    recordTypeCode: ''
+  }
   const [state, setState] = useState({
-    company: initCompany(),
-    isEditingProfile: initIsEditingProfile(),
+    company: _.isEmpty(props.company) ? defaultCompanyState : props.company,
+    isEditingProfile: props.isEditingProfile,
     showPopupAddAccountToken: false,
     showPopupConfirmAddAccountDialog: false,
     showPopupMessageDialog: false,
     showPopupConfirmSaveUpdateDialog: false,
     dialogMessage: '',
-    formState: initFormState(),
     redirectAfterSuccess: false,
-    isLoading: false,
-    isNeedToFetchData: false
+    isLoading: false
   })
 
-  function initIsEditingProfile() {
-    if (!_.isEmpty(props.formState)) {
-      return props.isEditingProfile ?? true
-    } else {
-      return true
-    }
-  }
-
-  function initFormState() {
-    if (!_.isEmpty(props.isEditingProfile)) {
-      return props.formState
-    } else {
-      return 'edit form'
-    }
-  }
-
-  function initCompany() {
-    if (_.isEmpty(props.company)) {
-      return {
-        licenseVersion: '',
-        companyCode: '',
-        id: 0,
-        companyId: '',
-        sfId: '',
-        email: '',
-        accountType: '',
-        customerClassification: '',
-        name: '',
-        industry: null,
-        industrySub: '',
-        industrySub2: '',
-        kotTransType: '',
-        paymentType: '',
-        kotAccountId: '',
-        zenOrgName: '',
-        zendeskOpportunityId: '',
-        phoneNumber: '',
-        recordTypeCode: '',
-        sfRecords: {
-          numberofemployees: '',
-          kot_sales_phase__c: '',
-          servername__c: '',
-          kotcompanycode__c: ''
-        }
-      }
-    } else {
-      if (_.isEmpty(props.company.sfRecords)) {
-        props.company.sfRecords = {
-          numberofemployees: '',
-          kot_sales_phase__c: '',
-          servername__c: '',
-          kotcompanycode__c: ''
-        }
-      }
-      return props.company
-    }
-  }
-
   const industryTypes = [
-    { value: null, label: '--None--' },
-    { value: '農林・水産・鉱業', label: '農林・水産・鉱業' },
-    { value: '商業|小売', label: '商業|小売' },
-    { value: '商業|飲食', label: '商業|飲食' },
-    { value: '商業|卸売', label: '商業|卸売' },
-    { value: '建設', label: '建設' },
-    { value: '製造', label: '製造' },
-    { value: '物流', label: '物流' },
-    { value: '政府・公共', label: '政府・公共' },
-    { value: '教育機関', label: '教育機関' },
-    { value: '福祉・介護', label: '福祉・介護' },
-    { value: '医療', label: '医療' },
-    {
-      value: '電力・ガス・その他エネルギー',
-      label: '電力・ガス・その他エネルギー'
-    },
-    { value: '不動産', label: '不動産' },
-    { value: '通信', label: '通信' },
-    { value: 'マスコミ', label: 'マスコミ' },
-    {
-      value: 'サービス|レジャー|アミューズメント',
-      label: 'サービス|レジャー|アミューズメント'
-    },
-    {
-      value: 'サービス|レジャー|旅行・観光',
-      label: 'サービス|レジャー|旅行・観光'
-    },
-    {
-      value: 'サービス|レジャー|スポーツ・アウトドア施設',
-      label: 'サービス|レジャー|スポーツ・アウトドア施設'
-    },
-    { value: 'サービス|レンタル', label: 'サービス|レンタル' },
-    { value: 'サービス|法人向けサービス', label: 'サービス|法人向けサービス' },
-    { value: 'サービス|個人向けサービス', label: 'サービス|個人向けサービス' },
-    { value: '金融|金融', label: '金融|金融' },
-    { value: '金融|保険', label: '金融|保険' },
-    { value: '金融|証券', label: '金融|証券' },
-    { value: 'その他', label: 'その他' },
-    { value: '不明', label: '不明' }
+    null,
+    '農林・水産・鉱業',
+    '商業|小売',
+    '商業|飲食',
+    '商業|卸売',
+    '建設',
+    '製造',
+    '物流',
+    '政府・公共',
+    '教育機関',
+    '福祉・介護',
+    '医療',
+    '電力・ガス・その他エネルギー',
+    '不動産',
+    '通信',
+    'マスコミ',
+    'サービス|レジャー|アミューズメント',
+    'サービス|レジャー|旅行・観光',
+    'サービス|レジャー|スポーツ・アウトドア施設',
+    'サービス|レンタル',
+    'サービス|法人向けサービス',
+    'サービス|個人向けサービス',
+    '金融|金融',
+    '金融|保険',
+    '金融|証券',
+    'その他',
+    '不明'
   ]
 
-  const handleChangeIndustry = (selectedOption) => {
-    state.company.industry = selectedOption.value
+  const handleChangeIndustry = (e) => {
     setState((prevState) => {
+      let _company = prevState.company
+      _company['industry'] = e.target.value
       return {
+        company: _company,
         ...prevState
       }
     })
   }
 
   const addCompanyToken = (token) => {
-    state.company.token = token
-
     setState((prevState) => {
+      let _company = prevState.company
+      _company['token'] = token
       return {
         ...prevState,
+        company: _company,
         showPopupAddAccountToken: false,
         dialogMessage:
           'この顧客企業を \n 本当に韋駄天に追加してもよろしいですか？',
@@ -180,11 +129,8 @@ const AccountProfile = (props) => {
       }
     })
 
-    let account = state.company
-    account._token = props.token
-
     axios
-      .post(`/admin/company/saveAddedCompany`, account, {
+      .post(`/admin/company/saveAddedCompany`, state.company, {
         'Content-Type': 'application/json'
       })
       .then((data) => {
@@ -267,6 +213,47 @@ const AccountProfile = (props) => {
       }
     })
 
+    let nameLength = state.company.name.length
+    let kotCompanyCodeLength = state.company.companyCode.length + 2
+    let _errorMessages = errorMessages
+    if (nameLength + kotCompanyCodeLength >= 101) {
+      _errorMessages['name'] = '最大文字数は 100 文字です。'
+      _errorMessages['hasError'] = true
+      setErrorMessages(() => {
+        return {
+          ..._errorMessages
+        }
+      })
+      setState((prevState) => {
+        return {
+          ...prevState,
+          showPopupMessageDialog: false,
+          showPopupConfirmSaveUpdateDialog: false,
+          isLoading: false
+        }
+      })
+    } else {
+      _errorMessages['name'] = ''
+      _errorMessages['hasError'] = false
+      setErrorMessages(() => {
+        return {
+          ..._errorMessages
+        }
+      })
+    }
+
+    if (errorMessages.hasError) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          showPopupMessageDialog: false,
+          showPopupConfirmSaveUpdateDialog: false,
+          isLoading: false
+        }
+      })
+      return
+    }
+
     let account = state.company
     account._token = props.token
 
@@ -345,7 +332,7 @@ const AccountProfile = (props) => {
     if (fieldName == 'name') {
       let nameLength = e.target.value.length
       let kotCompanyCodeLength = state.company.companyCode.length + 2
-      if (nameLength + kotCompanyCodeLength > 100) {
+      if (nameLength + kotCompanyCodeLength >= 101) {
         _errorMessages[fieldName] = '最大文字数は 100 文字です。'
         _errorMessages['hasError'] = true
 
@@ -354,8 +341,14 @@ const AccountProfile = (props) => {
             ..._errorMessages
           }
         })
-        e.preventDefault()
-        return
+      } else {
+        _errorMessages[fieldName] = ''
+        _errorMessages['hasError'] = false
+        setErrorMessages(() => {
+          return {
+            ..._errorMessages
+          }
+        })
       }
     }
     setState((prevState) => {
@@ -367,8 +360,6 @@ const AccountProfile = (props) => {
   }
 
   const handleTextChangeNumberofemployees = () => {
-    // const value = e.target.value
-    // state.company.sfRecords.numberofemployees = value
     setState((prevState) => {
       return {
         ...prevState
@@ -413,12 +404,15 @@ const AccountProfile = (props) => {
             .querySelector('meta[name="csrf-token"]')
             .getAttribute('content')
         })
-        .then((data) => {
-          if (data.data.success !== undefined && data.data.success === true) {
+        .then((result) => {
+          if (
+            result.data.success !== undefined &&
+            result.data.success === true
+          ) {
             setState((prevState) => {
               return {
                 ...prevState,
-                company: data.data.data,
+                company: result.data.data,
                 isEditingProfile: isEditingProfile
               }
             })
@@ -693,12 +687,29 @@ const AccountProfile = (props) => {
                 >
                   {state.company.industry}
                 </label>
-                <Select
-                  className={(state.isEditingProfile ? '' : ' hidden ') + ''}
-                  defaultValue={{ value: true, label: state.company.industry }}
-                  onChange={handleChangeIndustry}
-                  options={industryTypes}
-                />
+
+                {
+                  <select
+                    className={
+                      (state.isEditingProfile ? '' : ' hidden ') +
+                      'w-full bg-gray-100 p-1 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                    }
+                    name="industry"
+                    onChange={handleChangeIndustry}
+                  >
+                    {industryTypes.map(function (val) {
+                      return (
+                        <option
+                          key={val}
+                          value={val}
+                          selected={state.company.industry == val}
+                        >
+                          {val}
+                        </option>
+                      )
+                    })}
+                  </select>
+                }
               </div>
             </div>
 
@@ -741,7 +752,7 @@ const AccountProfile = (props) => {
                 <label
                   className={' text-sm text-black w-full h-8 px-3 leading-8'}
                 >
-                  {state.company.sfRecords.kot_sales_phase__c}
+                  {state.company.phase}
                 </label>
               </div>
             </div>
@@ -754,7 +765,7 @@ const AccountProfile = (props) => {
                 <label
                   className={' text-sm text-black w-full h-8 px-3 leading-8'}
                 >
-                  {state.company.sfRecords.servername__c}
+                  {state.company.serverName}
                 </label>
               </div>
             </div>
@@ -781,7 +792,13 @@ const AccountProfile = (props) => {
                 ? handleShowAddToken
                 : handleShowUpdateSaveDialog
             }
-            className="bg-primary-200 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
+            disabled={errorMessages.hasError}
+            className={
+              (errorMessages.hasError
+                ? 'bg-primary-100 pointer-events-none hover:cursor-default'
+                : 'bg-primary-200 hover:bg-green-700') +
+              'bg-primary-200  text-white  rounded-lg p-2 text-sm mr-1'
+            }
           >
             <img
               className="inline mr-2"
