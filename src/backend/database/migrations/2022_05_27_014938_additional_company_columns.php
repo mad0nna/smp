@@ -14,7 +14,7 @@ class AdditionalCompanyColumns extends Migration
     public function up()
     {
         //
-        Schema::table('company', function($table)
+        Schema::table('companies', function($table)
         {
             $table->string('server_name')->nullable();
             $table->string('phase')->nullable();
