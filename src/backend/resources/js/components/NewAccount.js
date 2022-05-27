@@ -372,7 +372,7 @@ const NewAccount = (props) => {
           </div>
         </div>
       </div>
-      <p className="text-sm inline-block text-white w-full h-8 leading-8 text-left text-center pt-3">
+      <p className="text-sm inline-block text-white w-full h-10 leading-8 text-left text-center pt-3">
         {!_.isEmpty(state.searchResult) ? state.searchResult : ''}
       </p>
       <div className="flex flex-wrap gap-0 w-full justify-start">
