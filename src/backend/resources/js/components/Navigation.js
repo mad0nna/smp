@@ -556,9 +556,9 @@ const Navigation = () => {
                 (aPathName[1] == 'admin' ? 'hidden' : 'block')
               }
             >
-              <div className="">様</div>
-              <div className="truncate">{state.contactFirstName} </div>
-              <div className="truncate">{state.contactLastName} </div>
+              <div className="ml-1">様</div>
+              <div className="truncate ml-1">{state.contactFirstName} </div>
+              <div className="truncate ml-1">{state.contactLastName} </div>
             </div>
           </div>
         </div>
