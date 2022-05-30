@@ -5,10 +5,11 @@ import InvoiceTemplateDetailTable from './InvoiceTemplateDetailTable'
 import arrowLeft from '../../../img/arrow-left-2.png'
 import arrowRight from '../../../img/arrow-right-2.png'
 import axios from 'axios'
+import MessageDialog from '../MessageDialog'
 import _, { isEmpty } from 'lodash'
 
 const InvoiceTemplateDetails = () => {
-  var url = new URL(location.href).searchParams
+  const url = new URL(location.href).searchParams
   const [state, setState] = useState({
     action: url.get('action'),
     file: '',
@@ -21,8 +22,19 @@ const InvoiceTemplateDetails = () => {
     firstLoad: true,
     templateID: url.get('template'),
     changeFile: false,
-    templateOldName: null
+    templateOldName: null,
+    showPopupMessageDialog: false,
+    dialogMessage: ''
   })
+
+  const handleCloseMessageDialog = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        showPopupMessageDialog: false
+      }
+    })
+  }
 
   useEffect(() => {
     if (
@@ -86,10 +98,10 @@ const InvoiceTemplateDetails = () => {
   }
 
   const getSelectValues = (select) => {
-    var result = []
-    var options = select && select[0].options
-    var opt
-    for (var i = 0, iLen = options.length; i < iLen; i++) {
+    let result = []
+    let options = select && select[0].options
+    let opt
+    for (let i = 0, iLen = options.length; i < iLen; i++) {
       opt = options[i]
 
       if (opt.selected) {
@@ -154,8 +166,20 @@ const InvoiceTemplateDetails = () => {
   }
 
   const uploadPDFFile = () => {
-    var formData = new FormData()
-    var pdfFile = document.querySelector('#PdfContainer')
+    let formData = new FormData()
+    let pdfFile = document.querySelector('#PdfContainer')
+    if (_.isEmpty(pdfFile.files[0])) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          status: false,
+          showPopupMessageDialog: true,
+          dialogMessage: 'You should select a file first'
+        }
+      })
+      return
+    }
+
     formData.append('pdf', pdfFile.files[0])
     let endpoint = '/admin/template/uploadNewTemplate'
     if (state.action === 'edit' && !isEmpty(state.templateID)) {
@@ -205,9 +229,9 @@ const InvoiceTemplateDetails = () => {
     uploadPDFFile()
   }
 
-  var minheight = { minHeight: '700px' }
-  var minheightCompanyList = { minHeight: '400px' }
-  var minHeightCompanyListContainer = { minHeight: '350px' }
+  const minheight = { minHeight: '700px' }
+  const minheightCompanyList = { minHeight: '400px' }
+  const minHeightCompanyListContainer = { minHeight: '350px' }
   return (
     <div className="mx-10 grid grid-cols-6 bg-white" style={minheight}>
       <div className="col-span-1 py-8 px-4 space-x-2 border-r-2">
@@ -232,7 +256,8 @@ const InvoiceTemplateDetails = () => {
                   return {
                     ...prevState,
                     status: false,
-                    message: 'File type is not supported.'
+                    showPopupMessageDialog: true,
+                    dialogMessage: 'File type is not supported.'
                   }
                 })
               } else {
@@ -399,6 +424,12 @@ const InvoiceTemplateDetails = () => {
           </div>
         </div>
       </div>
+      {state.showPopupMessageDialog ? (
+        <MessageDialog
+          handleCloseMessageDialog={handleCloseMessageDialog}
+          message={state.dialogMessage}
+        />
+      ) : null}
     </div>
   )
 }
