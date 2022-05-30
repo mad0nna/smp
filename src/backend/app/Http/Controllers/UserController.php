@@ -322,7 +322,7 @@ class UserController extends Controller
 
 
             if ($data['changeRole']) {
-                $adminCount = User::where('company_id', Session::get('companyID'))->where('user_type_id', 3)->count();
+                $adminCount = User::where('company_id', Session::get('companyID'))->where('user_type_id', 3)->where('user_status_id', 1)->count();
                 $role = $data['admin__c'] == 3 ? 'promote' : 'demote';
                 if ($role === 'demote' && $adminCount <= 1) {
                     $message = '企業情報の更新に成功しましたが、管理者権限を持つユーザーが最低１名必要なため、権限を降格することが出来ませんでした';

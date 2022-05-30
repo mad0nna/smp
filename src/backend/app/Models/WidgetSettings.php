@@ -132,7 +132,7 @@ class WidgetSettings extends Model
                 'x' => 2,
                 'y' => 1,
                 'minH' => 4,
-                'minW' => 2,
+                'minW' => 3,
                 'state' => true,
                 'className' => 'relative',
             ],

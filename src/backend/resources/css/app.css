@@ -170,8 +170,8 @@ bg-shop-icon:hover {
 
 .prod-widget-img-holder {
     position: relative;
-    height: 151px;
-    min-width: 151px;
+    min-height: 165px;
+    min-width: 165px;
     width: 100%;
     overflow: hidden;
 }
@@ -200,4 +200,11 @@ html {
 	scrollbar-color: var(--bs-line-light, #dee2e6) transparent;
 	scrollbar-width: thin;
 	overflow-y: scroll;
+}
+
+.line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }

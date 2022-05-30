@@ -13,6 +13,17 @@ const CheckoutOption = (props) => {
       }
     })
   }
+
+  const handleCancel = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        optionValue: 0
+      }
+    })
+    props.handleCloseModal()
+  }
+
   return (
     <div className="fixed w-full h-full top-0 left-0 flex items-center justify-center">
       <div className="absolute w-full h-full bg-gray-900 opacity-50"></div>
@@ -54,12 +65,13 @@ const CheckoutOption = (props) => {
               <div className="space-x-5">
                 <button
                   className="bg-gray-400 h-12 w-2/6 rounded-3xl text-black font-semibold"
-                  onClick={() => props.handleCloseModal()}
+                  onClick={handleCancel}
                 >
                   キャンセル
                 </button>
                 <button
                   className="bg-primary-200 text-white h-12 w-2/6 rounded-3xl font-semibold"
+                  readOnly={props.loader}
                   onClick={() => props.handleSubmitCheckout(state.optionValue)}
                 >
                   確定
