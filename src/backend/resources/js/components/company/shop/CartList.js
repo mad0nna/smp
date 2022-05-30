@@ -199,26 +199,29 @@ const CartList = () => {
   }
 
   const handleCheckoutModalOpen = async () => {
-    formValidation()
-    if (Object.values(errorData).includes(true)) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          loader: false,
-          isSubmit: !prevState.isSubmit
+    Promise.resolve()
+      .then(() => {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            loader: true
+          }
+        })
+        formValidation()
+      })
+      .then(() => {
+        if (Object.values(errorData).includes(true)) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              loader: false,
+              isSubmit: !prevState.isSubmit
+            }
+          })
+        } else {
+          saveToBasket()
         }
       })
-    } else {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          isSubmit: !prevState.isSubmit,
-          loader: true
-        }
-      })
-
-      saveToBasket()
-    }
   }
 
   /**
@@ -537,6 +540,7 @@ const CartList = () => {
   }
 
   const handleCheckoutModalClose = () => {
+    deleteBasketCache(csrfItem)
     setState((prevState) => {
       return {
         ...prevState,
@@ -1078,6 +1082,7 @@ const CartList = () => {
           handleCloseModal={handleCheckoutModalClose}
           handleSubmitCheckout={handleSubmitCheckout}
           method={state.method}
+          loader={state.loader}
         />
       ) : null}
       {state.modalDisplayMessage ? (
