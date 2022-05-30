@@ -168,7 +168,7 @@ const InvoiceTemplateDetails = () => {
   const uploadPDFFile = () => {
     let formData = new FormData()
     let pdfFile = document.querySelector('#PdfContainer')
-    if (_.isEmpty(pdfFile.files[0])) {
+    if (pdfFile.files.length == 0) {
       setState((prevState) => {
         return {
           ...prevState,
