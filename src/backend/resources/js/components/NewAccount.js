@@ -319,7 +319,7 @@ const NewAccount = (props) => {
               メールアドレス :
             </label>
             <input
-              className="text-sm 2xl:w-60 xl:w-58 lg:w-36 col-span-1 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3 ml-1"
+              className="text-sm 2xl:w-60 xl:w-48 lg:w-28 col-span-1 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3 ml-1"
               defaultValue={state.email}
               type="text"
               onChange={handleEmailChange}
@@ -327,7 +327,7 @@ const NewAccount = (props) => {
             <button
               disabled={state.isLoading}
               onClick={() => searchAdminByEmail(state.email)}
-              className="w-24 xl:w-24 lg:w-24 cursor-pointer col-span-1 text-bold text-primary-200 bg-white rounded p-1 text-sm"
+              className="w-24 xl:w-20 lg:w-20 cursor-pointer col-span-1 text-bold text-primary-200 bg-white rounded p-1 text-sm"
             >
               検索する
               <img
