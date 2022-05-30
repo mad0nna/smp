@@ -375,7 +375,7 @@ const ProductDetail = (props) => {
                   </div>
                   <div className="grid col-span-1 text-center flex content-center">
                     <div className="font-bold text-red-500 text-right pr-10">
-                      <div className="font-bold text-red-500 text-3xl w-auto pr-10 w-full text-right">
+                      <div className="font-bold text-red-500 text-3xl w-auto pr-10 w-full text-right line-clamp-2">
                         {isLoaded ? productDetail.title : ''}
                       </div>
                       <div className="font-bold text-red-500 text-3xl w-auto pr-10 w-full text-right">

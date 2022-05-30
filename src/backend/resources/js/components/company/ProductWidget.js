@@ -176,7 +176,9 @@ const ProductWidget = () => {
                         ></img>
                       </div>
                     </a>
-                    <div className="pl-2">{item.product['product.label']}</div>
+                    <div className="pl-2 line-clamp-2">
+                      {item.product['product.label']}
+                    </div>
                     <div className="pl-2">{prodPrice}円</div>
                     <div className="pl-2 text-primary-200">
                       <a
