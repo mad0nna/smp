@@ -313,7 +313,7 @@ const NewAccount = (props) => {
       }
     >
       <div className="flex flex-wrap gap-0 w-full justify-center mt-8">
-        <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 md:ml-2 justify-start 2xl:pl-16 xl:pl-4 lg:pl-3">
+        <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 md:ml-1 lg:ml-1 xl-ml-2 justify-start 2xl:pl-16 xl:pl-4 lg:pl-3">
           <div className="justify-center">
             <label className="text-sm text-white 2xl:w-42 xl:w-42 lg:w-26 h-8 leading-8 col-span-1 pr-1">
               メールアドレス :
