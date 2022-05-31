@@ -6,7 +6,7 @@ const MessageDialog = (props) => {
       <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
         <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-10">
           <div
-            className="text-center w-full inline-block text-white px-3 leading-8 overflow-hidden"
+            className="text-center w-full inline-block text-white px-3 leading-8 overflow-hidden break-normal"
             style={{ width: '98%' }}
           >
             {props.message}
