@@ -754,7 +754,7 @@ $columnList = [
 							<?php endif ?>
 							<?php if( in_array( 'product.price', $fields ) ) : ?>
 								<!-- temporary static data -->
-								<td class="product-price">  <? $p = $item->getListItems('price')->getRefItem()->first(); ?> <? if ($p) { ?><?= number_format($p->toArray()['price.value']) ?>円<? } else { echo 'N/A'; }?> </td>
+								<td class="product-price">  <? $p = $item->getListItems('price')->getRefItem()->first(); ?> <? if ($p) { ?><?= number_format(floor($p->toArray()['price.value'])) ?>円<? } else { echo 'N/A'; }?> </td>
 							<?php endif ?>
 							<!-- End -->
 
