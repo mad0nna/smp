@@ -141,7 +141,7 @@ const NotificationPage = () => {
   )
   return (
     <div>
-      <div className="relative px-10 py-5 bg-mainbg">
+      <div className="relative px-10 py-5 bg-primaryBg">
         <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
           <div
             id="widget-header"

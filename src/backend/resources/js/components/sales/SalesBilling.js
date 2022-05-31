@@ -101,7 +101,7 @@ const SalesBilling = () => {
   ]
 
   return (
-    <div className="relative px-10 pt-5 bg-mainbg">
+    <div className="relative px-10 pt-5 bg-primaryBg">
       <div className="dashboard-widget-list w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
         <div
           id="widget-header"
@@ -118,7 +118,7 @@ const SalesBilling = () => {
             <div className="table-cell relative h-24 w-full align-middle">
               <div
                 id="search-bar"
-                className="bg-mainbg h-12 rounded-3xl w-96 mx-0 my-auto"
+                className="bg-primaryBg h-12 rounded-3xl w-96 mx-0 my-auto"
               >
                 <svg
                   className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
@@ -139,7 +139,7 @@ const SalesBilling = () => {
                 <input
                   type="text"
                   id="billingSearch"
-                  className="h-full w-80 bg-mainbg custom-outline-none"
+                  className="h-full w-80 bg-primaryBg custom-outline-none"
                   placeholder="検索"
                 />
               </div>

@@ -247,7 +247,7 @@ const AccountList = (props) => {
   }, [props.isLoadingPullSf])
 
   return (
-    <div className="relative px-10 py-5 bg-mainbg">
+    <div className="relative px-10 py-5 bg-primaryBg">
       <input type="hidden" name="_token" value={state.token}></input>
       <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
         <div
@@ -263,7 +263,7 @@ const AccountList = (props) => {
               <div className="table-cell relative h-20 w-full align-middle">
                 <div
                   id="search-bar"
-                  className="bg-mainbg h-12 rounded-3xl w-96 mx-0 my-auto"
+                  className="bg-primaryBg h-12 rounded-3xl w-96 mx-0 my-auto"
                 >
                   <svg
                     className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
@@ -284,7 +284,7 @@ const AccountList = (props) => {
                   <input
                     type="text"
                     id="billingSearch"
-                    className="h-full w-80 bg-mainbg custom-outline-none"
+                    className="h-full w-80 bg-primaryBg custom-outline-none"
                     placeholder="検索"
                     onChange={handleKeywordChange}
                   />

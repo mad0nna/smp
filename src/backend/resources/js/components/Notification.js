@@ -101,7 +101,7 @@ const Notification = (props) => {
           className={
             'w-full py-1 space-y-1 ' + (state.loading === true)
               ? ''
-              : 'bg-mainbg'
+              : 'bg-primaryBg'
           }
         >
           {state.loading === true ? (

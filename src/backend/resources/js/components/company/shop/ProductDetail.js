@@ -340,7 +340,7 @@ const ProductDetail = (props) => {
       ? `${productDetail.description.substring(0, 450)}...`
       : productDetail.description
   return (
-    <div className="bg-mainbg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
+    <div className="bg-primaryBg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
       <div className=" pb-5">
         <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
           <div className="px-3 pt-3 pb-6">

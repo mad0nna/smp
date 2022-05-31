@@ -115,7 +115,7 @@ const SalesBillingHistory = (props) => {
         </div>
         <div
           id="widget-body"
-          className=" w-full  bg-mainbg py-1 space-y-1  mb-1"
+          className="w-full bg-primaryBg py-1 mb-1 space-y-1"
         >
           {billingHistory.map((item, index) => {
             let stripe = index % 2 ? 'bg-white' : 'bg-white'

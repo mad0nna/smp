@@ -75,7 +75,7 @@ const ContractedServices = (props) => {
           className="w-full bg-white 2xl:space-y-1 overflow-hidden "
         >
           {contractedServices.map((item, index) => {
-            let stripe = !(index % 2) ? 'bg-mainbg' : 'bg-white'
+            let stripe = !(index % 2) ? 'bg-primaryBg' : 'bg-white'
             return (
               <span
                 id="widget-content-item"

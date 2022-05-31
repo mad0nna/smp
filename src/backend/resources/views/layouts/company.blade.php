@@ -12,10 +12,10 @@
 
     <!-- Fonts -->
 
-    <!-- Styles --> 
+    <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-mainbg">
+<body class="bg-primaryBg">
     <nav id="navigation"></nav>
 
     <main>
@@ -36,7 +36,7 @@
         $userData['number'] = $user['contact_num'];
         $userData['accountCode'] = $user['account_code'];
         $userData['userTypeId'] = $user['user_type_id'];
-        $userData['title'] = $user['title'];        
+        $userData['title'] = $user['title'];
         $userData['companyId'] = $user['company'] ? $user->user_company->id : '';
         $userData['companyName'] = $user['company'] ? $user->user_company->name : '';
         $userData['companyCode'] = $user['company'] ? $user->user_company->company_code : '';

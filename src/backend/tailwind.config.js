@@ -1,6 +1,6 @@
 module.exports = {
   purge: ['./resources/**/*.blade.php', './resources/**/*.js'],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: false,
   theme: {
     extend: {
       backgroundImage: {
@@ -48,23 +48,26 @@ module.exports = {
         paper: "url('/images/paper.png')"
       },
       colors: {
-        mainbg: '#F2F2F2',
-        secondaryBg: '#c1cbc4',
+        primaryBg: '#F2F2F2',
+        secondaryBg: '#C1CBC4',
         primary: {
-          50: '#f3faf6',
+          50: '#F3FAF6',
           100: '#5EDF89',
-          200: '#1D9E48'
+          200: '#1D9E48',
+          900: '#065F46'
         },
         secondary: {
           100: '#DC5858',
-          200: '#DE0A0A'
+          200: '#DE0A0A',
+          900: '#17A8A4'
         },
-        cyan: '#43bbb3',
-        orange: '#ffbc03',
-        lightGreen: '#6ad48d',
+        tertiary: '#1D9E48',
+        cyan: '#43BBB3',
+        orange: '#FFBC03',
+        lightGreen: '#6AD48D',
         greenOld: '#95A199',
-        'table-header-Gray-100': '#ececec',
-        'table-header-Gray-400': '#a5a5a5',
+        'table-header-Gray-100': '#ECECEC',
+        'table-header-Gray-400': '#A5A5A5',
         lime: {
           primary: '#22AC38',
           200: '#D9F99D',
@@ -75,24 +78,21 @@ module.exports = {
           700: '#4D7C0F',
           800: '#3F6212'
         },
-        customGray: '#685d5e'
+        customGray: '#685D5E'
       },
       fontSize: {
         xxs: ['0.60rem', { lineHeight: '.75rem' }],
         'widget-xs': '10px'
       },
-
       height: {
         'widgetBody-sm': 'calc(100% - 2.50rem)',
         widgetBody: 'calc(100% - 6.50rem)',
         'widgetBody-lg': 'calc(100% - 3rem)',
         'detail-height': '34rem'
       },
-
       width: {
         widgetBody: 'calc(100% - 3rem)'
       },
-
       lineHeight: {
         5: '5rem'
       },

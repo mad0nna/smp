@@ -38,7 +38,7 @@ const CompanyDetail = (props) => {
     )
   }
   return (
-    <div className="relative px-10 pt-5 pb-5 bg-mainbg font-sans">
+    <div className="relative px-10 pt-5 pb-5 bg-primaryBg font-sans">
       {hasBreadcrumb ? breadCrumb() : ''}
       <div
         id="contact-persons"

@@ -226,8 +226,8 @@ const AccountList = () => {
   }
 
   return (
-    <div className="relative px-10 py-5 bg-mainbg ">
-      <div className="bg-mainbg grid grid-cols-3 font-meiryo gap-6">
+    <div className="relative px-10 py-5 bg-primaryBg">
+      <div className="bg-primaryBg grid grid-cols-3 font-meiryo gap-6">
         <div className="col-span-3 w-full rounded-lg shadow-xl bg-white mb-10 border-primary-100">
           <div className="px-3 pt-3 pb-10">
             <div className="w-full pb-2 border-b border-green-800 border-opacity-80">

@@ -105,7 +105,7 @@ const SalesDetail = () => {
     ]
   })
   return (
-    <div className="relative px-10 pt-5 pb-0 bg-mainbg font-sans">
+    <div className="relative px-10 pt-5 pb-0 bg-primaryBg font-sans">
       <div
         id="breadcrumb"
         className="w-full relative table-cell align-middle w-60 space-x-4"

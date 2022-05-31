@@ -941,7 +941,7 @@ const CartList = () => {
       .then((res) => setCsrfToken(res.data.meta.csrf))
   }, [])
   return (
-    <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
+    <div className="bg-primaryBg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
       <div className="md:col-span-1 lg:col-span-3 pb-5">
         <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
           <div className="px-3 pt-3 pb-6">

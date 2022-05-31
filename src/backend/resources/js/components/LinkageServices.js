@@ -39,7 +39,7 @@ const LinkageServices = () => {
           className="  w-full bg-white 2xl:px-6 xl:px-5 lg:px-3 sm:px-2 space-y-0  bg-white "
         >
           {linkageServices.map((item, index) => {
-            let stripe = !(index % 2) ? 'bg-mainbg' : 'bg-white'
+            let stripe = !(index % 2) ? 'bg-primaryBg' : 'bg-white'
             return (
               <div
                 id="widget-content-item"

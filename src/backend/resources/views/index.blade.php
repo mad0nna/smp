@@ -15,7 +15,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-mainbg antialiased text-base font-sans">
+<body class="bg-primaryBg antialiased text-base font-sans">
 
     <main>
 
@@ -54,8 +54,8 @@
                                         </span>
                                     @enderror
                                 </div>
-                                
-                                
+
+
                                 <div class="w-full mb-3">
                                     <input
                                         type="password"
@@ -71,7 +71,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                
+
                                 @if (session('status'))
                                 <div class="alert alert-success text-xs text-center text-blueGray-300 mb-2 block text-secondary-200" role="alert">
                                 <strong>{{ session('status') }}</strong>
