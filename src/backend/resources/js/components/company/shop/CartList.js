@@ -199,26 +199,29 @@ const CartList = () => {
   }
 
   const handleCheckoutModalOpen = async () => {
-    formValidation()
-    if (Object.values(errorData).includes(true)) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          loader: false,
-          isSubmit: !prevState.isSubmit
+    Promise.resolve()
+      .then(() => {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            loader: true
+          }
+        })
+        formValidation()
+      })
+      .then(() => {
+        if (Object.values(errorData).includes(true)) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              loader: false,
+              isSubmit: !prevState.isSubmit
+            }
+          })
+        } else {
+          saveToBasket()
         }
       })
-    } else {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          isSubmit: !prevState.isSubmit,
-          loader: true
-        }
-      })
-
-      saveToBasket()
-    }
   }
 
   /**
@@ -537,6 +540,7 @@ const CartList = () => {
   }
 
   const handleCheckoutModalClose = () => {
+    deleteBasketCache(csrfItem)
     setState((prevState) => {
       return {
         ...prevState,
@@ -720,7 +724,9 @@ const CartList = () => {
                 className="w-auto h-auto p-5 tex-center m-auto"
                 src={`${state.img_domain}/${item.imgSrc}`}
               ></img>
-              <div className="text-red-500 font-bold">{item.title}</div>
+              <div className="text-red-500 font-bold line-clamp-2">
+                {item.title}
+              </div>
             </div>
           </td>
           <td className="text-center font-bold text-red-500">
@@ -1078,6 +1084,7 @@ const CartList = () => {
           handleCloseModal={handleCheckoutModalClose}
           handleSubmitCheckout={handleSubmitCheckout}
           method={state.method}
+          loader={state.loader}
         />
       ) : null}
       {state.modalDisplayMessage ? (
