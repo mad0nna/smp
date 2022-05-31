@@ -638,7 +638,7 @@ const CompanyProfile = () => {
               >
                 <div className="md:mb-0 md:w-1/3">
                   <label className="text-sm text-gray-400">
-                    会社名を入力してください
+                    会社名
                     <span className="text-red-500">*</span>
                   </label>
                 </div>
