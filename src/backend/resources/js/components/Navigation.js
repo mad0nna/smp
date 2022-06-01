@@ -292,22 +292,22 @@ const Navigation = () => {
         title: '管理者',
         logo: AdminIcon,
         items: [
-          {
-            label: 'アカウント プロファイル',
-            url: '#',
-            iconNormal: 'bg-profile-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
-          },
-          {
-            label: 'お問合せ',
-            url: '#',
-            iconNormal: 'bg-call-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
-          },
+          // {
+          //   label: 'アカウント プロファイル',
+          //   url: '#',
+          //   iconNormal: 'bg-profile-icon-white',
+          //   iconHover: '',
+          //   iconSize: 'h-5 w-5',
+          //   extraStyle: 'cursor-default'
+          // },
+          // {
+          //   label: 'お問合せ',
+          //   url: '#',
+          //   iconNormal: 'bg-call-icon-white',
+          //   iconHover: '',
+          //   iconSize: 'h-5 w-5',
+          //   extraStyle: 'cursor-default'
+          // },
           {
             label: '設定',
             url: '/admin/settings',
@@ -316,22 +316,6 @@ const Navigation = () => {
             iconSize: 'h-5 w-5',
             extraStyle: ''
           },
-          // {
-          //   label: 'アカウント設定',
-          //   url: '#',
-          //   iconNormal: 'bg-settings-icon-white',
-          //   iconHover: '',
-          //   iconSize: 'h-5 w-5',
-          //   extraStyle: 'cursor-default'
-          // },
-          // {
-          //   label: 'ウィジェット設定',
-          //   url: '#',
-          //   iconNormal: 'bg-widget-settings-icon',
-          //   iconHover: '',
-          //   iconSize: 'h-5 w-5',
-          //   extraStyle: 'cursor-default'
-          // },
           {
             label: 'ログアウト',
             url: '/logout',
