@@ -292,22 +292,22 @@ const Navigation = () => {
         title: '管理者',
         logo: AdminIcon,
         items: [
-          {
-            label: 'アカウント プロファイル',
-            url: '#',
-            iconNormal: 'bg-profile-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
-          },
-          {
-            label: 'お問合せ',
-            url: '#',
-            iconNormal: 'bg-call-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
-          },
+          // {
+          //   label: 'アカウント プロファイル',
+          //   url: '#',
+          //   iconNormal: 'bg-profile-icon-white',
+          //   iconHover: '',
+          //   iconSize: 'h-5 w-5',
+          //   extraStyle: 'cursor-default'
+          // },
+          // {
+          //   label: 'お問合せ',
+          //   url: '#',
+          //   iconNormal: 'bg-call-icon-white',
+          //   iconHover: '',
+          //   iconSize: 'h-5 w-5',
+          //   extraStyle: 'cursor-default'
+          // },
           {
             label: '設定',
             url: '/admin/settings',
