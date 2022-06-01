@@ -24,5 +24,11 @@ return [
         'taxflag' => 0
 
     ],
-
+    'order' => [
+        'manager' => [
+            'decorators' => [
+                'local' => ['Myproject']
+            ]
+        ]
+    ],
 ];
