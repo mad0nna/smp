@@ -132,7 +132,7 @@ const Navigation = () => {
             }
           },
           {
-            label: 'ト設定',
+            label: '設定',
             url: '/company/setting/widget',
             iconNormal: 'bg-settings-icon-white',
             iconHover: '',
@@ -309,7 +309,7 @@ const Navigation = () => {
             extraStyle: 'cursor-default'
           },
           {
-            label: 'ト設定',
+            label: '設定',
             url: '/admin/settings',
             iconNormal: 'bg-settings-icon-white',
             iconHover: '',
