@@ -699,11 +699,13 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.companyDetails.country ?? '' + ' '}
-                    {state.companyDetails.state ?? '' + ' '}
-                    {state.companyDetails.city ?? '' + ' '}
-                    {state.companyDetails.street ?? '' + ' '}
-                    {state.companyDetails.postalCode ?? ''}
+                    <div className="px-3 flex flex-wrap">
+                      {state.companyDetails.country ?? '' + ' '}
+                      {state.companyDetails.state ?? '' + ' '}
+                      {state.companyDetails.city ?? '' + ' '}
+                      {state.companyDetails.street ?? '' + ' '}
+                      {state.companyDetails.postalCode ?? ''}
+                    </div>
                   </label>
                   <div className="space-y-1">
                     <input
