@@ -93,7 +93,7 @@ RUN npm install --global cross-env
 RUN mkdir -p /var/www/backend
 WORKDIR /var/www/backend
 COPY --chown=www-data src/backend /var/www/backend/
-RUN chmod -R 777 /var/www/backend/storage/logs /var/www/backend/storage/framework
+RUN chmod -R 777 /var/www/backend/storage/
 
 # Install composer packages
 RUN rm -rf /var/www/backend/vendor /var/www/backend/composer.lock
@@ -101,7 +101,7 @@ RUN mv /var/www/backend/ext /var/www/backend/ext-temp
 RUN composer install --ignore-platform-reqs
 RUN rm -rf /var/www/backend/ext
 RUN mv /var/www/backend/ext-temp /var/www/backend/ext
-RUN composer dump-autoload
+RUN composer dump-autoload --ignore-platform-reqs
 RUN mkdir -p /var/www/backend/public/aimeos /var/www/backend/public/vendor
 RUN chmod -R 777 /var/www/backend/public/aimeos /var/www/backend/public/vendor
 
