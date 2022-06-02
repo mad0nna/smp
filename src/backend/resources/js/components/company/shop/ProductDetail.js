@@ -104,17 +104,17 @@ const ProductDetail = (props) => {
     })
   }
 
-  const onDelete = (e) => {
-    if (e.keyCode === 8) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          orderNum: 2,
-          stock: state.stock + state.orderNum
-        }
-      })
-    }
-  }
+  // const onDelete = (e) => {
+  //   if (e.keyCode === 8) {
+  //     setState((prevState) => {
+  //       return {
+  //         ...prevState,
+  //         orderNum: 2,
+  //         stock: state.stock + state.orderNum
+  //       }
+  //     })
+  //   }
+  // }
 
   const handleOrderChange = (n) => {
     // let currentOrder = n - 1 <= 0 ? 1 : n - 1
@@ -219,7 +219,18 @@ const ProductDetail = (props) => {
               onChange={(e) => {
                 handleOrderChange(e.target.value)
               }}
-              onKeyDown={onDelete}
+              onKeyDown={(event) => {
+                if (event.keyCode === 8) {
+                  setState((prevState) => {
+                    return {
+                      ...prevState,
+                      orderNum: 2,
+                      stock: state.stock + state.orderNum
+                    }
+                  })
+                }
+                event.preventDefault()
+              }}
             />
             {/* ||
                 parseInt(itemCartQUantity?.quantity) ===
@@ -239,7 +250,8 @@ const ProductDetail = (props) => {
               }`}
               viewBox="0 0 16 16"
               onClick={() => {
-                state.stock === 0 ? null : handleIncrementOrder()
+                // state.stock === 0 ? null :
+                handleIncrementOrder()
               }}
             >
               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
