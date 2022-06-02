@@ -29,7 +29,7 @@ const NewAccount = (props) => {
   })
 
   const handleLastNameChange = (e) => {
-    let value = e.target.value.replace(/\d+|\s+/g, '')
+    let value = e.target.value.replace(/\d+|\s+|[０-９]+/g, '')
     if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
         return {
@@ -327,7 +327,7 @@ const NewAccount = (props) => {
             <button
               disabled={state.isLoading}
               onClick={() => searchAdminByEmail(state.email)}
-              className="w-24 xl:w-20 lg:w-20 cursor-pointer col-span-1 text-bold text-primary-200 bg-white rounded p-1 text-sm"
+              className="w-24 xl:w-24 lg:w-24 cursor-pointer col-span-1 text-bold text-primary-200 bg-white rounded p-1 text-sm"
             >
               検索する
               <img
