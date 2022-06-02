@@ -1,3 +1,8 @@
+html {
+  font-family: Meiryo-UI;
+  line-height: 1.5;
+}
+
 .app-menu {
     background: white;
 }
@@ -357,6 +362,10 @@ p.upload-csv input {
 .aimeos table.customer-list td.customer-label {
   text-align:left;
   padding-left: 2rem;
+  max-width: 330px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .aimeos table.customer-list th.customer-company {
@@ -486,4 +495,9 @@ p.upload-csv input {
 
 .text-primary-200 {
   color: rgba(29, 158, 72);
+}
+
+.font-sans {
+  font-family: Meiryo-UI;
+  line-height: 1.2;
 }

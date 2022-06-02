@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import editIcon from '../../img/edit-icon.png'
 import saveIcon from '../../img/Icon awesome-save.png'
 import spinner from '../../img/spinner.gif'
+import MessageDialog from './MessageDialog'
+
 import axios from 'axios'
 
 const CompanyProfile = () => {
@@ -16,7 +18,8 @@ const CompanyProfile = () => {
       street: '',
       city: '',
       state: '',
-      country: ''
+      country: '',
+      kot_company_code: ''
     },
     KotDetails: {
       negotiationID: '',
@@ -130,6 +133,7 @@ const CompanyProfile = () => {
               (companyDetails.postalCode = data.BillingPostalCode ?? ''),
               (companyDetails.website = data.Website ?? '')),
               (companyDetails.industry = data.Industry ?? '')
+            companyDetails.kot_company_code = data.Id
             let ZenDetails = { ...prevState.ZenDetails }
             ZenDetails.orgName = data.Zendeskaccount__c
             return {
@@ -305,6 +309,18 @@ const CompanyProfile = () => {
     let errorMessage = ''
 
     switch (key) {
+      case 'companyName':
+        if (val.trim() === '') {
+          errorMessage = '必須フィールド'
+          hasError = true
+        } else if (
+          val.length + state.companyDetails.kot_company_code.length + 2 >
+          100
+        ) {
+          errorMessage = '最大文字数は 100 文字です。'
+          hasError = true
+        }
+        break
       case 'contactNumber':
         key = 'contactNumber'
         if (val !== '' && re.test(val)) {
@@ -326,16 +342,17 @@ const CompanyProfile = () => {
         }
         break
 
-      case 'MobilePhone':
-        key = 'MobilePhone'
+      // DISABLE VALIDATION IN MOBILE NUMBER
+      // case 'MobilePhone':
+      //   key = 'MobilePhone'
 
-        if (val === '' || re.test(val)) {
-          errorMessage = ''
-        } else {
-          errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
-          hasError = true
-        }
-        break
+      //   if (val === '' || re.test(val)) {
+      //     errorMessage = ''
+      //   } else {
+      //     errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
+      //     hasError = true
+      //   }
+      //   break
     }
 
     let { companyEditValues, adminDetailsEditValues } = state
@@ -377,6 +394,13 @@ const CompanyProfile = () => {
           if (val.trim() === '') {
             errorMessage = '必須フィールド'
             hasError = true
+          }
+          if (
+            val.length + state.companyDetails.kot_company_code.length + 2 >
+            100
+          ) {
+            val = state.companyEditValues[key]
+            errorMessage = '最大文字数は 100 文字です。'
           }
           break
         case 'country':
@@ -454,19 +478,19 @@ const CompanyProfile = () => {
           }
           break
 
-        case 'MobilePhone':
-          key = 'MobilePhone'
-          val = state.adminDetailsEditValues[key]
+        // DISABLE VALIDATION IN MOBILE NUMBER
+        // case 'MobilePhone':
+        //   key = 'MobilePhone'
+        //   val = state.adminDetailsEditValues[key]
 
-          if (val.trim().length >= 10 && re.test(val)) {
-            errorMessage = ''
-          } else {
-            errorMessage =
-              'ハイフンなしの10桁～11桁の電話番号を入力してください'
-            hasError = true
-          }
-
-          break
+        //   if (val.trim().length >= 10 && re.test(val)) {
+        //     errorMessage = ''
+        //   } else {
+        //     errorMessage =
+        //       'ハイフンなしの10桁～11桁の電話番号を入力してください'
+        //     hasError = true
+        //   }
+        //   break
       }
 
       _errorMessages[field] = errorMessage
@@ -510,23 +534,28 @@ const CompanyProfile = () => {
               }
             })
           }
-
-          window.document.getElementById('iconContainer').src = saveIcon
-          window.document.getElementById('iconContainer').disabled = false
-          window.document
-            .getElementById('nav-dropdown')
-            .nextSibling.getElementsByTagName('span')[0].innerHTML =
-            state.adminDetailsEditValues.LastName
-          window.document
-            .getElementById('nav-dropdown')
-            .nextSibling.getElementsByTagName('span')[1].innerHTML =
-            state.adminDetailsEditValues.FirstName
-          window.document.getElementById('companyDropwdownTitle').innerHTML =
-            state.companyEditValues.companyName
           alert('入力内容を更新しました.')
           location.reload()
         })
+        .catch(function (error) {
+          window.document.getElementById('iconContainer').src = saveIcon
+          setState((prevState) => {
+            return {
+              ...prevState,
+              isLoading: true,
+              isEditingProfile: true,
+              showPopupMessageDialog: true,
+              dialogMessage: error.response.data.error
+            }
+          })
+        })
     }
+    setState((prevState) => {
+      return {
+        ...prevState,
+        isLoading: false
+      }
+    })
   }
 
   const displayEditButton = () => {
@@ -609,7 +638,7 @@ const CompanyProfile = () => {
               >
                 <div className="md:mb-0 md:w-1/3">
                   <label className="text-sm text-gray-400">
-                    会社名を入力してください
+                    会社名
                     <span className="text-red-500">*</span>
                   </label>
                 </div>
@@ -670,11 +699,13 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.companyDetails.country ?? '' + ' '}
-                    {state.companyDetails.state ?? '' + ' '}
-                    {state.companyDetails.city ?? '' + ' '}
-                    {state.companyDetails.street ?? '' + ' '}
-                    {state.companyDetails.postalCode ?? ''}
+                    <div className="px-3 flex flex-wrap">
+                      {state.companyDetails.country ?? '' + ' '}
+                      {state.companyDetails.state ?? '' + ' '}
+                      {state.companyDetails.city ?? '' + ' '}
+                      {state.companyDetails.street ?? '' + ' '}
+                      {state.companyDetails.postalCode ?? ''}
+                    </div>
                   </label>
                   <div className="space-y-1">
                     <input
@@ -942,7 +973,7 @@ const CompanyProfile = () => {
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                       }
                       value={state.adminDetailsEditValues.LastName}
-                      placeholder="性"
+                      placeholder="姓"
                       onChange={(e) =>
                         handleFormChanges('admin', 'LastName', e.target.value)
                       }
@@ -1029,7 +1060,7 @@ const CompanyProfile = () => {
                 <div className="md:mb-0 md:w-1/3">
                   <label className="text-sm text-gray-400">
                     連絡サポート担当者電話番号
-                    <span className="text-red-500">*</span>
+                    {/* <span className="text-red-500">*</span> */}
                   </label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
@@ -1148,6 +1179,21 @@ const CompanyProfile = () => {
                 {state.ZenDetails.opportunityId ?? 'N/A'}
               </div>
             </div>
+
+            {state.showPopupMessageDialog ? (
+              <MessageDialog
+                handleCloseMessageDialog={() => {
+                  setState((prevState) => {
+                    return {
+                      ...prevState,
+                      showPopupMessageDialog: false,
+                      isLoading: false
+                    }
+                  })
+                }}
+                message={state.dialogMessage}
+              />
+            ) : null}
           </div>
         </div>
       </div>

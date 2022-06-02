@@ -10,7 +10,7 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function($table)
         {
-            $table->string('title', 64)->nullable()->change();
+            $table->string('title', 64)->nullable(false)->default('')->change();
         });
     }
 

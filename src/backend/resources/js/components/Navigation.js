@@ -18,6 +18,7 @@ const Navigation = () => {
   const refMenu = useRef()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
+  let aPathName = location.pathname.split('/')
 
   useEffect(() => {
     fetch('/company/getUnpaidBillingInformation', {
@@ -131,7 +132,7 @@ const Navigation = () => {
             }
           },
           {
-            label: 'ト設定',
+            label: '設定',
             url: '/company/setting/widget',
             iconNormal: 'bg-settings-icon-white',
             iconHover: '',
@@ -291,46 +292,30 @@ const Navigation = () => {
         title: '管理者',
         logo: AdminIcon,
         items: [
+          // {
+          //   label: 'アカウント プロファイル',
+          //   url: '#',
+          //   iconNormal: 'bg-profile-icon-white',
+          //   iconHover: '',
+          //   iconSize: 'h-5 w-5',
+          //   extraStyle: 'cursor-default'
+          // },
+          // {
+          //   label: 'お問合せ',
+          //   url: '#',
+          //   iconNormal: 'bg-call-icon-white',
+          //   iconHover: '',
+          //   iconSize: 'h-5 w-5',
+          //   extraStyle: 'cursor-default'
+          // },
           {
-            label: 'アカウント プロファイル',
-            url: '#',
-            iconNormal: 'bg-profile-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
-          },
-          {
-            label: 'お問合せ',
-            url: '#',
-            iconNormal: 'bg-call-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
-          },
-          {
-            label: 'ト設定',
+            label: '設定',
             url: '/admin/settings',
             iconNormal: 'bg-settings-icon-white',
             iconHover: '',
             iconSize: 'h-5 w-5',
             extraStyle: ''
           },
-          // {
-          //   label: 'アカウント設定',
-          //   url: '#',
-          //   iconNormal: 'bg-settings-icon-white',
-          //   iconHover: '',
-          //   iconSize: 'h-5 w-5',
-          //   extraStyle: 'cursor-default'
-          // },
-          // {
-          //   label: 'ウィジェット設定',
-          //   url: '#',
-          //   iconNormal: 'bg-widget-settings-icon',
-          //   iconHover: '',
-          //   iconSize: 'h-5 w-5',
-          //   extraStyle: 'cursor-default'
-          // },
           {
             label: 'ログアウト',
             url: '/logout',
@@ -369,11 +354,18 @@ const Navigation = () => {
           return {
             ...prevState,
             contactFirstName: response.data['contactFirstName'],
-            contactLastName: response.data['contactLastName']
+            contactLastName: response.data['contactLastName'],
+            companyName: response.data['companyName']
           }
         })
-        window.document.getElementById('companyDropwdownTitle').innerHTML =
+        if (aPathName[1] == 'admin') {
+          window.document.getElementById('companyDropwdownTitle').innerHTML =
+            response.data['contactLastName'] +
+            ' ' +
+            response.data['contactFirstName']
+        } else {
           response.data['companyName']
+        }
       }
     })
 
@@ -479,14 +471,25 @@ const Navigation = () => {
               })}
             </ul>
           </div>
-          <div className="justify-center">
+          <div className="justify-center flex flex-col w-64 text-right">
             <div
               id="nav-dropdown"
               name="nav-dropdown"
-              className="float-right relative flex h-full space-x-2 cursor-pointer z-20"
+              className="float-right relative flex flex-row-reverse h-full space-x-2 cursor-pointer z-20 w-full"
               onClick={() => setIsMenuOpen((oldState) => !oldState)}
               ref={refMenu}
             >
+              <div className="my-auto mx-1">
+                <img alt="setting icon" src={ArrowDownIcon} />
+              </div>
+              <div
+                className="my-auto font-sans text-base text-primary-200 font-bold"
+                id="companyDropwdownTitle"
+              >
+                {aPathName[1] == 'admin'
+                  ? state.contactLastName + ' ' + state.contactFirstName
+                  : state.companyName}
+              </div>
               <div className="my-auto">
                 <img alt="" className="hidden" src={shopIcon} />
                 <img alt="" className="hidden" src={shopIcon2} />
@@ -498,15 +501,6 @@ const Navigation = () => {
                 ) : (
                   ''
                 )}
-              </div>
-              <p
-                className="my-auto font-sans text-base text-primary-200 font-bold"
-                id="companyDropwdownTitle"
-              >
-                {state.mainNav.dropDownNav.title}
-              </p>
-              <div className="my-auto">
-                <img alt="setting icon" src={ArrowDownIcon} />
               </div>
               {isMenuOpen && (
                 <div
@@ -540,10 +534,15 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            <div className="pl-2">
-              <span className="mr-1">{state.contactLastName} </span>
-              <span className="mr-1">{state.contactFirstName} </span>
-              <span className="mr-1">様</span>
+            <div
+              className={
+                'pl-2 flex flex-row-reverse ' +
+                (aPathName[1] == 'admin' ? 'hidden' : 'block')
+              }
+            >
+              <div className="ml-1">様</div>
+              <div className="truncate ml-1">{state.contactFirstName} </div>
+              <div className="truncate ml-1">{state.contactLastName} </div>
             </div>
           </div>
         </div>
