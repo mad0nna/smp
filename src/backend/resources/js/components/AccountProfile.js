@@ -262,13 +262,14 @@ const AccountProfileEdit = () => {
             }
           })
         })
-        .catch(function (error) {
+        .catch(function () {
           setState((prevState) => {
             return {
               ...prevState,
               isLoading: false,
               showPopupMessageDialog: true,
-              dialogMessage: error.response.data.error
+              dialogMessage:
+                'データが異なります。ご確認のうえもう一度試みてください。'
             }
           })
         })
