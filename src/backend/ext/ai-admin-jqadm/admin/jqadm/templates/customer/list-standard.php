@@ -110,7 +110,7 @@ $columnList = [
 	data-domain="customer"
 	data-siteid="<?= $enc->attr( $this->site()->siteid() ) ?>"
 	data-filter="<?= $enc->attr( $this->session( 'aimeos/admin/jqadm/customer/filter', new \stdClass ) ) ?>"
-	data-items="<?= $enc->attr( $this->get( 'items', map() )->call( 'toArray', [true] )->all() ) ?>">
+	data-items="<?= $enc->attr( $this->get( 'customer') ) ?>">
 
 
 	<div class="d-flex row justify-content-end" style="margin-top:1.4em">
@@ -167,7 +167,7 @@ $columnList = [
 				</thead>
 				<tbody>
 
-					<?php foreach( $this->get( 'items', [] ) as $id => $item ) : ?>
+					<?php foreach( $this->get( 'customers', [] ) as $id => $item ) : ?>
 						<?php $address = $item->getPaymentAddress() ?>
 						<?php $url = $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['id' => $id] + $params, [], $getConfig ) ) ?>
 						<tr class="list-item  " data-label="<?= $enc->attr( $item->getLabel() ?: $item->getCode() ) ?>">
@@ -281,9 +281,9 @@ $columnList = [
 			</table>
 		</div>
 
-		<?php if( $this->get( 'items', map() )->isEmpty() ) : ?>
+		<?php if(count( $this->get( 'customers' ) ) == 0) { ?>
 			<div class="noitems"><?= $enc->html( sprintf( $this->translate( 'admin', 'No items found' ) ) ) ?></div>
-		<?php endif ?>
+		<?php } ?>
 	</form>
 
 	<?= $this->partial(

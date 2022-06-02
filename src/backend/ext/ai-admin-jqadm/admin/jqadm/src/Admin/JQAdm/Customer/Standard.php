@@ -9,7 +9,7 @@
 
 
 namespace Aimeos\Admin\JQAdm\Customer;
-
+use Illuminate\Support\Facades\Log;
 sprintf( 'users' ); // for translation
 sprintf( 'customer' ); // for translation
 
@@ -262,9 +262,33 @@ class Standard
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'customer' );
 			$search = $this->initCriteria( $manager->filter(false, true), $params );
 			$domains =  $this->getDomains();
-			// $domains["customer/product"] = "customer/product";
+			$domains["customer/product"] = "customer/product";
+
+			$managerOrder = \Aimeos\MShop::create( $this->getContext(), 'order' );
+			$searchOrder = $managerOrder->filter( false, true );
+
+			$orders = $managerOrder->search( $searchOrder, [], $total );
+			$view->baseItems = $this->getOrderBaseItems( $orders );
+			$customerList = [];
+			foreach( $view->baseItems as $item ) {
+				$customer = $item->getCustomerItem()->toArray();
+				if (!in_array($customer['customer.id'], $customerList))
+				{
+					$customerList[] = $customer['customer.id'];
+				}
+			}
 
 			$view->items = $manager->search( $search, $domains, $total );
+			$customers = [];
+			$i = 0;
+			foreach($view->items as $c){
+				if (in_array($c->getId(), $customerList))
+				{
+					$customers[$c->getId()] = $c;
+				}
+			}
+			$view->items = null;
+			$view->customers = $customers;
 			$view->filterAttributes = $manager->getSearchAttributes( true );
 			$view->filterOperators = $search->getOperators();
 			$view->itemBody = parent::search();
@@ -298,6 +322,18 @@ class Standard
 		$default = 'customer/list-standard';
 
 		return $view->render( $view->config( $tplconf, $default ) );
+	}
+
+	protected function getOrderBaseItems( \Aimeos\Map $orderItems ) : \Aimeos\Map
+	{
+		$baseIds = $orderItems->getBaseId()->toArray();
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
+
+		$search = $manager->filter( false, true )->slice( 0, count( $baseIds ) );
+		$search->setConditions( $search->compare( '==', 'order.base.id', $baseIds ) );
+
+		$domains = ['customer'];
+		return $manager->search( $search, $domains );
 	}
 
 
