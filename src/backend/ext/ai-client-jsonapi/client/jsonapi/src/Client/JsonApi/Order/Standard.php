@@ -235,7 +235,6 @@ class Standard
 
 		if( $services === [] || $total <= '0.00' && $this->isSubscription( $basket->getProducts() ) === false )
 		{
-			dd($context);
 			$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
 			$cntl->save( $orderItem->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_AUTHORIZED ) );
 
