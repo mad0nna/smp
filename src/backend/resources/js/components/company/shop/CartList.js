@@ -756,7 +756,7 @@ const CartList = () => {
                 type="number"
                 className="w-14 shadow-lg rounded font-bold text-red-500 border px-1 text-right"
                 min="1"
-                max={item.defaultStock}
+                // max={item.defaultStock}
                 value={item.quantity}
                 onChange={(e) => {
                   handleOrderChange(e.target.value, item)
@@ -773,33 +773,37 @@ const CartList = () => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
-                  item.defaultStock <= item.quantity
-                    ? 'opacity-50 cursor-not-allowed'
-                    : 'cursor-pointer'
-                }`}
+                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer
+                //   item.defaultStock <= item.quantity
+                //     ? 'opacity-50 cursor-not-allowed'
+                //     : 'cursor-pointer'
+                // }
+                `}
                 viewBox="0 0 16 16"
                 onClick={() => {
-                  item.defaultStock <= item.quantity
-                    ? null
-                    : handleIncOrder(item)
+                  // item.defaultStock <= item.quantity
+                  //   ? null
+                  //   :
+                  handleIncOrder(item)
                 }}
               >
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
               </svg>
             </div>
-            {item.defaultStock === item.quantity ? (
+            {/* {item.defaultStock === item.quantity ? (
               <span className="flex justify-center items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                 注文可能数に達しました
               </span>
-            ) : item.defaultStock <= item.quantity ? (
+            ) 
+            : item.defaultStock <= item.quantity ? (
               <span className="flex justify-center items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                 数量が現在の在庫より多い
               </span>
-            ) : (
+            ) 
+            : (
               ''
-            )}
+            )} */}
           </td>
           <td className="text-center font-bold text-red-500">
             {item.itemTotal.toLocaleString('jp')}円
