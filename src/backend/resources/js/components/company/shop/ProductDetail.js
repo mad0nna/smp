@@ -78,9 +78,9 @@ const ProductDetail = (props) => {
 
   const itemCartQUantity = items.find((data) => data.id === productDetail.id)
   const handleIncrementOrder = () => {
-    if (state.stock - 1 <= 0 && state.orderNum >= productDetail.defaultStock) {
-      return
-    }
+    // if ( state.stock - 1 <= 0 && state.orderNum >= productDetail.defaultStock ) {
+    //   return
+    // }
 
     setState((prevState) => {
       return {
@@ -240,16 +240,19 @@ const ProductDetail = (props) => {
               width="16"
               height="16"
               fill="currentColor"
-              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
-                state.stock == 0 ||
-                parseInt(itemCartQUantity?.quantity) +
-                  parseInt(state.orderNum) ===
-                  parseInt(productDetail.defaultStock)
-                  ? 'opacity-50 cursor-not-allowed'
-                  : 'cursor-pointer'
-              }`}
+              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer
+              // 
+              //   state.stock == 0 
+              //   ||
+              //   parseInt(itemCartQUantity?.quantity) +
+              //     parseInt(state.orderNum) ===
+              //     parseInt(productDetail.defaultStock)
+              //     ? 'opacity-50 cursor-not-allowed'
+              //     : 'cursor-pointer'
+              // }`}
               viewBox="0 0 16 16"
               onClick={() => {
+                // console.log();
                 // state.stock === 0 ? null :
                 handleIncrementOrder()
               }}
