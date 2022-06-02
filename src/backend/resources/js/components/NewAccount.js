@@ -308,18 +308,19 @@ const NewAccount = (props) => {
   return (
     <div
       className={
-        (state.isSearched ? ' h-96 ' : ' h-64 ') +
+        (state.isSearched ? 'h-96' : 'h-64') +
+        // (state.isSearched ? 'h-96 md:pb-2 lg:pb-1' : 'h-64') +
         ' rounded-lg border-2 border-gray-200 absolute md:inset-1/3 top-50 m-auto bg-primary-200 opacity-85'
       }
     >
       <div className="flex flex-wrap gap-0 w-full justify-center mt-8">
-        <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 md:ml-1 lg:ml-1 xl-ml-2 justify-start 2xl:pl-16 xl:pl-4 lg:pl-3">
-          <div className="justify-center">
-            <label className="text-sm text-white 2xl:w-42 xl:w-42 lg:w-26 h-8 leading-8 col-span-1 pr-1">
+        <div className="w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 grid grid-cols-2 sm:ml-3 md:ml-6 lg:ml-8 xl:ml-16 2xl:ml-30 justify-start">
+          <div className="flex flex-row flex-nowrap justify-center">
+            <label className="text-sm text-white 2xl:w-42 xl:w-42 lg:w-24 h-8 leading-8 col-span-1">
               メールアドレス :
             </label>
             <input
-              className="text-sm 2xl:w-60 xl:w-48 lg:w-28 col-span-1 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3 ml-1"
+              className="text-sm 2xl:w-56 xl:w-48 lg:w-30 md:w-24 col-span-1 h-8 px-2 py-1 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-1 ml-1"
               defaultValue={state.email}
               type="text"
               onChange={handleEmailChange}
@@ -327,7 +328,7 @@ const NewAccount = (props) => {
             <button
               disabled={state.isLoading}
               onClick={() => searchAdminByEmail(state.email)}
-              className="w-24 xl:w-20 lg:w-20 cursor-pointer col-span-1 text-bold text-primary-200 bg-white rounded p-1 text-sm"
+              className="w-24 xl:w-24 lg:w-24 cursor-pointer col-span-1 text-bold text-primary-200 bg-white rounded p-1 text-sm ml-1 mr-2"
             >
               検索する
               <img
@@ -381,7 +382,7 @@ const NewAccount = (props) => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-0 w-full justify-center mt-10">
+      <div className="flex flex-wrap gap-0 w-full justify-center mt-10 lg:mt-5">
         <div className={state.isSearched ? '' : 'hidden'}>
           <button
             onClick={() => {
