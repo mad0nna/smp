@@ -107,6 +107,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post("template/getTemplateDetail", 'TemplateController@getTemplateDetail');
     Route::post('template/updateTemplate', 'TemplateController@updateTemplate');
 });
+
 // This route is for testing purposes.
 Route::get('template/fillData', 'TemplateController@fillData');
 
@@ -120,6 +121,10 @@ Route::prefix('sales')->group(function () {
     Route::view('/contact', 'sales.contact');
 });
 
+// Route for Logistics User
+Route::prefix('logistics')->group(function () {
+    Route::view('dashboard', 'logistics.dashboard')->name('logistics.dashboard');
+});
 
 Route::prefix('password')->group(function () {
     Route::get('forgot', 'Auth\PasswordController@forgot')->middleware('guest');
