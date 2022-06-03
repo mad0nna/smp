@@ -271,10 +271,12 @@ class Standard
 			$view->baseItems = $this->getOrderBaseItems( $orders );
 			$customerList = [];
 			foreach( $view->baseItems as $item ) {
-				$customer = $item->getCustomerItem()->toArray();
-				if (!in_array($customer['customer.id'], $customerList))
-				{
-					$customerList[] = $customer['customer.id'];
+				if ($customer = $item->getCustomerItem() != null) {					
+					$customer = $item->getCustomerItem()->toArray();
+					if (!in_array($customer['customer.id'], $customerList))
+					{
+						$customerList[] = $customer['customer.id'];
+					}
 				}
 			}
 
