@@ -545,7 +545,8 @@ const CompanyProfile = () => {
               isLoading: true,
               isEditingProfile: true,
               showPopupMessageDialog: true,
-              dialogMessage: error.response.data.error
+              dialogMessage:
+                'データが異なります。ご確認のうえもう一度試みてください。'
             }
           })
         })
