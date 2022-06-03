@@ -120,14 +120,6 @@
 								</a>
 							<ul class="dropdown-menu dd-nav" aria-labelledby="dropdown05" data-bs-popper="none"  >
 								<li>
-									<label class="bg-profile-icon-white" style=""></label>
-									<a class="dropdown-item" href="#">アカウント プロファイル</a>
-								</li>
-								<li>
-									<label class="bg-call-icon-white" style=""></label>
-									<a class="dropdown-item" href="#">お問合せ</a>
-								</li>
-								<li>
 									<label class="bg-settings-icon-white" style=""></label>
 									<a class="dropdown-item" href="/admin/settings">ト設定</a>
 								</li>
