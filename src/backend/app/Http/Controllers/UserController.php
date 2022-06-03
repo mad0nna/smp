@@ -97,9 +97,10 @@ class UserController extends Controller
     public function getContactDetails(Request $request)
     {
         try {
-            $this->response['data'] = $this->userService->findById($request->id);
+            $data = $this->userService->findById($request->id);
+            $this->response['data'] = $data;
             $this->response['data']['canEdit'] = Auth::user()->user_type_id === 3 || (Auth::user()->id == $request->id);
-            $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3;
+            $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3 && $data['user_type_id'] !== 3;
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
