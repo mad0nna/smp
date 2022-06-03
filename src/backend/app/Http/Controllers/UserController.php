@@ -76,7 +76,7 @@ class UserController extends Controller
                     'title' => $user['Title'],
                     'user_status_id' => 5,
                     'contact_num' => $user['MobilePhone'],
-                    'user_type_id' => $user['admin__c'] ? 3 :4,
+                    'user_type_id' => 4,
                     'message' => 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？',
                     'existsInDB' => false
                 ];
@@ -356,7 +356,6 @@ class UserController extends Controller
                 if ($role === 'demote' && $adminCount <= 1) {
                     $message = '企業情報の更新に成功しましたが、管理者権限を持つユーザーが最低１名必要なため、権限を降格することが出来ませんでした';
                 } else {
-                    $salesforceData['admin__c'] = $data['admin__c'] == 3 ? true : false;
                     $formData['user_type_id'] = $data['admin__c'];
                     $message = "顧客企業情報の更新に成功しました！";
                 }
