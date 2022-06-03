@@ -156,7 +156,7 @@ const Notification = (props) => {
                       className="cursor-pointer"
                     >
                       <span
-                        className="text-primary-200 text-xs"
+                        className="text-tertiary-500 text-xs"
                         dataid={item.id}
                         datatype={item.type}
                       >
@@ -183,7 +183,7 @@ const Notification = (props) => {
           ) : (
             <div id="widget-footer-control" className="float-right">
               <a href="./notifications">
-                <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">
+                <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter pointer-events-none">
                   さらに表示
                 </button>
               </a>

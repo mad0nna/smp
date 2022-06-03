@@ -567,9 +567,9 @@ const CompanyProfile = () => {
             }
             className={
               (errorMessages.hasError
-                ? 'bg-primary-100 pointer-events-none'
-                : 'bg-primary-200') +
-              (state.isLoading ? ' bg-primary-100 pointer-events-none ' : '') +
+                ? 'bg-lightGreen pointer-events-none'
+                : 'bg-tertiary-500') +
+              (state.isLoading ? ' bg-lightGreen pointer-events-none ' : '') +
               `  hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1 `
             }
             disabled={errorMessages.hasError || state.isLoading}

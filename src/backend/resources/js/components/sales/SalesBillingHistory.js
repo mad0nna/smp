@@ -104,7 +104,7 @@ const SalesBillingHistory = (props) => {
           />
           <div
             id="widget-name"
-            className="text-primary-200 font-sans font-bold ml-4 float-left"
+            className="text-tertiary-500 font-sans font-bold ml-4 float-left"
           >
             H&Tからの請求書
           </div>
@@ -182,7 +182,7 @@ const SalesBillingHistory = (props) => {
         <div id="widget-footer" className="w-full h-10 bg-white pr-2.5 pt-2">
           <div id="widget-footer-control" className="float-right">
             <a href="/sales/billing">
-              <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">
+              <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter pointer-events-none">
                 さらに表示
               </button>
             </a>

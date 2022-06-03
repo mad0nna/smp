@@ -63,8 +63,8 @@ const Contracts = () => {
                 <span
                   className={
                     pagingConditions.page == number
-                      ? `text-white bg-primary-200 rounded-2xl px-3 py-1`
-                      : `text-primary-200 px-3 py-1`
+                      ? `text-white bg-tertiary-500 rounded-2xl px-3 py-1`
+                      : `text-tertiary-500 px-3 py-1`
                   }
                 >
                   {number}
@@ -118,7 +118,7 @@ const Contracts = () => {
                   const stripe = !(index % 2) ? '' : 'bg-white'
                   const styles =
                     contract.status === '申請する'
-                      ? 'text-primary-200'
+                      ? 'text-tertiary-500'
                       : 'text-green-900'
                   return (
                     <tr

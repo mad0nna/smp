@@ -18,7 +18,7 @@ const NewAccount = (props) => {
   }
 
   return (
-    <div className="rounded-lg border-2 border-gray-200 absolute inset-1/3 h-80 top-48 m-auto bg-primary-200 opacity-85 ">
+    <div className="rounded-lg border-2 border-gray-200 absolute inset-1/3 h-80 top-48 m-auto bg-tertiary-500 opacity-85 ">
       <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
         <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 justify-center">
           <label className=" text-sm w-full block text-white w-48  h-8 px-3 leading-8 text-center">
@@ -34,7 +34,7 @@ const NewAccount = (props) => {
           <button
             disabled={props.isLoading}
             onClick={() => props.searchCompanyCode(state.code)}
-            className="w-24 cursor-pointer  text-bold   text-primary-200   bg-white rounded p-1 text-sm"
+            className="w-24 cursor-pointer  text-bold   text-tertiary-500   bg-white rounded p-1 text-sm"
           >
             &nbsp; 検索
             <img
@@ -68,14 +68,14 @@ const NewAccount = (props) => {
             (props.foundCompany && props.foundCompany.name
               ? 'block'
               : 'hidden') +
-            ' rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3 tracking-tighter bg-white mr-4 text-primary-200'
+            ' rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3 tracking-tighter bg-white mr-4 text-tertiary-500'
           }
         >
           確定
         </button>
         <button
           onClick={props.closePopup}
-          className="rounded-xl cursor-pointer  font-extrabold w-40 py-2 px-3  text-primary-200  tracking-tighter bg-white"
+          className="rounded-xl cursor-pointer  font-extrabold w-40 py-2 px-3  text-tertiary-500  tracking-tighter bg-white"
         >
           キャンセル
         </button>

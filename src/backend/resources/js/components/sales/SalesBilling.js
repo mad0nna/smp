@@ -110,7 +110,7 @@ const SalesBilling = () => {
           <img src={BillingIcon} className="w-auto h-7 float-left ml-4" />
           <div
             id="widget-name"
-            className="text-primary-200 text-xl font-sans font-bold ml-4 float-left"
+            className="text-tertiary-500 text-xl font-sans font-bold ml-4 float-left"
           >
             請求履歴
           </div>
@@ -196,8 +196,8 @@ const SalesBilling = () => {
         className="w-full h-6 pt-3 text-center space-x-2"
       >
         <img src={PrevButton} className="inline-block w-8 h-auto " />
-        <div className="inline-block text-primary-200">
-          <span className="text-white rounded-2xl bg-primary-200 px-3 py-2 ">
+        <div className="inline-block text-tertiary-500">
+          <span className="text-white rounded-2xl bg-tertiary-500 px-3 py-2 ">
             1
           </span>
           <span className="px-3 py-2 ">2</span>

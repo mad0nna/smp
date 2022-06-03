@@ -127,7 +127,7 @@ const SalesDetail = () => {
         >
           <div id="contact-logo-container" className="h-10 flex mb-2 pl-20">
             <img src={ProfileIcon} alt="" className="h-8 w-8 pt-1" />
-            <p className="text-primary-200 text-lg font-bold pt-1 ml-2 ">
+            <p className="text-tertiary-500 text-lg font-bold pt-1 ml-2 ">
               代理店業務詳細
             </p>
           </div>
@@ -200,7 +200,7 @@ const SalesDetail = () => {
         >
           <div id="contact-logo-container" className="h-10 flex mb-2 pl-20">
             <img src={ProfileIcon} alt="" className="h-8 w-8 pt-1" />
-            <p className="text-primary-200 text-lg font-bold pt-1 ml-2">
+            <p className="text-tertiary-500 text-lg font-bold pt-1 ml-2">
               人事部
             </p>
           </div>
@@ -286,7 +286,7 @@ const SalesDetail = () => {
             className="h-16 flex mb-2 px-4 pb-2 pt-5 "
           >
             <img src={CompanyIcon} alt="" className="h-8 w-8 pt-1" />
-            <p className="text-primary-200 text-lg font-bold pt-1 ml-2 ">
+            <p className="text-tertiary-500 text-lg font-bold pt-1 ml-2 ">
               企業一覧
             </p>
           </div>
@@ -331,8 +331,8 @@ const SalesDetail = () => {
                     src={PrevButton}
                     className="inline-block w-7 h-auto  cursor-default mb-1"
                   />
-                  <div className="inline-block text-primary-200">
-                    <span className="text-white rounded-2xl bg-primary-200 px-3 py-2  cursor-default">
+                  <div className="inline-block text-tertiary-500">
+                    <span className="text-white rounded-2xl bg-tertiary-500 px-3 py-2  cursor-default">
                       1
                     </span>
                     <span className="px-3 py-2  cursor-default">2</span>
@@ -358,7 +358,7 @@ const SalesDetail = () => {
             className="h-16 flex mb-2  px-4 pb-2 pt-5 "
           >
             <img src={HistoryIcon} alt="" className="h-6 w-6 pt-1 mt-1" />
-            <p className="text-primary-200 text-lg font-bold pt-1 ml-2 ">
+            <p className="text-tertiary-500 text-lg font-bold pt-1 ml-2 ">
               請求履歴
             </p>
           </div>
@@ -400,8 +400,8 @@ const SalesDetail = () => {
                     src={PrevButton}
                     className="inline-block w-7 h-auto  cursor-default mb-1"
                   />
-                  <div className="inline-block text-primary-200">
-                    <span className="text-white rounded-2xl bg-primary-200 px-3 py-2  cursor-default">
+                  <div className="inline-block text-tertiary-500">
+                    <span className="text-white rounded-2xl bg-tertiary-500 px-3 py-2  cursor-default">
                       1
                     </span>
                     <span className="px-3 py-2  cursor-default">2</span>

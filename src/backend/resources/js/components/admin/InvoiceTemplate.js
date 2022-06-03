@@ -66,9 +66,9 @@ const InvoiceTemplate = () => {
               >
                 <span
                   className={
-                    pagingConditions.page == number
-                      ? `text-white bg-primary-200 rounded-2xl px-3 py-1`
-                      : `text-primary-200 px-3 py-1`
+                    pagingConditions.page === number
+                      ? `text-white bg-tertiary-500 rounded-2xl px-3 py-1`
+                      : `text-tertiary-500 px-3 py-1`
                   }
                 >
                   {number}
@@ -100,7 +100,7 @@ const InvoiceTemplate = () => {
       <div className="col-span-5 bg-white py-8 px-32">
         <div className="mb-4">
           <div className="bg-cover bg-no-repeat bg-paper w-8 h-8 inline-block"></div>
-          <h1 className="inline-block align-middle mb-4 inline-block align-middle mb-4 text-primary-200 font-bold">
+          <h1 className="inline-block align-middle mb-4 inline-block align-middle mb-4 text-tertiary-500 font-bold">
             Invoice Template List
           </h1>
         </div>
@@ -108,7 +108,7 @@ const InvoiceTemplate = () => {
         <div className="grid grid-cols-5">
           <div className="col-span-1">
             <a href="/admin/settings/invoice/detail?action=add">
-              <button className="cursor-pointer border-primary-200 text-bold w-52 py-2 mt-5 px-3 border-2 text-primary-200 rounded-3xl tracking-tighter float-right">
+              <button className="cursor-pointer border-tertiary-500 text-bold w-52 py-2 mt-5 px-3 border-2 text-tertiary-500 rounded-3xl tracking-tighter float-right">
                 + Add new
               </button>
             </a>

@@ -351,12 +351,12 @@ const ProductDetail = (props) => {
                 viewBox="0 0 24 24"
                 width="24px"
                 fill="currentColor"
-                className="text-primary-200 h-10 w-8"
+                className="text-tertiary-500 h-10 w-8"
               >
                 <path d="M0 0h24v24H0V0z" fill="none" />
                 <path d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z" />
               </svg>
-              <h2 className="text-primary-200 text-lg font-bold">物販</h2>
+              <h2 className="text-tertiary-500 text-lg font-bold">物販</h2>
             </div>
           </div>
           <div className="p-6">
@@ -417,7 +417,7 @@ const ProductDetail = (props) => {
                       キャンセル
                     </button>
                     <button
-                      className={`bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold ${
+                      className={`bg-tertiary-500 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold ${
                         state.orderNum <= 0 ||
                         productDetail.defaultStock <= 0 ||
                         productDetail.defaultStock ===

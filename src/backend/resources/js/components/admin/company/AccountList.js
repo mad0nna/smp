@@ -213,9 +213,9 @@ const AccountList = (props) => {
           >
             <span
               className={
-                props.data.currentPage == number
-                  ? `text-white bg-primary-200 rounded-2xl px-3 py-1`
-                  : `text-primary-200 px-3 py-1`
+                props.data.currentPage === number
+                  ? `text-white bg-tertiary-500 rounded-2xl px-3 py-1`
+                  : `text-tertiary-500 px-3 py-1`
               }
             >
               {number}
@@ -295,7 +295,7 @@ const AccountList = (props) => {
               <div className="table-cell relative h-20 mr-3 align-middle">
                 <button
                   onClick={togglePopupNewAccount}
-                  className="cursor-pointer border-primary-200 text-bold w-52 py-2 px-3 border-2 text-primary-200 rounded-3xl tracking-tighter"
+                  className="cursor-pointer border-tertiary-500 text-bold w-52 py-2 px-3 border-2 text-tertiary-500 rounded-3xl tracking-tighter"
                 >
                   顧客企業を新規追加
                 </button>
@@ -399,7 +399,7 @@ const AccountList = (props) => {
                     </td>
                     <td className="text-left pl-4">{item.contactNum}</td>
                     <td className={txtcolor + ' text-left pl-4'}>{status}</td>
-                    <td className="text-left text-primary-200">
+                    <td className="text-left text-tertiary-500">
                       {actionButton}
                     </td>
                   </tr>

@@ -309,7 +309,7 @@ const NewAccount = (props) => {
     <div
       className={
         (state.isSearched ? ' h-96 ' : ' h-64 ') +
-        ' rounded-lg border-2 border-gray-200 absolute md:inset-1/3 top-50 m-auto bg-primary-200 opacity-85'
+        ' rounded-lg border-2 border-gray-200 absolute md:inset-1/3 top-50 m-auto bg-tertiary-500 opacity-85'
       }
     >
       <div className="flex flex-wrap gap-0 w-full justify-center mt-8">
@@ -327,7 +327,7 @@ const NewAccount = (props) => {
             <button
               disabled={state.isLoading}
               onClick={() => searchAdminByEmail(state.email)}
-              className="w-24 xl:w-24 lg:w-24 cursor-pointer col-span-1 text-bold text-primary-200 bg-white rounded p-1 text-sm"
+              className="w-24 xl:w-24 lg:w-24 cursor-pointer col-span-1 text-bold text-tertiary-500 bg-white rounded p-1 text-sm"
             >
               検索する
               <img
@@ -400,7 +400,7 @@ const NewAccount = (props) => {
             className={
               (state.disableSendButton
                 ? 'text-gray-500 cursor-default'
-                : 'text-primary-200 cursor-pointer') +
+                : 'text-tertiary-500 cursor-pointer') +
               ' rounded-xl font-extrabold w-40 py-2 px-3 mr-4 tracking-tighter bg-white'
             }
             disabled={state.disableSendButton}
@@ -417,7 +417,7 @@ const NewAccount = (props) => {
         </div>
         <button
           onClick={props.closePopup}
-          className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-primary-200  tracking-tighter bg-white mr-4"
+          className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3 text-tertiary-500 tracking-tighter bg-white mr-4"
         >
           キャンセル
         </button>

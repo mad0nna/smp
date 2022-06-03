@@ -339,7 +339,7 @@ const AccountProfileEdit = () => {
   return (
     <div className="relative px-10 py-5 bg-primaryBg">
       <div className="bg-primaryBg grid grid-cols-3 font-meiryo gap-6">
-        <div className="col-span-3 w-full rounded-lg shadow-xl bg-white mb-10 border-primary-100">
+        <div className="col-span-3 w-full rounded-lg shadow-xl bg-white mb-10 border-lightGreen">
           <div className="px-3 pt-3 pb-10">
             <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
               <h2 className="text-green-800 text-lg font-bold">
@@ -351,7 +351,7 @@ const AccountProfileEdit = () => {
             <div className="w-full">
               <div className="align-top inline-block w-6/12 rounded-xl border-gray-200 border h-auto bg-white my-4 ml-5 mr-5 py-5 px-6">
                 <div className="mx-10 mt-11 mb-2">
-                  <div className="flex flex-wrap gap-0 w-full justify-center mt-4 text-primary-200 text-xl">
+                  <div className="flex flex-wrap gap-0 w-full justify-center mt-4 text-tertiary-500 text-xl">
                     プロフィールを編集
                   </div>
                   <div className="flex flex-wrap gap-0 w-full justify-start">
@@ -522,7 +522,7 @@ const AccountProfileEdit = () => {
               <div className="align-top inline-block w-5/12  h-80">
                 <div className="align-top inline-block w-full rounded-xl border-gray-200 border h-48 bg-white my-4 py-5 ml-10">
                   <div className="mx-10 mb-2">
-                    <div className="flex flex-wrap gap-0 w-full justify-center text-primary-200 text-xl">
+                    <div className="flex flex-wrap gap-0 w-full justify-center text-tertiary-500 text-xl">
                       ログイン情報
                     </div>
                     <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
@@ -675,9 +675,9 @@ const AccountProfileEdit = () => {
                   onClick={handleUpdateSave}
                   className={
                     (errorMessages.hasError
-                      ? 'bg-primary-100 pointer-events-none'
-                      : 'bg-primary-200') +
-                    ' bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm mr-5 space-x-2'
+                      ? 'bg-lightGreen pointer-events-none'
+                      : 'bg-tertiary-500') +
+                    ' bg-tertiary-500 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm mr-5 space-x-2'
                   }
                   style={{
                     display: state.isEditingProfile ? '' : 'none'
@@ -698,9 +698,9 @@ const AccountProfileEdit = () => {
                   style={{
                     display: state.isEditingProfile ? '' : 'none'
                   }}
-                  className="bg-primary-200 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
+                  className="bg-tertiary-500 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
                 >
-                  <img className="inline mr-2" />
+                  <img alt="" className="inline mr-2" />
                   キャンセル
                 </button>
               </div>

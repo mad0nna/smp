@@ -49,7 +49,7 @@
                                         w-full px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none"
                                     />
                                     @error('username')
-                                        <span class="text-blueGray-400 text-xs text-secondary-200" role="alert">
+                                        <span class="text-blueGray-400 text-xs text-red-600" role="alert">
                                             <strong> @if ($message==='The username field is required.') メールアドレス/ IDを入力してください。 @else {{$message}} @endif </strong>
                                         </span>
                                     @enderror
@@ -66,14 +66,14 @@
                                         "w-full px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-gray-300 outline-none "
                                     />
                                     @error('password')
-                                        <span class="text-blueGray-400 text-xs text-secondary-200" role="alert">
+                                        <span class="text-blueGray-400 text-xs text-red-600" role="alert">
                                             <strong>@if ($message==='パスワードフィールドは必須です。.') 'パスワードを入力してください。' @else {{$message}} @endif</strong>
                                         </span>
                                     @enderror
                                 </div>
 
                                 @if (session('status'))
-                                <div class="alert alert-success text-xs text-center text-blueGray-300 mb-2 block text-secondary-200" role="alert">
+                                <div class="alert alert-success text-xs text-center text-blueGray-300 mb-2 block text-red-600" role="alert">
                                 <strong>{{ session('status') }}</strong>
                                 </div>
                                 @endif
@@ -81,7 +81,7 @@
                         </div>
                         <div class="flex flex-wrap gap-0 w-full justify-center mt-2 mb-6">
                         <button
-                        class="bg-primary-200 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-1/2"
+                        class="bg-tertiary-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-1/2"
                         >
                         サインイン
                         </button>

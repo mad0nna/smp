@@ -16,11 +16,12 @@ const SalesContact = () => {
       <div className="w-1/2">
         <div className="flex flex-wrap gap-0 w-full justify-start">
           <img
+            alt="Contact Icon"
             className="inline align-top mr-2"
             src={contactIcon}
             style={{ height: '24px' }}
           />
-          <label className="text-sm text-primary-200 font-bold text-lg">
+          <label className="text-sm text-tertiary-500 font-bold text-lg">
             管理者名
           </label>
         </div>
@@ -109,7 +110,7 @@ const SalesContact = () => {
             src={contactIcon}
             style={{ height: '24px' }}
           />
-          <label className="text-sm text-primary-200 font-bold text-lg">
+          <label className="text-sm text-tertiary-500 font-bold text-lg">
             連絡担当者名
           </label>
         </div>

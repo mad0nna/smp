@@ -248,8 +248,8 @@ const CompanyBilling = () => {
   for (let index = 1; index <= numberOFPages; index++) {
     let activeStyle =
       index === state.currentPage
-        ? 'text-white bg-primary-200 '
-        : 'text-primary-200 '
+        ? 'text-white bg-tertiary-500 '
+        : 'text-tertiary-500 '
     pageNumbers.push(
       <li
         key={index}
@@ -381,7 +381,7 @@ const CompanyBilling = () => {
                         <p className="relative lg:-left-16 sm:-left-0">{`${item.amount} 円(税込)`}</p>
                       </td>
                       {/* <td className={txtcolor + ' text-center'}>-</td> */}
-                      <td className="text-center text-primary-200">
+                      <td className="text-center text-tertiary-500">
                         <div
                           className="inline-block cursor-pointer"
                           onClick={() => {
@@ -425,7 +425,7 @@ const CompanyBilling = () => {
             src="/images/pagination-prev.png?1ac337e7f7bfaacab64ea9a2369b5930"
             className=" inline-block  w-8 h-auto mr-1"
           /> */}
-          <div className="inline-block text-primary-200">
+          <div className="inline-block text-tertiary-500">
             <ul id="page-numbers">{pageNumbers}</ul>
           </div>
           {/* <img

@@ -1,12 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react'
+import axios from 'axios'
 import ReactDOM from 'react-dom'
+import idpIcon from '../../img/idp_logo.png'
+import shopIcon from '../../img/shop-icon.png'
+import AdminIcon from '../../img/admin-icon.png'
 import KotLogo from '../../img/KOT-menu-logo.png'
 import ArrowDownIcon from '../../img/arrowdown.png'
-import AdminIcon from '../../img/admin-icon.png'
-import idpIcon from '../../img/idp_logo.png'
-import axios from 'axios'
-import shopIcon from '../../img/shop-icon.png'
-import shopIcon2 from '../../img/shop-icon-green.png'
+import shopIconGreen from '../../img/shop-icon-green.png'
+
+const domElementPresent = (element) => {
+  return !!document.getElementById(element)
+}
+
 const Navigation = () => {
   const [state, setState] = useState({
     mainNav: {},
@@ -16,9 +21,9 @@ const Navigation = () => {
   })
 
   const refMenu = useRef()
+  const aPathName = location.pathname.split('/')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
-  let aPathName = location.pathname.split('/')
 
   useEffect(() => {
     fetch('/company/getUnpaidBillingInformation', {
@@ -48,7 +53,12 @@ const Navigation = () => {
   }, [isMenuOpen])
 
   useEffect(() => {
-    let companyNavigation = {
+    let mainNav = []
+    const route = location.pathname.split('/')
+
+    let childPages = ['/admin/account/company', '/admin/account/sales']
+
+    const companyNavigation = {
       logo: KotLogo,
       navItem: [
         {
@@ -344,10 +354,63 @@ const Navigation = () => {
       }
     }
 
-    let aPathName = location.pathname.split('/')
-    let mainNav = []
-    if (typeof aPathName[1] != 'undefined') {
-      switch (aPathName[1]) {
+    const logisticsNavigation = {
+      logo: KotLogo,
+      navItem: [
+        {
+          label: 'ダッシュボード',
+          url: '/admin/dashboard',
+          childUrl: [],
+          iconNormal: 'bg-dashboard-icon',
+          iconHover: 'group-hover:bg-dashboard-icon-hover',
+          iconActive: 'bg-dashboard-icon-hover',
+          iconSize: 'h-8 w-9',
+          isActive: false,
+          extraStyle: ''
+        }
+      ],
+      dropDownNav: {
+        title: '管理者',
+        logo: AdminIcon,
+        items: [
+          {
+            label: 'アカウント プロファイル',
+            url: '#',
+            iconNormal: 'bg-profile-icon-white',
+            iconHover: '',
+            iconSize: 'h-5 w-5',
+            extraStyle: 'cursor-default'
+          },
+          {
+            label: 'お問合せ',
+            url: '#',
+            iconNormal: 'bg-call-icon-white',
+            iconHover: '',
+            iconSize: 'h-5 w-5',
+            extraStyle: 'cursor-default'
+          },
+          {
+            label: 'ト設定',
+            url: '/admin/settings',
+            iconNormal: 'bg-settings-icon-white',
+            iconHover: '',
+            iconSize: 'h-5 w-5',
+            extraStyle: ''
+          },
+          {
+            label: 'ログアウト',
+            url: '/logout',
+            iconNormal: 'bg-signout-icon',
+            iconHover: '',
+            iconSize: 'h-5 w-5',
+            extraStyle: ''
+          }
+        ]
+      }
+    }
+
+    if (typeof route[1] != 'undefined') {
+      switch (route[1]) {
         case 'company':
           mainNav = companyNavigation
           break
@@ -357,6 +420,9 @@ const Navigation = () => {
         case 'sales':
           mainNav = salesNavigation
           break
+        case 'logistics':
+          mainNav = logisticsNavigation
+          break
         case 'employee':
           break
         default:
@@ -364,6 +430,7 @@ const Navigation = () => {
           break
       }
     }
+
     axios.get(location.origin + '/getLoggedinUser').then((response) => {
       if (response.status === 200) {
         setState((prevState) => {
@@ -374,18 +441,15 @@ const Navigation = () => {
             companyName: response.data['companyName']
           }
         })
-        if (aPathName[1] == 'admin') {
-          window.document.getElementById('companyDropwdownTitle').innerHTML =
-            response.data['contactLastName'] +
-            ' ' +
-            response.data['contactFirstName']
-        } else {
-          response.data['companyName']
+
+        if (route[1] === 'admin') {
+          window.document.getElementById(
+            'companyDropdownTitle'
+          ).innerHTML = `${response.data['contactLastName']} ${response.data['contactFirstName']}`
         }
       }
     })
 
-    let childPages = ['/admin/account/company', '/admin/account/sales']
     mainNav.navItem.map((item) => {
       item.isActive = item.url === location.pathname || childPages.includes()
     })
@@ -405,13 +469,18 @@ const Navigation = () => {
   }
 
   return (
-    <div className="bg-white px-8 h-24 shadow-lg mb-8">
+    <div
+      className={`bg-white px-8 h-24 shadow-lg ${
+        !domElementPresent('navigation-logistics') ? 'mb-8' : ''
+      }`}
+    >
       {state.loading ? (
         ''
       ) : (
         <div className="flex flex-row justify-between items-center">
           <div className="w-48">
             <img
+              alt="Navigation Logo"
               className="align-content-center h-auto"
               src={state.mainNav.logo}
             />
@@ -436,13 +505,7 @@ const Navigation = () => {
                 }
                 return (
                   <li
-                    className={
-                      'group text-center py-5 w-36 hover:bg-green-500 hover:text-white' +
-                      ' ' +
-                      activeBackground +
-                      ' ' +
-                      activeTextColor
-                    }
+                    className={`group text-center py-5 w-36 hover:bg-green-500 hover:text-white ${activeBackground} ${activeTextColor}`}
                     key={index}
                   >
                     <a href={item.url} className={item.extraStyle}>
@@ -460,7 +523,7 @@ const Navigation = () => {
                         >
                           {item.url === '/company/billing' &&
                             unpaidBillingInfo &&
-                            unpaidBillingInfo.is_bank_transfer == true &&
+                            unpaidBillingInfo.is_bank_transfer === true &&
                             unpaidBillingInfo.total_billed_amount != null && (
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -490,17 +553,16 @@ const Navigation = () => {
           <div className="justify-center">
             <div
               id="nav-dropdown"
-              name="nav-dropdown"
               className="float-right relative flex h-full space-x-2 cursor-pointer z-20"
               onClick={() => setIsMenuOpen((oldState) => !oldState)}
               ref={refMenu}
             >
               <div className="my-auto">
-                <img alt="" className="hidden" src={shopIcon} />
-                <img alt="" className="hidden" src={shopIcon2} />
+                <img alt="Shop Icon" className="hidden" src={shopIcon} />
+                <img alt="Shop Icon" className="hidden" src={shopIconGreen} />
                 {state.mainNav.dropDownNav.logo !== '' ? (
                   <img
-                    alt="setting icon"
+                    alt="Setting Icon"
                     src={state.mainNav.dropDownNav.logo}
                   />
                 ) : (
@@ -508,15 +570,15 @@ const Navigation = () => {
                 )}
               </div>
               <p
-                className="my-auto font-sans text-base text-primary-200 font-bold"
-                id="companyDropwdownTitle"
+                className="my-auto font-sans text-base text-tertiary-500 font-bold"
+                id="companyDropdownTitle"
               >
-                {aPathName[1] == 'admin'
+                {aPathName[1] === 'admin'
                   ? state.contactLastName + ' ' + state.contactFirstName
                   : state.companyName}
               </p>
               <div className="my-auto">
-                <img alt="setting icon" src={ArrowDownIcon} />
+                <img alt="Setting Icon" src={ArrowDownIcon} />
               </div>
               {isMenuOpen && (
                 <div
@@ -533,12 +595,7 @@ const Navigation = () => {
                       >
                         <div className="flex items-center py-2 space-x-4">
                           <div
-                            className={
-                              item.iconNormal +
-                              ' ' +
-                              item.iconSize +
-                              ' bg-cover bg-no-repeat'
-                            }
+                            className={`${item.iconNormal} ${item.iconSize} bg-cover bg-no-repeat`}
                           />
                           <div className="text-sm text-white tracking-tighter">
                             {item.label}
@@ -552,7 +609,7 @@ const Navigation = () => {
             </div>
             <div
               className={
-                'pl-2 ' + (aPathName[1] == 'admin' ? 'hidden' : 'block')
+                'pl-2 ' + (aPathName[1] === 'admin' ? 'hidden' : 'block')
               }
             >
               <span className="mr-1">{state.contactLastName} </span>
@@ -567,12 +624,21 @@ const Navigation = () => {
 }
 export default Navigation
 
-if (document.getElementById('navigation')) {
+if (domElementPresent('navigation')) {
   ReactDOM.render(<Navigation />, document.getElementById('navigation'))
 }
-if (document.getElementById('navigation-admin')) {
+
+if (domElementPresent('navigation-admin')) {
   ReactDOM.render(<Navigation />, document.getElementById('navigation-admin'))
 }
-if (document.getElementById('navigation-sales')) {
+
+if (domElementPresent('navigation-sales')) {
   ReactDOM.render(<Navigation />, document.getElementById('navigation-sales'))
+}
+
+if (domElementPresent('navigation-logistics')) {
+  ReactDOM.render(
+    <Navigation />,
+    document.getElementById('navigation-logistics')
+  )
 }

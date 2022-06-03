@@ -51,23 +51,39 @@ module.exports = {
         primaryBg: '#F2F2F2',
         secondaryBg: '#C1CBC4',
         primary: {
-          50: '#F3FAF6',
-          100: '#5EDF89',
-          200: '#1D9E48',
-          900: '#065F46'
+          100: '#007B5333', // CT: lightGreen
+          200: '#007B5366', // CT: tertiary-500
+          300: '#007B5399',
+          400: '#007B53CC',
+          500: '#065F46'
         },
         secondary: {
-          100: '#DC5858',
-          200: '#DE0A0A',
-          900: '#17A8A4'
+          100: '#17A8A433', // CT: red-500
+          200: '#17A8A466', // CT: red-600
+          300: '#17A8A499',
+          400: '#17A8A4CC',
+          500: '#17A8A4' // F: 900, CT: teal-500
         },
-        tertiary: '#1D9E48',
+        tertiary: {
+          100: '#1D9E4833',
+          200: '#1D9E4866',
+          300: '#1D9E4899',
+          400: '#1D9E48',
+          500: '#1D9E48'
+        },
+        body: {
+          100: '#76807033',
+          200: '#76807066',
+          300: '#76807099',
+          400: '#768070CC',
+          500: '#768070'
+        },
+        sideBar: 'rgba(0, 123, 83, 0.03)',
+        active: 'rgba(6, 95, 70, 0.1)',
         cyan: '#43BBB3',
         orange: '#FFBC03',
         lightGreen: '#6AD48D',
         greenOld: '#95A199',
-        'table-header-Gray-100': '#ECECEC',
-        'table-header-Gray-400': '#A5A5A5',
         lime: {
           primary: '#22AC38',
           200: '#D9F99D',
@@ -78,7 +94,9 @@ module.exports = {
           700: '#4D7C0F',
           800: '#3F6212'
         },
-        customGray: '#685D5E'
+        customGray: '#685D5E',
+        'table-header-Gray-100': '#ECECEC',
+        'table-header-Gray-400': '#A5A5A5'
       },
       fontSize: {
         xxs: ['0.60rem', { lineHeight: '.75rem' }],
@@ -91,21 +109,26 @@ module.exports = {
         'detail-height': '34rem'
       },
       width: {
-        widgetBody: 'calc(100% - 3rem)'
+        widgetBody: 'calc(100% - 3rem)',
+        sideBar: 260,
+        sideBarBtn: 242
       },
       lineHeight: {
         5: '5rem'
       },
       minHeight: {
-        'widget-item': '80px',
-        'table-height': '740px'
+        'widget-item': 80,
+        'table-height': 740
       },
       maxWidth: {},
       boxShadow: {
         '4xl': '0 40px 100px -20px rgba(0, 0, 0, 0.3)'
       },
       spacing: {
-        200: '350px'
+        200: 350
+      },
+      borderRadius: {
+        xs: 6
       },
       skew: {
         'rectangle-skew': '-53deg'
