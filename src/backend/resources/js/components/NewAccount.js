@@ -309,7 +309,6 @@ const NewAccount = (props) => {
     <div
       className={
         (state.isSearched ? 'h-96' : 'h-64') +
-        // (state.isSearched ? 'h-96 md:pb-2 lg:pb-1' : 'h-64') +
         ' rounded-lg border-2 border-gray-200 absolute md:inset-1/3 top-50 m-auto bg-primary-200 opacity-85'
       }
     >
