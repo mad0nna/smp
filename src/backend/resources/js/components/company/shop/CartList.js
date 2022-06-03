@@ -695,8 +695,8 @@ const CartList = () => {
       )
       setCalculatedItem((prevCalculatedItem) => ({
         ...prevCalculatedItem,
-        totalTax: Math.round(totalTax),
-        totalAmount: cartTotal + Math.round(totalTax)
+        totalTax: Math.floor(totalTax),
+        totalAmount: cartTotal + Math.floor(totalTax)
       }))
     },
     [cartTotal]
