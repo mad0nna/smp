@@ -596,7 +596,8 @@ const CartList = () => {
         const ccData = {
           data: {
             attributes: {
-              'order.baseid': orderId.orderId // generated ID returned in the basket POST response (waiting for the order base id)
+              'order.baseid': orderId.orderId, // generated ID returned in the basket POST response (waiting for the order base id)
+              payment_type: 'creditcard'
             }
           }
         }
@@ -641,7 +642,8 @@ const CartList = () => {
         const invData = {
           data: {
             attributes: {
-              'order.baseid': orderId.orderId // generated ID returned in the basket POST response (waiting for the order base id)
+              'order.baseid': orderId.orderId, // generated ID returned in the basket POST response (waiting for the order base id)
+              payment_type: 'invoice'
             }
           }
         }

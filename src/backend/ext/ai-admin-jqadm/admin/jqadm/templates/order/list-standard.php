@@ -284,9 +284,16 @@ $statusList = [
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach( $this->get( 'items', [] ) as $id => $item ) : ?>
+					<?php foreach( $this->get( 'items', [] ) as $id => $item ) { ?>
+						<?php 
+							$_item = $item->toArray();
+							if ($_item['payment_type'] == "creditcard" && $_item['order.statuspayment'] != 6) { continue; }
+						?>
 						<?php $url = $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['id' => $item->getBaseId()] + $params, [], $getConfig ) ) ?>
-						<?php $baseItem = ( isset( $baseItems[$item->getBaseId()] ) ? $baseItems[$item->getBaseId()] : null ) ?>
+						<?php 
+							$baseItem = ( isset( $baseItems[$item->getBaseId()] ) ? $baseItems[$item->getBaseId()] : null );
+							if ($baseItem->getCustomerItem() == null) { continue; }
+						?>
 						<tr class="list-item <?= $this->site()->readonly( $item->getSiteId() ) ?>">
 							<?php if( in_array( 'order.id', $fields ) ) : ?>
 								<td class="order-id text-end" style="padding-right:2em"><a class="items-field" href="<?= $url ?>" tabindex="1"><?= $enc->html( $item->getId() ) ?></a></td>
@@ -483,7 +490,7 @@ $statusList = [
 							<?php endif ?>
 
 						</tr>
-					<?php endforeach ?>
+					<?php } ?>
 				</tbody>
 			</table>
 		</div>
