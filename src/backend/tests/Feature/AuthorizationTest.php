@@ -127,6 +127,51 @@ class AuthorizationTest extends TestCase
     }
 
     /**
+     * Login authorization test with no email but with password present
+     */
+    public function testLoginAuthorizationWithNoEmailButWithPassword()
+    {
+        $params = [
+            'username' => '',
+            'password' => 'randomstring1234',
+        ];
+
+        $response = $this->json('POST', '/', $params);
+        $response->assertStatus(422);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Login authorization test with email but with no password present
+     */
+    public function testLoginAuthorizationWithEmailButWithNoPassword()
+    {
+        $params = [
+            'username' => 'admin@tcg.sprobe.ph',
+            'password' => '',
+        ];
+
+        $response = $this->json('POST', '/', $params);
+        $response->assertStatus(422);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Login authorization test with email but with no password present
+     */
+    public function testLoginAuthorizationWithIncorrectKeyAndValue()
+    {
+        $params = [
+            'invalidkeyusername' => 'invalidemail',
+            'invalidkeypassword' => '------------',
+        ];
+
+        $response = $this->json('POST', '/', $params);
+        $response->assertStatus(422);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
      * Logout authorization test
      */
     public function testLogoutAuthorization()
