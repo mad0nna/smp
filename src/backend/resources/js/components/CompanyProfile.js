@@ -537,7 +537,7 @@ const CompanyProfile = () => {
           alert('入力内容を更新しました.')
           location.reload()
         })
-        .catch(function (error) {
+        .catch(function () {
           window.document.getElementById('iconContainer').src = saveIcon
           setState((prevState) => {
             return {
