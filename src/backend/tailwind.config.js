@@ -101,7 +101,8 @@ module.exports = {
 
             minHeight: {
                 'widget-item' : '80px',
-                'table-height' : '740px'
+                'table-height' : '740px',
+                'message-dialog' : '23rem'
             },
 
             maxWidth: {

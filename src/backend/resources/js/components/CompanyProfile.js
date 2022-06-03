@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import editIcon from '../../img/edit-icon.png'
 import saveIcon from '../../img/Icon awesome-save.png'
 import spinner from '../../img/spinner.gif'
+import MessageDialog from './MessageDialog'
+
 import axios from 'axios'
 
 const CompanyProfile = () => {
@@ -532,23 +534,28 @@ const CompanyProfile = () => {
               }
             })
           }
-
-          window.document.getElementById('iconContainer').src = saveIcon
-          window.document.getElementById('iconContainer').disabled = false
-          window.document
-            .getElementById('nav-dropdown')
-            .nextSibling.getElementsByTagName('span')[0].innerHTML =
-            state.adminDetailsEditValues.LastName
-          window.document
-            .getElementById('nav-dropdown')
-            .nextSibling.getElementsByTagName('span')[1].innerHTML =
-            state.adminDetailsEditValues.FirstName
-          window.document.getElementById('companyDropwdownTitle').innerHTML =
-            state.companyEditValues.companyName
           alert('入力内容を更新しました.')
           location.reload()
         })
+        .catch(function (error) {
+          window.document.getElementById('iconContainer').src = saveIcon
+          setState((prevState) => {
+            return {
+              ...prevState,
+              isLoading: true,
+              isEditingProfile: true,
+              showPopupMessageDialog: true,
+              dialogMessage: error.response.data.error
+            }
+          })
+        })
     }
+    setState((prevState) => {
+      return {
+        ...prevState,
+        isLoading: false
+      }
+    })
   }
 
   const displayEditButton = () => {
@@ -631,7 +638,7 @@ const CompanyProfile = () => {
               >
                 <div className="md:mb-0 md:w-1/3">
                   <label className="text-sm text-gray-400">
-                    会社名を入力してください
+                    会社名
                     <span className="text-red-500">*</span>
                   </label>
                 </div>
@@ -692,11 +699,13 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.companyDetails.country ?? '' + ' '}
-                    {state.companyDetails.state ?? '' + ' '}
-                    {state.companyDetails.city ?? '' + ' '}
-                    {state.companyDetails.street ?? '' + ' '}
-                    {state.companyDetails.postalCode ?? ''}
+                    <div className="px-3 flex flex-wrap">
+                      {state.companyDetails.country ?? '' + ' '}
+                      {state.companyDetails.state ?? '' + ' '}
+                      {state.companyDetails.city ?? '' + ' '}
+                      {state.companyDetails.street ?? '' + ' '}
+                      {state.companyDetails.postalCode ?? ''}
+                    </div>
                   </label>
                   <div className="space-y-1">
                     <input
@@ -1170,6 +1179,21 @@ const CompanyProfile = () => {
                 {state.ZenDetails.opportunityId ?? 'N/A'}
               </div>
             </div>
+
+            {state.showPopupMessageDialog ? (
+              <MessageDialog
+                handleCloseMessageDialog={() => {
+                  setState((prevState) => {
+                    return {
+                      ...prevState,
+                      showPopupMessageDialog: false,
+                      isLoading: false
+                    }
+                  })
+                }}
+                message={state.dialogMessage}
+              />
+            ) : null}
           </div>
         </div>
       </div>
