@@ -50,6 +50,16 @@ const AccountList = (props) => {
     props.handleFilter(e.target.value)
   }
 
+  const handleCodeFieldChanges = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        searchResult: '',
+        foundCompany: {}
+      }
+    })
+  }
+
   const searchCompanyCode = (code) => {
     code = code.trim()
     if (code === '') {
@@ -430,6 +440,7 @@ const AccountList = (props) => {
           searchResult={state.searchResult}
           foundCompany={state.foundCompany}
           handleDisplayAddedCompany={props.handleDisplayAddedCompany}
+          handleCodeFieldChanges={handleCodeFieldChanges}
         />
       ) : null}
 

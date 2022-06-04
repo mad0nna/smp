@@ -290,6 +290,16 @@ const PasswordSettings = () => {
                       </h1>
                     </div>
                   </div>
+                  <span
+                    className="invalid-feedback text-xs text-center mt-3 w-2/3 mx-auto"
+                    role="alert"
+                  >
+                    <strong>
+                      1文字以上の大文字、1文字以上の小文字、1文字以上の特殊記号(
+                      ! &quot; # $ % & &apos; ( ) = ~ ^ \ など )
+                      を含む最低8桁以上の英数字のパスワードを入力してください
+                    </strong>
+                  </span>
                 </div>
               </div>
 

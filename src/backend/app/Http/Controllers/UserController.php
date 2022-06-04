@@ -76,7 +76,7 @@ class UserController extends Controller
                     'title' => $user['Title'],
                     'user_status_id' => 5,
                     'contact_num' => $user['MobilePhone'],
-                    'user_type_id' => $user['admin__c'] ? 3 :4,
+                    'user_type_id' => 4,
                     'message' => 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？',
                     'existsInDB' => false
                 ];
@@ -97,9 +97,10 @@ class UserController extends Controller
     public function getContactDetails(Request $request)
     {
         try {
-            $this->response['data'] = $this->userService->findById($request->id);
+            $data = $this->userService->findById($request->id);
+            $this->response['data'] = $data;
             $this->response['data']['canEdit'] = Auth::user()->user_type_id === 3 || (Auth::user()->id == $request->id);
-            $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3;
+            $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3 && $data['user_type_id'] !== 3;
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
@@ -214,12 +215,10 @@ class UserController extends Controller
                     //create the user in DB
                     $formData['email'] = $userInfo['Email'];
                     $user = $this->userService->create($formData);
-                    $this->userService->resendEmailInvite($user->id);
                     $this->dbRepo->makeUserWidgetSettings($user->id);
                 }
             } else {
                 $user = $this->userService->create($formData);
-                $this->userService->resendEmailInvite($user->id);
                 $this->dbRepo->makeUserWidgetSettings($user->id);
             }
             $this->response['data'] = new UserResource($user);
@@ -333,8 +332,9 @@ class UserController extends Controller
     public function updateAdminByEmail(Request $request)
     {
         try {
-            $message = '';
             $data = $request->all();
+
+            // Update Data in Salesforce
             $salesforceData = [
                 'Email' => $data['Email'],
                 'FirstName' => $data['FirstName'],
@@ -342,6 +342,12 @@ class UserController extends Controller
                 'MobilePhone' => $data['MobilePhone'],
                 'Title' => $data['Title'],
             ];
+            $response = (new Contact)->update($salesforceData, $data['Id']);
+            if (!$response['status']) {
+                return $response;
+            }
+
+            // Update Data in Database
             $formData = [
                 'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
                 'last_name' => $data['LastName'] ? $data['LastName'] : '',
@@ -350,33 +356,19 @@ class UserController extends Controller
                 'title' => $data['Title'] ? $data['Title'] : '',
                 'username' => $data['username'] ? $data['username'] : '',
             ];
-
-
             if ($data['changeRole']) {
-                $adminCount = User::where('company_id', Session::get('companyID'))->where('user_type_id', 3)->count();
-                $role = $data['admin__c'] == 3 ? 'promote' : 'demote';
-                if ($role === 'demote' && $adminCount <= 1) {
-                    $message = '企業情報の更新に成功しましたが、管理者権限を持つユーザーが最低１名必要なため、権限を降格することが出来ませんでした';
-                } else {
-                    $salesforceData['admin__c'] = $data['admin__c'] == 3 ? true : false;
-                    $formData['user_type_id'] = $data['admin__c'];
-                    $message = "顧客企業情報の更新に成功しました！";
-                }
-            } else {
-                $message = "顧客企業情報の更新に成功しました！";
-            }
-
-            $response = (new Contact)->update($salesforceData, $data['Id']);
-            if (!$response['status']) {
-                return $response;
-            }
-            if (Session::get('salesforceContactID') == $data['Id']) {
-                Session::put('CompanyContactFirstname', $data['FirstName']);
-                Session::put('CompanyContactLastname', $data['LastName']);
+                $formData['user_type_id'] = $data['admin__c'];
+                $formerAdmin = User::where('account_code', Session::get('salesforceContactID'));
+                $formerAdmin->update(['user_type_id' => 4]);
             }
             $user = User::where('account_code', $data['Id']);
             if ($user->update($formData)) {
-                return ['status' => true, 'data' => $user, 'message' => $message];
+                // Update Session data
+                if (Session::get('salesforceContactID') == $data['Id']) {
+                    Session::put('CompanyContactFirstname', $data['FirstName']);
+                    Session::put('CompanyContactLastname', $data['LastName']);
+                }
+                return ['status' => true, 'data' => $user, 'message' => '顧客企業情報の更新に成功しました！'];
             }
             return ['status' => false];
         } catch (Exception $e) {

@@ -48,7 +48,7 @@ class AimeosPluginSeeder extends Seeder
                 'provider' => 'ProductStock',
                 'config' => '[]',
                 'pos' => 30,
-                'status' => 1,
+                'status' => 0,
                 'mtime' => $dt,
                 'ctime' => $dt,
                 'editor' => 'idaten',
