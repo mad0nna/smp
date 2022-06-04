@@ -797,7 +797,7 @@ const AccountProfile = (props) => {
               (errorMessages.hasError
                 ? 'bg-lightGreen pointer-events-none hover:cursor-default'
                 : 'bg-tertiary-500 hover:bg-green-700') +
-              'bg-primary-200  text-white  rounded-lg p-2 text-sm mr-1'
+              'bg-tertiary-500 text-white  rounded-lg p-2 text-sm mr-1'
             }
           >
             <img

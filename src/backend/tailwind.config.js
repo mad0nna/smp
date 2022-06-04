@@ -51,18 +51,18 @@ module.exports = {
         primaryBg: '#F2F2F2',
         secondaryBg: '#C1CBC4',
         primary: {
-          100: '#007B5333', // CT: lightGreen
-          200: '#007B5366', // CT: tertiary-500
+          100: '#007B5333', // Changed To: lightGreen
+          200: '#007B5366', // Changed To: tertiary-500
           300: '#007B5399',
           400: '#007B53CC',
           500: '#065F46'
         },
         secondary: {
-          100: '#17A8A433', // CT: red-500
-          200: '#17A8A466', // CT: red-600
+          100: '#17A8A433', // Change To: red-500
+          200: '#17A8A466', // Change To: red-600
           300: '#17A8A499',
           400: '#17A8A4CC',
-          500: '#17A8A4' // F: 900, CT: teal-500
+          500: '#17A8A4' // From: 900, Changed To: teal-500
         },
         tertiary: {
           100: '#1D9E4833',
