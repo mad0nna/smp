@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 
 const CheckoutOption = (props) => {
   const [state, setState] = useState({
-    optionValue: ''
+    optionValue: '',
+    loader: false
   })
 
   const onOptionChange = (event) => {
@@ -22,6 +23,21 @@ const CheckoutOption = (props) => {
       }
     })
     props.handleCloseModal()
+  }
+
+  const handleSubmit = () => {
+    if (state.loader) {
+      return
+    }
+
+    setState((prevState) => {
+      return {
+        ...prevState,
+        loader: true
+      }
+    })
+
+    props.handleSubmitCheckout(state.optionValue)
   }
 
   return (
@@ -71,8 +87,7 @@ const CheckoutOption = (props) => {
                 </button>
                 <button
                   className="bg-primary-200 text-white h-12 w-2/6 rounded-3xl font-semibold"
-                  readOnly={props.loader}
-                  onClick={() => props.handleSubmitCheckout(state.optionValue)}
+                  onClick={handleSubmit}
                 >
                   確定
                 </button>

@@ -107,7 +107,7 @@ class Standard
 			}
 
 			$basket = $this->getBasket( $payload->data->attributes->{'order.baseid'} );
-			$item = $this->createOrder( $payload->data->attributes->{'order.baseid'} );
+			$item = $this->createOrder( $payload->data->attributes->{'order.baseid'}, $payload->data->attributes->{'payment_type'} );
 
 			$view->form = $this->getPaymentForm( $basket, $item, (array) $payload->data->attributes );
 			$view->items = $item;
@@ -177,11 +177,13 @@ class Standard
 	 * @param string $baseId Unique order base ID
 	 * @return \Aimeos\MShop\Order\Item\Iface New order item
 	 */
-	protected function createOrder( string $baseId ) : \Aimeos\MShop\Order\Item\Iface
+	protected function createOrder( string $baseId, string $paymentType ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		$context = $this->getContext();
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'order' );
-		$item = $cntl->add( $baseId, ['order.type' => 'jsonapi'] )->store();
+		$data = ['order.type' => 'jsonapi', 'payment_type' => $paymentType];
+		
+		$item = $cntl->add( $baseId, $data )->store();
 
 		$context->getSession()->set( 'aimeos/orderid', $item->getId() );
 
