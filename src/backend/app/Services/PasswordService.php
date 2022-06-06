@@ -46,7 +46,7 @@ class PasswordService
         // }
 
         // check if user exists
-        $user = $this->userService->findByEmail($email);
+        $user = $this->userService->findVerifiedUserByEmail($email);
 
         // generate new token
         $token = $this->passwordReset
