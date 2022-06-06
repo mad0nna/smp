@@ -177,21 +177,25 @@ class UserController extends Controller
             $pw = substr(md5(microtime()), rand(0, 26), 8);
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
-            $company = Auth::user()->company_id;
+            $company_id = Auth::user()->company_id;
+            $company_name = Auth::user()->company_name;
 
             $formData = [
                 'username' => $sf['email'] ?? '',
                 'first_name' => $sf['first_name'] ?? '',
                 'last_name' => $sf['last_name'] ?? '',
+                'firstname' => $sf['first_name'] ?? '',
+                'lastname' => $sf['last_name'] ?? '',
                 'email' => $sf['email'] ?? '',
                 'user_type_id' => 4,
-                'company_id' => $company,
+                'company_id' => $company_id,
                 'user_status_id' => 5,
                 'password' => $pw_hash,
                 'temp_pw' => $pw,
                 'invite_token' => $invite_token,
                 'account_code' => $sf['account_code'] ?? '',
                 'name' => ($sf['last_name'] ?? '') . ' ' . ($sf['first_name'] ?? ''),
+                'company_name' => $company_name,
             ];
 
             if (!$sf['isPartial']) {
@@ -306,6 +310,9 @@ class UserController extends Controller
                     'username' => $data['email'] ? $data['email'] : '',
                     'first_name' => $data['firstname'] ? $data['firstname'] : '',
                     'last_name' => $data['lastname'] ? $data['lastname'] : '',
+                    'firstname' => $data['firstname'] ? $data['firstname'] : '',
+                    'lastname' => $data['lastname'] ? $data['lastname'] : '',
+                    'name' => ($data['LastName'] ? $data['LastName'] : '') . ' ' . ($data['FirstName'] ? $data['FirstName'] : ''),
                     'email' => $data['email'] ? $data['email'] : '',
                     'contact_num' => $data['phone'] ? $data['phone'] : '',
                     'title' => $data['position'] ? $data['position'] : '',
@@ -351,6 +358,9 @@ class UserController extends Controller
             $formData = [
                 'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
                 'last_name' => $data['LastName'] ? $data['LastName'] : '',
+                'firstname' => $data['FirstName'] ? $data['FirstName'] : '',
+                'lastname' => $data['LastName'] ? $data['LastName'] : '',
+                'name' => ($data['LastName'] ? $data['LastName'] : '') . ' ' . ($data['FirstName'] ? $data['FirstName'] : ''),
                 'email' => $data['Email'] ? $data['Email'] : '',
                 'contact_num' => $data['MobilePhone'] ? $data['MobilePhone'] : '',
                 'title' => $data['Title'] ? $data['Title'] : '',
