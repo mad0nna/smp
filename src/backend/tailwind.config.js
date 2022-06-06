@@ -1,7 +1,13 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   purge: ['./resources/**/*.blade.php', './resources/**/*.js'],
   darkMode: false,
   theme: {
+    screens: {
+      xs: 370,
+      ...defaultTheme.screens
+    },
     extend: {
       backgroundImage: {
         'kot-logo': "url('/images/KOT-menu-logo.png')",
@@ -100,7 +106,7 @@ module.exports = {
       },
       fontSize: {
         xxs: ['0.60rem', { lineHeight: '.75rem' }],
-        'widget-xs': '10px'
+        'widget-xs': 10
       },
       height: {
         'widgetBody-sm': 'calc(100% - 2.50rem)',

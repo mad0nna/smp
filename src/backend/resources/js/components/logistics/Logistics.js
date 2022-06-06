@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
+import { OrderList, ProductList, EmailTemplate } from './menu'
 import { ProductListIcon, InventoryIcon, MainIcon } from '../../../icons'
 
 const Logistics = () => {
@@ -7,11 +8,11 @@ const Logistics = () => {
 
   return (
     <div className="grid md:grid-cols-4 font-meiryo">
-      <div className="md:col-span-1 md:flex md:justify-end md:h-screen">
+      <div className="bg-sideBar flex xs:col-span-4 sm:col-span-4 md:col-span-1 xs:justify-center sm:justify-center md:justify-end xs:h-fit sm:h-fit md:h-screen md:bg-transparent">
         <nav className="w-sideBar bg-sideBar">
-          <ul className="text-sm mt-10">
+          <ul className="xs:mt-0 md:mt-28">
             <li
-              className={`py-3 font-bold w-sideBarBtn mx-auto rounded-xs hover:bg-active ${
+              className={`py-3 font-bold w-sideBarBtn mx-auto mt-3 rounded-xs hover:bg-active ${
                 active === 'product-list' ? 'bg-active' : ''
               }`}
               onClick={() => setActive('product-list')}
@@ -59,15 +60,16 @@ const Logistics = () => {
         </nav>
       </div>
       <div className="sm:col-span-4 md:col-span-3 md:flex">
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
+        {(() => {
+          switch (active) {
+            case 'order-list':
+              return <OrderList />
+            case 'email-template':
+              return <EmailTemplate />
+            default:
+              return <ProductList />
+          }
+        })()}
       </div>
     </div>
   )
