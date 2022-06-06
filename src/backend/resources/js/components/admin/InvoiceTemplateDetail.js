@@ -302,9 +302,15 @@ const InvoiceTemplateDetails = () => {
             </button>
           </div>
           <div>
-            <button className="cursor-pointer border-tertiary-500 text-bold py-2 mt-5 px-3 border-2 text-tertiary-500 rounded-3xl tracking-tighter">
-              Download Sample Template
-            </button>
+            <a
+              href={'/pdf/SampleInvoiceTemplate.pdf'}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <button className="cursor-pointer border-tertiary-500 text-bold py-2 mt-5 px-3 border-2 text-tertiary-500 rounded-3xl tracking-tighter">
+                Download Sample Template
+              </button>
+            </a>
           </div>
         </div>
 

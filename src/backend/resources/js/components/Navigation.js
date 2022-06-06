@@ -545,8 +545,8 @@ const Navigation = () => {
                 <img alt="setting icon" src={ArrowDownIcon} />
               </div>
               <div
-                className="my-auto font-sans text-base text-tertiary-500 font-bold"
-                id="companyDropdownTitle"
+                className="my-auto font-sans text-base text-primary-200 font-bold truncate"
+                id="companyDropwdownTitle"
               >
                 {aPathName[1] === 'admin'
                   ? state.contactLastName + ' ' + state.contactFirstName
