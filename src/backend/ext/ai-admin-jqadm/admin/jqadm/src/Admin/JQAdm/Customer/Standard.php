@@ -282,7 +282,7 @@ class Standard
 			$view->items = $manager->search( $search, $domains, $total );
 			$customers = [];
 			$i = 0;
-			foreach($view->items as $c){
+			foreach($view->items as $c) {
 				if (in_array($c->getId(), $customerList))
 				{
 					$customers[$c->getId()] = $c;
