@@ -42,7 +42,7 @@ class PasswordService
     public function forgot(string $email)
     {
         // check if user exists
-        $user = $this->userService->findByEmail($email);
+        $user = $this->userService->findVerifiedUserByEmail($email);
 
         if (!$user instanceof User) {
             throw new RuntimeException('ご入力されたメールアドレスはサブスク韋駄天に存在しません。ご確認のうえ再入力してください。');
@@ -102,7 +102,6 @@ class PasswordService
         $user->update([
             'password' => Hash::make($data['password']),
             'login_attempts' => 0, // reset failed attempts
-            'user_status_id' => $status->id, // update user status
         ]);
 
         // revoke the token

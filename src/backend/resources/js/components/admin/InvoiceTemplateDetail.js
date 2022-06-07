@@ -24,7 +24,8 @@ const InvoiceTemplateDetails = () => {
     changeFile: false,
     templateOldName: null,
     showPopupMessageDialog: false,
-    dialogMessage: ''
+    dialogMessage: '',
+    validFile: false
   })
 
   const handleCloseMessageDialog = () => {
@@ -168,7 +169,7 @@ const InvoiceTemplateDetails = () => {
   const uploadPDFFile = () => {
     let formData = new FormData()
     let pdfFile = document.querySelector('#PdfContainer')
-    if (pdfFile.files.length == 0) {
+    if (state.validFile === false) {
       setState((prevState) => {
         return {
           ...prevState,
@@ -244,7 +245,7 @@ const InvoiceTemplateDetails = () => {
             Invoice Template Details
           </h1>
         </div>
-        <div className="grid grid-cols-8">
+        <div className="flex">
           <input
             type="file"
             id="PdfContainer"
@@ -257,6 +258,7 @@ const InvoiceTemplateDetails = () => {
                     ...prevState,
                     status: false,
                     showPopupMessageDialog: true,
+                    validFile: false,
                     dialogMessage: 'File type is not supported.'
                   }
                 })
@@ -266,6 +268,7 @@ const InvoiceTemplateDetails = () => {
                   return {
                     ...prevState,
                     file: files.name,
+                    validFile: true,
                     tab: 2,
                     changeFile: editTemplate
                   }
@@ -273,7 +276,7 @@ const InvoiceTemplateDetails = () => {
               }
             }}
           />
-          <div className="col-span-2">
+          <div className="w-80">
             <div
               className="pt-4 cursor-pointer"
               id="pdfFileUploadButton"
@@ -289,7 +292,8 @@ const InvoiceTemplateDetails = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-1">
+          <div className="w-56"></div>
+          <div className="mr-4">
             <button
               className="cursor-pointer border-primary-200 text-bold w-36 py-2 mt-5 px-3 border-2 text-primary-200 rounded-3xl tracking-tighter"
               onClick={uploadTemplate}
@@ -297,10 +301,16 @@ const InvoiceTemplateDetails = () => {
               Upload
             </button>
           </div>
-          <div className="col-span-2">
-            <button className="cursor-pointer border-primary-200 text-bold py-2 mt-5 px-3 border-2 text-primary-200 rounded-3xl tracking-tighter">
-              Download Sample Template
-            </button>
+          <div>
+            <a
+              href={'/pdf/SampleInvoiceTemplate.pdf'}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <button className="cursor-pointer border-primary-200 text-bold py-2 mt-5 px-3 border-2 text-primary-200 rounded-3xl tracking-tighter">
+                Download Sample Template
+              </button>
+            </a>
           </div>
         </div>
 

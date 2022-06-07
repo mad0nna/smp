@@ -40,6 +40,7 @@ class CompanyResource extends JsonResource
             'opportunity' => OpportunityResource::collection($this->opportunities),
             'serverName' =>  $this->server_name,
             'phase' => $this->phase,
+            'users' => $this->users ?? ''
         ];
     }
 

@@ -124,7 +124,6 @@ class PaymentService
             DB::table('mshop_order_base')
                 ->where('id', $orderBaseId)
                 ->update([
-                    'comment' => 'payment-creditcard',
                     'mtime' => Carbon::now()
                 ]);
 
