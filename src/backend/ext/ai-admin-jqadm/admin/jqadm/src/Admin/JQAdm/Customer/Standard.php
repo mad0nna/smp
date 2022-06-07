@@ -273,8 +273,7 @@ class Standard
 			foreach( $view->baseItems as $item ) {
 				if ($customer = $item->getCustomerItem() != null) {					
 					$customer = $item->getCustomerItem()->toArray();
-					if (!in_array($customer['customer.id'], $customerList))
-					{
+					if (!in_array($customer['customer.id'], $customerList)) {
 						$customerList[] = $customer['customer.id'];
 					}
 				}
