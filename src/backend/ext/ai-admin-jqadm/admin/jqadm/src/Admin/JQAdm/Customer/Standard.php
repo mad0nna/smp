@@ -283,8 +283,7 @@ class Standard
 			$customers = [];
 			$i = 0;
 			foreach($view->items as $c) {
-				if (in_array($c->getId(), $customerList))
-				{
+				if (in_array($c->getId(), $customerList)) {
 					$customers[$c->getId()] = $c;
 				}
 			}
