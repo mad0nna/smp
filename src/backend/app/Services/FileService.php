@@ -75,9 +75,9 @@ class FileService
             }
 
             return $file;
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             throw $e;
-        }
+        } // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -129,10 +129,10 @@ class FileService
             DB::commit();
 
             return $file;
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             DB::rollback();
 
             throw $e;
-        }
+        } // @codeCoverageIgnoreEnd
     }
 }
