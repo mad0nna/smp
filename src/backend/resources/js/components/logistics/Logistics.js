@@ -10,7 +10,7 @@ const Logistics = () => {
     <div className="grid md:grid-cols-4 font-meiryo">
       <div className="bg-sideBar flex xs:col-span-4 sm:col-span-4 md:col-span-1 xs:justify-center sm:justify-center md:justify-end xs:h-fit sm:h-fit md:h-screen md:bg-transparent">
         <nav className="w-sideBar bg-sideBar">
-          <ul className="xs:mt-0 md:mt-28">
+          <ul className="xs:my-2 md:mt-28">
             <li
               className={`py-3 font-bold w-sideBarBtn mx-auto mt-3 rounded-xs hover:bg-active ${
                 active === 'product-list' ? 'bg-active' : ''
@@ -60,16 +60,18 @@ const Logistics = () => {
         </nav>
       </div>
       <div className="sm:col-span-4 md:col-span-3 md:flex">
-        {(() => {
-          switch (active) {
-            case 'order-list':
-              return <OrderList />
-            case 'email-template':
-              return <EmailTemplate />
-            default:
-              return <ProductList />
-          }
-        })()}
+        <div className="mt-14 mx-11 border rounded-xl bg-white shadow-5xl">
+          {(() => {
+            switch (active) {
+              case 'order-list':
+                return <OrderList />
+              case 'email-template':
+                return <EmailTemplate />
+              default:
+                return <ProductList />
+            }
+          })()}
+        </div>
       </div>
     </div>
   )

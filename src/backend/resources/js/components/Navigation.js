@@ -340,19 +340,7 @@ const Navigation = () => {
 
     const logisticsNavigation = {
       logo: KotLogo,
-      navItem: [
-        {
-          label: 'ダッシュボード',
-          url: '/admin/dashboard',
-          childUrl: [],
-          iconNormal: 'bg-dashboard-icon',
-          iconHover: 'group-hover:bg-dashboard-icon-hover',
-          iconActive: 'bg-dashboard-icon-hover',
-          iconSize: 'h-8 w-9',
-          isActive: false,
-          extraStyle: ''
-        }
-      ],
+      navItem: [],
       dropDownNav: {
         title: '管理者',
         logo: AdminIcon,

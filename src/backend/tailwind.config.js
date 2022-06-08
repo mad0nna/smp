@@ -101,6 +101,7 @@ module.exports = {
           800: '#3F6212'
         },
         customGray: '#685D5E',
+        errorColor: '#DC2626',
         'table-header-Gray-100': '#ECECEC',
         'table-header-Gray-400': '#A5A5A5'
       },
@@ -128,7 +129,8 @@ module.exports = {
       },
       maxWidth: {},
       boxShadow: {
-        '4xl': '0 40px 100px -20px rgba(0, 0, 0, 0.3)'
+        '4xl': '0 40px 100px -20px rgba(0, 0, 0, 0.3)',
+        '5xl': '0px 15px 30px rgba(0, 0, 0, 0.16)'
       },
       spacing: {
         200: 350
