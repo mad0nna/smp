@@ -266,6 +266,7 @@ const AccountProfileEdit = () => {
         closeConfirmDialog()
       })
       .catch(function () {
+        closeConfirmDialog()
         setState((prevState) => {
           return {
             ...prevState,
