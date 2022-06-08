@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class BillingTest extends TestCase
+class ContractTest extends TestCase
 {
     /** @var Object */
     private static $COMPANY_ADMIN;
@@ -84,63 +84,30 @@ class BillingTest extends TestCase
     }
 
     /**
-     * BillingTest constructor.
+     * ContractTest constructor.
      */
     public function __construct()
     {
         parent::__construct();
-        $this->createApplication();
+    $this->createApplication();
     }
 
     /**
-     * Unpaid billing information test success
+     * Get contract index success
      */
-    public function testUnpaidBillingInformationSuccess()
+    public function testGetContractIndexSuccess()
     {
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getUnpaidBillingInformation');
+                            ->json('POST', '/company/contractslist');
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
     }
 
     /**
-     * Unpaid billing information test fail wrong company input
+     * Get contract index fail
      */
-    public function testUnpaidBillingInformationFailWrongInput()
-    {
-        // purposely using different input
-        $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
-        $incorrectCompanyName = 'aaaaaaaaaa';
-
-        Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
-        Session::put('companyName', $incorrectCompanyName);
-        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
-        self::$sessionData['companyName'] = $incorrectCompanyName;;
-
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getUnpaidBillingInformation');
-
-        $response->assertStatus(500);
-        $result = json_decode((string) $response->getContent());
-    }
-
-    /**
-     * Get invoice index success
-     */
-    public function testGetInvoiceIndexSuccess()
-    {
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getBilling');
-
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-    }
-
-    /**
-     * Get invoice index success
-     */
-    public function testGetInvoiceIndexFail()
+    public function testGetContractIndexFail()
     {
         // purposely using different input
         $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
@@ -149,57 +116,9 @@ class BillingTest extends TestCase
         self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
 
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getBilling');
+                            ->json('POST', '/company/contractslist');
 
         $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());
-    }
-
-    /**
-     * Get invoice index success with list or an empty list
-     */
-    public function testGetInvoicePDFSuccess()
-    {
-        $invoiceList = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getBilling');
-
-        if (!empty($invoiceList)) {
-            $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                                ->withHeaders([
-                                    'invoiceFileId' => $invoiceList[0]['body'],
-                                    'invoiceNumber' => $invoiceList[0]['invoiceNumber'],
-                                    'accountNumber' => $invoiceList[0]['accountNumber'],
-                                ])
-                                ->json('POST', '/company/getInvoicePDF');
-
-            $response->assertStatus(200);
-            $result = json_decode((string) $response->getContent());
-        } else {
-            $this->assertEmpty($invoiceList);
-        }
-    }
-
-    /**
-     * Get invoice index success with wrong input
-     */
-    public function testGetInvoicePDFWrongInput()
-    {
-        $invoiceList = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getBilling');
-
-        if (!empty($invoiceList)) {
-            $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                                ->withHeaders([
-                                    'invoiceFileId' => 'randomString123456',
-                                    'invoiceNumber' => 'randomString123456',
-                                    'accountNumber' => 'randomString123456',
-                                ])
-                                ->json('POST', '/company/getInvoicePDF');
-
-            $response->assertStatus(500);
-            $result = json_decode((string) $response->getContent());
-        } else {
-            $this->assertEmpty($invoiceList);
-        }
     }
 }

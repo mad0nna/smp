@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class PaymentService {
-    
+class PaymentService
+{
     private $success = 'OK';
+
     private $cardBrand = [
         'V' => 'VISA',
         'M' => 'MasterCard',
@@ -21,14 +22,18 @@ class PaymentService {
         'D' => 'Diners',
         'P' => 'Proper Card'
     ];
+
     private $method = [
         'credit_card' => 'クレジット',
         'bank_transfer' => '口座振替'
     ];
-    public function setCreditCardMethod($cardInfo) {
+
+    public function setCreditCardMethod($cardInfo)
+    {
         if ($cardInfo['result'] != $this->success) {
             return;
         }
+
         $salesforceCompanyID = $cardInfo['sendpoint'];
         $exp = $cardInfo['yuko'];
         $data = [
@@ -40,17 +45,20 @@ class PaymentService {
         ];
         $companyInfo = Company::where('account_id', $salesforceCompanyID)->get()->toArray();
         $result = Opportunity::where('company_id', $companyInfo[0]['id'])->update($data);
+
         if ($result) {
             $opportunity = Opportunity::where('company_id', $companyInfo[0]['id'])->get()->toArray();
             Cache::forget($salesforceCompanyID.":company:details");
             if ((new ModelOpportunity)->update($opportunity[0]['opportunity_code'], ['KoT_shiharaihouhou__c' => $this->method['credit_card']])) {
                 return ['status' => true];
             }
-        return ['status' => false];
+
+            return ['status' => false];
         }
     }
 
-    public function setBankTransferMethod($salesforceCompanyID, $companyID) {
+    public function setBankTransferMethod($salesforceCompanyID, $companyID)
+    {
         $data = [
             'payment_method' => $this->method['bank_transfer'],
             'card_brand' => '',
@@ -59,6 +67,11 @@ class PaymentService {
             'expyr' => ''
         ];
         $companyInfo = Company::where('account_id', $salesforceCompanyID)->get()->toArray();
+
+        if (empty($companyInfo)) {
+            return ['status' => false];
+        }
+
         $result = Opportunity::where('company_id', $companyID)->update($data);
         if ($result) {
             $opportunity = Opportunity::where('company_id', $companyID)->get()->toArray();
@@ -67,10 +80,12 @@ class PaymentService {
                 return ['status' => true];
             }
         }
-        return ['status' => false];
-        }
 
-    public function getPaymentMethodDetails($salesforceCompanyID) {
+        return ['status' => false];
+    }
+
+    public function getPaymentMethodDetails($salesforceCompanyID)
+    {
         $dbRepository = new DatabaseRepository();
         $data = $dbRepository->getPaymentMethod($salesforceCompanyID);
         if (empty($data['expmm']) || empty($data['expyr'])) {
@@ -88,7 +103,7 @@ class PaymentService {
      * Directly update order status via Query Builder
      * After pay through credit card
      */
-    public function updateOrderStatus($params) 
+    public function updateOrderStatus($params)
     {
         $sendID = $params['sendid'];
         $orderBaseId = explode('-',$sendID)[1];

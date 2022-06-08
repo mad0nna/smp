@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder
         //create the HT admin
         // $this->_createHTAdmin();
 
-        //create the Company admin
+        // create the Company admin
         // $this->_createCompanyAdmin();
     }
 
