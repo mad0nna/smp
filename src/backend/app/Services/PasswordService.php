@@ -46,7 +46,7 @@ class PasswordService
         // }
 
         // check if user exists
-        $user = $this->userService->findByEmail($email);
+        $user = $this->userService->findVerifiedUserByEmail($email);
 
         // generate new token
         $token = $this->passwordReset
@@ -102,7 +102,6 @@ class PasswordService
         $user->update([
             'password' => Hash::make($data['password']),
             'login_attempts' => 0, // reset failed attempts
-            'user_status_id' => $status->id, // update user status
         ]);
 
         // revoke the token

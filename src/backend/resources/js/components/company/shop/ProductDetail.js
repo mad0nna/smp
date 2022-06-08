@@ -104,17 +104,17 @@ const ProductDetail = (props) => {
     })
   }
 
-  const onDelete = (e) => {
-    if (e.keyCode === 8) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          orderNum: 2,
-          stock: state.stock + state.orderNum
-        }
-      })
-    }
-  }
+  // const onDelete = (e) => {
+  //   if (e.keyCode === 8) {
+  //     setState((prevState) => {
+  //       return {
+  //         ...prevState,
+  //         orderNum: 2,
+  //         stock: state.stock + state.orderNum
+  //       }
+  //     })
+  //   }
+  // }
 
   const handleOrderChange = (n) => {
     let currentOrder = n - 1 <= 0 ? 1 : n - 1
@@ -220,23 +220,36 @@ const ProductDetail = (props) => {
               onChange={(e) => {
                 handleOrderChange(e.target.value)
               }}
-              onKeyDown={onDelete}
+              onKeyDown={(event) => {
+                if (event.keyCode === 8) {
+                  setState((prevState) => {
+                    return {
+                      ...prevState,
+                      orderNum: 2,
+                      stock: state.stock + state.orderNum
+                    }
+                  })
+                }
+                event.preventDefault()
+              }}
             />
+            {/* ||
+                parseInt(itemCartQUantity?.quantity) ===
+                  productDetail.defaultStock */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
               fill="currentColor"
-              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
+              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer ${
                 state.stock == 0 ||
                 parseInt(itemCartQUantity?.quantity) +
                   parseInt(state.orderNum) ===
-                  parseInt(productDetail.defaultStock) ||
-                parseInt(itemCartQUantity?.quantity) ===
-                  productDetail.defaultStock
+                  parseInt(productDetail.defaultStock)
                   ? 'opacity-50 cursor-not-allowed'
                   : 'cursor-pointer'
-              }`}
+              }
+              `}
               viewBox="0 0 16 16"
               onClick={() => {
                 state.stock === 0 ||
@@ -424,7 +437,8 @@ const ProductDetail = (props) => {
                           itemCartQUantity?.quantity
                           ? 'bg-opacity-50 cursor-not-allowed'
                           : ''
-                      }`}
+                      }
+                      `}
                       onClick={
                         state.orderNum <= 0 ||
                         productDetail.defaultStock <= 0 ||

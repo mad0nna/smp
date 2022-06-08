@@ -596,7 +596,8 @@ const CartList = () => {
         const ccData = {
           data: {
             attributes: {
-              'order.baseid': orderId.orderId // generated ID returned in the basket POST response (waiting for the order base id)
+              'order.baseid': orderId.orderId, // generated ID returned in the basket POST response (waiting for the order base id)
+              payment_type: 'creditcard'
             }
           }
         }
@@ -641,7 +642,8 @@ const CartList = () => {
         const invData = {
           data: {
             attributes: {
-              'order.baseid': orderId.orderId // generated ID returned in the basket POST response (waiting for the order base id)
+              'order.baseid': orderId.orderId, // generated ID returned in the basket POST response (waiting for the order base id)
+              payment_type: 'invoice'
             }
           }
         }
@@ -695,8 +697,8 @@ const CartList = () => {
       )
       setCalculatedItem((prevCalculatedItem) => ({
         ...prevCalculatedItem,
-        totalTax: Math.round(totalTax),
-        totalAmount: cartTotal + Math.round(totalTax)
+        totalTax: Math.floor(totalTax),
+        totalAmount: cartTotal + Math.floor(totalTax)
       }))
     },
     [cartTotal]
@@ -773,11 +775,12 @@ const CartList = () => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
+                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer ${
                   item.defaultStock <= item.quantity
                     ? 'opacity-50 cursor-not-allowed'
                     : 'cursor-pointer'
-                }`}
+                }
+                `}
                 viewBox="0 0 16 16"
                 onClick={() => {
                   item.defaultStock <= item.quantity
