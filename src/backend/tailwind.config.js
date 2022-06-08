@@ -124,6 +124,9 @@ module.exports = {
         5: '5rem'
       },
       minHeight: {
+        '1/4': '25%',
+        '1/2': '50%',
+        '3/4': '75%',
         'widget-item': 80,
         'table-height': 740
       },

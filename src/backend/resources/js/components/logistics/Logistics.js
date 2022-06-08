@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import { OrderList, ProductList, EmailTemplate } from './menu'
+import { OrderList, ProductList, EmailTemplate } from './pages'
 import { ProductListIcon, InventoryIcon, MainIcon } from '../../../icons'
 
 const Logistics = () => {
@@ -60,7 +60,7 @@ const Logistics = () => {
         </nav>
       </div>
       <div className="sm:col-span-4 md:col-span-3 md:flex">
-        <div className="mt-14 mx-11 border rounded-xl bg-white shadow-5xl">
+        <div className="mt-14 mb-5 mx-11 border rounded-xl bg-white shadow-5xl lg:min-h-fit xl:h-3/4">
           {(() => {
             switch (active) {
               case 'order-list':
