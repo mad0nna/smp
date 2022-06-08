@@ -356,15 +356,15 @@ class UserController extends Controller
 
             // Update Data in Database
             $formData = [
-                'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
-                'last_name' => $data['LastName'] ? $data['LastName'] : '',
-                'firstname' => $data['FirstName'] ? $data['FirstName'] : '',
-                'lastname' => $data['LastName'] ? $data['LastName'] : '',
-                'name' => ($data['LastName'] ? $data['LastName'] : '') . ' ' . ($data['FirstName'] ? $data['FirstName'] : ''),
-                'email' => $data['Email'] ? $data['Email'] : '',
-                'contact_num' => $data['MobilePhone'] ? $data['MobilePhone'] : '',
-                'title' => $data['Title'] ? $data['Title'] : '',
-                'username' => $data['username'] ? $data['username'] : '',
+                'first_name' => $data['FirstName'] ?? '',
+                'last_name' => $data['LastName'] ?? '',
+                'firstname' => $data['FirstName'] ?? '',
+                'lastname' => $data['LastName'] ?? '',
+                'name' => ($data['LastName'] ?? '') . ' ' . ($data['FirstName'] ?? ''),
+                'email' => $data['Email'] ?? '',
+                'contact_num' => $data['MobilePhone'] ?? '',
+                'title' => $data['Title'] ?? '',
+                'username' => $data['username'] ?? '',
             ];
             if ($data['changeRole']) {
                 $formData['user_type_id'] = $data['admin__c'];
