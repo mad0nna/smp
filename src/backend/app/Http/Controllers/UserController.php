@@ -308,15 +308,15 @@ class UserController extends Controller
         try {
             $data = $request->all();
             $formData = [
-                    'username' => $data['email'] ? $data['email'] : '',
-                    'first_name' => $data['firstname'] ? $data['firstname'] : '',
-                    'last_name' => $data['lastname'] ? $data['lastname'] : '',
-                    'firstname' => $data['firstname'] ? $data['firstname'] : '',
-                    'lastname' => $data['lastname'] ? $data['lastname'] : '',
-                    'name' => ($data['LastName'] ? $data['LastName'] : '') . ' ' . ($data['FirstName'] ? $data['FirstName'] : ''),
-                    'email' => $data['email'] ? $data['email'] : '',
-                    'contact_num' => $data['phone'] ? $data['phone'] : '',
-                    'title' => $data['position'] ? $data['position'] : '',
+                    'username' => $data['email'] ?? '',
+                    'first_name' => $data['firstname'] ?? '',
+                    'last_name' => $data['lastname'] ?? '',
+                    'firstname' => $data['firstname'] ?? '',
+                    'lastname' => $data['lastname'] ?? '',
+                    'name' => ($data['LastName'] ?? '') . ' ' . ($data['FirstName'] ?? ''),
+                    'email' => $data['email'] ?? '',
+                    'contact_num' => $data['phone'] ?? '',
+                    'title' => $data['position'] ?? '',
                     'user_type_id' => $data['userTypeId'],
                 ];
             // perform user update
