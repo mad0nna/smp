@@ -113,12 +113,14 @@ module.exports = {
         'widgetBody-sm': 'calc(100% - 2.50rem)',
         widgetBody: 'calc(100% - 6.50rem)',
         'widgetBody-lg': 'calc(100% - 3rem)',
-        'detail-height': '34rem'
+        'detail-height': '34rem',
+        checkBox: 16
       },
       width: {
         widgetBody: 'calc(100% - 3rem)',
         sideBar: 260,
-        sideBarBtn: 242
+        sideBarBtn: 242,
+        checkBox: 16
       },
       lineHeight: {
         5: '5rem'
