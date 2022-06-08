@@ -238,3 +238,44 @@ Minified CSS and JS
 $ docker exec -it {PROJECT_NAME}_node sh
 /var/www/backend # npm run prod
 ```
+
+**PHP Unit Testing**
+Run the required seeder for unit testing
+```
+$ docker exec -it {PROJECT_NAME}_php sh
+or this command it incase it errors in bash
+$ winpty docker exec -it {PROJECT_NAME}_php sh
+
+/var/www/backend # composer dump-autoload
+/var/www/backend # php artisan db:seed --class=UnitTestTableSeeder
+```
+
+After which you need to bash inside the php container to execute the test scripts
+
+```
+$ docker exec -it {PROJECT_NAME}_php sh
+or this command it incase it errors in bash
+$ winpty docker exec -it {PROJECT_NAME}_php sh
+
+/var/www/backend # ./phpunit
+```
+
+Test scripts are found in
+src/backend/tests
+
+To access the code coverage report you can access
+```
+{PROJECT_URL}/report
+or
+localhost/report
+```
+
+Different cases use of Unit test
+```
+/var/www/backend # ./phpunit (tests all unit tests found in tests folder)
+/var/www/backend # ./phpunit --stderr (used in redirects with headers)
+/var/www/backend # ./phpunit --filter=UserTest (Tests a specific class that matches the word and UserTest...)
+/var/www/backend # ./phpunit --filter=UserTest tests/Feature/UserTest.php (Tests a specific class in a specific file path)
+/var/www/backend # ./phpunit --filter=UserTest --stop-on-failure (Tests and stops when encounters a failure)
+/var/www/backend # ./phpunit --filter=UserTest::testGetUser (Tests a specific function from a class)
+```

@@ -55,7 +55,6 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('/seenNotification', 'NotificationController@seenNotification');
     Route::post('addCompanyAdmin', 'UserController@store');
     Route::post('resendEmailInvite', 'UserController@invite');
-    Route::put('updateAdmin', 'UserController@update');
     Route::delete('deleteAdmin', 'UserController@destroy');
     Route::get('getLoggedUserInfo', 'UserController@userinfo');
     Route::get('findInSFByEmail', 'UserController@findInSFByEmail');

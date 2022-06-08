@@ -93,7 +93,7 @@ RUN npm install --global cross-env
 RUN mkdir -p /var/www/backend
 WORKDIR /var/www/backend
 COPY --chown=www-data src/backend /var/www/backend/
-RUN chmod -R 777 /var/www/backend/storage/logs /var/www/backend/storage/framework
+RUN chmod -R 777 /var/www/backend/storage/
 
 # Install composer packages
 RUN rm -rf /var/www/backend/vendor /var/www/backend/composer.lock

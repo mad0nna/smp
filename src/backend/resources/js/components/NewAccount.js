@@ -6,6 +6,9 @@ import axios from 'axios'
 // accepts english, hiragana, kanji and half and full-width katakana
 const regex = new RegExp('^[ ]*[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$')
 
+// regex used for removing spaces and numbers in name fields
+const spacesAndNumbersRegex = new RegExp(/\d+|\s+|[０-９]+/g)
+
 const NewAccount = (props) => {
   const [state, setState] = useState({
     addingAccount: '',
@@ -29,7 +32,7 @@ const NewAccount = (props) => {
   })
 
   const handleLastNameChange = (e) => {
-    let value = e.target.value.replace(/\d+|\s+|[０-９]+/g, '')
+    let value = e.target.value.replace(spacesAndNumbersRegex, '')
     if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
         return {
@@ -79,7 +82,7 @@ const NewAccount = (props) => {
   }
 
   const handleFirstNameChange = (e) => {
-    let value = e.target.value.replace(/\d+|\s+/g, '')
+    let value = e.target.value.replace(spacesAndNumbersRegex, '')
     if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
         return {
