@@ -42,7 +42,7 @@ class UserResource extends JsonResource
             'last_name' => $data['LastName'],
             'firstname' => $data['FirstName'],
             'name' => $data['FirstName'],
-            'lastname' => $data['LastName'] . ' ' . $data['LastName'],
+            'lastname' =>  sprintf('%s %s', $data['LastName'], $data['LastName']),
             'email' => $data['Email'],
             'contact_num' => $data['MobilePhone'],
             'title' => $data['Title'],
