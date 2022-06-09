@@ -47,9 +47,8 @@ const ProductDetail = (props) => {
       )
       window.location.replace('/company/shop')
     }
-    let prodDescription = !_.isEmpty(text)
-      ? text['text.content'].replace(/<[^>]+>/g, '')
-      : ''
+
+    let prodDescription = text['text.content']
     let prodPrice = !_.isEmpty(price) ? _.parseInt(price['price.value']) : ''
     let userData = JSON.parse(document.getElementById('userData').textContent)
     let taxValue = !_.isEmpty(price) ? price['price.taxvalue'] : ''
@@ -417,9 +416,17 @@ const ProductDetail = (props) => {
                 </div>
               </div>
               <div className="grid lg:grid-cols-1 col-span-1 grid-rows-2 gap-6">
-                <div className="tracking-tighter text-gray-400 text-lg mt-10">
+                <div className="tracking-tighter text-gray-400 text-lg mt-10 overflow-hidden break-words">
                   <div className="font-bold">商品説明</div>
-                  {isLoaded ? prodDescription : ''}
+                  {isLoaded ? (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: prodDescription
+                      }}
+                    />
+                  ) : (
+                    ''
+                  )}
                 </div>
                 <div className="flex flex-wrap content-end space-x-5 row-span-5 text-center">
                   <div className="space-x-5 w-full flex flex-row">

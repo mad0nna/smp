@@ -178,21 +178,25 @@ class UserController extends Controller
             $pw = substr(md5(microtime()), rand(0, 26), 8);
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
-            $company = Auth::user()->company_id;
+            $company_id = Auth::user()->company_id;
+            $company_name = Auth::user()->company_name;
 
             $formData = [
                 'username' => $sf['email'] ?? '',
                 'first_name' => $sf['first_name'] ?? '',
                 'last_name' => $sf['last_name'] ?? '',
+                'firstname' => $sf['first_name'] ?? '',
+                'lastname' => $sf['last_name'] ?? '',
                 'email' => $sf['email'] ?? '',
                 'user_type_id' => 4,
-                'company_id' => $company,
+                'company_id' => $company_id,
                 'user_status_id' => 5,
                 'password' => $pw_hash,
                 'temp_pw' => $pw,
                 'invite_token' => $invite_token,
                 'account_code' => $sf['account_code'] ?? '',
                 'name' => ($sf['last_name'] ?? '') . ' ' . ($sf['first_name'] ?? ''),
+                'company_name' => $company_name,
             ];
 
             if (!$sf['isPartial']) {
@@ -294,6 +298,40 @@ class UserController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\UpdateRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $formData = [
+                    'username' => $data['email'] ?? '',
+                    'first_name' => $data['firstname'] ?? '',
+                    'last_name' => $data['lastname'] ?? '',
+                    'firstname' => $data['firstname'] ?? '',
+                    'lastname' => $data['lastname'] ?? '',
+                    'name' => ($data['LastName'] ?? '') . ' ' . ($data['FirstName'] ?? ''),
+                    'email' => $data['email'] ?? '',
+                    'contact_num' => $data['phone'] ?? '',
+                    'title' => $data['position'] ?? '',
+                    'user_type_id' => $data['userTypeId'],
+                ];
+            // perform user update
+            $user = $this->userService->update($formData);
+            $this->response['data'] = new UserResource($user);
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
+            $this->response = [
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
+        } // @codeCoverageIgnoreEnd
+        return response()->json($this->response, $this->response['code']);
+    }
+
+    /**
      * Update user in Salesforce.
      *
      * @param  \Illuminate\Http\Request $request
@@ -319,12 +357,15 @@ class UserController extends Controller
 
             // Update Data in Database
             $formData = [
-                'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
-                'last_name' => $data['LastName'] ? $data['LastName'] : '',
-                'email' => $data['Email'] ? $data['Email'] : '',
-                'contact_num' => $data['MobilePhone'] ? $data['MobilePhone'] : '',
-                'title' => $data['Title'] ? $data['Title'] : '',
-                'username' => $data['username'] ? $data['username'] : '',
+                'first_name' => $data['FirstName'] ?? '',
+                'last_name' => $data['LastName'] ?? '',
+                'firstname' => $data['FirstName'] ?? '',
+                'lastname' => $data['LastName'] ?? '',
+                'name' => ($data['LastName'] ?? '') . ' ' . ($data['FirstName'] ?? ''),
+                'email' => $data['Email'] ?? '',
+                'contact_num' => $data['MobilePhone'] ?? '',
+                'title' => $data['Title'] ?? '',
+                'username' => $data['username'] ?? '',
             ];
             if ($data['changeRole']) {
                 $formData['user_type_id'] = $data['admin__c'];
