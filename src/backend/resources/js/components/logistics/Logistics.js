@@ -59,8 +59,8 @@ const Logistics = () => {
           </ul>
         </nav>
       </div>
-      <div className="sm:col-span-4 md:col-span-3 md:flex">
-        <div className="mt-14 mb-5 mx-11 border rounded-xl bg-white shadow-5xl">
+      <div className="sm:col-span-4 md:col-span-3">
+        <div className="mt-14 mb-5 mx-11 border rounded-xl bg-white shadow-5x h-fit">
           {(() => {
             switch (active) {
               case 'order-list':
