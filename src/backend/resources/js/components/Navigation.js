@@ -2,11 +2,9 @@ import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import ReactDOM from 'react-dom'
 import idpIcon from '../../img/idp_logo.png'
-import shopIcon from '../../img/shop-icon.png'
 import AdminIcon from '../../img/admin-icon.png'
 import KotLogo from '../../img/KOT-menu-logo.png'
 import ArrowDownIcon from '../../img/arrowdown.png'
-import shopIconGreen from '../../img/shop-icon-green.png'
 
 const domElementPresent = (element) => {
   return !!document.getElementById(element)
@@ -55,8 +53,6 @@ const Navigation = () => {
   useEffect(() => {
     let mainNav = []
     const route = location.pathname.split('/')
-
-    let childPages = ['/admin/account/company', '/admin/account/sales']
 
     const companyNavigation = {
       logo: KotLogo,
@@ -275,17 +271,6 @@ const Navigation = () => {
           isActive: false,
           extraStyle: ''
         },
-        // {
-        //   label: 'ドキュメント',
-        //   url: '#',
-        //   childUrl: [],
-        //   iconNormal: 'bg-document-icon',
-        //   iconHover: 'group-hover:bg-document-icon-hover',
-        //   iconActive: 'bg-document-icon-hover',
-        //   iconSize: 'h-8 w-9',
-        //   isActive: false,
-        //   extraStyle: 'cursor-default'
-        // },
         {
           label: 'ショップ',
           url: '/admin/shop/jqadm/search/product?locale=ja',
@@ -302,22 +287,6 @@ const Navigation = () => {
         title: '管理者',
         logo: AdminIcon,
         items: [
-          // {
-          //   label: 'アカウント プロファイル',
-          //   url: '#',
-          //   iconNormal: 'bg-profile-icon-white',
-          //   iconHover: '',
-          //   iconSize: 'h-5 w-5',
-          //   extraStyle: 'cursor-default'
-          // },
-          // {
-          //   label: 'お問合せ',
-          //   url: '#',
-          //   iconNormal: 'bg-call-icon-white',
-          //   iconHover: '',
-          //   iconSize: 'h-5 w-5',
-          //   extraStyle: 'cursor-default'
-          // },
           {
             label: '設定',
             url: '/admin/settings',
@@ -423,7 +392,7 @@ const Navigation = () => {
     })
 
     mainNav.navItem.map((item) => {
-      item.isActive = item.url === location.pathname || childPages.includes()
+      item.isActive = item.url === location.pathname
     })
 
     setState((prevState) => {
@@ -450,6 +419,7 @@ const Navigation = () => {
         ''
       ) : (
         <div className="flex flex-row justify-between items-center">
+          {/* START: Logo */}
           <div className="w-48">
             <img
               alt="Navigation Logo"
@@ -457,6 +427,9 @@ const Navigation = () => {
               src={state.mainNav.logo}
             />
           </div>
+          {/* END: Logo */}
+
+          {/* START: MENU */}
           <div className="flex-grow">
             <ul className="flex flex-row justify-center h-24">
               {state.mainNav.navItem.map((item, index) => {
@@ -467,6 +440,7 @@ const Navigation = () => {
                   ? item.iconActive
                   : item.iconNormal
                 let activeBackground = item.isActive ? 'bg-green-500' : ''
+
                 if (
                   !item.isActive &&
                   item.childUrl.indexOf(location.pathname) !== -1
@@ -475,6 +449,7 @@ const Navigation = () => {
                   activeTextColor = 'text-white'
                   activeBackground = 'bg-green-500'
                 }
+
                 return (
                   <li
                     className={`group text-center py-5 w-36 hover:bg-green-500 hover:text-white ${activeBackground} ${activeTextColor}`}
@@ -483,15 +458,7 @@ const Navigation = () => {
                     <a href={item.url} className={item.extraStyle}>
                       <div>
                         <div
-                          className={
-                            item.iconSize +
-                            ' relative mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover ' +
-                            activeIcon +
-                            ' ' +
-                            item.iconHover +
-                            ' ' +
-                            +activeBackground
-                          }
+                          className={`${item.iconSize} ${activeIcon} ${item.iconHover} ${activeBackground} relative mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover`}
                         >
                           {item.url === '/company/billing' &&
                             unpaidBillingInfo &&
@@ -501,7 +468,7 @@ const Navigation = () => {
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-6 w-6 absolute -top-3 -right-2"
                                 viewBox="0 0 24 24"
-                                fill="#ef4444"
+                                fill="#EF4444"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -522,6 +489,9 @@ const Navigation = () => {
               })}
             </ul>
           </div>
+          {/* END: MENU */}
+
+          {/* START: INFO */}
           <div className="justify-center flex flex-col w-64 text-right">
             <div
               id="nav-dropdown"
@@ -529,9 +499,11 @@ const Navigation = () => {
               onClick={() => setIsMenuOpen((oldState) => !oldState)}
               ref={refMenu}
             >
-              <div className="my-auto mx-1">
-                <img alt="setting icon" src={ArrowDownIcon} />
-              </div>
+              <img
+                className="my-auto mx-1"
+                alt="Arrow Down Icon"
+                src={ArrowDownIcon}
+              />
               <div
                 className="my-auto font-sans text-base text-primary-200 font-bold truncate"
                 id="companyDropdownTitle"
@@ -540,22 +512,17 @@ const Navigation = () => {
                   ? state.contactLastName + ' ' + state.contactFirstName
                   : state.companyName}
               </div>
-              <div className="my-auto">
-                <img alt="Shop Icon" className="hidden" src={shopIcon} />
-                <img alt="Shop Icon" className="hidden" src={shopIconGreen} />
-                {state.mainNav.dropDownNav.logo !== '' ? (
-                  <img
-                    alt="setting icon"
-                    src={state.mainNav.dropDownNav.logo}
-                  />
-                ) : (
-                  ''
-                )}
-              </div>
+              {state.mainNav.dropDownNav.logo !== '' && (
+                <img
+                  className="my-auto"
+                  alt="Admin Icon"
+                  src={state.mainNav.dropDownNav.logo}
+                />
+              )}
               {isMenuOpen && (
                 <div
                   id="nav-dropdown-content"
-                  className="bg-greenOld w-64 absolute top-12 right-16 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md"
+                  className="bg-greenOld w-64 absolute top-12 right-0 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md"
                 >
                   {state.mainNav.dropDownNav.items.map((item, index) => {
                     return (
@@ -579,17 +546,15 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            <div
-              className={
-                'pl-2 flex flex-row-reverse ' +
-                (aPathName[1] === 'admin' ? 'hidden' : 'block')
-              }
-            >
-              <div className="ml-1">様</div>
-              <div className="truncate ml-1">{state.contactFirstName} </div>
-              <div className="truncate ml-1">{state.contactLastName} </div>
-            </div>
+            {aPathName[1] !== 'admin' && (
+              <div className="pl-2 flex flex-row-reverse">
+                <div className="ml-1">様</div>
+                <div className="truncate ml-1">{state.contactFirstName}</div>
+                <div className="truncate ml-1">{state.contactLastName}</div>
+              </div>
+            )}
           </div>
+          {/* END: INFO */}
         </div>
       )}
     </div>
