@@ -12,7 +12,7 @@ trait CurrentFormat
      * @param mixed $amount
      * @return string $amount
      */
-    public function formatAmountWithCurrency(mixed $amount)
+    public function formatAmountWithoutDecimals(mixed $amount)
     {
         if (!is_numeric($amount)) {
             throw new Exception('System error occured, given parameter is not a valid amount.');
