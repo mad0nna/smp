@@ -534,7 +534,7 @@ const Navigation = () => {
               </div>
               <div
                 className="my-auto font-sans text-base text-primary-200 font-bold truncate"
-                id="companyDropwdownTitle"
+                id="companyDropdownTitle"
               >
                 {aPathName[1] === 'admin'
                   ? state.contactLastName + ' ' + state.contactFirstName
