@@ -403,7 +403,7 @@ const ProductDetail = (props) => {
                 </div>
               </div>
               <div className="grid lg:grid-cols-1 col-span-1 grid-rows-2 gap-6">
-                <div className="tracking-tighter text-gray-400 text-lg mt-10 overflow-hidden">
+                <div className="tracking-tighter text-gray-400 text-lg mt-10 overflow-hidden break-words">
                   <div className="font-bold">商品説明</div>
                   {isLoaded ? (
                     <div
