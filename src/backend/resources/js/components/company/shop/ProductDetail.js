@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
 import _ from 'lodash'
@@ -38,7 +38,7 @@ const ProductDetail = (props) => {
   // const [itemData] = useState(useCart())
   // const hasRelaod = itemData.addItem || []
 
-  const parseProductData = (data) => {
+  const parseProductData = useCallback((data) => {
     const { media, price, product, text, stock, meta } = data
 
     if (_.isEmpty(price)) {
@@ -54,8 +54,8 @@ const ProductDetail = (props) => {
     let userData = JSON.parse(document.getElementById('userData').textContent)
     let taxValue = !_.isEmpty(price) ? price['price.taxvalue'] : ''
 
-    setProductDetail({
-      ...productDetail,
+    setProductDetail((prevProductDetail) => ({
+      ...prevProductDetail,
       id: product['product.id'],
       userId: userData.userId,
       description: prodDescription,
@@ -66,7 +66,7 @@ const ProductDetail = (props) => {
       imgSrc: media['media.preview'],
       defaultStock: stock['stock.stocklevel'] ?? 0,
       meta: meta
-    })
+    }))
     setState((prevState) => {
       return {
         ...prevState,
@@ -74,7 +74,7 @@ const ProductDetail = (props) => {
       }
     })
     setLoaded(true)
-  }
+  }, [])
 
   const itemCartQUantity = items.find((data) => data.id === productDetail.id)
   const handleIncrementOrder = () => {
@@ -104,17 +104,17 @@ const ProductDetail = (props) => {
     })
   }
 
-  const onDelete = (e) => {
-    if (e.keyCode === 8) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          orderNum: 2,
-          stock: state.stock + state.orderNum
-        }
-      })
-    }
-  }
+  // const onDelete = (e) => {
+  //   if (e.keyCode === 8) {
+  //     setState((prevState) => {
+  //       return {
+  //         ...prevState,
+  //         orderNum: 2,
+  //         stock: state.stock + state.orderNum
+  //       }
+  //     })
+  //   }
+  // }
 
   const handleOrderChange = (n) => {
     let currentOrder = n - 1 <= 0 ? 1 : n - 1
@@ -220,23 +220,36 @@ const ProductDetail = (props) => {
               onChange={(e) => {
                 handleOrderChange(e.target.value)
               }}
-              onKeyDown={onDelete}
+              onKeyDown={(event) => {
+                if (event.keyCode === 8) {
+                  setState((prevState) => {
+                    return {
+                      ...prevState,
+                      orderNum: 2,
+                      stock: state.stock + state.orderNum
+                    }
+                  })
+                }
+                event.preventDefault()
+              }}
             />
+            {/* ||
+                parseInt(itemCartQUantity?.quantity) ===
+                  productDetail.defaultStock */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
               fill="currentColor"
-              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
+              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer ${
                 state.stock == 0 ||
                 parseInt(itemCartQUantity?.quantity) +
                   parseInt(state.orderNum) ===
-                  parseInt(productDetail.defaultStock) ||
-                parseInt(itemCartQUantity?.quantity) ===
-                  productDetail.defaultStock
+                  parseInt(productDetail.defaultStock)
                   ? 'opacity-50 cursor-not-allowed'
                   : 'cursor-pointer'
-              }`}
+              }
+              `}
               viewBox="0 0 16 16"
               onClick={() => {
                 state.stock === 0 ||
@@ -333,7 +346,8 @@ const ProductDetail = (props) => {
         }
       })
     }
-  }, [props])
+  }, [props, parseProductData])
+
   const prodDescription =
     productDetail.description >= 450
       ? `${productDetail.description.substring(0, 450)}...`
@@ -374,7 +388,7 @@ const ProductDetail = (props) => {
                   </div>
                   <div className="grid col-span-1 text-center flex content-center">
                     <div className="font-bold text-red-500 text-right pr-10">
-                      <div className="font-bold text-red-500 text-3xl w-auto pr-10 w-full text-right">
+                      <div className="font-bold text-red-500 text-3xl w-auto pr-10 w-full text-right line-clamp-2">
                         {isLoaded ? productDetail.title : ''}
                       </div>
                       <div className="font-bold text-red-500 text-3xl w-auto pr-10 w-full text-right">
@@ -423,7 +437,8 @@ const ProductDetail = (props) => {
                           itemCartQUantity?.quantity
                           ? 'bg-opacity-50 cursor-not-allowed'
                           : ''
-                      }`}
+                      }
+                      `}
                       onClick={
                         state.orderNum <= 0 ||
                         productDetail.defaultStock <= 0 ||

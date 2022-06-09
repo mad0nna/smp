@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import Pagination from '../../Pagination'
 import { useCart } from 'react-use-cart'
@@ -199,26 +199,29 @@ const CartList = () => {
   }
 
   const handleCheckoutModalOpen = async () => {
-    formValidation()
-    if (Object.values(errorData).includes(true)) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          loader: false,
-          isSubmit: !prevState.isSubmit
+    Promise.resolve()
+      .then(() => {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            loader: true
+          }
+        })
+        formValidation()
+      })
+      .then(() => {
+        if (Object.values(errorData).includes(true)) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              loader: false,
+              isSubmit: !prevState.isSubmit
+            }
+          })
+        } else {
+          saveToBasket()
         }
       })
-    } else {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          isSubmit: !prevState.isSubmit,
-          loader: true
-        }
-      })
-
-      saveToBasket()
-    }
   }
 
   /**
@@ -537,6 +540,7 @@ const CartList = () => {
   }
 
   const handleCheckoutModalClose = () => {
+    deleteBasketCache(csrfItem)
     setState((prevState) => {
       return {
         ...prevState,
@@ -592,7 +596,8 @@ const CartList = () => {
         const ccData = {
           data: {
             attributes: {
-              'order.baseid': orderId.orderId // generated ID returned in the basket POST response (waiting for the order base id)
+              'order.baseid': orderId.orderId, // generated ID returned in the basket POST response (waiting for the order base id)
+              payment_type: 'creditcard'
             }
           }
         }
@@ -637,7 +642,8 @@ const CartList = () => {
         const invData = {
           data: {
             attributes: {
-              'order.baseid': orderId.orderId // generated ID returned in the basket POST response (waiting for the order base id)
+              'order.baseid': orderId.orderId, // generated ID returned in the basket POST response (waiting for the order base id)
+              payment_type: 'invoice'
             }
           }
         }
@@ -679,20 +685,24 @@ const CartList = () => {
     )
     return response
   }
-  function calculateTaxItem(items) {
-    let totalTax = _.reduce(
-      items,
-      (sum, curItem) => {
-        return sum + curItem.taxVal * curItem.quantity
-      },
-      0
-    )
-    setCalculatedItem({
-      ...calculatedItem,
-      totalTax: Math.round(totalTax),
-      totalAmount: cartTotal + Math.round(totalTax)
-    })
-  }
+
+  const calculateTaxItem = useCallback(
+    (items) => {
+      let totalTax = _.reduce(
+        items,
+        (sum, curItem) => {
+          return sum + curItem.taxVal * curItem.quantity
+        },
+        0
+      )
+      setCalculatedItem((prevCalculatedItem) => ({
+        ...prevCalculatedItem,
+        totalTax: Math.floor(totalTax),
+        totalAmount: cartTotal + Math.floor(totalTax)
+      }))
+    },
+    [cartTotal]
+  )
 
   const openZeusPaymentForm = (orderId, amount) => {
     window
@@ -716,7 +726,9 @@ const CartList = () => {
                 className="w-auto h-auto p-5 tex-center m-auto"
                 src={`${state.img_domain}/${item.imgSrc}`}
               ></img>
-              <div className="text-red-500 font-bold">{item.title}</div>
+              <div className="text-red-500 font-bold line-clamp-2">
+                {item.title}
+              </div>
             </div>
           </td>
           <td className="text-center font-bold text-red-500">
@@ -763,11 +775,12 @@ const CartList = () => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
+                className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer ${
                   item.defaultStock <= item.quantity
                     ? 'opacity-50 cursor-not-allowed'
                     : 'cursor-pointer'
-                }`}
+                }
+                `}
                 viewBox="0 0 16 16"
                 onClick={() => {
                   item.defaultStock <= item.quantity
@@ -809,86 +822,92 @@ const CartList = () => {
     })
   }
 
-  const formValidation = () => {
-    if (addressData.email.length >= 1) {
-      new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
-        ? setErrorData((prevState) => {
-            return { ...prevState, emailIsValid: false }
-          })
-        : setErrorData((prevState) => {
-            return { ...prevState, emailIsValid: true }
-          })
-    }
-    const numberInput = addressData.number.split('') || []
-    let i = 0
-    let preLoadHypen = []
-    numberInput.forEach((data, index) => {
-      data === '-' && i++
-      data === '-' && preLoadHypen.push(index)
-    })
-    const differenceAry = preLoadHypen.slice(1).map(function (n, i) {
-      return n - preLoadHypen[i]
-    })
-    const isDifference = differenceAry.every((value) => value === 1)
-    if (addressData.number.length >= 1) {
-      if (
-        addressData.number.length >= 12 &&
-        addressData.number.length <= 13 &&
-        i === 2
-      ) {
-        setErrorData((prevState) => {
-          return { ...prevState, numberIsValid: false }
-        })
+  const formValidation = useCallback(
+    () => {
+      if (addressData.email.length >= 1) {
+        new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(addressData.email)
+          ? setErrorData((prevState) => {
+              return { ...prevState, emailIsValid: false }
+            })
+          : setErrorData((prevState) => {
+              return { ...prevState, emailIsValid: true }
+            })
+      }
+      const numberInput = addressData.number.split('') || []
+      let i = 0
+      let preLoadHypen = []
+      numberInput.forEach((data, index) => {
+        data === '-' && i++
+        data === '-' && preLoadHypen.push(index)
+      })
+      const differenceAry = preLoadHypen.slice(1).map(function (n, i) {
+        return n - preLoadHypen[i]
+      })
+      const isDifference = differenceAry.every((value) => value === 1)
+      if (addressData.number.length >= 1) {
         if (
-          (numberInput[12] === '-' && numberInput[11] !== '-') ||
-          (numberInput[11] === '-' && numberInput[12] === undefined) ||
-          numberInput[0] === '-'
+          addressData.number.length >= 12 &&
+          addressData.number.length <= 13 &&
+          i === 2
         ) {
           setErrorData((prevState) => {
-            return { ...prevState, numberIsValid: true }
+            return { ...prevState, numberIsValid: false }
           })
-        }
+          if (
+            (numberInput[12] === '-' && numberInput[11] !== '-') ||
+            (numberInput[11] === '-' && numberInput[12] === undefined) ||
+            numberInput[0] === '-'
+          ) {
+            setErrorData((prevState) => {
+              return { ...prevState, numberIsValid: true }
+            })
+          }
 
-        if (isDifference) {
+          if (isDifference) {
+            setErrorData((prevState) => {
+              return { ...prevState, numberIsValid: true }
+            })
+          }
+        } else {
           setErrorData((prevState) => {
             return { ...prevState, numberIsValid: true }
           })
         }
-      } else {
-        setErrorData((prevState) => {
-          return { ...prevState, numberIsValid: true }
-        })
       }
-    }
 
-    if (addressData.postal_code.length >= 1) {
-      new RegExp(/[0-9]{3}-[0-9]{4}/).test(addressData.postal_code)
-        ? setErrorData((prevState) => {
-            return { ...prevState, postalCodeIsValid: false }
-          })
-        : setErrorData((prevState) => {
-            return { ...prevState, postalCodeIsValid: true }
-          })
-    }
+      if (addressData.postal_code.length >= 1) {
+        new RegExp(/[0-9]{3}-[0-9]{4}/).test(addressData.postal_code)
+          ? setErrorData((prevState) => {
+              return { ...prevState, postalCodeIsValid: false }
+            })
+          : setErrorData((prevState) => {
+              return { ...prevState, postalCodeIsValid: true }
+            })
+      }
 
-    for (const [key, value] of Object.entries(addressData)) {
-      String(value).length === 0 || value.trim().length === 0
-        ? setErrorData((prevState) => {
-            return { ...prevState, [key]: true }
-          })
-        : setErrorData((prevState) => {
-            return { ...prevState, [key]: false }
-          })
-    }
-    Object.values(errorData).includes(true) && state.isSubmit
-      ? null
-      : setState((prevState) => {
+      for (const [key, value] of Object.entries(addressData)) {
+        String(value).length === 0 || value.trim().length === 0
+          ? setErrorData((prevState) => {
+              return { ...prevState, [key]: true }
+            })
+          : setErrorData((prevState) => {
+              return { ...prevState, [key]: false }
+            })
+      }
+    },
+    [addressData],
+    () => {
+      // cleanup will check isSubmit after setting the errors before
+      if (!Object.values(errorData).includes(true) && state.isSubmit) {
+        setState((prevState) => {
           return {
             ...prevState,
             isSubmit: false
           }
         })
-  }
+      }
+    }
+  )
 
   useEffect(() => {
     // if (_.isEmpty(items)) {
@@ -912,10 +931,16 @@ const CartList = () => {
     calculateTaxItem(items)
     // }
     // set as cart state
-  }, [items])
+  }, [items, calculateTaxItem])
+
   useEffect(() => {
     formValidation()
-  }, [addressData, addressData.email, state.addressModalDisplay])
+  }, [
+    addressData,
+    addressData.email,
+    state.addressModalDisplay,
+    formValidation
+  ])
 
   useEffect(() => {
     axios
@@ -1062,6 +1087,7 @@ const CartList = () => {
           handleCloseModal={handleCheckoutModalClose}
           handleSubmitCheckout={handleSubmitCheckout}
           method={state.method}
+          loader={state.loader}
         />
       ) : null}
       {state.modalDisplayMessage ? (

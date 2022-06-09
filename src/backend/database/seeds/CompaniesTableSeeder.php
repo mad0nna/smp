@@ -28,7 +28,7 @@ class CompaniesTableSeeder extends Seeder
                 'billing_country' => '',
                 'zen_org_name' => null,
                 'account_id' => '0010l00001IGApRAAX',
-            ]
+            ],
             // [
             //     'id' => '2',
             //     'company_code' => 'susumu',

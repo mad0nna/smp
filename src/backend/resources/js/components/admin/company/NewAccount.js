@@ -9,6 +9,7 @@ const NewAccount = (props) => {
 
   const handleInputCodeChange = (e) => {
     setState({ code: e.target.value })
+    props.handleCodeFieldChanges()
   }
 
   const handleKeyDown = (e) => {

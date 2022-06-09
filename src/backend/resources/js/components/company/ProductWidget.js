@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Ellipsis from '../../../img/ellipsis.png'
 import axios from 'axios'
 import _ from 'lodash'
@@ -94,7 +94,7 @@ const ProductWidget = () => {
     return groupItems
   }
 
-  const getProductListApi = () => {
+  const getProductListApi = useCallback(() => {
     axios({
       url: API_URL,
       method: 'get',
@@ -112,10 +112,8 @@ const ProductWidget = () => {
         }
       })
     })
-  }
-  /**
-   *
-   */
+  }, [])
+
   useEffect(() => {
     // set product list
     let isMounted = true
@@ -128,7 +126,7 @@ const ProductWidget = () => {
         loadedComponent: isMounted
       }
     })
-  }, [productList])
+  }, [productList, getProductListApi])
 
   return state.loadedComponent ? (
     <div className="h-full w-full relative group">
@@ -154,7 +152,7 @@ const ProductWidget = () => {
               </div>
             </div>
           ) : (
-            <div className="grid md:grid-cols-1 xl:grid-cols-2">
+            <div className="grid lg:grid-cols-1 xl:grid-cols-2">
               {productList.map((item, index) => {
                 let prodPrice
                 if (!_.isEmpty(item.price)) {
@@ -178,7 +176,9 @@ const ProductWidget = () => {
                         ></img>
                       </div>
                     </a>
-                    <div className="pl-2">{item.product['product.label']}</div>
+                    <div className="pl-2 line-clamp-2">
+                      {item.product['product.label']}
+                    </div>
                     <div className="pl-2">{prodPrice}円</div>
                     <div className="pl-2 text-primary-200">
                       <a

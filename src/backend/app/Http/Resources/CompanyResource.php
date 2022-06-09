@@ -37,7 +37,10 @@ class CompanyResource extends JsonResource
             'createdAt' => $this->created_at->format('d/m/Y'),
             'updatedAt' => $this->updated_at->format('d/m/Y'),
             'admin' => UserResource::collection($this->users),
-            'opportunity' => OpportunityResource::collection($this->opportunities)
+            'opportunity' => OpportunityResource::collection($this->opportunities),
+            'serverName' =>  $this->server_name,
+            'phase' => $this->phase,
+            'users' => $this->users ?? ''
         ];
     }
 
@@ -63,10 +66,11 @@ class CompanyResource extends JsonResource
             'industrySub2' => $data['industry_sub2'] ?? '',
             'kotTransType' => $data['kot_trans_type'] ?? '',
             'paymentMethod' => $data['payment_method'] ?? '',
-            'sfRecords' => $data['sf_records'] ?? [],
             'recordTypeCode' => $data['record_type_code'] ?? '',
             'token' => $data['token'] ?? '',
             'kotBillingStartDate' => $data['kot_billing_start_date'] ?? '',
+            'serverName' => $data['server_name']?? '',
+            'phase' => $data['phase']?? '',
         ];
     }
 
@@ -98,6 +102,8 @@ class CompanyResource extends JsonResource
             'kotTransType' => $data['KOT_shubetsu__c'],
             'paymentMethod' => $data['PaymentMethod__c'],
             'accountId' => $data['Id'],
+            'serverName' => $data['ServerName__c'],
+            'phase' => $data['Field40__c'],
             'admin' => [[
                 'contactId' => $data['contact']['Id'] ?? '',
                 'email' => $data['contact']['Email'] ?? '',
@@ -107,33 +113,6 @@ class CompanyResource extends JsonResource
                 ]],
             'opportunity' => $data['opportunity']
         ];
-    }
-
-    private static function convertToLowerCase($data)
-    {
-        $items = [];
-        foreach ($data as $col => $val) {
-            if ($col == 'opportunity' && is_array($val)) { //to case items in opportunity
-                foreach ($val as $c => $v) {
-                    $items['opportunity'][strtolower($c)] = $v;
-                }
-            } elseif ($col == 'contact' && is_array($val)) {  //to case items in contact
-                foreach ($val as $c => $v) {
-                    $items['contact'][strtolower($c)] = $v;
-                }
-            } else {
-                $items[strtolower($col)] = $val;
-            }
-        }
-
-        if (isset($items['opportunity']['attributes'])) {
-            unset($items['opportunity']['attributes']);
-        }
-        if (isset($items['contact']['attributes'])) {
-            unset($items['contact']['attributes']);
-        }
-
-        return $items;
     }
 
 
@@ -158,7 +137,9 @@ class CompanyResource extends JsonResource
         'industry_sub2' => $data['Field20__c'],
         'record_type_code' => $data['Field35__c'],
         'kot_billing_start_date' => $data['Field41__c'],
-        'company_code' => $data['KotCompanyCode__c']
+        'company_code' => $data['KotCompanyCode__c'],
+        'server_name' => $data['ServerName__c'],
+        'phase' => $data['Field40__c']
       ];
     }
 }

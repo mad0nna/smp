@@ -65,6 +65,7 @@ class UserController extends Controller
             }
 
             $user = (new Contact)->findByEmailAndAccountId($request->email, Session::get('salesforceCompanyID'));
+            
             if ($user) {
                 $userData = [
                     'account_code' => $user['Id'],
@@ -76,7 +77,7 @@ class UserController extends Controller
                     'title' => $user['Title'],
                     'user_status_id' => 5,
                     'contact_num' => $user['MobilePhone'],
-                    'user_type_id' => $user['admin__c'] ? 3 :4,
+                    'user_type_id' => 4,
                     'message' => 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？',
                     'existsInDB' => false
                 ];
@@ -84,12 +85,12 @@ class UserController extends Controller
             } else {
                 $this->response['data'] = false;
             }
-        } catch (Exception $e) {
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-        }
+        } // @codeCoverageIgnoreEnd
 
         return response()->json($this->response, $this->response['code']);
     }
@@ -97,15 +98,16 @@ class UserController extends Controller
     public function getContactDetails(Request $request)
     {
         try {
-            $this->response['data'] = $this->userService->findById($request->id);
+            $data = $this->userService->findById($request->id);
+            $this->response['data'] = $data;
             $this->response['data']['canEdit'] = Auth::user()->user_type_id === 3 || (Auth::user()->id == $request->id);
-            $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3;
-        } catch (Exception $e) {
+            $this->response['data']['authorityTransfer'] = Auth::user()->user_type_id === 3 && $data['user_type_id'] !== 3;
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-        }
+        } // @codeCoverageIgnoreEnd
 
         return response()->json($this->response, $this->response['code']);
     }
@@ -137,12 +139,12 @@ class UserController extends Controller
                 'message' => 'Company admin retrieved successfully.',
                 'code' => 200,
             ];
-        } catch (Exception $e) {
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-        }
+        } // @codeCoverageIgnoreEnd
 
         return response()->json($this->response, $this->response['code']);
     }
@@ -176,21 +178,25 @@ class UserController extends Controller
             $pw = substr(md5(microtime()), rand(0, 26), 8);
             $pw_hash = Hash::make($pw);
             $invite_token = Hash::make(time() . uniqid());
-            $company = Auth::user()->company_id;
+            $company_id = Auth::user()->company_id;
+            $company_name = Auth::user()->company_name;
 
             $formData = [
                 'username' => $sf['email'] ?? '',
                 'first_name' => $sf['first_name'] ?? '',
                 'last_name' => $sf['last_name'] ?? '',
+                'firstname' => $sf['first_name'] ?? '',
+                'lastname' => $sf['last_name'] ?? '',
                 'email' => $sf['email'] ?? '',
                 'user_type_id' => 4,
-                'company_id' => $company,
+                'company_id' => $company_id,
                 'user_status_id' => 5,
                 'password' => $pw_hash,
                 'temp_pw' => $pw,
                 'invite_token' => $invite_token,
                 'account_code' => $sf['account_code'] ?? '',
                 'name' => ($sf['last_name'] ?? '') . ' ' . ($sf['first_name'] ?? ''),
+                'company_name' => $company_name,
             ];
 
             if (!$sf['isPartial']) {
@@ -200,7 +206,7 @@ class UserController extends Controller
                 $formData['user_type_id'] = $sf['user_type_id'] ?? '';
             }
 
-             // create user in Salesforce
+            // create user in Salesforce
             if ($sf['source'] === 'smp') {
                 $addInSF = (new Contact)->create([
                     'AccountId' => Auth::user()->company()->first()->account_id,
@@ -214,12 +220,10 @@ class UserController extends Controller
                     //create the user in DB
                     $formData['email'] = $userInfo['Email'];
                     $user = $this->userService->create($formData);
-                    $this->userService->resendEmailInvite($user->id);
                     $this->dbRepo->makeUserWidgetSettings($user->id);
                 }
             } else {
                 $user = $this->userService->create($formData);
-                $this->userService->resendEmailInvite($user->id);
                 $this->dbRepo->makeUserWidgetSettings($user->id);
             }
             $this->response['data'] = new UserResource($user);
@@ -304,12 +308,15 @@ class UserController extends Controller
         try {
             $data = $request->all();
             $formData = [
-                    'username' => $data['email'] ? $data['email'] : '',
-                    'first_name' => $data['firstname'] ? $data['firstname'] : '',
-                    'last_name' => $data['lastname'] ? $data['lastname'] : '',
-                    'email' => $data['email'] ? $data['email'] : '',
-                    'contact_num' => $data['phone'] ? $data['phone'] : '',
-                    'title' => $data['position'] ? $data['position'] : '',
+                    'username' => $data['email'] ?? '',
+                    'first_name' => $data['firstname'] ?? '',
+                    'last_name' => $data['lastname'] ?? '',
+                    'firstname' => $data['firstname'] ?? '',
+                    'lastname' => $data['lastname'] ?? '',
+                    'name' => ($data['LastName'] ?? '') . ' ' . ($data['FirstName'] ?? ''),
+                    'email' => $data['email'] ?? '',
+                    'contact_num' => $data['phone'] ?? '',
+                    'title' => $data['position'] ?? '',
                     'user_type_id' => $data['userTypeId'],
                 ];
             // perform user update
@@ -333,8 +340,9 @@ class UserController extends Controller
     public function updateAdminByEmail(Request $request)
     {
         try {
-            $message = '';
             $data = $request->all();
+
+            // Update Data in Salesforce
             $salesforceData = [
                 'Email' => $data['Email'],
                 'FirstName' => $data['FirstName'],
@@ -342,42 +350,39 @@ class UserController extends Controller
                 'MobilePhone' => $data['MobilePhone'],
                 'Title' => $data['Title'],
             ];
-            $formData = [
-                'first_name' => $data['FirstName'] ? $data['FirstName'] : '',
-                'last_name' => $data['LastName'] ? $data['LastName'] : '',
-                'email' => $data['Email'] ? $data['Email'] : '',
-                'contact_num' => $data['MobilePhone'] ? $data['MobilePhone'] : '',
-                'title' => $data['Title'] ? $data['Title'] : '',
-                'username' => $data['username'] ? $data['username'] : '',
-            ];
-
-
-            if ($data['changeRole']) {
-                $adminCount = User::where('company_id', Session::get('companyID'))->where('user_type_id', 3)->count();
-                $role = $data['admin__c'] == 3 ? 'promote' : 'demote';
-                if ($role === 'demote' && $adminCount <= 1) {
-                    $message = '企業情報の更新に成功しましたが、管理者権限を持つユーザーが最低１名必要なため、権限を降格することが出来ませんでした';
-                } else {
-                    $salesforceData['admin__c'] = $data['admin__c'] == 3 ? true : false;
-                    $formData['user_type_id'] = $data['admin__c'];
-                    $message = "顧客企業情報の更新に成功しました！";
-                }
-            } else {
-                $message = "顧客企業情報の更新に成功しました！";
-            }
-
             $response = (new Contact)->update($salesforceData, $data['Id']);
             if (!$response['status']) {
                 return $response;
             }
-            if (Session::get('salesforceContactID') == $data['Id']) {
-                Session::put('CompanyContactFirstname', $data['FirstName']);
-                Session::put('CompanyContactLastname', $data['LastName']);
+
+            // Update Data in Database
+            $formData = [
+                'first_name' => $data['FirstName'] ?? '',
+                'last_name' => $data['LastName'] ?? '',
+                'firstname' => $data['FirstName'] ?? '',
+                'lastname' => $data['LastName'] ?? '',
+                'name' => ($data['LastName'] ?? '') . ' ' . ($data['FirstName'] ?? ''),
+                'email' => $data['Email'] ?? '',
+                'contact_num' => $data['MobilePhone'] ?? '',
+                'title' => $data['Title'] ?? '',
+                'username' => $data['username'] ?? '',
+            ];
+            if ($data['changeRole']) {
+                $formData['user_type_id'] = $data['admin__c'];
+                $formerAdmin = User::where('account_code', Session::get('salesforceContactID'));
+                $formerAdmin->update(['user_type_id' => 4]);
             }
+
             $user = User::where('account_code', $data['Id']);
             if ($user->update($formData)) {
-                return ['status' => true, 'data' => $user, 'message' => $message];
+                // Update Session data
+                if (Session::get('salesforceContactID') == $data['Id']) {
+                    Session::put('CompanyContactFirstname', $data['FirstName']);
+                    Session::put('CompanyContactLastname', $data['LastName']);
+                }
+                return ['status' => true, 'data' => $user, 'message' => '顧客企業情報の更新に成功しました！'];
             }
+
             return ['status' => false];
         } catch (Exception $e) {
             $this->response = [
@@ -409,6 +414,8 @@ class UserController extends Controller
             // perform delete
 
             $user = $this->userService->delete((int) $id);
+            $this->response['success'] = $user;
+
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
@@ -431,7 +438,7 @@ class UserController extends Controller
           'success' => $result,
         ];
 
-        return response()->json($response, $result ? 200 : 400);
+        return response()->json($response, $result ? 200 : 500);
     }
 
     /**

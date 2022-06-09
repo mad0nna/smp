@@ -81,8 +81,6 @@ class CompanyController extends Controller
                 'message' => 'Company with admin retrieved successfully.',
                 'code' => 200,
             ];
-
-            return response()->json($this->response, $this->response['code']);
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
@@ -127,13 +125,13 @@ class CompanyController extends Controller
     public function searchCompanyId(Request $request, CompanyService $companyService)
     {
         $code = 200;
+
         try {
             $company = $companyService->getCompanyById($request->company_id);
             $result = $companyService->getAllDetailsInSFByID($company['company_code']);
             if ($result) {
                 $result = (new CompanyResource([]))->filterFromDbToFront($company);
             }
-
             $this->response = [
                 'success' => true,
                 'data' => $result,
@@ -148,16 +146,26 @@ class CompanyController extends Controller
     public function saveAddedCompany(Request $request, CompanyService $companyService)
     {
         $formData = $request->validate([
-          'companyCode' => ['required', 'unique:companies,company_code']
-        ]);
-        $formData = $this->getRecord($request);
-        $result = $companyService->addCompanyToDB($formData);
+            'companyCode' => ['required', 'unique:companies,company_code']
+          ]);
 
-        $response = [
-        'success' => $result,
-      ];
+        try {
+            $formData = $this->getRecord($request);
+            $result = $companyService->addCompanyToDB($formData);
+            $this->response = [
+                'success' => $result,
+                'code' => 200,
+            ];
 
-        return response()->json($response, 200);
+        } catch (\Exception $e) {
+            $this->response = [
+                'success' => ['status' => false],
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
+        }
+
+        return response()->json($this->response, $this->response['code']);
     }
 
     public function updateSaveAccount(Request $request, CompanyService $companyService)
@@ -166,22 +174,21 @@ class CompanyController extends Controller
         $formData = $this->getRecord($request);
         $result = $companyService->updateSaveAccount($dbId, $formData);
         $response = [
-        'success' => $result,
-      ];
+            'success' => $result,
+        ];
 
-        return response()->json($response, $result ? 200 : 400);
+        return response()->json($response, $result['status'] ? 200 : 500);
     }
-
 
     public function resendEmailInvite(Request $request, CompanyService $companyService)
     {
-        $result = $companyService->resendEmailInvite($request->user_id);
+        $status = $companyService->resendEmailInvite($request->user_id);
 
         $response = [
-        'success' => $result,
-      ];
+            'success' => $status,
+        ];
 
-        return response()->json($response, $result ? 200 : 400);
+        return response()->json($response, $status ? 200 : 500);
     }
 
     private function parseSfToDbColumn($data)
@@ -229,7 +236,6 @@ class CompanyController extends Controller
         'billing_state' => $request['billingState'] ?? '',
         'billing_postal_code' => $request['billingPostalCode'] ?? '',
         'billing_country' => $request['billingCountry'] ?? '',
-        'license_version' => $request['licenseVersion'] ?? '',
         'billing_address' => $request['billingAddress'] ?? '',
         'token' => $request['token'] ?? '',
         'contact_first_name' => $request['admin'][0]['firstName'] ?? '',
@@ -245,6 +251,8 @@ class CompanyController extends Controller
         'opportunity' => $request['opportunity'] ?? [],
         'token' => $request['token'] ?? '',
         'kot_billing_start_date' => $request['kot_billing_start_date'] ?? '',
+        'phase'=>$request['phase'] ?? '',
+        'server_name' => $request['serverName'] ?? '',
       ];
     }
 }
