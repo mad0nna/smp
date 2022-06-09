@@ -2,59 +2,56 @@
 
 namespace App\Traits;
 
-use Exception;
-use InvalidArgumentException;
-
 trait NameFormat
 {
     /**
-     * Converts two inputs to a full name and orders them accordingly
+     * Converts two inputs to a full name and orders them accordingly in Japanese format
      *
-     * @param string $firstName
      * @param string $lastName
+     * @param string $firstName
      * @return string $fullName
      */
-    public function convertToFullNameWithLastNameAsFirst(string $firstName, string $lastName)
+    public function toJapaneseFormatFullName(string $lastName, string $firstName)
     {
-        $fullName = null;
-
-        $fullName = $lastName + ' ' + $firstName;
-
-        return $fullName;
+        return $lastName . ' ' . $firstName;
     }
 
     /**
-     * Accepts an input fullname and retrieves the first name
+     * Accepts an input fullname in Japanese format and retrieves the first name
      *
      * @param string $fullName
-     * @param string $firstName
+     * @return string $firstName
      */
     public function getFirstName(string $fullName)
     {
-        $firstName = null;
+        $firstName = '';
 
         $names = explode(' ', $fullName);
 
-        // assuming that last name is first in fullname
-        $firstName = $names[1];
+        // assuming that first name is NOT the first word in "fullname" in japanese
+        if (!empty($names[1])) {
+            $firstName = $names[1];
+        }
 
         return $firstName;
     }
 
     /**
-     * Accepts an input fullname and retrieves the last name
+     * Accepts an input fullname in Japanese format and retrieves the last name
      *
      * @param string $fullName
-     * @param string $lastName
+     * @return string $lastName
      */
     public function getLastName(string $fullName)
     {
-        $lastName = null;
+        $lastName = '';
 
         $names = explode(' ', $fullName);
 
-        // assuming that last name is first in fullname
-        $lastName = $names[0];
+        // assuming that last name is the first word in "fullname" in japanese
+        if (!empty($names[0])) {
+            $lastName = $names[0];
+        }
 
         return $lastName;
     }

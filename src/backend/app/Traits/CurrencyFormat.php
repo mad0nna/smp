@@ -3,21 +3,21 @@
 namespace App\Traits;
 
 use Exception;
-use InvalidArgumentException;
-
 
 trait CurrentFormat
 {
     /**
-     * Formats the amount with currency and returns it
+     * Formats the amount returns it without decimals
      *
-     * @param string $amount
+     * @param mixed $amount
      * @return string $amount
      */
     public function formatAmountWithCurrency(mixed $amount)
     {
-        (string) $amount += ' 円(税込)';
+        if (!is_numeric($amount)) {
+            throw new Exception('System error occured, given parameter is not a valid amount.');
+        }
 
-        return $amount;
+        return $amount = number_format(floor($amount));
     }
 }
