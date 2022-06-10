@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use Exception;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 trait DateFormat
 {

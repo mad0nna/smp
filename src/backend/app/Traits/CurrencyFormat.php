@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use Exception;
 
-trait CurrentFormat
+trait CurrencyFormat
 {
     /**
      * Formats the amount returns it without decimals
@@ -12,7 +12,7 @@ trait CurrentFormat
      * @param mixed $amount
      * @return string $amount
      */
-    public function formatAmountWithoutDecimals(mixed $amount)
+    public function formatAmountWithoutDecimals($amount)
     {
         if (!is_numeric($amount)) {
             throw new Exception('System error occured, given parameter is not a valid amount.');

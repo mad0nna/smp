@@ -13,27 +13,7 @@ trait NameFormat
      */
     public function toJapaneseFormatFullName(string $lastName, string $firstName)
     {
-        return $lastName . ' ' . $firstName;
-    }
-
-    /**
-     * Accepts an input fullname in Japanese format and retrieves the first name
-     *
-     * @param string $fullName
-     * @return string $firstName
-     */
-    public function getFirstName(string $fullName)
-    {
-        $firstName = '';
-
-        $names = explode(' ', $fullName);
-
-        // assuming that first name is NOT the first word in "fullname" in japanese
-        if (!empty($names[1])) {
-            $firstName = $names[1];
-        }
-
-        return $firstName;
+        return trim($lastName . ' ' . $firstName);
     }
 
     /**
@@ -54,5 +34,25 @@ trait NameFormat
         }
 
         return $lastName;
+    }
+
+    /**
+     * Accepts an input fullname in Japanese format and retrieves the first name
+     *
+     * @param string $fullName
+     * @return string $firstName
+     */
+    public function getFirstName(string $fullName)
+    {
+        $firstName = '';
+
+        $names = explode(' ', $fullName);
+
+        // assuming that first name is NOT the first word in "fullname" in japanese
+        if (!empty($names[1])) {
+            $firstName = $names[1];
+        }
+
+        return $firstName;
     }
 }
