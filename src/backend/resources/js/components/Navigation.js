@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import ReactDOM from 'react-dom'
+import { LogoutIcon } from '../../icons'
 import idpIcon from '../../img/idp_logo.png'
 import AdminIcon from '../../img/admin-icon.png'
 import KotLogo from '../../img/KOT-menu-logo.png'
-import ArrowDownIcon from '../../img/arrowdown.png'
+import SettingsIcon from '../../img/arrowdown.png'
 
 const domElementPresent = (element) => {
   return !!document.getElementById(element)
@@ -113,6 +114,8 @@ const Navigation = () => {
           extraStyle: ''
         }
       ],
+      showInfo: false,
+      actionIcon: SettingsIcon,
       dropDownNav: {
         title: '',
         logo: '',
@@ -195,6 +198,8 @@ const Navigation = () => {
           extraStyle: ''
         }
       ],
+      showInfo: false,
+      actionIcon: SettingsIcon,
       dropDownNav: {
         title: 'IBPテクノロジー株式会社',
         logo: '',
@@ -283,6 +288,8 @@ const Navigation = () => {
           extraStyle: ''
         }
       ],
+      showInfo: true,
+      actionIcon: SettingsIcon,
       dropDownNav: {
         title: '管理者',
         logo: AdminIcon,
@@ -310,43 +317,12 @@ const Navigation = () => {
     const logisticsNavigation = {
       logo: KotLogo,
       navItem: [],
+      showInfo: false,
+      actionIcon: LogoutIcon,
       dropDownNav: {
-        title: '管理者',
-        logo: AdminIcon,
-        items: [
-          {
-            label: 'アカウント プロファイル',
-            url: '#',
-            iconNormal: 'bg-profile-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
-          },
-          {
-            label: 'お問合せ',
-            url: '#',
-            iconNormal: 'bg-call-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-default'
-          },
-          {
-            label: 'ト設定',
-            url: '/admin/settings',
-            iconNormal: 'bg-settings-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          },
-          {
-            label: 'ログアウト',
-            url: '/logout',
-            iconNormal: 'bg-signout-icon',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          }
-        ]
+        title: '',
+        logo: '',
+        items: []
       }
     }
 
@@ -398,8 +374,10 @@ const Navigation = () => {
     setState((prevState) => {
       return {
         ...prevState,
+        mainNav,
         loading: false,
-        mainNav
+        contactLastName: prevState.contactLastName,
+        contactFirstName: prevState.contactFirstName
       }
     })
   }, [])
@@ -494,19 +472,23 @@ const Navigation = () => {
           {/* START: INFO */}
           <div className="justify-center flex flex-col w-64 text-right">
             <div
+              ref={refMenu}
               id="nav-dropdown"
               className="float-right relative flex flex-row-reverse h-full space-x-2 cursor-pointer z-20 w-full"
-              onClick={() => setIsMenuOpen((oldState) => !oldState)}
-              ref={refMenu}
             >
-              <img
-                className="my-auto mx-1"
-                alt="Arrow Down Icon"
-                src={ArrowDownIcon}
-              />
+              <button
+                type="button"
+                onClick={() => setIsMenuOpen((prevState) => !prevState)}
+              >
+                <img
+                  className="my-auto mx-1"
+                  alt="Settings/Logout Icon"
+                  src={state.mainNav.actionIcon}
+                />
+              </button>
               <div
-                className="my-auto font-sans text-base text-primary-200 font-bold truncate"
                 id="companyDropdownTitle"
+                className="my-auto font-sans text-base text-body-500 font-bold truncate"
               >
                 {aPathName[1] === 'admin'
                   ? state.contactLastName + ' ' + state.contactFirstName
@@ -522,7 +504,7 @@ const Navigation = () => {
               {isMenuOpen && (
                 <div
                   id="nav-dropdown-content"
-                  className="bg-greenOld w-64 absolute top-12 right-0 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md"
+                  className="bg-greenOld w-64 absolute top-8 right-0 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md"
                 >
                   {state.mainNav.dropDownNav.items.map((item, index) => {
                     return (
@@ -546,7 +528,7 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            {aPathName[1] !== 'admin' && (
+            {state.mainNav.showInfo && (
               <div className="pl-2 flex flex-row-reverse">
                 <div className="ml-1">様</div>
                 <div className="truncate ml-1">{state.contactFirstName}</div>
