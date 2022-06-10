@@ -296,7 +296,7 @@ const ProductList = () => {
       return products.map((product, index) => {
         let prodDescription, prodPrice
         if (!_.isEmpty(product.text)) {
-          prodDescription = product.text['text.content'].replace(/<[^>]+>/g, '')
+          prodDescription = product.text['text.content']
         }
         if (!_.isEmpty(product.price)) {
           prodPrice = _.parseInt(product.price['price.value']).toLocaleString(
@@ -345,7 +345,11 @@ const ProductList = () => {
                 className="text-gray-400 text-left text-sm"
                 style={{ height: '85px' }}
               >
-                {prodDescription}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: prodDescription
+                  }}
+                />
               </p>
               <div className="text-tertiary-500 underline font-bold text-sm pt-2 cursor-pointer">
                 <Link
