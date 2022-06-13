@@ -186,6 +186,8 @@ bg-shop-icon:hover {
     position: relative;
     min-height: 165px;
     min-width: 165px;
+    max-width: 185px;
+    max-height: 185px;
     width: 100%;
     overflow: hidden;
 }
