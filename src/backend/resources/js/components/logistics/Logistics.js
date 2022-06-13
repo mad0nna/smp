@@ -9,7 +9,7 @@ const Logistics = () => {
   return (
     <div className="grid md:grid-cols-4 font-meiryo">
       <div className="bg-sideBar flex xs:col-span-4 sm:col-span-4 md:col-span-1 xs:justify-center sm:justify-center md:justify-end xs:h-fit sm:h-fit md:h-screen md:bg-transparent">
-        <nav className="w-sideBar bg-sideBar">
+        <nav className="xs:w-full md:w-sideBar bg-sideBar">
           <ul className="xs:my-2 md:mt-28">
             <li
               className={`py-3 font-bold w-sideBarBtn mx-auto mt-3 rounded-xs hover:bg-active ${
@@ -59,7 +59,7 @@ const Logistics = () => {
           </ul>
         </nav>
       </div>
-      <div className="sm:col-span-4 md:col-span-3">
+      <div className="xs:col-span-4 md:col-span-3">
         <div className="mt-14 mb-5 mx-11 border rounded-xl bg-white shadow-5x h-fit">
           {(() => {
             switch (active) {
