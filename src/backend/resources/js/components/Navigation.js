@@ -541,8 +541,9 @@ const Navigation = () => {
               }
             >
               <div className="ml-1">様</div>
-              <div className="truncate ml-1">{state.contactFirstName} </div>
-              <div className="truncate ml-1">{state.contactLastName} </div>
+              <div className="truncate ml-1">
+                {state.contactLastName + ' ' + state.contactFirstName}
+              </div>
             </div>
           </div>
         </div>
