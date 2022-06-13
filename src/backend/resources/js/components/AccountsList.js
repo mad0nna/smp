@@ -341,7 +341,7 @@ const AccountList = () => {
                         />
                       </span>
                     </th>
-                    <th className="text-right w-24">
+                    <th className="text-right w-40">
                       <span id="contactPerson">電話番号</span>
                     </th>
                     <th>
