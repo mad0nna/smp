@@ -236,15 +236,14 @@ const AccountProfileEdit = () => {
         })
         closeConfirmDialog()
       })
-      .catch(function () {
+      .catch(function (error) {
         closeConfirmDialog()
         setState((prevState) => {
           return {
             ...prevState,
             isLoading: false,
             showPopupMessageDialog: true,
-            dialogMessage:
-              'データが異なります。ご確認のうえもう一度試みてください。'
+            dialogMessage: error.response.data.error
           }
         })
       })
