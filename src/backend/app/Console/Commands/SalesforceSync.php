@@ -73,6 +73,7 @@ class SalesforceSync extends Command
                     foreach($c['users'] as $key => $u) {
                         $user = (new Contact)->findByAccountID($u['account_code']);
                         $parsedUserData = UserResource::parseSfContactColumnToDbColumn($user);
+                        $parsedUserData['company_name'] = $parsedCompanyData['name'];
                         User::where('account_code', $parsedUserData['account_code'])->update($parsedUserData);
                     }
                     $this->info('Database successfully sync from salesforce pulled records.');

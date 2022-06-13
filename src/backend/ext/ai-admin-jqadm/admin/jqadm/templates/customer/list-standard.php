@@ -110,7 +110,7 @@ $columnList = [
 	data-domain="customer"
 	data-siteid="<?= $enc->attr( $this->site()->siteid() ) ?>"
 	data-filter="<?= $enc->attr( $this->session( 'aimeos/admin/jqadm/customer/filter', new \stdClass ) ) ?>"
-	data-items="<?= $enc->attr( $this->get( 'items', map() )->call( 'toArray', [true] )->all() ) ?>">
+	data-items="<?= $enc->attr( $this->get( 'customer') ) ?>">
 
 
 	<div class="d-flex row justify-content-end" style="margin-top:1.4em">
@@ -158,8 +158,8 @@ $columnList = [
 			<table class="list-items table table-hover table-striped list-orders customer-list">
 				<thead class="list-header">
 					<tr>
-						<th class="customer-table-column customer-label">顧客企業名</th>
-						<th class="customer-table-column customer-company">顧客名</th>
+						<th class="customer-table-column customer-label">顧客名</th>
+						<th class="customer-table-column customer-company">顧客企業名</th>
 						<th class="customer-table-column customer-ctime">購⼊⽇</th>
 						<th class="customer-table-column customer-email">メールアドレス</th>
 						<th class="customer-table-column action">操作</th>
@@ -167,7 +167,7 @@ $columnList = [
 				</thead>
 				<tbody>
 
-					<?php foreach( $this->get( 'items', [] ) as $id => $item ) : ?>
+					<?php foreach( $this->get( 'customers', [] ) as $id => $item ) : ?>
 						<?php $address = $item->getPaymentAddress() ?>
 						<?php $url = $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['id' => $id] + $params, [], $getConfig ) ) ?>
 						<tr class="list-item  " data-label="<?= $enc->attr( $item->getLabel() ?: $item->getCode() ) ?>">
@@ -189,7 +189,7 @@ $columnList = [
 								<td class="customer-code"><a class="items-field" href="<?= $url ?>" tabindex="1"><?= $enc->html( $item->getCode() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'customer.label', $fields ) ) : ?>
-								<td class="customer-label"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $item->getLabel() ) ?></a></td>
+								<td class="customer-label"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getLastname() ) . ' ' .  $enc->html( $address->getFirstname() ) ?></a></td>
 							<?php endif ?>
 							<?php if( in_array( 'customer.salutation', $fields ) ) : ?>
 								<td class="customer-salutation"><a class="items-field" href="<?= $url ?>"><?= $enc->html( $address->getSalutation() ) ?></a></td>
@@ -281,9 +281,9 @@ $columnList = [
 			</table>
 		</div>
 
-		<?php if( $this->get( 'items', map() )->isEmpty() ) : ?>
+		<?php if(count( $this->get( 'customers' ) ) == 0) { ?>
 			<div class="noitems"><?= $enc->html( sprintf( $this->translate( 'admin', 'No items found' ) ) ) ?></div>
-		<?php endif ?>
+		<?php } ?>
 	</form>
 
 	<?= $this->partial(

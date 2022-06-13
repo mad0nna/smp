@@ -4,10 +4,14 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\File;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
-class BillingTest extends TestCase
+class FileTest extends TestCase
 {
     /** @var Object */
     private static $COMPANY_ADMIN;
@@ -17,6 +21,7 @@ class BillingTest extends TestCase
      *
      * @var string
      */
+    private static $zuoraAccessToken;
     private static $companyID;
     private static $salesforceCompanyID;
     private static $email;
@@ -31,6 +36,8 @@ class BillingTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        self::$zuoraAccessToken= config('app.zuora_api_token');
 
         $user = User::where('username','pineda.pcb@sprobe.com')->firstOrFail();
 
@@ -84,7 +91,7 @@ class BillingTest extends TestCase
     }
 
     /**
-     * BillingTest constructor.
+     * FileTest constructor.
      */
     public function __construct()
     {
@@ -93,113 +100,122 @@ class BillingTest extends TestCase
     }
 
     /**
-     * Unpaid billing information test success
+     * File Test Upload test success
      */
-    public function testUnpaidBillingInformationSuccess()
+    public function testFileUpload()
     {
+        $file = UploadedFile::fake()->create('file.csv');
+
+        $params = [
+            'file' => $file,
+            'month_of_billing' => '2020-01',
+            'salesforce_id' => self::$salesforceCompanyID,
+        ];
+
+        $response = $this->withHeaders([
+                            'authorization-zuora' => self::$zuoraAccessToken,
+                            'accept' => 'application/json'
+                        ])->json('POST', '/zuora', $params);
+
+        $response->assertStatus(200);
+
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * File Test Upload test invalid file format
+     */
+    public function testFileUploadInvalidFileFormat()
+    {
+        $file = UploadedFile::fake()->create('file.pdf');
+
+        $params = [
+            'file' => $file,
+            'month_of_billing' => '2020-01',
+            'salesforce_id' => self::$salesforceCompanyID,
+        ];
+
+        $response = $this->withHeaders([
+                            'authorization-zuora' => self::$zuoraAccessToken,
+                            'accept' => 'application/json'
+                        ])->json('POST', '/zuora', $params);
+
+        // error code for invalid input
+        $response->assertStatus(422);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * File Test Download test success
+     */
+    public function testFileDownloadSuccess()
+    {
+        $latestFile = File::latest()->first();
+        $params = [
+            'id' => $latestFile->id,
+        ];
+
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getUnpaidBillingInformation');
+                            ->json('POST', '/company/downloadBillingHistoryCSV', $params);
 
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
+
+        $this->deleteLatestFile();
     }
 
     /**
-     * Unpaid billing information test fail wrong company input
+     * File Test Download test fail on invalid parameters
      */
-    public function testUnpaidBillingInformationFailWrongInput()
+    public function testFileDownloadInvalidFileParameters()
     {
-        // purposely using different input
-        $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
-        $incorrectCompanyName = 'aaaaaaaaaa';
-
-        Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
-        Session::put('companyName', $incorrectCompanyName);
-        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
-        self::$sessionData['companyName'] = $incorrectCompanyName;;
+        $params = [
+            '__ID' => '99999999',
+        ];
 
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getUnpaidBillingInformation');
+                            ->json('POST', '/company/downloadBillingHistoryCSV', $params);
 
-        $response->assertStatus(500);
+        $response->assertStatus(422);
         $result = json_decode((string) $response->getContent());
     }
 
     /**
-     * Get invoice index success
+     * File Test Download test fail on id that does not exist
      */
-    public function testGetInvoiceIndexSuccess()
+    public function testFileDownloadInvalidFileId()
     {
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getBilling');
+        $params = [
+            'id' => 99999999,
+        ];
 
-        $response->assertStatus(200);
+        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
+                        ->json('POST', '/company/downloadBillingHistoryCSV', $params);
+
+        $response->assertStatus(422);
         $result = json_decode((string) $response->getContent());
     }
 
     /**
-     * Get invoice index success
+     * Helper function that deletes a newly created file
      */
-    public function testGetInvoiceIndexFail()
+    private function deleteLatestFile()
     {
-        // purposely using different input
-        $incorrectSalesforceCompanyID = 'aaaaaaaaaa';
+        DB::beginTransaction();
 
-        Session::put('salesforceCompanyID', $incorrectSalesforceCompanyID);
-        self::$sessionData['salesforceCompanyID'] = $incorrectSalesforceCompanyID;
+        try {
+            // delete newly created file
+            $file = File::latest()->first();
 
-        $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getBilling');
+            if ($file instanceof File) {
+                $file->delete();
+            }
 
-        $response->assertStatus(500);
-        $result = json_decode((string) $response->getContent());
-    }
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
 
-    /**
-     * Get invoice index success with list or an empty list
-     */
-    public function testGetInvoicePDFSuccess()
-    {
-        $invoiceList = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getBilling');
-
-        if (!empty($invoiceList)) {
-            $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                                ->withHeaders([
-                                    'invoiceFileId' => $invoiceList[0]['body'],
-                                    'invoiceNumber' => $invoiceList[0]['invoiceNumber'],
-                                    'accountNumber' => $invoiceList[0]['accountNumber'],
-                                ])
-                                ->json('POST', '/company/getInvoicePDF');
-
-            $response->assertStatus(200);
-            $result = json_decode((string) $response->getContent());
-        } else {
-            $this->assertEmpty($invoiceList);
-        }
-    }
-
-    /**
-     * Get invoice index success with wrong input
-     */
-    public function testGetInvoicePDFWrongInput()
-    {
-        $invoiceList = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                            ->json('GET', '/company/getBilling');
-
-        if (!empty($invoiceList)) {
-            $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)
-                                ->withHeaders([
-                                    'invoiceFileId' => 'randomString123456',
-                                    'invoiceNumber' => 'randomString123456',
-                                    'accountNumber' => 'randomString123456',
-                                ])
-                                ->json('POST', '/company/getInvoicePDF');
-
-            $response->assertStatus(500);
-            $result = json_decode((string) $response->getContent());
-        } else {
-            $this->assertEmpty($invoiceList);
+            throw $th;
         }
     }
 }
