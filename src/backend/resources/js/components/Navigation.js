@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import ReactDOM from 'react-dom'
-import { LogoutIcon } from '../../icons'
 import idpIcon from '../../img/idp_logo.png'
 import AdminIcon from '../../img/admin-icon.png'
+import KotIcon from '../../img/admin/kot-icon.png'
 import KotLogo from '../../img/KOT-menu-logo.png'
 import SettingsIcon from '../../img/arrowdown.png'
+import { LogoutIcon, BellIcon } from '../../icons'
 
 const domElementPresent = (element) => {
   return !!document.getElementById(element)
@@ -387,99 +388,96 @@ const Navigation = () => {
     localStorage.removeItem('pendingWidgetCoordinates')
   }
 
+  const setAction = () => {
+    if (state.mainNav.dropDownNav.items.length) {
+      setIsMenuOpen((prevState) => !prevState)
+    } else {
+      window.open('/logout', '_self')
+    }
+  }
+
+  const renderMenu = () => {
+    const content = []
+
+    state.mainNav.navItem.map((item, index) => {
+      let activeTextColor = item.isActive ? 'text-white' : 'text-gray-400'
+      let activeIcon = item.isActive ? item.iconActive : item.iconNormal
+      let activeBackground = item.isActive ? 'bg-green-500' : ''
+
+      if (!item.isActive && item.childUrl.indexOf(location.pathname) !== -1) {
+        activeIcon = item.iconActive
+        activeTextColor = 'text-white'
+        activeBackground = 'bg-green-500'
+      }
+
+      content.push(
+        <li
+          className={`group text-center py-5 w-36 hover:bg-green-500 hover:text-white ${activeBackground} ${activeTextColor}`}
+          key={index}
+        >
+          <a href={item.url} className={item.extraStyle}>
+            <div
+              className={`${item.iconSize} ${activeIcon} ${item.iconHover} ${activeBackground} relative mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover`}
+            >
+              {item.url === '/company/billing' &&
+                unpaidBillingInfo &&
+                unpaidBillingInfo.is_bank_transfer === true &&
+                unpaidBillingInfo.total_billed_amount != null && (
+                  <img
+                    alt="Red Bell"
+                    className="h-6 w-6 absolute -top-3 -right-2"
+                    src={BellIcon}
+                  />
+                )}
+            </div>
+            <div>
+              <p className="font-sans mt-1">{item.label}</p>
+            </div>
+          </a>
+        </li>
+      )
+    })
+
+    return <ul className="flex flex-row justify-center h-24">{content}</ul>
+  }
+
   return (
     <div
-      className={`bg-white px-8 h-24 shadow-lg ${
+      className={`bg-white shadow-lg ${
         !domElementPresent('navigation-logistics') ? 'mb-8' : ''
       }`}
     >
       {state.loading ? (
         ''
       ) : (
-        <div className="flex flex-row justify-between items-center">
+        <div className="grid grid-cols-4">
           {/* START: Logo */}
-          <div className="w-48">
+          <div className="col-span-1 m-auto">
             <img
-              alt="Navigation Logo"
-              className="align-content-center h-auto"
+              alt="Kot Logo - SM"
+              className="xs:hidden md:block"
               src={state.mainNav.logo}
+            />
+            <img
+              alt="Kot Logo - XS"
+              className="xs:w-3/4 xs:block md:hidden"
+              src={KotIcon}
             />
           </div>
           {/* END: Logo */}
 
           {/* START: MENU */}
-          <div className="flex-grow">
-            <ul className="flex flex-row justify-center h-24">
-              {state.mainNav.navItem.map((item, index) => {
-                let activeTextColor = item.isActive
-                  ? 'text-white'
-                  : 'text-gray-400'
-                let activeIcon = item.isActive
-                  ? item.iconActive
-                  : item.iconNormal
-                let activeBackground = item.isActive ? 'bg-green-500' : ''
-
-                if (
-                  !item.isActive &&
-                  item.childUrl.indexOf(location.pathname) !== -1
-                ) {
-                  activeIcon = item.iconActive
-                  activeTextColor = 'text-white'
-                  activeBackground = 'bg-green-500'
-                }
-
-                return (
-                  <li
-                    className={`group text-center py-5 w-36 hover:bg-green-500 hover:text-white ${activeBackground} ${activeTextColor}`}
-                    key={index}
-                  >
-                    <a href={item.url} className={item.extraStyle}>
-                      <div>
-                        <div
-                          className={`${item.iconSize} ${activeIcon} ${item.iconHover} ${activeBackground} relative mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover`}
-                        >
-                          {item.url === '/company/billing' &&
-                            unpaidBillingInfo &&
-                            unpaidBillingInfo.is_bank_transfer === true &&
-                            unpaidBillingInfo.total_billed_amount != null && (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6 absolute -top-3 -right-2"
-                                viewBox="0 0 24 24"
-                                fill="#EF4444"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                                />
-                              </svg>
-                            )}
-                        </div>
-                      </div>
-                      <div>
-                        <p className="font-sans mt-1">{item.label}</p>
-                      </div>
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
+          <div className="md:col-span-2 md:block xs:hidden">{renderMenu()}</div>
           {/* END: MENU */}
 
           {/* START: INFO */}
-          <div className="justify-center flex flex-col w-64 text-right">
+          <div className="text-right xs:col-span-3 md:col-span-1 my-auto">
             <div
               ref={refMenu}
               id="nav-dropdown"
-              className="float-right relative flex flex-row-reverse h-full space-x-2 cursor-pointer z-20 w-full"
+              className="flex flex-row-reverse mr-10"
             >
-              <button
-                type="button"
-                onClick={() => setIsMenuOpen((prevState) => !prevState)}
-              >
+              <button type="button" onClick={() => setAction()}>
                 <img
                   className="my-auto mx-1"
                   alt="Settings/Logout Icon"
@@ -488,7 +486,7 @@ const Navigation = () => {
               </button>
               <div
                 id="companyDropdownTitle"
-                className="my-auto font-sans text-base text-body-500 font-bold truncate"
+                className="my-auto font-sans md:text-base xs:text-xs text-body-500 font-bold truncate"
               >
                 {aPathName[1] === 'admin'
                   ? state.contactLastName + ' ' + state.contactFirstName
@@ -504,7 +502,7 @@ const Navigation = () => {
               {isMenuOpen && (
                 <div
                   id="nav-dropdown-content"
-                  className="bg-greenOld w-64 absolute top-8 right-0 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md"
+                  className="bg-greenOld z-20 w-64 absolute top-20 right-0 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md"
                 >
                   {state.mainNav.dropDownNav.items.map((item, index) => {
                     return (
@@ -529,7 +527,7 @@ const Navigation = () => {
               )}
             </div>
             {state.mainNav.showInfo && (
-              <div className="pl-2 flex flex-row-reverse">
+              <div className="pl-2 flex flex-row-reverse mr-10">
                 <div className="ml-1">様</div>
                 <div className="truncate ml-1">{state.contactFirstName}</div>
                 <div className="truncate ml-1">{state.contactLastName}</div>
@@ -537,6 +535,14 @@ const Navigation = () => {
             )}
           </div>
           {/* END: INFO */}
+
+          {/* START: RESPONSIVE NAV */}
+          {state.mainNav.dropDownNav.items.length > 0 && (
+            <div className="xs:col-span-4 xs:block md:hidden">
+              {renderMenu()}
+            </div>
+          )}
+          {/* END: RESPONSIVE NAV */}
         </div>
       )}
     </div>
