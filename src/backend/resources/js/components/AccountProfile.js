@@ -86,7 +86,7 @@ const AccountProfileEdit = () => {
         break
       case 'phone':
         key = 'MobilePhone'
-        if (/^[1-9１-９]{10,11}/g.test(val) || val === null) {
+        if (/^[1-9１-９]{10,11}/g.test(val) || val === null || val === '') {
           errorMessage = ''
         } else {
           errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
@@ -160,7 +160,7 @@ const AccountProfileEdit = () => {
         case 'phone':
           key = 'MobilePhone'
           val = state.account.phone
-          if (/^[1-9１-９]{10,11}/g.test(val) || val === null) {
+          if (/^[1-9１-９]{10,11}/g.test(val) || val === null || val === '') {
             errorMessage = ''
           } else {
             errorMessage =
