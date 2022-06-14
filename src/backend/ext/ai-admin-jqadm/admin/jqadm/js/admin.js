@@ -720,6 +720,10 @@ Aimeos.Form = {
 				
 			} else {
 				$(this).removeClass("is-invalid").addClass("is-valid");
+				if (!$(".item-content").find('.is-invalid')[0]) {
+					$(".nav-link, .act-save").removeClass("is-invalid");
+				}
+				
 			}
 		});
 	},
