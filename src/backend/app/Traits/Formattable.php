@@ -29,7 +29,7 @@ trait Formattable
      * @param string $firstName
      * @return string $fullName
      */
-    public function formatToJapaneseFullname(string $lastName, string $firstName)
+    public function formatToJapaneseFullName(string $lastName, string $firstName)
     {
         return trim($lastName . ' ' . $firstName);
     }

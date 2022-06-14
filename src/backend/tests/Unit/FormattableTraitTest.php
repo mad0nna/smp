@@ -65,7 +65,7 @@ class FormattableTraitTest extends TestCase
      */
     public function testFormatToJapaneseFullName()
     {
-        $fullName = $this->formatToJapaneseFullname('Doe', 'John');
+        $fullName = $this->formatToJapaneseFullName('Doe', 'John');
         $this->assertEquals('Doe John', $fullName);
     }
     /**
@@ -73,7 +73,7 @@ class FormattableTraitTest extends TestCase
      */
     public function testFormatToJapaneseFullNameWithOnlyLastName()
     {
-        $fullName = $this->formatToJapaneseFullname('Doe', '');
+        $fullName = $this->formatToJapaneseFullName('Doe', '');
         $this->assertEquals('Doe', $fullName);
     }
     /**
@@ -81,7 +81,7 @@ class FormattableTraitTest extends TestCase
      */
     public function testFormatToJapaneseFullNameWithOnlyFirstName()
     {
-        $fullName = $this->formatToJapaneseFullname('', 'John');
+        $fullName = $this->formatToJapaneseFullName('', 'John');
         $this->assertEquals('John', $fullName);
     }
     /**
@@ -89,7 +89,7 @@ class FormattableTraitTest extends TestCase
      */
     public function testFormatToJapaneseFullNameWithEmptyParameter()
     {
-        $fullName = $this->formatToJapaneseFullname('', '');
+        $fullName = $this->formatToJapaneseFullName('', '');
         $this->assertEmpty($fullName);
     }
 
