@@ -86,9 +86,7 @@ const AccountProfileEdit = () => {
         break
       case 'phone':
         key = 'MobilePhone'
-        if (val == '') {
-          errorMessage = ''
-        } else if (/^[1-9１-９]{10,11}/g.test(val)) {
+        if (/^[1-9１-９]{10,11}/g.test(val) || val === null || val === '') {
           errorMessage = ''
         } else {
           errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
@@ -162,9 +160,7 @@ const AccountProfileEdit = () => {
         case 'phone':
           key = 'MobilePhone'
           val = state.account.phone
-          if (val == '') {
-            errorMessage = ''
-          } else if (/^[1-9１-９]{10,11}/g.test(val)) {
+          if (/^[1-9１-９]{10,11}/g.test(val) || val === null || val === '') {
             errorMessage = ''
           } else {
             errorMessage =
@@ -236,15 +232,14 @@ const AccountProfileEdit = () => {
         })
         closeConfirmDialog()
       })
-      .catch(function () {
+      .catch(function (error) {
         closeConfirmDialog()
         setState((prevState) => {
           return {
             ...prevState,
             isLoading: false,
             showPopupMessageDialog: true,
-            dialogMessage:
-              'データが異なります。ご確認のうえもう一度試みてください。'
+            dialogMessage: error.response.data.error
           }
         })
       })
