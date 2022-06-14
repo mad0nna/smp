@@ -643,14 +643,14 @@ const CompanyProfile = () => {
                   </label>
                 </div>
                 <div className="md:w-2/3 flex-grow">
-                  <label
+                  <p
                     className={
                       (state.isEditingProfile ? 'hidden' : '') +
                       ' text-sm text-black w-full px-3 leading-8'
                     }
                   >
                     {state.companyDetails.companyName}
-                  </label>
+                  </p>
                   <input
                     className={
                       (state.isEditingProfile ? '' : 'hidden') +
