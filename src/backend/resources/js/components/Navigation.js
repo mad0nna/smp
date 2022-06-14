@@ -132,7 +132,7 @@ const Navigation = () => {
             }
           },
           {
-            label: '設定',
+            label: 'ウィジット設定',
             url: '/company/setting/widget',
             iconNormal: 'bg-settings-icon-white',
             iconHover: '',
