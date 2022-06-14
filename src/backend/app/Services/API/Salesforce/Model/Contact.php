@@ -12,7 +12,7 @@ class Contact extends Model
         }
         return reset($adminDetails['records']);
     }
-    
+
     public function findByAccountID($accountID) {
         $contacts = $this->client->get('/services/data/v34.0/sobjects/contact/' . $accountID . '?fields=Name, Id, FirstName, LastName, Email, Title, MobilePhone, section__c, admin__c, CreatedDate');
         if (isset($contacts['status']) && !$contacts['status']) {

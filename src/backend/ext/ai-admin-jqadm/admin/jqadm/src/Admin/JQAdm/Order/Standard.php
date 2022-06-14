@@ -252,7 +252,9 @@ class Standard
 			$view->items = $manager->search( $search, [], $total );
 			$view->baseItems = $this->getOrderBaseItems( $view->items );
 			foreach( $view->baseItems as $item ) {
-				$view->customer = $item->getCustomerItem()->toArray();
+				if ($item->getCustomerItem() != null) {
+					$view->customer = $item->getCustomerItem()->toArray();
+				}			
 			}
 			$view->filterAttributes = $manager->getSearchAttributes( true );
 			$view->filterOperators = $search->getOperators();

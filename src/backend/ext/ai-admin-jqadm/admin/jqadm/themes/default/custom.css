@@ -259,6 +259,7 @@ p.upload-csv input {
 
 .aimeos table.list-items th.product-table-column-product-price {
   text-align: right;
+  width: 130px;
 }
 
 .aimeos table.list-items td.product-code {

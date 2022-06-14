@@ -109,7 +109,9 @@ $enc = $this->encoder();
 											v-on:blur="checkNumber($event)" v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'unit_price' ) ) ) ?>`.replace('idx', idx)"
 											placeholder="<?= $enc->attr( $this->translate( 'admin', '単価' ) ) ?>"
 											v-bind:readonly="item['price.siteid'] != siteid"
-											v-model="item['unit_price']" />
+											v-model="item['unit_price']"
+											max = "9999999999"
+											/>
 									</div>
 								</div>
 								<div class="form-group row col-xl-5">
@@ -119,7 +121,10 @@ $enc = $this->encoder();
 											v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'min_qty' ) ) ) ?>`.replace('idx', idx)"
 											placeholder="<?= $enc->attr( $this->translate( 'admin', '最小販売数' ) ) ?>"
 											v-bind:readonly="item['price.siteid'] != siteid"
-											v-model="item['min_qty']" />
+											v-model="item['min_qty']"
+											max = "9999999999"
+											/>
+											
 									</div>
 								</div>
 							</div>
@@ -132,7 +137,9 @@ $enc = $this->encoder();
 										v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.value' ) ) ) ?>`.replace('idx', idx)"
 										placeholder="販売価格   " 
 										v-bind:readonly="item['price.siteid'] != siteid"
-										v-model="item['price.value']" />
+										v-model="item['price.value']"
+										max = "9999999999"
+										/>
 								</div>
 							</div>
 

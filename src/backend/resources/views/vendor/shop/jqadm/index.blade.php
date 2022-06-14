@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://dxpf-invoice.s3.ap-northeast-1.amazonaws.com; style-src 'unsafe-inline' 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; script-src 'unsafe-eval' 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://smp-staging.s3.ap-northeast-1.amazonaws.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://*.tile.openstreetmap.org https://aimeos.org; frame-src https://www.youtube.com">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://dxpf-invoice.s3.ap-northeast-1.amazonaws.com; style-src 'unsafe-inline' 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; script-src 'unsafe-eval' 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; img-src * 'self' data: blob: https://smp-staging.s3.ap-northeast-1.amazonaws.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://*.tile.openstreetmap.org https://aimeos.org; frame-src https://www.youtube.com">
 
 		<title>{{ config('app.name', 'Idaten') }}</title>
 		<link rel="shortcut icon" href="{{ asset('images/kotFabIcon.png') }}">
@@ -113,23 +113,15 @@
 							@php
 								$user = \App\Models\User::find(Auth::user()->id);
 							@endphp
-							<p class="text-base h6 fs-6 text-primary-200 px-2 pt-1 font-sans" id="companyDropwdownTitle" style="font-size: 1.1rem!important; font-weight: 600!important; text-shadow: 1px 1px 2px #e8e8e8;">@php echo $user['last_name'] . ' ' . $user['first_name'] @endphp</p>
+							<p class="text-base h6 fs-6 text-primary-200 px-2 pt-1 font-sans truncate" id="companyDropwdownTitle" style="font-size: 1.1rem!important; font-weight: 600!important; text-shadow: 1px 1px 2px #e8e8e8;">@php echo $user['last_name'] . ' ' . $user['first_name'] @endphp</p>
 							<div class="" style="position:relative;">
 							<a class="" href="#" id="dropdown05" data-bs-toggle="dropdown" aria-expanded="false">
 									<img alt="setting icon" src="/images/arrowdown.png">
 								</a>
 							<ul class="dropdown-menu dd-nav" aria-labelledby="dropdown05" data-bs-popper="none"  >
 								<li>
-									<label class="bg-profile-icon-white" style=""></label>
-									<a class="dropdown-item" href="#">アカウント プロファイル</a>
-								</li>
-								<li>
-									<label class="bg-call-icon-white" style=""></label>
-									<a class="dropdown-item" href="#">お問合せ</a>
-								</li>
-								<li>
 									<label class="bg-settings-icon-white" style=""></label>
-									<a class="dropdown-item" href="/admin/settings">ト設定</a>
+									<a class="dropdown-item" href="/admin/settings">設定</a>
 								</li>
 								<li>
 									<label class="bg-signout-icon" style=""></label>

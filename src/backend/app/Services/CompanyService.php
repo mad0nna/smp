@@ -38,7 +38,6 @@ class CompanyService
             try {
                 $usageData['serviceUsageDate'] = $kotUsageData;
                 $usageData['numberOfSubscribers'] = $this->getNumberSubscribers($companyID);
-                
                 $usageData['numberOfActiveKOTUsers'] = (int)(new KOTRepository)->getAllQtyEmployees($kotToken, date("Y-m-d", strtotime("last day of previous month")));
                 $invoice = (new BillingController)->getLatestInvoiceDetails($companyID);
 
@@ -50,8 +49,7 @@ class CompanyService
 
             } catch(Exception $e) {
                 return $e->getMessage();
-            } 
-            
+            }
         });
 
         return $usage;
@@ -127,8 +125,11 @@ class CompanyService
             $results = $this->company->whereHas('users', function ($query) use ($conditions)  {
                 return $query
                         ->where(function ($query) {
-                            $query->where('user_type_id', '!=', 1);
+                            $query->where('user_type_id', 3);
                         })
+                        ->with(['users' => function($users) {
+                            return $users->where('user_type_id', 3)->get();
+                        }])
                         ->where(function ($query) use ($conditions) {
                         $query->where('name', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('company_code', 'LIKE', "%{$conditions['keyword']}%")
@@ -140,8 +141,11 @@ class CompanyService
             })->skip($skip)->orderBy('companies.id', 'desc')->paginate($limit);
         } else {
             $results =  $this->company->whereHas('users', function ($query)  {
-                return $query->where('user_type_id', '!=', 1);
+                return $query->where('user_type_id', 3);
             })
+            ->with(['users' => function($users) {
+                return $users->where('user_type_id', 3)->get();
+            }])
             ->skip($skip)
             ->orderBy('companies.id', 'desc')
             ->paginate($limit);
@@ -226,12 +230,10 @@ class CompanyService
     public function updateTableFromSf($id, $data)
     {
         try {
-            return $company = Company::findOrfail($id)->update($data);
+            return Company::findOrfail($id)->update($data);
         } catch (Exception $e) {
             throw $e;
         }
-
-        return $company;
     }
 
     public function updateSaveAccount($dbId, $data)
@@ -263,8 +265,6 @@ class CompanyService
 
             throw $e;
         }
-
-        return $company;
     }
 
     public function resendEmailInvite($user_id)

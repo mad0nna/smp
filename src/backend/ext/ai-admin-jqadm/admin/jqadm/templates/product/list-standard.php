@@ -742,21 +742,24 @@ $columnList = [
 
 							<!-- Custom added columns for idaten for DX -->
 							<?php if( in_array( 'product.instock', $fields ) ) : ?>
-								<!-- temporary static data -->
 								<?php 
+									// get qty of stocks
 									$_s = 0;
 									$stockItems = $item->getStockItems();
 									if (isset($stockItems) && $stockItems->first()) { 
 										$_s = $stockItems->first()->toArray()['stock.stocklevel'];
 									}
+
+									//get the price in price table if it was been initialized
+									$price = 'N/A';
+									$p = $item->getListItems('price')->getRefItem()->first();
+									if ($p) { $price = number_format(floor($p->toArray()['price.value'])) . '円'; }							
 								?>
 								<td class="product-stock"><?= $_s ?> </td>
 							<?php endif ?>
 							<?php if( in_array( 'product.price', $fields ) ) : ?>
-								<!-- temporary static data -->
-								<td class="product-price">  <? $p = $item->getListItems('price')->getRefItem()->first(); ?> <? if ($p) { ?><?= number_format($p->toArray()['price.value']) ?>円<? } else { echo 'N/A'; }?> </td>
+								<td class="product-price">  <?= $price ?> </td>
 							<?php endif ?>
-							<!-- End -->
 
 							<?php if( in_array( 'product.status', $fields ) ) : ?>
 								<td class="product-status"><? if ($item->getStatus() == 1) {echo "販売中";} else {echo "⾮公開";}  ?></div></td>

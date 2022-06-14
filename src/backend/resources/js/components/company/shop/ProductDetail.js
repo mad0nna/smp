@@ -47,9 +47,8 @@ const ProductDetail = (props) => {
       )
       window.location.replace('/company/shop')
     }
-    let prodDescription = !_.isEmpty(text)
-      ? text['text.content'].replace(/<[^>]+>/g, '')
-      : ''
+
+    let prodDescription = text['text.content']
     let prodPrice = !_.isEmpty(price) ? _.parseInt(price['price.value']) : ''
     let userData = JSON.parse(document.getElementById('userData').textContent)
     let taxValue = !_.isEmpty(price) ? price['price.taxvalue'] : ''
@@ -104,17 +103,17 @@ const ProductDetail = (props) => {
     })
   }
 
-  const onDelete = (e) => {
-    if (e.keyCode === 8) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          orderNum: 2,
-          stock: state.stock + state.orderNum
-        }
-      })
-    }
-  }
+  // const onDelete = (e) => {
+  //   if (e.keyCode === 8) {
+  //     setState((prevState) => {
+  //       return {
+  //         ...prevState,
+  //         orderNum: 2,
+  //         stock: state.stock + state.orderNum
+  //       }
+  //     })
+  //   }
+  // }
 
   const handleOrderChange = (n) => {
     let currentOrder = n - 1 <= 0 ? 1 : n - 1
@@ -220,23 +219,36 @@ const ProductDetail = (props) => {
               onChange={(e) => {
                 handleOrderChange(e.target.value)
               }}
-              onKeyDown={onDelete}
+              onKeyDown={(event) => {
+                if (event.keyCode === 8) {
+                  setState((prevState) => {
+                    return {
+                      ...prevState,
+                      orderNum: 2,
+                      stock: state.stock + state.orderNum
+                    }
+                  })
+                }
+                event.preventDefault()
+              }}
             />
+            {/* ||
+                parseInt(itemCartQUantity?.quantity) ===
+                  productDetail.defaultStock */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
               fill="currentColor"
-              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold ${
+              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer ${
                 state.stock == 0 ||
                 parseInt(itemCartQUantity?.quantity) +
                   parseInt(state.orderNum) ===
-                  parseInt(productDetail.defaultStock) ||
-                parseInt(itemCartQUantity?.quantity) ===
-                  productDetail.defaultStock
+                  parseInt(productDetail.defaultStock)
                   ? 'opacity-50 cursor-not-allowed'
                   : 'cursor-pointer'
-              }`}
+              }
+              `}
               viewBox="0 0 16 16"
               onClick={() => {
                 state.stock === 0 ||
@@ -404,9 +416,17 @@ const ProductDetail = (props) => {
                 </div>
               </div>
               <div className="grid lg:grid-cols-1 col-span-1 grid-rows-2 gap-6">
-                <div className="tracking-tighter text-gray-400 text-lg mt-10">
+                <div className="tracking-tighter text-gray-400 text-lg mt-10 overflow-hidden break-words">
                   <div className="font-bold">商品説明</div>
-                  {isLoaded ? prodDescription : ''}
+                  {isLoaded ? (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: prodDescription
+                      }}
+                    />
+                  ) : (
+                    ''
+                  )}
                 </div>
                 <div className="flex flex-wrap content-end space-x-5 row-span-5 text-center">
                   <div className="space-x-5 w-full flex flex-row">
@@ -424,7 +444,8 @@ const ProductDetail = (props) => {
                           itemCartQUantity?.quantity
                           ? 'bg-opacity-50 cursor-not-allowed'
                           : ''
-                      }`}
+                      }
+                      `}
                       onClick={
                         state.orderNum <= 0 ||
                         productDetail.defaultStock <= 0 ||

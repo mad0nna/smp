@@ -43,14 +43,14 @@ class FileController extends Controller
             ];
 
             return response($fileLocation, 200, $headers);
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
         }
 
-        return response()->json($this->response, $this->response['code']);
+        return response()->json($this->response, $this->response['code']); // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -73,12 +73,12 @@ class FileController extends Controller
             $file = $this->fileService->uploadToDisk($data);
             $this->response['data'] = new FileResource($file);
             $this->response['message'] = 'Successfully uploaded file.';
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-        }
+        } // @codeCoverageIgnoreEnd
 
         return response()->json($this->response, $this->response['code']);
     }
