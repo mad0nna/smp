@@ -162,7 +162,7 @@ class LoginController extends Controller
     public function zendeskSSO()
     {
         if (empty(Session::get('email'))) {
-            redirect("404");
+            abort("404");
         }
         $now = time();
 

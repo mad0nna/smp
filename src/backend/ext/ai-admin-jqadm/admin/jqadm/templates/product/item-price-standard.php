@@ -48,7 +48,7 @@ $enc = $this->encoder();
 			<div is="draggable" v-model="items" group="price" handle=".act-move">
 				<div v-for="(item, idx) in items" v-bind:key="idx" class="group-item card">
 
-					<div v-bind:id="'item-price-group-item-' + idx" class="card-header header d-none">
+					<!-- <div v-bind:id="'item-price-group-item-' + idx" class="card-header header ">
 						<div class="card-tools-start">
 							<div class="btn btn-card-header act-show fa" v-bind:class="item['_show'] ? 'show' : 'collapsed'" v-on:click="toggle('_show', idx)"
 								v-bind:data-bs-target="'#item-price-group-data-' + idx" data-bs-toggle="collapse"
@@ -68,7 +68,7 @@ $enc = $this->encoder();
 								v-on:click.stop="remove(idx)">
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 					<div v-bind:id="'item-price-group-data-' + idx" v-bind:class="item['_show'] ? 'show' : 'collapsed'"
 						v-bind:aria-labelledby="'item-price-group-item-' + idx" role="tabpanel" class="card-block collapse row">
@@ -109,7 +109,9 @@ $enc = $this->encoder();
 											v-on:blur="checkNumber($event)" v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'unit_price' ) ) ) ?>`.replace('idx', idx)"
 											placeholder="<?= $enc->attr( $this->translate( 'admin', '単価' ) ) ?>"
 											v-bind:readonly="item['price.siteid'] != siteid"
-											v-model="item['unit_price']" />
+											v-model="item['unit_price']"
+											max = "9999999999"
+											/>
 									</div>
 								</div>
 								<div class="form-group row col-xl-5">
@@ -119,7 +121,10 @@ $enc = $this->encoder();
 											v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'min_qty' ) ) ) ?>`.replace('idx', idx)"
 											placeholder="<?= $enc->attr( $this->translate( 'admin', '最小販売数' ) ) ?>"
 											v-bind:readonly="item['price.siteid'] != siteid"
-											v-model="item['min_qty']" />
+											v-model="item['min_qty']"
+											max = "9999999999"
+											/>
+											
 									</div>
 								</div>
 							</div>
@@ -132,7 +137,9 @@ $enc = $this->encoder();
 										v-bind:name="`<?= $enc->js( $this->formparam( array( 'price', 'idx', 'price.value' ) ) ) ?>`.replace('idx', idx)"
 										placeholder="販売価格   " 
 										v-bind:readonly="item['price.siteid'] != siteid"
-										v-model="item['price.value']" />
+										v-model="item['price.value']"
+										max = "9999999999"
+										/>
 								</div>
 							</div>
 

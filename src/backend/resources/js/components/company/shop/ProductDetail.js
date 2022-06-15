@@ -47,9 +47,8 @@ const ProductDetail = (props) => {
       )
       window.location.replace('/company/shop')
     }
-    let prodDescription = !_.isEmpty(text)
-      ? text['text.content'].replace(/<[^>]+>/g, '')
-      : ''
+
+    let prodDescription = text['text.content']
     let prodPrice = !_.isEmpty(price) ? _.parseInt(price['price.value']) : ''
     let userData = JSON.parse(document.getElementById('userData').textContent)
     let taxValue = !_.isEmpty(price) ? price['price.taxvalue'] : ''
@@ -78,9 +77,9 @@ const ProductDetail = (props) => {
 
   const itemCartQUantity = items.find((data) => data.id === productDetail.id)
   const handleIncrementOrder = () => {
-    // if ( state.stock - 1 <= 0 && state.orderNum >= productDetail.defaultStock ) {
-    //   return
-    // }
+    if (state.stock - 1 <= 0 && state.orderNum >= productDetail.defaultStock) {
+      return
+    }
 
     setState((prevState) => {
       return {
@@ -117,27 +116,27 @@ const ProductDetail = (props) => {
   // }
 
   const handleOrderChange = (n) => {
-    // let currentOrder = n - 1 <= 0 ? 1 : n - 1
+    let currentOrder = n - 1 <= 0 ? 1 : n - 1
     // disable if stock is reach to limit
-    // if (state.stock - 1 <= 0 && currentOrder >= productDetail.defaultStock) {
-    //   return
-    // } else {
-    // disable if order number is less than to zero
-    if (n < 0) {
+    if (state.stock - 1 <= 0 && currentOrder >= productDetail.defaultStock) {
       return
-    }
-    setState((prevState) => {
-      let orderCount =
-        prevState.orderNum >= n ? state.orderNum - 1 : state.orderNum + 1
-      let prodStock =
-        prevState.orderNum >= n ? state.stock + 1 : state.stock - 1
-      return {
-        ...prevState,
-        orderNum: orderCount,
-        stock: prodStock
+    } else {
+      // disable if order number is less than to zero
+      if (n < 0) {
+        return
       }
-    })
-    // }
+      setState((prevState) => {
+        let orderCount =
+          prevState.orderNum >= n ? state.orderNum - 1 : state.orderNum + 1
+        let prodStock =
+          prevState.orderNum >= n ? state.stock + 1 : state.stock - 1
+        return {
+          ...prevState,
+          orderNum: orderCount,
+          stock: prodStock
+        }
+      })
+    }
   }
 
   const handleProductListPage = () => {
@@ -165,10 +164,10 @@ const ProductDetail = (props) => {
 
   const productDetailItem = () => {
     const cartQuantity = (itemCartQUantity && itemCartQUantity?.quantity) || 0
-    // const maxOrder =
-    //   productDetail?.defaultStock - parseInt(cartQuantity) === 0
-    //     ? 0
-    //     : productDetail?.defaultStock - parseInt(cartQuantity)
+    const maxOrder =
+      productDetail?.defaultStock - parseInt(cartQuantity) === 0
+        ? 0
+        : productDetail?.defaultStock - parseInt(cartQuantity)
     const stockLeft =
       parseInt(productDetail?.defaultStock) - parseInt(cartQuantity)
     return (
@@ -181,14 +180,14 @@ const ProductDetail = (props) => {
           </span>
         </td>
         <td className="text-center font-bold text-red-500 p-3">
-          {Math.sign(stockLeft) === -1 ? 0 : stockLeft || 0}
-          {/* {productDetail.defaultStock <= 0 ? (
+          {stockLeft || 0}
+          {productDetail.defaultStock <= 0 ? (
             <span className="flex justify-center items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
               在庫切れの商品
             </span>
           ) : (
             ''
-          )} */}
+          )}
         </td>
         <td className="text-center font-bold p-3">
           <div className="flex m-auto justify-center space-x-3">
@@ -216,6 +215,7 @@ const ProductDetail = (props) => {
               className="w-14 shadow-lg rounded font-bold text-red-500 border px-1 text-right"
               min="1"
               value={state.orderNum}
+              max={maxOrder && maxOrder}
               onChange={(e) => {
                 handleOrderChange(e.target.value)
               }}
@@ -240,28 +240,32 @@ const ProductDetail = (props) => {
               width="16"
               height="16"
               fill="currentColor"
-              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer
-              // 
-              //   state.stock == 0 
-              //   ||
-              //   parseInt(itemCartQUantity?.quantity) +
-              //     parseInt(state.orderNum) ===
-              //     parseInt(productDetail.defaultStock)
-              //     ? 'opacity-50 cursor-not-allowed'
-              //     : 'cursor-pointer'
-              // }`}
+              className={`bi bi-plus-circle text-gray-500 mt-1 font-semibold cursor-pointer ${
+                state.stock == 0 ||
+                parseInt(itemCartQUantity?.quantity) +
+                  parseInt(state.orderNum) ===
+                  parseInt(productDetail.defaultStock)
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'cursor-pointer'
+              }
+              `}
               viewBox="0 0 16 16"
               onClick={() => {
-                // console.log();
-                // state.stock === 0 ? null :
-                handleIncrementOrder()
+                state.stock === 0 ||
+                parseInt(itemCartQUantity?.quantity) +
+                  parseInt(state.orderNum) ===
+                  productDetail.defaultStock ||
+                parseInt(itemCartQUantity?.quantity) ===
+                  productDetail.defaultStock
+                  ? null
+                  : handleIncrementOrder()
               }}
             >
               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
               <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
             </svg>
           </div>
-          {/* {state.orderNum == productDetail.defaultStock ||
+          {state.orderNum == productDetail.defaultStock ||
           parseInt(itemCartQUantity?.quantity) + parseInt(state.orderNum) ===
             productDetail.defaultStock ||
           parseInt(itemCartQUantity?.quantity) ===
@@ -271,7 +275,7 @@ const ProductDetail = (props) => {
             </span>
           ) : (
             ''
-          )} */}
+          )}
         </td>
       </tr>
     )
@@ -412,9 +416,17 @@ const ProductDetail = (props) => {
                 </div>
               </div>
               <div className="grid lg:grid-cols-1 col-span-1 grid-rows-2 gap-6">
-                <div className="tracking-tighter text-gray-400 text-lg mt-10">
+                <div className="tracking-tighter text-gray-400 text-lg mt-10 overflow-hidden break-words">
                   <div className="font-bold">商品説明</div>
-                  {isLoaded ? prodDescription : ''}
+                  {isLoaded ? (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: prodDescription
+                      }}
+                    />
+                  ) : (
+                    ''
+                  )}
                 </div>
                 <div className="flex flex-wrap content-end space-x-5 row-span-5 text-center">
                   <div className="space-x-5 w-full flex flex-row">
@@ -425,24 +437,22 @@ const ProductDetail = (props) => {
                       キャンセル
                     </button>
                     <button
-                      className={`bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold 
-                      
-                        // state.orderNum <= 0 ||
-                        // productDetail.defaultStock <= 0 ||
-                        // productDetail.defaultStock ===
-                        //   itemCartQUantity?.quantity
-                        //   ? 'bg-opacity-50 cursor-not-allowed'
-                        //   : ''
-                      // }
+                      className={`bg-primary-200 text-white h-14 shadow-xl w-3/5 rounded-3xl font-semibold ${
+                        state.orderNum <= 0 ||
+                        productDetail.defaultStock <= 0 ||
+                        productDetail.defaultStock ===
+                          itemCartQUantity?.quantity
+                          ? 'bg-opacity-50 cursor-not-allowed'
+                          : ''
+                      }
                       `}
                       onClick={
-                        // state.orderNum <= 0 ||
-                        // productDetail.defaultStock <= 0 ||
-                        // productDetail.defaultStock ===
-                        //   itemCartQUantity?.quantity
-                        //   ? null
-                        //   :
-                        handleCartListPage
+                        state.orderNum <= 0 ||
+                        productDetail.defaultStock <= 0 ||
+                        productDetail.defaultStock ===
+                          itemCartQUantity?.quantity
+                          ? null
+                          : handleCartListPage
                       }
                     >
                       カートに追加
