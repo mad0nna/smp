@@ -26,6 +26,11 @@ return [
     ],
     'order' => [
         'manager' => [
+            'base' => [                 
+                'decorators' => [
+                    'local' => ['Myproject']
+                ]               
+            ],
             'decorators' => [
                 'local' => ['Myproject']
             ]
