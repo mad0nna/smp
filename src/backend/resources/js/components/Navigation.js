@@ -101,7 +101,7 @@ const Navigation = () => {
                 return (
                   <li key={i} className="rounded-md hover:bg-gray-100 my-2">
                     <a
-                      href="/logout"
+                      href={action.url}
                       className="flex items-center py-2 space-x-4 text-base text-white tracking-tighter"
                     >
                       {action.icon}{' '}
@@ -114,7 +114,7 @@ const Navigation = () => {
           </div>
         )}
       </div>
-      <div className="col-span-2">
+      <div className="col-span-2 py-1">
         <img
           alt="Kot Logo - SM"
           className="xs:hidden md:block"
@@ -126,7 +126,7 @@ const Navigation = () => {
           src={KotIcon}
         />
       </div>
-      <div className="col-span-2 flex justify-end">
+      <div className="col-span-2 py-1 flex justify-end items-center">
         <ul className="sm:flex-row md:flex align-right">
           {navigation.logistics.menu.map((nav, i) => {
             return (
