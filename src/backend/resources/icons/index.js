@@ -1,15 +1,7 @@
-import ProductListIcon from './product-list.svg'
-import InventoryIcon from './inventory.svg'
-import MainIcon from './mail.svg'
-import SaveIcon from './save.svg'
-import LogoutIcon from './logout.svg'
-import BellIcon from './bell.svg'
+import LogoutIcon from './Logout'
+import BellIcon from './Bell'
+import AccountIcon from './Account'
+import QuestionIcon from './Question'
+import SaveIcon from './Save'
 
-export {
-  ProductListIcon,
-  InventoryIcon,
-  MainIcon,
-  SaveIcon,
-  BellIcon,
-  LogoutIcon
-}
+export { BellIcon, LogoutIcon, AccountIcon, QuestionIcon, SaveIcon }

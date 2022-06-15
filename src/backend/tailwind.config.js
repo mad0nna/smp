@@ -74,7 +74,7 @@ module.exports = {
           100: '#1D9E4833',
           200: '#1D9E4866',
           300: '#1D9E4899',
-          400: '#1D9E48',
+          400: '#1E9E47',
           500: '#1D9E48'
         },
         body: {
@@ -82,10 +82,10 @@ module.exports = {
           200: '#76807066',
           300: '#76807099',
           400: '#768070CC',
-          500: '#768070'
+          500: '#768070',
+          600: '#808080'
         },
-        sideBar: 'rgba(0, 123, 83, 0.03)',
-        active: 'rgba(6, 95, 70, 0.1)',
+        header: '#2A853508',
         cyan: '#43BBB3',
         orange: '#FFBC03',
         lightGreen: '#6AD48D',
@@ -118,8 +118,6 @@ module.exports = {
       },
       width: {
         widgetBody: 'calc(100% - 3rem)',
-        sideBar: 260,
-        sideBarBtn: 242,
         checkBox: 16
       },
       lineHeight: {

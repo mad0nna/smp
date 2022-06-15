@@ -42,15 +42,10 @@ const EmailTemplate = () => {
         <div className="flex mt-12 mb-9 items-center">
           <button
             type="button"
-            disabled
-            className="block flex w-24 rounded-md text-white bg-primary-500 mr-3 py-2 items-center"
+            className="flex w-24 rounded-md text-white bg-primary-500 justify-center mr-3 py-2"
           >
-            <img
-              alt="Save Icon"
-              className="ml-5 mr-2 text-white-500"
-              src={SaveIcon}
-            />
-            保存
+            <SaveIcon className="w-5 h-5 mr-2" />
+            <p>保存</p>
           </button>
           <p className="text-errorColor">テンプレートが設定されていません</p>
         </div>

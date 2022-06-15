@@ -1,553 +1,154 @@
-import React, { useEffect, useState, useRef } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
-import idpIcon from '../../img/idp_logo.png'
-import AdminIcon from '../../img/admin-icon.png'
-import KotIcon from '../../img/admin/kot-icon.png'
 import KotLogo from '../../img/KOT-menu-logo.png'
-import SettingsIcon from '../../img/arrowdown.png'
-import { LogoutIcon, BellIcon } from '../../icons'
+import KotIcon from '../../img/admin/kot-icon.png'
+import { AccountIcon, QuestionIcon, LogoutIcon } from '../../icons'
 
 const domElementPresent = (element) => {
   return !!document.getElementById(element)
 }
 
 const Navigation = () => {
-  const [state, setState] = useState({
-    mainNav: {},
-    loading: true,
-    contactLastName: '',
-    contactFirstName: ''
-  })
-
   const refMenu = useRef()
-  const aPathName = location.pathname.split('/')
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
+  const [active, setActive] = useState('product-list')
+  const [showDropdown, setShowDropdown] = useState(false)
+  const navigation = {
+    admin: {},
+    company: {},
+    sales: {},
+    logistics: {
+      logo: KotLogo,
+      action: [
+        {
+          id: 'logout',
+          label: 'ログアウト',
+          url: '/logout',
+          icon: <LogoutIcon className="w-4 h-4 ml-8" />,
+          function: null
+        }
+      ],
+      menu: [
+        {
+          id: 'product-list',
+          label: '商品一覧',
+          url: null,
+          icon: null,
+          function: null
+        },
+        {
+          id: 'order-list',
+          label: '注文',
+          url: null,
+          icon: null,
+          function: null
+        },
+        {
+          id: 'email-template',
+          label: 'メールテンプレート',
+          url: null,
+          icon: null,
+          function: null
+        }
+      ]
+    }
+  }
 
   useEffect(() => {
-    fetch('/company/getUnpaidBillingInformation', {
-      method: 'get',
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then((response) => response.json())
-      .then((results) => {
-        setUnpaidBillingInfo(results.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    const checkIfClickedOutside = (e) => {
+    const backDrop = (e) => {
       if (
-        isMenuOpen &&
+        showDropdown &&
         refMenu.current &&
         !refMenu.current.contains(e.target)
       ) {
-        setIsMenuOpen(false)
+        setShowDropdown(false)
       }
     }
-    document.addEventListener('mousedown', checkIfClickedOutside)
+    document.addEventListener('mousedown', backDrop)
     return () => {
-      document.removeEventListener('mousedown', checkIfClickedOutside)
+      document.removeEventListener('mousedown', backDrop)
     }
-  }, [isMenuOpen])
-
-  useEffect(() => {
-    let mainNav = []
-    const route = location.pathname.split('/')
-
-    const companyNavigation = {
-      logo: KotLogo,
-      navItem: [
-        {
-          label: 'ダッシュボード',
-          url: '/company/dashboard',
-          childUrl: ['/company/notifications'],
-          iconNormal: 'bg-dashboard-icon',
-          iconHover: 'group-hover:bg-dashboard-icon-hover',
-          iconActive: 'bg-dashboard-icon-hover',
-          iconSize: 'h-8 w-9',
-          isActive: false,
-          extraStyle: ''
-        },
-        {
-          label: '契約',
-          url: '/company/contracts',
-          childUrl: [],
-          iconNormal: 'bg-contract-icon',
-          iconHover: 'group-hover:bg-contract-icon-hover',
-          iconActive: 'bg-contract-icon-hover',
-          iconSize: 'h-7 w-9',
-          isActive: false,
-          extraStyle: ''
-        },
-        {
-          label: '請求',
-          url: '/company/billing',
-          childUrl: [],
-          iconNormal: 'bg-billing-icon',
-          iconHover: 'group-hover:bg-billing-icon-hover',
-          iconActive: 'bg-billing-icon-hover',
-          iconSize: 'h-8 w-8',
-          isActive: false,
-          extraStyle: ''
-        },
-        {
-          label: 'アカウント',
-          url: '/company/accountslist',
-          childUrl: ['/company/account/profile/'],
-          iconNormal: 'bg-account-list-icon',
-          iconHover: 'group-hover:bg-account-list-icon-hover',
-          iconActive: 'bg-account-list-icon-hover',
-          iconSize: 'h-8 w-8',
-          isActive: false,
-          extraStyle: ''
-        },
-        {
-          label: 'ショップ',
-          url: '/company/shop',
-          childUrl: ['/company/productDetail/', 'company/cart/'],
-          iconNormal: 'bg-shop-icon',
-          iconHover: 'group-hover:bg-shop-icon-hover',
-          iconActive: 'bg-shop-icon-hover',
-          iconSize: 'h-8 w-8',
-          isActive: false,
-          extraStyle: ''
-        }
-      ],
-      showInfo: false,
-      actionIcon: SettingsIcon,
-      dropDownNav: {
-        title: '',
-        logo: '',
-        items: [
-          {
-            label: '企業プロフィール',
-            url: '/company/companyProfile',
-            iconNormal: 'bg-profile-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          },
-          {
-            label: 'お問合せ',
-            url: '#',
-            iconNormal: 'bg-call-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: 'cursor-pointer',
-            function: (e) => {
-              e.preventDefault()
-              window.open('/sso/zendesk', '_blank')
-            }
-          },
-          {
-            label: '設定',
-            url: '/company/setting/widget',
-            iconNormal: 'bg-settings-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          },
-          {
-            label: 'ログアウト',
-            url: '/logout',
-            iconNormal: 'bg-signout-icon',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: '',
-            function: clearCoordinates
-          }
-        ]
-      }
-    }
-
-    const salesNavigation = {
-      logo: idpIcon,
-      navItem: [
-        {
-          label: 'ダッシュボード',
-          url: '/sales/dashboard',
-          childUrl: [],
-          iconNormal: 'bg-dashboard-icon',
-          iconHover: 'group-hover:bg-dashboard-icon-hover',
-          iconActive: 'bg-dashboard-icon-hover',
-          iconSize: 'h-8 w-9',
-          isActive: false,
-          extraStyle: ''
-        },
-        {
-          label: '契約',
-          url: '/sales/companies',
-          childUrl: [],
-          iconNormal: 'bg-contract-icon',
-          iconHover: 'group-hover:bg-contract-icon-hover',
-          iconActive: 'bg-contract-icon-hover',
-          iconSize: 'h-7 w-9',
-          isActive: false,
-          extraStyle: ''
-        },
-        {
-          label: '請求',
-          url: '/sales/billing',
-          childUrl: [],
-          iconNormal: 'bg-billing-icon',
-          iconHover: 'group-hover:bg-billing-icon-hover',
-          iconActive: 'bg-billing-icon-hover',
-          iconSize: 'h-8 w-8',
-          isActive: false,
-          extraStyle: ''
-        }
-      ],
-      showInfo: false,
-      actionIcon: SettingsIcon,
-      dropDownNav: {
-        title: 'IBPテクノロジー株式会社',
-        logo: '',
-        items: [
-          {
-            label: 'アカウント プロファイル',
-            url: '#',
-            iconNormal: 'bg-profile-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          },
-          {
-            label: 'お問合せ',
-            url: '#',
-            iconNormal: 'bg-call-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          },
-          {
-            label: 'アカウント設定',
-            url: '#',
-            iconNormal: 'bg-settings-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          },
-          {
-            label: 'ウィジェット設定',
-            url: '#',
-            iconNormal: 'bg-widget-settings-icon',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          },
-          {
-            label: 'ログアウト',
-            url: '/logout',
-            iconNormal: 'bg-signout-icon',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          }
-        ]
-      }
-    }
-
-    const adminNavigation = {
-      logo: KotLogo,
-      navItem: [
-        {
-          label: 'ダッシュボード',
-          url: '/admin/dashboard',
-          childUrl: [],
-          iconNormal: 'bg-dashboard-icon',
-          iconHover: 'group-hover:bg-dashboard-icon-hover',
-          iconActive: 'bg-dashboard-icon-hover',
-          iconSize: 'h-8 w-9',
-          isActive: false,
-          extraStyle: ''
-        },
-        {
-          label: 'アカウント',
-          url: '/admin/accounts',
-          childUrl: [
-            '/admin/accounts/company/detail',
-            '/admin/accounts/sales/detail'
-          ],
-          iconNormal: 'bg-account-list-icon',
-          iconHover: 'group-hover:bg-account-list-icon-hover',
-          iconActive: 'bg-account-list-icon-hover',
-          iconSize: 'h-8 w-9',
-          isActive: false,
-          extraStyle: ''
-        },
-        {
-          label: 'ショップ',
-          url: '/admin/shop/jqadm/search/product?locale=ja',
-          childUrl: [],
-          iconNormal: 'bg-shop-icon',
-          iconHover: 'group-hover:bg-shop-icon-hover',
-          iconActive: 'bg-shop-icon-hover',
-          iconSize: 'h-8 w-8',
-          isActive: false,
-          extraStyle: ''
-        }
-      ],
-      showInfo: true,
-      actionIcon: SettingsIcon,
-      dropDownNav: {
-        title: '管理者',
-        logo: AdminIcon,
-        items: [
-          {
-            label: '設定',
-            url: '/admin/settings',
-            iconNormal: 'bg-settings-icon-white',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          },
-          {
-            label: 'ログアウト',
-            url: '/logout',
-            iconNormal: 'bg-signout-icon',
-            iconHover: '',
-            iconSize: 'h-5 w-5',
-            extraStyle: ''
-          }
-        ]
-      }
-    }
-
-    const logisticsNavigation = {
-      logo: KotLogo,
-      navItem: [],
-      showInfo: false,
-      actionIcon: LogoutIcon,
-      dropDownNav: {
-        title: '',
-        logo: '',
-        items: []
-      }
-    }
-
-    if (typeof route[1] != 'undefined') {
-      switch (route[1]) {
-        case 'company':
-          mainNav = companyNavigation
-          break
-        case 'admin':
-          mainNav = adminNavigation
-          break
-        case 'sales':
-          mainNav = salesNavigation
-          break
-        case 'logistics':
-          mainNav = logisticsNavigation
-          break
-        case 'employee':
-          break
-        default:
-          mainNav = companyNavigation
-          break
-      }
-    }
-
-    axios.get(location.origin + '/getLoggedinUser').then((response) => {
-      if (response.status === 200) {
-        setState((prevState) => {
-          return {
-            ...prevState,
-            contactFirstName: response.data['contactFirstName'],
-            contactLastName: response.data['contactLastName'],
-            companyName: response.data['companyName']
-          }
-        })
-
-        if (route[1] === 'admin') {
-          window.document.getElementById(
-            'companyDropdownTitle'
-          ).innerHTML = `${response.data['contactLastName']} ${response.data['contactFirstName']}`
-        }
-      }
-    })
-
-    mainNav.navItem.map((item) => {
-      item.isActive = item.url === location.pathname
-    })
-
-    setState((prevState) => {
-      return {
-        ...prevState,
-        mainNav,
-        loading: false,
-        contactLastName: prevState.contactLastName,
-        contactFirstName: prevState.contactFirstName
-      }
-    })
-  }, [])
-
-  const clearCoordinates = () => {
-    localStorage.removeItem('widgetCoordinates')
-    localStorage.removeItem('pendingWidgetCoordinates')
-  }
-
-  const setAction = () => {
-    if (state.mainNav.dropDownNav.items.length) {
-      setIsMenuOpen((prevState) => !prevState)
-    } else {
-      window.open('/logout', '_self')
-    }
-  }
-
-  const renderMenu = () => {
-    const content = []
-
-    state.mainNav.navItem.map((item, index) => {
-      let activeTextColor = item.isActive ? 'text-white' : 'text-gray-400'
-      let activeIcon = item.isActive ? item.iconActive : item.iconNormal
-      let activeBackground = item.isActive ? 'bg-green-500' : ''
-
-      if (!item.isActive && item.childUrl.indexOf(location.pathname) !== -1) {
-        activeIcon = item.iconActive
-        activeTextColor = 'text-white'
-        activeBackground = 'bg-green-500'
-      }
-
-      content.push(
-        <li
-          className={`group text-center py-5 w-36 hover:bg-green-500 hover:text-white ${activeBackground} ${activeTextColor}`}
-          key={index}
-        >
-          <a href={item.url} className={item.extraStyle}>
-            <div
-              className={`${item.iconSize} ${activeIcon} ${item.iconHover} ${activeBackground} relative mx-auto bg-cover bg-no-repeat group-hover:bg-no-repeat group-hover:bg-cover`}
-            >
-              {item.url === '/company/billing' &&
-                unpaidBillingInfo &&
-                unpaidBillingInfo.is_bank_transfer === true &&
-                unpaidBillingInfo.total_billed_amount != null && (
-                  <img
-                    alt="Red Bell"
-                    className="h-6 w-6 absolute -top-3 -right-2"
-                    src={BellIcon}
-                  />
-                )}
-            </div>
-            <div>
-              <p className="font-sans mt-1">{item.label}</p>
-            </div>
-          </a>
-        </li>
-      )
-    })
-
-    return <ul className="flex flex-row justify-center h-24">{content}</ul>
-  }
+  }, [showDropdown])
 
   return (
-    <div
-      className={`bg-white shadow-lg ${
-        !domElementPresent('navigation-logistics') ? 'mb-8' : ''
-      }`}
-    >
-      {state.loading ? (
-        ''
-      ) : (
-        <div className="grid grid-cols-4">
-          {/* START: Logo */}
-          <div className="col-span-1 m-auto">
-            <img
-              alt="Kot Logo - SM"
-              className="xs:hidden md:block"
-              src={state.mainNav.logo}
-            />
-            <img
-              alt="Kot Logo - XS"
-              className="xs:w-3/4 xs:block md:hidden"
-              src={KotIcon}
-            />
-          </div>
-          {/* END: Logo */}
-
-          {/* START: MENU */}
-          <div className="md:col-span-2 md:block xs:hidden">{renderMenu()}</div>
-          {/* END: MENU */}
-
-          {/* START: INFO */}
-          <div className="text-right xs:col-span-3 md:col-span-1 my-auto">
-            <div
-              ref={refMenu}
-              id="nav-dropdown"
-              className="flex flex-row-reverse mr-10"
-            >
-              <button type="button" onClick={() => setAction()}>
-                <img
-                  className="my-auto mx-1"
-                  alt="Settings/Logout Icon"
-                  src={state.mainNav.actionIcon}
-                />
-              </button>
-              <div
-                id="companyDropdownTitle"
-                className="my-auto font-sans md:text-base xs:text-xs text-body-500 font-bold truncate"
-              >
-                {aPathName[1] === 'admin'
-                  ? state.contactLastName + ' ' + state.contactFirstName
-                  : state.companyName}
-              </div>
-              {state.mainNav.dropDownNav.logo !== '' && (
-                <img
-                  className="my-auto"
-                  alt="Admin Icon"
-                  src={state.mainNav.dropDownNav.logo}
-                />
-              )}
-              {isMenuOpen && (
-                <div
-                  id="nav-dropdown-content"
-                  className="bg-greenOld z-20 w-64 absolute top-20 right-0 py-6 px-6 cursor-pointer rounded-l-xl rounded-b-xl shadow-md"
-                >
-                  {state.mainNav.dropDownNav.items.map((item, index) => {
-                    return (
-                      <a
-                        href={item.url}
-                        key={index}
-                        className={item.extraStyle}
-                        onClick={item.function}
-                      >
-                        <div className="flex items-center py-2 space-x-4">
-                          <div
-                            className={`${item.iconNormal} ${item.iconSize} bg-cover bg-no-repeat`}
-                          />
-                          <div className="text-sm text-white tracking-tighter">
-                            {item.label}
-                          </div>
-                        </div>
-                      </a>
-                    )
-                  })}
-                </div>
-              )}
-            </div>
-            {state.mainNav.showInfo && (
-              <div className="pl-2 flex flex-row-reverse mr-10">
-                <div className="ml-1">様</div>
-                <div className="truncate ml-1">{state.contactFirstName}</div>
-                <div className="truncate ml-1">{state.contactLastName}</div>
-              </div>
-            )}
-          </div>
-          {/* END: INFO */}
-
-          {/* START: RESPONSIVE NAV */}
-          {state.mainNav.dropDownNav.items.length > 0 && (
-            <div className="xs:col-span-4 xs:block md:hidden">
-              {renderMenu()}
-            </div>
-          )}
-          {/* END: RESPONSIVE NAV */}
+    <div className="grid grid-rows-2 grid-cols-4 bg-white shadow-lg px-11 py-1 mb-8">
+      <div className="col-span-2">
+        <div className="mx-auto">
+          <h3 className="text-xs text-body-600">Admin Sprobe 様</h3>
+          <h3 className="text-xs text-body-600">htx KING OF TIME（閲覧用）</h3>
         </div>
-      )}
+      </div>
+      <div ref={refMenu} className="col-span-2 text-right">
+        <p className="inline text-xs text-tertiary-600 w-20 w-20 py-1 px-2 mr-8 rounded-3xl hover:bg-gray-100">
+          <QuestionIcon className="w-5 h-5 mr-2 inline text-primaryBg" />
+          <span className="text-tertiary-400">ヘルプ</span>
+        </p>
+        <button
+          type="button"
+          className="inline w-5 h-5 align-middle"
+          onClick={() => {
+            setShowDropdown((prevState) => !prevState)
+          }}
+        >
+          <AccountIcon />
+        </button>
+        {showDropdown && (
+          <div
+            id="nav-dropdown-content"
+            className="border border-gray-100 bg-white px-2 z-20 w-64 absolute top-8 right-4 cursor-pointer rounded-md shadow-lg"
+          >
+            <ul>
+              {navigation.logistics.action.map((action, i) => {
+                return (
+                  <li key={i} className="rounded-md hover:bg-gray-100 my-2">
+                    <a
+                      href="/logout"
+                      className="flex items-center py-2 space-x-4 text-base text-white tracking-tighter"
+                    >
+                      {action.icon}{' '}
+                      <span className="text-tertiary-500">{action.label}</span>
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        )}
+      </div>
+      <div className="col-span-2">
+        <img
+          alt="Kot Logo - SM"
+          className="xs:hidden md:block"
+          src={navigation.logistics.logo}
+        />
+        <img
+          alt="Kot Logo - XS"
+          className="xs:w-3/4 xs:block md:hidden"
+          src={KotIcon}
+        />
+      </div>
+      <div className="col-span-2 flex justify-end">
+        <ul className="sm:flex-row md:flex align-right">
+          {navigation.logistics.menu.map((nav, i) => {
+            return (
+              <li
+                key={i}
+                className={`sm:ml-0 md:ml-24 hover:text-tertiary-400 ${
+                  active === nav.id ? 'text-tertiary-400' : 'text-body-400'
+                }`}
+                onClick={() => setActive(nav.id)}
+              >
+                <a className="block flex" href="#">
+                  {nav.label}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
     </div>
   )
 }
+
 export default Navigation
 
 if (domElementPresent('navigation')) {
