@@ -4,10 +4,10 @@ import waitingIcon from '../../img/loading-spinner.gif'
 import axios from 'axios'
 
 // accepts english, hiragana, kanji and half and full-width katakana
-const regex = new RegExp('^[ ]*[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$')
+// const regex = new RegExp('^[ ]*[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$')
 
 // regex used for removing spaces and numbers in name fields
-const spacesAndNumbersRegex = new RegExp(/\d+|\s+|[０-９]+/g)
+// const spacesAndNumbersRegex = new RegExp(/\d+|\s+|[０-９]+/g)
 
 const NewAccount = (props) => {
   const [state, setState] = useState({
@@ -31,44 +31,37 @@ const NewAccount = (props) => {
     }
   })
 
-  const handleLastNameChange = (e) => {
-    let value = e.target.value.replace(spacesAndNumbersRegex, '')
-    if (isEmpty(value) || !regex.test(value)) {
+  const handleNameChanges = (e) => {
+    let key = e.target.name
+    let val = e.target.value.trim()
+    if (isEmpty(val)) {
       return setState((prevState) => {
         return {
           ...prevState,
           disableSendButton: true,
-          lastName: value
+          [key]: val
         }
       })
     }
 
-    if (
-      !isEmpty(state.foundAccount) &&
-      !isEmpty(state.email) &&
-      regex.test(value) &&
-      regex.test(state.firstName)
-    ) {
+    // User found in Salesforce
+    if (!isEmpty(state.foundAccount) && !isEmpty(state.email)) {
       return setState((prevState) => {
         return {
           ...prevState,
           disableSendButton: false,
-          lastName: value
+          [key]: val
         }
       })
     }
 
-    if (
-      !isEmpty(state.email) &&
-      state.source === 'smp' &&
-      regex.test(value) &&
-      regex.test(state.firstName)
-    ) {
+    // User is NOT found in Salesforce
+    if (!isEmpty(state.email) && state.source === 'smp') {
       return setState((prevState) => {
         return {
           ...prevState,
-          lastName: value,
-          disableSendButton: false
+          disableSendButton: false,
+          [key]: val
         }
       })
     }
@@ -76,57 +69,7 @@ const NewAccount = (props) => {
     return setState((prevState) => {
       return {
         ...prevState,
-        lastName: value
-      }
-    })
-  }
-
-  const handleFirstNameChange = (e) => {
-    let value = e.target.value.replace(spacesAndNumbersRegex, '')
-    if (isEmpty(value) || !regex.test(value)) {
-      return setState((prevState) => {
-        return {
-          ...prevState,
-          disableSendButton: true,
-          firstName: value
-        }
-      })
-    }
-
-    if (
-      !isEmpty(state.foundAccount) &&
-      !isEmpty(state.email) &&
-      regex.test(value) &&
-      regex.test(state.lastName)
-    ) {
-      return setState((prevState) => {
-        return {
-          ...prevState,
-          disableSendButton: false,
-          firstName: value
-        }
-      })
-    }
-
-    if (
-      !isEmpty(state.email) &&
-      state.source === 'smp' &&
-      regex.test(value) &&
-      regex.test(state.lastName)
-    ) {
-      return setState((prevState) => {
-        return {
-          ...prevState,
-          firstName: value,
-          disableSendButton: false
-        }
-      })
-    }
-
-    return setState((prevState) => {
-      return {
-        ...prevState,
-        firstName: value
+        [key]: val
       }
     })
   }
@@ -358,9 +301,10 @@ const NewAccount = (props) => {
                   </label>
                   <input
                     className="text-sm col-start-4 col-span-5 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 mr-3 ml-1"
-                    onChange={handleLastNameChange}
+                    onChange={handleNameChanges}
                     value={state.lastName}
                     type="text"
+                    name="lastName"
                   />
                 </div>
                 <div className="grid grid-cols-12 gap-2 mt-2">
@@ -369,9 +313,10 @@ const NewAccount = (props) => {
                   </label>
                   <input
                     className="text-sm col-start-4 col-span-5 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3 ml-1"
-                    onChange={handleFirstNameChange}
+                    onChange={handleNameChanges}
                     value={state.firstName}
                     type="text"
+                    name="firstName"
                   />
                 </div>
               </div>
