@@ -10,11 +10,6 @@ class FormattableTraitTest extends TestCase
 {
     use Formattable;
 
-    public function __constructor()
-    {
-        //
-    }
-
     /**
      * Format Amount test without decimals
      */
@@ -68,6 +63,7 @@ class FormattableTraitTest extends TestCase
         $fullName = $this->formatToJapaneseFullName('Doe', 'John');
         $this->assertEquals('Doe John', $fullName);
     }
+
     /**
      * Japanese Format Fullname test with only last name given
      */
@@ -76,6 +72,7 @@ class FormattableTraitTest extends TestCase
         $fullName = $this->formatToJapaneseFullName('Doe', '');
         $this->assertEquals('Doe', $fullName);
     }
+
     /**
      * Japanese Format Fullname test with only first name given
      */
@@ -84,6 +81,7 @@ class FormattableTraitTest extends TestCase
         $fullName = $this->formatToJapaneseFullName('', 'John');
         $this->assertEquals('John', $fullName);
     }
+
     /**
      * Japanese Format Fullname test with empty parameter
      */
@@ -93,7 +91,7 @@ class FormattableTraitTest extends TestCase
         $this->assertEmpty($fullName);
     }
 
-        /**
+    /**
      * To JP Date Format test
      */
     public function testFormatDateToJPDatetestFormatDateToJPDate()
