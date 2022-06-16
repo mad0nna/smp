@@ -309,7 +309,7 @@ const Navigation = () => {
           //   extraStyle: 'cursor-default'
           // },
           {
-            label: '設定',
+            label: 'ウィジット設定',
             url: '/admin/settings',
             iconNormal: 'bg-settings-icon-white',
             iconHover: '',
