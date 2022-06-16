@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
+import IBPTechIcon from '../../img/idp_logo.png'
 import KotLogo from '../../img/KOT-menu-logo.png'
 import KotIcon from '../../img/admin/kot-icon.png'
 import { AccountIcon, QuestionIcon, LogoutIcon } from '../../icons'
@@ -16,23 +17,194 @@ const Navigation = () => {
 
   const navigation = {
     admin: {
-      logo: [],
-      action: [],
-      menu: []
+      logo: KotLogo,
+      action: [
+        {
+          id: 'settings',
+          label: '設定',
+          url: '/admin/settings',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'logout',
+          label: 'ログアウト',
+          url: '/logout',
+          icon: <LogoutIcon className="w-4 h-4 ml-8" />,
+          function: null
+        }
+      ],
+      menu: [
+        {
+          id: 'admin-dashboard',
+          label: 'ダッシュボード',
+          url: '/admin/dashboard',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'admin-account',
+          label: 'アカウント',
+          url: '/admin/accounts',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'admin-shop',
+          label: 'ショップ',
+          url: '/admin/shop/jqadm/search/product?locale=ja',
+          icon: null,
+          function: null
+        }
+      ]
     },
     company: {
-      logo: [],
-      action: [],
-      menu: []
+      logo: KotLogo,
+      action: [
+        {
+          id: 'company-profile',
+          label: '企業プロフィール',
+          url: '/company/companyProfile',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'sso-zendesk',
+          label: 'お問合せ',
+          url: '#',
+          icon: null,
+          function: (e) => {
+            e.preventDefault()
+            window.open('/sso/zendesk', '_blank')
+          }
+        },
+        {
+          id: 'setting-widget',
+          label: '設定',
+          url: '/company/setting/widget',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'logout',
+          label: 'ログアウト',
+          url: '/logout',
+          icon: <LogoutIcon className="w-4 h-4 ml-8" />,
+          function: resetCoordinates
+        }
+      ],
+      menu: [
+        {
+          id: 'dashboard',
+          label: 'ダッシュボード',
+          url: '/company/dashboard',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'contract',
+          label: '契約',
+          url: '/company/contracts',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'billing',
+          label: '請求',
+          url: '/company/billing',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'account-list',
+          label: 'アカウント',
+          url: '/company/accountslist',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'shop',
+          label: 'ショップ',
+          url: '/company/shop',
+          icon: null,
+          function: null
+        }
+      ]
     },
     sales: {
-      logo: [],
-      action: [],
-      menu: []
+      logo: IBPTechIcon,
+      action: [
+        {
+          id: 'action-1',
+          label: 'アカウント プロファイル',
+          url: '#',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'action-2',
+          label: 'お問合せ',
+          url: '#',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'action-3',
+          label: 'アカウント設定',
+          url: '#',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'action-4',
+          label: 'ウィジェット設定',
+          url: '#',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'logout',
+          label: 'ログアウト',
+          url: '/logout',
+          icon: <LogoutIcon className="w-4 h-4 ml-8" />,
+          function: null
+        }
+      ],
+      menu: [
+        {
+          id: 'dashboard',
+          label: 'ダッシュボード',
+          url: '/sales/dashboard',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'company',
+          label: '契約',
+          url: '/sales/companies',
+          icon: null,
+          function: null
+        },
+        {
+          id: 'billing',
+          label: '請求',
+          url: '/sales/billing',
+          icon: null,
+          function: null
+        }
+      ]
     },
     employee: {
-      logo: [],
-      action: [],
+      logo: KotLogo,
+      action: [
+        {
+          id: 'logout',
+          label: 'ログアウト',
+          url: '/logout',
+          icon: <LogoutIcon className="w-4 h-4 ml-8" />,
+          function: null
+        }
+      ],
       menu: []
     },
     logistics: {
@@ -72,14 +244,14 @@ const Navigation = () => {
     }
   }
 
-  const renderMenu = (items) => {
+  const renderNavMenu = (items) => {
     const content = []
 
     items.map((nav, i) => {
       content.push(
         <li
           key={i}
-          className={`sm:ml-0 md:ml-24 hover:text-tertiary-400 ${
+          className={`sm:ml-0 md:ml-20 hover:text-tertiary-400 ${
             active === nav.id ? 'text-tertiary-400' : 'text-body-400'
           }`}
           onClick={() => setActive(nav.id)}
@@ -92,6 +264,31 @@ const Navigation = () => {
     })
 
     return <ul className="sm:flex-row md:flex align-right">{content}</ul>
+  }
+
+  const renderActionMenu = (action) => {
+    const content = []
+
+    action.map((nav, i) => {
+      content.push(
+        <li key={i} className="rounded-md hover:bg-gray-100 my-2">
+          <a
+            href={nav.url}
+            onClick={nav.function}
+            className="flex items-center py-2 space-x-4 text-base text-white tracking-tighter"
+          >
+            {nav.icon} <span className="text-tertiary-500">{nav.label}</span>
+          </a>
+        </li>
+      )
+    })
+
+    return <ul>{content}</ul>
+  }
+
+  const resetCoordinates = () => {
+    localStorage.removeItem('widgetCoordinates')
+    localStorage.removeItem('pendingWidgetCoordinates')
   }
 
   useEffect(() => {
@@ -137,21 +334,22 @@ const Navigation = () => {
             id="nav-dropdown-content"
             className="border border-gray-100 bg-white px-2 z-20 w-64 absolute top-8 right-4 cursor-pointer rounded-md shadow-lg"
           >
-            <ul>
-              {navigation.logistics.action.map((action, i) => {
-                return (
-                  <li key={i} className="rounded-md hover:bg-gray-100 my-2">
-                    <a
-                      href={action.url}
-                      className="flex items-center py-2 space-x-4 text-base text-white tracking-tighter"
-                    >
-                      {action.icon}{' '}
-                      <span className="text-tertiary-500">{action.label}</span>
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
+            {(() => {
+              switch (userType) {
+                case 'company':
+                  return renderActionMenu(navigation.company.action)
+                case 'admin':
+                  return renderActionMenu(navigation.admin.action)
+                case 'sales':
+                  return renderActionMenu(navigation.sales.menu)
+                case 'logistics':
+                  return renderActionMenu(navigation.logistics.action)
+                case 'employee':
+                  return renderActionMenu(navigation.employee.action)
+                default:
+                  return renderActionMenu([])
+              }
+            })()}
           </div>
         )}
       </div>
@@ -171,17 +369,17 @@ const Navigation = () => {
         {(() => {
           switch (userType) {
             case 'company':
-              return renderMenu(navigation.company.menu)
+              return renderNavMenu(navigation.company.menu)
             case 'admin':
-              return renderMenu(navigation.admin.menu)
+              return renderNavMenu(navigation.admin.menu)
             case 'sales':
-              return renderMenu(navigation.sales.menu)
+              return renderNavMenu(navigation.sales.menu)
             case 'logistics':
-              return renderMenu(navigation.logistics.menu)
+              return renderNavMenu(navigation.logistics.menu)
             case 'employee':
-              return renderMenu(navigation.employee.menu)
+              return renderNavMenu(navigation.employee.menu)
             default:
-              return renderMenu([])
+              return renderNavMenu([])
           }
         })()}
       </div>
