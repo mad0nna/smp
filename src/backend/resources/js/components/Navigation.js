@@ -10,12 +10,31 @@ const domElementPresent = (element) => {
 
 const Navigation = () => {
   const refMenu = useRef()
+  const userType = location.pathname.split('/')[1]
   const [active, setActive] = useState('product-list')
   const [showDropdown, setShowDropdown] = useState(false)
+
   const navigation = {
-    admin: {},
-    company: {},
-    sales: {},
+    admin: {
+      logo: [],
+      action: [],
+      menu: []
+    },
+    company: {
+      logo: [],
+      action: [],
+      menu: []
+    },
+    sales: {
+      logo: [],
+      action: [],
+      menu: []
+    },
+    employee: {
+      logo: [],
+      action: [],
+      menu: []
+    },
     logistics: {
       logo: KotLogo,
       action: [
@@ -51,6 +70,28 @@ const Navigation = () => {
         }
       ]
     }
+  }
+
+  const renderMenu = (items) => {
+    const content = []
+
+    items.map((nav, i) => {
+      content.push(
+        <li
+          key={i}
+          className={`sm:ml-0 md:ml-24 hover:text-tertiary-400 ${
+            active === nav.id ? 'text-tertiary-400' : 'text-body-400'
+          }`}
+          onClick={() => setActive(nav.id)}
+        >
+          <a className="block flex" href="#">
+            {nav.label}
+          </a>
+        </li>
+      )
+    })
+
+    return <ul className="sm:flex-row md:flex align-right">{content}</ul>
   }
 
   useEffect(() => {
@@ -127,23 +168,22 @@ const Navigation = () => {
         />
       </div>
       <div className="col-span-2 py-1 flex justify-end items-center">
-        <ul className="sm:flex-row md:flex align-right">
-          {navigation.logistics.menu.map((nav, i) => {
-            return (
-              <li
-                key={i}
-                className={`sm:ml-0 md:ml-24 hover:text-tertiary-400 ${
-                  active === nav.id ? 'text-tertiary-400' : 'text-body-400'
-                }`}
-                onClick={() => setActive(nav.id)}
-              >
-                <a className="block flex" href="#">
-                  {nav.label}
-                </a>
-              </li>
-            )
-          })}
-        </ul>
+        {(() => {
+          switch (userType) {
+            case 'company':
+              return renderMenu(navigation.company.menu)
+            case 'admin':
+              return renderMenu(navigation.admin.menu)
+            case 'sales':
+              return renderMenu(navigation.sales.menu)
+            case 'logistics':
+              return renderMenu(navigation.logistics.menu)
+            case 'employee':
+              return renderMenu(navigation.employee.menu)
+            default:
+              return renderMenu([])
+          }
+        })()}
       </div>
     </div>
   )
