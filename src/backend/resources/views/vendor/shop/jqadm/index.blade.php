@@ -121,7 +121,7 @@
 							<ul class="dropdown-menu dd-nav" aria-labelledby="dropdown05" data-bs-popper="none"  >
 								<li>
 									<label class="bg-settings-icon-white" style=""></label>
-									<a class="dropdown-item" href="/admin/settings">設定</a>
+									<a class="dropdown-item" href="/admin/settings">ウィジット設定</a>
 								</li>
 								<li>
 									<label class="bg-signout-icon" style=""></label>
