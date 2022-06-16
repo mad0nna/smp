@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import axios from 'axios'
 import ReactDOM from 'react-dom'
 import IBPTechIcon from '../../img/idp_logo.png'
 import KotLogo from '../../img/KOT-menu-logo.png'
@@ -11,6 +12,11 @@ const domElementPresent = (element) => {
 
 const Navigation = () => {
   const refMenu = useRef()
+  const [info, setInfo] = useState({
+    firstName: '',
+    lastName: '',
+    company: ''
+  })
   const userType = location.pathname.split('/')[1]
   const [active, setActive] = useState('product-list')
   const [showDropdown, setShowDropdown] = useState(false)
@@ -222,21 +228,21 @@ const Navigation = () => {
         {
           id: 'product-list',
           label: '商品一覧',
-          url: null,
+          url: '#',
           icon: null,
           function: null
         },
         {
           id: 'order-list',
           label: '注文',
-          url: null,
+          url: '#',
           icon: null,
           function: null
         },
         {
           id: 'email-template',
           label: 'メールテンプレート',
-          url: null,
+          url: '#',
           icon: null,
           function: null
         }
@@ -256,7 +262,7 @@ const Navigation = () => {
           }`}
           onClick={() => setActive(nav.id)}
         >
-          <a className="block flex" href="#">
+          <a className="block flex" href={nav.url}>
             {nav.label}
           </a>
         </li>
@@ -275,7 +281,9 @@ const Navigation = () => {
           <a
             href={nav.url}
             onClick={nav.function}
-            className="flex items-center py-2 space-x-4 text-base text-white tracking-tighter"
+            className={`${
+              !nav.icon ? 'ml-8' : ''
+            } flex items-center py-2 space-x-4 text-base text-white tracking-tighter`}
           >
             {nav.icon} <span className="text-tertiary-500">{nav.label}</span>
           </a>
@@ -290,6 +298,21 @@ const Navigation = () => {
     localStorage.removeItem('widgetCoordinates')
     localStorage.removeItem('pendingWidgetCoordinates')
   }
+
+  useEffect(() => {
+    axios.get(location.origin + '/getLoggedinUser').then((response) => {
+      if (response.status === 200) {
+        setInfo((prevState) => {
+          return {
+            ...prevState,
+            firstName: response.data['contactFirstName'],
+            lastName: response.data['contactLastName'],
+            company: response.data['companyName']
+          }
+        })
+      }
+    })
+  }, [])
 
   useEffect(() => {
     const backDrop = (e) => {
@@ -311,8 +334,10 @@ const Navigation = () => {
     <div className="grid grid-rows-2 grid-cols-4 bg-white shadow-lg px-11 py-1 mb-8">
       <div className="col-span-2">
         <div className="mx-auto">
-          <h3 className="text-xs text-body-600">Admin Sprobe 様</h3>
-          <h3 className="text-xs text-body-600">htx KING OF TIME（閲覧用）</h3>
+          <h3 className="text-xs text-body-600">
+            {`${info.firstName} ${info.lastName} 様`}
+          </h3>
+          <h3 className="text-xs text-body-600">{`${info.company} （閲覧用）`}</h3>
         </div>
       </div>
       <div ref={refMenu} className="col-span-2 text-right">
