@@ -44,19 +44,12 @@ const NewAccount = (props) => {
       })
     }
 
-    // User found in Salesforce
-    if (!isEmpty(state.foundAccount) && !isEmpty(state.email)) {
-      return setState((prevState) => {
-        return {
-          ...prevState,
-          disableSendButton: false,
-          [key]: val
-        }
-      })
-    }
-
-    // User is NOT found in Salesforce
-    if (!isEmpty(state.email) && state.source === 'smp') {
+    if (
+      (!isEmpty(state.foundAccount) || state.source === 'smp') &&
+      !isEmpty(state.email) &&
+      !isEmpty(state.firstName) &&
+      !isEmpty(state.lastName)
+    ) {
       return setState((prevState) => {
         return {
           ...prevState,
@@ -302,6 +295,7 @@ const NewAccount = (props) => {
                   <input
                     className="text-sm col-start-4 col-span-5 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 mr-3 ml-1"
                     onChange={handleNameChanges}
+                    onKeyUp={handleNameChanges}
                     value={state.lastName}
                     type="text"
                     name="lastName"
@@ -314,6 +308,7 @@ const NewAccount = (props) => {
                   <input
                     className="text-sm col-start-4 col-span-5 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3 ml-1"
                     onChange={handleNameChanges}
+                    onKeyUp={handleNameChanges}
                     value={state.firstName}
                     type="text"
                     name="firstName"
