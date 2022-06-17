@@ -39,7 +39,7 @@ const CartList = () => {
     img_domain: userData.img_domain || '/aimeos'
   })
   const [addressData, setAddressData] = useState({
-    company_name: userData.companyCode || '',
+    company_name: userData.companyName || '',
     email: userData.email || '',
     first_name: userData.firstName || '',
     last_name: userData.lastName || '',
@@ -178,7 +178,7 @@ const CartList = () => {
   // }
   const handleOpenAddressModal = () => {
     setAddressData({
-      company_name: userData.companyCode || '',
+      company_name: userData.companyName || '',
       email: userData.email || '',
       first_name: userData.firstName || '',
       last_name: userData.lastName || '',

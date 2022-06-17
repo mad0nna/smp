@@ -502,3 +502,15 @@ p.upload-csv input {
   font-family: Meiryo-UI;
   line-height: 1.2;
 }
+
+#txtProductPrice {
+  padding-right: 1.6rem!important;
+}
+
+#txtTaxRate {  
+  padding-right: 2rem;
+}
+
+#txtUnitPrice {
+  padding-right: 1.6rem!important;
+}

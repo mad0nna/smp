@@ -11,123 +11,121 @@ const InvoiceTemplateDetailTable = () => {
       </thead>
       <tbody className="text-left text-xs">
         <tr>
-          <td>[INVOICE_NUMBER]</td>
+          <td>«Inv.InvoiceNumber»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[INVOICE_DATE]</td>
+          <td>«Inv.InvoiceDate»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[DUE_DATE]</td>
+          <td>«Account.Name»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td className="font-bold">H&T Details</td>
-          <td className="font-bold">H&T Details</td>
-        </tr>
-        <tr>
-          <td>[COMPANY_CONTACT_NUMBER]</td>
-          <td>
-            Must Add the updated contact number field to reflect in invoice
-            template.
-          </td>
-        </tr>
-        <tr>
-          <td>[COMPANY_EMAIL_ADDRESS]</td>
-          <td>
-            Must Add the updated company email address field to reflect in
-            invoice template.
-          </td>
-        </tr>
-        <tr>
-          <td className="font-bold">Account Details</td>
-          <td className="font-bold">Account Details</td>
-        </tr>
-        <tr>
-          <td>[CUSTOMER_NAME]</td>
+          <td>«Item.Number»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[CUSTOMER_ADDRESS]</td>
+          <td>«Inv.Item.ProductName»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[CUSTOMER_CONTACT_NUMBER]</td>
+          <td>«Inv.Item.ServiceStartDate»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[CUSTOMER_EMAIL_ADDRESS]</td>
+          <td>«Inv.Item.Price»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td className="font-bold">Table Details</td>
-          <td className="font-bold">Table Details</td>
-        </tr>
-        <tr>
-          <td>[ITEM_NUMBER]</td>
+          <td>«Inv.Item.Quantity»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[INVOICE_ITEM_PRODUCT_NAME]</td>
+          <td>«Inv.Item.AmountWithoutTax»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[INVOICE_SERVICE_START DATE]</td>
+          <td>«Inv.AmountWOTax»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[INVOICE_ITEM_UNIT]</td>
+          <td>«Inv.Tax»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[INVOICE_ITEM_QUANTITY]</td>
+          <td>«Invoice.Total»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[INVOICE_ITEM_AMOUNT]</td>
+          <td>«Inv.ItemAdjAmount»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[TOTAL_AMOUNT_DUE]</td>
+          <td className="font-bold">Invoice Table Syntax</td>
+          <td className="font-bold">Invoice Table Syntax</td>
+        </tr>
+        <tr>
+          <td>«Inv.Table.Start»«Inv.Table.End»</td>
+          <td>
+            Auto-generated in the system. But must have field in template.
+          </td>
+        </tr>
+
+        <tr>
+          <td>«Column.Number.Start»«Column.Number.End»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[TOTAL_AMOUNT_WITHOUT_TAX]</td>
+          <td>«Column.Name.Start»«Column.Name.End»</td>
+          <td>
+            Auto-generated in the system. But must have field in template.
+          </td>
+        </tr>
+
+        <tr>
+          <td>«Column.Price.Start»«Column.Price.End»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
         </tr>
         <tr>
-          <td>[TOTAL_WITH_TAX]</td>
+          <td>«Column.Quantity.Start»«Column.Quantity.End»</td>
+          <td>
+            Auto-generated in the system. But must have field in template.
+          </td>
+        </tr>
+        <tr>
+          <td>«Column.Amount.Start»«Column.Amount.End»</td>
           <td>
             Auto-generated in the system. But must have field in template.
           </td>
