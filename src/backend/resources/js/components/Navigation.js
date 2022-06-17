@@ -332,7 +332,7 @@ const Navigation = () => {
   }, [showDropdown])
 
   return (
-    <div className="grid grid-rows-2 grid-cols-4 bg-white shadow-lg px-11 py-1 mb-8">
+    <div className="grid grid-rows-2 grid-cols-4 bg-white shadow-lg px-11 py-1">
       <div className="col-span-2">
         <div className="mx-auto">
           <h3 className="text-xs text-body-600">
