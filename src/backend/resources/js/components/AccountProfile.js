@@ -351,7 +351,7 @@ const AccountProfileEdit = () => {
                           }
                           defaultValue={state.account.lastname}
                           type="text"
-                          name="LastName"
+                          name="lastname"
                           placeholder="ラストネーム"
                           onChange={(e) => handleTextChange(e)}
                           onKeyUp={(e) => handleTextChange(e)}
@@ -391,7 +391,7 @@ const AccountProfileEdit = () => {
                           }
                           defaultValue={state.account.firstname}
                           type="text"
-                          name="FirstName"
+                          name="firstname"
                           placeholder="ファーストネーム​"
                           onChange={(e) => handleTextChange(e)}
                           onKeyUp={(e) => handleTextChange(e)}
