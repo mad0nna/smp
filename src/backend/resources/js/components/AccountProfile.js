@@ -31,7 +31,8 @@ const AccountProfileEdit = () => {
     isEditingProfile: false,
     authorityTransfer: false,
     updatedAccount: {},
-    loggedInUser: {}
+    loggedInUser: {},
+    reload: true
   })
   const errorDefault = {
     lastname: '',
@@ -125,17 +126,23 @@ const AccountProfileEdit = () => {
     if (state.isEditingProfile) {
       validate('firstname', 'lastname', 'phone').then((hasError) => {
         if (hasError) {
-          handleCloseMessageDialog()
           setState((prevState) => {
             return {
               ...prevState,
               isLoading: false,
+              reload: false,
               showPopupMessageDialog: true,
               dialogMessage: '企業情報の更新に失敗しました'
             }
           })
           return
         }
+        setState((prevState) => {
+          return {
+            ...prevState,
+            reload: true
+          }
+        })
         openConfirmDialog()
       })
     }
@@ -221,7 +228,7 @@ const AccountProfileEdit = () => {
         showPopupMessageDialog: false
       }
     })
-    location.replace('/company/accountslist')
+    state.reload ? location.replace('/company/accountslist') : ''
   }
 
   const openConfirmDialog = () => {
