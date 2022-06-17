@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TextEditor from '../../TextEditor'
 import { SaveIcon } from '../../../../icons'
 
 const EmailTemplate = () => {
+  const [sign, setSign] = useState(false)
+
   return (
     <>
       <h1 className="text-3xl text-primary-500 font-bold mt-3.5 mx-6 border-b-2 border-primary-300 pb-3.5">
@@ -30,15 +32,26 @@ const EmailTemplate = () => {
         <TextEditor />
         <div className="mt-5">
           <input
-            type="checkbox"
-            className="rounded-sm w-checkBox h-checkBox bg-white align-middle mr-2.5"
             id="signature"
             name="signature"
+            type="checkbox"
+            onClick={() => {
+              setSign((prevState) => !prevState)
+            }}
+            className="rounded-sm w-checkBox h-checkBox bg-white align-middle mr-2.5"
           />
           <label className="text-body-500" htmlFor="signature">
             署名を追加
           </label>
         </div>
+        {sign && (
+          <div className="mt-5">
+            <textarea
+              rows="4"
+              className="border border-gray-100 w-full focus:outline-none"
+            />
+          </div>
+        )}
         <div className="flex mt-12 mb-9 items-center">
           <button
             type="button"
