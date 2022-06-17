@@ -43,16 +43,6 @@ const AccountProfileEdit = () => {
     hasError: false
   })
 
-  function handleNumberChange(evt) {
-    evt = evt ? evt : window.event
-    var charCode = evt.which ? evt.which : evt.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 45) {
-      evt.preventDefault()
-      return false
-    }
-    return true
-  }
-
   const clearErrors = () => {
     setErrorMessages((prevState) => {
       return {
@@ -94,24 +84,15 @@ const AccountProfileEdit = () => {
           hasError = true
         }
         break
-      case '_phone': //Rename na field name for future use if the client might later require these fields
+      case 'phone':
         key = 'MobilePhone'
-        if ((val.length == 10 || val.length == 11) && !isNaN(val)) {
+        if (/^[1-9１-９]{10,11}/g.test(val) || val === null || val === '') {
           errorMessage = ''
         } else {
           errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
           hasError = true
         }
         break
-      case '_position': //Rename na field name for future use if the client might later require these fields
-        key = 'Title'
-        if (val === '') {
-          errorMessage = '必須フィールド'
-          hasError = true
-        }
-        break
-      default:
-        key = ''
     }
 
     let _errorMessages = errorMessages
@@ -176,24 +157,10 @@ const AccountProfileEdit = () => {
           }
           break
 
-        case '_position': //Rename na field name for future use if the client might later require these fields
-          key = 'Title'
-          val = state.account.position
-          if (val === '' || val == null) {
-            errorMessage = '必須フィールド'
-            hasError = true
-          }
-          break
-
-        case '_phone': //Rename na field name for future use if the client might later require these fields
+        case 'phone':
           key = 'MobilePhone'
           val = state.account.phone
-          if (val == null || val == '') {
-            errorMessage =
-              'ハイフンなしの10桁～11桁の電話番号を入力してください'
-            hasError = true
-            break
-          } else if ((val.length == 10 || val.length == 11) && !isNaN(val)) {
+          if (/^[1-9１-９]{10,11}/g.test(val) || val === null || val === '') {
             errorMessage = ''
           } else {
             errorMessage =
@@ -265,15 +232,14 @@ const AccountProfileEdit = () => {
         })
         closeConfirmDialog()
       })
-      .catch(function () {
+      .catch(function (error) {
         closeConfirmDialog()
         setState((prevState) => {
           return {
             ...prevState,
             isLoading: false,
             showPopupMessageDialog: true,
-            dialogMessage:
-              'データが異なります。ご確認のうえもう一度試みてください。'
+            dialogMessage: error.response.data.error
           }
         })
       })
@@ -422,6 +388,9 @@ const AccountProfileEdit = () => {
                           type="text"
                           name="LastName"
                           placeholder="ラストネーム"
+                          onChange={(e) =>
+                            handleTextChange('lastname', e.target.value)
+                          }
                           onKeyUp={(e) =>
                             handleTextChange('lastname', e.target.value)
                           }
@@ -466,6 +435,9 @@ const AccountProfileEdit = () => {
                           onKeyUp={(e) =>
                             handleTextChange('firstname', e.target.value)
                           }
+                          onChange={(e) =>
+                            handleTextChange('firstname', e.target.value)
+                          }
                         />
 
                         <label
@@ -503,6 +475,9 @@ const AccountProfileEdit = () => {
                           defaultValue={state.account.position}
                           placeholder="役職"
                           onKeyUp={(e) =>
+                            handleTextChange('position', e.target.value)
+                          }
+                          onChange={(e) =>
                             handleTextChange('position', e.target.value)
                           }
                         />
@@ -545,9 +520,9 @@ const AccountProfileEdit = () => {
                           onKeyUp={(e) =>
                             handleTextChange('phone', e.target.value)
                           }
-                          onKeyPress={(e) => {
-                            return handleNumberChange(e)
-                          }}
+                          onChange={(e) =>
+                            handleTextChange('phone', e.target.value)
+                          }
                         />
                         <label
                           className={

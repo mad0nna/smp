@@ -296,7 +296,7 @@ const ProductList = () => {
       return products.map((product, index) => {
         let prodDescription, prodPrice
         if (!_.isEmpty(product.text)) {
-          prodDescription = product.text['text.content'].replace(/<[^>]+>/g, '')
+          prodDescription = product.text['text.content']
         }
         if (!_.isEmpty(product.price)) {
           prodPrice = _.parseInt(product.price['price.value']).toLocaleString(
@@ -312,20 +312,16 @@ const ProductList = () => {
         }
 
         return state.loaded ? (
-          <div className="overflow-hidden mx-2 mt-6" key={index}>
+          <div className="prod-list overflow-hidden mx-2 mt-6 " key={index}>
             <div className="prod-list-img">
               {loadedImage ? (
                 <div></div>
               ) : (
-                <div
-                  className="bg-gray-100"
-                  style={{ height: '250px', width: '250px' }}
-                >
+                <div className="bg-gray-100">
                   <div className="lg:w-full"></div>
                 </div>
               )}
               <img
-                style={{ position: 'absolute', bottom: 0 }}
                 className={loadedImage ? 'mx-auto p-5' : 'hidden'}
                 src={`${state.img_domain}/${product.media['media.preview']}`}
                 onLoad={() => {
@@ -333,7 +329,7 @@ const ProductList = () => {
                 }}
               ></img>
             </div>
-            <div className="flex flex-col justify-between gap-2 pb-2 ">
+            <div className="prod-list-desc flex flex-col justify-between gap-2 pb-2">
               <div className="text-red-500 font-bold mt-2 h-10 line-clamp-2">
                 {product.product['product.label'] ?? ''}
               </div>
@@ -341,11 +337,12 @@ const ProductList = () => {
                 {`${prodPrice ?? '0'}円`}
               </div>
               <div className="text-gray-500 font-bold">商品說明</div>
-              <p
-                className="text-gray-400 text-left text-sm"
-                style={{ height: '85px' }}
-              >
-                {prodDescription}
+              <p className="text-gray-400 text-left text-sm">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: prodDescription
+                  }}
+                />
               </p>
               <div className="text-primary-200 underline font-bold text-sm pt-2 cursor-pointer">
                 <Link

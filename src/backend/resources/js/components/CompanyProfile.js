@@ -342,17 +342,17 @@ const CompanyProfile = () => {
         }
         break
 
-      // DISABLE VALIDATION IN MOBILE NUMBER
-      // case 'MobilePhone':
-      //   key = 'MobilePhone'
-
-      //   if (val === '' || re.test(val)) {
-      //     errorMessage = ''
-      //   } else {
-      //     errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
-      //     hasError = true
-      //   }
-      //   break
+      case 'MobilePhone':
+        key = 'MobilePhone'
+        if (val == '') {
+          errorMessage = ''
+        } else if (/^[1-9１-９]{10,11}/g.test(val)) {
+          errorMessage = ''
+        } else {
+          errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
+          hasError = true
+        }
+        break
     }
 
     let { companyEditValues, adminDetailsEditValues } = state
@@ -478,19 +478,18 @@ const CompanyProfile = () => {
           }
           break
 
-        // DISABLE VALIDATION IN MOBILE NUMBER
-        // case 'MobilePhone':
-        //   key = 'MobilePhone'
-        //   val = state.adminDetailsEditValues[key]
-
-        //   if (val.trim().length >= 10 && re.test(val)) {
-        //     errorMessage = ''
-        //   } else {
-        //     errorMessage =
-        //       'ハイフンなしの10桁～11桁の電話番号を入力してください'
-        //     hasError = true
-        //   }
-        //   break
+        case 'MobilePhone':
+          key = 'MobilePhone'
+          if (val == '') {
+            errorMessage = ''
+          } else if (/^[1-9１-９]{10,11}/g.test(val)) {
+            errorMessage = ''
+          } else {
+            errorMessage =
+              'ハイフンなしの10桁～11桁の電話番号を入力してください'
+            hasError = true
+          }
+          break
       }
 
       _errorMessages[field] = errorMessage
@@ -644,14 +643,14 @@ const CompanyProfile = () => {
                   </label>
                 </div>
                 <div className="md:w-2/3 flex-grow">
-                  <label
+                  <p
                     className={
                       (state.isEditingProfile ? 'hidden' : '') +
                       ' text-sm text-black w-full px-3 leading-8'
                     }
                   >
                     {state.companyDetails.companyName}
-                  </label>
+                  </p>
                   <input
                     className={
                       (state.isEditingProfile ? '' : 'hidden') +
@@ -1082,6 +1081,9 @@ const CompanyProfile = () => {
                     maxLength={11}
                     value={state.adminDetailsEditValues.MobilePhone}
                     placeholder="電話番号"
+                    onKeyUp={(e) =>
+                      handleFormChanges('admin', 'MobilePhone', e.target.value)
+                    }
                     onChange={(e) =>
                       handleFormChanges('admin', 'MobilePhone', e.target.value)
                     }
