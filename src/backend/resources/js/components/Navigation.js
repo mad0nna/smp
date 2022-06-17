@@ -18,7 +18,8 @@ const Navigation = () => {
     company: ''
   })
   const userType = location.pathname.split('/')[1]
-  const [active, setActive] = useState('product-list')
+  const [active, setActive] = useState(location.pathname.split('/')[2])
+
   const [showDropdown, setShowDropdown] = useState(false)
 
   const navigation = {
@@ -226,23 +227,23 @@ const Navigation = () => {
       ],
       menu: [
         {
-          id: 'product-list',
+          id: 'dashboard',
           label: '商品一覧',
-          url: '#',
+          url: '/logistics/dashboard',
           icon: null,
           function: null
         },
         {
           id: 'order-list',
           label: '注文',
-          url: '#',
+          url: '/logistics/order-list',
           icon: null,
           function: null
         },
         {
           id: 'email-template',
           label: 'メールテンプレート',
-          url: '#',
+          url: '/logistics/email-template',
           icon: null,
           function: null
         }

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { OrderList, ProductList, EmailTemplate } from './pages'
 
 const Logistics = () => {
-  const [active] = useState('product-list')
+  const [active] = useState(location.pathname.split('/')[2])
 
   return (
     <div className="grid md:grid-cols-4 font-meiryo">
@@ -14,9 +14,11 @@ const Logistics = () => {
               case 'order-list':
                 return <OrderList />
               case 'email-template':
+                return <EmailTemplate />
+              case 'dashboard':
                 return <ProductList />
               default:
-                return <EmailTemplate />
+                return <ProductList />
             }
           })()}
         </div>

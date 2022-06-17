@@ -122,7 +122,9 @@ Route::prefix('sales')->group(function () {
 
 // Route for Logistics User
 Route::prefix('logistics')->group(function () {
-    Route::view('dashboard', 'logistics.dashboard')->name('logistics.dashboard');
+    Route::view('dashboard', 'logistics.order-list')->name('logistics.orderList');
+    Route::view('order-list', 'logistics.product-list')->name('logistics.productList');
+    Route::view('email-template', 'logistics.email-template')->name('logistics.emailTemplate');
 });
 
 Route::prefix('password')->group(function () {
