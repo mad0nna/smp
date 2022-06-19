@@ -18,9 +18,8 @@ const Navigation = () => {
     company: ''
   })
   const userType = location.pathname.split('/')[1]
-  const [active, setActive] = useState(location.pathname.split('/')[2])
-
   const [showDropdown, setShowDropdown] = useState(false)
+  const [active, setActive] = useState(location.pathname.split('/')[2])
 
   const navigation = {
     admin: {
@@ -251,10 +250,11 @@ const Navigation = () => {
     }
   }
 
-  const renderNavMenu = (items) => {
+  const renderNavMenu = () => {
     const content = []
+    const menu = navigation[userType].menu
 
-    items.map((nav, i) => {
+    menu.map((nav, i) => {
       content.push(
         <li
           key={i}
@@ -392,22 +392,7 @@ const Navigation = () => {
         />
       </div>
       <div className="col-span-2 py-1 flex justify-end items-center">
-        {(() => {
-          switch (userType) {
-            case 'company':
-              return renderNavMenu(navigation.company.menu)
-            case 'admin':
-              return renderNavMenu(navigation.admin.menu)
-            case 'sales':
-              return renderNavMenu(navigation.sales.menu)
-            case 'logistics':
-              return renderNavMenu(navigation.logistics.menu)
-            case 'employee':
-              return renderNavMenu(navigation.employee.menu)
-            default:
-              return renderNavMenu([])
-          }
-        })()}
+        {renderNavMenu()}
       </div>
     </div>
   )
