@@ -3,6 +3,7 @@ import axios from 'axios'
 import ReactDOM from 'react-dom'
 import IBPTechIcon from '../../img/idp_logo.png'
 import KotLogo from '../../img/KOT-menu-logo.png'
+import KotIcon from '../../img/admin/king-of-time-logo.png'
 import { AccountIcon, QuestionIcon, Gear, LogoutIcon } from '../../icons'
 
 const domElementPresent = (element) => {
@@ -402,10 +403,19 @@ const Navigation = () => {
         </div>
       </div>
       <div className="grid grid-cols-4 bg-white px-11 py-1">
-        <div className="col-span-2 py-1">
-          <img alt="Kot Logo" src={navigation.logistics.logo} />
+        <div className="col-span-1 py-1">
+          <img
+            alt="Kot Logo - SM"
+            className="sm:block xs:hidden"
+            src={navigation.logistics.logo}
+          />
+          <img
+            alt="Kot Logo - XS"
+            className="sm:hidden xs:block"
+            src={KotIcon}
+          />
         </div>
-        <div className="col-span-2 py-1 flex justify-end">
+        <div className="col-span-3 py-1 flex justify-end">
           {renderNavMenu()}
         </div>
       </div>
