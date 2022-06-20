@@ -3,7 +3,7 @@ import axios from 'axios'
 import ReactDOM from 'react-dom'
 import IBPTechIcon from '../../img/idp_logo.png'
 import KotLogo from '../../img/KOT-menu-logo.png'
-import { AccountIcon, QuestionIcon, LogoutIcon } from '../../icons'
+import { AccountIcon, QuestionIcon, Gear, LogoutIcon } from '../../icons'
 
 const domElementPresent = (element) => {
   return !!document.getElementById(element)
@@ -59,6 +59,13 @@ const Navigation = () => {
           label: 'ショップ',
           url: '/admin/shop/jqadm/search/product?locale=ja',
           icon: null,
+          function: null
+        },
+        {
+          id: 'settings',
+          label: null,
+          url: '#',
+          icon: <Gear className="w-5 h-5" />,
           function: null
         }
       ]
@@ -133,6 +140,13 @@ const Navigation = () => {
           url: '/company/shop',
           icon: null,
           function: null
+        },
+        {
+          id: 'settings',
+          label: null,
+          url: '#',
+          icon: <Gear className="w-5 h-5" />,
+          function: null
         }
       ]
     },
@@ -195,6 +209,13 @@ const Navigation = () => {
           label: '請求',
           url: '/sales/billing',
           icon: null,
+          function: null
+        },
+        {
+          id: 'settings',
+          label: null,
+          url: '#',
+          icon: <Gear className="w-5 h-5" />,
           function: null
         }
       ]
@@ -263,7 +284,7 @@ const Navigation = () => {
           onClick={() => setActive(nav.id)}
         >
           <a className="block" href={nav.url}>
-            {nav.label}
+            {nav.label ? nav.label : nav.icon}
           </a>
         </li>
       )
