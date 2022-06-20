@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ReactDom from 'react-dom'
 import axios from 'axios'
+import { isEmpty } from 'lodash'
 import MessageDialog from './MessageDialog'
 import ConfirmTransferAuthority from './admin/company/ConfirmDialog'
 
@@ -54,20 +55,20 @@ const AccountProfileEdit = () => {
     fields.map((key) => {
       switch (key) {
         case 'firstname':
-          if (state.account.firstname === '') {
+          if (isEmpty(state.account.firstname)) {
             errors[key] = errorMessage[key]
           }
           break
         case 'lastname':
-          if (state.account.lastname === '') {
+          if (isEmpty(state.account.lastname)) {
             errors[key] = errorMessage[key]
           }
           break
         case 'phone': {
           let phoneNumber = state.account.phone
           if (
-            phoneNumber == '' ||
-            (phoneNumber != '' &&
+            isEmpty(phoneNumber) ||
+            (!isEmpty(phoneNumber) &&
               re.test(phoneNumber) &&
               (phoneNumber.length == 11 || phoneNumber.length == 10))
           ) {
@@ -94,6 +95,7 @@ const AccountProfileEdit = () => {
   const handleTextChange = (event) => {
     let val = event.target.value.trim()
     let key = event.target.name
+    validate(key)
     setState((prevState) => {
       return {
         ...prevState,
@@ -103,7 +105,6 @@ const AccountProfileEdit = () => {
         }
       }
     })
-    validate(key)
   }
 
   const userTypesChange = (event) => {
@@ -356,7 +357,7 @@ const AccountProfileEdit = () => {
                             (state.isEditingProfile ? '' : 'hidden') +
                             ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                           }
-                          defaultValue={state.account.lastname}
+                          value={state.account.lastname}
                           type="text"
                           name="lastname"
                           placeholder="ラストネーム"
@@ -396,7 +397,7 @@ const AccountProfileEdit = () => {
                             (state.isEditingProfile ? '' : 'hidden') +
                             ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                           }
-                          defaultValue={state.account.firstname}
+                          value={state.account.firstname}
                           type="text"
                           name="firstname"
                           placeholder="ファーストネーム​"
