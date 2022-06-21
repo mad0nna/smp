@@ -35,55 +35,35 @@ const AccountProfileEdit = () => {
     loggedInUser: {},
     reload: true,
     errors: [],
-    errorMessages: {
-      firstname: '必須フィールド',
-      lastname: '必須フィールド',
-      phone: 'ハイフンなしの10桁～11桁の電話番号を入力してください'
-    }
+    errorMessages: {}
   })
 
-  const validate = (...fields) => {
-    const re = /^[0-9０-９\b]+$/g
-    let errors = []
-    let errorMessage = {
-      firstname: '必須フィールド',
-      lastname: '必須フィールド',
-      phone: 'ハイフンなしの10桁～11桁の電話番号を入力してください'
-    }
-    fields.map((key) => {
-      switch (key) {
-        case 'firstname':
-          if (isEmpty(state.account.firstname)) {
-            errors[key] = errorMessage[key]
-            break
-          }
-          removeError(key)
-          break
-        case 'lastname':
-          if (isEmpty(state.account.lastname)) {
-            errors[key] = errorMessage[key]
-            break
-          }
-          removeError(key)
-          break
-        case 'phone': {
-          let phoneNumber = state.account.phone
-          if (
-            isEmpty(phoneNumber) ||
-            (!isEmpty(phoneNumber) &&
-              re.test(phoneNumber) &&
-              (phoneNumber.length == 11 || phoneNumber.length == 10))
-          ) {
-            removeError(key)
-            break
-          }
-          errors[key] = errorMessage[key]
-          break
+  const validate = (fields) => {
+    const numbersOnly = /^[0-9０-９]+$/g
+    let keys = Object.keys(fields)
+    keys.forEach((key) => {
+      if (key === 'firstname' || key === 'lastname') {
+        if (isEmpty(fields[key])) {
+          addError(key, '必須フィールド')
+          return
         }
+        removeError(key)
       }
-    })
-    return new Promise((resolve) => {
-      return resolve(errors)
+      if (key === 'phone') {
+        if (isEmpty(fields[key])) {
+          removeError(key)
+          return
+        }
+        if (fields[key].length < 10 || fields[key].length > 11) {
+          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
+          return
+        }
+        if (isEmpty(fields[key].match(numbersOnly))) {
+          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
+          return
+        }
+        removeError(key)
+      }
     })
   }
 
@@ -99,16 +79,20 @@ const AccountProfileEdit = () => {
         }
       }
     })
-    removeError(key)
-    validate(key).then((errors) => {
-      if (Object.keys(errors).length > 0) {
-        addError(key)
-      }
-    })
+    validate({ [key]: val })
   }
 
-  const addError = (key) => {
+  const addError = (key, message) => {
     if (_.includes(state.errors, key)) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          errorMessages: {
+            ...prevState.errorMessages,
+            [key]: message
+          }
+        }
+      })
       return
     }
     let newError = state.errors
@@ -116,7 +100,11 @@ const AccountProfileEdit = () => {
     setState((prevState) => {
       return {
         ...prevState,
-        errors: newError
+        errors: newError,
+        errorMessages: {
+          ...prevState.errorMessages,
+          [key]: message
+        }
       }
     })
   }
@@ -367,7 +355,6 @@ const AccountProfileEdit = () => {
                           name="lastname"
                           placeholder="ラストネーム"
                           onChange={(e) => handleTextChange(e)}
-                          onKeyUp={(e) => handleTextChange(e)}
                         />
                         <label
                           className={
@@ -409,7 +396,6 @@ const AccountProfileEdit = () => {
                           name="firstname"
                           placeholder="ファーストネーム​"
                           onChange={(e) => handleTextChange(e)}
-                          onKeyUp={(e) => handleTextChange(e)}
                         />
 
                         <label
@@ -449,7 +435,6 @@ const AccountProfileEdit = () => {
                           value={state.account.position}
                           placeholder="役職"
                           onChange={(e) => handleTextChange(e)}
-                          onKeyUp={(e) => handleTextChange(e)}
                         />
                         <label
                           className={
@@ -490,7 +475,6 @@ const AccountProfileEdit = () => {
                           maxLength={11}
                           placeholder="電話番号"
                           onChange={(e) => handleTextChange(e)}
-                          onKeyUp={(e) => handleTextChange(e)}
                         />
                         <label
                           className={
