@@ -4,6 +4,12 @@ import { SaveIcon } from '../../../../icons'
 
 const EmailTemplate = () => {
   const [sign, setSign] = useState(false)
+  const [htmlContent, setHtmlContent] = useState('')
+
+  const getContent = (htmlContentProp) => {
+    setHtmlContent(htmlContentProp)
+    console.log(htmlContentProp)
+  }
 
   return (
     <>
@@ -29,7 +35,7 @@ const EmailTemplate = () => {
             {'{{OrderEmailAddress}}'}
           </p>
         </div>
-        <TextEditor />
+        <TextEditor getContent={getContent} />
         <div className="mt-5">
           <input
             id="signature"
@@ -54,6 +60,7 @@ const EmailTemplate = () => {
         )}
         <div className="flex mt-12 mb-9 items-center">
           <button
+            onClick={() => console.log('htmlContent: ', htmlContent)}
             type="button"
             className="flex w-24 rounded-md text-white bg-primary-500 justify-center mr-3 py-2"
           >

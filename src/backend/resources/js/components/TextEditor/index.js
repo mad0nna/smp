@@ -4,16 +4,20 @@ import { Editor } from 'react-draft-wysiwyg'
 import { EditorState, convertToRaw } from 'draft-js'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
-const TextEditor = () => {
+const TextEditor = ({ getContent }) => {
   const editorStyles = { height: 200 }
 
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   )
 
-  const onEditorStateChange = (editorState) => {
-    setEditorState(editorState)
-    return draftToHtml(convertToRaw(editorState.getCurrentContent()))
+  const onEditorStateChange = (state) => {
+    setEditorState(state)
+    sendContent()
+  }
+
+  const sendContent = () => {
+    getContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
   }
 
   return (
