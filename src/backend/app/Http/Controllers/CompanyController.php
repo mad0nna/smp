@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Resources\CompanyResource;
 use App\Http\Requests\SearchCompanyRequest;
+use App\Services\API\Salesforce\Model\Account;
+use App\Services\API\Salesforce\Model\Contact;
+use App\Services\UserService;
 use Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -55,9 +58,24 @@ class CompanyController extends Controller
         return $opportunityService->getLatestKOTOpportunityDetails(Session::get('salesforceCompanyID'));
     }
 
-    public function getUpdatedDataForEditCompanyDetails(DataSynchronizer $synchronizer)
+    public function getUpdatedDataForEditCompanyDetails(UserService $userService)
     {
-        return $synchronizer->getUpdatedDataForEditCompanyDetails(Session::get('salesforceCompanyID'), Session::get('salesforceContactID'));
+        $companyInformation = (new Account)->findByID(Session::get('salesforceCompanyID'));
+        $adminInformation =(new Contact)->getAdminByContactId(Session::get('salesforceContactID'));
+        if ($adminInformation == false) {
+            $adminInformationFromDB = $userService->getAdminDetails(Session::get('salesforceCompanyID'))->toArray()[0];
+            $adminInformation['Email'] = $adminInformationFromDB['email'];
+            $adminInformation['FirstName'] = $adminInformationFromDB['first_name'];
+            $adminInformation['Id'] = $adminInformationFromDB['account_code'];
+            $adminInformation['LastName'] = $adminInformationFromDB['last_name'];
+            $adminInformation['MobilePhone'] = $adminInformationFromDB['contact_num'];
+            $adminInformation['Name'] = $adminInformationFromDB['last_name'] . ' ' . $adminInformationFromDB['first_name'];
+            $adminInformation['Title'] = $adminInformationFromDB['title'];
+        }
+        return [
+            'company' => $companyInformation,
+            'admin' => $adminInformation
+        ];
     }
 
     public function index(SearchCompanyRequest $request, CompanyService $companyService)

@@ -52,17 +52,7 @@ class DatabaseRepository
     public function updateCompanyDetails($companyID, $companyData)
     {
         return Company::where('account_id', $companyID)
-        ->update([
-            'name' => $companyData['companyName'],
-            'contact_num' => $companyData['contactNumber'],
-            'website' => $companyData['website'],
-            'industry' => $companyData['industry'],
-            'billing_postal_code' => $companyData['postalCode'],
-            'billing_street' => $companyData['street'],
-            'billing_city' => $companyData['city'],
-            'billing_state' => $companyData['state'],
-            'billing_country' => $companyData['country'],
-        ]);
+        ->update($companyData);
     }
 
     public function updateAdminDetails($accountID, $userData)
@@ -71,7 +61,6 @@ class DatabaseRepository
         ->update([
             'first_name' => $userData['FirstName'],
             'last_name' => $userData['LastName'],
-            'email' => $userData['Email'],
             'contact_num' => $userData['MobilePhone'],
         ]);
     }
