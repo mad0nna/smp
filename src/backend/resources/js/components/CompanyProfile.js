@@ -4,65 +4,70 @@ import editIcon from '../../img/edit-icon.png'
 import saveIcon from '../../img/Icon awesome-save.png'
 import spinner from '../../img/spinner.gif'
 import MessageDialog from './MessageDialog'
-import _, { isEmpty } from 'lodash'
+
 import axios from 'axios'
 
 const CompanyProfile = () => {
   const [state, setState] = useState({
     companyDetails: {
-      Name: '',
-      Phone: '',
-      Website: '',
-      Industry: '',
-      BillingPostalCode: '',
-      BillingCity: '',
-      BillingState: '',
-      BillingCountry: '',
-      BillingStreet: '',
-      Id: ''
+      companyName: '',
+      contactNumber: '',
+      website: '',
+      industry: '',
+      postalCode: '',
+      street: '',
+      city: '',
+      state: '',
+      country: '',
+      kot_company_code: ''
     },
     KotDetails: {
-      ID__c: '',
-      Type: '',
-      Amount: '',
-      StageName: ''
+      negotiationID: '',
+      type: '',
+      amount: '',
+      stagename: ''
     },
     ZenDetails: {
-      Zendeskaccount__c: '',
-      Zen__c: '',
-      Id: ''
+      orgName: '',
+      opportunityOwner: '',
+      opportunityId: ''
     },
     isEditingProfile: false,
     companyEditValues: {
-      Name: '',
-      Phone: '',
-      Website: '',
-      Industry: '',
-      BillingPostalCode: '',
-      BillingStreet: '',
-      BillingCity: '',
-      BillingState: '',
-      BillingCountry: ''
+      companyName: '',
+      contactNumber: '',
+      website: '',
+      industry: '',
+      postalCode: '',
+      street: '',
+      city: '',
+      state: '',
+      country: ''
     },
     adminDetailsEditValues: {
       Id: '',
+      Department: '',
       FirstName: '',
       LastName: '',
       Email: '',
       MobilePhone: '',
-      Title: ''
+      Title: '',
+      section__c: '',
+      admin__c: ''
     },
     isEditingContact: false,
     isAbleToEdit: false,
     isGettingData: false,
     adminDetails: {
       Id: '',
+      Department: '',
       FirstName: '',
       LastName: '',
       Email: '',
       MobilePhone: '',
       Title: '',
-      section__c: ''
+      section__c: '',
+      admin__c: ''
     },
     validationFields: [
       'companyName',
@@ -77,9 +82,26 @@ const CompanyProfile = () => {
       'MobilePhone',
       'email'
     ],
-    isLoading: false,
-    errors: [],
-    errorMessages: {}
+    isLoading: false
+  })
+
+  let defaultErrorMessage = {
+    companyName: '',
+    country: '',
+    state: '',
+    city: '',
+    street: '',
+    postalCode: '',
+    LastName: '',
+    FirstName: '',
+    contactNumber: '',
+    MobilePhone: '',
+    email: '',
+    hasError: false
+  }
+
+  const [errorMessages, setErrorMessages] = useState({
+    defaultErrorMessage
   })
 
   useEffect(() => {
@@ -98,15 +120,27 @@ const CompanyProfile = () => {
               }
             })
           }
+
+          let companyDetails = null
           setState((prevState) => {
+            companyDetails = { ...data.companyDetails }
+            ;(companyDetails.companyName = data.Name ?? ''),
+              (companyDetails.contactNumber = data.Phone ?? ''),
+              (companyDetails.street = data.BillingStreet ?? ''),
+              (companyDetails.city = data.BillingCity ?? ''),
+              (companyDetails.state = data.BillingState ?? ''),
+              ((companyDetails.country = data.BillingCountry ?? ''),
+              (companyDetails.postalCode = data.BillingPostalCode ?? ''),
+              (companyDetails.website = data.Website ?? '')),
+              (companyDetails.industry = data.Industry ?? '')
+            companyDetails.kot_company_code = data.Id
+            let ZenDetails = { ...prevState.ZenDetails }
+            ZenDetails.orgName = data.Zendeskaccount__c
             return {
               ...prevState,
-              companyDetails: data,
-              companyEditValues: data,
-              ZenDetails: {
-                ...prevState.ZenDetails,
-                Zendeskaccount__c: data.Zendeskaccount__c
-              }
+              companyDetails,
+              companyEditValues: companyDetails,
+              ZenDetails
             }
           })
         }
@@ -130,8 +164,26 @@ const CompanyProfile = () => {
         setState((prevState) => {
           return {
             ...prevState,
-            adminDetails: data,
-            adminDetailsEditValues: data,
+            adminDetails: {
+              Id: data.Id ?? '',
+              FirstName: data.FirstName ?? '',
+              LastName: data.LastName ?? '',
+              Email: data.Email ?? '',
+              Title: data.Title ?? '',
+              MobilePhone: data.MobilePhone ?? '',
+              section__c: data.section__c ?? '',
+              admin__c: data.admin__c ?? ''
+            },
+            adminDetailsEditValues: {
+              Id: data.Id ?? '',
+              FirstName: data.FirstName ?? '',
+              LastName: data.LastName ?? '',
+              Email: data.Email ?? '',
+              Title: data.Title ?? '',
+              MobilePhone: data.MobilePhone ?? '',
+              section__c: data.section__c ?? '',
+              admin__c: data.admin__c ?? ''
+            },
             isAbleToEdit: data.ableToEdit
           }
         })
@@ -166,19 +218,19 @@ const CompanyProfile = () => {
           })
         }
         setState((prevState) => {
+          let KotDetails = { ...prevState.KotDetails }
+          KotDetails.negotiationID = data.ID__c
+          KotDetails.type = data.Type
+          KotDetails.amount = data.Amount
+          KotDetails.stagename = data.StageName
+
+          let ZenDetails = { ...prevState.ZenDetails }
+          ZenDetails.opportunityId = data.Id
+          ZenDetails.opportunityOwner = data.Zen__c
           return {
             ...prevState,
-            KotDetails: {
-              ID__c: data.ID__c,
-              Type: data.Type,
-              Amount: data.Amount,
-              StageName: data.StageName
-            },
-            ZenDetails: {
-              ...prevState.ZenDetails,
-              Id: data.Id,
-              Zen__c: data.Zen__c
-            }
+            KotDetails,
+            ZenDetails
           }
         })
       })
@@ -200,218 +252,310 @@ const CompanyProfile = () => {
       })
       .then((response) => {
         let data = response.data
+        if (!data.admin) {
+          return setState((prevState) => {
+            alert(
+              'ログインしたユーザーはセールスフォース内の「アドミン」ではありません'
+            )
+            return {
+              ...prevState,
+              isEditingContact: false,
+              isAbleToEdit: false,
+              isGettingData: false,
+              isEditingProfile: false
+            }
+          })
+        }
+
         setState((prevState) => {
+          let companyEditValues = { ...state.companyEditValues }
+          ;(companyEditValues.companyName = data.company.Name ?? ''),
+            (companyEditValues.contactNumber = data.company.Phone ?? ''),
+            (companyEditValues.street = data.company.BillingStreet ?? ''),
+            (companyEditValues.city = data.company.BillingCity ?? ''),
+            (companyEditValues.state = data.company.BillingState ?? ''),
+            ((companyEditValues.country = data.company.BillingCountry ?? ''),
+            (companyEditValues.postalCode =
+              data.company.BillingPostalCode ?? ''),
+            (companyEditValues.website = data.company.Website ?? '')),
+            (companyEditValues.industry = data.company.Industry ?? '')
+
+          let adminDetailsEditValues = { ...data.adminDetailsEditValues }
+          ;(adminDetailsEditValues.Id = data.admin.Id ?? ''),
+            (adminDetailsEditValues.FirstName = data.admin.FirstName ?? ''),
+            (adminDetailsEditValues.LastName = data.admin.LastName ?? ''),
+            (adminDetailsEditValues.Email = data.admin.Email ?? ''),
+            (adminDetailsEditValues.Title = data.admin.Title ?? ''),
+            (adminDetailsEditValues.MobilePhone = data.admin.MobilePhone ?? ''),
+            (adminDetailsEditValues.section__c = data.admin.section__c ?? ''),
+            (adminDetailsEditValues.admin__c = data.admin.admin__c ?? false)
+
           return {
             ...prevState,
             isEditingProfile: !prevState.isEditingProfile,
             isGettingData: false,
             isLoading: false,
-            companyEditValues: {
-              ...data.company
-            },
-            adminDetailsEditValues: {
-              ...data.admin
-            }
+            companyEditValues,
+            adminDetailsEditValues
           }
         })
         window.document.getElementById('iconContainer').src = saveIcon
       })
   }
 
-  const handleCompanyChanges = (e) => {
-    let key = e.target.name
-    let val = e.target.value.trim()
-    setState((prevState) => {
+  const handleFormChanges = (cat, key, val) => {
+    const re = /^[0-9\b]+$/
+    let hasError = false
+    let errorMessage = ''
+
+    switch (key) {
+      case 'companyName':
+        if (val.trim() === '') {
+          errorMessage = '必須フィールド'
+          hasError = true
+        } else if (
+          val.length + state.companyDetails.kot_company_code.length + 2 >
+          100
+        ) {
+          errorMessage = '最大文字数は 100 文字です。'
+          hasError = true
+        }
+        break
+      case 'contactNumber':
+        key = 'contactNumber'
+        if (val !== '' && re.test(val)) {
+          errorMessage = ''
+        } else {
+          errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
+          hasError = true
+        }
+        break
+
+      case 'postalCode':
+        key = 'postalCode'
+
+        if (val === '' || re.test(val)) {
+          errorMessage = ''
+        } else {
+          errorMessage = 'ハイフンなしの７桁の郵便番号を入力してください'
+          hasError = true
+        }
+        break
+
+      case 'MobilePhone':
+        key = 'MobilePhone'
+        if (val == '') {
+          errorMessage = ''
+        } else if (/^[1-9１-９]{10,11}/g.test(val)) {
+          errorMessage = ''
+        } else {
+          errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
+          hasError = true
+        }
+        break
+    }
+
+    let { companyEditValues, adminDetailsEditValues } = state
+
+    let _errorMessages = errorMessages
+
+    if (cat === 'company') {
+      companyEditValues[key] = val
+    } else if (cat === 'admin') {
+      adminDetailsEditValues[key] = val
+    }
+    _errorMessages[key] = errorMessage
+    _errorMessages['hasError'] = hasError
+
+    setErrorMessages(() => {
       return {
-        ...prevState,
-        companyEditValues: {
-          ...prevState.companyEditValues,
-          [key]: val
-        }
+        ..._errorMessages
       }
     })
-    validate({ [key]: val })
   }
 
-  const handleAdminChanges = (e) => {
-    let key = e.target.name
-    let val = e.target.value.trim()
-    setState((prevState) => {
+  const validateForm = (event) => {
+    event.preventDefault()
+    const re = /^[0-9\b]+$/
+    let hasError = false
+    let errorMessage = ''
+    let _errorMessages = errorMessages
+    let key = ''
+    let val = ''
+
+    state.validationFields.map((field) => {
+      val = ''
+      errorMessage = ''
+      switch (field) {
+        case 'companyName':
+          key = 'companyName'
+          val = state.companyEditValues[key]
+
+          if (val.trim() === '') {
+            errorMessage = '必須フィールド'
+            hasError = true
+          }
+          if (
+            val.length + state.companyDetails.kot_company_code.length + 2 >
+            100
+          ) {
+            val = state.companyEditValues[key]
+            errorMessage = '最大文字数は 100 文字です。'
+          }
+          break
+        case 'country':
+          key = 'country'
+          val = state.companyEditValues[key]
+
+          if (val.trim() === '') {
+            errorMessage = '必須フィールド'
+            hasError = true
+          }
+          break
+
+        case 'state':
+          key = 'state'
+          val = state.companyEditValues[key]
+
+          if (val.trim() === '') {
+            errorMessage = '必須フィールド'
+            hasError = true
+          }
+          break
+
+        case 'city':
+          key = 'city'
+          val = state.companyEditValues[key]
+
+          if (val.trim() === '') {
+            errorMessage = '必須フィールド'
+            hasError = true
+          }
+          break
+
+        case 'contactNumber':
+          key = 'contactNumber'
+          val = state.companyEditValues[key]
+
+          if (val.trim().length >= 10 && re.test(val)) {
+            errorMessage = ''
+          } else {
+            errorMessage =
+              'ハイフンなしの10桁～11桁の電話番号を入力してください'
+            hasError = true
+          }
+          break
+
+        case 'postalCode':
+          key = 'postalCode'
+          val = state.companyEditValues[key]
+
+          if (val.trim().length == 7 && re.test(val)) {
+            errorMessage = ''
+          } else {
+            errorMessage = 'ハイフンなしの７桁の郵便番号を入力してください'
+            hasError = true
+          }
+          break
+
+        case 'LastName':
+          key = 'LastName'
+          val = state.adminDetailsEditValues[key]
+
+          if (val.trim() === '') {
+            errorMessage = '必須フィールド'
+            hasError = true
+          }
+          break
+
+        case 'FirstName':
+          key = 'FirstName'
+          val = state.adminDetailsEditValues[key]
+
+          if (val.trim() === '') {
+            errorMessage = '必須フィールド'
+            hasError = true
+          }
+          break
+
+        case 'MobilePhone':
+          key = 'MobilePhone'
+          if (val == '') {
+            errorMessage = ''
+          } else if (/^[1-9１-９]{10,11}/g.test(val)) {
+            errorMessage = ''
+          } else {
+            errorMessage =
+              'ハイフンなしの10桁～11桁の電話番号を入力してください'
+            hasError = true
+          }
+          break
+      }
+
+      _errorMessages[field] = errorMessage
+      _errorMessages['hasError'] = hasError
+    })
+
+    setErrorMessages(() => {
       return {
-        ...prevState,
-        adminDetailsEditValues: {
-          ...prevState.adminDetailsEditValues,
-          [key]: val
-        }
+        ..._errorMessages
       }
     })
-    validate({ [key]: val })
-  }
 
-  const validate = (fields) => {
-    const numbersOnly = /^[0-9０-９]+$/g
-    let keys = Object.keys(fields)
-    keys.forEach((key) => {
-      if (key === 'Name') {
-        let companyCodeLength = state.companyDetails.Id.length + 2
-        let companyNameMaxLength = 100 - companyCodeLength
-        if (isEmpty(fields[key])) {
-          addError(key, '必須フィールド')
-          return
-        }
-        if (fields[key].length > companyNameMaxLength) {
-          addError(key, '最大文字数は 100 文字です。')
-          return
-        }
-        removeError(key)
-      }
-      if (key === 'Phone') {
-        if (isEmpty(fields[key])) {
-          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
-          return
-        }
-        if (fields[key].length < 10 || fields[key].length > 11) {
-          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
-          return
-        }
-        if (isEmpty(fields[key].match(numbersOnly))) {
-          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
-          return
-        }
-        removeError(key)
-      }
-      if (key === 'BillingPostalCode') {
-        if (!(numbersOnly.test(fields[key]) && fields[key].length == 7)) {
-          addError(key, 'ハイフンなしの７桁の郵便番号を入力してください')
-          return
-        }
-        removeError(key)
-      }
-      if (
-        key === 'BillingCity' ||
-        key === 'BillingState' ||
-        key === 'BillingCountry' ||
-        key === 'FirstName' ||
-        key === 'LastName'
-      ) {
-        if (isEmpty(fields[key])) {
-          addError(key, '必須フィールド')
-          return
-        }
-        removeError(key)
-      }
-      if (key === 'MobilePhone') {
-        if (isEmpty(fields[key])) {
-          removeError(key)
-          return
-        }
-        if (fields[key].length < 10 || fields[key].length > 11) {
-          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
-          return
-        }
-        if (isEmpty(fields[key].match(numbersOnly))) {
-          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
-          return
-        }
-        removeError(key)
-      }
-    })
-  }
-
-  const addError = (key, message) => {
-    if (_.includes(state.errors, key)) {
+    if (hasError === false && state.isEditingProfile) {
       setState((prevState) => {
         return {
           ...prevState,
-          errorMessages: {
-            ...prevState.errorMessages,
-            [key]: message
+          isLoading: true
+        }
+      })
+
+      window.document.getElementById('iconContainer').src = spinner
+      axios
+        .post(
+          '/company/updateCompanyDetails',
+          {
+            companyDetails: state.companyEditValues,
+            adminDetails: state.adminDetailsEditValues
+          },
+          {
+            'Content-Type': 'application/json'
           }
-        }
-      })
-      return
-    }
-    let newError = state.errors
-    newError.push(key)
-    setState((prevState) => {
-      return {
-        ...prevState,
-        errors: newError,
-        errorMessages: {
-          ...prevState.errorMessages,
-          [key]: message
-        }
-      }
-    })
-  }
-
-  const removeError = (key) => {
-    if (!_.includes(state.errors, key)) {
-      return
-    }
-    setState((prevState) => {
-      let newError = prevState.errors
-      let keyIndex = newError.indexOf(key)
-      delete newError[keyIndex]
-      newError = newError.filter(function (e) {
-        return e != null
-      })
-      return {
-        ...prevState,
-        errors: newError
-      }
-    })
-  }
-
-  const submitData = () => {
-    let combineState = Object.assign(
-      {},
-      state.companyEditValues,
-      state.adminDetailsEditValues
-    )
-    validate(combineState)
-    if (state.errors.length > 0) {
-      return
-    }
-    window.document.getElementById('iconContainer').src = spinner
-    axios
-      .post(
-        '/company/updateCompanyDetails',
-        {
-          companyDetails: state.companyEditValues,
-          adminDetails: state.adminDetailsEditValues
-        },
-        {
-          'Content-Type': 'application/json'
-        }
-      )
-      .then((response) => {
-        let data = response
-        if (data.status) {
+        )
+        .then((response) => {
+          let data = response
+          if (data.status) {
+            setState((prevState) => {
+              return {
+                ...prevState,
+                isEditingProfile: !state.isEditingProfile,
+                isLoading: false
+              }
+            })
+          }
+          alert('入力内容を更新しました.')
+          location.reload()
+        })
+        .catch(function () {
+          window.document.getElementById('iconContainer').src = saveIcon
           setState((prevState) => {
             return {
               ...prevState,
-              isEditingProfile: !state.isEditingProfile,
-              isLoading: false
+              isLoading: true,
+              isEditingProfile: true,
+              showPopupMessageDialog: true,
+              dialogMessage:
+                'データが異なります。ご確認のうえもう一度試みてください。'
             }
           })
-        }
-        alert('入力内容を更新しました.')
-        location.reload()
-      })
-      .catch(function () {
-        window.document.getElementById('iconContainer').src = saveIcon
-        setState((prevState) => {
-          return {
-            ...prevState,
-            isLoading: true,
-            isEditingProfile: true,
-            showPopupMessageDialog: true,
-            dialogMessage:
-              'データが異なります。ご確認のうえもう一度試みてください。'
-          }
         })
-      })
+    }
+    setState((prevState) => {
+      return {
+        ...prevState,
+        isLoading: false
+      }
+    })
   }
 
   const displayEditButton = () => {
@@ -424,15 +568,17 @@ const CompanyProfile = () => {
       <div>
         <div className="flex flex-wrap gap-0 w-full justify-end mt-6 ">
           <button
-            onClick={state.isEditingProfile ? submitData : handleChangeProfile}
+            onClick={
+              state.isEditingProfile ? validateForm : handleChangeProfile
+            }
             className={
-              (state.errors.length > 0
+              (errorMessages.hasError
                 ? 'bg-primary-100 pointer-events-none'
                 : 'bg-primary-200') +
               (state.isLoading ? ' bg-primary-100 pointer-events-none ' : '') +
               `  hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1 `
             }
-            disabled={state.errors.length > 0 || state.isLoading}
+            disabled={errorMessages.hasError || state.isLoading}
           >
             <img
               id="iconContainer"
@@ -446,11 +592,11 @@ const CompanyProfile = () => {
             <button
               onClick={() => {
                 setState((prevState) => {
+                  return { ...prevState, isEditingProfile: false }
+                })
+                setErrorMessages(() => {
                   return {
-                    ...prevState,
-                    isEditingProfile: false,
-                    errors: [],
-                    errorMessages: {}
+                    ...defaultErrorMessage
                   }
                 })
               }}
@@ -503,26 +649,31 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full px-3 leading-8'
                     }
                   >
-                    {state.companyDetails.Name}
+                    {state.companyDetails.companyName}
                   </p>
                   <input
                     className={
                       (state.isEditingProfile ? '' : 'hidden') +
                       ' text-sm w-full px-3 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                     }
-                    value={state.companyEditValues.Name}
-                    name="Name"
+                    value={state.companyEditValues.companyName}
                     type="text"
                     placeholder="会社名"
-                    onChange={(e) => handleCompanyChanges(e)}
+                    onChange={(e) =>
+                      handleFormChanges(
+                        'company',
+                        'companyName',
+                        e.target.value
+                      )
+                    }
                   />
                   <label
                     className={
-                      (_.includes(state.errors, 'Name') ? '' : 'hidden') +
+                      (errorMessages.companyName ? '' : 'hidden') +
                       ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                     }
                   >
-                    {state.errorMessages['Name']}
+                    {errorMessages.companyName}
                   </label>
                 </div>
               </div>
@@ -549,11 +700,11 @@ const CompanyProfile = () => {
                     }
                   >
                     <div className="px-3 flex flex-wrap">
-                      {state.companyDetails.BillingCountry ?? '' + ' '}
-                      {state.companyDetails.BillingState ?? '' + ' '}
-                      {state.companyDetails.BillingCity ?? '' + ' '}
-                      {state.companyDetails.BillingStreet ?? '' + ' '}
-                      {state.companyDetails.BillingPostalCode ?? ''}
+                      {state.companyDetails.country ?? '' + ' '}
+                      {state.companyDetails.state ?? '' + ' '}
+                      {state.companyDetails.city ?? '' + ' '}
+                      {state.companyDetails.street ?? '' + ' '}
+                      {state.companyDetails.postalCode ?? ''}
                     </div>
                   </label>
                   <div className="space-y-1">
@@ -562,21 +713,20 @@ const CompanyProfile = () => {
                         (state.isEditingProfile ? '' : 'hidden') +
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                       }
-                      value={state.companyEditValues.BillingCountry}
-                      name="BillingCountry"
+                      value={state.companyEditValues.country}
                       type="text"
                       placeholder="国名を入力してください"
-                      onChange={(e) => handleCompanyChanges(e)}
+                      onChange={(e) =>
+                        handleFormChanges('company', 'country', e.target.value)
+                      }
                     />
                     <label
                       className={
-                        (_.includes(state.errors, 'BillingCountry')
-                          ? ''
-                          : 'hidden') +
+                        (errorMessages.country ? '' : 'hidden') +
                         ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                       }
                     >
-                      {state.errorMessages['BillingCountry']}
+                      {errorMessages.country}
                     </label>
 
                     <input
@@ -584,21 +734,20 @@ const CompanyProfile = () => {
                         (state.isEditingProfile ? '' : 'hidden') +
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                       }
-                      value={state.companyEditValues.BillingState}
-                      name="BillingState"
+                      value={state.companyEditValues.state}
                       type="text"
                       placeholder="都道府県を入力してください"
-                      onChange={(e) => handleCompanyChanges(e)}
+                      onChange={(e) =>
+                        handleFormChanges('company', 'state', e.target.value)
+                      }
                     />
                     <label
                       className={
-                        (_.includes(state.errors, 'BillingState')
-                          ? ''
-                          : 'hidden') +
+                        (errorMessages.state ? '' : 'hidden') +
                         ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                       }
                     >
-                      {state.errorMessages['BillingState']}
+                      {errorMessages.state}
                     </label>
 
                     <input
@@ -606,21 +755,20 @@ const CompanyProfile = () => {
                         (state.isEditingProfile ? '' : 'hidden') +
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                       }
-                      value={state.companyEditValues.BillingCity}
-                      name="BillingCity"
+                      value={state.companyEditValues.city}
                       type="text"
                       placeholder="市区町村を入力してください"
-                      onChange={(e) => handleCompanyChanges(e)}
+                      onChange={(e) =>
+                        handleFormChanges('company', 'city', e.target.value)
+                      }
                     />
                     <label
                       className={
-                        (_.includes(state.errors, 'BillingCity')
-                          ? ''
-                          : 'hidden') +
+                        (errorMessages.city ? '' : 'hidden') +
                         ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                       }
                     >
-                      {state.errorMessages['BillingCity']}
+                      {errorMessages.city}
                     </label>
 
                     <input
@@ -628,12 +776,21 @@ const CompanyProfile = () => {
                         (state.isEditingProfile ? '' : 'hidden') +
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                       }
-                      value={state.companyEditValues.BillingStreet}
-                      name="BillingStreet"
+                      value={state.companyEditValues.street}
                       type="text"
                       placeholder="地名番地、建物名等"
-                      onChange={(e) => handleCompanyChanges(e)}
+                      onChange={(e) =>
+                        handleFormChanges('company', 'street', e.target.value)
+                      }
                     />
+                    <label
+                      className={
+                        (errorMessages.street ? '' : 'hidden') +
+                        ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
+                      }
+                    >
+                      {errorMessages.street}
+                    </label>
 
                     <input
                       className={
@@ -641,21 +798,24 @@ const CompanyProfile = () => {
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                       }
                       maxLength={7}
-                      value={state.companyEditValues.BillingPostalCode}
-                      name="BillingPostalCode"
+                      value={state.companyEditValues.postalCode}
                       type="text"
                       placeholder="郵便番号"
-                      onChange={(e) => handleCompanyChanges(e)}
+                      onChange={(e) =>
+                        handleFormChanges(
+                          'company',
+                          'postalCode',
+                          e.target.value
+                        )
+                      }
                     />
                     <label
                       className={
-                        (_.includes(state.errors, 'BillingPostalCode')
-                          ? ''
-                          : 'hidden') +
+                        (errorMessages.postalCode ? '' : 'hidden') +
                         ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                       }
                     >
-                      {state.errorMessages['BillingPostalCode']}
+                      {errorMessages.postalCode}
                     </label>
                   </div>
                 </div>
@@ -681,7 +841,7 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.companyDetails.Phone}
+                    {state.companyDetails.contactNumber}
                   </label>
                   <input
                     className={
@@ -690,18 +850,23 @@ const CompanyProfile = () => {
                     }
                     type="textarea"
                     maxLength={11}
-                    value={state.companyEditValues.Phone}
-                    name="Phone"
+                    value={state.companyEditValues.contactNumber}
                     placeholder="電話番号"
-                    onChange={(e) => handleCompanyChanges(e)}
+                    onChange={(e) =>
+                      handleFormChanges(
+                        'company',
+                        'contactNumber',
+                        e.target.value
+                      )
+                    }
                   />
                   <label
                     className={
-                      (_.includes(state.errors, 'Phone') ? '' : 'hidden') +
+                      (errorMessages.contactNumber ? '' : 'hidden') +
                       ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                     }
                   >
-                    {state.errorMessages['Phone']}
+                    {errorMessages.contactNumber}
                   </label>
                 </div>
               </div>
@@ -724,7 +889,7 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.companyDetails.Website}
+                    {state.companyDetails.website}
                   </label>
                   <input
                     className={
@@ -732,10 +897,11 @@ const CompanyProfile = () => {
                       ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                     }
                     type="textarea"
-                    value={state.companyEditValues.Website}
-                    name="Website"
+                    value={state.companyEditValues.website}
                     placeholder="ウェブサイト"
-                    onChange={(e) => handleCompanyChanges(e)}
+                    onChange={(e) =>
+                      handleFormChanges('company', 'website', e.target.value)
+                    }
                   />
                 </div>
               </div>
@@ -758,7 +924,7 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.companyDetails.Industry}
+                    {state.companyDetails.industry}
                   </label>
                   <input
                     className={
@@ -766,10 +932,11 @@ const CompanyProfile = () => {
                       ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                     }
                     type="textarea"
-                    value={state.companyEditValues.Industry}
-                    name="Industry"
+                    value={state.companyEditValues.industry}
                     placeholder="業種"
-                    onChange={(e) => handleCompanyChanges(e)}
+                    onChange={(e) =>
+                      handleFormChanges('company', 'industry', e.target.value)
+                    }
                   />
                 </div>
               </div>
@@ -806,17 +973,18 @@ const CompanyProfile = () => {
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                       }
                       value={state.adminDetailsEditValues.LastName}
-                      name="LastName"
                       placeholder="姓"
-                      onChange={(e) => handleAdminChanges(e)}
+                      onChange={(e) =>
+                        handleFormChanges('admin', 'LastName', e.target.value)
+                      }
                     />
                     <label
                       className={
-                        (_.includes(state.errors, 'LastName') ? '' : 'hidden') +
+                        (errorMessages.LastName ? '' : 'hidden') +
                         ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                       }
                     >
-                      {state.errorMessages['LastName']}
+                      {errorMessages.LastName}
                     </label>
 
                     <input
@@ -826,19 +994,18 @@ const CompanyProfile = () => {
                         ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                       }
                       value={state.adminDetailsEditValues.FirstName}
-                      name="FirstName"
                       placeholder="名"
-                      onChange={(e) => handleAdminChanges(e)}
+                      onChange={(e) =>
+                        handleFormChanges('admin', 'FirstName', e.target.value)
+                      }
                     />
                     <label
                       className={
-                        (_.includes(state.errors, 'FirstName')
-                          ? ''
-                          : 'hidden') +
+                        (errorMessages.FirstName ? '' : 'hidden') +
                         ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                       }
                     >
-                      {state.errorMessages['FirstName']}
+                      {errorMessages.FirstName}
                     </label>
                   </div>
                 </div>
@@ -859,10 +1026,26 @@ const CompanyProfile = () => {
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
                   <label
-                    className={'text-sm text-black w-full h-8 px-3 leading-8'}
+                    className={
+                      (state.isEditingProfile ? 'hidden' : '') +
+                      ' text-sm text-black w-full h-8 px-3 leading-8'
+                    }
                   >
                     {state.adminDetails.Email}
                   </label>
+                  <input
+                    type="input"
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8 input-label'
+                    }
+                    value={state.adminDetailsEditValues.Email}
+                    placeholder="メールアドレス"
+                    onChange={(e) =>
+                      handleFormChanges('admin', 'Email', e.target.value)
+                    }
+                    disabled
+                  />
                 </div>
               </div>
 
@@ -897,19 +1080,21 @@ const CompanyProfile = () => {
                     }
                     maxLength={11}
                     value={state.adminDetailsEditValues.MobilePhone}
-                    name="MobilePhone"
                     placeholder="電話番号"
-                    onChange={(e) => handleAdminChanges(e)}
+                    onKeyUp={(e) =>
+                      handleFormChanges('admin', 'MobilePhone', e.target.value)
+                    }
+                    onChange={(e) =>
+                      handleFormChanges('admin', 'MobilePhone', e.target.value)
+                    }
                   />
                   <label
                     className={
-                      (_.includes(state.errors, 'MobilePhone')
-                        ? ''
-                        : 'hidden') +
+                      (errorMessages.MobilePhone ? '' : 'hidden') +
                       ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                     }
                   >
-                    {state.errorMessages['MobilePhone']}
+                    {errorMessages.MobilePhone}
                   </label>
                 </div>
               </div>
@@ -935,7 +1120,7 @@ const CompanyProfile = () => {
                 </label>
               </div>
               <div className="md:w-1/2 flex-grow text-sm text-black w-full px-3">
-                {state.KotDetails.ID__c ?? 'N/A'}
+                {state.KotDetails.negotiationID ?? 'N/A'}
               </div>
             </div>
             <div className="flex flex-wrap gap-0 w-full justify-start items-center py-2 border-b border-gray-100 hover:bg-gray-50">
@@ -943,7 +1128,7 @@ const CompanyProfile = () => {
                 <label className="text-sm text-gray-400">KOT 利用料 :</label>
               </div>
               <div className="md:w-1/2 flex-grow text-sm text-black w-full px-3">
-                {state.KotDetails.Amount ?? 'N/A'}
+                {state.KotDetails.amount ?? 'N/A'}
               </div>
             </div>
             <div className="flex flex-wrap gap-0 w-full justify-start items-center py-2 border-b border-gray-100 hover:bg-gray-50">
@@ -951,7 +1136,7 @@ const CompanyProfile = () => {
                 <label className="text-sm text-gray-400">KOT 物販:</label>
               </div>
               <div className="md:w-1/2 flex-grow text-sm text-black w-full px-3">
-                {state.KotDetails.Type ?? 'N/A'}
+                {state.KotDetails.type ?? 'N/A'}
               </div>
             </div>
             <div className="flex flex-wrap gap-0 w-full justify-start items-center py-2 hover:bg-gray-50">
@@ -959,7 +1144,7 @@ const CompanyProfile = () => {
                 <label className="text-sm text-gray-400">KOT 契約番:</label>
               </div>
               <div className="md:w-1/2 flex-grow text-sm text-black w-full px-3">
-                {state.KotDetails.StageName ?? 'N/A'}
+                {state.KotDetails.stagename ?? 'N/A'}
               </div>
             </div>
           </div>
@@ -978,7 +1163,7 @@ const CompanyProfile = () => {
                 <label className="text-sm text-gray-400">Zendesk 組織名:</label>
               </div>
               <div className="md:w-1/2 flex-grow text-sm text-black w-full">
-                {state.ZenDetails.Zendeskaccount__c ?? 'N/A'}
+                {state.ZenDetails.orgName ?? 'N/A'}
               </div>
             </div>
             <div className="flex flex-wrap gap-0 w-full justify-start items-center py-2 border-b border-gray-100 hover:bg-gray-50">
@@ -986,7 +1171,7 @@ const CompanyProfile = () => {
                 <label className="text-sm text-gray-400">アカウントID:</label>
               </div>
               <div className="md:w-1/2 flex-grow text-sm text-black w-full">
-                {state.ZenDetails.Zen__c ?? 'N/A'}
+                {state.ZenDetails.opportunityOwner ?? 'N/A'}
               </div>
             </div>
             <div className="flex flex-wrap gap-0 w-full justify-start items-center py-2 hover:bg-gray-50">
@@ -994,7 +1179,7 @@ const CompanyProfile = () => {
                 <label className="text-sm text-gray-400">商談ID:</label>
               </div>
               <div className="md:w-1/2 flex-grow text-sm text-black w-full">
-                {state.ZenDetails.Id ?? 'N/A'}
+                {state.ZenDetails.opportunityId ?? 'N/A'}
               </div>
             </div>
 

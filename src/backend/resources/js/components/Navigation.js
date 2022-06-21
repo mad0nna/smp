@@ -308,14 +308,14 @@ const Navigation = () => {
           //   iconSize: 'h-5 w-5',
           //   extraStyle: 'cursor-default'
           // },
-          // {
-          //   label: 'ウィジット設定',
-          //   url: '/admin/settings',
-          //   iconNormal: 'bg-settings-icon-white',
-          //   iconHover: '',
-          //   iconSize: 'h-5 w-5',
-          //   extraStyle: ''
-          // },
+          {
+            label: 'ウィジット設定',
+            url: '/admin/settings',
+            iconNormal: 'bg-settings-icon-white',
+            iconHover: '',
+            iconSize: 'h-5 w-5',
+            extraStyle: ''
+          },
           {
             label: 'ログアウト',
             url: '/logout',

@@ -22,51 +22,40 @@ class DataSynchronizer
         }
         $formattedData = $request['adminDetails'];
         unset($formattedData['Id']);
+        unset($formattedData['CreatedDate']);
         unset($formattedData['Name']);
-        unset($formattedData['Email']);
         $sfResponse = (new Contact)->update($formattedData, $contactID);
         if (isset($sfResponse['status']) && !$sfResponse['status']) {
             return MessageResult::error('Error on updating admin details');
         }
 
-        $dbResponse = $this->mysql->updateAdminDetails($contactID, $formattedData, true);
+        $dbResponse = $this->mysql->updateAdminDetails($contactID, $request['adminDetails'], true);
         if (!$dbResponse) {
             return MessageResult::error('Error on updating admin details');
         }
 
         $formattedData = [
-            'Name' => $request['companyDetails']['Name'],
-            'Phone' => $request['companyDetails']['Phone'],
-            'Website' => $request['companyDetails']['Website'],
-            'Industry' => $request['companyDetails']['Industry'],
-            'BillingPostalCode' => $request['companyDetails']['BillingPostalCode'],
-            'BillingStreet' => $request['companyDetails']['BillingStreet'],
-            'BillingCity' => $request['companyDetails']['BillingCity'],
-            'BillingState' => $request['companyDetails']['BillingState'],
-            'BillingCountry' => $request['companyDetails']['BillingCountry'],
+            'Name' => $request['companyDetails']['companyName'],
+            'Phone' => $request['companyDetails']['contactNumber'],
+            'Website' => $request['companyDetails']['website'],
+            'Industry' => $request['companyDetails']['industry'],
+            'BillingPostalCode' => $request['companyDetails']['postalCode'],
+            'BillingStreet' => $request['companyDetails']['street'],
+            'BillingCity' => $request['companyDetails']['city'],
+            'BillingState' => $request['companyDetails']['state'],
+            'BillingCountry' => $request['companyDetails']['country'],
         ];
         $sfResponse = (new Account)->update($formattedData, $companyID);
         if (isset($companyInformation['status']) && !$companyInformation['status']) {
             return $sfResponse;
         }
-        $dbFormattedData = [
-            'name' => $request['companyDetails']['Name'],
-            'contact_num' => $request['companyDetails']['Phone'],
-            'website' => $request['companyDetails']['Website'],
-            'industry' => $request['companyDetails']['Industry'],
-            'billing_street' => $request['companyDetails']['BillingStreet'],
-            'billing_city' => $request['companyDetails']['BillingCity'],
-            'billing_state' => $request['companyDetails']['BillingState'],
-            'billing_postal_code' => $request['companyDetails']['BillingPostalCode'],
-            'billing_country' => $request['companyDetails']['BillingCountry'],
-        ];
 
-        $dbResponse = $this->mysql->updateCompanyDetails($companyID, $dbFormattedData, true);
+        $dbResponse = $this->mysql->updateCompanyDetails($companyID, $request['companyDetails'], true);
         if (!$dbResponse) {
             return MessageResult::error('Error on updating company details');
         }
         Session::forget("companyName");
-        Session::put('companyName', $request['companyDetails']['Name']);
+        Session::put('companyName', $request['companyDetails']['companyName']);
         Session::forget("CompanyContactLastname");
         Session::put('CompanyContactLastname', $request['adminDetails']['LastName']);
         Session::forget("CompanyContactFirstname");

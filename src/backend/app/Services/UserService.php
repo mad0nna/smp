@@ -367,10 +367,4 @@ class UserService
         }
         return false;
     }
-
-    public function getAdminDetails($sfCompanyID) {
-        return User::where('user_type_id', '3')->whereHas('company', function($company) use ($sfCompanyID) {
-            $company->where('account_id', $sfCompanyID);
-        })->get();
-    }
 }
