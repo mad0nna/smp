@@ -6,7 +6,7 @@ use App\Models\UserType;
 use App\Models\UserStatus;
 use Illuminate\Database\Seeder;
 
-class AddLogisticsUserTypeAndAddLogisticsUserSeeder extends Seeder
+class AddLogisticsUserTypeAndAddLogisticsAdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +16,7 @@ class AddLogisticsUserTypeAndAddLogisticsUserSeeder extends Seeder
     public function run()
     {
         $data =  [
-            'name' => 'Logistics',
+            'name' => 'Logistics Admin',
             'dashboard_url' => '/logistics/dashboard',
             'type_alias' => ''
         ];
@@ -31,8 +31,8 @@ class AddLogisticsUserTypeAndAddLogisticsUserSeeder extends Seeder
             'contact_num' => '12345678',
             'password' => Hash::make('Password2021!'),
             // 'company_id' => '1',  // maybe can be removed?
-            'first_name' => 'logistics',
-            'last_name' => 'admin',
+            'first_name' => 'Logistics',
+            'last_name' => 'Admin',
             'user_status_id' => $status->id,
             'user_type_id' => $logisticUserType->id,
             'email_verified_at' => Carbon::now(),
