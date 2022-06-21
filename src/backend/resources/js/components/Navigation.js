@@ -328,6 +328,25 @@ const Navigation = () => {
       }
     }
 
+    const logisticsNavigation = {
+      logo: KotLogo,
+      navItem: [],
+      dropDownNav: {
+        title: '管理者',
+        logo: AdminIcon,
+        items: [
+          {
+            label: 'ログアウト',
+            url: '/logout',
+            iconNormal: 'bg-signout-icon',
+            iconHover: '',
+            iconSize: 'h-5 w-5',
+            extraStyle: ''
+          }
+        ]
+      }
+    }
+
     let aPathName = location.pathname.split('/')
     let mainNav = []
     if (typeof aPathName[1] != 'undefined') {
@@ -342,6 +361,9 @@ const Navigation = () => {
           mainNav = salesNavigation
           break
         case 'employee':
+          break
+        case 'logistics':
+          mainNav = logisticsNavigation
           break
         default:
           mainNav = companyNavigation
