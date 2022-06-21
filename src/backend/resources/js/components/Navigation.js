@@ -4,7 +4,13 @@ import ReactDOM from 'react-dom'
 import IBPTechIcon from '../../img/idp_logo.png'
 import KotLogo from '../../img/KOT-menu-logo.png'
 import KotIcon from '../../img/admin/king-of-time-logo.png'
-import { AccountIcon, QuestionIcon, Gear, LogoutIcon } from '../../icons'
+import {
+  AccountIcon,
+  QuestionIcon,
+  Gear,
+  BellIcon,
+  LogoutIcon
+} from '../../icons'
 
 const domElementPresent = (element) => {
   return !!document.getElementById(element)
@@ -19,6 +25,7 @@ const Navigation = () => {
   })
   const userType = location.pathname.split('/')[1]
   const [showDropdown, setShowDropdown] = useState(false)
+  const [unpaidBillingInfo, setUnpaidBillingInfo] = useState(null)
   const [active, setActive] = useState(location.pathname.split('/')[2])
 
   const navigation = {
@@ -247,9 +254,9 @@ const Navigation = () => {
       ],
       menu: [
         {
-          id: 'dashboard',
+          id: 'product-list',
           label: '商品一覧',
-          url: '/logistics/dashboard',
+          url: '/logistics/product-list',
           icon: null,
           function: null
         },
@@ -286,6 +293,12 @@ const Navigation = () => {
         >
           <a className="block" href={nav.url}>
             {nav.label ? nav.label : nav.icon}
+            {nav.url === '/company/billing' &&
+              unpaidBillingInfo &&
+              unpaidBillingInfo.is_bank_transfer === true &&
+              unpaidBillingInfo.total_billed_amount != null && (
+                <BellIcon className="h-6 w-6 inline relative bottom-2 -left-1 opacity-80" />
+              )}
           </a>
         </li>
       )
@@ -322,6 +335,12 @@ const Navigation = () => {
   }
 
   useEffect(() => {
+    axios
+      .get(location.origin + '/company/getUnpaidBillingInformation')
+      .then((results) => {
+        setUnpaidBillingInfo(results.data.data)
+      })
+
     axios.get(location.origin + '/getLoggedinUser').then((response) => {
       if (response.status === 200) {
         setInfo((prevState) => {
