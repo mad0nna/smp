@@ -297,7 +297,7 @@ const Navigation = () => {
               unpaidBillingInfo &&
               unpaidBillingInfo.is_bank_transfer === true &&
               unpaidBillingInfo.total_billed_amount != null && (
-                <BellIcon className="h-6 w-6 inline relative bottom-2 -left-1 opacity-80" />
+                <BellIcon className="h-5 w-5 inline relative bottom-2 -left-1 opacity-80" />
               )}
           </a>
         </li>
