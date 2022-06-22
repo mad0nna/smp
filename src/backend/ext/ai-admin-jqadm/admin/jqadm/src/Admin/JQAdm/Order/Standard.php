@@ -251,6 +251,7 @@ class Standard
 
 			$view->items = $manager->search( $search, [], $total );
 			$view->baseItems = $this->getOrderBaseItems( $view->items );
+			// dd($view->baseItems);
 			foreach( $view->baseItems as $item ) {
 				if ($item->getCustomerItem() != null) {
 					$view->customer = $item->getCustomerItem()->toArray();

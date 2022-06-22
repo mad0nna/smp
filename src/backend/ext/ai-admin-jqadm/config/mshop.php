@@ -23,17 +23,19 @@ return [
         ],
         'taxflag' => 0
 
-    ],
+    ], 
     'order' => [
         'manager' => [
-            'base' => [                 
-                'decorators' => [
-                    'local' => ['Myproject']
-                ]               
-            ],
             'decorators' => [
                 'local' => ['Myproject']
-            ]
+            ],
+            'base' => [
+                'decorators' => [
+                    'local' => [
+                        'Myproject'
+                    ]
+                ]
+            ],
         ]
-    ],
+    ]
 ];

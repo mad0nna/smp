@@ -178,7 +178,8 @@ class Standard
 
 
 		$basket = $this->get()->setCustomerId( (string) $context->getUserId() )->finish()->check();
-
+		$basket['order.base.last_name'] = 'alcuino';
+		// dd($basket);
 		$this->manager->begin();
 		$this->manager->store( $basket );
 		$this->manager->commit();
