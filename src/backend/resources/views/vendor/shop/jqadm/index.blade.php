@@ -119,10 +119,10 @@
 									<img alt="setting icon" src="/images/arrowdown.png">
 								</a>
 							<ul class="dropdown-menu dd-nav" aria-labelledby="dropdown05" data-bs-popper="none"  >
-								<li>
+								<!-- <li>
 									<label class="bg-settings-icon-white" style=""></label>
 									<a class="dropdown-item" href="/admin/settings">ウィジット設定</a>
-								</li>
+								</li> -->
 								<li>
 									<label class="bg-signout-icon" style=""></label>
 									<a class="dropdown-item" href="/logout">ログアウト</a>
