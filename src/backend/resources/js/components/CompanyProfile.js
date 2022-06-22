@@ -231,7 +231,7 @@ const CompanyProfile = () => {
 
   const handleCompanyChanges = (e) => {
     let key = e.target.name
-    let val = e.target.value.trim()
+    let val = e.target.value
     setState((prevState) => {
       return {
         ...prevState,
@@ -246,7 +246,7 @@ const CompanyProfile = () => {
 
   const handleAdminChanges = (e) => {
     let key = e.target.name
-    let val = e.target.value.trim()
+    let val = e.target.value
     setState((prevState) => {
       return {
         ...prevState,
