@@ -271,6 +271,27 @@ class UserService
     }
 
     /**
+     * Retrieves a verified user by email
+     *
+     * @param string $email
+     * @return User $user
+     */
+    public function findVerifiedUserByEmail(string $email)
+    {
+        try {
+            // retrieve the user
+            $user = $this->user
+                        ->where('email', $email)
+                        ->where('user_status_id', 1)
+                        ->firstOrFail();
+        } catch (Exception $e) {
+            $user = null;
+        }
+
+        return $user;
+    }
+
+    /**
      * Retrieves a user from Salesforce by email
      *
      * @param string $email
@@ -376,5 +397,11 @@ class UserService
             return $exisitngData;
         }
         return false;
+    }
+
+    public function getAdminDetails($sfCompanyID) {
+        return User::where('user_type_id', '3')->whereHas('company', function($company) use ($sfCompanyID) {
+            $company->where('account_id', $sfCompanyID);
+        })->get();
     }
 }

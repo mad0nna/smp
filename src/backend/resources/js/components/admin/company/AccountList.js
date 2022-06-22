@@ -50,6 +50,16 @@ const AccountList = (props) => {
     props.handleFilter(e.target.value)
   }
 
+  const handleCodeFieldChanges = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        searchResult: '',
+        foundCompany: {}
+      }
+    })
+  }
+
   const searchCompanyCode = (code) => {
     code = code.trim()
     if (code === '') {
@@ -335,8 +345,8 @@ const AccountList = (props) => {
                   />
                 </th>
                 <th className="text-left pl-4">アカウント種類</th>
-                <th className="text-left pl-4 w-44">メールアドレス</th>
-                <th className="text-left pl-4">電話番号</th>
+                <th className="text-left pl-4 w-72">メールアドレス</th>
+                <th className="text-left pl-4 w-48">電話番号</th>
                 <th className="text-left pl-4">状態</th>
                 <th className="text-left">操作</th>
               </tr>
@@ -350,7 +360,7 @@ const AccountList = (props) => {
                   item.admin[0].emailVerifiedAt === null ? (
                     <div>
                       <a
-                        className="cursor-pointer mr-2"
+                        className="cursor-pointer mr-2 "
                         onClick={() =>
                           props.handleDisplaySelectedCompany(index)
                         }
@@ -358,7 +368,7 @@ const AccountList = (props) => {
                         詳細
                       </a>
                       <a
-                        className="cursor-pointer mr-2"
+                        className="cursor-pointer mr-2 "
                         onClick={() => {
                           state.isLoadingResendEmail
                             ? null
@@ -375,7 +385,7 @@ const AccountList = (props) => {
                     </div>
                   ) : (
                     <a
-                      className="cursor-pointer mr-2"
+                      className="cursor-pointer mr-2 "
                       onClick={() => props.handleDisplaySelectedCompany(index)}
                     >
                       詳細
@@ -389,7 +399,9 @@ const AccountList = (props) => {
                     className="stripe-table-row h-16 2xl:text-base lg:text-sm text-gray-900"
                     key={index}
                   >
-                    <td className="text-left pl-4 ">{item.name}</td>
+                    <td className="text-left pl-4 truncate max-w-md">
+                      {item.name}
+                    </td>
                     <td className="text-left pl-4">{item.companyCode}</td>
                     <td className="text-left pl-4">{item.industry}</td>
                     <td className="text-left pl-4">
@@ -428,6 +440,7 @@ const AccountList = (props) => {
           searchResult={state.searchResult}
           foundCompany={state.foundCompany}
           handleDisplayAddedCompany={props.handleDisplayAddedCompany}
+          handleCodeFieldChanges={handleCodeFieldChanges}
         />
       ) : null}
 

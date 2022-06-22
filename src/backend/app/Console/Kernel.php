@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('TempInvoiceFile:clear')
-                 ->everyFiveMinutes();
+            ->everyFiveMinutes();
         $schedule->command('salesforce:sync')
             ->hourly();
         $schedule->command('notify:cardExpiry')

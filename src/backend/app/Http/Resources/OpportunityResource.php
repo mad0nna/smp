@@ -29,4 +29,19 @@ class OpportunityResource extends JsonResource
             'updatedAt' => $this->updated_at->format('d/m/Y'),
         ];
     }
+    
+
+    public static function parseSFOpportunityColumnToDbColumn($data) {
+        return [
+            'opportunity_code' => $data['Id'],
+            'negotiate_code' => $data['ID__c'],
+            'record_type_code' => $data['RecordTypeId'],
+            'amount' => $data['Amount'],
+            'type' => $data['Type'],
+            'name' => $data['Name'],
+            'stage' => $data['StageName'],
+            'zen_negotiate_owner' => $data['KoT_hanbaikeiro__c'],
+            'payment_method' => $data['KoT_shiharaihouhou__c'],
+        ];
+    }
 }

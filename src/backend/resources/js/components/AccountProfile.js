@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import ReactDom from 'react-dom'
 import axios from 'axios'
+import _, { isEmpty } from 'lodash'
 import MessageDialog from './MessageDialog'
-import waitingIcon from '../../img/loading-spinner.gif'
-// import queryString from 'query-string'
+import ConfirmTransferAuthority from './admin/company/ConfirmDialog'
+
 const AccountProfileEdit = () => {
   const [state, setState] = useState({
     mode: 'view',
@@ -20,6 +21,8 @@ const AccountProfileEdit = () => {
       admin__c: ''
     },
     showPopupMessageDialog: false,
+    popUpConfirmMessage: '',
+    showPopupConfirmTransferAuthority: false,
     dialogMessage: '',
     userTypes: [
       { name: '管理者', value: 3 },
@@ -29,94 +32,97 @@ const AccountProfileEdit = () => {
     isEditingProfile: false,
     authorityTransfer: false,
     updatedAccount: {},
-    validationFields: ['lastname', 'firstname', 'phone', 'position'],
-    loggedInUser: {}
-  })
-  const [errorMessages, setErrorMessages] = useState({
-    LastName: '',
-    FirstName: '',
-    MobilePhone: '',
-    Title: '',
-    hasError: false
+    loggedInUser: {},
+    reload: true,
+    errors: [],
+    errorMessages: {}
   })
 
-  function handleNumberChange(evt) {
-    evt = evt ? evt : window.event
-    var charCode = evt.which ? evt.which : evt.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 45) {
-      evt.preventDefault()
-      return false
-    }
-    return true
-  }
-
-  const clearErrors = () => {
-    setErrorMessages((prevState) => {
-      return {
-        ...prevState,
-        LastName: '',
-        FirstName: '',
-        MobilePhone: '',
-        Title: '',
-        hasError: false
+  const validate = (fields) => {
+    const numbersOnly = /^[0-9０-９]+$/g
+    let keys = Object.keys(fields)
+    keys.forEach((key) => {
+      if (key === 'firstname' || key === 'lastname') {
+        if (isEmpty(fields[key])) {
+          addError(key, '必須フィールド')
+          return
+        }
+        removeError(key)
+      }
+      if (key === 'phone') {
+        if (isEmpty(fields[key])) {
+          removeError(key)
+          return
+        }
+        if (fields[key].length < 10 || fields[key].length > 11) {
+          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
+          return
+        }
+        if (isEmpty(fields[key].match(numbersOnly))) {
+          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
+          return
+        }
+        removeError(key)
       }
     })
   }
 
-  const handleTextChange = (key, val) => {
-    val = val.trim()
-    let hasError = false
-    let errorMessage = ''
-
-    let account = { ...state.account }
-    account[key] = val
+  const handleTextChange = (event) => {
+    let key = event.target.name
+    let val = event.target.value.trim()
     setState((prevState) => {
       return {
         ...prevState,
-        account: account
+        account: {
+          ...prevState.account,
+          [key]: val
+        }
       }
     })
-    switch (key) {
-      case 'firstname':
-        key = 'FirstName'
-        if (val === '') {
-          errorMessage = '必須フィールド'
-          hasError = true
-        }
-        break
-      case 'lastname':
-        key = 'LastName'
-        if (val === '') {
-          errorMessage = '必須フィールド'
-          hasError = true
-        }
-        break
-      case '_phone': //Rename na field name for future use if the client might later require these fields
-        key = 'MobilePhone'
-        if ((val.length == 10 || val.length == 11) && !isNaN(val)) {
-          errorMessage = ''
-        } else {
-          errorMessage = 'ハイフンなしの10桁～11桁の電話番号を入力してください'
-          hasError = true
-        }
-        break
-      case '_position': //Rename na field name for future use if the client might later require these fields
-        key = 'Title'
-        if (val === '') {
-          errorMessage = '必須フィールド'
-          hasError = true
-        }
-        break
-      default:
-        key = ''
-    }
+    validate({ [key]: val })
+  }
 
-    let _errorMessages = errorMessages
-    _errorMessages[key] = errorMessage
-    _errorMessages['hasError'] = hasError
-    setErrorMessages(() => {
+  const addError = (key, message) => {
+    if (_.includes(state.errors, key)) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          errorMessages: {
+            ...prevState.errorMessages,
+            [key]: message
+          }
+        }
+      })
+      return
+    }
+    let newError = state.errors
+    newError.push(key)
+    setState((prevState) => {
       return {
-        ..._errorMessages
+        ...prevState,
+        errors: newError,
+        errorMessages: {
+          ...prevState.errorMessages,
+          [key]: message
+        }
+      }
+    })
+  }
+
+  const removeError = (key) => {
+    if (!_.includes(state.errors, key)) {
+      return
+    }
+    setState((prevState) => {
+      let newError = prevState.errors
+      let keyIndex = newError.indexOf(key)
+      delete newError[keyIndex]
+      newError = newError.filter(function (e) {
+        return e != null
+      })
+      return {
+        ...prevState,
+        errors: newError
       }
     })
   }
@@ -137,137 +143,72 @@ const AccountProfileEdit = () => {
   }
 
   const handleUpdateSave = () => {
-    clearErrors()
-    let hasError = false
-    let errorMessage = ''
-    let _errorMessages = errorMessages
-    let val = ''
-
-    if (confirm('本当にこのデータを更新してもよろしいですか？')) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          isLoading: true
-        }
-      })
-      state.validationFields.map((field) => {
-        val = ''
-        let key = ''
-        errorMessage = ''
-
-        switch (field) {
-          case 'lastname':
-            key = 'LastName'
-            val = state.account.lastname
-            if (val == null || val.trim() === '') {
-              errorMessage = '必須フィールド'
-              hasError = true
-            }
-            break
-
-          case 'firstname':
-            key = 'FirstName'
-            val = state.account.firstname
-            if (val == null || val.trim() === '') {
-              errorMessage = '必須フィールド'
-              hasError = true
-            }
-            break
-
-          case '_position': //Rename na field name for future use if the client might later require these fields
-            key = 'Title'
-            val = state.account.position
-            if (val === '' || val == null) {
-              errorMessage = '必須フィールド'
-              hasError = true
-            }
-            break
-
-          case '_phone': //Rename na field name for future use if the client might later require these fields
-            key = 'MobilePhone'
-            val = state.account.phone
-            if (val == null || val == '') {
-              errorMessage =
-                'ハイフンなしの10桁～11桁の電話番号を入力してください'
-              hasError = true
-              break
-            } else if ((val.length == 10 || val.length == 11) && !isNaN(val)) {
-              errorMessage = ''
-            } else {
-              errorMessage =
-                'ハイフンなしの10桁～11桁の電話番号を入力してください'
-              hasError = true
-            }
-            break
-        }
-
-        _errorMessages[key] = errorMessage
-        _errorMessages['hasError'] = hasError
-      })
-
-      setErrorMessages(() => {
-        return {
-          ..._errorMessages
-        }
-      })
-
-      if (hasError === true && state.isEditingProfile) {
-        setState((prevState) => {
-          return {
-            ...prevState,
-            isLoading: false
-          }
-        })
-        return
+    setState((prevState) => {
+      return {
+        ...prevState,
+        isLoading: true
       }
+    })
+    submitData()
+  }
 
-      const _accountSFValues = {
-        Email: state.account.email,
-        FirstName: state.account.firstname,
-        Fullname: state.account.firstname + ' ' + state.account.lastname,
-        LastName: state.account.lastname,
-        MobilePhone: state.account.phone,
-        Title: state.account.position,
-        admin__c: state.account.admin__c,
-        username: state.account.email,
-        Id: state.account.account_code,
-        changeRole: state.account.changeRole
-      }
-      axios
-        .put('/company/updateAdminByEmail', _accountSFValues, {
+  const submitData = () => {
+    axios
+      .put(
+        '/company/updateAdminByEmail',
+        {
+          Email: state.account.email,
+          FirstName: state.account.firstname,
+          Fullname: state.account.firstname + ' ' + state.account.lastname,
+          LastName: state.account.lastname,
+          MobilePhone: state.account.phone,
+          Title: state.account.position,
+          admin__c: state.account.admin__c,
+          username: state.account.email,
+          Id: state.account.account_code,
+          changeRole: state.account.changeRole
+        },
+        {
           'Content-Type': 'application/json'
-        })
-        .then((response) => {
-          if (
-            !response['data']['status'] ||
-            response['data']['status'] === undefined
-          ) {
-            setState((prevState) => {
-              return {
-                ...prevState,
-                isLoading: false,
-                showPopupMessageDialog: true,
-                dialogMessage: '企業情報の更新に失敗しました'
-              }
-            })
-            return
-          }
+        }
+      )
+      .then((response) => {
+        if (
+          !response['data']['status'] ||
+          response['data']['status'] === undefined
+        ) {
           setState((prevState) => {
             return {
               ...prevState,
               isLoading: false,
-              updatedAccount: response.data.data,
               showPopupMessageDialog: true,
-              dialogMessage: response['data']['message']
+              dialogMessage: '企業情報の更新に失敗しました'
             }
           })
-        })
-        .catch(function (error) {
-          if (error.response) {
-            console.log(error.response.status)
+          return
+        }
+        setState((prevState) => {
+          return {
+            ...prevState,
+            isLoading: false,
+            updatedAccount: response.data.data,
+            showPopupMessageDialog: true,
+            dialogMessage: response['data']['message']
           }
         })
-    }
+        closeConfirmDialog()
+      })
+      .catch(function (error) {
+        closeConfirmDialog()
+        setState((prevState) => {
+          return {
+            ...prevState,
+            isLoading: false,
+            showPopupMessageDialog: true,
+            dialogMessage: error.response.data.error
+          }
+        })
+      })
   }
 
   const handleClose = () => {
@@ -281,7 +222,41 @@ const AccountProfileEdit = () => {
         showPopupMessageDialog: false
       }
     })
-    location.replace('/company/accountslist')
+    state.reload ? location.replace('/company/accountslist') : ''
+  }
+
+  const openConfirmDialog = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        showPopupConfirmTransferAuthority: true
+      }
+    })
+    if (state.account.changeRole) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          popUpConfirmMessage:
+            '権限をこのユーザーに譲渡しようとしています。このまま移行してもよろしいですか？'
+        }
+      })
+    } else {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          popUpConfirmMessage: '本当にこのデータを更新してもよろしいですか？'
+        }
+      })
+    }
+  }
+
+  const closeConfirmDialog = () => {
+    setState((prevState) => {
+      return {
+        ...prevState,
+        showPopupConfirmTransferAuthority: false
+      }
+    })
   }
 
   useEffect(() => {
@@ -375,21 +350,21 @@ const AccountProfileEdit = () => {
                             (state.isEditingProfile ? '' : 'hidden') +
                             ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                           }
-                          defaultValue={state.account.lastname}
+                          value={state.account.lastname}
                           type="text"
-                          name="LastName"
+                          name="lastname"
                           placeholder="ラストネーム"
-                          onKeyUp={(e) =>
-                            handleTextChange('lastname', e.target.value)
-                          }
+                          onChange={(e) => handleTextChange(e)}
                         />
                         <label
                           className={
-                            (errorMessages.LastName ? '' : 'hidden') +
+                            (_.includes(state.errors, 'lastname')
+                              ? ''
+                              : 'hidden') +
                             ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                           }
                         >
-                          {errorMessages.LastName}
+                          {state.errorMessages['lastname']}
                         </label>
                       </div>
                     </div>
@@ -416,22 +391,22 @@ const AccountProfileEdit = () => {
                             (state.isEditingProfile ? '' : 'hidden') +
                             ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                           }
-                          defaultValue={state.account.firstname}
+                          value={state.account.firstname}
                           type="text"
-                          name="FirstName"
+                          name="firstname"
                           placeholder="ファーストネーム​"
-                          onKeyUp={(e) =>
-                            handleTextChange('firstname', e.target.value)
-                          }
+                          onChange={(e) => handleTextChange(e)}
                         />
 
                         <label
                           className={
-                            (errorMessages.FirstName ? '' : 'hidden') +
+                            (_.includes(state.errors, 'firstname')
+                              ? ''
+                              : 'hidden') +
                             ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                           }
                         >
-                          {errorMessages.FirstName}
+                          {state.errorMessages['firstname']}
                         </label>
                       </div>
                     </div>
@@ -457,19 +432,19 @@ const AccountProfileEdit = () => {
                           }
                           type="text"
                           name="position"
-                          defaultValue={state.account.position}
+                          value={state.account.position}
                           placeholder="役職"
-                          onKeyUp={(e) =>
-                            handleTextChange('position', e.target.value)
-                          }
+                          onChange={(e) => handleTextChange(e)}
                         />
                         <label
                           className={
-                            (errorMessages.Title ? '' : 'hidden') +
+                            (_.includes(state.errors, 'position')
+                              ? ''
+                              : 'hidden') +
                             ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                           }
                         >
-                          {errorMessages.Title}
+                          {state.errorMessages['position']}
                         </label>
                       </div>
                     </div>
@@ -496,23 +471,20 @@ const AccountProfileEdit = () => {
                           }
                           type="text"
                           name="phone"
-                          defaultValue={state.account.phone}
-                          placeholder="電話番号"
+                          value={state.account.phone}
                           maxLength={11}
-                          onKeyUp={(e) =>
-                            handleTextChange('phone', e.target.value)
-                          }
-                          onKeyPress={(e) => {
-                            return handleNumberChange(e)
-                          }}
+                          placeholder="電話番号"
+                          onChange={(e) => handleTextChange(e)}
                         />
                         <label
                           className={
-                            (errorMessages.MobilePhone ? '' : 'hidden') +
+                            (_.includes(state.errors, 'phone')
+                              ? ''
+                              : 'hidden') +
                             ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                           }
                         >
-                          {errorMessages.MobilePhone}
+                          {state.errorMessages['phone']}
                         </label>
                       </div>
                     </div>
@@ -545,18 +517,6 @@ const AccountProfileEdit = () => {
                           <div className="px-3 text-sm text-gray-400">
                             ※メールアドレスの変更はできません
                           </div>
-                          {/* <input
-                            className={
-                              (state.isEditingProfile ? '' : 'hidden') +
-                              ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                            }
-                            defaultValue={state.account.email}
-                            type="text"
-                            name="email"
-                            placeholder="会社名"
-                            onChange={handleTextChange}
-                            disabled
-                          /> */}
                         </div>
                       </div>
                     </div>
@@ -571,18 +531,6 @@ const AccountProfileEdit = () => {
                           <label className="text-sm text-black w-full h-8 px-3 leading-8">
                             ***********
                           </label>
-                          {/* <input
-                            className={
-                              (state.isEditingProfile ? '' : 'hidden') +
-                              ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                            }
-                            type="password"
-                            name="pw"
-                            defaultValue=""
-                            placeholder="パスワード"
-                            onChange={handleTextChange}
-                            disabled
-                          /> */}
                         </div>
                       </div>
                     </div>
@@ -622,10 +570,8 @@ const AccountProfileEdit = () => {
                         <div className="md:w-2/3 flex-grow">
                           <label
                             style={{
-                              display: state.isEditingProfile
-                                ? state.authorityTransfer
-                                  ? 'none'
-                                  : 'block'
+                              display: state.authorityTransfer
+                                ? 'none'
                                 : 'block'
                             }}
                             className={
@@ -639,10 +585,8 @@ const AccountProfileEdit = () => {
                           {
                             <select
                               style={{
-                                display: state.isEditingProfile
-                                  ? state.authorityTransfer
-                                    ? 'block'
-                                    : 'none'
+                                display: state.authorityTransfer
+                                  ? 'block'
                                   : 'none'
                               }}
                               name="authoritySelect"
@@ -672,9 +616,9 @@ const AccountProfileEdit = () => {
 
               <div className="my-4 ml-6 mr-32 py-5 px-6 mt-0 pt-3 pl-0 text-center">
                 <button
-                  onClick={handleUpdateSave}
+                  onClick={openConfirmDialog}
                   className={
-                    (errorMessages.hasError
+                    (state.errors.length > 0
                       ? 'bg-primary-100 pointer-events-none'
                       : 'bg-primary-200') +
                     ' bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm mr-5 space-x-2'
@@ -682,15 +626,9 @@ const AccountProfileEdit = () => {
                   style={{
                     display: state.isEditingProfile ? '' : 'none'
                   }}
-                  disabled={errorMessages.hasError || state.isLoading}
+                  disabled={state.errors.length > 0 || state.isLoading}
                 >
-                  {state.isEditingProfile ? '編集する' : '変更を保存'}&nbsp;
-                  <img
-                    src={waitingIcon}
-                    className={
-                      (state.isLoading ? ' ' : ' hidden ') + ' w-8 inline '
-                    }
-                  />
+                  {state.isEditingProfile ? '編集する' : '変更を保存'}
                 </button>
 
                 <button
@@ -714,6 +652,15 @@ const AccountProfileEdit = () => {
           </div>
         </div>
       </div>
+
+      {state.showPopupConfirmTransferAuthority ? (
+        <ConfirmTransferAuthority
+          closeDialog={closeConfirmDialog}
+          handleOkey={handleUpdateSave}
+          message={state.popUpConfirmMessage}
+          isLoading={state.isLoading}
+        />
+      ) : null}
     </div>
   )
 }

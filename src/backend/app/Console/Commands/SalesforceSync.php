@@ -5,7 +5,9 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\Opportunity as ModelsOpportunity;
 use App\Http\Resources\CompanyResource;
+use App\Http\Resources\OpportunityResource;
 use App\Http\Resources\UserResource;
 use App\Services\API\Salesforce\Model\Account;
 use App\Services\API\Salesforce\Model\Contact;
@@ -43,53 +45,40 @@ class SalesforceSync extends Command
      *
      * @return mixed
      */
-    public function handle(Company $company)
+    public function handle()
     {
-        $companies = $company->with(['users' => function ($query) {
-            $query->where('user_type_id', '>', 2)->where('user_status_id', '=', 1)->get();
-        }])->get();
-
-        try {
+        $companies = Company::with(['users' => function ($query) {
+            $query->where('user_type_id', '>', 2)
+            ->where('account_code', '!=', "")
+            ->get();
+        }])
+        ->with(['opportunities'])
+        ->where('id', '>', 1)
+        ->get()
+        ->toArray();
             foreach ($companies as $c) {
                 try {
-                    if ($c['account_id']) {
-                        $company = (new Account)->findByID($c['account_id']);
+                    // Sync the COMPANY DATA from Salesforce to SMP Database
+                    $companyData = (new Account)->findByID($c['account_id']);
+                    $parsedCompanyData = CompanyResource::parseSfCompanyColumnToDbColumn($companyData);
+                    Company::where('account_id', $parsedCompanyData['account_id'])->update($parsedCompanyData);
+                    
+                    // Sync the OPPORTUNITY DATA from Salesforce to SMP Database
+                    $opportunityData = (new Opportunity)->getNumberOfSubscriber($c['account_id']);
+                    $opportunityData = reset($opportunityData);
+                    $parsedOpportunityData = OpportunityResource::parseSFOpportunityColumnToDbColumn($opportunityData);
+                    ModelsOpportunity::where('opportunity_code', $parsedOpportunityData['opportunity_code'])->update($parsedOpportunityData);
 
-                        if (is_array($company)) {
-
-                            $adminDetails = (new Contact)->getAdminByAccountId($company['Id']);
-                            $opportunity = (new Opportunity)->getNumberOfSubscriber($company['Id']);
-
-                            if (is_array($adminDetails)) {
-                                $company['contact'] = $adminDetails;
-                            }
-
-                            if (is_array($opportunity)) {
-                                $company['opportunity'] = $opportunity;
-                            }
-
-                            $_company = CompanyResource::parseSfCompanyColumnToDbColumn($company);
-                            $result1 = Company::find($c['id'])->update($_company);
-
-                            foreach ($c['users'] as $u) {
-                                if ($u['account_code']) {
-                                    $user = (new Contact)->findByAccountID($u['account_code']);
-                                    if ($user) {
-                                        $_user = UserResource::parseSfContactColumnToDbColumn($user);
-                                        $result2 = User::find($u['id'])->update($_user);
-                                    }
-                                }
-                            }
-
-                        }
+                    // Sync the USER DATA from Salesforce to SMP Database
+                    foreach($c['users'] as $key => $u) {
+                        $user = (new Contact)->findByAccountID($u['account_code']);
+                        $parsedUserData = UserResource::parseSfContactColumnToDbColumn($user);
+                        User::where('account_code', $parsedUserData['account_code'])->update($parsedUserData);
                     }
+                    $this->info('Database successfully sync from salesforce pulled records.');
                 } catch (\Exception $e) {
                     Log::error('Error while requesting to sf the account of '.$c['account_id'].' Error: '.$e->getMessage());
                 }
             }
-            $this->info('Database successfully sync from salesforce pulled records.');
-        } catch (\Exception $e) {
-            $this->info('Error while syncing records.');
-        }
     }
 }

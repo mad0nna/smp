@@ -20,7 +20,13 @@ class BillingController extends Controller
     public function getLatestInvoiceDetails($companyID) {   
         $billingService = new BillingService;
         $zuoraInfo =  $billingService->getAccountInfo($companyID); 
-        return $billingService->getLatestInvoiceDetails($zuoraInfo['id']);
+
+        if (is_array($zuoraInfo)) {
+            return $billingService->getLatestInvoiceDetails($zuoraInfo['id']);
+        } else {
+            return null;
+        }
+        
     }
 
     public function list()

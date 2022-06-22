@@ -76,15 +76,11 @@ class CompanyService
 
     public function getDetailsByID($companyID)
     {
-        $companyDetails = Cache::remember("{$companyID}:company:details", now()->addMinutes(5), function () use ($companyID) {
-            $companyInformation = $this->mysql->getCompanyDetailsByID($companyID);
-            if (!empty($companyInformation)) {
-                return reset($companyInformation);
-            }
-            return (new Account)->findByID($companyID);
-        });
-
-        return json_encode($companyDetails);
+        $companyInformation = $this->mysql->getCompanyDetailsByID($companyID);
+        if (!empty($companyInformation)) {
+            return json_encode(reset($companyInformation));
+        }
+        return json_encode((new Account)->findByID($companyID));
     }
 
     public function getAllDetailsInSFByID($companyID)
@@ -131,8 +127,11 @@ class CompanyService
             $results = $this->company->whereHas('users', function ($query) use ($conditions)  {
                 return $query
                         ->where(function ($query) {
-                            $query->where('user_type_id', '!=', 1);
+                            $query->where('user_type_id', 3);
                         })
+                        ->with(['users' => function($users) {
+                            return $users->where('user_type_id', 3)->get();
+                        }])
                         ->where(function ($query) use ($conditions) {
                         $query->where('name', 'LIKE', "%{$conditions['keyword']}%")
                         ->orWhere('company_code', 'LIKE', "%{$conditions['keyword']}%")
@@ -144,8 +143,11 @@ class CompanyService
             })->skip($skip)->orderBy('companies.id', 'desc')->paginate($limit);
         } else {
             $results =  $this->company->whereHas('users', function ($query)  {
-                return $query->where('user_type_id', '!=', 1);
+                return $query->where('user_type_id', 3);
             })
+            ->with(['users' => function($users) {
+                return $users->where('user_type_id', 3)->get();
+            }])
             ->skip($skip)
             ->orderBy('companies.id', 'desc')
             ->paginate($limit);
@@ -193,7 +195,8 @@ class CompanyService
                 'temp_pw' => $pw,
                 'invite_token' => $invite_token,
                 'company_name' => $data['name'],
-                'account_code' => $data['account_code']
+                'account_code' => $data['account_code'],
+                'name' => $data['contact_first_name'] . ' ' . $data['contact_last_name']
             ];
             $_user = $user->create($userData);
             $this->mysql->makeUserWidgetSettings($_user->id);

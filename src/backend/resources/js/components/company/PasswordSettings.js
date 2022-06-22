@@ -144,7 +144,7 @@ const PasswordSettings = () => {
   const handleTextChange = (key, e) => {
     let hasError = false
     let errorMessage = ''
-    let val = e.target.value
+    let val = e.target.value.replace(/\s+/g, '')
     var keycode = keyPressed(e)
     if (keycode == 32) {
       e.preventDefault()
@@ -215,7 +215,8 @@ const PasswordSettings = () => {
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                     <div className="mb-1 md:mb-0 md:w-1/3">
                       <label className="text-sm text-gray-400">
-                        現在のパスワードを入力 :
+                        現在のパスワードを入力 :{' '}
+                        <span className="text-red-500">*</span>
                       </label>
                     </div>
                     <div className="md:w-2/3 flex-grow">
@@ -223,8 +224,8 @@ const PasswordSettings = () => {
                         className="text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8"
                         type="password"
                         name="oldPassword"
-                        defaultValue={state.oldPassword}
-                        onKeyDown={(e) => handleTextChange('oldPassword', e)}
+                        value={state.oldPassword}
+                        onChange={(e) => handleTextChange('oldPassword', e)}
                       />
                       <h1
                         className={
@@ -241,7 +242,8 @@ const PasswordSettings = () => {
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                     <div className="mb-1 md:mb-0 md:w-1/3">
                       <label className="text-sm text-gray-400">
-                        新しいパスワードを入力 :
+                        新しいパスワードを入力 :{' '}
+                        <span className="text-red-500">*</span>
                       </label>
                     </div>
                     <div className="md:w-2/3 md:flex-grow">
@@ -249,8 +251,8 @@ const PasswordSettings = () => {
                         className="text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8"
                         type="password"
                         name="newPassword"
-                        defaultValue={state.newPassword}
-                        onKeyDown={(e) => handleTextChange('newPassword', e)}
+                        value={state.newPassword}
+                        onChange={(e) => handleTextChange('newPassword', e)}
                       />
                       <h1
                         className={
@@ -266,7 +268,8 @@ const PasswordSettings = () => {
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                     <div className="mb-1 md:mb-0 md:w-1/3">
                       <label className="text-sm text-gray-400">
-                        新しいパスワード（確認 :
+                        新しいパスワード（確認 :{' '}
+                        <span className="text-red-500">*</span>
                       </label>
                     </div>
                     <div className="md:w-2/3 md:flex-grow">
@@ -274,8 +277,8 @@ const PasswordSettings = () => {
                         className="text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8"
                         type="password"
                         name="newPassword2"
-                        defaultValue={state.newPassword2}
-                        onKeyDown={(e) => handleTextChange('newPassword2', e)}
+                        value={state.newPassword2}
+                        onChange={(e) => handleTextChange('newPassword2', e)}
                       />
                       <h1
                         className={
@@ -287,6 +290,16 @@ const PasswordSettings = () => {
                       </h1>
                     </div>
                   </div>
+                  <span
+                    className="invalid-feedback text-xs text-center mt-3 w-2/3 mx-auto"
+                    role="alert"
+                  >
+                    <strong>
+                      1文字以上の大文字、1文字以上の小文字、1文字以上の特殊記号(
+                      ! &quot; # $ % & &apos; ( ) = ~ ^ \ など )
+                      を含む最低8桁以上の英数字のパスワードを入力してください
+                    </strong>
+                  </span>
                 </div>
               </div>
 

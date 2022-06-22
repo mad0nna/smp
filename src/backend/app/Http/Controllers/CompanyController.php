@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Resources\CompanyResource;
 use App\Http\Requests\SearchCompanyRequest;
+use App\Services\API\Salesforce\Model\Account;
+use App\Services\API\Salesforce\Model\Contact;
+use App\Services\UserService;
 use Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -55,9 +58,27 @@ class CompanyController extends Controller
         return $opportunityService->getLatestKOTOpportunityDetails(Session::get('salesforceCompanyID'));
     }
 
-    public function getUpdatedDataForEditCompanyDetails(DataSynchronizer $synchronizer)
+    public function getUpdatedDataForEditCompanyDetails(UserService $userService)
     {
-        return $synchronizer->getUpdatedDataForEditCompanyDetails(Session::get('salesforceCompanyID'), Session::get('salesforceContactID'));
+        $companyInformation = (new Account)->findByID(Session::get('salesforceCompanyID'));
+        $adminInformation =(new Contact)->getAdminByContactId(Session::get('salesforceContactID'));
+        $currentAdminInSF = true;
+        if ($adminInformation == false) {
+            $adminInformationFromDB = $userService->getAdminDetails(Session::get('salesforceCompanyID'))->toArray()[0];
+            $adminInformation['Email'] = $adminInformationFromDB['email'];
+            $adminInformation['FirstName'] = $adminInformationFromDB['first_name'];
+            $adminInformation['Id'] = $adminInformationFromDB['account_code'];
+            $adminInformation['LastName'] = $adminInformationFromDB['last_name'];
+            $adminInformation['MobilePhone'] = $adminInformationFromDB['contact_num'];
+            $adminInformation['Name'] = $adminInformationFromDB['last_name'] . ' ' . $adminInformationFromDB['first_name'];
+            $adminInformation['Title'] = $adminInformationFromDB['title'];
+            $currentAdminInSF = false;
+        }
+        return [
+            'company' => $companyInformation,
+            'admin' => $adminInformation,
+            'currentAdminInSF' => $currentAdminInSF
+        ];
     }
 
     public function index(SearchCompanyRequest $request, CompanyService $companyService)
@@ -133,7 +154,6 @@ class CompanyController extends Controller
             if ($result) {
                 $result = (new CompanyResource([]))->filterFromDbToFront($company);
             }
-
             $this->response = [
                 'success' => true,
                 'data' => $result,
@@ -229,7 +249,6 @@ class CompanyController extends Controller
         'billing_state' => $request['billingState'] ?? '',
         'billing_postal_code' => $request['billingPostalCode'] ?? '',
         'billing_country' => $request['billingCountry'] ?? '',
-        'license_version' => $request['licenseVersion'] ?? '',
         'billing_address' => $request['billingAddress'] ?? '',
         'token' => $request['token'] ?? '',
         'contact_first_name' => $request['admin'][0]['firstName'] ?? '',
@@ -245,6 +264,8 @@ class CompanyController extends Controller
         'opportunity' => $request['opportunity'] ?? [],
         'token' => $request['token'] ?? '',
         'kot_billing_start_date' => $request['kot_billing_start_date'] ?? '',
+        'phase'=>$request['phase'] ?? '',
+        'server_name' => $request['serverName'] ?? '',
       ];
     }
 }
