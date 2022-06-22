@@ -149,11 +149,25 @@ bg-shop-icon:hover {
 }
 
 .prod-list-img {
-    height: 250px;
+    height: 280px;
     overflow: hidden;
     position: relative;
 }
 
+.prod-list-img img {
+    width: 90%;
+    position: 'absolute';
+    bottom: 0;
+}
+
+.prod-list-img div {
+    height: '280px';
+    width: '280px';
+}
+
+.prod-list-desc p {
+    height: '85px'
+}
 
 .input-label {
     background: rgba(0, 0, 0, 0);
@@ -168,6 +182,8 @@ bg-shop-icon:hover {
     position: relative;
     min-height: 165px;
     min-width: 165px;
+    max-width: 165px;
+    max-height: 165px;
     width: 100%;
     overflow: hidden;
 }
@@ -177,6 +193,10 @@ bg-shop-icon:hover {
     top: 0;
     bottom: 0;
     margin: auto;
+}
+
+.prod-label {
+    width: 165px;
 }
 
 /* Scrollbar styles for webkit browsers */

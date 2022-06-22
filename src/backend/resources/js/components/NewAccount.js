@@ -3,11 +3,13 @@ import _, { isEmpty } from 'lodash'
 import waitingIcon from '../../img/loading-spinner.gif'
 import axios from 'axios'
 
-// accepts english, hiragana, kanji and half and full-width katakana
-const regex = new RegExp('^[ ]*[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$')
+// accepts english, hiragana, kanji and half and full-width katakana and numbers
+const regex = new RegExp(
+  '^[ ]*[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯0-9０-９]+[ ]*?$'
+)
 
-// regex used for removing spaces and numbers in name fields
-const spacesAndNumbersRegex = new RegExp(/\d+|\s+|[０-９]+/g)
+// regex used for removing spaces in name fields
+const spacesRegex = new RegExp(/\s+/g)
 
 const NewAccount = (props) => {
   const [state, setState] = useState({
@@ -32,7 +34,7 @@ const NewAccount = (props) => {
   })
 
   const handleLastNameChange = (e) => {
-    let value = e.target.value.replace(spacesAndNumbersRegex, '')
+    let value = e.target.value.replace(spacesRegex, '')
     if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
         return {
@@ -82,7 +84,7 @@ const NewAccount = (props) => {
   }
 
   const handleFirstNameChange = (e) => {
-    let value = e.target.value.replace(spacesAndNumbersRegex, '')
+    let value = e.target.value.replace(spacesRegex, '')
     if (isEmpty(value) || !regex.test(value)) {
       return setState((prevState) => {
         return {
