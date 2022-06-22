@@ -4,16 +4,16 @@ import { SaveIcon } from '../../../../icons'
 
 const EmailTemplate = () => {
   const [sign, setSign] = useState(false)
-  const [htmlContent, setHtmlContent] = useState('')
+  const [content, setContent] = useState('')
 
   const getContent = (htmlContentProp) => {
-    setHtmlContent(htmlContentProp)
+    setContent(htmlContentProp)
     console.log(htmlContentProp)
   }
 
   return (
     <>
-      <h1 className="text-3xl text-primary-500 font-bold mt-3.5 mx-6 border-b-2 border-primary-300 pb-3.5">
+      <h1 className="text-2.5xl text-primary-500 font-bold mt-3.5 mx-6 border-b-2 border-primary-300 pb-3.5">
         メールテンプレート設定
       </h1>
       <div className="mt-3.5 mx-6">
@@ -60,14 +60,16 @@ const EmailTemplate = () => {
         )}
         <div className="flex mt-12 mb-9 items-center">
           <button
-            onClick={() => console.log('htmlContent: ', htmlContent)}
+            onClick={() => console.log('htmlContent: ', content)}
             type="button"
-            className="flex w-24 rounded-md text-white bg-primary-500 justify-center mr-3 py-2"
+            className="flex h-9 w-24 rounded-md text-white bg-primary-500 justify-center mr-3 py-2"
           >
             <SaveIcon className="w-5 h-5 mr-2" />
             <p>保存</p>
           </button>
-          <p className="text-errorColor">テンプレートが設定されていません</p>
+          {content === '' && (
+            <p className="text-errorColor">テンプレートが設定されていません</p>
+          )}
         </div>
       </div>
     </>

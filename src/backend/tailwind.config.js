@@ -59,7 +59,7 @@ module.exports = {
         primary: {
           100: '#007B5333', // Changed To: lightGreen
           200: '#007B5366', // Changed To: tertiary-500
-          300: '#007B5399',
+          300: '#387F6B',
           400: '#007B53CC',
           500: '#065F46'
         },
@@ -106,6 +106,7 @@ module.exports = {
         'table-header-Gray-400': '#A5A5A5'
       },
       fontSize: {
+        '2.5xl': ['1.75rem', { lineHeight: '2rem' }],
         xxs: ['0.60rem', { lineHeight: '.75rem' }],
         'widget-xs': 10
       },
@@ -127,6 +128,10 @@ module.exports = {
         '1/4': '25%',
         '1/2': '50%',
         '3/4': '75%',
+        3.5: '0.875rem',
+        9: '2.25rem',
+        10: '2.5rem',
+        14: '3.5rem',
         'widget-item': 80,
         'table-height': 740
       },

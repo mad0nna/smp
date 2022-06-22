@@ -286,7 +286,7 @@ const Navigation = () => {
       content.push(
         <li
           key={i}
-          className={`sm:ml-0 md:ml-20 hover:text-tertiary-400 h-9 ${
+          className={`sm:ml-0 md:ml-20 my-auto hover:text-tertiary-400 min-h-3.5 ${
             active === nav.id ? 'text-tertiary-400' : 'text-body-400'
           }`}
           onClick={() => setActive(nav.id)}
@@ -304,7 +304,7 @@ const Navigation = () => {
       )
     })
 
-    return <ul className="sm:flex-row md:flex align-right mt-3">{content}</ul>
+    return <ul className="sm:flex-row md:flex align-right">{content}</ul>
   }
 
   const renderActionMenu = (action) => {
@@ -373,7 +373,7 @@ const Navigation = () => {
 
   return (
     <div className="shadow-lg">
-      <div className="flex justify-between px-11 py-1 bg-header">
+      <div className="flex justify-between px-11 py-1 bg-header min-h-10">
         <div>
           <div className="mx-auto">
             <h3 className="text-xs text-body-600">
@@ -421,22 +421,20 @@ const Navigation = () => {
           )}
         </div>
       </div>
-      <div className="grid grid-cols-4 bg-white px-11 py-1">
-        <div className="col-span-1 py-1">
+      <div className="grid grid-cols-4 bg-white px-11 min-h-14 min-h-14">
+        <div className="col-span-1 flex flex-col justify-center">
           <img
             alt="Kot Logo - SM"
-            className="sm:block xs:hidden"
+            className="sm:block xs:hidden h-auto w-min"
             src={navigation.logistics.logo}
           />
           <img
             alt="Kot Logo - XS"
-            className="sm:hidden xs:block"
+            className="sm:hidden xs:block h-auto w-9"
             src={KotIcon}
           />
         </div>
-        <div className="col-span-3 py-1 flex justify-end">
-          {renderNavMenu()}
-        </div>
+        <div className="col-span-3 flex justify-end">{renderNavMenu()}</div>
       </div>
     </div>
   )

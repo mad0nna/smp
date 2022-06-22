@@ -3,7 +3,7 @@ import React from 'react'
 const ProductList = () => {
   return (
     <>
-      <h1 className="text-3xl text-primary-500 font-bold mt-3.5 mx-6 border-b-2 border-primary-300 pb-3.5">
+      <h1 className="text-2.5xl text-primary-500 font-bold mt-3.5 mx-6 border-b-2 border-primary-300 pb-3.5">
         商品一覧
       </h1>
       <div className="mt-3.5 mx-6 min-h-max text-body-500">
