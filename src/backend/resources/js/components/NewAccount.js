@@ -198,7 +198,7 @@ const NewAccount = (props) => {
               }
             })
           }
-          // location.reload()
+          location.reload()
         })
         .catch(function (error) {
           if (error.response.status == 409) {

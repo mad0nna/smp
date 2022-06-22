@@ -78,6 +78,7 @@ const CompanyProfile = () => {
       'email'
     ],
     isLoading: false,
+    currentAdminInSF: false,
     errors: [],
     errorMessages: {}
   })
@@ -207,7 +208,15 @@ const CompanyProfile = () => {
             isGettingData: false,
             isLoading: false,
             companyEditValues: {
-              ...data.company
+              Name: data.company.Name ?? '',
+              Phone: data.company.Phone ?? '',
+              Website: data.company.Website ?? '',
+              Industry: data.company.Industry ?? '',
+              BillingPostalCode: data.company.BillingPostalCode ?? '',
+              BillingStreet: data.company.BillingStreet ?? '',
+              BillingCity: data.company.BillingCity ?? '',
+              BillingState: data.company.BillingState ?? '',
+              BillingCountry: data.company.BillingCountry ?? ''
             },
             adminDetailsEditValues: {
               ...data.admin
@@ -215,6 +224,8 @@ const CompanyProfile = () => {
           }
         })
         window.document.getElementById('iconContainer').src = saveIcon
+        let combineState = Object.assign({}, data.company, data.admin)
+        validate(combineState)
       })
   }
 
@@ -291,6 +302,7 @@ const CompanyProfile = () => {
         key === 'BillingCity' ||
         key === 'BillingState' ||
         key === 'BillingCountry' ||
+        key === 'BillingStreet' ||
         key === 'FirstName' ||
         key === 'LastName'
       ) {
@@ -379,7 +391,8 @@ const CompanyProfile = () => {
         '/company/updateCompanyDetails',
         {
           companyDetails: state.companyEditValues,
-          adminDetails: state.adminDetailsEditValues
+          adminDetails: state.adminDetailsEditValues,
+          currentAdminInSF: state.currentAdminInSF
         },
         {
           'Content-Type': 'application/json'
@@ -634,6 +647,16 @@ const CompanyProfile = () => {
                       placeholder="地名番地、建物名等"
                       onChange={(e) => handleCompanyChanges(e)}
                     />
+                    <label
+                      className={
+                        (_.includes(state.errors, 'BillingStreet')
+                          ? ''
+                          : 'hidden') +
+                        ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
+                      }
+                    >
+                      {state.errorMessages['BillingStreet']}
+                    </label>
 
                     <input
                       className={

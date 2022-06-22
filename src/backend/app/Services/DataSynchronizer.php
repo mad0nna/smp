@@ -24,9 +24,11 @@ class DataSynchronizer
         unset($formattedData['Id']);
         unset($formattedData['Name']);
         unset($formattedData['Email']);
-        $sfResponse = (new Contact)->update($formattedData, $contactID);
-        if (isset($sfResponse['status']) && !$sfResponse['status']) {
-            return MessageResult::error('Error on updating admin details');
+        if ($request['currentAdminInSF']) {
+            $sfResponse = (new Contact)->update($formattedData, $contactID);
+            if (isset($sfResponse['status']) && !$sfResponse['status']) {
+                return MessageResult::error('Error on updating admin details');
+            }
         }
 
         $dbResponse = $this->mysql->updateAdminDetails($contactID, $formattedData, true);

@@ -62,6 +62,7 @@ class CompanyController extends Controller
     {
         $companyInformation = (new Account)->findByID(Session::get('salesforceCompanyID'));
         $adminInformation =(new Contact)->getAdminByContactId(Session::get('salesforceContactID'));
+        $currentAdminInSF = true;
         if ($adminInformation == false) {
             $adminInformationFromDB = $userService->getAdminDetails(Session::get('salesforceCompanyID'))->toArray()[0];
             $adminInformation['Email'] = $adminInformationFromDB['email'];
@@ -71,10 +72,12 @@ class CompanyController extends Controller
             $adminInformation['MobilePhone'] = $adminInformationFromDB['contact_num'];
             $adminInformation['Name'] = $adminInformationFromDB['last_name'] . ' ' . $adminInformationFromDB['first_name'];
             $adminInformation['Title'] = $adminInformationFromDB['title'];
+            $currentAdminInSF = false;
         }
         return [
             'company' => $companyInformation,
-            'admin' => $adminInformation
+            'admin' => $adminInformation,
+            'currentAdminInSF' => $currentAdminInSF
         ];
     }
 
