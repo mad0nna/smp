@@ -8,6 +8,13 @@ use App\Http\Resources\UserResource;
 
 class HelperTest extends TestCase
 {
+    public function setUp(): void
+    {
+        $this->markTestSkipped('all tests in this file are invactive for this server configuration!');
+
+        parent::setUp();
+    }
+    
     public function testPaginatedInvalidResultsType()
     {
         $this->expectException('Exception');

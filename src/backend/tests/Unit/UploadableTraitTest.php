@@ -11,6 +11,13 @@ class UploadableTraitTest extends TestCase
 {
     use Uploadable;
 
+    public function setUp(): void
+    {
+        $this->markTestSkipped('all tests in this file are invactive for this server configuration!');
+
+        parent::setUp();
+    }
+    
     public function __constructor()
     {
         parent::__constructor();
