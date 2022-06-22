@@ -140,7 +140,7 @@ Route::group(['prefix' => 'payment'], function () {
     Route::get('creditCardPayment', 'PaymentController@creditCardPayment');
 });
 
-Route::group(['prefix' => 'logistics'], function () {
+Route::group(['prefix' => 'logistics',  'middleware' => 'logistics'], function () {
     Route::view('/dashboard', 'logistics.dashboard')->name('dashboard');
 });
 

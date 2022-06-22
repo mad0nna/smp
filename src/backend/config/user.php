@@ -59,7 +59,7 @@ return [
                 'type_alias' => ''
             ],
             'logistics' => [
-                'name' => 'Logistics',
+                'name' => 'Logistics Admin',
                 'dashboard_url' => '/logistics/dashboard',
                 'type_alias' => ''
             ],

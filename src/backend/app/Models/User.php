@@ -179,4 +179,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->user_type_id == 6? true: false;
     }
+
+    /**
+     * Returns true if user type is logistics admin else false
+     */
+    public function IsLogisticsAdmin()
+    {
+        return $this->type->name === config('user.types.logistics.name') ? true : false;
+    }
 }
