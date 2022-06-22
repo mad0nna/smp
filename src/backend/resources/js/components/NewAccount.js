@@ -3,132 +3,67 @@ import _, { isEmpty } from 'lodash'
 import waitingIcon from '../../img/loading-spinner.gif'
 import axios from 'axios'
 
-// accepts english, hiragana, kanji and half and full-width katakana and numbers
-const regex = new RegExp(
-  '^[ ]*[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯0-9０-９]+[ ]*?$'
-)
+// accepts english, hiragana, kanji and half and full-width katakana
+// const regex = new RegExp('^[ ]*[a-zA-Zぁ-ゞァ-ヾＡ-ｚｧ-ﾝﾞﾟｦ-ﾟ一-龯]+[ ]*?$')
 
-// regex used for removing spaces in name fields
-const spacesRegex = new RegExp(/\s+/g)
+// regex used for removing spaces and numbers in name fields
+// const spacesAndNumbersRegex = new RegExp(/\d+|\s+|[０-９]+/g)
 
 const NewAccount = (props) => {
   const [state, setState] = useState({
-    addingAccount: '',
     email: '',
     fullName: '',
     firstName: '',
     lastName: '',
+    contact_num: '',
+    title: '',
+    account_code: '',
+    user_type_id: '',
     isLoading: false,
     isLoadingOfAddingContact: false,
     isSearched: false,
     disableSendButton: true,
-    source: '',
-    foundAccount: {
-      first_name: '',
-      last_name: '',
-      contact_num: '',
-      title: '',
-      account_code: '',
-      user_type_id: ''
-    }
+    source: ''
   })
 
-  const handleLastNameChange = (e) => {
-    let value = e.target.value.replace(spacesRegex, '')
-    if (isEmpty(value) || !regex.test(value)) {
-      return setState((prevState) => {
+  const handleNameChanges = (e) => {
+    let key = e.target.name
+    let val = e.target.value.trim()
+    if (isEmpty(val)) {
+      setState((prevState) => {
         return {
           ...prevState,
           disableSendButton: true,
-          lastName: value
+          [key]: val
         }
       })
     }
-
-    if (
-      !isEmpty(state.foundAccount) &&
-      !isEmpty(state.email) &&
-      regex.test(value) &&
-      regex.test(state.firstName)
-    ) {
-      return setState((prevState) => {
-        return {
-          ...prevState,
-          disableSendButton: false,
-          lastName: value
-        }
-      })
-    }
-
-    if (
-      !isEmpty(state.email) &&
-      state.source === 'smp' &&
-      regex.test(value) &&
-      regex.test(state.firstName)
-    ) {
-      return setState((prevState) => {
-        return {
-          ...prevState,
-          lastName: value,
-          disableSendButton: false
-        }
-      })
-    }
-
-    return setState((prevState) => {
+    setState((prevState) => {
       return {
         ...prevState,
-        lastName: value
+        [key]: val
       }
     })
+    validate()
   }
 
-  const handleFirstNameChange = (e) => {
-    let value = e.target.value.replace(spacesRegex, '')
-    if (isEmpty(value) || !regex.test(value)) {
-      return setState((prevState) => {
+  const validate = () => {
+    setState((prevState) => {
+      if (isEmpty(prevState.lastName)) {
         return {
           ...prevState,
-          disableSendButton: true,
-          firstName: value
+          disableSendButton: true
         }
-      })
-    }
-
-    if (
-      !isEmpty(state.foundAccount) &&
-      !isEmpty(state.email) &&
-      regex.test(value) &&
-      regex.test(state.lastName)
-    ) {
-      return setState((prevState) => {
+      }
+      if (isEmpty(prevState.firstName)) {
         return {
           ...prevState,
-          disableSendButton: false,
-          firstName: value
+          disableSendButton: true
         }
-      })
-    }
-
-    if (
-      !isEmpty(state.email) &&
-      state.source === 'smp' &&
-      regex.test(value) &&
-      regex.test(state.lastName)
-    ) {
-      return setState((prevState) => {
-        return {
-          ...prevState,
-          firstName: value,
-          disableSendButton: false
-        }
-      })
-    }
-
-    return setState((prevState) => {
+      }
       return {
         ...prevState,
-        firstName: value
+        disableSendButton: false
       }
     })
   }
@@ -138,10 +73,12 @@ const NewAccount = (props) => {
       return {
         ...prevState,
         email: e.target.value,
-        foundAccount: {},
         firstName: '',
         lastName: '',
         fullName: '',
+        contact_num: '',
+        account_code: '',
+        title: '',
         searchResult: '',
         isSearched: false,
         disableSendButton: true
@@ -166,10 +103,7 @@ const NewAccount = (props) => {
             if (data.existsInDB) {
               return {
                 disableSendButton: true,
-                searchResult: data.message,
-                firstName: data.first_name,
-                lastName: data.last_name,
-                email: email
+                searchResult: data.message
               }
             }
             if (data === false) {
@@ -182,19 +116,15 @@ const NewAccount = (props) => {
                   '未登録のユーザーです。名前を入力して招待を送信してください。',
                 email: email,
                 firstName: '',
-                lastName: ''
+                lastName: '',
+                disableSendButton: true
               }
             } else {
               return {
                 ...prevState,
                 isLoading: false,
                 isSearched: true,
-                foundAccount: data,
                 source: 'salesforce',
-                // searchResult:
-                //   foundAccount.source === 'salesforce'
-                //     ? 'セールスフォースに存在するユーザーです。 招待状を送信してもよろしいですか？'
-                //     : '既に追加されているユーザーです。アカウント一覧をご確認ください',
                 searchResult: data.message,
                 email: email,
                 fullName: data.fullName,
@@ -204,26 +134,26 @@ const NewAccount = (props) => {
                 title: data.title,
                 account_code: data.account_code,
                 user_type_id: data.user_type_id,
-                disableSendButton: false
+                disableSendButton:
+                  !isEmpty(data.firstName) && !isEmpty(data.lastName)
               }
             }
           })
         })
         .catch(function (error) {
           if (error.response) {
-            // const admin = state.foundAccount
             setState((prevState) => {
               return {
                 ...prevState,
                 isLoading: false,
                 isSearched: true,
-                foundAccount: '',
                 searchResult:
                   '未登録のユーザーです。名前を入力して招待を送信してください。'
               }
             })
           }
         })
+      validate()
     } else {
       setState((prevState) => {
         return {
@@ -240,13 +170,8 @@ const NewAccount = (props) => {
   }
 
   const handleDisplayAddedAdmin = (user) => {
+    console.log(user)
     if (validateEmail(user.email)) {
-      if (user.source != 'salesforce') {
-        user.isPartial = 1
-      } else {
-        user.isPartial = 0
-      }
-
       setState((prevState) => {
         return {
           ...prevState,
@@ -314,7 +239,7 @@ const NewAccount = (props) => {
     <div
       className={
         (state.isSearched ? 'h-96' : 'h-64') +
-        ' rounded-lg border-2 border-gray-200 absolute md:inset-1/3 top-50 m-auto bg-primary-200 opacity-85'
+        ' rounded-lg border-2 border-gray-200 absolute inset-x-1/3 top-36 m-auto bg-primary-200 opacity-85'
       }
     >
       <div className="grid grid-cols-12 gap-4">
@@ -360,9 +285,10 @@ const NewAccount = (props) => {
                   </label>
                   <input
                     className="text-sm col-start-4 col-span-5 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 mr-3 ml-1"
-                    onChange={handleLastNameChange}
+                    onChange={handleNameChanges}
                     value={state.lastName}
                     type="text"
+                    name="lastName"
                   />
                 </div>
                 <div className="grid grid-cols-12 gap-2 mt-2">
@@ -371,9 +297,10 @@ const NewAccount = (props) => {
                   </label>
                   <input
                     className="text-sm col-start-4 col-span-5 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3 ml-1"
-                    onChange={handleFirstNameChange}
+                    onChange={handleNameChanges}
                     value={state.firstName}
                     type="text"
+                    name="firstName"
                   />
                 </div>
               </div>
@@ -398,10 +325,9 @@ const NewAccount = (props) => {
                     first_name: state.firstName,
                     last_name: state.lastName,
                     fullName: state.fullName,
-                    contact_num: state.foundAccount.contact_num,
-                    title: state.foundAccount.title,
-                    account_code: state.foundAccount.account_code,
-                    user_type_id: state.foundAccount.user_type_id
+                    contact_num: state.contact_num,
+                    title: state.title,
+                    account_code: state.account_code
                   })
                 }}
                 className={

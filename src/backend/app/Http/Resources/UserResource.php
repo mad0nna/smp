@@ -46,7 +46,6 @@ class UserResource extends JsonResource
             'email' => $data['Email'],
             'contact_num' => $data['MobilePhone'],
             'title' => $data['Title'],
-            'user_type_id' => $data['admin__c'] ? 3 :4,
         ];
     }
 }
