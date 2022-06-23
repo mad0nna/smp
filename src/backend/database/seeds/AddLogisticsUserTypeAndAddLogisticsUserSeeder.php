@@ -35,12 +35,10 @@ class AddLogisticsUserTypeAndAddLogisticsAdminSeeder extends Seeder
             $status = UserStatus::where('name', config('user.statuses.active'))->first();
 
             User::create([
-                // 'account_code' => '-',
                 'username' => 'logistics@sprobe.com',
                 'email' => 'logistics@sprobe.com',
                 'contact_num' => '12345678',
                 'password' => Hash::make('Password2021!'),
-                // 'company_id' => '1',  // maybe can be removed?
                 'first_name' => 'Logistics',
                 'last_name' => 'Admin',
                 'user_status_id' => $status->id,

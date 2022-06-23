@@ -185,6 +185,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function IsLogisticsAdmin()
     {
-        return $this->type->name === config('user.types.logistics.name') ? true : false;
+        return $this->type->name === config('user.types.logistics.name');
     }
 }
