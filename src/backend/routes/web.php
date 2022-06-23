@@ -70,6 +70,8 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::view('/setting/widget', 'company.widgetSetting');
     Route::view('/setting/payment/method', 'company.methodOfPayment');
     Route::view('/setting/password', 'company.passwordSetting');
+    Route::view('/setting/email', 'company.emailSetting');
+    Route::put('/setting/email', 'UserController@updateSubAdminByEmail');
 
     // Company Shop
     Route::view('/productDetail', 'companyProductDetail');

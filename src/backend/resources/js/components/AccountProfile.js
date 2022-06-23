@@ -35,7 +35,8 @@ const AccountProfileEdit = () => {
     loggedInUser: {},
     reload: true,
     errors: [],
-    errorMessages: {}
+    errorMessages: {},
+    currentUserId: ''
   })
 
   const validate = (fields) => {
@@ -289,7 +290,8 @@ const AccountProfileEdit = () => {
             dataEmpty: false,
             isEditingProfile: data.canEdit,
             mode: data.canEdit ? 'edit' : 'view',
-            authorityTransfer: data.authorityTransfer
+            authorityTransfer: data.authorityTransfer,
+            currentUserId: id
           }
         })
       })
@@ -503,20 +505,33 @@ const AccountProfileEdit = () => {
                           <label className="text-sm text-gray-400">
                             メールアドレス:{' '}
                           </label>
-                          <div className="text-sm text-gray-400">&nbsp;</div>
                         </div>
                         <div className="md:w-2/3 flex-grow">
                           <label
                             className={
                               // (state.isEditingProfile ? 'hidden' : '') +
-                              ' text-sm text-black w-full h-8 px-3 leading-8'
+                              ' text-sm text-black h-8 px-3 leading-8'
                             }
                           >
                             {state.account.email}
                           </label>
-                          <div className="px-3 text-sm text-gray-400">
-                            ※メールアドレスの変更はできません
-                          </div>
+                          <a
+                            href={
+                              `/company/setting/email?id=` + state.currentUserId
+                            }
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              className="inline-block"
+                              style={{ height: '1.2rem' }}
+                            >
+                              <path d="M0 0h24v24H0z" fill="none" />
+                              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                            </svg>
+                          </a>
                         </div>
                       </div>
                     </div>

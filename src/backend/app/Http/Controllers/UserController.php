@@ -325,6 +325,51 @@ class UserController extends Controller
         return response()->json($this->response, $this->response['code']);
     }
 
+    public function updateSubAdminByEmail(Request $request)
+    {
+        try {
+            $data = $request->all();
+
+            $user = User::where('id', $data['id'])->first();
+            // dd($user);
+            // Update Data in Salesforce
+            $salesforceData = [
+                'Email' => $data['newEmail']
+            ];
+
+            $response = (new Contact)->update($salesforceData, $user['account_code']);
+            // dd($response);
+            if (!$response['status']) {
+                return $response;
+            }
+
+            // Update Data in Database
+            $formData = [
+                'email' => $data['newEmail'] ?? '',
+                'username' => $data['newEmail'] ?? '',
+            ];
+
+            if ($user->update($formData)) {
+                // Update Session data
+                if (Session::get('salesforceContactID') == Auth::user()->account_code) {
+                    Session::put('email', $data['newEmail']);
+                }
+                return ['status' => true, 'data' => $user, 'message' => '成功者'];
+            }
+
+            return ['status' => false];
+        } catch (Exception $e) {
+            $this->response = [
+                'status' => false,
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
+        }
+
+        return response()->json($this->response, $this->response['code']);
+
+    }
+
     /**
      * Update user in Salesforce.
      *
