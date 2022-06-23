@@ -21,9 +21,9 @@ class AddLogisticsUserTypeAndAddLogisticsAdminSeeder extends Seeder
             'type_alias' => ''
         ];
 
-        $userTypeExists = UserType::where('name', 'Logistics Admin')->first();
+        $logisticUserType = UserType::where('name', 'Logistics Admin')->first();
 
-        if (!$userTypeExists instanceof UserType) {
+        if (!$logisticUserType instanceof UserType) {
             $logisticUserType = UserType::create($data);
         } else {
             $this->command->comment('User type is already existing, seeding attempt was ignored.');
