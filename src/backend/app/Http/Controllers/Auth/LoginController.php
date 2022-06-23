@@ -107,17 +107,17 @@ class LoginController extends Controller
             $request->validated();
             $credentials = $request->only('username', 'password');
             $result = $this->userService->log($credentials);
+            $authUser = Auth::user();
+
             if ($result['status'] != 200) {
                 return redirect()->back()->with('status', $result['error']);
             }
 
-            if (Auth::user()->email_verified_at === null) {
+            if ($authUser->email_verified_at === null) {
                 Auth::logout();
 
                 return redirect()->back()->with('status', '招待メール記載の利用開始ボタンよりログインしてください。');
             }
-
-            $authUser = Auth::user();
 
             Session::put('email', $authUser->email);
             Session::put('CompanyContactFirstname', $authUser->first_name);
@@ -135,7 +135,7 @@ class LoginController extends Controller
                 Session::put('kotStartDate', $authUser->company()->first()->kot_billing_start_date);
             }
 
-            return redirect(Auth::user()->type->dashboard_url);
+            return redirect($authUser->type->dashboard_url);
         } catch (Exception $e) {
             return redirect()->back()->with('status', $e);
         }

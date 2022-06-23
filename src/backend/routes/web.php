@@ -141,7 +141,7 @@ Route::group(['prefix' => 'payment'], function () {
 });
 
 Route::group(['prefix' => 'logistics',  'middleware' => 'logistics'], function () {
-    Route::view('/dashboard', 'logistics.dashboard')->name('dashboard');
+    Route::view('/products', 'logistics.productsList')->name('dashboard');
 });
 
 Route::get('service-check', 'ServiceCheckController');

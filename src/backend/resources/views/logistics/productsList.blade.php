@@ -1,5 +1,5 @@
 @extends('layouts.logistics')
 
 @section('content')
-    <div id="logistics-dashboard"></div>
+    <div id="logistics-products-list"></div>
 @endsection

@@ -60,7 +60,7 @@ return [
             ],
             'logistics' => [
                 'name' => 'Logistics Admin',
-                'dashboard_url' => '/logistics/dashboard',
+                'dashboard_url' => '/logistics/products',
                 'type_alias' => ''
             ],
     ],
