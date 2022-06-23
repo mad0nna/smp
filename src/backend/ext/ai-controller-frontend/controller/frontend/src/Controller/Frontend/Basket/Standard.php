@@ -77,10 +77,12 @@ class Standard
 	{
 		if( !isset( $this->baskets[$this->type] ) )
 		{
-			$this->baskets[$this->type] = $this->manager->getSession( $this->type );
+			$this->baskets[$this->type] = $this->manager->getSession( $this->type ); 
 			$this->checkLocale( $this->baskets[$this->type]->getLocale(), $this->type );
 			$this->baskets[$this->type]->setCustomerId( (string) $this->getContext()->getUserId() );
 		}
+		
+		// $this->baskets[$this->type]['order.base.last_name'] = 'alcuino1';
 
 		return $this->baskets[$this->type];
 	}
@@ -178,8 +180,7 @@ class Standard
 
 
 		$basket = $this->get()->setCustomerId( (string) $context->getUserId() )->finish()->check();
-		$basket['order.base.last_name'] = 'alcuino';
-		// dd($basket);
+
 		$this->manager->begin();
 		$this->manager->store( $basket );
 		$this->manager->commit();

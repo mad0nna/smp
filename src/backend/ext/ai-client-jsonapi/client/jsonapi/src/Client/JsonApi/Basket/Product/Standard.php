@@ -221,7 +221,7 @@ class Standard
 				$confIds = ( isset( $entry->attributes->config ) ? get_object_vars( $entry->attributes->config ) : [] );
 				$custIds = ( isset( $entry->attributes->custom ) ? get_object_vars( $entry->attributes->custom ) : [] );
 				$siteId = ( isset( $entry->attributes->siteid ) ? $entry->attributes->siteid : null );
-
+	 
 				$this->controller->addProduct( $item, $qty, $varIds, $confIds, $custIds, $stock, $supplier, $siteId );
 			}
 
