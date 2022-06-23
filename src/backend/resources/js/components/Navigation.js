@@ -35,8 +35,8 @@ const Navigation = () => {
       logo: KotLogo,
       action: [
         {
-          id: 'settings',
-          label: '設定',
+          id: 'setting-widget',
+          label: 'ウィジェット設定',
           url: '/admin/settings',
           icon: null,
           function: null
@@ -102,7 +102,7 @@ const Navigation = () => {
         },
         {
           id: 'setting-widget',
-          label: '設定',
+          label: 'ウィジェット設定',
           url: '/company/setting/widget',
           icon: null,
           function: null
@@ -185,7 +185,7 @@ const Navigation = () => {
           function: null
         },
         {
-          id: 'action-4',
+          id: 'setting-widget',
           label: 'ウィジェット設定',
           url: '#',
           icon: null,
