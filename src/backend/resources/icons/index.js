@@ -3,6 +3,15 @@ import BellIcon from './Bell'
 import AccountIcon from './Account'
 import QuestionIcon from './Question'
 import SaveIcon from './Save'
-import Gear from './Gear'
+import GearIcon from './Gear'
+import BurgerIcon from './Burger'
 
-export { BellIcon, LogoutIcon, AccountIcon, QuestionIcon, Gear, SaveIcon }
+export {
+  BellIcon,
+  LogoutIcon,
+  AccountIcon,
+  QuestionIcon,
+  GearIcon,
+  SaveIcon,
+  BurgerIcon
+}

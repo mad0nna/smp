@@ -7,9 +7,10 @@ import KotIcon from '../../img/admin/king-of-time-logo.png'
 import {
   AccountIcon,
   QuestionIcon,
-  Gear,
+  GearIcon,
   BellIcon,
-  LogoutIcon
+  LogoutIcon,
+  BurgerIcon
 } from '../../icons'
 
 const domElementPresent = (element) => {
@@ -18,6 +19,7 @@ const domElementPresent = (element) => {
 
 const Navigation = () => {
   const refMenu = useRef()
+  const navMenu = document.querySelector('#menu')
   const [info, setInfo] = useState({
     firstName: '',
     lastName: '',
@@ -73,7 +75,7 @@ const Navigation = () => {
           id: 'settings',
           label: null,
           url: '#',
-          icon: <Gear className="w-5 h-5" />,
+          icon: <GearIcon className="w-5 h-5 inline" />,
           function: null
         }
       ]
@@ -153,7 +155,7 @@ const Navigation = () => {
           id: 'settings',
           label: null,
           url: '#',
-          icon: <Gear className="w-5 h-5" />,
+          icon: <GearIcon className="w-5 h-5 inline" />,
           function: null
         }
       ]
@@ -223,7 +225,7 @@ const Navigation = () => {
           id: 'settings',
           label: null,
           url: '#',
-          icon: <Gear className="w-5 h-5" />,
+          icon: <GearIcon className="w-5 h-5 inline" />,
           function: null
         }
       ]
@@ -286,12 +288,12 @@ const Navigation = () => {
       content.push(
         <li
           key={i}
-          className={`sm:ml-0 md:ml-20 my-auto hover:text-tertiary-400 min-h-3.5 ${
+          className={`sm:ml-0 md:ml-20 mb-1 md:my-auto hover:text-tertiary-400 min-h-3.5 ${
             active === nav.id ? 'text-tertiary-400' : 'text-body-400'
           }`}
           onClick={() => setActive(nav.id)}
         >
-          <a className="block" href={nav.url}>
+          <a className="block xs:text-right" href={nav.url}>
             {nav.label ? nav.label : nav.icon}
             {nav.url === '/company/billing' &&
               unpaidBillingInfo &&
@@ -421,8 +423,8 @@ const Navigation = () => {
           )}
         </div>
       </div>
-      <div className="grid grid-cols-4 bg-white px-11 min-h-14 min-h-14">
-        <div className="col-span-1 flex flex-col justify-center">
+      <div className="grid grid-flow-row grid-cols-4 bg-white px-11 min-h-14 min-h-14">
+        <div className="col-span-1 flex flex-col justify-center xs:my-2">
           <img
             alt="Kot Logo - SM"
             className="sm:block xs:hidden h-auto w-min"
@@ -434,7 +436,26 @@ const Navigation = () => {
             src={KotIcon}
           />
         </div>
-        <div className="col-span-3 flex justify-end">{renderNavMenu()}</div>
+        <div className="col-span-3 flex md:hidden justify-end">
+          <button
+            type="button"
+            onClick={() => {
+              if (navMenu.classList.contains('hidden')) {
+                navMenu.classList.remove('hidden')
+              } else {
+                navMenu.classList.add('hidden')
+              }
+            }}
+          >
+            <BurgerIcon className="h-6 w-6" />
+          </button>
+        </div>
+        <div
+          id="menu"
+          className="xs:col-span-4 md:col-span-3 hidden md:flex justify-end"
+        >
+          {renderNavMenu()}
+        </div>
       </div>
     </div>
   )
