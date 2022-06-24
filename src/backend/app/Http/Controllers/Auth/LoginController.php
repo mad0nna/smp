@@ -119,20 +119,21 @@ class LoginController extends Controller
                 return redirect()->back()->with('status', '招待メール記載の利用開始ボタンよりログインしてください。');
             }
 
-            Session::put('email', $authUser->email);
-            Session::put('CompanyContactFirstname', $authUser->first_name);
-            Session::put('CompanyContactLastname', $authUser->last_name);
+            Session::put([
+                'email' => $authUser->email,
+                'CompanyContactFirstname' => $authUser->first_name,
+                'CompanyContactLastname' => $authUser->last_name,
+            ]);
 
             if (Auth::user()->type->name !== config('user.types.logistics.name')) {
-                Session::put('companyID', $authUser->company()->first()->id);
-                Session::put('salesforceCompanyID', $authUser->company()->first()->account_id);
-                Session::put('email', $authUser->email);
-                Session::put('salesforceContactID', $authUser->account_code);
-                Session::put('CompanyContactFirstname', $authUser->first_name);
-                Session::put('CompanyContactLastname', $authUser->last_name);
-                Session::put('companyName', $authUser->company()->first()->name);
-                Session::put('kotToken', $authUser->company()->first()->token);
-                Session::put('kotStartDate', $authUser->company()->first()->kot_billing_start_date);
+                Session::put([
+                    'companyID' => $authUser->company()->first()->id,
+                    'salesforceCompanyID' => $authUser->company()->first()->account_id,
+                    'salesforceContactID' => $authUser->account_code,
+                    'companyName' => $authUser->company()->first()->name,
+                    'kotToken' => $authUser->company()->first()->token,
+                    'kotStartDate' => $authUser->company()->first()->kot_billing_start_date,
+                ]);
             }
 
             return redirect($authUser->type->dashboard_url);
