@@ -107,25 +107,36 @@ class LoginController extends Controller
             $request->validated();
             $credentials = $request->only('username', 'password');
             $result = $this->userService->log($credentials);
+            $authUser = Auth::user();
+
             if ($result['status'] != 200) {
                 return redirect()->back()->with('status', $result['error']);
             }
 
-            if (Auth::user()->email_verified_at === null) {
+            if ($authUser->email_verified_at === null) {
                 Auth::logout();
 
                 return redirect()->back()->with('status', '招待メール記載の利用開始ボタンよりログインしてください。');
             }
-            Session::put('companyID', Auth::user()->company()->first()->id);
-            Session::put('salesforceCompanyID', Auth::user()->company()->first()->account_id);
-            Session::put('email', Auth::user()->email);
-            Session::put('salesforceContactID', Auth::user()->account_code);
-            Session::put('CompanyContactFirstname', Auth::user()->first_name);
-            Session::put('CompanyContactLastname', Auth::user()->last_name);
-            Session::put('companyName', Auth::user()->company()->first()->name);
-            Session::put('kotToken', Auth::user()->company()->first()->token);
-            Session::put('kotStartDate', Auth::user()->company()->first()->kot_billing_start_date);
-            return redirect(Auth::user()->type->dashboard_url);
+
+            Session::put([
+                'email' => $authUser->email,
+                'CompanyContactFirstname' => $authUser->first_name,
+                'CompanyContactLastname' => $authUser->last_name,
+            ]);
+
+            if (Auth::user()->type->name !== config('user.types.logistics.name')) {
+                Session::put([
+                    'companyID' => $authUser->company()->first()->id,
+                    'salesforceCompanyID' => $authUser->company()->first()->account_id,
+                    'salesforceContactID' => $authUser->account_code,
+                    'companyName' => $authUser->company()->first()->name,
+                    'kotToken' => $authUser->company()->first()->token,
+                    'kotStartDate' => $authUser->company()->first()->kot_billing_start_date,
+                ]);
+            }
+
+            return redirect($authUser->type->dashboard_url);
         } catch (Exception $e) {
             return redirect()->back()->with('status', $e);
         }
