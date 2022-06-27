@@ -16,9 +16,20 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-primaryBg">
-    <nav id="navigation-logistics"></nav>
-    <main>
-        @yield('content')
+    @yield('navigation')
+    <main class="grid grid-cols-12">
+        @if(isset($withSidebar) && $withSidebar)
+            <div class="col-span-2">
+                @yield('sidebar')
+            </div>
+            <div class="col-span-10">
+                @yield('content')
+            </div>
+        @else
+            <div class="col-span-full">
+                @yield('content')
+            </div>
+        @endif
     </main>
 @php
     $user = \App\Models\User::with(['user_company'])->find(Auth::user()->id);

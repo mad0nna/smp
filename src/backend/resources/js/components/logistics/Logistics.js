@@ -29,6 +29,6 @@ const Logistics = () => {
 
 export default Logistics
 
-if (document.getElementById('logistics-dashboard')) {
-  ReactDOM.render(<Logistics />, document.getElementById('logistics-dashboard'))
+if (document.getElementById('content-logistics')) {
+  ReactDOM.render(<Logistics />, document.getElementById('content-logistics'))
 }
