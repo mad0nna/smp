@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "aws/aws-sdk-php": "~3.0",
+        "doctrine/dbal": "*",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.3",
@@ -33,6 +34,9 @@
         "sort-packages": true,
         "platform": {
             "php": "7.4.13"
+        },
+        "allow-plugins": {
+            "composer/installers": true
         }
     },
     "extra": {
