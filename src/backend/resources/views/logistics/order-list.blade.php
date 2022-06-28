@@ -1,9 +1,4 @@
-@extends('layouts.v2.app')
-
-@section('navigation')
-    <div id="navigation-logistics">
-    </div>
-@endsection
+@extends('layouts.v2.logistics')
 
 @section('content')
     <div id="content-logistics">
