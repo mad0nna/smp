@@ -201,6 +201,21 @@ const CompanyProfile = () => {
       })
       .then((response) => {
         let data = response.data
+        if (!data.admin) {
+          return setState((prevState) => {
+            alert(
+              'The logged in user is not a company administrator in Salesforce.'
+            )
+            return {
+              ...prevState,
+              isEditingContact: false,
+              isAbleToEdit: false,
+              isGettingData: false,
+              isEditingProfile: false
+            }
+          })
+        }
+
         setState((prevState) => {
           return {
             ...prevState,
