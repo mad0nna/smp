@@ -11,11 +11,13 @@
     <link rel="shortcut icon" href="{{ asset('images/kotFabIcon.png') }}">
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-primaryBg">
+<body class="bg-primaryBg font-sans font-light">
     @yield('navigation')
     <main class="grid grid-cols-12">
         @if(isset($withSidebar) && $withSidebar)

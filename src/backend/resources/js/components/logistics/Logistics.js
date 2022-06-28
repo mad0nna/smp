@@ -6,9 +6,9 @@ const Logistics = () => {
   const [active] = useState(location.pathname.split('/')[2])
 
   return (
-    <div className="grid md:grid-cols-4 font-meiryo">
+    <div className="grid md:grid-cols-4">
       <div className="col-span-4">
-        <div className="mt-14 mb-5 mx-11 border rounded-xl bg-white shadow-5x h-fit">
+        <div className="mt-50px mb-5 mx-11 border rounded-xl bg-white shadow-5x h-fit">
           {(() => {
             switch (active) {
               case 'order-list':

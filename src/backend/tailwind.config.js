@@ -85,6 +85,12 @@ module.exports = {
           500: '#768070',
           600: '#808080'
         },
+        whiteTint: {
+          600: '#E2EDE9',
+          700: '#F4F8F7',
+          800: '#F3F7F6',
+          900: '#F2F7F5'
+        },
         header: '#2A853508',
         cyan: '#43BBB3',
         orange: '#FFBC03',
@@ -141,6 +147,8 @@ module.exports = {
         '5xl': '0px 15px 30px rgba(0, 0, 0, 0.16)'
       },
       spacing: {
+        '25px': 25,
+        '50px': 50,
         200: 350
       },
       borderRadius: {
@@ -168,8 +176,7 @@ module.exports = {
       }
     },
     fontFamily: {
-      sans: ['Meiryo-UI'],
-      meiryo: ['Meiryo-UI']
+      sans: ['Roboto', 'Noto Sans JP', 'Meiryo-UI', 'sans-serif']
     }
   },
   variants: {

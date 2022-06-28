@@ -314,13 +314,13 @@ const Navigation = () => {
 
     action.map((nav, i) => {
       content.push(
-        <li key={i} className="rounded-md hover:bg-gray-100 my-2">
+        <li key={i} className="rounded-md hover:bg-whiteTint-600 my-2">
           <a
             href={nav.url}
             onClick={nav.function}
             className={`${
               !nav.icon ? 'ml-8' : ''
-            } flex items-center py-2 space-x-4 text-base text-white tracking-tighter`}
+            } flex items-center py-2 space-x-4 tracking-tighter`}
           >
             {nav.icon} <span className="text-tertiary-500">{nav.label}</span>
           </a>
@@ -401,7 +401,7 @@ const Navigation = () => {
           {showDropdown && (
             <div
               id="nav-dropdown-content"
-              className="border border-gray-100 bg-white px-2 z-20 w-64 absolute top-8 right-4 cursor-pointer rounded-md shadow-lg"
+              className="border border-gray-100 bg-gradient-to-b from-white to-whiteTint-900 via-whiteTint-800 px-2 z-20 w-64 absolute top-8 right-4 cursor-pointer rounded-md shadow-lg"
             >
               {(() => {
                 switch (userType) {
