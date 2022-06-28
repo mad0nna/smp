@@ -170,7 +170,6 @@ class UserController extends Controller
         try {
             $sf = $request->all();
             $isExists = $this->userService->findByEmail($sf['email']);
-
             if(!empty($isExists) && $sf['source'] === 'salesforce') {
                 return response()->json(['message' => 'SMPにすでに存在する電子メール'], 409);
             }
@@ -197,35 +196,10 @@ class UserController extends Controller
                 'account_code' => $sf['account_code'] ?? '',
                 'name' => ($sf['last_name'] ?? '') . ' ' . ($sf['first_name'] ?? ''),
                 'company_name' => $company_name,
+                'title' => $sf['title'] ?? ''
             ];
-
-            if (!$sf['isPartial']) {
-                $formData['contact_num'] = $sf['contact_num'] ?? '';
-                $formData['title'] = $sf['title'] ?? '';
-                $formData['account_code'] = $sf['account_code'] ?? '';
-                $formData['user_type_id'] = $sf['user_type_id'] ?? '';
-            }
-
-            // create user in Salesforce
-            if ($sf['source'] === 'smp') {
-                $addInSF = (new Contact)->create([
-                    'AccountId' => Auth::user()->company()->first()->account_id,
-                    'LastName' => $sf['last_name'] ?? '',
-                    'FirstName' => $sf['first_name'] ?? '',
-                    'Email' => $sf['email'],
-                    'admin__c' => false
-                ]);
-                if ($addInSF['status']) {
-                    $userInfo = (new Contact)->findByEmail($sf['email']);
-                    //create the user in DB
-                    $formData['email'] = $userInfo['Email'];
-                    $user = $this->userService->create($formData);
-                    $this->dbRepo->makeUserWidgetSettings($user->id);
-                }
-            } else {
-                $user = $this->userService->create($formData);
-                $this->dbRepo->makeUserWidgetSettings($user->id);
-            }
+            $user = $this->userService->create($formData);
+            $this->dbRepo->makeUserWidgetSettings($user->id);
             $this->response['data'] = new UserResource($user);
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [

@@ -132,7 +132,7 @@ const Navigation = () => {
             }
           },
           {
-            label: '設定',
+            label: 'ウィジット設定',
             url: '/company/setting/widget',
             iconNormal: 'bg-settings-icon-white',
             iconHover: '',
@@ -308,14 +308,33 @@ const Navigation = () => {
           //   iconSize: 'h-5 w-5',
           //   extraStyle: 'cursor-default'
           // },
+          // {
+          //   label: 'ウィジット設定',
+          //   url: '/admin/settings',
+          //   iconNormal: 'bg-settings-icon-white',
+          //   iconHover: '',
+          //   iconSize: 'h-5 w-5',
+          //   extraStyle: ''
+          // },
           {
-            label: '設定',
-            url: '/admin/settings',
-            iconNormal: 'bg-settings-icon-white',
+            label: 'ログアウト',
+            url: '/logout',
+            iconNormal: 'bg-signout-icon',
             iconHover: '',
             iconSize: 'h-5 w-5',
             extraStyle: ''
-          },
+          }
+        ]
+      }
+    }
+
+    const logisticsNavigation = {
+      logo: KotLogo,
+      navItem: [],
+      dropDownNav: {
+        title: '管理者',
+        logo: AdminIcon,
+        items: [
           {
             label: 'ログアウト',
             url: '/logout',
@@ -342,6 +361,9 @@ const Navigation = () => {
           mainNav = salesNavigation
           break
         case 'employee':
+          break
+        case 'logistics':
+          mainNav = logisticsNavigation
           break
         default:
           mainNav = companyNavigation
@@ -541,8 +563,9 @@ const Navigation = () => {
               }
             >
               <div className="ml-1">様</div>
-              <div className="truncate ml-1">{state.contactFirstName} </div>
-              <div className="truncate ml-1">{state.contactLastName} </div>
+              <div className="truncate ml-1">
+                {state.contactLastName + ' ' + state.contactFirstName}
+              </div>
             </div>
           </div>
         </div>
