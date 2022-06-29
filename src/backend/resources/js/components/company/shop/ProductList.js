@@ -330,7 +330,7 @@ const ProductList = () => {
               ></img>
             </div>
             <div className="prod-list-desc flex flex-col justify-between gap-2 pb-2">
-              <div className="text-red-500 font-bold mt-2 h-10 line-clamp-2">
+              <div className="text-red-500 font-bold mt-2 line-clamp-2">
                 {product.product['product.label'] ?? ''}
               </div>
               <div className="text-red-500 font-bold text-right">
