@@ -325,11 +325,41 @@ class UserController extends Controller
         return response()->json($this->response, $this->response['code']);
     }
 
+    public function inviteNewEmail(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $user = User::where('id', $data['id'])->first();
+            $invite_token = Hash::make(time() . uniqid());
+
+            $formData = [
+                'invite_token' => $invite_token,
+            ];
+
+            if ($user->update($formData)) {
+                $result = $this->userService->sendTempEmailInvite($data['newEmail'], $invite_token);
+            }
+
+            if ($result) {
+                return ['status' => true, 'message' => '成功者'];
+            }
+           
+
+        } catch (Exception $e) {
+            $this->response = [
+                'status' => false,
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
+        }
+
+        return response()->json($this->response, $this->response['code']);
+    }
+
     public function updateSubAdminByEmail(Request $request)
     {
         try {
             $data = $request->all();
-
             $user = User::where('id', $data['id'])->first();
             // dd($user);
             // Update Data in Salesforce
@@ -338,7 +368,7 @@ class UserController extends Controller
             ];
 
             $response = (new Contact)->update($salesforceData, $user['account_code']);
-            // dd($response);
+
             if (!$response['status']) {
                 return $response;
             }

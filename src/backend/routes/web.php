@@ -71,7 +71,9 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::view('/setting/payment/method', 'company.methodOfPayment');
     Route::view('/setting/password', 'company.passwordSetting');
     Route::view('/setting/email', 'company.emailSetting');
-    Route::put('/setting/email', 'UserController@updateSubAdminByEmail');
+    Route::post('/setting/email', 'UserController@updateSubAdminByEmail');
+    Route::post('/setting/email/inviteNewEmail', 'UserController@inviteNewEmail');
+    
 
     // Company Shop
     Route::view('/productDetail', 'companyProductDetail');

@@ -515,11 +515,7 @@ const AccountProfileEdit = () => {
                           >
                             {state.account.email}
                           </label>
-                          <a
-                            href={
-                              `/company/setting/email?id=` + state.currentUserId
-                            }
-                          >
+                          <a href={`/company/setting/email`}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               height="24"

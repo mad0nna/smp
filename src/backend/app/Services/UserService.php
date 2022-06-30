@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\ActivationToken;
 use App\Models\UserStatus;
 use App\Mail\InviteUser;
+use App\Mail\VerifyEmail;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserNotCreatedException;
 use App\Exceptions\UserStatusNotFoundException;
@@ -335,16 +336,21 @@ class UserService
         }
     }
 
-    /**
-     * Resend email invite
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function resendEmailInvite($id)
     {
         $user = User::findOrFail($id);
         Mail::to($user)->send(new InviteUser($user, $user->temp_pw, $user->invite_token));
+
+        return true;
+    }
+
+    public function sendTempEmailInvite($temp_email, $invite_token)
+    {
+        $to = [
+            'attribute' => ['email' => $temp_email]
+        ];
+
+        Mail::to($temp_email)->send(new VerifyEmail($temp_email, $invite_token));
 
         return true;
     }

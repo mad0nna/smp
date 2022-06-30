@@ -4,19 +4,29 @@ import SettingSideNav from '../SettingSideNav'
 import waitingIcon from '../../../img/loading-spinner.gif'
 import axios from 'axios'
 const EmailSettings = () => {
+  let userData = JSON.parse(document.getElementById('userData').textContent)
   var minheight = { 'min-height': '700px' }
   const [errorMessages, setErrorMessages] = useState({
     newEmail: '',
     newEmail2: '',
     hasError: false
   })
+  var url_string = window.location.href
+  var url = new URL(url_string)
+  var token = url.searchParams.get('token')
+  var tempEmail = url.searchParams.get('temp_email')
+
   const [state, setState] = useState({
     newEmail: '',
     newEmail2: '',
     status: '',
     message: '',
     validationFields: ['newEmail', 'newEmail2'],
-    isLoading: false
+    isLoading: false,
+    userId: userData.userId,
+    isVefication: token ? true : false,
+    token: token,
+    tempEmail: tempEmail
   })
 
   const handleChangeEmail = () => {
@@ -77,14 +87,15 @@ const EmailSettings = () => {
       return
     }
 
-    let urlParams = new URLSearchParams(location.search)
+    // new URLSearchParams(location.search) + '/resendEmailInvite'
+    let url = window.location + '/inviteNewEmail'
     let data = {
       _token: document.querySelector('meta[name="csrf-token"]').content,
-      id: urlParams.get('id'),
+      id: state.userId,
       newEmail: state.newEmail
     }
     axios
-      .put(window.location, data, {
+      .post(url, data, {
         'Content-Type': 'application/json'
       })
       .then((response) => {
@@ -114,7 +125,8 @@ const EmailSettings = () => {
           return {
             ...prevState,
             isLoading: false,
-            message: response.message,
+            message:
+              'An email was sent in your account for verification. Please check it to successfully change email address.',
             newEmail: '',
             newEmail2: '',
             status: ''
@@ -124,6 +136,33 @@ const EmailSettings = () => {
         for (let x = 0; x < elements.length; x++) {
           elements[x].value = ''
         }
+      })
+  }
+
+  const handleVerifyEmail = () => {
+    let url = window.location
+    let data = {
+      _token: document.querySelector('meta[name="csrf-token"]').content,
+      id: state.userId,
+      newEmail: state.tempEmail
+    }
+    axios
+      .post(url, data, {
+        'Content-Type': 'application/json'
+      })
+      .then((response) => {
+        response = response.data
+        if (!response.status) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              isLoading: false,
+              message: response.message
+            }
+          })
+          return
+        }
+        window.location.href = '/logout'
       })
   }
 
@@ -193,7 +232,12 @@ const EmailSettings = () => {
             <h2 className="text-green-800 text-lg font-bold">メールアドレス</h2>
           </div>
           <div className="text-center">
-            <div className="align-top inline-block h-auto bg-white my-4 ml-5 mr-5 py-5 px-6">
+            <div
+              className={
+                (state.isVefication ? 'hidden ' : '') +
+                'align-top inline-block h-auto bg-white my-4 ml-5 mr-5 py-5 px-6'
+              }
+            >
               <div className="mx-auto">
                 <div className="flex flex-wrap gap-0 w-full justify-start">
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
@@ -285,6 +329,40 @@ const EmailSettings = () => {
                   />
                   変更
                 </button>
+              </div>
+            </div>
+            <div
+              className={
+                (state.isVefication ? '' : 'hidden ') +
+                'align-top inline-block h-auto bg-white my-4 ml-5 mr-5 py-5 px-6'
+              }
+            >
+              <div className="mx-auto">
+                Please click to successfully change email
+                <div className="py-5 mt-0 pl-0 text-center space-x-10">
+                  <h1
+                    className={
+                      (state.message !== '' ? '' : 'hidden') +
+                      ' text-green-700 mb-3 text-lg w-full px-3 leading-8 font-medium'
+                    }
+                  >
+                    {state.message}
+                  </h1>
+                  <button
+                    onClick={handleVerifyEmail}
+                    className={
+                      ' bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 w-52 h-12'
+                    }
+                  >
+                    <img
+                      src={waitingIcon}
+                      className={
+                        (state.isLoading ? ' ' : ' hidden ') + ' w-8 inline '
+                      }
+                    />
+                    変更を保存してログアウトする
+                  </button>
+                </div>
               </div>
             </div>
           </div>
