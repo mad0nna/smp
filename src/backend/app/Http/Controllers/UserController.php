@@ -361,14 +361,14 @@ class UserController extends Controller
         try {
             $data = $request->all();
             $user = User::where('id', $data['id'])->first();
-            // dd($user);
+
             // Update Data in Salesforce
             $salesforceData = [
                 'Email' => $data['newEmail']
             ];
 
-            $response = (new Contact)->update($salesforceData, $user['account_code']);
-
+            $response = (new Contact)->update($salesforceData, $user->account_code);
+            dd($response);
             if (!$response['status']) {
                 return $response;
             }
@@ -381,7 +381,7 @@ class UserController extends Controller
 
             if ($user->update($formData)) {
                 // Update Session data
-                if (Session::get('salesforceContactID') == Auth::user()->account_code) {
+                if (Session::get('salesforceContactID') == $user->account_code) {
                     Session::put('email', $data['newEmail']);
                 }
                 return ['status' => true, 'data' => $user, 'message' => '成功者'];

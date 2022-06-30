@@ -17,11 +17,13 @@ const EmailSettings = () => {
   var tempEmail = url.searchParams.get('temp_email')
 
   const [state, setState] = useState({
+    currentEmail: userData.email,
+    enteredCurrentEmail: '',
     newEmail: '',
     newEmail2: '',
     status: '',
     message: '',
-    validationFields: ['newEmail', 'newEmail2'],
+    validationFields: ['newEmail', 'newEmail2', 'enteredCurrentEmail'],
     isLoading: false,
     userId: userData.userId,
     isVefication: token ? true : false,
@@ -64,6 +66,22 @@ const EmailSettings = () => {
             _errorMessages['newEmail'] = errorMessage
           } else if (!emailRegex.test(state.newEmail2)) {
             errorMessage = '有効なメールアドレスを入力してください'
+            hasError = true
+          }
+          break
+        case 'enteredCurrentEmail':
+          if (state.enteredCurrentEmail === '') {
+            errorMessage = '必須フィールド'
+            hasError = true
+          } else if (!emailRegex.test(state.enteredCurrentEmail)) {
+            errorMessage = '有効なメールアドレスを入力してください'
+            hasError = true
+          } else if (state.enteredCurrentEmail !== state.currentEmail) {
+            errorMessage = '入力した現在のメールアドレスが正しくありません'
+            hasError = true
+          } else if (state.enteredCurrentEmail === state.newEmail) {
+            errorMessage =
+              '新しいメールアドレスは現在のメールアドレスと同じです'
             hasError = true
           }
           break
@@ -240,6 +258,34 @@ const EmailSettings = () => {
             >
               <div className="mx-auto">
                 <div className="flex flex-wrap gap-0 w-full justify-start">
+                  <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
+                    <div className="mb-1 md:mb-0 md:w-1/4 text-left">
+                      <label className="text-sm text-gray-400">
+                        現在の電子メールアドレス :
+                        <span className="text-red-500">*</span>
+                      </label>
+                    </div>
+                    <div className="md:w-2/3 md:flex-grow">
+                      <input
+                        className="text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8"
+                        type="email"
+                        name="enteredCurrentEmail"
+                        value={state.enteredCurrentEmail}
+                        onChange={(e) =>
+                          handleTextChange('enteredCurrentEmail', e)
+                        }
+                      />
+                      <h1
+                        className={
+                          (errorMessages.enteredCurrentEmail ? '' : 'hidden') +
+                          ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600 text-left h-auto'
+                        }
+                      >
+                        {errorMessages.enteredCurrentEmail}
+                      </h1>
+                    </div>
+                  </div>
+
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                     <div className="mb-1 md:mb-0 md:w-1/4 text-left">
                       <label className="text-sm text-gray-400">
