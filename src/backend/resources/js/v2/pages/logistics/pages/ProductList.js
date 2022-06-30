@@ -3,9 +3,7 @@ import React from 'react'
 const ProductList = () => {
   return (
     <>
-      <h1 className="text-2.5xl text-primary-500 font-medium mt-3.5 mx-25px border-b-2 border-primary-300 pb-3.5">
-        商品一覧
-      </h1>
+      <h1 className="content-header">商品一覧</h1>
       <div className="mt-3.5 mb-25px mx-25px min-h-max text-body-500">
         或現五眼校往陽上土飛免皮師後，他欠空五子兆知乞誰屋要做戶包足；封北福因院拉具一片停帶正力起，封丁瓜太父！馬像干做對、們更問吉位百躲。
         八寫拍尼冒還瓜；合丟同燈牛國清；方火旁棵：象化童綠浪即勿蝶未士門訴它掃二你免平、開太合地壯百，金工亭路每友、扒員定世至空合元司葉澡言五冒祖貫位男從過，具害聲喝扒爬汁呢發春道海几。

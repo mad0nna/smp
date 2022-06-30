@@ -6,7 +6,7 @@ import { EditorState, convertToRaw } from 'draft-js'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 const TextEditor = (props) => {
-  const { getContent, editorStyles } = props
+  const { getContent, editorStyles = { height: 200 } } = props
 
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
@@ -33,12 +33,8 @@ const TextEditor = (props) => {
   )
 }
 
-TextEditor.defaultProps = {
-  editorStyles: { height: 200 }
-}
-
 TextEditor.propTypes = {
-  getContent: PropTypes.string,
+  getContent: PropTypes.func,
   editorStyles: PropTypes.object
 }
 

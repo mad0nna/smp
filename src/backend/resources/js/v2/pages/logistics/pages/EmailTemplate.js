@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import TextEditor from '../../../components/TextEditor'
 import { SaveIcon } from '../../../../../icons'
+import { TextEditor, ButtonIcon } from '../../../components'
 
 const EmailTemplate = () => {
   const [sign, setSign] = useState(false)
@@ -8,7 +8,6 @@ const EmailTemplate = () => {
 
   const getContent = (htmlContentProp) => {
     setContent(htmlContentProp)
-    console.log(htmlContentProp)
   }
 
   return (
@@ -57,13 +56,11 @@ const EmailTemplate = () => {
           </div>
         )}
         <div className="flex mt-12 mb-9 items-center">
-          <button
-            type="button"
-            className="flex h-9 w-24 rounded-md text-white bg-primary-500 justify-center mr-3 py-2"
-          >
-            <SaveIcon className="w-5 h-5 mr-2" />
-            <p>保存</p>
-          </button>
+          <ButtonIcon
+            text="保存"
+            icon={<SaveIcon />}
+            className="bg-primary-500 w-24 h-9 mr-3"
+          />
           {content === '' && (
             <p className="text-errorColor">テンプレートが設定されていません</p>
           )}

@@ -1,3 +1,4 @@
+@import './tailwind.css';
 @tailwind utilities;
 @tailwind components;
 @tailwind base;
@@ -38,11 +39,6 @@
     button.std-cancel {
         @apply text-xs rounded-md text-gray-400 px-6 py-2 border border-gray-200 hover:bg-gray-100 hover:text-gray-500 hover:border-transparent;
     }
-
-    .content-header {
-        @apply text-2.5xl text-primary-500 font-medium mt-3.5 mx-25px border-b-2 border-primary-300 pb-3.5;
-    }
-
 }
 
 .dashboardGrid > div::after {
