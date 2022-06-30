@@ -75,16 +75,11 @@ class LoginController extends Controller
                         'Email' => $user['email'],
                         'Title' => $user['title'],
                     ];
-                    $sf_user = $this->userService->contactVerification($salesforceFormat, $user['company']['account_id']);
-                    if($sf_user) {
-                        User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(),'user_status_id' => 1, 'account_code' => $sf_user['Id'], 'invite_token' => '', 'temp_pw' => '']);
+                    $sf_user = $this->userService->firstOrNew($salesforceFormat, $user['company']['account_id']);
+                    if ($sf_user) {
+                        User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(), 'user_status_id' => 1, 'account_code' => $sf_user['Id'], 'invite_token' => '', 'temp_pw' => '']);
                     }
-                    $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-                    $currentURL = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-                    $key = 'page';
-                    // Remove specific parameter from query string
-                    $filteredURL = preg_replace('~(\?|&)'.$key.'=[^&]*~', '$1', $currentURL);
-                    return redirect($filteredURL);
+                    return redirect(config('url', '/'));
                 }
                 if ($user && $user['user_status_id'] === 1) {
                     return redirect(Auth::user()->type->dashboard_url);

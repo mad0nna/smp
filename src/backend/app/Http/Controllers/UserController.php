@@ -194,28 +194,8 @@ class UserController extends Controller
                 'name' => ($sf['last_name'] ?? '') . ' ' . ($sf['first_name'] ?? ''),
                 'title' => $sf['title'] ?? ''
             ];
-
-            // create user in Salesforce
-            if ($sf['source'] === 'smp') {
-                $addInSF = (new Contact)->create([
-                    'AccountId' => Auth::user()->company()->first()->account_id,
-                    'LastName' => $sf['last_name'] ?? '',
-                    'FirstName' => $sf['first_name'] ?? '',
-                    'Email' => $sf['email'],
-                    'admin__c' => false
-                ]);
-                if ($addInSF['status']) {
-                    $userInfo = (new Contact)->findByEmail($sf['email']);
-                    //create the user in DB
-                    $formData['account_code'] = $userInfo['Id'];
-                    $formData['email'] = $userInfo['Email'];
-                    $user = $this->userService->create($formData);
-                    $this->dbRepo->makeUserWidgetSettings($user->id);
-                }
-            } else {
-                $user = $this->userService->create($formData);
-                $this->dbRepo->makeUserWidgetSettings($user->id);
-            }
+            $user = $this->userService->create($formData);
+            $this->dbRepo->makeUserWidgetSettings($user->id);
             $this->response['data'] = new UserResource($user);
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [

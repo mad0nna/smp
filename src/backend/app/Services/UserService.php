@@ -380,23 +380,18 @@ class UserService
         return true;
     }
 
-    public function contactVerification($user, $companyID)
+    public function firstOrNew($user, $companyID)
     {
         $exisitngData = (new Contact)->findByEmail($user['Email']);
         if ($exisitngData === false) {
             $user['AccountId'] = $companyID;
             $creationStatus = (new Contact)->create($user);
             if ($creationStatus) {
-                return $exisitngData;
+                return (new Contact)->findByEmail($user['Email']);;
             }
             return false;
         }
-        $contactID = $exisitngData['Id'];
-        $result = (new Contact)->update($user, $contactID);
-        if ($result['status']) {
-            return $exisitngData;
-        }
-        return false;
+        return $exisitngData;
     }
 
     public function getAdminDetails($sfCompanyID) {
