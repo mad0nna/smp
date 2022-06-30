@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import TextEditor from '../../TextEditor'
-import { SaveIcon } from '../../../../icons'
+import TextEditor from '../../../components/TextEditor'
+import { SaveIcon } from '../../../../../icons'
 
 const EmailTemplate = () => {
   const [sign, setSign] = useState(false)
@@ -13,9 +13,7 @@ const EmailTemplate = () => {
 
   return (
     <>
-      <h1 className="text-2.5xl text-primary-500 font-medium mt-3.5 mx-25px border-b-2 border-primary-300 pb-3.5">
-        メールテンプレート設定
-      </h1>
+      <h1 className="content-header">メールテンプレート設定</h1>
       <div className="mt-3.5 mb-25px mx-25px">
         <div className="flex items-center mt-7">
           <h1 className="text-3xl text-primaryBg mr-5">{'{{SUBJECT}}'}</h1>
@@ -60,7 +58,6 @@ const EmailTemplate = () => {
         )}
         <div className="flex mt-12 mb-9 items-center">
           <button
-            onClick={() => console.log('htmlContent: ', content)}
             type="button"
             className="flex h-9 w-24 rounded-md text-white bg-primary-500 justify-center mr-3 py-2"
           >

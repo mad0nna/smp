@@ -120,13 +120,6 @@ Route::prefix('sales')->group(function () {
     Route::view('/contact', 'sales.contact');
 });
 
-// Route for Logistics User
-Route::prefix('logistics')->group(function () {
-    Route::view('product-list', 'logistics.product-list')->name('logistics.productList');
-    Route::view('order-list', 'logistics.order-list')->name('logistics.orderList');
-    Route::view('email-template', 'logistics.email-template')->name('logistics.emailTemplate');
-});
-
 Route::prefix('password')->group(function () {
     Route::get('forgot', 'Auth\PasswordController@forgot')->middleware('guest');
     Route::post('email', 'Auth\PasswordController@email')->name('password.email');
@@ -147,8 +140,11 @@ Route::group(['prefix' => 'payment'], function () {
     Route::get('creditCardPayment', 'PaymentController@creditCardPayment');
 });
 
+// Route for Logistics User
 Route::group(['prefix' => 'logistics',  'middleware' => 'logistics'], function () {
-    Route::view('/products', 'logistics.productsList')->name('dashboard');
+    Route::view('product-list', 'logistics.product-list')->name('logistics.productList');
+    Route::view('order-list', 'logistics.order-list')->name('logistics.orderList');
+    Route::view('email-template', 'logistics.email-template')->name('logistics.emailTemplate');
 });
 
 Route::get('service-check', 'ServiceCheckController');

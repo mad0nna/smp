@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import draftToHtml from 'draftjs-to-html'
 import { Editor } from 'react-draft-wysiwyg'
 import { EditorState, convertToRaw } from 'draft-js'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
-const TextEditor = ({ getContent }) => {
-  const editorStyles = { height: 200 }
+const TextEditor = (props) => {
+  const { getContent, editorStyles } = props
 
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
@@ -30,6 +31,15 @@ const TextEditor = ({ getContent }) => {
       onEditorStateChange={onEditorStateChange}
     />
   )
+}
+
+TextEditor.defaultProps = {
+  editorStyles: { height: 200 }
+}
+
+TextEditor.propTypes = {
+  getContent: PropTypes.string,
+  editorStyles: PropTypes.object
 }
 
 export default TextEditor
