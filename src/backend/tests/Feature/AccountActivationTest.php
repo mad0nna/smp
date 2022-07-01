@@ -28,36 +28,33 @@ class AccountActivationTest extends TestCase
     /** @var UserService */
     private static $service;
 
-    /**
-     * AccountActivationTest constructor.
-     */
-    public function __construct()
+    public function setUp(): void
     {
-        parent::__construct();
-        $this->createApplication();
-    }
+        $this->markTestSkipped('all tests in this file are invactive for this server configuration!');
 
-    public static function setUpBeforeClass(): void
-    {
-        parent::setUpBeforeClass();
+        parent::setUp();
 
         self::$service = new UserService(new User);
+        
         $status = UserStatus::where('name', 'Pending')->first();
+
         self::$data['user_status_id'] = $status->id;
 
         self::$data['email'] = uniqid() . '@testasdasd.com';
+
         // create user
         self::$user = self::$service->create(self::$data);
+
         // get the token
         self::$token = ActivationToken::where('user_id', self::$user->id)->first();
     }
 
-    public static function tearDownAfterClass(): void
+    protected function tearDown(): void 
     {
-        parent::tearDownAfterClass();
-
         // delete test account
         self::$user->delete();
+     
+        parent::tearDown();
     }
 
     /**
