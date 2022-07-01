@@ -368,7 +368,7 @@ class UserController extends Controller
             ];
 
             $response = (new Contact)->update($salesforceData, $user->account_code);
-            dd($response);
+
             if (!$response['status']) {
                 return $response;
             }

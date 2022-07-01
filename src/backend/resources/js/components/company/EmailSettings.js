@@ -81,7 +81,7 @@ const EmailSettings = () => {
             hasError = true
           } else if (state.enteredCurrentEmail === state.newEmail) {
             errorMessage =
-              '新しいメールアドレスは現在のメールアドレスと同じです'
+              '新しいメールアドレスは現在のメールアドレスと同じです。'
             hasError = true
           }
           break
@@ -144,10 +144,11 @@ const EmailSettings = () => {
             ...prevState,
             isLoading: false,
             message:
-              'An email was sent in your account for verification. Please check it to successfully change email address.',
+              'お客様のアカウントに認証のためにメールをお送りしました。登録メールアドレスの変更を完了するために、認証を有効にしてください。',
             newEmail: '',
             newEmail2: '',
-            status: ''
+            status: '',
+            enteredCurrentEmail: ''
           }
         })
         var elements = document.getElementsByTagName('input')
@@ -384,7 +385,7 @@ const EmailSettings = () => {
               }
             >
               <div className="mx-auto">
-                Please click to successfully change email
+                クリックしてメールアドレス変更を完了してください。
                 <div className="py-5 mt-0 pl-0 text-center space-x-10">
                   <h1
                     className={
