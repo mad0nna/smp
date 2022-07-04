@@ -201,6 +201,7 @@ const CompanyProfile = () => {
       })
       .then((response) => {
         let data = response.data
+        delete data.admin.Name
         setState((prevState) => {
           return {
             ...prevState,
