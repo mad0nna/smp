@@ -708,7 +708,8 @@ class UserTest extends TestCase
  
         // $response->assertStatus(200);
         if ($response['status']) {
-            self::testSubAdminUpdateSubAdminByEmail();
+            $params['invite_token'] = $response['invite_token'];
+            self::testSubAdminUpdateSubAdminByEmail($params);
         }
         $result = json_decode((string) $response->getContent());
     }
@@ -721,7 +722,7 @@ class UserTest extends TestCase
         $subAdmin = self::getSubAdminAccount();
 
         $params = [
-            "inviteToken" => $data['email'],
+            "inviteToken" => $data['invite_token'],
             'newEmail' => $data['newEmail'],
             'newEmail2' => $data['newEmail'],
         ]; 
@@ -734,4 +735,39 @@ class UserTest extends TestCase
         $this->deleteUserByEmail($params['newEmail']);
         $result = json_decode((string) $response->getContent());
     }
+
+    public function testSubAdminInviteNewEmailIncorrectParams()
+    {
+        $subAdmin = self::getSubAdminAccount();
+
+        $newEmail = substr(md5(microtime()), rand(0, 26), 8) . "@gmail.com";
+        $params = [
+            "enteredCurrentEmail" => '',
+            'newEmail' => '',
+            'newEmail2' => '',
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_SUBADMIN)->withSession(self::$subAdminSessionData)
+                            ->json('POST', '/email/inviteNewEmail', $params);
+
+        $response->assertStatus(500);
+    }
+
+    public function testSubAdminUpdateSubAdminByEmailMissingParams()
+    {
+        $subAdmin = self::getSubAdminAccount();
+
+        $params = [
+            "inviteToken" => '',
+            'newEmail' => $data['newEmail'],
+            'newEmail2' => $data['newEmail'],
+        ]; 
+
+        $response = $this->actingAs(self::$COMPANY_SUBADMIN)->withSession(self::$subAdminSessionData)
+                            ->json('POST', '/email/inviteNewEmail', $params);
+
+ 
+        $response->assertStatus(500);
+    }
+
 }
