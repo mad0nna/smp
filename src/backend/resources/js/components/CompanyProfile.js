@@ -817,9 +817,11 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.adminDetails.LastName +
-                      ' ' +
-                      state.adminDetails.FirstName}
+                    <div className="px-3 flex flex-wrap">
+                      {state.adminDetails.LastName +
+                        ' ' +
+                        state.adminDetails.FirstName}
+                    </div>
                   </label>
                   <div className="space-y-1">
                     <input
