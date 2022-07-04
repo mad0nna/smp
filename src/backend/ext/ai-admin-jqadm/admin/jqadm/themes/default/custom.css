@@ -1,6 +1,8 @@
-html {
-  font-family: Meiryo-UI;
-  line-height: 1.5;
+html, body {
+    font-family: Roboto, Noto Sans JP, Meiryo-UI, sans-serif;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px #e8e8e8;
 }
 
 .app-menu {
@@ -26,76 +28,6 @@ p.upload-csv input {
 
 .form-control-label {
   justify-content:left;
-}
-
-#navbarsExample07 {
-  margin-right: 30px !important;
-}
-
-.bg-dashboard-icon {
-  background-image: url('/images/dashboard-normal.png');
-  background-repeat: no-repeat;
-  margin-right:2.5rem!important;
-  margin-left:3rem!important;
-  background-size: 36px 32px;
-}
-
-.bg-dashboard-icon-hover {
-  background-image: url('/images/dashboard-hover.png');
-  background-repeat: no-repeat;
-  margin-right:2.5rem!important;
-  margin-left:3rem!important;
-  background-size: 36px 32px;
-}
-
-.bg-account-list-icon {
-  background-image: url('/images/AccountList-normal.png');
-  background-repeat: no-repeat;
-  margin-right:2.6rem!important;
-  margin-left:2.9rem!important;
-  background-size: 36px 32px;
-}
-
-.bg-account-list-icon-hover {
-  background-image: url('/images/AccountList-hover.png');
-  background-repeat: no-repeat;
-  margin-right:2.6rem!important;
-  margin-left:2.9rem!important;
-  background-size: 36px 32px;
-}
-
-.hovered{
-  display: none;
-  color: white;
-  text-align: left !important;
-}
-
-.nav-item-element:hover .original
-{
-  display: none;
-}
-
-.nav-item-element:hover .hovered
-{
-  height: 99px;
-  background-color: rgba(16, 185, 129) !important;
-  display: block;
-}
-
-.bg-document-icon {
-  background-image: url('/images/document-normal.png');
-}
-
-.bg-document-icon-hover {
-  background-image: url('/images/document-hover.png');
-}
-
-.bg-billing-icon {
-  background-image: url('/images/billing-normal.png');
-}
-
-.bg-billing-icon-hover {
-  background-image: url('/images/billing-hover.png');
 }
 
 .btn-theme {
@@ -498,19 +430,121 @@ p.upload-csv input {
   color: rgba(29, 158, 72);
 }
 
-.font-sans {
-  font-family: Meiryo-UI;
-  line-height: 1.2;
-}
-
 #txtProductPrice {
   padding-right: 1.6rem!important;
 }
 
-#txtTaxRate {  
+#txtTaxRate {
   padding-right: 2rem;
 }
 
 #txtUnitPrice {
   padding-right: 1.6rem!important;
+}
+
+/* Updated header (top navigation) custom CSS, created by chu.rbr 29/06/2022 */
+
+.bg-header {
+  background: #EBEEEC;
+}
+
+.min-h {
+  min-height: 2.5rem;
+}
+
+.min-h-22px {
+  min-height: 22px;
+}
+
+.min-w {
+  width: min-content;
+}
+
+.auto-h {
+  height: auto;
+}
+
+.padding-x {
+  padding-left: 2.75rem;
+  padding-right: 2.75rem;
+}
+
+.padding-y {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.padding-0 {
+  padding: 0;
+}
+
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.text-body-400 {
+  color: #768070CC;
+}
+
+.text-body-600 {
+  color: #808080;
+}
+
+.w-5 {
+  width: 1.25rem;
+}
+
+.w-6 {
+  width: 1.5rem;
+}
+
+.h-5 {
+  height: 1.25rem;
+}
+
+.h-6 {
+  width: 1.5rem;
+}
+
+.w-icon {
+  width: 36px;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.ml-20 {
+  margin-left: 5rem;
+}
+
+.user-info {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: #1D9E48;
+  width: 5rem;
+  padding: 4px 8px;
+  margin-right: 2rem;
+  border-radius: 1.5rem;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+.text-decorate-none {
+  text-decoration: none;
+}
+
+.text-align-right {
+  text-align: right;
 }
