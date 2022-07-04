@@ -643,7 +643,7 @@ class UserTest extends TestCase
     }
 
     private function getSubAdminAccount() {
-        if (!$user) {
+        if (!self::$COMPANY_SUBADMIN) {
             $user = User::where('username', self::$subAdminAccount)->firstOrFail();
             self::$COMPANY_SUBADMIN = $user;
 
@@ -709,7 +709,6 @@ class UserTest extends TestCase
         // $response->assertStatus(200);
         if ($response['status']) {
             self::testSubAdminUpdateSubAdminByEmail();
-
         }
         $result = json_decode((string) $response->getContent());
     }
