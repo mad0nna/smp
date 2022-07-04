@@ -288,7 +288,7 @@ const Navigation = () => {
       content.push(
         <li
           key={i}
-          className={`sm:ml-0 md:ml-20 mb-1 md:my-auto hover:text-tertiary-400 min-h-3.5 ${
+          className={`sm:ml-0 md:ml-20 md:my-auto hover:text-tertiary-400 min-h-3.5 ${
             active === nav.id ? 'text-tertiary-400' : 'text-body-400'
           }`}
           onClick={() => setActive(nav.id)}
@@ -306,7 +306,7 @@ const Navigation = () => {
       )
     })
 
-    return <ul className="sm:flex-row md:flex align-right">{content}</ul>
+    return <ul className="sm:flex-row md:flex">{content}</ul>
   }
 
   const renderActionMenu = (action) => {
@@ -384,8 +384,8 @@ const Navigation = () => {
             <h3 className="text-xs text-body-600">{`${info.company} （閲覧用）`}</h3>
           </div>
         </div>
-        <div ref={refMenu} className="col-span-2 text-right">
-          <p className="inline text-xs text-tertiary-600 w-20 w-20 py-1 px-2 mr-8 rounded-3xl hover:bg-gray-100">
+        <div ref={refMenu}>
+          <p className="inline text-xs text-tertiary-500 w-20 py-1 px-2 mr-8 rounded-3xl hover:bg-gray-100">
             <QuestionIcon className="w-5 h-5 mr-2 inline text-primaryBg" />
             <span className="text-tertiary-400">ヘルプ</span>
           </p>
