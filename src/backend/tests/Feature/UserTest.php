@@ -12,7 +12,7 @@ class UserTest extends TestCase
 {
     /** @var Object */
     private static $COMPANY_ADMIN;
-
+    private static $COMPANY_SUBADMIN;
     /**
      * Session Login Data
      *
@@ -28,6 +28,7 @@ class UserTest extends TestCase
     private static $kotToken;
     private static $kotStartDate;
     private static $sessionData;
+    private static $subAdminSessionData;
 
     /** @var int */
     private static $userId;
@@ -37,6 +38,7 @@ class UserTest extends TestCase
 
     /** @var string */
     private static $sfEmail = 'test123@test.com';
+    private static $subAdminAccount = 'subadmin@gmail.com';
 
     public function setUp(): void
     {
@@ -638,5 +640,99 @@ class UserTest extends TestCase
 
             throw $th;
         }
+    }
+
+    private function getSubAdminAccount() {
+        if (!$user) {
+            $user = User::where('username', self::$subAdminAccount)->firstOrFail();
+            self::$COMPANY_SUBADMIN = $user;
+
+            self::$COMPANY_SUBADMIN = $user;
+            // self::$userId = $user->id;
+            // self::$companyID = $user->company->id;
+            // self::$salesforceCompanyID = $user->company->account_id;
+            // self::$email = $user->email;
+            // self::$salesforceContactID = $user->account_code;
+            // self::$CompanyContactFirstname = $user->first_name;
+            // self::$CompanyContactLastname = $user->last_name;
+            // self::$companyName = $user->company->name;
+            // self::$kotToken = $user->company->token;
+            // self::$kotStartDate = $user->company->kot_billing_start_date;
+
+            // Auth::login(self::$COMPANY_ADMIN);
+            // Session::put('companyID', self::$companyID);
+            // Session::put('salesforceCompanyID', self::$salesforceCompanyID);
+            // Session::put('email', self::$email);
+            // Session::put('salesforceContactID', self::$salesforceContactID);
+            // Session::put('CompanyContactFirstname', self::$CompanyContactFirstname);
+            // Session::put('CompanyContactLastname', self::$CompanyContactLastname);
+            // Session::put('companyName', self::$companyName);
+            // Session::put('kotToken', self::$kotToken);
+            // Session::put('kotStartDate', self::$kotStartDate);
+
+            self::$subAdminSessionData = [
+                'companyID' => $user->company->id,
+                'salesforceComppanyID' => $user->company->account_id,
+                'email' => $user->email,
+                'salesforceContactID' => $user->account_code,
+                'CompanyContactFirstname' => $user->first_name,
+                'CompanyContactLastname' => $user->last_name,
+                'companyName' =>$user->company->name,
+                'kotToken' => $user->company->token,
+                'kotStartDate' =>  $user->company->kot_billing_start_date
+            ];
+            
+        } else {
+            return self::$COMPANY_SUBADMIN;
+        }
+        
+    }
+
+    /**
+     * Test sub admin request change new email 
+     */
+    public function testSubAdminInviteNewEmail()
+    {
+        $subAdmin = self::getSubAdminAccount();
+
+        $newEmail = substr(md5(microtime()), rand(0, 26), 8) . "@gmail.com";
+        $params = [
+            "enteredCurrentEmail" => $subAdmin->email,
+            'newEmail' => $newEmail,
+            'newEmail2' => $newEmail,
+        ];
+
+        $response = $this->actingAs(self::$COMPANY_SUBADMIN)->withSession(self::$subAdminSessionData)
+                            ->json('POST', '/email/inviteNewEmail', $params);
+
+ 
+        // $response->assertStatus(200);
+        if ($response['status']) {
+            self::testSubAdminUpdateSubAdminByEmail();
+
+        }
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * Test sub admin update new email
+     */
+    private function testSubAdminUpdateSubAdminByEmail($data)
+    {
+        $subAdmin = self::getSubAdminAccount();
+
+        $params = [
+            "inviteToken" => $data['email'],
+            'newEmail' => $data['newEmail'],
+            'newEmail2' => $data['newEmail'],
+        ]; 
+
+        $response = $this->actingAs(self::$COMPANY_SUBADMIN)->withSession(self::$subAdminSessionData)
+                            ->json('POST', '/email/inviteNewEmail', $params);
+
+ 
+        $response->assertStatus(200);
+        $this->deleteUserByEmail($params['newEmail']);
+        $result = json_decode((string) $response->getContent());
     }
 }

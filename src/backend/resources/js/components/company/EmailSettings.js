@@ -13,7 +13,7 @@ const EmailSettings = () => {
   })
   var url_string = window.location.href
   var url = new URL(url_string)
-  var token = url.searchParams.get('token')
+  var inviteToken = url.searchParams.get('token')
   var tempEmail = url.searchParams.get('temp_email')
 
   const [state, setState] = useState({
@@ -26,8 +26,8 @@ const EmailSettings = () => {
     validationFields: ['newEmail', 'newEmail2', 'enteredCurrentEmail'],
     isLoading: false,
     userId: userData.userId,
-    isVefication: token ? true : false,
-    token: token,
+    isVefication: inviteToken ? true : false,
+    inviteToken: inviteToken,
     tempEmail: tempEmail
   })
 
@@ -61,7 +61,7 @@ const EmailSettings = () => {
             errorMessage = '必須フィールド'
             hasError = true
           } else if (state.newEmail2 !== state.newEmail) {
-            errorMessage = 'パスワードが一致しません'
+            errorMessage = 'メールアドレスが一致しません'
             hasError = true
             _errorMessages['newEmail'] = errorMessage
           } else if (!emailRegex.test(state.newEmail2)) {
@@ -106,11 +106,13 @@ const EmailSettings = () => {
     }
 
     // new URLSearchParams(location.search) + '/resendEmailInvite'
-    let url = window.location + '/inviteNewEmail'
+    let url = '/email/inviteNewEmail'
     let data = {
-      _token: document.querySelector('meta[name="csrf-token"]').content,
+      token: document.querySelector('meta[name="csrf-token"]').content,
       id: state.userId,
-      newEmail: state.newEmail
+      enteredCurrentEmail: state.enteredCurrentEmail,
+      newEmail: state.newEmail,
+      newEmail2: state.newEmail2
     }
     axios
       .post(url, data, {
@@ -159,9 +161,17 @@ const EmailSettings = () => {
   }
 
   const handleVerifyEmail = () => {
-    let url = window.location
+    setState((prevState) => {
+      return {
+        ...prevState,
+        isLoading: true
+      }
+    })
+
+    let url = '/email/updateSubAdminByEmail'
     let data = {
-      _token: document.querySelector('meta[name="csrf-token"]').content,
+      token: document.querySelector('meta[name="csrf-token"]').content,
+      inviteToken: state.inviteToken,
       id: state.userId,
       newEmail: state.tempEmail
     }
@@ -387,18 +397,10 @@ const EmailSettings = () => {
               <div className="mx-auto">
                 クリックしてメールアドレス変更を完了してください。
                 <div className="py-5 mt-0 pl-0 text-center space-x-10">
-                  <h1
-                    className={
-                      (state.message !== '' ? '' : 'hidden') +
-                      ' text-green-700 mb-3 text-lg w-full px-3 leading-8 font-medium'
-                    }
-                  >
-                    {state.message}
-                  </h1>
                   <button
                     onClick={handleVerifyEmail}
                     className={
-                      ' bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 w-52 h-12'
+                      ' bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 w-60 h-12'
                     }
                   >
                     <img
