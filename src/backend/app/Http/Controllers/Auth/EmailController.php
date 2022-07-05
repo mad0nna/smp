@@ -31,30 +31,31 @@ class EmailController extends Controller
         $data = $request->all();
         $id = Auth::user()->id;
         $hasEmpty = false;
-        $response = [
+        $this->response = [
             'errors' => [],
             'status' => false,
-            'message' => ''
+            'message' => '',
+            'code' => 500,
         ];
         foreach ($data as $key => $value) {
             if (empty($value)) {
                 $hasEmpty = true;
-                $response['errors'][$key] = '必須フィールド';
+                $this->response['errors'][$key] = '必須フィールド';
             }
         }
-        
+
         if ( $data['enteredCurrentEmail'] !== Auth::user()->email) {
             $hasEmpty = true;
-            $response['errors']['enteredCurrentEmail'] = '入力した現在のメールアドレスが正しくありません';
+            $this->response['errors']['enteredCurrentEmail'] = '入力した現在のメールアドレスが正しくありません';
         }
         if ($data['newEmail'] !== $data['newEmail2']) {
             $hasEmpty = true;
-            $response['errors']['newEmail'] = 'メールアドレスが一致しません';
-            $response['errors']['newEmail2'] = 'メールアドレスが一致しません';
+            $this->response['errors']['newEmail'] = 'メールアドレスが一致しません';
+            $this->response['errors']['newEmail2'] = 'メールアドレスが一致しません';
         }
         
         if ($hasEmpty) {
-            return $response;
+            return response()->json($this->response, $this->response['code']);
         }
 
         try {
@@ -68,18 +69,19 @@ class EmailController extends Controller
             if ($result) {
                 $this->userService->sendTempEmailInvite($data['newEmail'], $invite_token);
 
-                $response['message'] = '成功者';
-                $response['status'] = true;
-                $response['invite_token'] = $invite_token;
+                $this->response['message'] = '成功者';
+                $this->response['status'] = true;
+                $this->response['invite_token'] = $invite_token;
                 
-                return $response;
+                return $this->response;
             }
             
         } catch (QueryException $e) {
-            $response['message'] = 'パスワードの変更に失敗しました';
-            return $response;
-            $e->getMessage();
+            $this->response['message'] = 'パスワードの変更に失敗しました';
+            $this->response['code'] = 500;
         }
+
+        return response()->json($response, $response['code']);
     }
 
     public function updateSubAdminByEmail(Request $request)
@@ -93,11 +95,11 @@ class EmailController extends Controller
                 $salesforceData = [
                     'Email' => $data['newEmail']
                 ];
-
-                $response = (new Contact)->update($salesforceData, $user->account_code);
-
-                if (!$response['status']) {
-                    return $response;
+               
+                $result = (new Contact)->update($salesforceData, $user->account_code);
+                
+                if (!$result['status']) {
+                    return response()->json($result, 500);
                 }
 
                 // Update Data in Database
@@ -110,11 +112,18 @@ class EmailController extends Controller
                     // Update Session data
                     if (Session::get('salesforceContactID') == $user->account_code) {
                         Session::put('email', $data['newEmail']);
-                    }
-                    return ['status' => true, 'message' => '成功者'];
+                    } 
+
+                    $this->response['message'] = '成功者';
+                    $this->response['status'] = true;
+                    $this->response['code'] = 200;
+
+                } else {
+                    $this->response['message'] = 'データの更新中にエラーが発生しました';
+                    $this->response['status'] = false;
+                    $this->response['code'] = 500;
                 }
 
-                return ['status' => false];
             } else {
                 $this->response = [
                     'status' => false,

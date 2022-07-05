@@ -39,6 +39,7 @@ class UserTest extends TestCase
     /** @var string */
     private static $sfEmail = 'test123@test.com';
     private static $subAdminAccount = 'subadmin@gmail.com';
+    private static $updateParam = [];
 
     public function setUp(): void
     {
@@ -644,10 +645,8 @@ class UserTest extends TestCase
 
     private function getSubAdminAccount() {
         if (!self::$COMPANY_SUBADMIN) {
-            $user = User::where('username', self::$subAdminAccount)->firstOrFail();
-            self::$COMPANY_SUBADMIN = $user;
-
-            self::$COMPANY_SUBADMIN = $user;
+            self::$COMPANY_SUBADMIN = User::where('username', self::$subAdminAccount)->firstOrFail();
+       
             // self::$userId = $user->id;
             // self::$companyID = $user->company->id;
             // self::$salesforceCompanyID = $user->company->account_id;
@@ -670,20 +669,38 @@ class UserTest extends TestCase
             // Session::put('kotToken', self::$kotToken);
             // Session::put('kotStartDate', self::$kotStartDate);
 
+            Auth::logout();
+            Auth::login(self::$COMPANY_SUBADMIN);
+
             self::$subAdminSessionData = [
-                'companyID' => $user->company->id,
-                'salesforceComppanyID' => $user->company->account_id,
-                'email' => $user->email,
-                'salesforceContactID' => $user->account_code,
-                'CompanyContactFirstname' => $user->first_name,
-                'CompanyContactLastname' => $user->last_name,
-                'companyName' =>$user->company->name,
-                'kotToken' => $user->company->token,
-                'kotStartDate' =>  $user->company->kot_billing_start_date
+                'companyID' => self::$COMPANY_SUBADMIN->company->id,
+                'salesforceComppanyID' => self::$COMPANY_SUBADMIN->company->account_id,
+                'email' => self::$COMPANY_SUBADMIN->email,
+                'salesforceContactID' => self::$COMPANY_SUBADMIN->account_code,
+                'CompanyContactFirstname' => self::$COMPANY_SUBADMIN->first_name,
+                'CompanyContactLastname' => self::$COMPANY_SUBADMIN->last_name,
+                'companyName' => self::$COMPANY_SUBADMIN->company->name,
+                'kotToken' => self::$COMPANY_SUBADMIN->company->token,
+                'kotStartDate' => self::$COMPANY_SUBADMIN->company->kot_billing_start_date
             ];
             
+            
+
         } else {
-            return self::$COMPANY_SUBADMIN;
+            // Auth::logout();
+            Auth::login(self::$COMPANY_SUBADMIN);
+
+            self::$subAdminSessionData = [
+                'companyID' => self::$COMPANY_SUBADMIN->company->id,
+                'salesforceComppanyID' => self::$COMPANY_SUBADMIN->company->account_id,
+                'email' => self::$COMPANY_SUBADMIN->email,
+                'salesforceContactID' => self::$COMPANY_SUBADMIN->account_code,
+                'CompanyContactFirstname' => self::$COMPANY_SUBADMIN->first_name,
+                'CompanyContactLastname' => self::$COMPANY_SUBADMIN->last_name,
+                'companyName' => self::$COMPANY_SUBADMIN->company->name,
+                'kotToken' => self::$COMPANY_SUBADMIN->company->token,
+                'kotStartDate' => self::$COMPANY_SUBADMIN->company->kot_billing_start_date
+            ];
         }
         
     }
@@ -693,52 +710,57 @@ class UserTest extends TestCase
      */
     public function testSubAdminInviteNewEmail()
     {
-        $subAdmin = self::getSubAdminAccount();
+        $this->getSubAdminAccount();
 
         $newEmail = substr(md5(microtime()), rand(0, 26), 8) . "@gmail.com";
         $params = [
-            "enteredCurrentEmail" => $subAdmin->email,
+            "enteredCurrentEmail" => self::$COMPANY_SUBADMIN->email,
             'newEmail' => $newEmail,
             'newEmail2' => $newEmail,
         ];
-
         $response = $this->actingAs(self::$COMPANY_SUBADMIN)->withSession(self::$subAdminSessionData)
                             ->json('POST', '/email/inviteNewEmail', $params);
 
- 
-        // $response->assertStatus(200);
-        if ($response['status']) {
+        $response->assertStatus(200);
+        
+        if ($response['status']) {          
             $params['invite_token'] = $response['invite_token'];
-            self::testSubAdminUpdateSubAdminByEmail($params);
+            self::$sfEmail = $params;
         }
-        $result = json_decode((string) $response->getContent());
+
     }
 
     /**
-     * Test sub admin update new email
+     * Test sub admin update the new email in smp and sf
      */
-    private function testSubAdminUpdateSubAdminByEmail($data)
+    public function testSubAdminUpdateSubAdminByEmail()
     {
-        $subAdmin = self::getSubAdminAccount();
-
+        $this->getSubAdminAccount();
         $params = [
-            "inviteToken" => $data['invite_token'],
-            'newEmail' => $data['newEmail'],
-            'newEmail2' => $data['newEmail'],
+            "inviteToken" => self::$sfEmail['invite_token'],
+            'newEmail' => self::$sfEmail['newEmail'],
+            'newEmail2' => self::$sfEmail['newEmail'],
         ]; 
 
         $response = $this->actingAs(self::$COMPANY_SUBADMIN)->withSession(self::$subAdminSessionData)
-                            ->json('POST', '/email/inviteNewEmail', $params);
-
- 
+                            ->json('POST', '/email/updateSubAdminByEmail', $params);
         $response->assertStatus(200);
-        $this->deleteUserByEmail($params['newEmail']);
-        $result = json_decode((string) $response->getContent());
+
+        // Return back the orig email that was changed after testing.
+        $params = [
+            "inviteToken" => self::$sfEmail['invite_token'],
+            'newEmail' => 'subadmin@gmail.com',
+            'newEmail2' => 'subadmin@gmail.com',
+        ]; 
+
+        $this->actingAs(self::$COMPANY_SUBADMIN)->withSession(self::$subAdminSessionData)
+                            ->json('POST', '/email/updateSubAdminByEmail', $params);
+
     }
 
     public function testSubAdminInviteNewEmailIncorrectParams()
     {
-        $subAdmin = self::getSubAdminAccount();
+        $this->getSubAdminAccount();
 
         $newEmail = substr(md5(microtime()), rand(0, 26), 8) . "@gmail.com";
         $params = [
@@ -755,18 +777,16 @@ class UserTest extends TestCase
 
     public function testSubAdminUpdateSubAdminByEmailMissingParams()
     {
-        $subAdmin = self::getSubAdminAccount();
+        $this->getSubAdminAccount();
 
         $params = [
             "inviteToken" => '',
-            'newEmail' => $data['newEmail'],
-            'newEmail2' => $data['newEmail'],
+            'newEmail' => 'test4321@gmail.com',
         ]; 
 
         $response = $this->actingAs(self::$COMPANY_SUBADMIN)->withSession(self::$subAdminSessionData)
                             ->json('POST', '/email/inviteNewEmail', $params);
 
- 
         $response->assertStatus(500);
     }
 
