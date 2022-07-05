@@ -13,7 +13,7 @@ const EmailTemplate = () => {
   return (
     <>
       <h1 className="content-header">メールテンプレート設定</h1>
-      <div className="mt-3.5 mb-25px mx-25px">
+      <div className="content-body">
         <div className="flex items-center mt-7">
           <h1 className="text-3xl text-primaryBg mr-5">{'{{SUBJECT}}'}</h1>
           <p className="text-xs text-errorColor">

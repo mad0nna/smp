@@ -1,11 +1,15 @@
 @layer base {
     /* Typography */
-
-    /* Buttons */
     .content-header {
         @apply text-2.5xl text-primary-500 font-medium mt-3.5 mx-25px border-b-2 border-primary-300 pb-3.5;
     }
 
-    /* Containers */
+    /* Buttons */
 
+
+
+    /* Containers */
+    .content-body {
+        @apply mt-3.5 mb-25px mx-25px
+    }
 }
