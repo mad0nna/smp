@@ -1,12 +1,12 @@
 html, body {
-    font-family: Roboto, Noto Sans JP, Meiryo-UI, sans-serif;
-    line-height: 1.2;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 2px #e8e8e8;
+  font-family: Roboto, Noto Sans JP, Meiryo-UI, sans-serif;
+  line-height: 1.2;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px #e8e8e8;
 }
 
 .app-menu {
-    background: white;
+  background: white;
 }
 
 input[type=number] {
@@ -17,6 +17,7 @@ p.upload-csv {
   position: relative;
   overflow: hidden;
 }
+
 p.upload-csv input {
   position: absolute;
   font-size: 50px;
@@ -324,62 +325,6 @@ p.upload-csv input {
 
 /* <------------ End -------------> */
 
-.dd-nav {
-  -tw-bg-opacity: 1;
-  background-color: #95A199;
-  border-top-left-radius: 0.75rem;
-  border-bottom-left-radius: 0.75rem;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0.75rem;
-  left:inherit !important;
-  right:0;
-  width: 265px;
-  padding: 20px;
-}
-
-.dd-nav li
-{
-  display: flex;
-  align-items: center;
-  padding: 3px 0;
-}
-
-.dd-nav .dropdown-item {
-  color:white !important;
-  width: 75%;
-  display: inline-block;
-}
-
-.dd-nav .dropdown-item:hover{
-  background-color: inherit !important;
-  color: white !important;
-}
-
-.dd-nav li label {
-  width: 20px;
-  height:20px;
-}
-
-.bg-profile-icon-white {
-  background-image: url('/images/profile-icon-white.png');
-}
-
-.bg-call-icon-white {
-  background-image: url("/images/call-icon-white.png");
-}
-
-.bg-settings-icon-white {
-  background-image: url("/images/settings-icon-white.png");
-}
-
-.bg-widget-settings-icon {
-  background-image: url("/images/widget-settings.png");
-}
-
-.bg-signout-icon {
-  background-image: url("/images/signout.png");
-}
-
 .aimeos .list-customer-orders th {
   background-color: white;
   border-bottom: 1pt solid #15742e !important;
@@ -469,18 +414,33 @@ p.upload-csv input {
   padding-right: 2.75rem;
 }
 
+.padding-x-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .padding-y {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
 
-.padding-0 {
+.p-0 {
   padding: 0;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .my-auto {
   margin-top: auto;
   margin-bottom: auto
+}
+
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .text-xs {
@@ -496,12 +456,32 @@ p.upload-csv input {
   color: #808080;
 }
 
+.text-tertiary-500 {
+  color: #1D9E48;
+}
+
+.font-weight-light {
+  font-weight: 300;
+}
+
+.bg-whiteTint-800 {
+  background: #F3F7F6 !important;
+}
+
+.w-4 {
+  width: 1rem;
+}
+
 .w-5 {
   width: 1.25rem;
 }
 
 .w-6 {
   width: 1.5rem;
+}
+
+.h-4 {
+  height: 1rem;
 }
 
 .h-5 {
@@ -518,6 +498,10 @@ p.upload-csv input {
 
 .mr-2 {
   margin-right: 0.5rem;
+}
+
+.ml-8 {
+  margin-left: 2rem;
 }
 
 .ml-20 {
@@ -541,10 +525,27 @@ p.upload-csv input {
   margin: 8px 0;
 }
 
+.rounded-md {
+  border-radius: 0.375rem;
+}
+
 .text-decorate-none {
   text-decoration: none;
 }
 
 .text-align-right {
   text-align: right;
+}
+
+.dropdown-menu-position {
+  top: 3px !important;
+  right: -20px !important;
+}
+
+.dropdown-menu li:hover {
+  background: #E2EDE9 !important;
+}
+
+.dropdown-width {
+  width: 260px;
 }

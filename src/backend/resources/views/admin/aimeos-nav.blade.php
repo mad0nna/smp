@@ -2,12 +2,12 @@
     <div class="d-flex justify-content-between bg-header min-h padding-x padding-y">
         <div>
             <div class="mx-auto">
-                <h3 class="text-xs text-body-600 mb-0">sprobe admin 様</h3>
-                <h3 class="text-xs text-body-600 mb-0">Sprobe （閲覧用）</h3>
+                <h3 class="text-xs text-body-600 font-weight-light mb-0">sprobe admin 様</h3>
+                <h3 class="text-xs text-body-600 font-weight-light mb-0">Sprobe （閲覧用）</h3>
             </div>
         </div>
         <div class="d-flex flex-column justify-content-center">
-            <div class="position-relative">
+            <div class="position-relative dropdown">
                 <p class="d-inline user-info">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.762 18.762" class="w-5 h-5 mr-2 inline text-primaryBg">
                         <g id="question-circle" transform="translate(0 0.631)">
@@ -17,14 +17,22 @@
                     </svg>
                     <span class="text-tertiary-400">ヘルプ</span>
                 </p>
-                <button id="dropdown-action" class="border border-0 padding-0" data-bs-toggle="dropdown" aria-expanded="false">
+                <button id="dropdown-action" class="border border-0 p-0" data-bs-toggle="dropdown" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 23.944" class="w-5 h-5">
                         <path id="account-circle" d="M12,.25a11.563,11.563,0,0,1,8.487,3.513A11.531,11.531,0,0,1,24,12.222a11.531,11.531,0,0,1-3.513,8.459A11.563,11.563,0,0,1,12,24.194a11.563,11.563,0,0,1-8.487-3.513A11.533,11.533,0,0,1,0,12.222,11.527,11.527,0,0,1,3.513,3.763,11.565,11.565,0,0,1,12,.25Zm0,3.6a3.536,3.536,0,0,0-2.558,1.04A3.4,3.4,0,0,0,8.375,7.416,3.491,3.491,0,0,0,9.443,9.974,3.486,3.486,0,0,0,12,11.042,3.4,3.4,0,0,0,14.53,9.974a3.538,3.538,0,0,0,1.04-2.558A3.551,3.551,0,0,0,12,3.847Zm0,17.031a8.345,8.345,0,0,0,4.1-1.04A8.572,8.572,0,0,0,19.167,17a2.438,2.438,0,0,0-1.321-2,9.81,9.81,0,0,0-2.923-1.293A11.53,11.53,0,0,0,12,13.29a11.611,11.611,0,0,0-2.923.422A9.765,9.765,0,0,0,6.156,15a2.612,2.612,0,0,0-1.379,2A8.61,8.61,0,0,0,12,20.878Z" transform="translate(0 -0.25)" fill="#1e9e47"/>
                     </svg>
                 </button>
-                <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdown-action" data-bs-popper="none">
-                    <li>
-                        <a class="dropdown-item" href="/logout">ログアウト</a>
+                <ul class="list-unstyled dropdown-menu bg-whiteTint-800 dropdown-width dropdown-menu-position padding-0 px-2" aria-labelledby="dropdown-action" data-bs-popper="none">
+                    <li class="rounded-md my-2">
+                        <a class="d-block ml-8 py-2 px-0 text-decorate-none" href="/admin/settings">
+                            <span class="text-tertiary-500">ウィジェット設定</span>
+                        </a>
+                    </li>
+                    <li class="rounded-md my-2">
+                        <a class="d-block ml-8 py-2 px-0 text-decorate-none" href="/logout">
+                            <svg id="Logout" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="w-4 h-4"><rect id="Rectangle_570" data-name="Rectangle 570" width="16" height="16" fill="none"></rect><path id="Path_151" data-name="Path 151" d="M1.655,1.655v12.69H9.563V16H0V0H9.563V1.655ZM9.011,13.241,7.724,11.954l2.943-2.943h-6.8V7.172h6.989L7.724,4.23,9.011,2.943l4.966,4.966Z" transform="translate(2)" fill="#0a8131"></path></svg>
+                            <span class="text-tertiary-500">ログアウト</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -36,14 +44,14 @@
             <img alt="Kot Logo - XS" class="auto-h w-icon d-block d-md-none" src="/images/king-of-time-logo.png">
         </div>
         <div class="col-10 d-flex d-md-none justify-content-end">
-            <button onClick="toggle()" class="border border-0 padding-0 bg-transparent">
+            <button onClick="toggle()" class="border border-0 p-0 bg-transparent">
                 <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
         </div>
         <div id="menu" class="col-12 col-md-10 d-none d-md-flex justify-content-end">
-            <ul class="list-unstyled d-md-flex my-auto text-align-right">
+            <ul class="list-unstyled rounded-md d-md-flex my-auto text-align-right">
                 <li class="ml-20 d-block min-h-22px">
                     <a href="/admin/dashboard" class="text-decorate-none text-body-400">ダッシュボード</a>
                 </li>
