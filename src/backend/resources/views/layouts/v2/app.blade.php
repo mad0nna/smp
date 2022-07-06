@@ -25,22 +25,14 @@
                 @yield('sidebar')
             </div>
             <div class="col-span-10">
-                <div className="grid md:grid-cols-4">
-                  <div className="col-span-4">
-                    <div className="mt-50px mb-5 mx-11 border rounded-xl bg-white shadow-5x h-fit">
-                        @yield('content')
-                    </div>
-                  </div>
+                <div class="mt-50px mb-5 mx-11 border rounded-xl bg-white shadow-5x h-fit">
+                    @yield('content')
                 </div>
             </div>
         @else
             <div class="col-span-full">
-                <div className="grid md:grid-cols-4">
-                  <div className="col-span-4">
-                    <div className="mt-50px mb-5 mx-11 border rounded-xl bg-white shadow-5x h-fit">
-                        @yield('content')
-                    </div>
-                  </div>
+                <div class="mt-50px mb-5 mx-11 border rounded-xl bg-white shadow-5x h-fit">
+                    @yield('content')
                 </div>
             </div>
         @endif
