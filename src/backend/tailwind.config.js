@@ -121,7 +121,8 @@ module.exports = {
         widgetBody: 'calc(100% - 6.50rem)',
         'widgetBody-lg': 'calc(100% - 3rem)',
         'detail-height': '34rem',
-        checkBox: 16
+        checkBox: 16,
+        '26px': 26
       },
       width: {
         widgetBody: 'calc(100% - 3rem)',

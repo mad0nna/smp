@@ -384,7 +384,7 @@ const Navigation = () => {
             <h3 className="text-xs text-body-600">{`${info.company} （閲覧用）`}</h3>
           </div>
         </div>
-        <div ref={refMenu}>
+        <div className="h-26px my-auto" ref={refMenu}>
           <p className="inline text-xs text-tertiary-500 w-20 py-1 px-2 mr-8 rounded-3xl hover:bg-gray-100">
             <QuestionIcon className="w-5 h-5 mr-2 inline text-primaryBg" />
             <span className="text-tertiary-400">ヘルプ</span>

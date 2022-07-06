@@ -3,11 +3,6 @@
 @tailwind components;
 @tailwind base;
 @layer base {
-    @font-face {
-        font-family: Meiryo-UI;
-        font-weight: 400;
-        src: url('../fonts/Meiryo-UI.woff2') format('woff2');
-    }
 
     a, a:link, a:visited {
         letter-spacing: 1px;
@@ -112,10 +107,7 @@
 }
 
 .add-new-user {
-    /* height: 38px;
-    background-color: rgb(255, 255, 255); */
     border-color: rgb(212, 212, 216);
-    /* transform-origin: 50% 50% 0px; */
     border-radius: 4.37956% / 15.7895%;
 }
 
