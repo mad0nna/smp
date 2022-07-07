@@ -15,7 +15,9 @@ const EmailTemplate = () => {
       <h1 className="content-header">メールテンプレート設定</h1>
       <div className="content-body">
         <div className="flex items-center mt-7">
-          <h1 className="text-3xl text-primaryBg mr-5">{'{{SUBJECT}}'}</h1>
+          <h1 className="text-3xl text-black opacity-30 mr-5">
+            {'{{SUBJECT}}'}
+          </h1>
           <p className="text-xs text-errorColor">
             テンプレートが設定されていません
           </p>
@@ -41,7 +43,7 @@ const EmailTemplate = () => {
             onClick={() => {
               setSign((prevState) => !prevState)
             }}
-            className="primary-checkbox w-checkBox h-26px bg-white align-middle mr-2.5"
+            className="checkbox-primary rounded-sm w-checkBox h-checkBox bg-white align-middle mr-2.5"
           />
           <label className="text-body-500" htmlFor="signature">
             署名を追加

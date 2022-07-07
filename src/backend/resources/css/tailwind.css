@@ -9,22 +9,8 @@
 
     /* Inputs */
 
-    input[type=checkbox].primary-checkbox:before {
-        content: "\2714";
-        padding-left: 0.2em;
-        padding-bottom: 0.1em;
-        color: transparent;
-        border: 3px solid #10B982;
-        transition: .2s;
-        @apply inline-block w-5 h-5 align-middle
-    }
-
-    input[type=checkbox]:active.primary-checkbox:before {
-        @apply transform scale-0
-    }
-
-    input[type=checkbox]:checked.primary-checkbox:before {
-        @apply text-white bg-tertiary-600 border border-tertiary-600
+    input[type=checkbox].checkbox-primary {
+        accent-color: theme('colors.primary.500');
     }
 
     /* Containers */
