@@ -32,7 +32,7 @@ const ContractedServices = (props) => {
     return (
       <div id="widget-footer" className="w-full h-10 pr-4 mt-3">
         <div id="widget-footer-control" className="float-right">
-          <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter">
+          <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter">
             もっと見る
           </button>
         </div>
@@ -55,13 +55,13 @@ const ContractedServices = (props) => {
         >
           <div
             id="widget-icon"
-            className="2xl:w-2 w-1 h-6 bg-primary-200 float-left 2xl:ml-4"
+            className="2xl:w-2 w-1 h-6 bg-tertiary-500 float-left 2xl:ml-4"
           >
             {' '}
           </div>
           <div
             id="widget-name"
-            className="text-primary-200 font-sans font-bold 2xl:ml-8 lg:ml-4"
+            className="text-tertiary-500 font-sans font-bold 2xl:ml-8 lg:ml-4"
           >
             契約サービス
           </div>
@@ -75,7 +75,7 @@ const ContractedServices = (props) => {
           className="w-full bg-white 2xl:space-y-1 overflow-hidden "
         >
           {contractedServices.map((item, index) => {
-            let stripe = !(index % 2) ? 'bg-mainbg' : 'bg-white'
+            let stripe = !(index % 2) ? 'bg-primaryBg' : 'bg-white'
             return (
               <span
                 id="widget-content-item"

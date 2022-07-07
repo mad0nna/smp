@@ -106,6 +106,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post("template/getTemplateDetail", 'TemplateController@getTemplateDetail');
     Route::post('template/updateTemplate', 'TemplateController@updateTemplate');
 });
+
 // This route is for testing purposes.
 Route::get('template/fillData', 'TemplateController@fillData');
 
@@ -118,7 +119,6 @@ Route::prefix('sales')->group(function () {
     Route::view('/account', 'sales.account');
     Route::view('/contact', 'sales.contact');
 });
-
 
 Route::prefix('password')->group(function () {
     Route::get('forgot', 'Auth\PasswordController@forgot')->middleware('guest');
@@ -140,8 +140,11 @@ Route::group(['prefix' => 'payment'], function () {
     Route::get('creditCardPayment', 'PaymentController@creditCardPayment');
 });
 
+// Route for Logistics User
 Route::group(['prefix' => 'logistics',  'middleware' => 'logistics'], function () {
-    Route::view('/products', 'logistics.productsList')->name('dashboard');
+    Route::view('product-list', 'logistics.product-list')->name('logistics.productList');
+    Route::view('order-list', 'logistics.order-list')->name('logistics.orderList');
+    Route::view('email-template', 'logistics.email-template')->name('logistics.emailTemplate');
 });
 
 Route::get('service-check', 'ServiceCheckController');

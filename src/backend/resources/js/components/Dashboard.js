@@ -151,7 +151,7 @@ const Dashboard = () => {
 
   function DashboardItem() {
     return (
-      <div className="-mt-8">
+      <div>
         {unpaidBillingData &&
           unpaidBillingData.is_bank_transfer == true &&
           unpaidBillingData.total_billed_amount != null && (

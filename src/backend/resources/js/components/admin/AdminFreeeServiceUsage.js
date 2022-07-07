@@ -50,7 +50,7 @@ const AdminFreeeServiceUsage = () => {
               <div className="mt-4">
                 <a
                   href="#"
-                  className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter px-2"
+                  className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter px-2"
                 >
                   詳細を確認
                 </a>

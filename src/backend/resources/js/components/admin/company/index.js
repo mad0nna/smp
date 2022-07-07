@@ -175,7 +175,7 @@ const App = () => {
   }, [pagingConditions])
 
   return (
-    <div className="relative px-10 py-5 bg-mainbg fixed">
+    <div className="relative px-10 py-5 bg-primaryBg fixed">
       <Router>
         {state.redirectToProfile && state.isEditingProfile === true ? (
           <Redirect

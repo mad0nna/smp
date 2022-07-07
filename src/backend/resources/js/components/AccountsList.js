@@ -63,9 +63,9 @@ const AccountList = () => {
               >
                 <span
                   className={
-                    pagingConditions.page == number
-                      ? `text-white bg-primary-200 rounded-2xl px-3 py-1`
-                      : `text-primary-200 px-3 py-1`
+                    pagingConditions.page === number
+                      ? `text-white bg-tertiary-500 rounded-2xl px-3 py-1`
+                      : `text-tertiary-500 px-3 py-1`
                   }
                 >
                   {number}
@@ -226,9 +226,9 @@ const AccountList = () => {
   }
 
   return (
-    <div className="relative px-10 py-5 bg-mainbg ">
-      <div className="bg-mainbg grid grid-cols-3 font-meiryo gap-6">
-        <div className="col-span-3 w-full rounded-lg shadow-xl bg-white mb-10 border-primary-100">
+    <div className="relative px-10 py-5 bg-primaryBg">
+      <div className="bg-primaryBg grid grid-cols-3 font-meiryo gap-6">
+        <div className="col-span-3 w-full rounded-lg shadow-xl bg-white mb-10 border-lightGreen">
           <div className="px-3 pt-3 pb-10">
             <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
               <h2 className="text-green-800 text-lg font-bold">
@@ -372,7 +372,7 @@ const AccountList = () => {
                           {admin.user_status_id === 1 ? 'アクティブ' : '保留中'}
                         </td>
                         <td className=" grid-flow-row text-center">
-                          <a className="grid-flow-row inline text-primary-200">
+                          <a className="grid-flow-row inline text-tertiary-500">
                             {admin.user_status_id === 1 ? (
                               <span
                                 className="cursor-pointer"

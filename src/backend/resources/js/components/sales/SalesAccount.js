@@ -9,7 +9,7 @@ import PurchaseHistorySmall from './PurchaseHistorySmall'
 const SalesAccount = () => {
   return (
     <div
-      className="bg-mainbg grid lg:grid-cols-4 grid-flow-row grid-rows-6 gap-4 mx-10 mt-5"
+      className="bg-primaryBg grid lg:grid-cols-4 grid-flow-row grid-rows-6 gap-4 mx-10 mt-5"
       style={{ height: '800px' }}
     >
       <div className="col-span-4 row-span-2  ">

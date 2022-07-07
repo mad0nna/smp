@@ -19,13 +19,13 @@ const LinkageServices = () => {
         >
           <div
             id="widget-icon"
-            className="2xl:w-2 w-1 h-6 bg-primary-200 float-left 2xl:ml-4"
+            className="2xl:w-2 w-1 h-6 bg-tertiary-500 float-left 2xl:ml-4"
           >
             {' '}
           </div>
           <div
             id="widget-name"
-            className="text-primary-200 font-sans font-bold 2xl:ml-8 lg:ml-4"
+            className="text-tertiary-500 font-sans font-bold 2xl:ml-8 lg:ml-4"
           >
             サービス連携
           </div>
@@ -39,7 +39,7 @@ const LinkageServices = () => {
           className="  w-full bg-white 2xl:px-6 xl:px-5 lg:px-3 sm:px-2 space-y-0  bg-white "
         >
           {linkageServices.map((item, index) => {
-            let stripe = !(index % 2) ? 'bg-mainbg' : 'bg-white'
+            let stripe = !(index % 2) ? 'bg-primaryBg' : 'bg-white'
             return (
               <div
                 id="widget-content-item"
@@ -62,7 +62,7 @@ const LinkageServices = () => {
                 >
                   <div className="inline-block align-middle h-full w-1/2" />
                   <div className="inline-block align-middle">
-                    <p className="bg-primary-200 2xl:w-20 xl:w-16 lg:w-16 h-6 rounded-lg py-1 text-white font-sans text-xs text-center">
+                    <p className="bg-tertiary-500 2xl:w-20 xl:w-16 lg:w-16 h-6 rounded-lg py-1 text-white font-sans text-xs text-center">
                       {' '}
                       適用{' '}
                     </p>

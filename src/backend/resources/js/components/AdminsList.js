@@ -101,7 +101,7 @@ const AdminsList = (props) => {
                 {admin.user_status_id === 1 ? 'アクティブ' : '保留中'}
               </td>
               <td className=" grid-flow-row text-center">
-                <a className="grid-flow-row inline text-primary-200">
+                <a className="grid-flow-row inline text-tertiary-500">
                   {admin.user_type_id === 3 &&
                   state.loggedUser.user_type_id != 3 ? (
                     <div

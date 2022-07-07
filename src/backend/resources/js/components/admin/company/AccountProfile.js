@@ -435,7 +435,7 @@ const AccountProfile = (props) => {
       <div className="align-top inline-block w-8/12 ">
         <div className="my-4 ml-14 mr-5 py-5 px-6">
           <img className="inline align-top" src={profileIcon} />
-          <span className="align-bottom ml-2 p-0 inline text-primary-200 font-bold text-lg">
+          <span className="align-bottom ml-2 p-0 inline text-tertiary-500 font-bold text-lg">
             顧客企業情報
           </span>
         </div>
@@ -795,9 +795,9 @@ const AccountProfile = (props) => {
             disabled={errorMessages.hasError}
             className={
               (errorMessages.hasError
-                ? 'bg-primary-100 pointer-events-none hover:cursor-default'
-                : 'bg-primary-200 hover:bg-green-700') +
-              'bg-primary-200  text-white  rounded-lg p-2 text-sm mr-1'
+                ? 'bg-lightGreen pointer-events-none hover:cursor-default'
+                : 'bg-tertiary-500 hover:bg-green-700') +
+              'bg-tertiary-500 text-white  rounded-lg p-2 text-sm mr-1'
             }
           >
             <img
@@ -813,7 +813,7 @@ const AccountProfile = (props) => {
 
           <button
             onClick={props.handleCloseProfile}
-            className="bg-primary-200 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
+            className="bg-tertiary-500 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
           >
             <img className="inline mr-2" />
             キャンセル

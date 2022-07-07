@@ -46,7 +46,7 @@ const CheckoutOption = (props) => {
       <div className="rounded-lg border-2 border-gray-200 absolute inset-1/3 top-48  h-96 m-auto bg-white opacity-85 p-10">
         <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
           <div className="flex w-full flex-wrap gap-0 text-gray-700 items-center mt-10 ">
-            <div className="text-center w-full text-secondary-200 font-black mb-6 font-semibold">
+            <div className="text-center w-full text-red-600 font-black mb-6 font-semibold">
               お会計方法を選択してください
             </div>
             <div className="text-center w-full space-y-5">
@@ -55,7 +55,7 @@ const CheckoutOption = (props) => {
                   <label className="space-x-5">
                     <input
                       type="radio"
-                      className="text-center text-secondary-200 font-black"
+                      className="text-center text-red-600 font-black"
                       name="checkout_option"
                       onChange={onOptionChange}
                       value={1}
@@ -68,7 +68,7 @@ const CheckoutOption = (props) => {
                   <label className="space-x-5">
                     <input
                       type="radio"
-                      className="text-center text-secondary-200 font-black"
+                      className="text-center text-red-600 font-black"
                       name="checkout_option"
                       onChange={onOptionChange}
                       value={2}
@@ -86,7 +86,7 @@ const CheckoutOption = (props) => {
                   キャンセル
                 </button>
                 <button
-                  className="bg-primary-200 text-white h-12 w-2/6 rounded-3xl font-semibold"
+                  className="bg-tertiary-500 text-white h-12 w-2/6 rounded-3xl font-semibold"
                   onClick={handleSubmit}
                 >
                   確定
