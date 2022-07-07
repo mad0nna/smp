@@ -322,14 +322,14 @@ const ProductList = () => {
                 </div>
               )}
               <img
-                className={loadedImage ? 'mx-auto p-5' : 'hidden'}
+                className={loadedImage ? 'mx-auto' : 'hidden'}
                 src={`${state.img_domain}/${product.media['media.preview']}`}
                 onLoad={() => {
                   setLoadedImage(true)
                 }}
               ></img>
             </div>
-            <div className="prod-list-desc flex flex-col justify-between gap-2 pb-2">
+            <div className="prod-list-desc flex flex-col justify-between gap-10 pb-2">
               <div className="text-red-500 font-bold mt-2 line-clamp-2">
                 {product.product['product.label'] ?? ''}
               </div>
