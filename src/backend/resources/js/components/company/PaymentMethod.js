@@ -183,6 +183,9 @@ const PaymentMethod = () => {
 
 export default PaymentMethod
 
-if (document.getElementById('methodOfPayment')) {
-  ReactDOM.render(<PaymentMethod />, document.getElementById('methodOfPayment'))
+if (document.getElementById('method-of-payment')) {
+  ReactDOM.render(
+    <PaymentMethod />,
+    document.getElementById('method-of-payment')
+  )
 }

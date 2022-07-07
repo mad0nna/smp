@@ -68,7 +68,9 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
 
     Route::view('/setting/widget', 'company.widgetSetting');
-    Route::view('/setting/payment/method', 'company.methodOfPayment');
+    Route::get('/setting/payment/method', function() {
+        return view('company.methodOfPayment')->with(['withSidebar' => true]);
+    });
     Route::view('/setting/password', 'company.passwordSetting');
 
     // Company Shop

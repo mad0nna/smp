@@ -466,18 +466,3 @@ export default Navigation
 if (domElementPresent('navigation')) {
   ReactDOM.render(<Navigation />, document.getElementById('navigation'))
 }
-
-if (domElementPresent('navigation-admin')) {
-  ReactDOM.render(<Navigation />, document.getElementById('navigation-admin'))
-}
-
-if (domElementPresent('navigation-sales')) {
-  ReactDOM.render(<Navigation />, document.getElementById('navigation-sales'))
-}
-
-if (domElementPresent('navigation-logistics')) {
-  ReactDOM.render(
-    <Navigation />,
-    document.getElementById('navigation-logistics')
-  )
-}
