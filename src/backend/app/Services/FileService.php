@@ -98,33 +98,29 @@ class FileService
                 throw new RuntimeException('Company not found given salesforce id.');
             }
 
-            // File naming convention with s3
-            $fileUrl = 'BillingCSVs/';
-            $fileName = $data['month_of_billing'] . '-'. $company->account_id . '.csv';
-            $filePath = $fileUrl . $fileName ;
+            // File Directory path
+            $filePath = 'BillingCSVs/' . $company->account_id . '/' . $data['invoice_number'];
 
-            // Form data for DB record
-            $monthOfBilling = Carbon::createFromFormat('Y-m', $data['month_of_billing'])->lastOfMonth()->toDateString();
-            $formData['file_path'] = $filePath;
-            $formData['name'] = $fileName;
-            $formData['file_type'] = 'csv';
-            $formData['company_id'] = $company->id;
-            $formData['month_of_billing'] = $monthOfBilling;
+            // Loop each file to put in disk
+            foreach ($data['files'] as $file) {
+                $fileName = $file->getClientOriginalName();
 
-            // Saves file to selected selected disk from env for CSVs
-            Storage::disk(config('app.storage_disk_csv'))->putFileAs(
-                $fileUrl,
-                $data['file'],
-                $fileName,
-            );
+                // Saves file to selected selected disk from env for CSVs
+                Storage::disk(config('app.storage_disk_csv'))->putFileAs(
+                    $filePath,
+                    $file,
+                    $fileName,
+                );
+            }
 
-            // Creates or updates a new record in DB
-            $where = [
+            // Creates or updates a new record file directory in DB
+            $whereParams = [
+                'file_path' => $filePath,
                 'company_id' => $company->id,
-                'month_of_billing' => $monthOfBilling
+                'invoice_number' => $data['invoice_number'],
             ];
 
-            $file = $company->files()->updateOrCreate($where, $formData);
+            $file = $company->files()->updateOrCreate($whereParams, ['updated_at' => Carbon::now()]);
 
             DB::commit();
 

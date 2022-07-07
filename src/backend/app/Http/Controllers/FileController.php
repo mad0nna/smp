@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 
 use App\Services\FileService;
-use App\Http\Resources\FileResource;
+use App\Http\Resources\FilesResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
-use App\Http\Requests\UploadFileRequest;
+use App\Http\Requests\UploadFilesRequest;
 use App\Http\Requests\DownloadFileRequest;
 
 class FileController extends Controller
@@ -54,25 +54,27 @@ class FileController extends Controller
     }
 
     /**
-     * Uploads the file a specific disk from Zuora request
+     * Upload CSV files to a specific disk from Zuora request
      *
-     * @param App\Http\Requests\UploadFileRequest $request
+     * @param App\Http\Requests\UploadFilesRequest $request
      * @return Response
      */
-    public function upload(UploadFileRequest $request)
+    public function upload(UploadFilesRequest $request)
     {
         $request->validated();
 
         try {
             $data = [
-                'file' => $request->getFile(),
-                'month_of_billing' => $request->getMonthOfBilling(),
+                'files' => $request->getFiles(),
                 'salesforce_id' => $request->getSalesForceId(),
+                'invoice_number' => $request->getInvoiceNumber(),
             ];
 
-            $file = $this->fileService->uploadToDisk($data);
-            $this->response['data'] = new FileResource($file);
-            $this->response['message'] = 'Successfully uploaded file.';
+            // dd('stop', $request->all());
+
+            $fileRow = $this->fileService->uploadToDisk($data);
+            $this->response['data'] = new FilesResource($fileRow); // must be updated
+            $this->response['message'] = 'Successfully uploaded file/s.';
         } catch (\Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
