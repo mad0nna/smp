@@ -11,8 +11,6 @@ import queryString from 'query-string'
 import axios from 'axios'
 
 const AccountProfile = (props) => {
-  console.log('props', props)
-
   let defaultCompanyState = {
     companyCode: '',
     id: 0,
@@ -192,6 +190,10 @@ const AccountProfile = (props) => {
   }
 
   const handleShowUpdateSaveDialog = () => {
+    validate(state.company)
+    if (state.errors.length > 0) {
+      return
+    }
     setState((prevState) => {
       return {
         ...prevState,
