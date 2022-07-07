@@ -75,7 +75,8 @@ module.exports = {
           200: '#1D9E4866',
           300: '#1D9E4899',
           400: '#1E9E47',
-          500: '#1D9E48'
+          500: '#1D9E48',
+          600: '#10B982'
         },
         body: {
           100: '#76807033',
@@ -121,12 +122,12 @@ module.exports = {
         widgetBody: 'calc(100% - 6.50rem)',
         'widgetBody-lg': 'calc(100% - 3rem)',
         'detail-height': '34rem',
-        checkBox: 16,
+        checkBox: 20,
         '26px': 26
       },
       width: {
         widgetBody: 'calc(100% - 3rem)',
-        checkBox: 16
+        checkBox: 20
       },
       lineHeight: {
         5: '5rem'

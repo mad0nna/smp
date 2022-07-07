@@ -33,7 +33,7 @@ const EmailTemplate = () => {
           </p>
         </div>
         <TextEditor getContent={getContent} />
-        <div className="mt-5">
+        <div className="mt-5 flex">
           <input
             id="signature"
             name="signature"
@@ -41,7 +41,7 @@ const EmailTemplate = () => {
             onClick={() => {
               setSign((prevState) => !prevState)
             }}
-            className="rounded-sm w-checkBox h-checkBox bg-white align-middle mr-2.5"
+            className="primary-checkbox w-checkBox h-26px bg-white align-middle mr-2.5"
           />
           <label className="text-body-500" htmlFor="signature">
             署名を追加
