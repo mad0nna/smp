@@ -19,6 +19,7 @@ const CompanyProfile = () => {
       BillingState: '',
       BillingCountry: '',
       BillingStreet: '',
+
       Id: ''
     },
     KotDetails: {
@@ -64,19 +65,6 @@ const CompanyProfile = () => {
       Title: '',
       section__c: ''
     },
-    validationFields: [
-      'companyName',
-      'country',
-      'state',
-      'city',
-      'street',
-      'postalCode',
-      'LastName',
-      'FirstName',
-      'contactNumber',
-      'MobilePhone',
-      'email'
-    ],
     isLoading: false,
     currentAdminInSF: false,
     errors: [],
