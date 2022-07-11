@@ -48,7 +48,7 @@ class FileService
     }
 
     /**
-     * Retrieves the file path from record in database to return as zipped files
+     * Retrieves the file path from record in database to return as files in a zipped folder
      *
      * @param int $id File Path ID
      * @param mixed $companyAccountID Company Account ID
@@ -69,16 +69,22 @@ class FileService
         }
 
         try {
+            $files = Storage::disk(config('app.storage_disk_csv'))->files($file->file_path);
+
+            if (empty($files)) {
+                throw new RuntimeException('File directory contains no files to zip or has been removed.');
+            }
+
+            // initializes the zip folder with selected name
             $zipFile = $file->invoice_number . '-' .$company->account_id . '.zip';
             $zip = new ZipArchive;
             $zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
             // for loops exists each file to add to zipped folder
-            $files = Storage::disk(config('app.storage_disk_csv'))->files($file->file_path);
-
             foreach ($files as $file) {
                 $fileContent = Storage::disk(config('app.storage_disk_csv'))->get($file);
 
+                // extracts the file name from the file to add to the zip folder
                 $fileArray = explode("/",$file);
                 $fileName = end($fileArray);
 
