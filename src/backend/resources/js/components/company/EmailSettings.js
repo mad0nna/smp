@@ -193,6 +193,17 @@ const EmailSettings = () => {
         }
         window.location.href = '/logout'
       })
+      .catch(() => {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            isLoading: false,
+            message:
+              '保存中にエラーが発生しました。アカウントが有効かどうかを確認してください。'
+          }
+        })
+        // handleError(err)
+      })
   }
 
   function keyPressed(event) {
@@ -396,11 +407,19 @@ const EmailSettings = () => {
             >
               <div className="mx-auto">
                 クリックしてメールアドレス変更を完了してください。
+                <h1
+                  className={
+                    (state.message !== '' ? '' : 'hidden') +
+                    ' text-red-600 mb-3 text-lg w-full px-3 leading-8 font-medium'
+                  }
+                >
+                  {state.message}
+                </h1>
                 <div className="py-5 mt-0 pl-0 text-center space-x-10">
                   <button
                     onClick={handleVerifyEmail}
                     className={
-                      ' bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 w-60 h-12'
+                      ' bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 w-70 h-12'
                     }
                   >
                     <img
