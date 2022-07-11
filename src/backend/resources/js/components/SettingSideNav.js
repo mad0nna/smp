@@ -10,14 +10,6 @@ const SettingSideNav = () => {
       label: 'Invoice Template Details',
       link: '/admin/settings/invoice/detail'
     }
-    // {
-    //   label: 'Widget',
-    //   link: '#'
-    // },
-    // {
-    //   label: 'Account',
-    //   link: '#'
-    // }
   ]
   const companyNavigation = [
     {

@@ -24,8 +24,8 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/zeusLandingPage', function (Request $request) {
     return redirect($request->redirectTo);
 });
-Route::get('/getLoggedinUser', 'CompanyController@getLoggedinUser');
 
+Route::get('/getLoggedinUser', 'CompanyController@getLoggedinUser');
 
 Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('getCompanyDetails', 'CompanyController@getCompanyDetails');
@@ -34,7 +34,6 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('getUpdatedDataForEditCompanyDetails', 'CompanyController@getUpdatedDataForEditCompanyDetails');
     Route::post('updateCompanyDetails', 'CompanyController@updateCompanyDetails');
     Route::put('updateAdminByEmail', 'UserController@updateAdminByEmail');
-    Route::get('getCompanyAdminDetailsbyEmail', 'UserController@searchSF');
     Route::view('/account/profile/', 'companyAdminProfile');
     Route::view('/widgetSettings', 'widgetSettings');
     Route::get('/getCoordinates', 'WidgetController@getCompanyCoordinates');
@@ -64,16 +63,15 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('/getInvoicePDF', 'BillingController@getInvoicePDF');
     Route::get('/getUsage', 'BillingController@getAccountUsageData');
     Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
-    Route::view('/methodofpayment', 'methodOfPayment');
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
 
     Route::view('/setting/widget', 'company.widgetSetting');
     Route::get('/setting/payment/method', function() {
-        return view('company.methodOfPayment')->with(['withSidebar' => true]);
+        return view('company.methodOfPayment')->with(['withSidebar' => true, 'sidebarColSpan' => 3, 'contentColSpan' => 9]);
     });
     Route::view('/setting/password', 'company.passwordSetting');
 
-    // Company Shop
+    // Route for Company Shop
     Route::view('/productDetail', 'companyProductDetail');
     Route::view('/cart', 'companyCart');
     Route::get('/shop', 'ShoppingController@shop');
@@ -100,6 +98,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     Route::post('/uploadNewProductInventoryCsv', 'ShoppingController@uploadNewProductInventoryCsv');
     Route::post('/uploadUpdateStockInventoryCsv', 'ShoppingController@uploadUpdateStockInventoryCsv');
+
     // invoice Template
     Route::view('/settings/invoice/detail', 'admin.invoiceDetail');
     Route::get('template/getListOfCompany', 'CompanyController@index');
@@ -111,7 +110,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
 // This route is for testing purposes.
 Route::get('template/fillData', 'TemplateController@fillData');
-
 
 Route::prefix('sales')->group(function () {
     Route::view('/dashboard', 'sales.dashboard')->name('dashboard');
@@ -134,6 +132,7 @@ Route::group(['prefix' => 'sso'], function () {
     Route::get('zendesk', 'Auth\LoginController@zendeskSSO');
 });
 
+// Route for Payment
 Route::group(['prefix' => 'payment'], function () {
     Route::get('status', 'PaymentController@getResult');
     Route::get('setMethodCreditCard', 'PaymentController@changeMethodToCard');

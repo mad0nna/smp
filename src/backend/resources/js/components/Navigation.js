@@ -299,7 +299,10 @@ const Navigation = () => {
               unpaidBillingInfo &&
               unpaidBillingInfo.is_bank_transfer === true &&
               unpaidBillingInfo.total_billed_amount != null && (
-                <BellIcon className="h-5 w-5 inline relative bottom-2 -left-1 opacity-80" />
+                <BellIcon
+                  fill="#EF4444"
+                  className="h-5 w-5 inline relative bottom-2 -left-1 opacity-80"
+                />
               )}
           </a>
         </li>
@@ -396,7 +399,7 @@ const Navigation = () => {
               setShowDropdown((prevState) => !prevState)
             }}
           >
-            <AccountIcon />
+            <AccountIcon fill="#1E9E47" />
           </button>
           {showDropdown && (
             <div

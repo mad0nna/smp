@@ -10,20 +10,6 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        'kot-logo': "url('/images/KOT-menu-logo.png')",
-        'dashboard-icon': "url('/images/dashboard-normal.png')",
-        'dashboard-icon-hover': "url('/images/dashboard-hover.png')",
-        'contract-icon': "url('/images/contract-normal.png')",
-        'contract-icon-hover': "url('/images/contract-hover.png')",
-        'billing-icon': "url('/images/billing-normal.png')",
-        'billing-icon-hover': "url('/images/billing-hover.png')",
-        'settings-icon': "url('/images/settings-icon.png')",
-        'settings-icon-hover': "url('/images/settings-hover.png')",
-        'call-icon-white': "url('/images/call-icon-white.png')",
-        'profile-icon-white': "url('/images/profile-icon-white.png')",
-        'settings-icon-white': "url('/images/settings-icon-white.png')",
-        'switch-account-icon-white':
-          "url('/images/switch-account-icon-white.png')",
         'notification-icon': "url('/images/notification-icon.png')",
         'notification-normal': "url('/images/notif-alert-hnt.png')",
         'notification-active': "url('/images/notification-active.png')",
@@ -31,37 +17,29 @@ module.exports = {
         'arrow-down': "url('/images/arrowdown.png')",
         'cart-icon': "url('/images/cart-icon.png')",
         'history-icon': "url('/images/history-icon.png')",
-        'pdf-icon': "url('/images/pdf-icon.png')",
         'ellipsis-icon': "url('/images/ellipsis.png')",
-        'signout-icon': "url('/images/signout.png')",
-        'account-list-icon': "url('/images/AccountList-normal.png')",
-        'account-list-icon-hover': "url('/images/AccountList-hover.png')",
-        'document-icon': "url('/images/document-normal.png')",
-        'document-icon-hover': "url('/images/document-hover.png')",
         'sort-icon-inactive': "url('/images/sort-inactive.png')",
         'sort-icon-active': "url('/images/sort-active.png')",
-        'company-icon-gray': "url('/images/company-icon-gray.png')",
-        'company-icon-white': "url('/images/company-icon-white.png')",
-        'all-accounts-icon-white': "url('/images/all-accounts-icon.png')",
-        'widget-settings-icon': "url('/images/widget-settings.png')",
-        'card-VISA-icon': "url('/images/visa.png')",
-        'card-MasterCard-icon': "url('/images/mastercard.png')",
-        'card-JCB-icon': "url('/images/jcb.png')",
-        'card-AMEX-icon': "url('/images/amex.png')",
-        'card-Diners-icon': "url('/images/diners.png')",
-        'unpaid-billing-icon': "url('/images/unpaid-billing-icon.png')",
-        'arrow-left': "url('/images/arrow-left.png')",
         paper: "url('/images/paper.png')"
       },
       colors: {
         primaryBg: '#F2F2F2',
         secondaryBg: '#C1CBC4',
+        // region > Unstructured, untidy & improper hex colors used by random XD files that did not reflect on Style guide goes here...
+        hex: {
+          F5F5F5: '#F5F5F5',
+          474747: '#474747',
+          '7ECBB2': '#7ECBB2',
+          D8F3EA: '#D8F3EA'
+        },
+        // endregion
         primary: {
           100: '#007B5333', // Changed To: lightGreen
           200: '#007B5366', // Changed To: tertiary-500
           300: '#387F6B',
           400: '#007B53CC',
-          500: '#065F46'
+          500: '#065F46',
+          600: '#007B53'
         },
         secondary: {
           100: '#17A8A433', // Change To: red-500
@@ -92,10 +70,7 @@ module.exports = {
           900: '#F2F7F5'
         },
         header: '#2A853508',
-        cyan: '#43BBB3',
-        orange: '#FFBC03',
         lightGreen: '#6AD48D',
-        greenOld: '#95A199',
         lime: {
           primary: '#22AC38',
           200: '#D9F99D',
@@ -106,7 +81,6 @@ module.exports = {
           700: '#4D7C0F',
           800: '#3F6212'
         },
-        customGray: '#685D5E',
         errorColor: '#DC2626',
         'table-header-Gray-100': '#ECECEC',
         'table-header-Gray-400': '#A5A5A5'
@@ -114,7 +88,10 @@ module.exports = {
       fontSize: {
         '2.5xl': ['1.75rem', { lineHeight: '2rem' }],
         xxs: ['0.60rem', { lineHeight: '.75rem' }],
-        'widget-xs': 10
+        'widget-xs': 10,
+        // region > Specific font-size in pixels unit (ASC order)
+        '23px': 23
+        // endregion
       },
       height: {
         'widgetBody-sm': 'calc(100% - 2.50rem)',
@@ -122,11 +99,18 @@ module.exports = {
         'widgetBody-lg': 'calc(100% - 3rem)',
         'detail-height': '34rem',
         checkBox: 20,
-        '26px': 26
+        // region > Specific height in pixels unit (ASC order)
+        '26px': 26,
+        '43px': 43
+        // endregion
       },
       width: {
         widgetBody: 'calc(100% - 3rem)',
-        checkBox: 20
+        checkBox: 20,
+        // region > Specific width in pixels unit (ASC order)
+        '26px': 26,
+        '322px': 322
+        //endregion
       },
       lineHeight: {
         5: '5rem'
@@ -140,7 +124,10 @@ module.exports = {
         10: '2.5rem',
         14: '3.5rem',
         'widget-item': 80,
-        'table-height': 740
+        'table-height': 740,
+        // region > Undeclared specific pixel sizes in Style Guide goes here...
+        '402px': 422
+        // endregion
       },
       maxWidth: {},
       boxShadow: {
@@ -148,9 +135,15 @@ module.exports = {
         '5xl': '0px 15px 30px rgba(0, 0, 0, 0.16)'
       },
       spacing: {
+        200: 350,
+        // region > Specific spacing in pixels unit (ASC order)
+        '22px': 22,
         '25px': 25,
+        '29px': 29,
         '50px': 50,
-        200: 350
+        '78px': 78,
+        '80px': 80
+        // endregion
       },
       borderRadius: {
         xs: 6
