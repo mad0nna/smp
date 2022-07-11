@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use DB;
+use ZipArchive;
 use Carbon\Carbon;
 use App\Models\File;
 use RuntimeException;
@@ -26,7 +27,7 @@ class FileService
     }
 
     /**
-     * Retrieves the file given a file id
+     * Retrieves the file path record in database given id
      *
      * @param int $id File ID
      * @return App\Models\File $file
@@ -47,13 +48,13 @@ class FileService
     }
 
     /**
-     * Retrieves the file from its file path
+     * Retrieves the file path from record in database to return as zipped files
      *
-     * @param int $id File ID
+     * @param int $id File Path ID
      * @param mixed $companyAccountID Company Account ID
-     * @return App\Models\File $file
+     * @return string $zipFile
      */
-    public function getFile(int $id, $companyAccountID)
+    public function getFiles(int $id, $companyAccountID)
     {
         $file = $this->show($id);
 
@@ -64,17 +65,29 @@ class FileService
         }
 
         if ($file->company_id !== $company->id) {
-            throw new RuntimeException('User does not have the rights to access file.');
+            throw new RuntimeException('User does not have the rights to access files.');
         }
 
         try {
-            $file_exists = Storage::disk(config('app.storage_disk_csv'))->exists($file->file_path);
+            $zipFile = $file->invoice_number . '-' .$company->account_id . '.zip';
+            $zip = new ZipArchive;
+            $zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-            if ($file_exists === false) {
-                throw new RuntimeException('File does not exist.');
+            // for loops exists each file to add to zipped folder
+            $files = Storage::disk(config('app.storage_disk_csv'))->files($file->file_path);
+
+            foreach ($files as $file) {
+                $fileContent = Storage::disk(config('app.storage_disk_csv'))->get($file);
+
+                $fileArray = explode("/",$file);
+                $fileName = end($fileArray);
+
+                $zip->addFromString($fileName, $fileContent);
             }
 
-            return $file;
+            $zip->close();
+
+            return $zipFile;
         } catch (\Exception $e) { // @codeCoverageIgnoreStart
             throw $e;
         } // @codeCoverageIgnoreEnd
