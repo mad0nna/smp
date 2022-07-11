@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import SettingSideNav from '../SettingSideNav'
-import waitingIcon from '../../../img/loading-spinner.gif'
+import waitingIcon from '../../../../../img/loading-spinner.gif'
 import axios from 'axios'
 const PasswordSettings = () => {
   var minheight = { 'min-height': '700px' }
@@ -202,7 +201,6 @@ const PasswordSettings = () => {
   }
   return (
     <div className="mx-10 grid grid-cols-6 bg-white" style={minheight}>
-      <SettingSideNav />
       <div className="bg-white rounded-lg my-10 w-8/12 mx-auto col-span-5">
         <div className="p-3 pb-6">
           <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
