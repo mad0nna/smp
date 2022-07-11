@@ -344,7 +344,7 @@ class UserService
         return true;
     }
 
-    public function firstOrNew($temp_email, $invite_token)
+    public function sendTempEmailInvite($temp_email, $invite_token)
     {
         $to = [
             'attribute' => ['email' => $temp_email]
@@ -355,7 +355,7 @@ class UserService
         return true;
     }
 
-    public function contactVerification($user, $companyID)
+    public function firstOrNew($user, $companyID)
     {
         $exisitngData = (new Contact)->findByEmail($user['Email']);
         if ($exisitngData === false) {
