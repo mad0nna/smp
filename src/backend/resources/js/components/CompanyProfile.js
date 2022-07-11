@@ -19,6 +19,7 @@ const CompanyProfile = () => {
       BillingState: '',
       BillingCountry: '',
       BillingStreet: '',
+
       Id: ''
     },
     KotDetails: {
@@ -64,19 +65,6 @@ const CompanyProfile = () => {
       Title: '',
       section__c: ''
     },
-    validationFields: [
-      'companyName',
-      'country',
-      'state',
-      'city',
-      'street',
-      'postalCode',
-      'LastName',
-      'FirstName',
-      'contactNumber',
-      'MobilePhone',
-      'email'
-    ],
     isLoading: false,
     currentAdminInSF: false,
     errors: [],
@@ -201,6 +189,7 @@ const CompanyProfile = () => {
       })
       .then((response) => {
         let data = response.data
+        delete data.admin.Name
         setState((prevState) => {
           return {
             ...prevState,
@@ -231,7 +220,7 @@ const CompanyProfile = () => {
 
   const handleCompanyChanges = (e) => {
     let key = e.target.name
-    let val = e.target.value.trim()
+    let val = e.target.value
     setState((prevState) => {
       return {
         ...prevState,
@@ -246,7 +235,7 @@ const CompanyProfile = () => {
 
   const handleAdminChanges = (e) => {
     let key = e.target.name
-    let val = e.target.value.trim()
+    let val = e.target.value
     setState((prevState) => {
       return {
         ...prevState,
@@ -440,9 +429,9 @@ const CompanyProfile = () => {
             onClick={state.isEditingProfile ? submitData : handleChangeProfile}
             className={
               (state.errors.length > 0
-                ? 'bg-primary-100 pointer-events-none'
-                : 'bg-primary-200') +
-              (state.isLoading ? ' bg-primary-100 pointer-events-none ' : '') +
+                ? 'bg-lightGreen pointer-events-none'
+                : 'bg-tertiary-500') +
+              (state.isLoading ? ' bg-lightGreen pointer-events-none ' : '') +
               `  hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1 `
             }
             disabled={state.errors.length > 0 || state.isLoading}
@@ -817,9 +806,11 @@ const CompanyProfile = () => {
                       ' text-sm text-black w-full h-8 px-3 leading-8'
                     }
                   >
-                    {state.adminDetails.LastName +
-                      ' ' +
-                      state.adminDetails.FirstName}
+                    <div className="px-3 flex flex-wrap">
+                      {state.adminDetails.LastName +
+                        ' ' +
+                        state.adminDetails.FirstName}
+                    </div>
                   </label>
                   <div className="space-y-1">
                     <input

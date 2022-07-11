@@ -261,8 +261,8 @@ const ProductList = () => {
                 <span
                   className={
                     pagingConditions.page == number
-                      ? `text-white bg-primary-200 rounded-2xl px-3 py-1`
-                      : `text-primary-200 px-3 py-1`
+                      ? `text-white bg-tertiary-500 rounded-2xl px-3 py-1`
+                      : `text-tertiary-500 px-3 py-1`
                   }
                 >
                   {number}
@@ -322,15 +322,15 @@ const ProductList = () => {
                 </div>
               )}
               <img
-                className={loadedImage ? 'mx-auto p-5' : 'hidden'}
+                className={loadedImage ? 'mx-auto' : 'hidden'}
                 src={`${state.img_domain}/${product.media['media.preview']}`}
                 onLoad={() => {
                   setLoadedImage(true)
                 }}
               ></img>
             </div>
-            <div className="prod-list-desc flex flex-col justify-between gap-2 pb-2">
-              <div className="text-red-500 font-bold mt-2 h-10 line-clamp-2">
+            <div className="prod-list-desc flex flex-col justify-between gap-10 pb-2">
+              <div className="text-red-500 font-bold mt-2 line-clamp-2">
                 {product.product['product.label'] ?? ''}
               </div>
               <div className="text-red-500 font-bold text-right">
@@ -344,7 +344,7 @@ const ProductList = () => {
                   }}
                 />
               </p>
-              <div className="text-primary-200 underline font-bold text-sm pt-2 cursor-pointer">
+              <div className="text-tertiary-500 underline font-bold text-sm pt-2 cursor-pointer">
                 <Link
                   to={{
                     pathname: `/company/productDetail/?id=${product.product['product.id']}`,
@@ -382,7 +382,7 @@ const ProductList = () => {
                     {items.length || 0}
                   </span>
                 </span>
-                <p className="inline-block self-end text-primary-200 underline font-bold text-sm pt-2 m-1 cursor-pointer">
+                <p className="inline-block self-end text-tertiary-500 underline font-bold text-sm pt-2 m-1 cursor-pointer">
                   カートの中をみる
                 </p>
               </div>
@@ -396,7 +396,7 @@ const ProductList = () => {
                     {0}
                   </span>
                 </span>
-                <p className="inline-block self-end text-primary-200 underline font-bold text-sm pt-2 m-1 cursor-pointer">
+                <p className="inline-block self-end text-tertiary-500 underline font-bold text-sm pt-2 m-1 cursor-pointer">
                   商品はまだ追加されていません
                 </p>
               </div>
@@ -408,7 +408,7 @@ const ProductList = () => {
   }
 
   return (
-    <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
+    <div className="bg-primaryBg grid lg:grid-cols-4 md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
       <div className="md:col-span-1 lg:col-span-4 pb-5">
         <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
           <div className="px-3 pt-3 pb-2">
@@ -419,12 +419,12 @@ const ProductList = () => {
                 viewBox="0 0 24 24"
                 width="24px"
                 fill="currentColor"
-                className="text-primary-200 h-10 w-8"
+                className="text-tertiary-500 h-10 w-8"
               >
                 <path d="M0 0h24v24H0V0z" fill="none" />
                 <path d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z" />
               </svg>
-              <h2 className="text-primary-200 text-lg font-bold">物販</h2>
+              <h2 className="text-tertiary-500 text-lg font-bold">物販</h2>
             </div>
           </div>
           <div
@@ -437,7 +437,7 @@ const ProductList = () => {
                   <select
                     type="text"
                     name="sort"
-                    className="h-full w-80 bg-gray-100 custom-outline-none text-left p-3 bg-arrow-down bg-no-repeat appearance-none text-primary-200 tex-right"
+                    className="h-full w-80 bg-gray-100 custom-outline-none text-left p-3 bg-arrow-down bg-no-repeat appearance-none text-tertiary-500 tex-right"
                     style={{
                       backgroundPosition: 'calc(100% - 1.2em) center'
                     }}
@@ -454,7 +454,7 @@ const ProductList = () => {
               <div className="table-cell relative h-20 w-full align-middle">
                 <div className="bg-gray-100 h-12 rounded-lg w-96 mx-0 my-auto">
                   <svg
-                    className="text-primary-200 font-bold fill-current w-auto h-11 float-left mt-0.5 p-3 cursor-pointer"
+                    className="text-tertiary-500 font-bold fill-current w-auto h-11 float-left mt-0.5 p-3 cursor-pointer"
                     onClick={handleSearchClick}
                     xmlns="http://www.w3.org/2000/svg"
                     x="30px"
@@ -472,7 +472,7 @@ const ProductList = () => {
                   </svg>
                   <input
                     type="text"
-                    className="h-full w-80 bg-gray-100 custom-outline-none text-left placeholder-primary-200"
+                    className="h-full w-80 bg-gray-100 custom-outline-none text-left placeholder-tertiary-500"
                     placeholder="商品名を検索"
                     onKeyUp={handleSearch}
                   />

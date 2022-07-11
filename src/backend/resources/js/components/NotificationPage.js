@@ -106,8 +106,8 @@ const NotificationPage = () => {
   for (let index = 1; index <= numberOFPages; index++) {
     let activeStyle =
       index === state.currentPage
-        ? 'text-white bg-primary-200 '
-        : 'text-primary-200 '
+        ? 'text-white bg-tertiary-500 '
+        : 'text-tertiary-500 '
     pageNumbers.push(
       <li
         key={index}
@@ -141,7 +141,7 @@ const NotificationPage = () => {
   )
   return (
     <div>
-      <div className="relative px-10 py-5 bg-mainbg">
+      <div className="relative px-10 py-5 bg-primaryBg">
         <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
           <div
             id="widget-header"
@@ -153,7 +153,7 @@ const NotificationPage = () => {
             />
             <div
               id="widget-name"
-              className="text-primary-200 text-xl font-sans font-bold ml-4 float-left"
+              className="text-tertiary-500 text-xl font-sans font-bold ml-4 float-left"
             >
               お知らせ
             </div>
@@ -224,7 +224,7 @@ const NotificationPage = () => {
             src="/images/pagination-prev.png?1ac337e7f7bfaacab64ea9a2369b5930"
             className=" inline-block  w-8 h-auto mr-1"
           /> */}
-          <div className="inline-block text-primary-200">
+          <div className="inline-block text-tertiary-500">
             <ul id="page-numbers">{pageNumbers}</ul>
           </div>
           {/* <img

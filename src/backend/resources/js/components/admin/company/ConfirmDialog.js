@@ -14,7 +14,7 @@ function NewlineText(props) {
 
 const ConfirmDialog = (props) => {
   return (
-    <div className="rounded-lg border-2 border-gray-200 absolute inset-1/3 top-48  h-80 m-auto bg-primary-200 opacity-85 ">
+    <div className="rounded-lg border-2 border-gray-200 absolute inset-1/3 top-48  h-80 m-auto bg-tertiary-500 opacity-85 ">
       <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
         <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
           <div className="text-center w-full  ">
@@ -31,7 +31,7 @@ const ConfirmDialog = (props) => {
         <button
           disabled={props.isLoading}
           onClick={() => props.handleOkey()}
-          className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-primary-200  tracking-tighter bg-white mr-4"
+          className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-tertiary-500 tracking-tighter bg-white mr-4"
         >
           はい &nbsp;
           <img
@@ -41,7 +41,7 @@ const ConfirmDialog = (props) => {
         </button>
         <button
           onClick={() => props.closeDialog(props.name)}
-          className="rounded-xl cursor-pointer  font-extrabold w-40 py-2 px-3  text-primary-200  tracking-tighter bg-white"
+          className="rounded-xl cursor-pointer font-extrabold w-40 py-2 px-3 text-tertiary-500 tracking-tighter bg-white"
         >
           いいえ
         </button>

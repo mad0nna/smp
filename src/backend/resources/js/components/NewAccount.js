@@ -239,7 +239,7 @@ const NewAccount = (props) => {
     <div
       className={
         (state.isSearched ? 'h-96' : 'h-64') +
-        ' rounded-lg border-2 border-gray-200 absolute inset-x-1/3 top-36 m-auto bg-primary-200 opacity-85'
+        ' rounded-lg border-2 border-gray-200 absolute inset-x-1/3 top-36 m-auto bg-tertiary-500 opacity-85'
       }
     >
       <div className="grid grid-cols-12 gap-4">
@@ -259,7 +259,7 @@ const NewAccount = (props) => {
                 <button
                   disabled={state.isLoading}
                   onClick={() => searchAdminByEmail(state.email)}
-                  className="2xl:w-fit xl:w-24 lg:w-24 cursor-pointer text-bold text-primary-200 bg-white rounded p-1 text-sm ml-1 mr-2 col-start-10 col-span-3"
+                  className="2xl:w-fit xl:w-24 lg:w-24 cursor-pointer text-bold text-tertiary-500 bg-white rounded p-1 text-sm ml-1 mr-2 col-start-10 col-span-3"
                 >
                   検索する
                   <img
@@ -333,7 +333,7 @@ const NewAccount = (props) => {
                 className={
                   (state.disableSendButton
                     ? 'text-gray-500 cursor-default'
-                    : 'text-primary-200 cursor-pointer') +
+                    : 'text-tertiary-500 cursor-pointer') +
                   ' rounded-xl font-extrabold w-40 py-2 px-3 mr-4 tracking-tighter bg-white'
                 }
                 disabled={state.disableSendButton}
@@ -350,7 +350,7 @@ const NewAccount = (props) => {
             </div>
             <button
               onClick={props.closePopup}
-              className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-primary-200  tracking-tighter bg-white"
+              className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-tertiary-500  tracking-tighter bg-white"
             >
               キャンセル
             </button>

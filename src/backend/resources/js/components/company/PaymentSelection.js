@@ -77,14 +77,14 @@ const PaymentSelection = (props) => {
             (state.processed ? 'hidden' : '')
           }
         >
-          <div className="text-center w-full text-secondary-200 font-black mb-6">
+          <div className="text-center w-full text-red-600 font-black mb-6">
             お支払い方法を変更する
           </div>
           <div className="text-center w-full space-y-5">
             <div className={'w-full space-x-5'}>
               <input
                 type="radio"
-                className="text-center text-secondary-200 font-black"
+                className="text-center text-red-600 font-black"
                 name="newMethod"
                 value="クレジット"
                 required
@@ -98,7 +98,7 @@ const PaymentSelection = (props) => {
             <div className={'w-full space-x-5 pr-8'}>
               <input
                 type="radio"
-                className={'text-center text-secondary-200 font-black '}
+                className={'text-center text-red-600 font-black '}
                 name="newMethod"
                 value="口座振替"
                 required
@@ -118,7 +118,7 @@ const PaymentSelection = (props) => {
               </button>
               <button
                 className={
-                  'bg-primary-200 text-white w-24 h-14 rounded-3xl ' +
+                  'bg-tertiary-500 text-white w-24 h-14 rounded-3xl ' +
                   (state.method === 'クレジット' ? 'inline' : 'hidden')
                 }
                 onClick={() => openZeusFormChangeMethod()}
@@ -128,7 +128,7 @@ const PaymentSelection = (props) => {
               </button>
               <button
                 className={
-                  'bg-primary-200 text-white w-24 h-14 rounded-3xl ' +
+                  'bg-tertiary-500 text-white w-24 h-14 rounded-3xl ' +
                   (state.method === '口座振替' || state.method === ''
                     ? 'inline'
                     : 'hidden')

@@ -68,7 +68,7 @@ class Kernel extends HttpKernel
         'salesAuth' => \App\Http\Middleware\SalesAuth::class,
         'guest' => \App\Http\Middleware\Guest::class,
         'zuora.api' => \App\Http\Middleware\ZuoraApi::class,
-
+        'logistics' => \App\Http\Middleware\Logistics::class,
     ];
 
     /**

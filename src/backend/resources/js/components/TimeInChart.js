@@ -70,7 +70,7 @@ class TimeInChart extends React.Component {
             className="max-w-full h-12 bg-white box-border align-middle p-3 relative"
           >
             <div id="widget-name" className=" font-sans">
-              <div className="text-primary-200 font-bold text-center">
+              <div className="text-tertiary-500 font-bold text-center">
                 Time-in Record
               </div>
               <div className="text-sm text-gray-400">
@@ -97,7 +97,7 @@ class TimeInChart extends React.Component {
     return (
       <div id="widget-footer" className="w-full h-10 pr-4 mt-3">
         <div id="widget-footer-control" className="float-right">
-          <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter">
+          <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter">
             もっと見る
           </button>
         </div>

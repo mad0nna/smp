@@ -151,7 +151,7 @@ const Dashboard = () => {
 
   function DashboardItem() {
     return (
-      <div className="-mt-8">
+      <div>
         {unpaidBillingData &&
           unpaidBillingData.is_bank_transfer == true &&
           unpaidBillingData.total_billed_amount != null && (
@@ -235,29 +235,32 @@ const Dashboard = () => {
                           className="absolute bottom-1 right-1 z-10 h-4 w-4"
                         />
                       ) : null}
-                      {!item.static ? (
-                        <div
-                          className={
-                            'absolute test w-16 h-4 -top-3.5 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-tl-md rounded-tr-md border-gray-200 cursor-move hidden group-hover:block'
-                          }
-                        >
-                          Unlocked
-                        </div>
-                      ) : (
-                        <div
-                          className={
-                            'absolute test w-16 h-4 -top-3.5 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-tl-md rounded-tr-md border-gray-200 cursor-move hidden group-hover:block'
-                          }
-                        >
-                          Locked
-                        </div>
-                      )}
+                      {!item.hidden ? displayWidgetStatus(item.static) : ''}
                     </div>
                   )
                 })}
             </ResponsiveGridLayout>
           )}
         </div>
+      </div>
+    )
+  }
+  const displayWidgetStatus = (staticWidget) => {
+    return !staticWidget ? (
+      <div
+        className={
+          'absolute test w-16 h-4 -top-3.5 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-tl-md rounded-tr-md border-gray-200 cursor-move hidden group-hover:block'
+        }
+      >
+        Unlocked
+      </div>
+    ) : (
+      <div
+        className={
+          'absolute test w-16 h-4 -top-3.5 px-1 pt-0.5 right-6 text-center font-sans text-gray-500 bg-white text-xxs leading-2 rounded-tl-md rounded-tr-md border-gray-200 cursor-move hidden group-hover:block'
+        }
+      >
+        Locked
       </div>
     )
   }

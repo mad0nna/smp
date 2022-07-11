@@ -9,7 +9,7 @@ const CheckoutMessage = (props) => {
           <div className="flex w-full flex-wrap gap-0 text-gray-700 items-center mt-10 ">
             <div
               className={
-                (props.isError ? 'text-secondary-200 ' : '') +
+                (props.isError ? 'text-red-600 ' : '') +
                 'text-center w-full font-black mb-6 font-semibold'
               }
             >

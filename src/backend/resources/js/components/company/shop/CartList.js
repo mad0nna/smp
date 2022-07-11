@@ -950,7 +950,7 @@ const CartList = () => {
       .then((res) => setCsrfToken(res.data.meta.csrf))
   }, [])
   return (
-    <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
+    <div className="bg-primaryBg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
       <div className="md:col-span-1 lg:col-span-3 pb-5">
         <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
           <div className="px-3 pt-3 pb-6">
@@ -1025,7 +1025,7 @@ const CartList = () => {
                   className="h-6 w-6 border-solid border-4 border-gray-500 border-opacity-25 shadow-xl rounded-md checked:bg-gray-500 checked:border-transparent focus:outline-none"
                   onChange={handleAcceptAgreement}
                 />
-                <div className="text-sm  text-primary-200 ">
+                <div className="text-sm text-tertiary-500">
                   <a
                     href={'/pdf/TermsOfUse.pdf'}
                     target="_blank"
@@ -1041,7 +1041,7 @@ const CartList = () => {
             </div>
             <div className="flex flex-col items-center space-y-4 py-10">
               <button
-                className={`bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
+                className={`bg-tertiary-500 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
                   isAgreedTerms && items.length !== 0 && stockData.length === 0
                     ? ''
                     : 'bg-opacity-50 cursor-not-allowed'

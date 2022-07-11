@@ -62,7 +62,7 @@ const Products = () => {
                 >
                   <h3 className={'text-xxs mt-24'}>{product.label}</h3>
                   <h3 className={'text-xxs'}>{product.price}</h3>
-                  <p className="font-bold text-xxs text-primary-200">
+                  <p className="font-bold text-xxs text-tertiary-500">
                     こちらをクリックしてご確認ください
                   </p>
                 </div>
