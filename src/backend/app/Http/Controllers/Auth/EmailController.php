@@ -88,7 +88,7 @@ class EmailController extends Controller
     {
         try {
             $data = $request->all();
-            $user = User::where('id', Auth::user()->id)->where('invite_token', $data['inviteToken'])->first();
+            $user = User::where('id', Auth::user()->id)->where('user_type_id', 4)->where('invite_token', $data['inviteToken'])->first();
 
             if ($user) {
                 // Update Data in Salesforce

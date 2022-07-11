@@ -515,7 +515,12 @@ const AccountProfileEdit = () => {
                           >
                             {state.account.email}
                           </label>
-                          <a href={`/company/setting/email`}>
+                          <a
+                            href={`/company/setting/email`}
+                            className={
+                              state.account.userTypeId === 4 ? `` : `hidden`
+                            }
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               height="24"

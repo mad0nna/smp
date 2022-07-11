@@ -270,7 +270,7 @@ const EmailSettings = () => {
               <div className="mx-auto">
                 <div className="flex flex-wrap gap-0 w-full justify-start">
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-                    <div className="mb-1 md:mb-0 md:w-1/4 text-left">
+                    <div className="mb-1 md:mb-0 md:w-1/3 text-left">
                       <label className="text-sm text-gray-400">
                         現在の電子メールアドレス :
                         <span className="text-red-500">*</span>
@@ -298,7 +298,7 @@ const EmailSettings = () => {
                   </div>
 
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
-                    <div className="mb-1 md:mb-0 md:w-1/4 text-left">
+                    <div className="mb-1 md:mb-0 md:w-1/3 text-left">
                       <label className="text-sm text-gray-400">
                         メールアドレス :<span className="text-red-500">*</span>
                       </label>
@@ -323,7 +323,7 @@ const EmailSettings = () => {
                   </div>
 
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5 text-left">
-                    <div className="mb-1 md:mb-0 md:w-1/4">
+                    <div className="mb-1 md:mb-0 md:w-1/3">
                       <label className="text-sm text-gray-400">
                         メールアドレス（確認） :
                         <span className="text-red-500">*</span>
