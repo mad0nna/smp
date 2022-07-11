@@ -9,7 +9,7 @@
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
     </head>
-    <body class="bg-mainbg">
+    <body class="bg-primaryBg">
         <div id="companyLogin" class="flex justify-center" style="">
     </body>
     <script src="{{asset('js/app.js')}}"></script>

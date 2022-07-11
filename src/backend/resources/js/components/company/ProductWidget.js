@@ -176,11 +176,11 @@ const ProductWidget = () => {
                         ></img>
                       </div>
                     </a>
-                    <div className="pl-2 line-clamp-2">
+                    <div className="pl-2 line-clamp-2 prod-label">
                       {item.product['product.label']}
                     </div>
                     <div className="pl-2">{prodPrice}円</div>
-                    <div className="pl-2 text-primary-200">
+                    <div className="pl-2 text-tertiary-500">
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}
                       >
@@ -196,7 +196,7 @@ const ProductWidget = () => {
         <div id="widget-footer" className="w-full h-10 p-3.5">
           <div id="widget-footer-control" className="float-right">
             <a href="/company/shop">
-              <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter cursor-pointer">
+              <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter cursor-pointer">
                 さらに表示
               </button>
             </a>

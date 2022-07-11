@@ -268,7 +268,7 @@ const PasswordSettings = () => {
                   <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                     <div className="mb-1 md:mb-0 md:w-1/3">
                       <label className="text-sm text-gray-400">
-                        新しいパスワード（確認 :{' '}
+                        新しいパスワード（確認) :{' '}
                         <span className="text-red-500">*</span>
                       </label>
                     </div>
@@ -316,9 +316,9 @@ const PasswordSettings = () => {
                   onClick={handleChangePassword}
                   className={
                     (errorMessages.hasError
-                      ? 'bg-primary-100 pointer-events-none'
-                      : 'bg-primary-200') +
-                    ' bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm w-32 h-12'
+                      ? 'bg-lightGreen pointer-events-none'
+                      : 'bg-tertiary-500') +
+                    ' bg-tertiary-500 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm w-32 h-12'
                   }
                   disabled={errorMessages.hasError || state.isLoading}
                 >
@@ -331,7 +331,7 @@ const PasswordSettings = () => {
                   変更
                 </button>
                 <button
-                  className=" bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm w-32 h-12"
+                  className=" bg-tertiary-500 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm w-32 h-12"
                   onClick={() => {
                     history.back()
                   }}

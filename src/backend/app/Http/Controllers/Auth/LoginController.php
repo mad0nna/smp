@@ -75,16 +75,11 @@ class LoginController extends Controller
                         'Email' => $user['email'],
                         'Title' => $user['title'],
                     ];
-                    $sf_user = $this->userService->contactVerification($salesforceFormat, $user['company']['account_id']);
+                    $sf_user = $this->userService->firstOrNew($salesforceFormat, $user['company']['account_id']);
                     if ($sf_user) {
                         User::where('invite_token', $_GET['invite_token'])->update(['email_verified_at' => Carbon::now(), 'user_status_id' => 1, 'account_code' => $sf_user['Id'], 'invite_token' => '', 'temp_pw' => '']);
                     }
-                    $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-                    $currentURL = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-                    $key = 'page';
-                    // Remove specific parameter from query string
-                    $filteredURL = preg_replace('~(\?|&)' . $key . '=[^&]*~', '$1', $currentURL);
-                    return redirect($filteredURL);
+                    return redirect(config('url', '/'));
                 }
                 if ($user && $user['user_status_id'] === 1) {
                     return redirect(Auth::user()->type->dashboard_url);
@@ -107,25 +102,36 @@ class LoginController extends Controller
             $request->validated();
             $credentials = $request->only('username', 'password');
             $result = $this->userService->log($credentials);
+            $authUser = Auth::user();
+
             if ($result['status'] != 200) {
                 return redirect()->back()->with('status', $result['error']);
             }
 
-            if (Auth::user()->email_verified_at === null) {
+            if ($authUser->email_verified_at === null) {
                 Auth::logout();
 
                 return redirect()->back()->with('status', '招待メール記載の利用開始ボタンよりログインしてください。');
             }
-            Session::put('companyID', Auth::user()->company()->first()->id);
-            Session::put('salesforceCompanyID', Auth::user()->company()->first()->account_id);
-            Session::put('email', Auth::user()->email);
-            Session::put('salesforceContactID', Auth::user()->account_code);
-            Session::put('CompanyContactFirstname', Auth::user()->first_name);
-            Session::put('CompanyContactLastname', Auth::user()->last_name);
-            Session::put('companyName', Auth::user()->company()->first()->name);
-            Session::put('kotToken', Auth::user()->company()->first()->token);
-            Session::put('kotStartDate', Auth::user()->company()->first()->kot_billing_start_date);
-            return redirect(Auth::user()->type->dashboard_url);
+
+            Session::put([
+                'email' => $authUser->email,
+                'CompanyContactFirstname' => $authUser->first_name,
+                'CompanyContactLastname' => $authUser->last_name,
+            ]);
+
+            if (Auth::user()->type->name !== config('user.types.logistics.name')) {
+                Session::put([
+                    'companyID' => $authUser->company()->first()->id,
+                    'salesforceCompanyID' => $authUser->company()->first()->account_id,
+                    'salesforceContactID' => $authUser->account_code,
+                    'companyName' => $authUser->company()->first()->name,
+                    'kotToken' => $authUser->company()->first()->token,
+                    'kotStartDate' => $authUser->company()->first()->kot_billing_start_date,
+                ]);
+            }
+
+            return redirect($authUser->type->dashboard_url);
         } catch (Exception $e) {
             return redirect()->back()->with('status', $e);
         }

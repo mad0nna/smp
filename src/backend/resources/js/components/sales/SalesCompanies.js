@@ -103,16 +103,20 @@ const SalesCompanies = () => {
   ]
 
   return (
-    <div className="relative px-10 py-5 bg-mainbg">
+    <div className="relative px-10 py-5 bg-primaryBg">
       <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
         <div
           id="widget-header"
           className="max-w-full h-28 bg-white box-border align-middle p-4 relative"
         >
-          <img src={companyIcon} className="w-auto h-7 float-left ml-4" />
+          <img
+            alt="Company Icon"
+            src={companyIcon}
+            className="w-auto h-7 float-left ml-4"
+          />
           <div
             id="widget-name"
-            className="text-primary-200 text-xl font-sans font-bold ml-4 float-left"
+            className="text-tertiary-500 text-xl font-sans font-bold ml-4 float-left"
           >
             企業一覧
           </div>
@@ -120,7 +124,7 @@ const SalesCompanies = () => {
             <div className="table-cell relative h-24 w-full align-middle">
               <div
                 id="search-bar"
-                className="bg-mainbg h-12 rounded-3xl w-96 mx-0 my-auto"
+                className="bg-primaryBg h-12 rounded-3xl w-96 mx-0 my-auto"
               >
                 <svg
                   className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
@@ -141,7 +145,7 @@ const SalesCompanies = () => {
                 <input
                   type="text"
                   id="billingSearch"
-                  className="h-full w-80 bg-mainbg custom-outline-none"
+                  className="h-full w-80 bg-primaryBg custom-outline-none"
                   placeholder="検索"
                 />
               </div>
@@ -149,6 +153,7 @@ const SalesCompanies = () => {
           </div>
           <div></div>
           <img
+            alt="Ellipsis"
             className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block"
             src={Ellipsis}
           />
@@ -209,10 +214,12 @@ const SalesCompanies = () => {
                     <td className=" cursor-pointer">
                       <a href="/sales/account">
                         <img
+                          alt="View Icon"
                           src={viewIcon}
                           className="mx-auto w-6 h-auto inline mt-2"
                         />
                         <img
+                          alt="Delete Icon"
                           src={deleteIcon}
                           className="mx-auto w-6 h-auto inline"
                         />
@@ -230,15 +237,23 @@ const SalesCompanies = () => {
         id="billing-pagination"
         className="w-full h-6 pt-3 text-center space-x-2"
       >
-        <img src={PrevButton} className="inline-block w-8 h-auto " />
-        <div className="inline-block text-primary-200">
-          <span className="text-white rounded-2xl bg-primary-200 px-3 py-2  ">
+        <img
+          alt="Previous"
+          src={PrevButton}
+          className="inline-block w-8 h-auto "
+        />
+        <div className="inline-block text-tertiary-500">
+          <span className="text-white rounded-2xl bg-tertiary-500 px-3 py-2  ">
             1
           </span>
           <span className="px-3 py-2 ">2</span>
           <span className="px-3 py-2 rounded-2xl ">3</span>
         </div>
-        <img src={NextButton} className="inline-block  w-8 h-auto " />
+        <img
+          alt="Next"
+          src={NextButton}
+          className="inline-block  w-8 h-auto "
+        />
       </div>
     </div>
   )

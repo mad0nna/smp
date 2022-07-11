@@ -289,8 +289,8 @@ class UserTest extends TestCase
         $findSFByEmailResult = json_decode($findSFByEmailResponse->getContent(), $associative = true);
 
         $params = $findSFByEmailResult['data'];
-        $params['firstname'] = $findSFByEmailResult['data']['first_name'];
-        $params['lastname'] = $findSFByEmailResult['data']['last_name'];
+        $params['first_name'] = $findSFByEmailResult['data']['first_name'];
+        $params['last_name'] = $findSFByEmailResult['data']['last_name'];
         $params['isPartial'] = 1;
         $params['source'] = 'sf';
 
@@ -339,8 +339,8 @@ class UserTest extends TestCase
 
         $params = [
             'email' => $email,
-            'firstname' => 'Unit',
-            'lastname' => 'Test',
+            'first_name' => 'Unit',
+            'last_name' => 'Test',
         ];
 
         $params['isPartial'] = 1;

@@ -120,7 +120,7 @@ const PaymentMethod = () => {
             />
           </div>
           <div className={state.loading ? ' hidden ' : '  '}>
-            <div className={'text-2xl font-black pl-20 text-primary-200 mb-5'}>
+            <div className={'text-2xl font-black pl-20 text-tertiary-500 mb-5'}>
               {state.message}
               <span
                 id="lastdigits"
@@ -138,7 +138,7 @@ const PaymentMethod = () => {
             <div
               className={
                 (state.method === 'クレジット' ? '' : 'hidden') +
-                ' text-lg font-black pl-20 text-primary-200 mb-5'
+                ' text-lg font-black pl-20 text-tertiary-500 mb-5'
               }
             >
               {state.lastDigits !== '' && state.lastDigits !== null
@@ -146,9 +146,7 @@ const PaymentMethod = () => {
                 : ''}{' '}
               <div className={state.expired ? 'block' : 'hidden'}>
                 <div className="bg-notification-active bg-cover bg-no-repeat w-5 h-5 mt-1 absolute"></div>
-                <p className="pl-8 text-secondary-200">
-                  有効期限が切れています
-                </p>
+                <p className="pl-8 text-red-600">有効期限が切れています</p>
               </div>
             </div>
 
@@ -162,7 +160,7 @@ const PaymentMethod = () => {
                 ''
               )}
               <div
-                className="text-md text-secondary-200 font-black inline-block cursor-pointer pl-4"
+                className="text-md text-red-600 font-black inline-block cursor-pointer pl-4"
                 onClick={() => openModal()}
               >
                 変更する

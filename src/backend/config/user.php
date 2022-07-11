@@ -58,5 +58,10 @@ return [
                 'dashboard_url' => '/employee/dashboard',
                 'type_alias' => ''
             ],
+            'logistics' => [
+                'name' => 'Logistics Admin',
+                'dashboard_url' => '/logistics/products',
+                'type_alias' => ''
+            ],
     ],
 ];

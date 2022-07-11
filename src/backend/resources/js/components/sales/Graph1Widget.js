@@ -16,20 +16,20 @@ const Graph1 = () => {
           />
           <div
             id="widget-name"
-            className="text-primary-200 font-sans font-bold ml-4 float-left"
+            className="text-tertiary-500 font-sans font-bold ml-4 float-left"
           >
             契約サービス状況
           </div>
         </div>
         <div className="w-full flex flex-wrap p-5 font-meiryo">
           <div className="w-1/2 mx-auto justify-center px-3">
-            <div className="w-3 h-3 rounded-lg bg-primary-200 inline-block mb-1 mr-4" />
+            <div className="w-3 h-3 rounded-lg bg-tertiary-500 inline-block mb-1 mr-4" />
             <div className="inline-block 2xl:text-4xl xl:text-2xl lg:text-2xl font-black text-gray-800 font-meiryo">
               1,000
             </div>
             <p className="text-sm text-gray-600 font-bold mb-1 pl-8">企業数</p>
-            <div className="w-full rounded-lg bg-primary-100 h-2 mb-3 " />
-            <div className="w-3 h-3 rounded-lg bg-primary-200 inline-block mr-2" />
+            <div className="w-full rounded-lg bg-lightGreen h-2 mb-3 " />
+            <div className="w-3 h-3 rounded-lg bg-tertiary-500 inline-block mr-2" />
             <div className="inline-block 2xl:text-4xl xl:text-2xl lg:text-2xl font-black text-gray-800 pl-2">
               8,500/
             </div>

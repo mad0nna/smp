@@ -28,9 +28,11 @@ class UserServiceTest extends TestCase
     /** @var int */
     private static $TOTAL;
 
-    public static function setUpBeforeClass(): void
+    public function setUp(): void
     {
-        parent::setUpBeforeClass();
+        $this->markTestSkipped('all tests in this file are invactive for this server configuration!');
+
+        parent::setUp();
 
         self::$UPDATED_DATA = [
             'first_name' => 'Johnny',

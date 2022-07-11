@@ -104,7 +104,7 @@ const SalesBillingHistory = (props) => {
           />
           <div
             id="widget-name"
-            className="text-primary-200 font-sans font-bold ml-4 float-left"
+            className="text-tertiary-500 font-sans font-bold ml-4 float-left"
           >
             H&Tからの請求書
           </div>
@@ -115,7 +115,7 @@ const SalesBillingHistory = (props) => {
         </div>
         <div
           id="widget-body"
-          className=" w-full  bg-mainbg py-1 space-y-1  mb-1"
+          className="w-full bg-primaryBg py-1 mb-1 space-y-1"
         >
           {billingHistory.map((item, index) => {
             let stripe = index % 2 ? 'bg-white' : 'bg-white'
@@ -182,7 +182,7 @@ const SalesBillingHistory = (props) => {
         <div id="widget-footer" className="w-full h-10 bg-white pr-2.5 pt-2">
           <div id="widget-footer-control" className="float-right">
             <a href="/sales/billing">
-              <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">
+              <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter pointer-events-none">
                 さらに表示
               </button>
             </a>

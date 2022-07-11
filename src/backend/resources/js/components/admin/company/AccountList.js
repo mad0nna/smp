@@ -223,9 +223,9 @@ const AccountList = (props) => {
           >
             <span
               className={
-                props.data.currentPage == number
-                  ? `text-white bg-primary-200 rounded-2xl px-3 py-1`
-                  : `text-primary-200 px-3 py-1`
+                props.data.currentPage === number
+                  ? `text-white bg-tertiary-500 rounded-2xl px-3 py-1`
+                  : `text-tertiary-500 px-3 py-1`
               }
             >
               {number}
@@ -257,7 +257,7 @@ const AccountList = (props) => {
   }, [props.isLoadingPullSf])
 
   return (
-    <div className="relative px-10 py-5 bg-mainbg">
+    <div className="relative px-10 py-5 bg-primaryBg">
       <input type="hidden" name="_token" value={state.token}></input>
       <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
         <div
@@ -273,7 +273,7 @@ const AccountList = (props) => {
               <div className="table-cell relative h-20 w-full align-middle">
                 <div
                   id="search-bar"
-                  className="bg-mainbg h-12 rounded-3xl w-96 mx-0 my-auto"
+                  className="bg-primaryBg h-12 rounded-3xl w-96 mx-0 my-auto"
                 >
                   <svg
                     className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
@@ -294,7 +294,7 @@ const AccountList = (props) => {
                   <input
                     type="text"
                     id="billingSearch"
-                    className="h-full w-80 bg-mainbg custom-outline-none"
+                    className="h-full w-80 bg-primaryBg custom-outline-none"
                     placeholder="検索"
                     onChange={handleKeywordChange}
                   />
@@ -305,7 +305,7 @@ const AccountList = (props) => {
               <div className="table-cell relative h-20 mr-3 align-middle">
                 <button
                   onClick={togglePopupNewAccount}
-                  className="cursor-pointer border-primary-200 text-bold w-52 py-2 px-3 border-2 text-primary-200 rounded-3xl tracking-tighter"
+                  className="cursor-pointer border-tertiary-500 text-bold w-52 py-2 px-3 border-2 text-tertiary-500 rounded-3xl tracking-tighter"
                 >
                   顧客企業を新規追加
                 </button>
@@ -409,7 +409,7 @@ const AccountList = (props) => {
                     </td>
                     <td className="text-left pl-4">{item.contactNum}</td>
                     <td className={txtcolor + ' text-left pl-4'}>{status}</td>
-                    <td className="text-left text-primary-200">
+                    <td className="text-left text-tertiary-500">
                       {actionButton}
                     </td>
                   </tr>

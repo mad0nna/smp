@@ -51,7 +51,7 @@ const DashboardSettings = () => {
                   {button.url !== '#' ? (
                     <h3
                       className={
-                        'cursor-pointer rounded-xl bg-white w-5/6 h-10 font-bold text-center border-1 shadow-md text-primary-200 py-2 align-middle ' +
+                        'cursor-pointer rounded-xl bg-white w-5/6 h-10 font-bold text-center border-1 shadow-md text-tertiary-500 py-2 align-middle ' +
                         button.font
                       }
                       onClick={() => {
@@ -67,7 +67,7 @@ const DashboardSettings = () => {
                   ) : (
                     <h3
                       className={
-                        'rounded-full bg-white w-5/6 h-10 font-bold text-center border-1 shadow-md text-primary-200 py-2 align-middle ' +
+                        'rounded-full bg-white w-5/6 h-10 font-bold text-center border-1 shadow-md text-tertiary-500 py-2 align-middle ' +
                         button.font
                       }
                     >
