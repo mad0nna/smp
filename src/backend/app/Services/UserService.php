@@ -344,7 +344,7 @@ class UserService
         return true;
     }
 
-    public function sendTempEmailInvite($temp_email, $invite_token)
+    public function firstOrNew($temp_email, $invite_token)
     {
         $to = [
             'attribute' => ['email' => $temp_email]
