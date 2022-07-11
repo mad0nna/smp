@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
-import spinner from '../../../../../img/loading-spinner.gif'
-import { findMissingWidget } from '../../../../utilities/constants'
+// import ReactDOM from 'react-dom'
+import spinner from '../../../../../../img/loading-spinner.gif'
+import { findMissingWidget } from '../../../../../utilities/constants'
+
 const WidgetSettings = () => {
   var minheight = { 'min-height': '700px' }
 
@@ -189,9 +190,9 @@ const WidgetSettings = () => {
   )
 }
 export default WidgetSettings
-if (document.getElementById('company-settings-widget')) {
-  ReactDOM.render(
-    <WidgetSettings />,
-    document.getElementById('company-settings-widget')
-  )
-}
+// if (document.getElementById('company-settings-widget')) {
+//   ReactDOM.render(
+//     <WidgetSettings />,
+//     document.getElementById('company-settings-widget')
+//   )
+// }

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { GearIcon } from '../../../../icons'
 
-const SideNav = () => {
+const Sidebar = () => {
   const userType = location.pathname.split('/')[1]
   const navigation = {
     admin: {
@@ -39,7 +39,7 @@ const SideNav = () => {
         {
           icon: null,
           label: 'お支払い方法',
-          url: '/company/setting/payment/method'
+          url: '/company/setting/payment-method'
         },
         {
           icon: null,
@@ -82,11 +82,11 @@ const SideNav = () => {
     </div>
   )
 }
-export default SideNav
+export default Sidebar
 
-if (document.getElementById('sideNav-methodOfPayment')) {
+if (document.getElementById('sidebar-company-settings')) {
   ReactDOM.render(
-    <SideNav />,
-    document.getElementById('sideNav-methodOfPayment')
+    <Sidebar />,
+    document.getElementById('sidebar-company-settings')
   )
 }

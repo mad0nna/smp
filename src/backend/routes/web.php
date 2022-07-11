@@ -65,17 +65,24 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::post('downloadBillingHistoryCSV', 'FileController@downloadBillingHistoryCSV');
     Route::get('/getUnpaidBillingInformation', 'BillingController@getUnpaidBillingInformation');
 
-    Route::view('/setting/widget', 'company.widgetSetting');
-    Route::get('/setting/payment/method', function() {
+    // region > Company > Setting
+    Route::get('/setting/widget', function() {
+        return view('company.widgetSetting')->with(['withSidebar' => true, 'sidebarColSpan' => 3, 'contentColSpan' => 9]);
+    });
+    Route::get('/setting/payment-method', function() {
         return view('company.methodOfPayment')->with(['withSidebar' => true, 'sidebarColSpan' => 3, 'contentColSpan' => 9]);
     });
-    Route::view('/setting/password', 'company.passwordSetting');
+    Route::get('/setting/password', function() {
+        return view('company.passwordSetting')->with(['withSidebar' => true, 'sidebarColSpan' => 3, 'contentColSpan' => 9]);
+    });
+    // endregion
 
-    // Route for Company Shop
+    // region > Route for Company Shop
     Route::view('/productDetail', 'companyProductDetail');
     Route::view('/cart', 'companyCart');
     Route::get('/shop', 'ShoppingController@shop');
     Route::get('/getUnpaidOrders', 'CompanyController@getUnpaidOrders');
+    //endregion
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {

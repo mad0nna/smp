@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
-import waitingIcon from '../../../../../img/loading-spinner.gif'
+// import ReactDOM from 'react-dom'
+import waitingIcon from '../../../../../../img/loading-spinner.gif'
 import axios from 'axios'
 const PasswordSettings = () => {
   var minheight = { 'min-height': '700px' }
@@ -346,9 +346,9 @@ const PasswordSettings = () => {
   )
 }
 export default PasswordSettings
-if (document.getElementById('company-settings-password')) {
-  ReactDOM.render(
-    <PasswordSettings />,
-    document.getElementById('company-settings-password')
-  )
-}
+// if (document.getElementById('company-settings-password')) {
+//   ReactDOM.render(
+//     <PasswordSettings />,
+//     document.getElementById('company-settings-password')
+//   )
+// }
