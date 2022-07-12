@@ -53,7 +53,6 @@ class BillingService
                 $invoices[$key]['invoicePDF'] = env('ZUORA_HOST') . $invoiceItem['body'];
 
                 // CSV
-                $csvFilePath = null;
                 $csvFilePath = $company->files()->where('invoice_number', $invoiceItem['invoiceNumber'])->first();
 
                 $invoices[$key]['billingCSVFilePathId'] = $csvFilePath === null ? null : $csvFilePath->id;
