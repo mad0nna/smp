@@ -22,7 +22,7 @@ class FileController extends Controller
     }
 
     /**
-     * Retrieves files and returns download stream in a zipped folder.
+     * Retrieves file/s and returns download stream in a zipped folder.
      *
      * @param App\Http\Requests\DownloadFilesRequest $request
      * @return mixed
@@ -40,13 +40,13 @@ class FileController extends Controller
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-        }
+        } // @codeCoverageIgnoreEnd
 
-        return response()->json($this->response, $this->response['code']); // @codeCoverageIgnoreEnd
+        return response()->json($this->response, $this->response['code']);
     }
 
     /**
-     * Upload CSV files to a specific disk from Zuora request
+     * Upload CSV file/s to a specific disk from Zuora request
      *
      * @param App\Http\Requests\UploadFilesRequest $request
      * @return Response
@@ -63,7 +63,7 @@ class FileController extends Controller
             ];
 
             $fileRow = $this->fileService->uploadToDisk($data);
-            $this->response['data'] = new FilesResource($fileRow); // must be updated
+            $this->response['data'] = new FilesResource($fileRow);
             $this->response['message'] = 'Successfully uploaded file/s.';
         } catch (\Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [

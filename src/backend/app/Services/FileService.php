@@ -48,9 +48,10 @@ class FileService
     }
 
     /**
-     * Retrieves the file path from record in database to return as files in a zipped folder
+     * Retrieves the file path from record in database to return files
+     * as download in a zipped folder
      *
-     * @param int $id File Path ID
+     * @param int $id File Path ID in database
      * @param mixed $companyAccountID Company Account ID
      * @return string $zipFile
      */
@@ -72,7 +73,7 @@ class FileService
             $files = Storage::disk(config('app.storage_disk_csv'))->files($file->file_path);
 
             if (empty($files)) {
-                throw new RuntimeException('File directory contains no files to zip or has been removed.');
+                throw new RuntimeException('File directory contains no files or has been removed for zipping.');
             }
 
             // initializes the zip folder with selected name
@@ -80,14 +81,14 @@ class FileService
             $zip = new ZipArchive;
             $zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-            // for loops exists each file to add to zipped folder
+            // for loops exists each file for folder
             foreach ($files as $file) {
                 $fileContent = Storage::disk(config('app.storage_disk_csv'))->get($file);
 
-                // extracts the file name from the file to add to the zip folder
+                // extracts the file name from the file path for zip folder
                 $fileArray = explode("/",$file);
                 $fileName = end($fileArray);
-
+                //  adds the file to zip
                 $zip->addFromString($fileName, $fileContent);
             }
 
@@ -100,7 +101,7 @@ class FileService
     }
 
     /**
-     * Uploads the file to a specific disk and saving the path to DB
+     * Uploads the file/s to a specific disk and saving the path to DB
      *
      * @param array $data
      * @return App\Models\File $file
@@ -110,21 +111,20 @@ class FileService
         DB::beginTransaction();
 
         try {
-            // Find company given salesforce account id
             $company = $this->company->where('account_id', $data['salesforce_id'])->first();
 
             if (!($company instanceof Company)) {
                 throw new RuntimeException('Company not found given salesforce id.');
             }
 
-            // File Directory path
+            // file Directory path
             $filePath = 'BillingCSVs/' . $company->account_id . '/' . $data['invoice_number'];
 
-            // Loop each file to put in disk
+            // loop each file to put in disk
             foreach ($data['files'] as $file) {
                 $fileName = $file->getClientOriginalName();
 
-                // Saves file to selected selected disk from env for CSVs
+                // saves file to selected selected disk from env for CSVs
                 Storage::disk(config('app.storage_disk_csv'))->putFileAs(
                     $filePath,
                     $file,
@@ -132,13 +132,13 @@ class FileService
                 );
             }
 
-            // Creates or updates a new record file directory in DB
             $whereParams = [
                 'file_path' => $filePath,
                 'company_id' => $company->id,
                 'invoice_number' => $data['invoice_number'],
             ];
 
+            // updates the existing logs updated if invoice with that company exists, if not create new row
             $file = $company->files()->updateOrCreate($whereParams, ['updated_at' => Carbon::now()]);
 
             DB::commit();
