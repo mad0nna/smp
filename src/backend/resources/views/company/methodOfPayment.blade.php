@@ -1,7 +1,7 @@
 @extends('layouts.v2.company')
 
 @section('content')
-<div id="content-company-settings"></div>
+<div id="content-company-settings" class="lg:min-h-607px"></div>
 @endsection
 
 @section('sidebar')

@@ -10,17 +10,17 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        'notification-icon': "url('/images/notification-icon.png')",
-        'notification-normal': "url('/images/notif-alert-hnt.png')",
-        'notification-active': "url('/images/notification-active.png')",
-        'notification-invoice': "url('/images/notif-alert-invoice.png')",
-        'arrow-down': "url('/images/arrowdown.png')",
+        paper: "url('/images/paper.png')",
         'cart-icon': "url('/images/cart-icon.png')",
-        'history-icon': "url('/images/history-icon.png')",
+        'arrow-down': "url('/images/arrow-down.png')",
         'ellipsis-icon': "url('/images/ellipsis.png')",
-        'sort-icon-inactive': "url('/images/sort-inactive.png')",
+        'history-icon': "url('/images/history-icon.png')",
         'sort-icon-active': "url('/images/sort-active.png')",
-        paper: "url('/images/paper.png')"
+        'sort-icon-inactive': "url('/images/sort-inactive.png')",
+        'notification-icon': "url('/images/notification-icon.png')",
+        'notification-active': "url('/images/notification-active.png')",
+        'notification-normal': "url('/images/notification-alert-hnt.png')",
+        'notification-invoice': "url('/images/notification-alert-invoice.png')"
       },
       colors: {
         primaryBg: '#F2F2F2',
@@ -28,9 +28,14 @@ module.exports = {
         // region > Unstructured, untidy & improper hex colors used by random XD files that did not reflect on Style guide goes here...
         hex: {
           F5F5F5: '#F5F5F5',
+          F1F1F1: '#F1F1F1',
+          D8F3EA: '#D8F3EA',
+          D8D8D8: '#D8D8D8',
           474747: '#474747',
+          333333: '#333333',
+          '3A3A3A': '#3A3A3A',
           '7ECBB2': '#7ECBB2',
-          D8F3EA: '#D8F3EA'
+          '9D9D9D': '#9D9D9D'
         },
         // endregion
         primary: {
@@ -90,6 +95,7 @@ module.exports = {
         xxs: ['0.60rem', { lineHeight: '.75rem' }],
         'widget-xs': 10,
         // region > Specific font-size in pixels unit (ASC order)
+        '22px': 22,
         '23px': 23
         // endregion
       },
@@ -101,7 +107,12 @@ module.exports = {
         checkBox: 20,
         // region > Specific height in pixels unit (ASC order)
         '26px': 26,
-        '43px': 43
+        '27px': 27,
+        '30px': 30,
+        '43px': 43,
+        '48px': 48,
+        '130px': 130,
+        '282px': 282
         // endregion
       },
       width: {
@@ -109,7 +120,15 @@ module.exports = {
         checkBox: 20,
         // region > Specific width in pixels unit (ASC order)
         '26px': 26,
-        '322px': 322
+        '27px': 27,
+        '30px': 30,
+        '123px': 123,
+        '130px': 130,
+        '143px': 143,
+        '318px': 318,
+        '322px': 322,
+        '251px': 251,
+        '590px': 590
         //endregion
       },
       lineHeight: {
@@ -126,7 +145,9 @@ module.exports = {
         'widget-item': 80,
         'table-height': 740,
         // region > Undeclared specific pixel sizes in Style Guide goes here...
-        '402px': 422
+        '402px': 422,
+        '500px': 500,
+        '607px': 607
         // endregion
       },
       maxWidth: {},
@@ -137,16 +158,27 @@ module.exports = {
       spacing: {
         200: 350,
         // region > Specific spacing in pixels unit (ASC order)
+        '11px': 11,
+        '13px': 13,
+        '20px': 20,
         '22px': 22,
         '25px': 25,
         '29px': 29,
+        '42px': 42,
         '50px': 50,
+        '55px': 55,
+        '62px': 62,
         '78px': 78,
-        '80px': 80
+        '80px': 80,
+        '88px': 88,
+        '95px': 95
         // endregion
       },
       borderRadius: {
         xs: 6
+      },
+      borderWidth: {
+        '3px': 3
       },
       skew: {
         'rectangle-skew': '-53deg'

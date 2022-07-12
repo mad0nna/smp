@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { GearIcon } from '../../../../icons'
 
 const Sidebar = () => {
   const userType = location.pathname.split('/')[1]
+  const [active, setActive] = useState(location.pathname.split('/')[3])
+
   const navigation = {
     admin: {
       heading: {
@@ -12,11 +14,13 @@ const Sidebar = () => {
       },
       menu: [
         {
+          id: 'settings',
           icon: null,
           label: 'Invoice Template List',
           url: '/admin/settings'
         },
         {
+          id: 'detail',
           icon: null,
           label: 'Invoice Template Details',
           url: '/admin/settings/invoice/detail'
@@ -32,16 +36,19 @@ const Sidebar = () => {
       },
       menu: [
         {
+          id: 'widget',
           icon: null,
           label: 'ウィジェット',
           url: '/company/setting/widget'
         },
         {
+          id: 'payment-method',
           icon: null,
           label: 'お支払い方法',
           url: '/company/setting/payment-method'
         },
         {
+          id: 'password',
           icon: null,
           label: 'パスワード',
           url: '/company/setting/password'
@@ -58,7 +65,12 @@ const Sidebar = () => {
       content.push(
         <li
           key={i}
-          className="h-43px w-full flex flex-col justify-center hover:bg-hex-F5F5F5"
+          className={`h-43px w-full flex flex-col justify-center hover:bg-hex-F5F5F5 ${
+            active === nav.id
+              ? 'bg-hex-F5F5F5 border-r-4 border-primary-600'
+              : ''
+          }`}
+          onClick={() => setActive(nav.id)}
         >
           <a href={nav.url} className="block ml-78px text-hex-474747">
             {nav.label}
