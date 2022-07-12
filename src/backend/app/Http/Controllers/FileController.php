@@ -40,9 +40,9 @@ class FileController extends Controller
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-        } // @codeCoverageIgnoreEnd
+        }
 
-        return response()->json($this->response, $this->response['code']);
+        return response()->json($this->response, $this->response['code']); // @codeCoverageIgnoreEnd
     }
 
     /**

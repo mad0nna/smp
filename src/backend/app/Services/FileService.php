@@ -40,9 +40,9 @@ class FileService
 
         $file = $this->file->where($showConditions)->first();
 
-        if (!($file instanceof File)) {
+        if (!($file instanceof File)) { // @codeCoverageIgnoreStart
             throw new RuntimeException('File record does not exist.');
-        }
+        } // @codeCoverageIgnoreEnd
 
         return $file;
     }
@@ -61,20 +61,20 @@ class FileService
 
         $company = $this->company->where('account_id', $companyAccountID)->first();
 
-        if (!($company instanceof Company)) {
+        if (!($company instanceof Company)) { // @codeCoverageIgnoreStart
             throw new RuntimeException('Company does not exist given account ID.');
-        }
+        }  // @codeCoverageIgnoreEnd
 
-        if ($file->company_id !== $company->id) {
+        if ($file->company_id !== $company->id) { // @codeCoverageIgnoreStart
             throw new RuntimeException('User does not have the rights to access files.');
-        }
+        } // @codeCoverageIgnoreEnd
 
         try {
             $files = Storage::disk(config('app.storage_disk_csv'))->files($file->file_path);
 
-            if (empty($files)) {
+            if (empty($files)) { // @codeCoverageIgnoreStart
                 throw new RuntimeException('File directory contains no files or has been removed for zipping.');
-            }
+            } // @codeCoverageIgnoreEnd
 
             // initializes the zip folder with selected name
             $zipFile = $file->invoice_number . '-' .$company->account_id . '.zip';
@@ -88,6 +88,7 @@ class FileService
                 // extracts the file name from the file path for zip folder
                 $fileArray = explode("/",$file);
                 $fileName = end($fileArray);
+
                 //  adds the file to zip
                 $zip->addFromString($fileName, $fileContent);
             }
@@ -113,9 +114,9 @@ class FileService
         try {
             $company = $this->company->where('account_id', $data['salesforce_id'])->first();
 
-            if (!($company instanceof Company)) {
+            if (!($company instanceof Company)) { // @codeCoverageIgnoreStart
                 throw new RuntimeException('Company not found given salesforce id.');
-            }
+            } // @codeCoverageIgnoreEnd
 
             // file Directory path
             $filePath = 'BillingCSVs/' . $company->account_id . '/' . $data['invoice_number'];
