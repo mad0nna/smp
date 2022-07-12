@@ -31,27 +31,32 @@ module.exports = {
           F1F1F1: '#F1F1F1',
           D8F3EA: '#D8F3EA',
           D8D8D8: '#D8D8D8',
+          E8E8E8: '#E8E8E8',
+          FF0000: '#FF0000',
+          FF9898: '#FF9898',
+          FEE5E5: '#FEE5E5',
           474747: '#474747',
           333333: '#333333',
+          '0ABBB5': '#0ABBB5',
           '3A3A3A': '#3A3A3A',
           '7ECBB2': '#7ECBB2',
           '9D9D9D': '#9D9D9D'
         },
         // endregion
         primary: {
-          100: '#007B5333', // Changed To: lightGreen
-          200: '#007B5366', // Changed To: tertiary-500
+          100: '#007B5333',
+          200: '#007B5366',
           300: '#387F6B',
           400: '#007B53CC',
           500: '#065F46',
           600: '#007B53'
         },
         secondary: {
-          100: '#17A8A433', // Change To: red-500
-          200: '#17A8A466', // Change To: red-600
+          100: '#17A8A433',
+          200: '#17A8A466',
           300: '#17A8A499',
           400: '#17A8A4CC',
-          500: '#17A8A4' // From: 900, Changed To: teal-500
+          500: '#17A8A4'
         },
         tertiary: {
           100: '#1D9E4833',
@@ -95,6 +100,8 @@ module.exports = {
         xxs: ['0.60rem', { lineHeight: '.75rem' }],
         'widget-xs': 10,
         // region > Specific font-size in pixels unit (ASC order)
+        '11px': 11,
+        '20px': 20,
         '22px': 22,
         '23px': 23
         // endregion
@@ -108,9 +115,11 @@ module.exports = {
         // region > Specific height in pixels unit (ASC order)
         '26px': 26,
         '27px': 27,
+        '28px': 28,
         '30px': 30,
         '43px': 43,
         '48px': 48,
+        '51px': 51,
         '130px': 130,
         '282px': 282
         // endregion
@@ -125,9 +134,10 @@ module.exports = {
         '123px': 123,
         '130px': 130,
         '143px': 143,
+        '202px': 202,
+        '251px': 251,
         '318px': 318,
         '322px': 322,
-        '251px': 251,
         '590px': 590
         //endregion
       },
@@ -157,8 +167,11 @@ module.exports = {
       },
       spacing: {
         200: 350,
-        // region > Specific spacing in pixels unit (ASC order)
+        // region > Specific spacing (margin, padding) in pixels unit (ASC order)
+        '7px': 7,
+        '9px': 9,
         '11px': 11,
+        '12px': 12,
         '13px': 13,
         '20px': 20,
         '22px': 22,
@@ -168,6 +181,7 @@ module.exports = {
         '50px': 50,
         '55px': 55,
         '62px': 62,
+        '72px': 72,
         '78px': 78,
         '80px': 80,
         '88px': 88,
@@ -175,7 +189,9 @@ module.exports = {
         // endregion
       },
       borderRadius: {
-        xs: 6
+        xs: 6,
+        '3px': 3,
+        '8px': 8
       },
       borderWidth: {
         '3px': 3

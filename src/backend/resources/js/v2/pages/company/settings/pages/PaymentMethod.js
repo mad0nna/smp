@@ -1,5 +1,5 @@
 import React from 'react'
-import { BankIcon, CardIcon } from '../../../../../../icons'
+import { BankIcon, CardIcon, GearIcon } from '../../../../../../icons'
 
 const PaymentMethod = () => {
   return (
@@ -11,9 +11,14 @@ const PaymentMethod = () => {
         <div className="flex flex-col h-fit justify-center lg:min-h-500px lg:mt-95px">
           {/* region > Payment option */}
           <div className="flex justify-center">
-            <div className="w-251px h-282px flex flex-col justify-center text-center rounded-3xl bg-hex-D8F3EA mr-3 lg:mr-88px">
-              <BankIcon className="block w-130px h-130px bg-red mx-auto" />
-              <p className="text-23px text-primary-600 mt-4">銀行振込</p>
+            <div className="w-251px h-282px flex flex-col justify-center text-center rounded-3xl border border-hex-D8D8D8 bg-hex-F1F1F1 mr-3 lg:mr-88px">
+              <BankIcon
+                className="block w-130px h-130px bg-red mx-auto"
+                fill="#333"
+              />
+              <p className="text-23px font-semibold mt-4 text-hex-333333">
+                銀行振込
+              </p>
               <label id="radio-check-mark" className="flex justify-end mr-4">
                 <input
                   type="radio"
@@ -25,8 +30,13 @@ const PaymentMethod = () => {
               </label>
             </div>
             <div className="w-251px h-282px flex flex-col justify-center text-center rounded-3xl bg-hex-D8F3EA">
-              <CardIcon className="block w-130px h-130px mx-auto" />
-              <p className="text-23px text-primary-600 mt-4">銀行振込</p>
+              <CardIcon
+                className="block w-130px h-130px mx-auto"
+                fill="#007B53"
+              />
+              <p className="text-23px font-semibold text-primary-600 mt-4">
+                銀行振込
+              </p>
               <label id="radio-check-mark" className="flex justify-end mr-4">
                 <input
                   type="radio"
@@ -41,8 +51,8 @@ const PaymentMethod = () => {
           {/* endregion */}
           {/* region > Payment form */}
           <div className="flex justify-center">
-            <div className="w-590px bg-hex-F1F1F1 rounded-xl mt-62px">
-              <h3 className="font-medium text-22px pl-20px pt-11px border-b border-hex-D8D8D8">
+            <div className="w-590px bg-hex-F1F1F1 rounded-xl mt-62px mb-25px">
+              <h3 className="font-medium text-22px pl-20px py-11px border-b border-hex-D8D8D8">
                 クレジットカード
               </h3>
               <div className="table mt-42px">
@@ -56,7 +66,7 @@ const PaymentMethod = () => {
                   <input
                     type="text"
                     id="card_type"
-                    className="w-318px h-48px outline-none table-cell rounded-xs mb-4"
+                    className="w-318px h-48px outline-none table-cell rounded-xs mb-4 bg-hex-E8E8E8"
                   />
                 </p>
                 <p className="table-row">
@@ -69,7 +79,7 @@ const PaymentMethod = () => {
                   <input
                     type="text"
                     id="card_number"
-                    className="w-318px h-48px outline-none table-cell rounded-xs mb-4"
+                    className="w-318px h-48px outline-none table-cell rounded-xs mb-4 bg-hex-E8E8E8"
                   />
                 </p>
                 <p className="table-row">
@@ -82,10 +92,24 @@ const PaymentMethod = () => {
                   <input
                     type="text"
                     id="card_expiration"
-                    className="w-318px h-48px outline-none table-cell rounded-xs mb-4"
+                    className="w-143px h-48px outline-none table-cell rounded-xs mb-4 bg-hex-E8E8E8"
                   />
+                  <p className="border border-hex-FF9898 mb-9px w-143px h-28px text-11px text-hex-FF0000 bg-hex-FEE5E5 leading-7 rounded-3px">
+                    <GearIcon
+                      className="w-4 h-4 ml-7px mr-2.5 inline"
+                      fill="#FF0000"
+                    />
+                    Card has expired!
+                  </p>
                 </p>
               </div>
+            </div>
+          </div>
+          <div className="flex justify-center mb-72px">
+            <div className="w-590px text-right">
+              <button className="bg-hex-0ABBB5 w-202px h-51px text-white text-20px rounded-8px">
+                保存する
+              </button>
             </div>
           </div>
           {/* endregion */}
