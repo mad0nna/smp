@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('account_code')->nullable();
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('name');
             $table->string('email')->unique();
             $table->string('contact_num')->nullable();
             $table->string('password')->nullable();
@@ -32,6 +33,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->string('temp_pw')->nullable();
             $table->string('invite_token')->nullable();
+            
 
             $table->foreign('user_status_id')
                 ->references('id')

@@ -23,6 +23,10 @@ const SettingSideNav = () => {
     {
       label: 'パスワード',
       link: '/company/setting/password'
+    },
+    {
+      label: 'メールアドレス',
+      link: '/company/setting/email'
     }
   ]
   let aPathName = location.pathname.split('/')

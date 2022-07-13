@@ -169,10 +169,11 @@ class Standard
 			$refs = ['order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service', 'customer'];
 
 			$view->item = $manager->get( $id, $refs );
-			$view->customer = $view->item->getCustomerItem()->toArray();
+			// $view->customer = $view->item->getCustomerItem()->toArray(); //Not used anymore bec. user info is in order_base from referencing it from user table to retain record even if user is deleted.
 			$view->itemData = $this->toArray( $view->item );
 			$view->itemBody = parent::get();
 
+			// Code to call the parent order table
 			// $manager2 = \Aimeos\MShop::create( $this->getContext(), 'order' );
 			// $search = $manager2->filter( false, true );
 			// $search->setConditions( $search->compare( '==', 'order.base.id', $id ) );
@@ -251,11 +252,6 @@ class Standard
 
 			$view->items = $manager->search( $search, [], $total );
 			$view->baseItems = $this->getOrderBaseItems( $view->items );
-			foreach( $view->baseItems as $item ) {
-				if ($item->getCustomerItem() != null) {
-					$view->customer = $item->getCustomerItem()->toArray();
-				}			
-			}
 			$view->filterAttributes = $manager->getSearchAttributes( true );
 			$view->filterOperators = $search->getOperators();
 			$view->itemBody = parent::search();
