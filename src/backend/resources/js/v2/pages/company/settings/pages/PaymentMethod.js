@@ -3,7 +3,7 @@ import PaymentSelection from './PaymentSelection'
 import { BankIcon, CardIcon, ExclamationIcon } from '../../../../../../icons'
 
 const PaymentMethod = () => {
-  const [modalOn, setModalOn] = useState(true)
+  const [modalOn, setModalOn] = useState(false)
   const [choice, setChoice] = useState(false)
   console.log('choice: ', choice)
 
@@ -20,7 +20,7 @@ const PaymentMethod = () => {
         <div className="flex flex-col h-fit justify-center lg:min-h-500px lg:mt-95px">
           {/* region > Payment option */}
           <div className="flex justify-center">
-            <div className="w-251px h-282px flex flex-col justify-center text-center rounded-3xl border border-hex-D8D8D8 bg-hex-F1F1F1 mr-3 lg:mr-88px">
+            <div className="w-251px h-282px flex flex-col justify-center text-center rounded-3xl border border-hex-D8D8D8 bg-hex-F1F1F1 mr-3 ml-3 lg:mr-88px lg:ml-0">
               <BankIcon
                 className="block w-130px h-130px bg-red mx-auto"
                 fill="#333"
@@ -38,7 +38,7 @@ const PaymentMethod = () => {
                 <span />
               </label>
             </div>
-            <div className="w-251px h-282px flex flex-col justify-center text-center rounded-3xl bg-hex-D8F3EA">
+            <div className="w-251px h-282px flex flex-col justify-center text-center rounded-3xl bg-hex-D8F3EA mr-3 lg:mr-0">
               <CardIcon
                 className="block w-130px h-130px mx-auto"
                 fill="#007B53"
@@ -60,41 +60,41 @@ const PaymentMethod = () => {
           {/* endregion */}
           {/* region > Payment form */}
           <div className="flex justify-center">
-            <div className="w-590px bg-hex-F1F1F1 rounded-xl mt-62px mb-25px">
+            <div className="w-full bg-hex-F1F1F1 rounded-xl mt-62px mb-25px mx-3 lg:w-590px lg:mx-0">
               <h3 className="font-medium text-22px pl-20px py-11px border-b border-hex-D8D8D8">
                 クレジットカード
               </h3>
-              <div className="table mt-42px">
-                <p className="table-row border border-red-500">
+              <div className="flex flex-col lg:table mt-42px">
+                <p className="table-row">
                   <label
                     htmlFor="card_type"
-                    className="table-cell text-hex-3A3A3A pl-55px pr-4"
+                    className="pr-13px table-cell text-hex-3A3A3A lg:pl-55px"
                   >
                     クレジットカード種別
                   </label>
                   <input
                     type="text"
                     id="card_type"
-                    className="w-318px h-48px outline-none table-cell rounded-xs mb-4 bg-hex-E8E8E8"
+                    className="w-4/5 lg:w-318px lg:mr-0 h-48px outline-none table-cell rounded-xs mb-4 bg-hex-E8E8E8"
                   />
                 </p>
                 <p className="table-row">
                   <label
                     htmlFor="card_number"
-                    className="table-cell text-hex-3A3A3A pl-55px"
+                    className="table-cell text-hex-3A3A3A lg:pl-55px"
                   >
                     クレジットカード
                   </label>
                   <input
                     type="text"
                     id="card_number"
-                    className="w-318px h-48px outline-none table-cell rounded-xs mb-4 bg-hex-E8E8E8"
+                    className="w-4/5 lg:w-318px lg:mr-0 h-48px outline-none table-cell rounded-xs mb-4 bg-hex-E8E8E8"
                   />
                 </p>
                 <p className="table-row">
                   <label
                     htmlFor="card_expiration"
-                    className="table-cell text-hex-3A3A3A pl-55px"
+                    className="table-cell text-hex-3A3A3A lg:pl-55px"
                   >
                     有効期限日
                   </label>
@@ -118,7 +118,7 @@ const PaymentMethod = () => {
             <div className="w-590px text-right">
               <button
                 onClick={handleCloseModal}
-                className="bg-hex-0ABBB5 w-202px h-51px text-white text-20px rounded-8px"
+                className="bg-hex-0ABBB5 w-202px h-51px text-white text-20px rounded-8px mr-3 lg:mr-0"
               >
                 保存する
               </button>
