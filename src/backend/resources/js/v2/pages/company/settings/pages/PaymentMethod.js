@@ -153,9 +153,7 @@ const PaymentMethod = () => {
           )}
           {/* endregion */}
         </div>
-        {modalOn ? (
-          <PaymentSelection setModalOn={setModalOn} setMethod={setMethod} />
-        ) : null}
+        {modalOn ? <PaymentSelection setModalOn={setModalOn} /> : null}
       </div>
     </>
   )
