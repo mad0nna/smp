@@ -43,6 +43,7 @@ const PaymentMethod = () => {
                   onClick={() => setMethod('bank')}
                   name="payment_method"
                   value="bank"
+                  defaultChecked={method === 'bank'}
                   className="invisible hidden"
                 />
                 <span />
@@ -72,6 +73,7 @@ const PaymentMethod = () => {
                   onClick={() => setMethod('card')}
                   name="payment_method"
                   value="card"
+                  defaultChecked={method === 'card'}
                   className="invisible hidden"
                 />
                 <span />
