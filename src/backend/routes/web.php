@@ -70,6 +70,7 @@ Route::group(['prefix' => 'company',  'middleware' => 'company'], function () {
     Route::view('/setting/widget', 'company.widgetSetting');
     Route::view('/setting/payment/method', 'company.methodOfPayment');
     Route::view('/setting/password', 'company.passwordSetting');
+    Route::view('/setting/email', 'company.emailSetting');
 
     // Company Shop
     Route::view('/productDetail', 'companyProductDetail');
@@ -126,6 +127,11 @@ Route::prefix('password')->group(function () {
     Route::post('reset', 'Auth\PasswordController@update')->name('password.update');
     Route::get('reset', 'Auth\PasswordController@reset')->middleware('guest');
     Route::post('change', 'Auth\PasswordController@change');
+});
+
+Route::prefix('email')->group(function () {
+    Route::post('/inviteNewEmail', 'Auth\EmailController@inviteNewEmail');
+    Route::post('/updateSubAdminByEmail', 'Auth\EmailController@updateSubAdminByEmail');
 });
 
 Route::group(['prefix' => 'sso'], function () {
