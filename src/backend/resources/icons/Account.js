@@ -20,7 +20,8 @@ const AccountCircle = (props) => {
 }
 
 AccountCircle.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  fill: PropTypes.string
 }
 
 export default AccountCircle

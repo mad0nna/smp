@@ -27,6 +27,7 @@ module.exports = {
         secondaryBg: '#C1CBC4',
         // region > Unstructured, untidy & improper hex colors used by random XD files that did not reflect on Style guide goes here...
         hex: {
+          A8A8A8: '#A8A8A8',
           F5F5F5: '#F5F5F5',
           F1F1F1: '#F1F1F1',
           D8F3EA: '#D8F3EA',
@@ -37,10 +38,12 @@ module.exports = {
           FEE5E5: '#FEE5E5',
           474747: '#474747',
           333333: '#333333',
+          '67D5D1': '#67D5D1',
           '0ABBB5': '#0ABBB5',
           '3A3A3A': '#3A3A3A',
           '7ECBB2': '#7ECBB2',
-          '9D9D9D': '#9D9D9D'
+          '9D9D9D': '#9D9D9D',
+          '2D2D2D': '#2D2D2D'
         },
         // endregion
         primary: {
@@ -113,6 +116,7 @@ module.exports = {
         'detail-height': '34rem',
         checkBox: 20,
         // region > Specific height in pixels unit (ASC order)
+        '21px': 21,
         '26px': 26,
         '27px': 27,
         '28px': 28,
@@ -120,6 +124,7 @@ module.exports = {
         '43px': 43,
         '48px': 48,
         '51px': 51,
+        '58px': 58,
         '130px': 130,
         '282px': 282
         // endregion
@@ -128,16 +133,19 @@ module.exports = {
         widgetBody: 'calc(100% - 3rem)',
         checkBox: 20,
         // region > Specific width in pixels unit (ASC order)
+        '21px': 21,
         '26px': 26,
         '27px': 27,
         '30px': 30,
         '123px': 123,
         '130px': 130,
         '143px': 143,
+        '165px': 165,
         '202px': 202,
         '251px': 251,
         '318px': 318,
         '322px': 322,
+        '432px': 432,
         '590px': 590
         //endregion
       },
@@ -165,6 +173,9 @@ module.exports = {
         '4xl': '0 40px 100px -20px rgba(0, 0, 0, 0.3)',
         '5xl': '0px 15px 30px rgba(0, 0, 0, 0.16)'
       },
+      opacity: {
+        88: '0.88'
+      },
       spacing: {
         200: 350,
         // region > Specific spacing (margin, padding) in pixels unit (ASC order)
@@ -177,6 +188,8 @@ module.exports = {
         '22px': 22,
         '25px': 25,
         '29px': 29,
+        '37px': 37,
+        '39px': 39,
         '42px': 42,
         '50px': 50,
         '55px': 55,
@@ -191,7 +204,9 @@ module.exports = {
       borderRadius: {
         xs: 6,
         '3px': 3,
-        '8px': 8
+        '8px': 8,
+        '9px': 9,
+        '10px': 10
       },
       borderWidth: {
         '3px': 3

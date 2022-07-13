@@ -1,7 +1,16 @@
-import React from 'react'
-import { BankIcon, CardIcon, GearIcon } from '../../../../../../icons'
+import React, { useState } from 'react'
+import PaymentSelection from './PaymentSelection'
+import { BankIcon, CardIcon, ExclamationIcon } from '../../../../../../icons'
 
 const PaymentMethod = () => {
+  const [modalOn, setModalOn] = useState(true)
+  const [choice, setChoice] = useState(false)
+  console.log('choice: ', choice)
+
+  const handleCloseModal = () => {
+    setModalOn((prevState) => !prevState)
+  }
+
   return (
     <>
       <h3 className="mt-22px ml-22px font-medium text-23px text-primary-600">
@@ -95,7 +104,7 @@ const PaymentMethod = () => {
                     className="w-143px h-48px outline-none table-cell rounded-xs mb-4 bg-hex-E8E8E8"
                   />
                   <p className="border border-hex-FF9898 mb-9px w-143px h-28px text-11px text-hex-FF0000 bg-hex-FEE5E5 leading-7 rounded-3px">
-                    <GearIcon
+                    <ExclamationIcon
                       className="w-4 h-4 ml-7px mr-2.5 inline"
                       fill="#FF0000"
                     />
@@ -107,13 +116,19 @@ const PaymentMethod = () => {
           </div>
           <div className="flex justify-center mb-72px">
             <div className="w-590px text-right">
-              <button className="bg-hex-0ABBB5 w-202px h-51px text-white text-20px rounded-8px">
+              <button
+                onClick={handleCloseModal}
+                className="bg-hex-0ABBB5 w-202px h-51px text-white text-20px rounded-8px"
+              >
                 保存する
               </button>
             </div>
           </div>
           {/* endregion */}
         </div>
+        {modalOn ? (
+          <PaymentSelection setModalOn={setModalOn} setChoice={setChoice} />
+        ) : null}
       </div>
     </>
   )
