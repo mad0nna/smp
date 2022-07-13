@@ -492,7 +492,7 @@ const CompanyProfile = () => {
                   'flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center'
                 }
               >
-                <div className="md:mb-0 md:w-1/3">
+                <div className="md:mb-0 md:w-1/3 label-title">
                   <label className="text-sm text-gray-400">
                     会社名
                     <span className="text-red-500">*</span>
@@ -502,7 +502,7 @@ const CompanyProfile = () => {
                   <p
                     className={
                       (state.isEditingProfile ? 'hidden' : '') +
-                      ' text-sm text-black w-full px-3 leading-8'
+                      ' text-sm text-black w-full px-3 leading-8 min-h-full'
                     }
                   >
                     {state.companyDetails.Name}
@@ -538,19 +538,19 @@ const CompanyProfile = () => {
                   'flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center'
                 }
               >
-                <div className="md:mb-0 md:w-1/3">
+                <div className="md:mb-0 md:w-1/3 min-h-full">
                   <label className="text-sm text-gray-400">
                     所在地<span className="text-red-500">*</span>
                   </label>
                 </div>
-                <div className="md:w-2/3 md:flex-grow">
+                <div className="md:w-2/3 md:flex-grow px-3">
                   <label
                     className={
                       (state.isEditingProfile ? 'hidden' : '') +
-                      ' text-sm text-black w-full h-8 px-3 leading-8'
+                      ' text-sm text-black w-full min-h-full leading-8'
                     }
                   >
-                    <div className="px-3 flex flex-wrap">
+                    <div className="">
                       {state.companyDetails.BillingCountry ?? '' + ' '}
                       {state.companyDetails.BillingState ?? '' + ' '}
                       {state.companyDetails.BillingCity ?? '' + ' '}
@@ -987,11 +987,11 @@ const CompanyProfile = () => {
             </div>
           </div>
           <div className="mb-6">
-            <div className="flex flex-wrap gap-0 w-full justify-start items-center py-2 border-b border-gray-100 hover:bg-gray-50">
-              <div className="md:w-1/2">
+            <div className="flex flex-wrap gap-0 w-full justify-start py-2 border-b border-gray-100 hover:bg-gray-50">
+              <div className="md:w-1/2 label-title">
                 <label className="text-sm text-gray-400">Zendesk 組織名:</label>
               </div>
-              <div className="md:w-1/2 flex-grow text-sm text-black w-full">
+              <div className="md:w-1/2 flex-grow text-sm text-black w-full label-title">
                 {state.ZenDetails.Zendeskaccount__c ?? 'N/A'}
               </div>
             </div>
