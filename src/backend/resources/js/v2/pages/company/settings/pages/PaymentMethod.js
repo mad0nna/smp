@@ -13,7 +13,7 @@ const PaymentMethod = () => {
   return (
     <>
       <h3 className="mt-22px ml-22px font-medium text-23px text-primary-600">
-        お支払い方法 {method}
+        お支払い方法
       </h3>
       <div>
         <div className="flex flex-col h-fit justify-center lg:min-h-500px lg:mt-95px">
