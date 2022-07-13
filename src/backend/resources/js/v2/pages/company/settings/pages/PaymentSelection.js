@@ -1,13 +1,13 @@
 import React from 'react'
 import { XIcon } from '../../../../../../icons'
 
-const PaymentSelection = ({ setModalOn, setChoice }) => {
+const PaymentSelection = ({ setModalOn, setMethod }) => {
   const handleConfirm = () => {
-    setChoice(true)
+    setMethod(true)
     setModalOn(false)
   }
   const handleClose = () => {
-    setChoice(false)
+    setMethod(false)
     setModalOn(false)
   }
 

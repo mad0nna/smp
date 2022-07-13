@@ -4,10 +4,9 @@ import { BankIcon, CardIcon, ExclamationIcon } from '../../../../../../icons'
 
 const PaymentMethod = () => {
   const [modalOn, setModalOn] = useState(false)
-  const [choice, setChoice] = useState(false)
-  console.log('choice: ', choice)
+  const [method, setMethod] = useState('bank')
 
-  const handleCloseModal = () => {
+  const handleModalClose = () => {
     setModalOn((prevState) => !prevState)
   }
 
@@ -20,17 +19,28 @@ const PaymentMethod = () => {
         <div className="flex flex-col h-fit justify-center lg:min-h-500px lg:mt-95px">
           {/* region > Payment option */}
           <div className="flex justify-center">
-            <div className="w-251px h-282px flex flex-col justify-center text-center rounded-3xl border border-hex-D8D8D8 bg-hex-F1F1F1 mr-3 ml-3 lg:mr-88px lg:ml-0">
+            <div
+              className={`w-251px h-282px flex flex-col justify-center text-center rounded-3xl mr-3 ml-3 lg:mr-88px lg:ml-0 ${
+                method === 'bank'
+                  ? 'bg-hex-D8F3EA border border-hex-7ECBB2'
+                  : 'border border-hex-D8D8D8 bg-hex-F1F1F1'
+              }`}
+            >
               <BankIcon
                 className="block w-130px h-130px bg-red mx-auto"
-                fill="#333"
+                fill={method === 'bank' ? '#007B53' : '#333'}
               />
-              <p className="text-23px font-semibold mt-4 text-hex-333333">
+              <p
+                className={`text-23px font-semibold mt-4 ${
+                  method === 'bank' ? 'text-primary-600' : 'text-hex-333333'
+                }`}
+              >
                 銀行振込
               </p>
               <label id="radio-check-mark" className="flex justify-end mr-4">
                 <input
                   type="radio"
+                  onClick={() => setMethod('bank')}
                   name="payment_method"
                   value="bank"
                   className="invisible hidden"
@@ -38,17 +48,28 @@ const PaymentMethod = () => {
                 <span />
               </label>
             </div>
-            <div className="w-251px h-282px flex flex-col justify-center text-center rounded-3xl bg-hex-D8F3EA mr-3 lg:mr-0">
+            <div
+              className={`w-251px h-282px flex flex-col justify-center text-center rounded-3xl mr-3 lg:mr-0 ${
+                method === 'card'
+                  ? 'bg-hex-D8F3EA border border-hex-7ECBB2'
+                  : 'border border-hex-D8D8D8 bg-hex-F1F1F1'
+              }`}
+            >
               <CardIcon
                 className="block w-130px h-130px mx-auto"
-                fill="#007B53"
+                fill={method === 'card' ? '#007B53' : '#333'}
               />
-              <p className="text-23px font-semibold text-primary-600 mt-4">
-                銀行振込
+              <p
+                className={`text-23px font-semibold mt-4 ${
+                  method === 'card' ? 'text-primary-600' : 'text-hex-333333'
+                }`}
+              >
+                クレジットカード
               </p>
               <label id="radio-check-mark" className="flex justify-end mr-4">
                 <input
                   type="radio"
+                  onClick={() => setMethod('card')}
                   name="payment_method"
                   value="card"
                   className="invisible hidden"
@@ -117,7 +138,7 @@ const PaymentMethod = () => {
           <div className="flex justify-center mb-72px">
             <div className="w-590px text-right">
               <button
-                onClick={handleCloseModal}
+                onClick={handleModalClose}
                 className="bg-hex-0ABBB5 w-202px h-51px text-white text-20px rounded-8px mr-3 lg:mr-0"
               >
                 保存する
@@ -127,7 +148,7 @@ const PaymentMethod = () => {
           {/* endregion */}
         </div>
         {modalOn ? (
-          <PaymentSelection setModalOn={setModalOn} setChoice={setChoice} />
+          <PaymentSelection setModalOn={setModalOn} setMethod={setMethod} />
         ) : null}
       </div>
     </>
