@@ -9,7 +9,6 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 
 class FileTest extends TestCase
 {
@@ -102,13 +101,16 @@ class FileTest extends TestCase
     /**
      * File Test Upload test success
      */
-    public function testFileUpload()
+    public function testFileUploadSuccess()
     {
-        $file = UploadedFile::fake()->create('file.csv');
+        $files = [
+            UploadedFile::fake()->create('fileOne.csv'),
+            UploadedFile::fake()->create('fileTwo.csv'),
+        ];
 
         $params = [
-            'file' => $file,
-            'month_of_billing' => '2020-01',
+            'files' => $files,
+            'invoice_number' => 'INV0099999', // randomly set for unit test
             'salesforce_id' => self::$salesforceCompanyID,
         ];
 
@@ -127,11 +129,13 @@ class FileTest extends TestCase
      */
     public function testFileUploadInvalidFileFormat()
     {
-        $file = UploadedFile::fake()->create('file.pdf');
+        $files = [
+            UploadedFile::fake()->create('fileOne.pdf'),
+        ];
 
         $params = [
-            'file' => $file,
-            'month_of_billing' => '2020-01',
+            'files' => $files,
+            'invoice_number' => 'INV00042541',
             'salesforce_id' => self::$salesforceCompanyID,
         ];
 
@@ -146,7 +150,33 @@ class FileTest extends TestCase
     }
 
     /**
-     * File Test Download test success
+     * File Test Upload test invalid post body parameters
+     */
+    public function testFileUploadInvalidParameters()
+    {
+        $files = [
+            UploadedFile::fake()->create('fileOne.csv'),
+            UploadedFile::fake()->create('fileTwo.csv'),
+        ];
+
+        $params = [
+            'files' => $files,
+            'invalid_key' => 'invalid_parameter',
+            'test' => 'test',
+        ];
+
+        $response = $this->withHeaders([
+                            'authorization-zuora' => self::$zuoraAccessToken,
+                            'accept' => 'application/json'
+                        ])->json('POST', '/zuora', $params);
+
+        // error code for invalid input
+        $response->assertStatus(422);
+        $result = json_decode((string) $response->getContent());
+    }
+
+    /**
+     * File Test Download zip file test success
      */
     public function testFileDownloadSuccess()
     {
@@ -159,6 +189,8 @@ class FileTest extends TestCase
                             ->json('POST', '/company/downloadBillingHistoryCSV', $params);
 
         $response->assertStatus(200);
+        $response->assertHeader('content-type', 'application/zip');
+
         $result = json_decode((string) $response->getContent());
 
         $this->deleteLatestFile();
@@ -170,7 +202,7 @@ class FileTest extends TestCase
     public function testFileDownloadInvalidFileParameters()
     {
         $params = [
-            '__ID' => '99999999',
+            'invalid_key_id' => '99999999',
         ];
 
         $response = $this->actingAs(self::$COMPANY_ADMIN)->withSession(self::$sessionData)

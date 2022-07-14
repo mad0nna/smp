@@ -736,31 +736,33 @@ $paymentStatusList2 = [
 						<div class="row item-summary justify-content-end">
 							<div class="col-xl-12 container">
 								<div class="box row">
-								<?php foreach( $this->get( 'invoiceData/order.id', [] ) as $idx => $orderId ) : ?>
+								<?php foreach( $this->get( 'invoiceData/order.id', [] ) as $idx => $orderId ) : 
+									$itemData = $this->get( 'itemData' );									
+								?>
 									<h2 class="item-header"> <label>注⽂詳細</label> <label class="float-end" style="margin-right:7rem">請求書番号 : &nbsp; <span> <?= $enc->attr( $orderId ) ?> </span> </label> </h2>
 									<div class="col-xl-9">
 										<div class="col-xl-5 form-group row">
 											<div class="col-5 form-control-label">顧客企業名 :</div>
-											<div class="col-6 value"><?= $this->get( 'customer/company_name' ) ?></div>
+											<div class="col-6 value"><?= $itemData['company_name'] ?></div>
 										</div>
 										<div class="col-xl-5 form-group row">
 											<div class="col-5 form-control-label">顧客名 :</div>
-											<div class="col-6 value"><?= $this->get( 'customer/customer.lastname' ).' '.$this->get( 'customer/customer.firstname' ) ?></div>
+											<div class="col-6 value"><?= $itemData['last_name'] .' '. $itemData['first_name'] ?></div>
 										</div>
 										<div class="col-xl-5 form-group row">
 											<div class="col-5 form-control-label">メールアドレス :</div>
-											<div class="col-6 value"><?= $this->get( 'customer/customer.email' ) ?></div>
+											<div class="col-6 value"><?= $itemData['email'] ?></div>
 										</div>
 										<div class="col-xl-12 form-group row">
 											<div class="col-2 form-control-label">配送先住所 :</div>
 											<?php foreach( $basket->getAddresses()->krsort() as $type => $addresses ) : $code = 'address:' . $type ?>
 												 <div class="col-9 value">&nbsp;〒 <?= $addresses[0]['order.base.address.postal'] . ' ' . $addresses[0]['order.base.address.state'] . ' ' . 
 														$addresses[0]['order.base.address.city'] . ' ' . $addresses[0]['order.base.address.address1'] . ' ' . $addresses[0]['order.base.address.address2'] ?></div>													
-											<?php endforeach ?>											
+											<?php endforeach ?>									
 										</div>
 										<div class="col-xl-12 form-group row">
 											<div class="col-2 form-control-label">電話 :</div>
-												 <div class="col-9 value">&nbsp; <i class="fa fa-phone" aria-hidden="true"></i> <?= $addresses[0]['order.base.address.telephone'] ?></div>													
+												 <div class="col-9 value">&nbsp; <i class="fa fa-phone" aria-hidden="true"></i> <?= $itemData['contact_num'] ?></div>													
 											 										
 										</div>
 									</div>
@@ -810,19 +812,18 @@ $paymentStatusList2 = [
 										<!-- Item List -->
 										<ul class="nav nav-pills nav-justified order-product-list" style="">
 											<li class="nav-item order-list-name">商品名</li>
-											<li class="nav-item">&nbsp;&nbsp;&nbsp; 数量</li>
+											<li class="nav-item"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数量</li>
+											<li class="nav-item text-end">&nbsp;&nbsp;&nbsp;販売価格</li>
 											<li class="nav-item value" style="padding-right:1rem">合計</li>
 										</ul>	
 
 										<?php foreach( $basket->getProducts() as $pos => $orderProduct ) : ?>
 											<?php if( strncmp( $this->site()->siteid(), $orderProduct->getSiteId(), strlen( $this->site()->siteid() ) ) === 0 ) : ?>
 												<div class="form-group row">
-													<div class="col-6 "> <?= $enc->html( $orderProduct->getName() ) ?> </div>
-													 
-														<div class="col-3 " style="padding:0"> <?= $orderProduct->getQuantity() ?></div>
-														<div class="col-3 value" style="padding-right:0"><?= number_format($orderProduct->getPrice()->getValue()) ?>円</div>
-													 
-													
+													<div class="col-5 "> <?= $enc->html( $orderProduct->getName() ) ?> </div>
+													<div class="col-1 " style="padding:0"> <?= $orderProduct->getQuantity() ?></div>
+													<div class="col-3 value" style="padding-right:0"><?= number_format($orderProduct->getPrice()->getValue()) ?>円</div>
+													<div class="col-3 value" style="padding-right:0"><?= number_format(floor($orderProduct->getPrice()->getValue() * $orderProduct->getQuantity())) ?>円</div>
 												</div>
 											<?php endif ?>
 										<?php endforeach ?>

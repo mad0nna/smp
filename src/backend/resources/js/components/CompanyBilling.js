@@ -205,12 +205,12 @@ const CompanyBilling = () => {
       }
     })
   }
-  const getBillingCSVFile = (billingCSVFileId, billingCSVFileName = '') => {
+  const getBillingCSVFile = (billingCSVFilePathId, billingCSVFileName = '') => {
     const cancelToken = source.token
     const url = `/company/downloadBillingHistoryCSV`
 
     const body = {
-      id: billingCSVFileId
+      id: billingCSVFilePathId
     }
 
     axios
@@ -394,12 +394,12 @@ const CompanyBilling = () => {
                         >
                           請求書&nbsp;
                         </div>{' '}
-                        {item.billingCSVFileId !== null && (
+                        {item.billingCSVFilePathId !== null && (
                           <div
                             className="inline-block cursor-pointer"
                             onClick={() => {
                               getBillingCSVFile(
-                                item.billingCSVFileId,
+                                item.billingCSVFilePathId,
                                 item.billingCSVFileName
                               )
                             }}

@@ -40,8 +40,20 @@ class UnitTestTableSeeder extends Seeder
             $company = Company::create($data);
             $user = $this->_createCompanyAdmin($company->id);
             $this->_createWidgetSettings($user->id);
+
+            //Create a sub admin user
+            $user2 = $this->_createSubCompanyAdmin($company->id);
+            $this->_createWidgetSettings($user2->id);
         } else {
             $this->command->comment('Company is already existing, seeding attempt was ignored.');
+
+            //Create a company admin user
+            $user = $this->_createCompanyAdmin($companyExists->id);
+            $this->_createWidgetSettings($user->id);
+
+            //Create a company sub admin user
+            $user2 = $this->_createSubCompanyAdmin($companyExists->id);
+            $this->_createWidgetSettings($user2->id);
         }
     }
 
@@ -69,6 +81,30 @@ class UnitTestTableSeeder extends Seeder
             'last_name' => 'CronaUpdated',
             'user_status_id' => $status->id,
             'user_type_id' => 3,
+            'email_verified_at' => Carbon::now(),
+        ]);
+
+        return $user;
+    }
+
+    private function _createSubCompanyAdmin(int $companyId)
+    {
+        // retrieve user status
+        $status = UserStatus::where('name', config('user.statuses.active'))->first();
+
+        $user = User::create([
+            'account_code' => '0030l00000hosMAAAY',
+            'username' => 'subadmin@gmail.com',
+            'email' => 'subadmin@gmail.com',
+            'contact_num' => '45678965',
+            'password' => Hash::make('Password2021!'),
+            'company_id' => $companyId,
+            'name' => 'subadmin@gmail.com',
+            'company_name' => '株式会社町田',
+            'first_name' => 'Jerry',
+            'last_name' => 'Young',
+            'user_status_id' => $status->id,
+            'user_type_id' => 4,
             'email_verified_at' => Carbon::now(),
         ]);
 
