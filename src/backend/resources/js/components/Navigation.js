@@ -288,8 +288,8 @@ const Navigation = () => {
       content.push(
         <li
           key={i}
-          className={`sm:ml-0 md:ml-20 md:my-auto hover:text-tertiary-400 min-h-3.5 ${
-            active === nav.id ? 'text-tertiary-400' : 'text-body-400'
+          className={`sm:ml-0 md:ml-20 md:my-auto hover:text-tertiary-500 min-h-3.5 ${
+            active === nav.id ? 'text-tertiary-500' : 'text-body-700'
           }`}
           onClick={() => setActive(nav.id)}
         >
@@ -378,16 +378,16 @@ const Navigation = () => {
       <div className="flex justify-between px-11 py-1 bg-header min-h-10">
         <div>
           <div className="mx-auto">
-            <h3 className="text-xs text-body-600">
+            <h3 className="text-xs text-AAA tracking-normal">
               {`${info.firstName} ${info.lastName} 様`}
             </h3>
-            <h3 className="text-xs text-body-600">{`${info.company} （閲覧用）`}</h3>
+            <h3 className="text-xs text-AAA tracking-normal">{`${info.company} （閲覧用）`}</h3>
           </div>
         </div>
         <div className="h-26px my-auto" ref={refMenu}>
           <p className="inline text-xs text-tertiary-500 w-20 py-1 px-2 mr-8 rounded-3xl hover:bg-gray-100">
             <QuestionIcon className="w-5 h-5 mr-2 inline text-primaryBg" />
-            <span className="text-tertiary-400">ヘルプ</span>
+            <span className="text-tertiary-400 text-14px">ヘルプ</span>
           </p>
           <button
             type="button"

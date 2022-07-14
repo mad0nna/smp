@@ -83,7 +83,8 @@ module.exports = {
           300: '#76807099',
           400: '#768070CC',
           500: '#768070',
-          600: '#808080'
+          600: '#808080',
+          700: '#616161'
         },
         whiteTint: {
           600: '#E2EDE9',
@@ -91,6 +92,7 @@ module.exports = {
           800: '#F3F7F6',
           900: '#F2F7F5'
         },
+        AAA: '#AAAAAA',
         header: '#2A853508',
         cyan: '#43BBB3',
         orange: '#FFBC03',
@@ -114,7 +116,8 @@ module.exports = {
       fontSize: {
         '2.5xl': ['1.75rem', { lineHeight: '2rem' }],
         xxs: ['0.60rem', { lineHeight: '.75rem' }],
-        'widget-xs': 10
+        'widget-xs': 10,
+        '14px': 14
       },
       height: {
         'widgetBody-sm': 'calc(100% - 2.50rem)',
@@ -150,6 +153,7 @@ module.exports = {
       spacing: {
         '25px': 25,
         '50px': 50,
+        '100px': 100,
         200: 350
       },
       borderRadius: {
