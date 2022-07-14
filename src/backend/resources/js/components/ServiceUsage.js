@@ -44,7 +44,7 @@ const ServiceUsage = () => {
           className="bg-white box-border p-3 pb-6 relative"
         >
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-1">
               <h2 className="text-green-800 text-lg font-bold">
                 サービス利用日
               </h2>
@@ -54,7 +54,7 @@ const ServiceUsage = () => {
             <img src={Ellipsis} />
           </div>
         </div>
-        <div id="widget-body" className="w-full px-3 text-gray-500 text-xs">
+        <div id="widget-body" className="w-full px-2 text-gray-500 text-xs">
           {state.loading === true ? (
             <div className="w-full relative h-12 dashboard-widget-list overflow-hidden">
               <div className="mx-auto absolute bottom-1 w-full text-center md:text-sm">
@@ -63,20 +63,20 @@ const ServiceUsage = () => {
             </div>
           ) : (
             <div>
-              <div className="pb-6">
-                <p>
+              <div className="text-secondary-500 text-xs border-solid border border-slate-100 rounded-t-lg">
+                <p className="p-2 opacity-100 text-xs">
                   サービス利用日 : <span>{state.serviceUsageDate}</span>
                 </p>
               </div>
-              <div className="inline-block pb-3">
-                {state.daysStarted ? (
-                  <p className="rounded-full bg-green-100 py-1 px-2">
-                    サービス利用開始から
+              <div className="text-xs border-solid border-b border-l border-r border-slate-100 rounded-b-lg ">
+                <p className="p-2 text-xs opacity-100">
+                  サービス利用開始から :
+                  {state.daysStarted ? (
                     <span>{state.daysStarted}日経過 </span>
-                  </p>
-                ) : (
-                  <p>---</p>
-                )}
+                  ) : (
+                    '---'
+                  )}
+                </p>
               </div>
             </div>
           )}

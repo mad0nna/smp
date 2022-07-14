@@ -136,8 +136,8 @@ const ProductWidget = () => {
           className="bg-white box-border p-3 pb-6 relative"
         >
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
-              <h2 className="text-green-800 text-lg font-bold">物販</h2>
+            <div className="w-full pb-2">
+              <h2 className="text-green-800 text-lg font-bold">ショップ</h2>
             </div>
           </div>
           <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
@@ -152,7 +152,7 @@ const ProductWidget = () => {
               </div>
             </div>
           ) : (
-            <div className="grid lg:grid-cols-1 xl:grid-cols-2">
+            <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-y-8">
               {productList.map((item, index) => {
                 let prodPrice
                 if (!_.isEmpty(item.price)) {
@@ -166,25 +166,30 @@ const ProductWidget = () => {
                     className="grid justify-center gap-2 pb-2 overflow-hidden mb-2"
                     key={index}
                   >
-                    <a
-                      href={`/company/productDetail/?id=${item.product['product.id']}`}
-                    >
-                      <div className="prod-widget-img-holder">
+                    <div className="prod-widget-img-holder">
+                      <a
+                        href={`/company/productDetail/?id=${item.product['product.id']}`}
+                      >
                         <img
                           className="mx-auto p-4"
                           src={`${state.img_domain}/${item.media['media.preview']}`}
                         ></img>
-                      </div>
-                    </a>
-                    <div className="pl-2 line-clamp-2 prod-label">
+                      </a>
+                    </div>
+                    <div className="pl-2 line-clamp-2 prod-label ">
                       {item.product['product.label']}
                     </div>
-                    <div className="pl-2">{prodPrice}円</div>
-                    <div className="pl-2 text-tertiary-500">
+                    <div className="pl-2 pt-3 pb-2 text-center font-bold widget-prod-price">
+                      {prodPrice}円
+                    </div>
+                    <div className="pl-2 text-center widget-prod-button">
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}
                       >
-                        ご購入はこちらから
+                        <span className="tracking-tighter">
+                          {' '}
+                          ご購入はこちらから
+                        </span>
                       </a>
                     </div>
                   </div>
@@ -193,15 +198,17 @@ const ProductWidget = () => {
             </div>
           )}
         </div>
-        <div id="widget-footer" className="w-full h-10 p-3.5">
-          <div id="widget-footer-control" className="float-right">
-            <a href="/company/shop">
-              <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter cursor-pointer">
-                さらに表示
-              </button>
-            </a>
+        {!state.loading ? (
+          <div id="widget-footer" className="w-full h-10 p-4 mb-7">
+            <div id="widget-footer-control" className="float-right">
+              <a href="/company/shop">
+                <button className="dashboard-widget-button">さらに表示</button>
+              </a>
+            </div>
           </div>
-        </div>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   ) : null

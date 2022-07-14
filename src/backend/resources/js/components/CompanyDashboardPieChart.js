@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Ellipsis from '../../img/ellipsis.png'
-import { Pie } from 'react-chartjs-2'
-import spinner from '../../img/spinner.gif'
+import { Doughnut } from 'react-chartjs-2'
+// import spinner from '../../img/spinner.gif'
 
 const CompanyDashboardPieChart = () => {
   const [state, setState] = useState({
     record1: {
       datasets: [
         {
-          data: [0, 0],
-          backgroundColor: ['rgba(0, 177, 106, 1)', 'rgba(218, 223, 225, 1)'],
+          data: [0, 100],
+          backgroundColor: ['rgba(195,0,71,1)', 'rgba(129, 131, 134, 1)'],
           borderWidth: 1
         }
       ],
@@ -18,19 +18,40 @@ const CompanyDashboardPieChart = () => {
         legend: {
           display: false
         },
+        hover: { mode: null },
         tooltips: {
+          enabled: false,
           callbacks: {
             label: function () {}
           }
         }
       },
+      plugins: [
+        {
+          beforeDraw: function (chart) {
+            const width = chart.width,
+              height = chart.height,
+              ctx = chart.ctx
+            ctx.restore()
+            const fontSize = (height / 75).toFixed(2)
+            ctx.font = fontSize + 'em sans-serif'
+            ctx.textBaseline = 'middle'
+            ctx.fillStyle = 'rgba(195,0,71,1)'
+            const text = '0%',
+              textX = Math.round((width - ctx.measureText(text).width) / 2),
+              textY = height / 2
+            ctx.fillText(text, textX, textY)
+            ctx.save()
+          }
+        }
+      ],
       percent: 0
     },
     record2: {
       datasets: [
         {
-          data: [0, 0],
-          backgroundColor: ['rgba(0, 177, 106, 1)', 'rgba(218, 223, 225, 1)'],
+          data: [0, 100],
+          backgroundColor: ['rgba(14,66,150,1)', 'rgba(129, 131, 134, 1)'],
           borderWidth: 1
         }
       ],
@@ -44,6 +65,25 @@ const CompanyDashboardPieChart = () => {
           }
         }
       },
+      plugins: [
+        {
+          beforeDraw: function (chart) {
+            const width = chart.width,
+              height = chart.height,
+              ctx = chart.ctx
+            ctx.restore()
+            const fontSize = (height / 75).toFixed(2)
+            ctx.font = fontSize + 'em sans-serif'
+            ctx.textBaseline = 'middle'
+            ctx.fillStyle = 'rgba(14,66,150,1)'
+            const text = '0%',
+              textX = Math.round((width - ctx.measureText(text).width) / 2),
+              textY = height / 2
+            ctx.fillText(text, textX, textY)
+            ctx.save()
+          }
+        }
+      ],
       percent: 0
     },
     serviceUsageDate: '',
@@ -63,16 +103,21 @@ const CompanyDashboardPieChart = () => {
           let percentOfNoEmployeesLogin = 0
 
           if (usageData.numberOfEmployees && usageData.numberOfActiveKOTUsers) {
-            percentOfNoSubscribedLogin = parseInt(
-              (usageData.numberOfEmployees / usageData.numberOfActiveKOTUsers) *
-                100
+            percentOfNoSubscribedLogin = Math.round(
+              parseInt(
+                (usageData.numberOfActiveKOTUsers /
+                  usageData.numberOfEmployees) *
+                  100
+              )
             )
           }
 
           if (usageData.numberOfEmployees && usageData.numberOfSubscribers) {
-            percentOfNoEmployeesLogin = parseInt(
-              (usageData.numberOfEmployees / usageData.numberOfSubscribers) *
-                100
+            percentOfNoEmployeesLogin = Math.round(
+              parseInt(
+                (usageData.numberOfSubscribers / usageData.numberOfEmployees) *
+                  100
+              )
             )
           }
 
@@ -90,8 +135,8 @@ const CompanyDashboardPieChart = () => {
                     Math.max(0, 100 - percentOfNoSubscribedLogin)
                   ],
                   backgroundColor: [
-                    'rgba(0, 177, 106, 1)',
-                    'rgba(218, 223, 225, 1)'
+                    'rgba(195,0,71,1)',
+                    'rgba(129, 131, 134, 1)'
                   ],
                   borderWidth: 1
                 }
@@ -100,6 +145,27 @@ const CompanyDashboardPieChart = () => {
                 legend: {
                   display: false
                 },
+                plugins: [
+                  {
+                    beforeDraw: function (chart) {
+                      const width = chart.width,
+                        height = chart.height,
+                        ctx = chart.ctx
+                      ctx.restore()
+                      const fontSize = (height / 75).toFixed(2)
+                      ctx.font = fontSize + 'em sans-serif'
+                      ctx.textBaseline = 'middle'
+                      ctx.fillStyle = 'rgba(195,0,71,1)'
+                      const text = `${percentOfNoEmployeesLogin}$`,
+                        textX = Math.round(
+                          (width - ctx.measureText(text).width) / 2
+                        ),
+                        textY = height / 2
+                      ctx.fillText(text, textX, textY)
+                      ctx.save()
+                    }
+                  }
+                ],
                 tooltips: {
                   callbacks: {
                     label: function (tooltipItem) {
@@ -118,8 +184,8 @@ const CompanyDashboardPieChart = () => {
                     Math.max(0, 100 - percentOfNoEmployeesLogin)
                   ],
                   backgroundColor: [
-                    'rgba(0, 177, 106, 1)',
-                    'rgba(218, 223, 225, 1)'
+                    'rgba(14,66,150,1)',
+                    'rgba(129, 131, 134, 1)'
                   ],
                   borderWidth: 1
                 }
@@ -128,6 +194,27 @@ const CompanyDashboardPieChart = () => {
                 legend: {
                   display: false
                 },
+                plugins: [
+                  {
+                    beforeDraw: function (chart) {
+                      const width = chart.width,
+                        height = chart.height,
+                        ctx = chart.ctx
+                      ctx.restore()
+                      const fontSize = (height / 75).toFixed(2)
+                      ctx.font = fontSize + 'em sans-serif'
+                      ctx.textBaseline = 'middle'
+                      ctx.fillStyle = 'rgba(14,66,150,1)'
+                      const text = `${percentOfNoEmployeesLogin}$`,
+                        textX = Math.round(
+                          (width - ctx.measureText(text).width) / 2
+                        ),
+                        textY = height / 2
+                      ctx.fillText(text, textX, textY)
+                      ctx.save()
+                    }
+                  }
+                ],
                 tooltips: {
                   callbacks: {
                     label: function (tooltipItem) {
@@ -148,7 +235,6 @@ const CompanyDashboardPieChart = () => {
         }
       })
   }, [])
-
   return (
     <div className="w-full h-full relative group">
       <div className="w-full h-full overflow-hidden relative bg-white rounded-lg shadow-xl">
@@ -157,7 +243,7 @@ const CompanyDashboardPieChart = () => {
           className="bg-white relative box-border p-3 pb-6"
         >
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">
                 サービス利用状況
               </h2>
@@ -167,67 +253,162 @@ const CompanyDashboardPieChart = () => {
             <img src={Ellipsis} />
           </div>
         </div>
-
         <div
           id="widget-body"
           className="h-widgetBody-sm w-full bg-white px-3 flex flex-col gap-3"
         >
-          {state.isLoaded === true ? (
+          <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-y-8 gap-x-8">
+            <div className="company-dashboard-chart-container">
+              <div className="grid place-items-center">
+                <Doughnut
+                  data={state.record1}
+                  height={300}
+                  width={300}
+                  options={{
+                    responsive: false,
+                    cutout: 100
+                  }}
+                  plugins={state.record1.plugins}
+                />
+              </div>
+              <div className="company-dashboard-chart-table-title">
+                登録済従業員
+              </div>
+              <div className="company-dashboard-chart-table-sub-title">
+                勤怠記録
+              </div>
+              <table className="table-fixed border-collapse border border-slate-400 m-auto company-dashboard-chart-table ">
+                <tbody>
+                  <tr>
+                    <td className="border border-slate-300">
+                      <span className="font-bold">
+                        {state.numberOfEmployees}
+                      </span>{' '}
+                      人のうち
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="border border-slate-300">
+                      <span className="font-bold">
+                        {state.numberOfActiveKOTUsers}
+                      </span>{' '}
+                      人が打刻済み
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="company-dashboard-chart-container">
+              <div className="grid place-items-center">
+                <Doughnut
+                  data={state.record2}
+                  height={300}
+                  width={300}
+                  options={{
+                    responsive: false,
+                    cutout: 100
+                  }}
+                  plugins={state.record2.plugins}
+                />
+              </div>
+              <div className="company-dashboard-chart-table-title">展開率</div>
+              <div className="company-dashboard-chart-table-sub-title">
+                システムご利用予定人数
+              </div>
+              <table className="table-fixed border-collapse border border-slate-400 m-auto company-dashboard-chart-table ">
+                <tbody>
+                  <tr>
+                    <td className="border border-slate-300">
+                      <span className="font-bold">
+                        {state.numberOfEmployees}
+                      </span>{' '}
+                      人のうち
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="border border-slate-300">
+                      <span className="font-bold">
+                        {state.numberOfSubscribers}
+                      </span>{' '}
+                      人が打刻済み
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div
+          id="widget-body"
+          className="h-widgetBody-sm w-full bg-white px-3 flex flex-col gap-3"
+        >
+          {/* {state.isLoaded === false ? (
             <div className="w-full relative mt-24 h-24 dashboard-widget-list overflow-hidden">
               <div className="mx-auto absolute bottom-1 w-full text-center md:text-sm">
                 Loading service usage...
                 <img className="mx-auto h-12 mt-5" src={spinner}></img>
               </div>
             </div>
-          ) : (
-            <div>
-              <div className="flex flex-col mb-2">
-                <div className="flex flex-row">
-                  <div>
-                    <Pie data={state.record1} width={100} height={100} />
-                  </div>
-                  <div>
-                    <h3 className="text-gray-700 text-md mb-2">勤怠記録</h3>
-                    <p className="text-gray-500 text-xs mb-2">
-                      登録済従業員
-                      <span className="text-lg">
-                        {state.numberOfActiveKOTUsers}
-                      </span>
-                      人のうち
-                      <br />
-                      <span className="text-lg">{state.numberOfEmployees}</span>
-                      人が打刻済み
-                    </p>
-                    <p className="orange text-3xl font-bold">
-                      {state.record1.percent}%
-                    </p>
-                  </div>
+          ) : ( */}
+          {/* <div>
+            <div className="flex flex-col mb-2">
+              <div className="flex flex-row">
+                <div>
+                  <Doughnut
+                    data={state.record1}
+                    height={100}
+                    width={100}
+                    options={{
+                      maintainAspectRatio: false
+                    }}
+                  />
+                </div>
+                <div>
+                  <h3 className="text-gray-700 text-md mb-2">勤怠記録</h3>
+                  <p className="text-gray-500 text-xs mb-2">
+                    登録済従業員
+                    <span className="text-lg">
+                      {state.numberOfActiveKOTUsers}
+                    </span>
+                    人のうち
+                    <br />
+                    <span className="text-lg">{state.numberOfEmployees}</span>
+                    人が打刻済み
+                  </p>
+                  <p className="orange text-3xl font-bold">
+                    {state.record1.percent}%
+                  </p>
                 </div>
               </div>
-              <div className="flex flex-col">
-                <div className="flex flex-row">
-                  <div>
-                    <Pie data={state.record2} width={100} height={100} />
-                  </div>
-                  <div>
-                    <h3 className="text-gray-700 text-md mb-2">展開率</h3>
-                    <p className="text-gray-500 text-xs mb-2">
-                      システムご利用予定人数
-                      <span className="text-lg">
-                        {state.numberOfSubscribers}
-                      </span>
-                      人のうち
-                      <span className="text-lg">{state.numberOfEmployees}</span>
-                      人が打刻済み
-                    </p>
-                    <p className="orange text-3xl font-bold">
-                      {state.record2.percent}%
-                    </p>
-                  </div>
+            </div> */}
+          {/* <div className="flex flex-col">
+              <div className="flex flex-row">
+                <div>
+                  <Doughnut
+                    data={state.record2}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: true
+                    }}
+                  />
+                </div>
+                <div>
+                  <h3 className="text-gray-700 text-md mb-2">展開率</h3>
+                  <p className="text-gray-500 text-xs mb-2">
+                    システムご利用予定人数
+                    <span className="text-lg">{state.numberOfSubscribers}</span>
+                    人のうち
+                    <span className="text-lg">{state.numberOfEmployees}</span>
+                    人が打刻済み
+                  </p>
+                  <p className="orange text-3xl font-bold">
+                    {state.record2.percent}%
+                  </p>
                 </div>
               </div>
-            </div>
-          )}
+            </div> */}
+          {/* </div> */}
+          {/* )} */}
         </div>
 
         <div id="widget-footer" className="w-full h-14 bg-white p-3.5 hidden">

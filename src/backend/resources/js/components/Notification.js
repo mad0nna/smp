@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Ellipsis from '../../img/ellipsis.png'
 import spinner from '../../img/spinner.gif'
 import axios from 'axios'
+import { NewsPaperIcon, CampaignIcon } from '../../icons'
 const Notification = (props) => {
   let iconTypes = {
-    payment: 'bg-notification-invoice',
-    contract: 'bg-notification-active',
-    article: 'bg-notification-normal'
+    payment: <NewsPaperIcon />,
+    contract: <CampaignIcon />,
+    article: <CampaignIcon />
   }
   let notifWithLink = ['請求', 'お知らせ']
   const [state, setState] = useState({
@@ -84,10 +85,10 @@ const Notification = (props) => {
     : 'py-3 h-20 p-3 px-3'
   return (
     <div className="w-full h-full relative group ">
-      <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
+      <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg shadow-xl pt-3 pb-8 px-3">
         <div id="widget-header" className="bg-white relative box-border">
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">お知らせ</h2>
             </div>
           </div>
@@ -126,20 +127,22 @@ const Notification = (props) => {
                 >
                   <div
                     id="item-icon"
-                    className={
-                      iconTypes[item.type] +
-                      ' bg-cover bg-no-repeat w-5 h-5 mt-1 float-left'
-                    }
-                  />
+                    className={' bg-cover bg-no-repeat w-5 h-5 mt-1 float-left'}
+                  >
+                    {iconTypes[item.type]}
+                  </div>
                   <p
                     id="item-content"
                     className={
                       fontColor +
-                      '  font-sans text-xs tracking-tighter ml-7 w-4/5  '
+                      '  font-sans text-xs tracking-tighter ml-9 w-4/5 '
                     }
                   >
-                    {item.header} <br />
-                    {item.message} <br />
+                    {/* <span className="text-secondary-600">{item.header} </span> */}
+                    <span className="text-secondary-600 opacity-100">
+                      {item.message}
+                    </span>
+                    <br />
                     <a
                       onClick={(e) => {
                         e.preventDefault()
@@ -156,7 +159,7 @@ const Notification = (props) => {
                       className="cursor-pointer"
                     >
                       <span
-                        className="text-tertiary-500 text-xs"
+                        className="text-customGrayColor-customGrayText100 text-xs opacity-100"
                         dataid={item.id}
                         datatype={item.type}
                       >
@@ -166,30 +169,28 @@ const Notification = (props) => {
                       </span>
                     </a>
                   </p>
-                  <p
+                  {/* <p
                     id="item-status"
                     className="absolute right-1 float-right font-sans text-gray-400 text-sm tracking-tighter text-center bottom-3 lg:absolute lg:bottom-0"
                   >
                     {item.status}
-                  </p>
+                  </p> */}
                 </div>
               )
             })
           )}
         </div>
-        <div id="widget-footer" className="w-full h-10 bg-white pt-3 pr-3">
-          {state.loading === true ? (
-            ''
-          ) : (
+        {!state.loading ? (
+          <div id="widget-footer" className="w-full h-10 p-3.5">
             <div id="widget-footer-control" className="float-right">
-              <a href="./notifications">
-                <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter pointer-events-none">
-                  さらに表示
-                </button>
+              <a href="/company/shop">
+                <button className="dashboard-widget-button">さらに表示</button>
               </a>
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   )

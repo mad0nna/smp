@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { Responsive, WidthProvider } from 'react-grid-layout'
-import Welcome from './Welcome'
+// import Welcome from './Welcome'
 import Notification from './Notification'
 import ServiceUsage from './ServiceUsage'
 // import Purchase from './PurchaseHistory'
@@ -44,7 +44,7 @@ const Dashboard = () => {
     // DO NOT CHANGE THE ARRANGEMENT OF THESE COMPONENT LIST
     const companyCoreWidgets = [
       { component: '' },
-      { component: <Welcome /> },
+      { component: '' },
       { component: <CompanyDashboardPieChart /> },
       { component: <ServiceUsage /> },
       { component: <ProductWidget /> },
@@ -148,7 +148,6 @@ const Dashboard = () => {
     }
     return noDifference
   }
-
   function DashboardItem() {
     return (
       <div>

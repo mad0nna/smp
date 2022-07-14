@@ -32,9 +32,11 @@ const BillingHistory = () => {
       <div className="dashboard-widget-list overflow-hidden w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
         <div id="widget-header" className="bg-white relative box-border">
           <div>
-            <div className="flex flex-row justify-between w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="flex flex-row justify-between w-full">
               <div>
-                <h2 className="text-green-800 text-lg font-bold">請求書</h2>
+                <h2 className="text-green-800 text-lg font-bold pb-9">
+                  請求書
+                </h2>
               </div>
             </div>
           </div>
@@ -56,42 +58,52 @@ const BillingHistory = () => {
             </div>
           ) : (
             state.billingHistory.map((item, index) => {
-              let stripe = index % 2 ? 'bg-white' : ''
               return (
                 <div
                   id="widget-content-item"
                   className={
-                    stripe +
-                    ' w-full h-auto relative px-3 py-4 hover:bg-gray-50 border-b border-gray-100'
+                    ' w-full h-auto relative p-5 bg-customGrayColor-customGrayBg border-b border-customGrayColor-customGrayBg rounded-2xl mb-3'
                   }
                   key={index}
                 >
-                  <div className="2xl:w-5/12 lg: xl:w-5/12 lg:w-5/12 sm:w-6/12 h-full inline-block align-top 2xl:mr-4 xl:mr-3 lg:mr-2 sm:mr-0">
-                    <h5 className="text-right font-semibold 2xl:text-lg xl:3xl lg:text-base md:text-sm sm:text-xs text-gray-500 font-sans">
-                      {`${item.amount} `} <span>円(税込)</span>
-                    </h5>
-                    <p className="2xl:text-xs xl:text-xs lg:text-xs  xs:text-xxs text-gray-400 font-sans">
-                      支払期限
-                    </p>
-                    <p className="2xl:text-sm xl:text-xxs lg:text-xxs  xs:text-xxs text-gray-500 font-sans font-semibold">
-                      {item.dueDate}
-                    </p>
-                  </div>
-                  <div className="w-1/2 h-full inline-block tracking-tighter align-top">
-                    <div className="-mt-1">
-                      <div className="text-gray-400 inline-block 2xl:text-xs lg:text-xxs sm:text-xxs 2xl:mr-3 xl:mr-2 lg:mr-1 sm:mr-0 tracking-widest">
-                        請求書番号
-                      </div>
-                      <div className="text-gray-500 inline-block 2xl:text-xs lg:text-xxs sm:text-xxs xs:text-xxs font-bold tracking-wider">
-                        {item.invoiceNumber}
+                  <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-x-10 pb-5">
+                    <div className="grid">
+                      <div className="text-3xl text-primary-600 font-bold tracking-tighter opacity-100">
+                        {`${item.amount} `} <span>円(税込)</span>
                       </div>
                     </div>
-                    <div className="-mt-1 mb-1">
-                      <div className="text-gray-400 inline-block 2xl:text-xs xl:text-xs lg:text-xxs sm:text-xxs tracking-widest">
-                        請求日
+
+                    <div className="grid">
+                      <div>
+                        <span className="text-lg text-primary-600 font-semibold tracking-tighter opacity-100">
+                          請求書番号{' '}
+                        </span>
+                        <div className="text-customTextColor font-semibold tracking-tighter opacity-100">
+                          {item.invoiceNumber}
+                        </div>
                       </div>
-                      <div className="text-gray-500 inline-block 2xl:text-xs xl:text-xs lg:text-xxs sm:text-xxs xs:text-xxs font-bold 2xl:ml-6 xl:ml-3 lg:ml-1 sm:ml-1 tracking-wider">
-                        {item.invoiceDate}
+                    </div>
+                  </div>
+                  <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-x-10">
+                    <div className="grid">
+                      <div>
+                        <span className="text-lg text-primary-600 font-semibold tracking-tighter opacity-100">
+                          支払期限{' '}
+                        </span>
+                        <div className="text-customTextColor font-semibold tracking-tighter opacity-100">
+                          {item.dueDate}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid">
+                      <div>
+                        <span className="text-lg text-primary-600 font-bold tracking-tighter opacity-100">
+                          請求日{' '}
+                        </span>
+                        <div className="text-customTextColor font-bold tracking-tighter opacity-100">
+                          {item.invoiceDate}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -100,20 +112,17 @@ const BillingHistory = () => {
             })
           )}
         </div>
-        <div id="widget-footer" className="w-full h-14 bg-white p-3.5">
-          {!state.loading ? (
+        {!state.loading ? (
+          <div id="widget-footer" className="w-full h-10 p-3.5">
             <div id="widget-footer-control" className="float-right">
-              <a
-                href="/company/billing"
-                className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter px-2"
-              >
-                さらに表示
+              <a href="/company/shop">
+                <button className="dashboard-widget-button">さらに表示</button>
               </a>
             </div>
-          ) : (
-            ''
-          )}
-        </div>
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   )
