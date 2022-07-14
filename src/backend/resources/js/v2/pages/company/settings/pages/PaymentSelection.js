@@ -11,7 +11,7 @@ const PaymentSelection = ({ setModalOn }) => {
   }
 
   return (
-    <div className="bg-black fixed opacity-88 inset-0">
+    <div className="bg-black fixed bg-opacity-88 inset-0">
       <div className="flex h-screen justify-center items-center">
         <div className="flex-col w-432px justify-center bg-white rounded-10px opacity-100">
           <div className="flex justify-between border-b border-hex-D8D8D8 py-25px">
