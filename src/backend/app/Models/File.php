@@ -13,9 +13,8 @@ class File extends Model
      */
     protected $fillable = [
         'file_path',
-        'file_type',
-        'name',
+        'invoice_number',
         'company_id',
-        'month_of_billing',
+        'updated_at',
     ];
 }

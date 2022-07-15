@@ -45,19 +45,19 @@ class BillingService
         foreach ($invoices as $key => $invoiceItem) {
 
             if (strtolower($invoiceItem['status']) === "posted") {
-                $date = Carbon::createFromFormat('Y-m-d', $invoiceItem['invoiceDate']);
-
-                $file = $company->files()->whereYear('month_of_billing', $date)
-                                            ->whereMonth('month_of_billing', $date)
-                                            ->first();
-
-                $invoices[$key]['billingCSVFileId'] = $file === null ? null : $file->id;
-                $invoices[$key]['billingCSVFileName'] = $file === null ? null : $file->name;
+                // PDF
                 $invoices[$key]['dueDate'] = Carbon::createFromFormat('Y-m-d', $invoiceItem['dueDate'])->format('Y年m月d日');
                 $invoices[$key]['invoiceDate'] = (new DateManager)->toJP($invoiceItem['invoiceDate']);
                 $invoices[$key]['amount'] = number_format($invoiceItem['amount']);
                 $invoices[$key]['paymentDate'] = '未払い';
                 $invoices[$key]['invoicePDF'] = env('ZUORA_HOST') . $invoiceItem['body'];
+
+                // CSV
+                $csvFilePath = $company->files()->where('invoice_number', $invoiceItem['invoiceNumber'])->first();
+
+                $invoices[$key]['billingCSVFilePathId'] = $csvFilePath === null ? null : $csvFilePath->id;
+                $invoices[$key]['billingCSVFileName'] = $csvFilePath === null ? null : $invoiceItem['invoiceNumber'] . '-' . $company->account_id . '.zip';
+
                 array_push($list, $invoices[$key]);
             }
         }
