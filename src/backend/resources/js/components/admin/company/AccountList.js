@@ -257,14 +257,14 @@ const AccountList = (props) => {
   }, [props.isLoadingPullSf])
 
   return (
-    <div className="relative px-10 py-5 bg-primaryBg">
+    <div className="relative">
       <input type="hidden" name="_token" value={state.token}></input>
-      <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
+      <div className="w-full h-full overflow-hidden rounded-lg">
         <div
           id="widget-header"
           className="max-w-full h-40 bg-white box-border align-middle p-4 relative"
         >
-          <div className="px-3 pt-3 pb-10">
+          <div>
             <img src={BillingIcon} className="w-auto h-7 float-left ml-4" />
             <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
               <h2 className="text-green-800 text-lg font-bold">顧客企業一覧</h2>
@@ -421,7 +421,7 @@ const AccountList = (props) => {
       </div>
       <div
         id="billing-pagination"
-        className="w-full h-12 p-3 text-center space-x-2 mt-3"
+        className="w-full h-12 text-center space-x-2 my-3"
       >
         <Pagination
           listNumbers={state.pageNumbers}

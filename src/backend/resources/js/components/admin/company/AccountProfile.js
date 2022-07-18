@@ -438,7 +438,7 @@ const AccountProfile = (props) => {
     })
   }
   return (
-    <div className="flex justify-center w-full h-full bg-white">
+    <div className="flex justify-center w-full h-full rounded-lg bg-white">
       <input type="hidden" name="_token" value={state.token}></input>
       <div className="align-top inline-block w-8/12 ">
         <div className="my-4 ml-14 mr-5 py-5 px-6">
