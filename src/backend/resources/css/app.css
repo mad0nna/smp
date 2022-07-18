@@ -214,7 +214,3 @@ html {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
 }
-
-.label-title {
-    min-height: 50px;
-}
