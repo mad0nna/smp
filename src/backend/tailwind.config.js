@@ -39,6 +39,7 @@ module.exports = {
           D5DBE0: '#D5DBE0',
           474747: '#474747',
           333333: '#333333',
+          '007B53': '#007B53',
           '67D5D1': '#67D5D1',
           '0ABBB5': '#0ABBB5',
           '3A3A3A': '#3A3A3A',
@@ -48,12 +49,11 @@ module.exports = {
         },
         // endregion
         primary: {
-          100: '#007B5333',
-          200: '#007B5366',
-          300: '#387F6B',
-          400: '#007B53CC',
-          500: '#065F46',
-          600: '#007B53'
+          100: '#1D9E4833',
+          200: '#1D9E4866',
+          300: '#1D9E4899',
+          400: '#1E9E47',
+          500: '#1D9E48'
         },
         secondary: {
           100: '#17A8A433',
@@ -63,11 +63,7 @@ module.exports = {
           500: '#17A8A4'
         },
         tertiary: {
-          100: '#1D9E4833',
-          200: '#1D9E4866',
-          300: '#1D9E4899',
-          400: '#1E9E47',
-          500: '#1D9E48'
+          500: '#1D9E48' // Not yet removed due to many usage on existing codes (Supposed to be changed from tertiary-500 to primary-500
         },
         body: {
           100: '#76807033',

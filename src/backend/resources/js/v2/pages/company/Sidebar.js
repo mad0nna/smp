@@ -67,7 +67,7 @@ const Sidebar = () => {
           key={i}
           className={`h-43px w-full flex flex-col justify-center hover:bg-hex-F5F5F5 ${
             active === nav.id
-              ? 'bg-hex-F5F5F5 border-r-4 border-primary-600'
+              ? 'bg-hex-F5F5F5 border-r-4 border-hex-007B53'
               : ''
           }`}
           onClick={() => setActive(nav.id)}
@@ -86,7 +86,7 @@ const Sidebar = () => {
     <div className="mt-6 rounded-xl bg-white shadow-5x h-fit xs:mx-4 lg:mt-50px lg:w-322px lg:min-h-402px">
       <h3 className="mt-29px mb-3 flex">
         {navigation[userType].heading.icon}
-        <span className="ml-2 font-medium text-23px text-primary-600">
+        <span className="ml-2 font-medium text-23px text-hex-007B53">
           {navigation[userType].heading.text}
         </span>
       </h3>

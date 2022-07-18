@@ -12,7 +12,7 @@ const PaymentMethod = () => {
 
   return (
     <>
-      <h3 className="mt-22px ml-22px font-medium text-23px text-primary-600">
+      <h3 className="mt-22px ml-22px font-medium text-23px text-hex-007B53">
         お支払い方法
       </h3>
       <div>
@@ -32,7 +32,7 @@ const PaymentMethod = () => {
               />
               <p
                 className={`text-23px font-semibold mt-4 ${
-                  method === 'bank' ? 'text-primary-600' : 'text-hex-333333'
+                  method === 'bank' ? 'text-hex-007B53' : 'text-hex-333333'
                 }`}
               >
                 銀行振込
@@ -62,7 +62,7 @@ const PaymentMethod = () => {
               />
               <p
                 className={`text-23px font-semibold mt-4 ${
-                  method === 'card' ? 'text-primary-600' : 'text-hex-333333'
+                  method === 'card' ? 'text-hex-007B53' : 'text-hex-333333'
                 }`}
               >
                 クレジットカード
