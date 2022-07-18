@@ -382,7 +382,7 @@ const Navigation = () => {
         <div>
           <div className="mx-auto">
             <h3 className="text-xs text-body-600">
-              {`${info.firstName} ${info.lastName} 様`}
+              {`様 ${info.firstName} ${info.lastName}`}
             </h3>
             <h3 className="text-xs text-body-600">{`${info.company} （閲覧用）`}</h3>
           </div>
