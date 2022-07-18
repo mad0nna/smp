@@ -352,9 +352,9 @@ const ProductDetail = (props) => {
       ? `${productDetail.description.substring(0, 450)}...`
       : productDetail.description
   return (
-    <div className="bg-primaryBg grid md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
+    <div className="grid md:grid-cols-1 gap-6 font-meiryo">
       <div className=" pb-5">
-        <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
+        <div className="w-full overflow-hidden">
           <div className="px-3 pt-3 pb-6">
             <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-2 items-center">
               <svg
@@ -368,7 +368,7 @@ const ProductDetail = (props) => {
                 <path d="M0 0h24v24H0V0z" fill="none" />
                 <path d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z" />
               </svg>
-              <h2 className="text-tertiary-500 text-lg font-bold">物販</h2>
+              <h2 className="text-tertiary-500 text-lg font-bold">物d販</h2>
             </div>
           </div>
           <div className="p-6">
