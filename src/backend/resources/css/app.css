@@ -173,6 +173,7 @@ bg-shop-icon:hover {
     background: #F5F5F5;
     border-radius: 15px;
     opacity: 1;
+    max-width: 100%;
     width: 331px
 }
 
