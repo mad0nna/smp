@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const AccountCircle = (props) => {
-  const { className } = props
+  const { className = '', fill = '#757575' } = props
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,14 +13,15 @@ const AccountCircle = (props) => {
         id="account-circle"
         d="M12,.25a11.563,11.563,0,0,1,8.487,3.513A11.531,11.531,0,0,1,24,12.222a11.531,11.531,0,0,1-3.513,8.459A11.563,11.563,0,0,1,12,24.194a11.563,11.563,0,0,1-8.487-3.513A11.533,11.533,0,0,1,0,12.222,11.527,11.527,0,0,1,3.513,3.763,11.565,11.565,0,0,1,12,.25Zm0,3.6a3.536,3.536,0,0,0-2.558,1.04A3.4,3.4,0,0,0,8.375,7.416,3.491,3.491,0,0,0,9.443,9.974,3.486,3.486,0,0,0,12,11.042,3.4,3.4,0,0,0,14.53,9.974a3.538,3.538,0,0,0,1.04-2.558A3.551,3.551,0,0,0,12,3.847Zm0,17.031a8.345,8.345,0,0,0,4.1-1.04A8.572,8.572,0,0,0,19.167,17a2.438,2.438,0,0,0-1.321-2,9.81,9.81,0,0,0-2.923-1.293A11.53,11.53,0,0,0,12,13.29a11.611,11.611,0,0,0-2.923.422A9.765,9.765,0,0,0,6.156,15a2.612,2.612,0,0,0-1.379,2A8.61,8.61,0,0,0,12,20.878Z"
         transform="translate(0 -0.25)"
-        fill="#1E9E47"
+        fill={fill}
       />
     </svg>
   )
 }
 
 AccountCircle.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  fill: PropTypes.string
 }
 
 export default AccountCircle

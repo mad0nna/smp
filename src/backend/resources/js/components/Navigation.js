@@ -288,8 +288,8 @@ const Navigation = () => {
       content.push(
         <li
           key={i}
-          className={`sm:ml-0 md:ml-20 md:my-auto hover:text-tertiary-500 min-h-3.5 ${
-            active === nav.id ? 'text-tertiary-500' : 'text-body-700'
+          className={`sm:ml-0 md:ml-20 md:my-auto hover:text-primary-400 min-h-3.5 ${
+            active === nav.id ? 'text-primary-400' : 'text-body-700'
           }`}
           onClick={() => setActive(nav.id)}
         >
@@ -299,7 +299,10 @@ const Navigation = () => {
               unpaidBillingInfo &&
               unpaidBillingInfo.is_bank_transfer === true &&
               unpaidBillingInfo.total_billed_amount != null && (
-                <BellIcon className="h-5 w-5 inline relative bottom-2 -left-1 opacity-80" />
+                <BellIcon
+                  fill="#EF4444"
+                  className="h-5 w-5 inline relative bottom-2 -left-1 opacity-80"
+                />
               )}
           </a>
         </li>
@@ -322,7 +325,7 @@ const Navigation = () => {
               !nav.icon ? 'ml-8' : ''
             } flex items-center py-2 space-x-4 tracking-tighter`}
           >
-            {nav.icon} <span className="text-tertiary-500">{nav.label}</span>
+            {nav.icon} <span className="text-primary-500">{nav.label}</span>
           </a>
         </li>
       )
@@ -374,20 +377,20 @@ const Navigation = () => {
   }, [showDropdown])
 
   return (
-    <div className="shadow-lg">
+    <div className="border-b border-hex-D5DBE0">
       <div className="flex justify-between px-11 py-1 bg-header min-h-10">
         <div>
           <div className="mx-auto">
             <h3 className="text-xs text-AAA tracking-normal">
-              {`${info.firstName} ${info.lastName} 様`}
+              {`様 ${info.firstName} ${info.lastName}`}
             </h3>
             <h3 className="text-xs text-AAA tracking-normal">{`${info.company} （閲覧用）`}</h3>
           </div>
         </div>
         <div className="h-26px my-auto" ref={refMenu}>
-          <p className="inline text-xs text-tertiary-500 w-20 py-1 px-2 mr-8 rounded-3xl hover:bg-gray-100">
+          <p className="inline text-xs text-primary-500 w-20 py-1 px-2 mr-8 rounded-3xl hover:bg-gray-100">
             <QuestionIcon className="w-5 h-5 mr-2 inline text-primaryBg" />
-            <span className="text-tertiary-400 text-14px">ヘルプ</span>
+            <span className="text-primary-400 text-14px">ヘルプ</span>
           </p>
           <button
             type="button"
@@ -396,7 +399,7 @@ const Navigation = () => {
               setShowDropdown((prevState) => !prevState)
             }}
           >
-            <AccountIcon />
+            <AccountIcon fill="#1E9E47" />
           </button>
           {showDropdown && (
             <div
@@ -465,19 +468,4 @@ export default Navigation
 
 if (domElementPresent('navigation')) {
   ReactDOM.render(<Navigation />, document.getElementById('navigation'))
-}
-
-if (domElementPresent('navigation-admin')) {
-  ReactDOM.render(<Navigation />, document.getElementById('navigation-admin'))
-}
-
-if (domElementPresent('navigation-sales')) {
-  ReactDOM.render(<Navigation />, document.getElementById('navigation-sales'))
-}
-
-if (domElementPresent('navigation-logistics')) {
-  ReactDOM.render(
-    <Navigation />,
-    document.getElementById('navigation-logistics')
-  )
 }

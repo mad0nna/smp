@@ -412,7 +412,7 @@ const ProductList = () => {
       <div className="md:col-span-1 lg:col-span-4 pb-5">
         <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
           <div className="px-3 pt-3 pb-2">
-            <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-2 items-center">
+            <div className="pb-2 border-opacity-80 flex space-x-2 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"

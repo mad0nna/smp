@@ -276,7 +276,7 @@ const CompanyBilling = () => {
     <div className="relative px-10 mt-5 bg-primaryBg">
       <div className="w-full h-full bg-white overflow-hidden rounded-lg shadow-xl">
         <div className="px-3 pt-3 pb-1">
-          <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+          <div className="w-full pb-2 border-opacity-80">
             <h2 className="text-green-800 text-lg font-bold">請求履歴</h2>
           </div>
         </div>

@@ -5,6 +5,10 @@ import QuestionIcon from './Question'
 import SaveIcon from './Save'
 import GearIcon from './Gear'
 import BurgerIcon from './Burger'
+import BankIcon from './Bank'
+import CardIcon from './Card'
+import XIcon from './X'
+import ExclamationIcon from './Exclamation'
 
 export {
   BellIcon,
@@ -13,5 +17,9 @@ export {
   QuestionIcon,
   GearIcon,
   SaveIcon,
-  BurgerIcon
+  BurgerIcon,
+  BankIcon,
+  CardIcon,
+  XIcon,
+  ExclamationIcon
 }
