@@ -35,7 +35,7 @@ class EmailController extends Controller
             'errors' => [],
             'status' => false,
             'message' => '',
-            'code' => 500,
+            'code' => 200,
         ];
         foreach ($data as $key => $value) {
             if (empty($value)) {
@@ -59,6 +59,19 @@ class EmailController extends Controller
         }
 
         try {
+            $isExists = $this->userService->findByEmail($data['newEmail']);
+            if(!empty($isExists)) {
+                $this->response['message'] = 'SMPにすでに存在する電子メール';
+                return response()->json($this->response, $this->response['code']);                
+            }
+
+            $user = (new Contact)->findByEmailAndAccountId($data['newEmail'], Session::get('salesforceCompanyID'));
+            
+            if ($user) {
+                $this->response['message'] = '電子メールはすでにSalesforceに存在します。別のメールアドレスをご利用ください';
+                return response()->json($this->response, $this->response['code']);
+            } 
+
             $invite_token = Hash::make(time() . uniqid());
             $result = User::where('id' , $id)->update(
                 [
@@ -99,7 +112,7 @@ class EmailController extends Controller
                 $result = (new Contact)->update($salesforceData, $user->account_code);
                 
                 if (!$result['status']) {
-                    return response()->json($result, 500);
+                    return response()->json($result, 200);
                 }
 
                 // Update Data in Database
@@ -121,14 +134,14 @@ class EmailController extends Controller
                 } else {
                     $this->response['message'] = 'データの更新中にエラーが発生しました';
                     $this->response['status'] = false;
-                    $this->response['code'] = 500;
+                    $this->response['code'] = 200;
                 }
 
             } else {
                 $this->response = [
                     'status' => false,
                     'error' => 'メールアドレスを変更するためのリクエストトークンが見つかりません',
-                    'code' => 500,
+                    'code' => 200,
                 ];
             }
 
