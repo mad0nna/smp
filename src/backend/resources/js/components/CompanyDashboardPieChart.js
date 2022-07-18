@@ -262,8 +262,8 @@ const CompanyDashboardPieChart = () => {
               <div className="grid place-items-center">
                 <Doughnut
                   data={state.record1}
-                  height={300}
-                  width={300}
+                  height={270}
+                  width={270}
                   options={{
                     responsive: false,
                     cutout: 100
@@ -302,8 +302,8 @@ const CompanyDashboardPieChart = () => {
               <div className="grid place-items-center">
                 <Doughnut
                   data={state.record2}
-                  height={300}
-                  width={300}
+                  height={270}
+                  width={270}
                   options={{
                     responsive: false,
                     cutout: 100

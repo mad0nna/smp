@@ -233,7 +233,8 @@ html {
     font-size: 18px;
 }
 .company-dashboard-chart-table {
-    width: 312px;
+    width: 90%;
+    max-width: 312px;
 }
 
 .company-dashboard-chart-table > tbody > tr > td{
@@ -263,7 +264,7 @@ html {
 }
 
 .company-dashboard-chart-table-sub-title {
-    padding: 5% 0 0 5%;
+    padding: calc(0px + 5%) 0 0 calc(5% + 0px);
     color: #1E1E1E;
     opacity: 1;
     font-size: 18px;
