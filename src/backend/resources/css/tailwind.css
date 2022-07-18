@@ -1,7 +1,13 @@
 @layer base {
+    /* Custom font */
+    @font-face {
+        font-family: 'Meiryo-UI';
+        src: url('/fonts/Meiryo-UI.woff2') format('woff2');
+    }
+
     /* Typography */
     .content-header {
-        @apply text-2.5xl text-primary-500 font-medium mt-3.5 mx-25px border-b-2 border-primary-300 pb-3.5;
+        @apply text-2.5xl text-primary-500 font-medium mt-3.5 mx-25px pb-3.5;
     }
 
     /* Buttons */

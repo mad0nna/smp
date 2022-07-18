@@ -23,7 +23,7 @@ module.exports = {
         'notification-invoice': "url('/images/notification-alert-invoice.png')"
       },
       colors: {
-        primaryBg: '#F2F2F2',
+        primaryBg: '#F7F8F9',
         secondaryBg: '#C1CBC4',
         // region > Unstructured, untidy & improper hex colors used by random XD files that did not reflect on Style guide goes here...
         hex: {
@@ -36,6 +36,7 @@ module.exports = {
           FF0000: '#FF0000',
           FF9898: '#FF9898',
           FEE5E5: '#FEE5E5',
+          D5DBE0: '#D5DBE0',
           474747: '#474747',
           333333: '#333333',
           '67D5D1': '#67D5D1',
@@ -77,6 +78,7 @@ module.exports = {
           600: '#808080'
         },
         whiteTint: {
+          500: '#ECEEF1',
           600: '#E2EDE9',
           700: '#F4F8F7',
           800: '#F3F7F6',
@@ -233,7 +235,7 @@ module.exports = {
       }
     },
     fontFamily: {
-      sans: ['Roboto', 'Noto Sans JP', 'Meiryo-UI', 'sans-serif']
+      sans: ['Roboto', 'Noto Sans JP', '"Meiryo-UI"', 'sans-serif']
     }
   },
   variants: {

@@ -377,7 +377,7 @@ const Navigation = () => {
   }, [showDropdown])
 
   return (
-    <div className="shadow-lg">
+    <div className="border-b border-hex-D5DBE0">
       <div className="flex justify-between px-11 py-1 bg-header min-h-10">
         <div>
           <div className="mx-auto">
