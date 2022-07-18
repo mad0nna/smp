@@ -179,7 +179,7 @@ bg-shop-icon:hover {
 .prod-widget-img-holder img {
     margin: auto; 
     width: 224px;
-    height: 168px;
+    height: auto;
     background: transparent;
 }
 

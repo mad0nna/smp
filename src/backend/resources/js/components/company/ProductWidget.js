@@ -152,7 +152,7 @@ const ProductWidget = () => {
               </div>
             </div>
           ) : (
-            <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-y-8">
+            <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-y-8 ">
               {productList.map((item, index) => {
                 let prodPrice
                 if (!_.isEmpty(item.price)) {
@@ -163,7 +163,7 @@ const ProductWidget = () => {
 
                 return (
                   <div
-                    className="grid justify-center gap-2 pb-2 overflow-hidden mb-2"
+                    className="grid justify-center gap-2 pb-2 overflow-hidden mb-2 m-1.5"
                     key={index}
                   >
                     <div className="prod-widget-img-holder">
@@ -172,7 +172,8 @@ const ProductWidget = () => {
                       >
                         <img
                           className="mx-auto p-4"
-                          src={`${state.img_domain}/${item.media['media.preview']}`}
+                          // src={`${state.img_domain}/${item.media['media.preview']}`}
+                          src="https://idaten.local/images/printer1.png"
                         ></img>
                       </a>
                     </div>
@@ -180,7 +181,7 @@ const ProductWidget = () => {
                       {item.product['product.label']}
                     </div>
                     <div className="pl-2 pt-3 pb-2 text-center font-bold widget-prod-price">
-                      {prodPrice}円
+                      {prodPrice} 円
                     </div>
                     <div className="pl-2 text-center widget-prod-button">
                       <a
