@@ -15,7 +15,7 @@
                             <path id="Path_3627" data-name="Path 3627" d="M11.813,10.7h1.673A1.524,1.524,0,0,1,15.21,9.158c.868,0,1.664.383,1.664,1.3,0,.71-.474,1.036-1.223,1.532a2.514,2.514,0,0,0-1.481,2.22l.009.517h1.657v-.4c0-.8.346-1.036,1.28-1.66a2.712,2.712,0,0,0,1.577-2.3c0-1.688-1.618-2.5-3.388-2.5-1.681,0-3.532.723-3.491,2.83Zm1.98,6.162a1.141,1.141,0,0,0,1.28,1.036c.772,0,1.3-.44,1.3-1.036,0-.617-.532-1.05-1.3-1.05a1.138,1.138,0,0,0-1.279,1.05Z" transform="translate(-5.872 -4.138)" fill="#1e9e47"></path>
                         </g>
                     </svg>
-                    <span class="text-primary-400">ヘルプ</span>
+                    <span class="text-tertiary-400">ヘルプ</span>
                 </p>
                 <button id="dropdown-action" class="border border-0 p-0" data-bs-toggle="dropdown" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 23.944" class="w-5 h-5">

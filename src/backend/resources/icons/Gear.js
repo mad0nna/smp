@@ -2,12 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Gear = (props) => {
-  const { className = '', fill = '#757575' } = props
+  const { className } = props
 
   return (
     <svg
       className={className}
       xmlns="http://www.w3.org/2000/svg"
+      width="22.868"
+      height="22.868"
       viewBox="0 0 22.868 22.868"
     >
       <path
@@ -15,7 +17,7 @@ const Gear = (props) => {
         data-name="Settings Icon"
         d="M13.442,1.5a2.094,2.094,0,0,0-4.016,0l-.143.486A2.092,2.092,0,0,1,6.274,3.233L5.831,2.99a2.094,2.094,0,0,0-2.84,2.84l.241.445A2.092,2.092,0,0,1,1.986,9.283L1.5,9.426a2.094,2.094,0,0,0,0,4.016l.486.143a2.092,2.092,0,0,1,1.246,3.008l-.243.443a2.094,2.094,0,0,0,2.84,2.84l.445-.241a2.092,2.092,0,0,1,3.008,1.246l.143.486a2.094,2.094,0,0,0,4.016,0l.143-.486a2.092,2.092,0,0,1,3.008-1.246l.443.243a2.094,2.094,0,0,0,2.84-2.84l-.241-.445a2.092,2.092,0,0,1,1.246-3.008l.486-.143a2.094,2.094,0,0,0,0-4.016l-.486-.143a2.092,2.092,0,0,1-1.246-3.008l.243-.443a2.094,2.094,0,0,0-2.84-2.84l-.445.241a2.092,2.092,0,0,1-3.008-1.246L13.442,1.5ZM11.434,15.622a4.188,4.188,0,1,0-4.186-4.189,4.188,4.188,0,0,0,4.186,4.189Z"
         transform="translate(0.001 0)"
-        fill={fill}
+        fill="#757575"
         fillRule="evenodd"
       />
     </svg>
@@ -23,8 +25,7 @@ const Gear = (props) => {
 }
 
 Gear.propTypes = {
-  className: PropTypes.string,
-  fill: PropTypes.string
+  className: PropTypes.string
 }
 
 export default Gear
