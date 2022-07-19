@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Ellipsis from '../../img/ellipsis.png'
 import spinner from '../../img/spinner.gif'
 import axios from 'axios'
-import { NewsPaperIcon, CampaignIcon } from '../../icons'
 const Notification = (props) => {
   let iconTypes = {
-    payment: <NewsPaperIcon />,
-    contract: <CampaignIcon />,
-    article: <CampaignIcon />
+    payment: 'bg-notification-invoice',
+    contract: 'bg-notification-active',
+    article: 'bg-notification-normal'
   }
   let notifWithLink = ['請求', 'お知らせ']
   const [state, setState] = useState({
@@ -17,54 +16,44 @@ const Notification = (props) => {
   })
 
   useEffect(() => {
-    let isMounted = true
-    async function getNotification() {
-      axios.get(`/company/getNotification`).then((data) => {
-        let notifs = []
-        let response = data.data
-        for (let i = 0; i < Object.keys(response).length; i++) {
-          if (i > 8) {
-            continue
-          }
-          if (response[i].notification_type === 'payment') {
-            notifs.push({
-              header: 'お知らせ',
-              type: response[i].notification_type,
-              message:
-                response[i].notification_type === 'payment'
-                  ? response[i].message
-                  : response[i].title,
-              link:
-                response[i].notification_type === 'payment'
-                  ? '/company/setting/payment/method'
-                  : response[i].html_url,
-              newTab: true,
-              status: response[i].seen ? '既読' : '未読',
-              notif_id: response[i].notif_id
-            })
-          }
-          if (response[i].notification_type === 'article') {
-            notifs.push({
-              header: 'お知らせ',
-              type: response[i].notification_type,
-              message: response[i].title,
-              link: response[i].html_url,
-              newTab: true,
-              status: response[i].seen ? '既読' : '未読',
-              id: response[i].id
-            })
-          }
+    axios.get(`/company/getNotification`).then((data) => {
+      let notifs = []
+      let response = data.data
+      for (let i = 0; i < Object.keys(response).length; i++) {
+        if (i > 8) {
+          continue
         }
-        if (isMounted) {
-          setState({ loading: false, notificationItems: notifs })
+        if (response[i].notification_type === 'payment') {
+          notifs.push({
+            header: 'お知らせ',
+            type: response[i].notification_type,
+            message:
+              response[i].notification_type === 'payment'
+                ? response[i].message
+                : response[i].title,
+            link:
+              response[i].notification_type === 'payment'
+                ? '/company/setting/payment/method'
+                : response[i].html_url,
+            newTab: true,
+            status: response[i].seen ? '既読' : '未読',
+            notif_id: response[i].notif_id
+          })
         }
-      })
-    }
-    getNotification()
-
-    return () => {
-      isMounted = false
-    }
+        if (response[i].notification_type === 'article') {
+          notifs.push({
+            header: 'お知らせ',
+            type: response[i].notification_type,
+            message: response[i].title,
+            link: response[i].html_url,
+            newTab: true,
+            status: response[i].seen ? '既読' : '未読',
+            id: response[i].id
+          })
+        }
+      }
+      setState({ loading: false, notificationItems: notifs })
+    })
   }, [])
 
   const seenNotif = (stateIndex, id, type, link) => {
@@ -95,10 +84,10 @@ const Notification = (props) => {
     : 'py-3 h-20 p-3 px-3'
   return (
     <div className="w-full h-full relative group ">
-      <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg shadow-xl pt-3 pb-8 px-3">
+      <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
         <div id="widget-header" className="bg-white relative box-border">
           <div>
-            <div className="w-full pb-2">
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
               <h2 className="text-green-800 text-lg font-bold">お知らせ</h2>
             </div>
           </div>
@@ -137,22 +126,20 @@ const Notification = (props) => {
                 >
                   <div
                     id="item-icon"
-                    className={' bg-cover bg-no-repeat w-5 h-5 mt-1 float-left'}
-                  >
-                    {iconTypes[item.type]}
-                  </div>
+                    className={
+                      iconTypes[item.type] +
+                      ' bg-cover bg-no-repeat w-5 h-5 mt-1 float-left'
+                    }
+                  />
                   <p
                     id="item-content"
                     className={
                       fontColor +
-                      '  font-sans text-xs tracking-tighter ml-9 w-4/5 '
+                      '  font-sans text-xs tracking-tighter ml-7 w-4/5  '
                     }
                   >
-                    {/* <span className="text-secondary-600">{item.header} </span> */}
-                    <span className="text-secondary-600 opacity-100">
-                      {item.message}
-                    </span>
-                    <br />
+                    {item.header} <br />
+                    {item.message} <br />
                     <a
                       onClick={(e) => {
                         e.preventDefault()
@@ -169,7 +156,7 @@ const Notification = (props) => {
                       className="cursor-pointer"
                     >
                       <span
-                        className="text-hex-9E9E9E text-xs opacity-100"
+                        className="text-tertiary-500 text-xs"
                         dataid={item.id}
                         datatype={item.type}
                       >
@@ -179,30 +166,30 @@ const Notification = (props) => {
                       </span>
                     </a>
                   </p>
-                  {/* <p
+                  <p
                     id="item-status"
                     className="absolute right-1 float-right font-sans text-gray-400 text-sm tracking-tighter text-center bottom-3 lg:absolute lg:bottom-0"
                   >
                     {item.status}
-                  </p> */}
+                  </p>
                 </div>
               )
             })
           )}
         </div>
-        {!state.loading ? (
-          <div id="widget-footer" className="w-full h-10 p-4 mb-7">
+        <div id="widget-footer" className="w-full h-10 bg-white pt-3 pr-3">
+          {state.loading === true ? (
+            ''
+          ) : (
             <div id="widget-footer-control" className="float-right">
-              <a href="/company/shop">
-                <button className="dashboard-widget-button bg-primary-600 text-white">
+              <a href="./notifications">
+                <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter pointer-events-none">
                   さらに表示
                 </button>
               </a>
             </div>
-          </div>
-        ) : (
-          ''
-        )}
+          )}
+        </div>
       </div>
     </div>
   )

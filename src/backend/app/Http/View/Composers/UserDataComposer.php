@@ -38,7 +38,7 @@ class UserDataComposer
                 'img_domain' => env('AIMEOS_BASE_URL'),
             ];
         }
-        
+
         $view->with('userData', $userData);
     }
 }
