@@ -24,6 +24,12 @@
 
     /* Inputs */
 
+    /* region > checkbox */
+    input[type=checkbox].checkbox-primary {
+        accent-color: theme('colors.primary.500');
+    }
+    /* endregion */
+
     /* Containers */
     .content-body {
         @apply mt-3.5 mb-25px mx-25px
