@@ -39,11 +39,15 @@
                 </div>
             </div>
         @else
+            @if(isset($useCustomContainer) && $useCustomContainer)
+                @yield('content')
+            @else
             <div class="col-span-full bg-hex-F7F8F9">
                 <div class="mt-50px mb-5 mx-11 rounded-xl bg-hex-F7F8F9 h-fit">
                     @yield('content')
                 </div>
             </div>
+            @endif
         @endif
     </main>
     @yield('script')
