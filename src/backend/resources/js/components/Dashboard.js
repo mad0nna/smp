@@ -199,7 +199,7 @@ const Dashboard = () => {
               containerPadding={[10, 20]}
               isBounded={true}
               useCSSTransforms={true}
-              verticalCompact={false}
+              // verticalCompact={false}
             >
               {widgetState
                 .filter((widget) => widget.state !== false)

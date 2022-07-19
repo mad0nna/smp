@@ -9,22 +9,32 @@ const BillingHistory = () => {
   })
 
   useEffect(() => {
-    fetch('/company/getBilling', {
-      method: 'get',
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        data = data.slice(0, 9)
-        setState({
-          loading: false,
-          billingHistory: data
+    let isMounted = true
+
+    async function getBilling() {
+      fetch('/company/getBilling', {
+        method: 'get',
+        headers: { 'Content-Type': 'application/json' }
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          data = data.slice(0, 9)
+          if (isMounted) {
+            setState({
+              loading: false,
+              billingHistory: data
+            })
+          }
         })
-      })
-      .catch(() => {
-        document.getElementsByClassName('billing-loading')[0].style.display =
-          'none'
-      })
+        .catch(() => {
+          document.getElementsByClassName('billing-loading')[0].style.display =
+            'none'
+        })
+    }
+    getBilling()
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   return (
@@ -62,7 +72,7 @@ const BillingHistory = () => {
                 <div
                   id="widget-content-item"
                   className={
-                    ' w-full h-auto relative p-5 bg-customGrayColor-customGrayBg border-b border-customGrayColor-customGrayBg rounded-2xl mb-3'
+                    ' w-full h-auto relative p-5 bg-hex-F5F5F5  border-b border-hex-F5F5F5  rounded-2xl mb-3'
                   }
                   key={index}
                 >
@@ -78,7 +88,7 @@ const BillingHistory = () => {
                         <span className="text-lg text-primary-600 font-semibold tracking-tighter opacity-100">
                           請求書番号{' '}
                         </span>
-                        <div className="text-customTextColor font-semibold tracking-tighter opacity-100">
+                        <div className="text-hex-1E1E1E font-semibold tracking-tighter opacity-100">
                           {item.invoiceNumber}
                         </div>
                       </div>
@@ -90,7 +100,7 @@ const BillingHistory = () => {
                         <span className="text-lg text-primary-600 font-semibold tracking-tighter opacity-100">
                           支払期限{' '}
                         </span>
-                        <div className="text-customTextColor font-semibold tracking-tighter opacity-100">
+                        <div className="text-1E1E1E font-semibold tracking-tighter opacity-100">
                           {item.dueDate}
                         </div>
                       </div>
@@ -101,7 +111,7 @@ const BillingHistory = () => {
                         <span className="text-lg text-primary-600 font-bold tracking-tighter opacity-100">
                           請求日{' '}
                         </span>
-                        <div className="text-customTextColor font-bold tracking-tighter opacity-100">
+                        <div className="text-1E1E1E font-bold tracking-tighter opacity-100">
                           {item.invoiceDate}
                         </div>
                       </div>
@@ -113,10 +123,12 @@ const BillingHistory = () => {
           )}
         </div>
         {!state.loading ? (
-          <div id="widget-footer" className="w-full h-10 p-3.5">
+          <div id="widget-footer" className="w-full h-10 p-4 mb-7">
             <div id="widget-footer-control" className="float-right">
               <a href="/company/shop">
-                <button className="dashboard-widget-button">さらに表示</button>
+                <button className="dashboard-widget-button bg-primary-600 text-white">
+                  さらに表示
+                </button>
               </a>
             </div>
           </div>

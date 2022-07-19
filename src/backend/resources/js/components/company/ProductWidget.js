@@ -117,15 +117,21 @@ const ProductWidget = () => {
   useEffect(() => {
     // set product list
     let isMounted = true
+
     if (productList.length == 0) {
       getProductListApi()
     }
-    setState((prevState) => {
-      return {
-        ...prevState,
-        loadedComponent: isMounted
-      }
-    })
+    if (isMounted) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          loadedComponent: isMounted
+        }
+      })
+    }
+    return () => {
+      isMounted = false
+    }
   }, [productList, getProductListApi])
 
   return state.loadedComponent ? (
@@ -166,28 +172,28 @@ const ProductWidget = () => {
                     className="grid justify-center gap-2 pb-2 overflow-hidden mb-2 m-1.5"
                     key={index}
                   >
-                    <div className="prod-widget-img-holder">
+                    <div className="max-w-full w-80 p-6 opacity-100 rounded-2xl bg-hex-F5F5F5">
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}
                       >
                         <img
-                          className="mx-auto p-4"
-                          // src={`${state.img_domain}/${item.media['media.preview']}`}
-                          src="https://idaten.local/images/printer1.png"
+                          className="mx-auto p-4 w-56 h-auto bg-transparent"
+                          src={`${state.img_domain}/${item.media['media.preview']}`}
+                          // src="https://idaten.local/images/printer1.png"
                         ></img>
                       </a>
                     </div>
-                    <div className="pl-2 line-clamp-2 prod-label ">
+                    <div className="pl-2 line-clamp-2 w-40 text-body-500">
                       {item.product['product.label']}
                     </div>
-                    <div className="pl-2 pt-3 pb-2 text-center font-bold widget-prod-price">
+                    <div className="pl-2 pt-3 pb-2 text-center font-bold text-hex-1E1E1E text-lg">
                       {prodPrice} 円
                     </div>
-                    <div className="pl-2 text-center widget-prod-button">
+                    <div className="pl-2 text-center text-lg p-3 rounded-3xl tracking-tighter m-auto w-64 opacity-100 text-primary-600 bg-hex-8EE9AB ">
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}
                       >
-                        <span className="tracking-tighter">
+                        <span className="tracking-tighter drop-shadow-none">
                           {' '}
                           ご購入はこちらから
                         </span>
@@ -203,7 +209,9 @@ const ProductWidget = () => {
           <div id="widget-footer" className="w-full h-10 p-4 mb-7">
             <div id="widget-footer-control" className="float-right">
               <a href="/company/shop">
-                <button className="dashboard-widget-button">さらに表示</button>
+                <button className="dashboard-widget-button bg-primary-600 text-white">
+                  さらに表示
+                </button>
               </a>
             </div>
           </div>

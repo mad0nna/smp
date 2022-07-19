@@ -17,44 +17,54 @@ const Notification = (props) => {
   })
 
   useEffect(() => {
-    axios.get(`/company/getNotification`).then((data) => {
-      let notifs = []
-      let response = data.data
-      for (let i = 0; i < Object.keys(response).length; i++) {
-        if (i > 8) {
-          continue
+    let isMounted = true
+    async function getNotification() {
+      axios.get(`/company/getNotification`).then((data) => {
+        let notifs = []
+        let response = data.data
+        for (let i = 0; i < Object.keys(response).length; i++) {
+          if (i > 8) {
+            continue
+          }
+          if (response[i].notification_type === 'payment') {
+            notifs.push({
+              header: 'お知らせ',
+              type: response[i].notification_type,
+              message:
+                response[i].notification_type === 'payment'
+                  ? response[i].message
+                  : response[i].title,
+              link:
+                response[i].notification_type === 'payment'
+                  ? '/company/setting/payment/method'
+                  : response[i].html_url,
+              newTab: true,
+              status: response[i].seen ? '既読' : '未読',
+              notif_id: response[i].notif_id
+            })
+          }
+          if (response[i].notification_type === 'article') {
+            notifs.push({
+              header: 'お知らせ',
+              type: response[i].notification_type,
+              message: response[i].title,
+              link: response[i].html_url,
+              newTab: true,
+              status: response[i].seen ? '既読' : '未読',
+              id: response[i].id
+            })
+          }
         }
-        if (response[i].notification_type === 'payment') {
-          notifs.push({
-            header: 'お知らせ',
-            type: response[i].notification_type,
-            message:
-              response[i].notification_type === 'payment'
-                ? response[i].message
-                : response[i].title,
-            link:
-              response[i].notification_type === 'payment'
-                ? '/company/setting/payment/method'
-                : response[i].html_url,
-            newTab: true,
-            status: response[i].seen ? '既読' : '未読',
-            notif_id: response[i].notif_id
-          })
+        if (isMounted) {
+          setState({ loading: false, notificationItems: notifs })
         }
-        if (response[i].notification_type === 'article') {
-          notifs.push({
-            header: 'お知らせ',
-            type: response[i].notification_type,
-            message: response[i].title,
-            link: response[i].html_url,
-            newTab: true,
-            status: response[i].seen ? '既読' : '未読',
-            id: response[i].id
-          })
-        }
-      }
-      setState({ loading: false, notificationItems: notifs })
-    })
+      })
+    }
+    getNotification()
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   const seenNotif = (stateIndex, id, type, link) => {
@@ -159,7 +169,7 @@ const Notification = (props) => {
                       className="cursor-pointer"
                     >
                       <span
-                        className="text-customGrayColor-customGrayText100 text-xs opacity-100"
+                        className="text-hex-9E9E9E text-xs opacity-100"
                         dataid={item.id}
                         datatype={item.type}
                       >
@@ -181,10 +191,12 @@ const Notification = (props) => {
           )}
         </div>
         {!state.loading ? (
-          <div id="widget-footer" className="w-full h-10 p-3.5">
+          <div id="widget-footer" className="w-full h-10 p-4 mb-7">
             <div id="widget-footer-control" className="float-right">
               <a href="/company/shop">
-                <button className="dashboard-widget-button">さらに表示</button>
+                <button className="dashboard-widget-button bg-primary-600 text-white">
+                  さらに表示
+                </button>
               </a>
             </div>
           </div>

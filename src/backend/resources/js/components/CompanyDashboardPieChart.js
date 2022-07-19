@@ -94,146 +94,165 @@ const CompanyDashboardPieChart = () => {
   })
 
   useEffect(() => {
-    axios
-      .get(`/company/getServiceUsage`)
-      .then((response) => {
-        let usageData = response.data
-        setState((prevState) => {
-          let percentOfNoSubscribedLogin = 0
-          let percentOfNoEmployeesLogin = 0
+    let isMounted = true
 
-          if (usageData.numberOfEmployees && usageData.numberOfActiveKOTUsers) {
-            percentOfNoSubscribedLogin = Math.round(
-              parseInt(
-                (usageData.numberOfActiveKOTUsers /
-                  usageData.numberOfEmployees) *
-                  100
-              )
-            )
-          }
+    async function getServiceUsage() {
+      axios
+        .get(`/company/getServiceUsage`)
+        .then((response) => {
+          let usageData = response.data
+          if (isMounted) {
+            setState((prevState) => {
+              let percentOfNoSubscribedLogin = 0
+              let percentOfNoEmployeesLogin = 0
 
-          if (usageData.numberOfEmployees && usageData.numberOfSubscribers) {
-            percentOfNoEmployeesLogin = Math.round(
-              parseInt(
-                (usageData.numberOfSubscribers / usageData.numberOfEmployees) *
-                  100
-              )
-            )
-          }
+              if (
+                usageData.numberOfEmployees &&
+                usageData.numberOfActiveKOTUsers
+              ) {
+                percentOfNoSubscribedLogin = Math.round(
+                  parseInt(
+                    (usageData.numberOfActiveKOTUsers /
+                      usageData.numberOfEmployees) *
+                      100
+                  )
+                )
+              }
 
-          return {
-            ...prevState,
-            serviceUsageDate: usageData.serviceUsageDate,
-            numberOfActiveKOTUsers: usageData.numberOfActiveKOTUsers,
-            numberOfEmployees: usageData.numberOfEmployees,
-            numberOfSubscribers: usageData.numberOfSubscribers,
-            record1: {
-              datasets: [
-                {
-                  data: [
-                    percentOfNoSubscribedLogin,
-                    Math.max(0, 100 - percentOfNoSubscribedLogin)
+              if (
+                usageData.numberOfEmployees &&
+                usageData.numberOfSubscribers
+              ) {
+                percentOfNoEmployeesLogin = Math.round(
+                  parseInt(
+                    (usageData.numberOfSubscribers /
+                      usageData.numberOfEmployees) *
+                      100
+                  )
+                )
+              }
+
+              return {
+                ...prevState,
+                serviceUsageDate: usageData.serviceUsageDate,
+                numberOfActiveKOTUsers: usageData.numberOfActiveKOTUsers,
+                numberOfEmployees: usageData.numberOfEmployees,
+                numberOfSubscribers: usageData.numberOfSubscribers,
+                record1: {
+                  datasets: [
+                    {
+                      data: [
+                        percentOfNoSubscribedLogin,
+                        Math.max(0, 100 - percentOfNoSubscribedLogin)
+                      ],
+                      backgroundColor: [
+                        'rgba(195,0,71,1)',
+                        'rgba(129, 131, 134, 1)'
+                      ],
+                      borderWidth: 1
+                    }
                   ],
-                  backgroundColor: [
-                    'rgba(195,0,71,1)',
-                    'rgba(129, 131, 134, 1)'
-                  ],
-                  borderWidth: 1
-                }
-              ],
-              options: {
-                legend: {
-                  display: false
+                  options: {
+                    legend: {
+                      display: false
+                    },
+                    plugins: [
+                      {
+                        beforeDraw: function (chart) {
+                          const width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx
+                          ctx.restore()
+                          const fontSize = (height / 75).toFixed(2)
+                          ctx.font = fontSize + 'em sans-serif'
+                          ctx.textBaseline = 'middle'
+                          ctx.fillStyle = 'rgba(195,0,71,1)'
+                          const text = `${percentOfNoEmployeesLogin}$`,
+                            textX = Math.round(
+                              (width - ctx.measureText(text).width) / 2
+                            ),
+                            textY = height / 2
+                          ctx.fillText(text, textX, textY)
+                          ctx.save()
+                        }
+                      }
+                    ],
+                    tooltips: {
+                      callbacks: {
+                        label: function (tooltipItem) {
+                          console.log(tooltipItem)
+                        }
+                      }
+                    }
+                  },
+                  percent: percentOfNoSubscribedLogin
                 },
-                plugins: [
-                  {
-                    beforeDraw: function (chart) {
-                      const width = chart.width,
-                        height = chart.height,
-                        ctx = chart.ctx
-                      ctx.restore()
-                      const fontSize = (height / 75).toFixed(2)
-                      ctx.font = fontSize + 'em sans-serif'
-                      ctx.textBaseline = 'middle'
-                      ctx.fillStyle = 'rgba(195,0,71,1)'
-                      const text = `${percentOfNoEmployeesLogin}$`,
-                        textX = Math.round(
-                          (width - ctx.measureText(text).width) / 2
-                        ),
-                        textY = height / 2
-                      ctx.fillText(text, textX, textY)
-                      ctx.save()
+                record2: {
+                  datasets: [
+                    {
+                      data: [
+                        percentOfNoEmployeesLogin,
+                        Math.max(0, 100 - percentOfNoEmployeesLogin)
+                      ],
+                      backgroundColor: [
+                        'rgba(14,66,150,1)',
+                        'rgba(129, 131, 134, 1)'
+                      ],
+                      borderWidth: 1
                     }
-                  }
-                ],
-                tooltips: {
-                  callbacks: {
-                    label: function (tooltipItem) {
-                      console.log(tooltipItem)
+                  ],
+                  options: {
+                    legend: {
+                      display: false
+                    },
+                    plugins: [
+                      {
+                        beforeDraw: function (chart) {
+                          const width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx
+                          ctx.restore()
+                          const fontSize = (height / 75).toFixed(2)
+                          ctx.font = fontSize + 'em sans-serif'
+                          ctx.textBaseline = 'middle'
+                          ctx.fillStyle = 'rgba(14,66,150,1)'
+                          const text = `${percentOfNoEmployeesLogin}$`,
+                            textX = Math.round(
+                              (width - ctx.measureText(text).width) / 2
+                            ),
+                            textY = height / 2
+                          ctx.fillText(text, textX, textY)
+                          ctx.save()
+                        }
+                      }
+                    ],
+                    tooltips: {
+                      callbacks: {
+                        label: function (tooltipItem) {
+                          console.log(tooltipItem)
+                        }
+                      }
                     }
-                  }
-                }
-              },
-              percent: percentOfNoSubscribedLogin
-            },
-            record2: {
-              datasets: [
-                {
-                  data: [
-                    percentOfNoEmployeesLogin,
-                    Math.max(0, 100 - percentOfNoEmployeesLogin)
-                  ],
-                  backgroundColor: [
-                    'rgba(14,66,150,1)',
-                    'rgba(129, 131, 134, 1)'
-                  ],
-                  borderWidth: 1
-                }
-              ],
-              options: {
-                legend: {
-                  display: false
+                  },
+                  percent: percentOfNoEmployeesLogin
                 },
-                plugins: [
-                  {
-                    beforeDraw: function (chart) {
-                      const width = chart.width,
-                        height = chart.height,
-                        ctx = chart.ctx
-                      ctx.restore()
-                      const fontSize = (height / 75).toFixed(2)
-                      ctx.font = fontSize + 'em sans-serif'
-                      ctx.textBaseline = 'middle'
-                      ctx.fillStyle = 'rgba(14,66,150,1)'
-                      const text = `${percentOfNoEmployeesLogin}$`,
-                        textX = Math.round(
-                          (width - ctx.measureText(text).width) / 2
-                        ),
-                        textY = height / 2
-                      ctx.fillText(text, textX, textY)
-                      ctx.save()
-                    }
-                  }
-                ],
-                tooltips: {
-                  callbacks: {
-                    label: function (tooltipItem) {
-                      console.log(tooltipItem)
-                    }
-                  }
-                }
-              },
-              percent: percentOfNoEmployeesLogin
-            },
-            isLoaded: false
+                isLoaded: false
+              }
+            })
           }
         })
-      })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response.status)
-        }
-      })
+        .catch(function (error) {
+          if (error.response) {
+            console.log(error.response.status)
+          }
+        })
+    }
+    getServiceUsage()
+
+    return () => {
+      // 👇️ when component unmounts, set isMounted to false
+      isMounted = false
+    }
   }, [])
   return (
     <div className="w-full h-full relative group">
@@ -258,7 +277,7 @@ const CompanyDashboardPieChart = () => {
           className="h-widgetBody-sm w-full bg-white px-3 flex flex-col gap-3"
         >
           <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-y-8 gap-x-8">
-            <div className="company-dashboard-chart-container">
+            <div className="company-dashboard-chart-container opacity-100 rounded-2xl bg-hex-F5F5F5">
               <div className="grid place-items-center">
                 <Doughnut
                   data={state.record1}
@@ -271,34 +290,38 @@ const CompanyDashboardPieChart = () => {
                   plugins={state.record1.plugins}
                 />
               </div>
-              <div className="company-dashboard-chart-table-title">
+              <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-2xl text-primary-600">
                 登録済従業員
               </div>
-              <div className="company-dashboard-chart-table-sub-title">
+              <div className="company-dashboard-chart-table-sub-title opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E">
                 勤怠記録
               </div>
-              <table className="table-fixed border-collapse border border-slate-400 m-auto company-dashboard-chart-table ">
+              <table className="table-fixed border-collapse border border-slate-400 m-auto w-11/12 max-w-sm bg-white ">
                 <tbody>
                   <tr>
-                    <td className="border border-slate-300">
-                      <span className="font-bold">
+                    <td className="border border-slate-300 h-9 rounded-md border-hex-C4C4C4 px-2.5 py-1.5">
+                      <span className="font-bold text-3xl">
                         {state.numberOfEmployees}
                       </span>{' '}
-                      人のうち
+                      <span className="text-hex-676565 tracking-tighter opacity-100 text-lg">
+                        人のうち
+                      </span>
                     </td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300">
-                      <span className="font-bold">
+                    <td className="border border-slate-300 h-9 rounded-md border-hex-C4C4C4 px-2.5 py-1.5">
+                      <span className="font-bold text-3xl">
                         {state.numberOfActiveKOTUsers}
                       </span>{' '}
-                      人が打刻済み
+                      <span className="text-hex-676565 tracking-tighter opacity-100 text-lg">
+                        人が打刻済み
+                      </span>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div className="company-dashboard-chart-container">
+            <div className="company-dashboard-chart-container opacity-100 rounded-2xl bg-hex-F5F5F5">
               <div className="grid place-items-center">
                 <Doughnut
                   data={state.record2}
@@ -311,26 +334,32 @@ const CompanyDashboardPieChart = () => {
                   plugins={state.record2.plugins}
                 />
               </div>
-              <div className="company-dashboard-chart-table-title">展開率</div>
-              <div className="company-dashboard-chart-table-sub-title">
+              <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-2xl text-primary-600">
+                展開率
+              </div>
+              <div className="company-dashboard-chart-table-sub-title pl-[calc(5%_-_0%)] pt-[calc(0%-5%)] opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E">
                 システムご利用予定人数
               </div>
-              <table className="table-fixed border-collapse border border-slate-400 m-auto company-dashboard-chart-table ">
+              <table className="table-fixed border-collapse border border-slate-400 m-auto w-11/12 max-w-sm bg-white ">
                 <tbody>
                   <tr>
-                    <td className="border border-slate-300">
-                      <span className="font-bold">
+                    <td className="border border-slate-300 h-9 rounded-md border-hex-C4C4C4 px-2.5 py-1.5">
+                      <span className="font-bold text-3xl">
                         {state.numberOfEmployees}
                       </span>{' '}
-                      人のうち
+                      <span className="text-hex-676565 tracking-tighter opacity-100 text-lg pl-1">
+                        人のうち{' '}
+                      </span>
                     </td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300">
-                      <span className="font-bold">
+                    <td className="border border-slate-300 h-9 rounded-md border-hex-C4C4C4 px-2.5 py-1.5">
+                      <span className="font-bold text-3xl">
                         {state.numberOfSubscribers}
                       </span>{' '}
-                      人が打刻済み
+                      <span className="text-hex-676565 tracking-tighter opacity-100 text-lg">
+                        人が打刻済み{' '}
+                      </span>
                     </td>
                   </tr>
                 </tbody>

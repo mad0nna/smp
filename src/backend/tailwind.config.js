@@ -108,17 +108,20 @@ module.exports = {
           700: '#4D7C0F',
           800: '#3F6212'
         },
-        customGrayColor: {
-          customGrayBg: '#F5F5F5',
-          customGrayText100: '#9E9E9E',
-          customGray100: '#F7F8F9',
-          customBorderGrey: '#17A8A414',
+        hex: {
+          '8EE9AB': '#8EE9AB',
+          'F5F5F5': '#F5F5F5',
+          '9E9E9E': '#9E9E9E',
+          'F7F8F9': '#F7F8F9',
+          '17A8A414': '#17A8A414',
+          '685D5E': '#685D5E',
+          '1E1E1E': '#1E1E1E',
+          '676565': '#676565',
+          'C4C4C4': '#C4C4C4'
         },
-        customGray: '#685D5E',
         errorColor: '#DC2626',
         'table-header-Gray-100': '#ECECEC',
         'table-header-Gray-400': '#A5A5A5',
-        customTextColor: '#1E1E1E',
       },
       fontSize: {
         '2.5xl': ['1.75rem', { lineHeight: '2rem' }],

@@ -11,29 +11,43 @@ const ServiceUsage = () => {
   })
 
   useEffect(() => {
-    axios.get(`/company/getServiceUsageDate`).then((response) => {
-      if (response.data) {
-        let lastUsedDate = new Date(response.data)
-        let currentDate = new Date()
-        let differenceInTime = currentDate.getTime() - lastUsedDate.getTime()
-        setState((prevState) => {
-          return {
-            ...prevState,
-            serviceUsageDate: response.data,
-            daysStarted: (differenceInTime / (1000 * 3600 * 24)).toFixed(0),
-            loading: false
+    let isMounted = true
+
+    async function getServiceUsageDate() {
+      axios.get(`/company/getServiceUsageDate`).then((response) => {
+        if (response.data) {
+          let lastUsedDate = new Date(response.data)
+          let currentDate = new Date()
+          let differenceInTime = currentDate.getTime() - lastUsedDate.getTime()
+          if (isMounted) {
+            setState((prevState) => {
+              return {
+                ...prevState,
+                serviceUsageDate: response.data,
+                daysStarted: (differenceInTime / (1000 * 3600 * 24)).toFixed(0),
+                loading: false
+              }
+            })
           }
-        })
-      } else {
-        setState((prevState) => {
-          return {
-            ...prevState,
-            serviceUsageDate: '---',
-            loading: false
+        } else {
+          if (isMounted) {
+            setState((prevState) => {
+              return {
+                ...prevState,
+                serviceUsageDate: '---',
+                loading: false
+              }
+            })
           }
-        })
-      }
-    })
+        }
+      })
+    }
+
+    getServiceUsageDate()
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   return (

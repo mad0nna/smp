@@ -168,26 +168,6 @@ bg-shop-icon:hover {
     opacity: 0.6 !important;
 }
 
-.prod-widget-img-holder {
-    padding: 25px;
-    background: #F5F5F5;
-    border-radius: 15px;
-    opacity: 1;
-    max-width: 100%;
-    width: 331px
-}
-
-.prod-widget-img-holder img {
-    margin: auto; 
-    width: 224px;
-    height: auto;
-    background: transparent;
-}
-
-.prod-label {
-    width: 165px;
-}
-
 /* Scrollbar styles for webkit browsers */
 ::-webkit-scrollbar {
 	background-color: var(--bs-bg, #f8fafc);
@@ -217,68 +197,19 @@ html {
 .label-title {
     min-height: 50px;
 }
-.widget-prod-button {
-    color: #007B53;
-    font-size: 18px;
-    background-color: #8EE9AB;
-    padding: 10px;
-    border-radius: 24px;
-    opacity: 1;
-    letter-spacing: 0px;
-    width: 271px;
-    margin: 0 auto;
-}
 
-.widget-prod-price {
-    color: #1E1E1E;
-    font-size: 18px;
-}
-.company-dashboard-chart-table {
-    width: 90%;
-    max-width: 312px;
-}
-
-.company-dashboard-chart-table > tbody > tr > td{
-    height: 34px;
-    border-radius: 6px;
-    border: 1px solid #C4C4C4;
-    padding: 5px 10px 5px 10px;
-    font-size: 18px;
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-
-}
 
 .company-dashboard-chart-container {
-    padding: calc(25px - 15px);
-    background: #F5F5F5;
-    border-radius: 15px;
-    opacity: 1;
+    padding: 30px calc(25px - 15px) 30px calc(25px - 15px);
 }
 
+
 .company-dashboard-chart-table-title {
-    padding: 5% 0 0 0;
-    font-size: 25px;
-    color: #007B53;
-    letter-spacing: 0px;
-    opacity: 1;
-    font-weight: 600;
+    padding: 5% 0 0 3%;
 }
 
 .company-dashboard-chart-table-sub-title {
     padding: calc(0px + 5%) 0 0 calc(5% + 0px);
-    color: #1E1E1E;
-    opacity: 1;
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.dashboard-widget-button {
-    width: 151px;
-    height: 42px;
-    background: #007B53 0% 0% no-repeat padding-box;
-    border-radius: 21px;
-    opacity: 1;
-    color: white;
 }
 
 @media (-webkit-device-pixel-ratio: 1.25) {
