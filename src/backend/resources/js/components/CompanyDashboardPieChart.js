@@ -293,7 +293,7 @@ const CompanyDashboardPieChart = () => {
               <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-2xl text-primary-600">
                 登録済従業員
               </div>
-              <div className="company-dashboard-chart-table-sub-title opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E">
+              <div className="pt-5 xl:pl-4 lg:pl-10 opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E">
                 勤怠記録
               </div>
               <table className="table-fixed border-collapse border border-slate-400 m-auto w-11/12 max-w-sm bg-white ">
@@ -337,7 +337,7 @@ const CompanyDashboardPieChart = () => {
               <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-2xl text-primary-600">
                 展開率
               </div>
-              <div className="company-dashboard-chart-table-sub-title pl-[calc(5%_-_0%)] pt-[calc(0%-5%)] opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E">
+              <div className="pt-5 xl:pl-4 lg:pl-10 opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E">
                 システムご利用予定人数
               </div>
               <table className="table-fixed border-collapse border border-slate-400 m-auto w-11/12 max-w-sm bg-white ">
