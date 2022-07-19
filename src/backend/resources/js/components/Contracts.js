@@ -91,10 +91,10 @@ const Contracts = () => {
   }, [pagingConditions])
 
   return (
-    <div className="bg-primaryBg grid lg:grid-cols-4 md:grid-cols-2 grid-flow-row lg:grid-rows-3 gap-6 mx-10 mt-5 font-meiryo">
+    <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-flow-row lg:grid-rows-3 gap-6 mx-10 mt-5 font-meiryo">
       <div className="col-span-3 row-span-2">
         <div
-          className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10"
+          className="w-full rounded-lg border overflow-hidden bg-white mb-10"
           style={{ 'min-height': '568px' }}
         >
           <div className="px-3 pt-3 pb-6">
@@ -152,7 +152,7 @@ const Contracts = () => {
 
         <div
           id="billing-pagination"
-          className="w-full h-12 p-3 text-center space-x-2 mt-3 col-span-3"
+          className="w-full h-12 text-center space-x-2 mt-3 col-span-3"
         >
           <Pagination
             listNumbers={state.pageNumbers}

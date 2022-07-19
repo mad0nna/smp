@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Ellipsis from '../../img/ellipsis.png'
-import spinner from '../../img/spinner.gif'
+import Ellipsis from '../../../../../img/ellipsis.png'
+import spinner from '../../../../../img/spinner.gif'
 
 const BillingHistory = () => {
   const [state, setState] = useState({

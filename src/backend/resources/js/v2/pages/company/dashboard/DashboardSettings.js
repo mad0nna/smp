@@ -1,5 +1,5 @@
 import React from 'react'
-import Ellipsis from './../../img/ellipsis.png'
+import Ellipsis from '../../../../../img/ellipsis.png'
 
 const DashboardSettings = () => {
   const buttons = [

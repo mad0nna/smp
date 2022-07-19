@@ -61,14 +61,16 @@ module.exports = {
           200: '#007B5366', // Changed To: tertiary-500
           300: '#387F6B',
           400: '#007B53CC',
-          500: '#065F46'
+          500: '#065F46',
+          600: '#007B53'
         },
         secondary: {
           100: '#17A8A433', // Change To: red-500
           200: '#17A8A466', // Change To: red-600
           300: '#17A8A499',
           400: '#17A8A4CC',
-          500: '#17A8A4' // From: 900, Changed To: teal-500
+          500: '#17A8A4', // From: 900, Changed To: teal-500
+          600: '#079591'
         },
         tertiary: {
           100: '#1D9E4833',
@@ -106,15 +108,26 @@ module.exports = {
           700: '#4D7C0F',
           800: '#3F6212'
         },
-        customGray: '#685D5E',
+        hex: {
+          '8EE9AB': '#8EE9AB',
+          'F5F5F5': '#F5F5F5',
+          '9E9E9E': '#9E9E9E',
+          'F7F8F9': '#F7F8F9',
+          '17A8A414': '#17A8A414',
+          '685D5E': '#685D5E',
+          '1E1E1E': '#1E1E1E',
+          '676565': '#676565',
+          'C4C4C4': '#C4C4C4'
+        },
         errorColor: '#DC2626',
         'table-header-Gray-100': '#ECECEC',
-        'table-header-Gray-400': '#A5A5A5'
+        'table-header-Gray-400': '#A5A5A5',
       },
       fontSize: {
         '2.5xl': ['1.75rem', { lineHeight: '2rem' }],
         xxs: ['0.60rem', { lineHeight: '.75rem' }],
-        'widget-xs': 10
+        'widget-xs': 10,
+        'dashboard-l': '1.813rem'
       },
       height: {
         'widgetBody-sm': 'calc(100% - 2.50rem)',

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Ellipsis from '../../img/ellipsis.png'
+import Ellipsis from '../../../../../img/ellipsis.png'
 import axios from 'axios'
-import spinner from '../../img/spinner.gif'
+import spinner from '../../../../../img/spinner.gif'
 
 const ServiceUsage = () => {
   const [state, setState] = useState({
