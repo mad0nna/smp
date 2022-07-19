@@ -181,6 +181,7 @@ const EmailSettings = () => {
       })
       .then((response) => {
         response = response.data
+        console.log(response.message)
         if (!response.status) {
           setState((prevState) => {
             return {

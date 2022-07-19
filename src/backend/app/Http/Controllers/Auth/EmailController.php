@@ -119,6 +119,7 @@ class EmailController extends Controller
                 $formData = [
                     'email' => $data['newEmail'] ?? '',
                     'username' => $data['newEmail'] ?? '',
+                    'invite_token' => '',
                 ];
 
                 if ($user->update($formData)) {
@@ -140,7 +141,7 @@ class EmailController extends Controller
             } else {
                 $this->response = [
                     'status' => false,
-                    'error' => 'メールアドレスを変更するためのリクエストトークンが見つかりません',
+                    'message' => 'メールアドレスを変更するリクエストトークンが見つかりません',
                     'code' => 200,
                 ];
             }
