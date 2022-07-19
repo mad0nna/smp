@@ -1,7 +1,7 @@
 @extends('layouts.v2.app')
 
 @section('navigation')
-    <div id="navigation">
+    <div id="navigation-admin">
     </div>
 @endsection
 

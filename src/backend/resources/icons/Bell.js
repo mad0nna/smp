@@ -2,15 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Bell = (props) => {
-  const { className = '', fill = '#757575' } = props
+  const { className } = props
 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      transform="rotate(20)"
       viewBox="0 0 24 24"
+      fill="#EF4444"
+      transform="rotate(20)"
       className={className}
-      fill={fill}
     >
       <path
         strokeLinecap="round"
@@ -23,8 +23,7 @@ const Bell = (props) => {
 }
 
 Bell.propTypes = {
-  className: PropTypes.string,
-  fill: PropTypes.string
+  className: PropTypes.string
 }
 
 export default Bell
