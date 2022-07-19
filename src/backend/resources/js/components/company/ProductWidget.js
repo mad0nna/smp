@@ -193,7 +193,7 @@ const ProductWidget = () => {
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}
                       >
-                        <span className="tracking-tighter drop-shadow-none">
+                        <span className="company-dashboard-product-widget-button-text tracking-tighter drop-shadow-none">
                           {' '}
                           ご購入はこちらから
                         </span>

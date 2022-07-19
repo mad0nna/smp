@@ -212,6 +212,10 @@ html {
     padding: calc(0px + 5%) 0 0 calc(5% + 0px);
 }
 
+.company-dashboard-product-widget-button-text {
+    text-shadow: none;
+}
+
 @media (-webkit-device-pixel-ratio: 1.25) {
     * {
       zoom: 0.99;
