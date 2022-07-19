@@ -31,7 +31,7 @@
             </div>
         @else
             <div class="col-span-full">
-                <div class="mt-40px mb-5 mx-11 rounded-xl bg-customGray100shadow-5x h-fit">
+                <div class="mt-50px mb-5 mx-11 border rounded-xl bg-white shadow-5x h-fit">
                     @yield('content')
                 </div>
             </div>
