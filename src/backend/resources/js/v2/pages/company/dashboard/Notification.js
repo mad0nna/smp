@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import Ellipsis from '../../img/ellipsis.png'
-import spinner from '../../img/spinner.gif'
+import Ellipsis from '../../../../../img/ellipsis.png'
+import spinner from '../../../../../img/spinner.gif'
 import axios from 'axios'
-import { NewsPaperIcon, CampaignIcon } from '../../icons'
+import { NewsPaperIcon, CampaignIcon } from '../../../../../icons'
 const Notification = (props) => {
   let iconTypes = {
     payment: <NewsPaperIcon />,

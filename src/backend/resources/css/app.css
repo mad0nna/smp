@@ -168,27 +168,6 @@ bg-shop-icon:hover {
     opacity: 0.6 !important;
 }
 
-.prod-widget-img-holder {
-    position: relative;
-    min-height: 165px;
-    min-width: 165px;
-    max-width: 165px;
-    max-height: 165px;
-    width: 100%;
-    overflow: hidden;
-}
-
-.prod-widget-img-holder img {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-}
-
-.prod-label {
-    width: 165px;
-}
-
 /* Scrollbar styles for webkit browsers */
 ::-webkit-scrollbar {
 	background-color: var(--bs-bg, #f8fafc);
@@ -217,4 +196,29 @@ html {
 
 .label-title {
     min-height: 50px;
+}
+
+
+.company-dashboard-chart-container {
+    padding: 30px calc(25px - 15px) 30px calc(25px - 15px);
+}
+
+
+.company-dashboard-chart-table-title {
+    padding: 5% 0 0 3%;
+}
+
+.company-dashboard-chart-table-sub-title {
+    padding: calc(0px + 5%) 0 0 calc(5% + 0px);
+}
+
+.company-dashboard-product-widget-button-text {
+    text-shadow: none;
+}
+
+@media (-webkit-device-pixel-ratio: 1.25) {
+    * {
+      zoom: 0.99;
+    }
+
 }

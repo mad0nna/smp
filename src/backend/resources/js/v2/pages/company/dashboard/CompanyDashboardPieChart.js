@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import Ellipsis from '../../img/ellipsis.png'
+import Ellipsis from '../../../../../img/ellipsis.png'
 import { Doughnut } from 'react-chartjs-2'
 // import spinner from '../../img/spinner.gif'
 
