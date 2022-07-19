@@ -295,6 +295,6 @@ const Dashboard = () => {
 Dashboard.displayName = 'Company Dashboard'
 export default Dashboard
 
-if (document.getElementById('dashboard')) {
-  ReactDOM.render(<Dashboard />, document.getElementById('dashboard'))
-}
+// if (document.getElementById('dashboard')) {
+//   ReactDOM.render(<Dashboard />, document.getElementById('dashboard'))
+// }
