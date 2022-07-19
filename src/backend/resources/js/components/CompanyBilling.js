@@ -275,8 +275,8 @@ const CompanyBilling = () => {
   return (
     <div className="relative mt-5">
       <div className="w-full h-full bg-white overflow-hidden">
-        <div className="px-3 pb-1">
-          <div className="w-full pb-1 border-b border-green-800 border-opacity-80">
+        <div className="px-3 pt-3 pb-10">
+          <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
             <h2 className="text-green-800 text-lg font-bold">請求履歴</h2>
           </div>
         </div>

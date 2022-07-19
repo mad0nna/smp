@@ -412,7 +412,7 @@ const ProductList = () => {
       <div className="md:col-span-1 lg:col-span-4">
         <div className="w-full overflow-hidden">
           <div className="px-3 pt-3 pb-2">
-            <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-2 items-center">
+            <div className="pb-2 border-opacity-80 flex space-x-2 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"
@@ -482,7 +482,7 @@ const ProductList = () => {
             <div></div>
           </div>
           <ShoppingCart />
-          <div className="p-7">
+          <div className="p-7 bg-white">
             <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6 overflow-auto">
               {state.data ? productItem(state.data || []) : ''}
             </div>

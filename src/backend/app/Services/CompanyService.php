@@ -34,7 +34,6 @@ class CompanyService
                 'numberOfSubscribers' => 0, // Get from Salesforce projected users
                 'numberOfActiveKOTUsers' => 0, // Get total registered users from KOT
             ];
-
             try {
                 $usageData['serviceUsageDate'] = $kotUsageData;
                 $usageData['numberOfSubscribers'] = $this->getNumberSubscribers($companyID);
