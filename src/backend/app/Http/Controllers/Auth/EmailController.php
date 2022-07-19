@@ -35,7 +35,7 @@ class EmailController extends Controller
             'errors' => [],
             'status' => false,
             'message' => '',
-            'code' => 200,
+            'code' => 500,
         ];
         foreach ($data as $key => $value) {
             if (empty($value)) {
@@ -59,19 +59,6 @@ class EmailController extends Controller
         }
 
         try {
-            $isExists = $this->userService->findByEmail($data['newEmail']);
-            if(!empty($isExists)) {
-                $this->response['message'] = 'SMPにすでに存在する電子メール';
-                return response()->json($this->response, $this->response['code']);                
-            }
-
-            $user = (new Contact)->findByEmailAndAccountId($data['newEmail'], Session::get('salesforceCompanyID'));
-            
-            if ($user) {
-                $this->response['message'] = '電子メールはすでにSalesforceに存在します。別のメールアドレスをご利用ください';
-                return response()->json($this->response, $this->response['code']);
-            } 
-
             $invite_token = Hash::make(time() . uniqid());
             $result = User::where('id' , $id)->update(
                 [
@@ -112,14 +99,13 @@ class EmailController extends Controller
                 $result = (new Contact)->update($salesforceData, $user->account_code);
                 
                 if (!$result['status']) {
-                    return response()->json($result, 200);
+                    return response()->json($result, 500);
                 }
 
                 // Update Data in Database
                 $formData = [
                     'email' => $data['newEmail'] ?? '',
                     'username' => $data['newEmail'] ?? '',
-                    'invite_token' => '',
                 ];
 
                 if ($user->update($formData)) {
@@ -135,14 +121,14 @@ class EmailController extends Controller
                 } else {
                     $this->response['message'] = 'データの更新中にエラーが発生しました';
                     $this->response['status'] = false;
-                    $this->response['code'] = 200;
+                    $this->response['code'] = 500;
                 }
 
             } else {
                 $this->response = [
                     'status' => false,
-                    'message' => 'メールアドレスを変更するリクエストトークンが見つかりません',
-                    'code' => 200,
+                    'error' => 'メールアドレスを変更するためのリクエストトークンが見つかりません',
+                    'code' => 500,
                 ];
             }
 
