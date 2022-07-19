@@ -91,7 +91,7 @@ const Contracts = () => {
   }, [pagingConditions])
 
   return (
-    <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-flow-row lg:grid-rows-3 gap-6 mx-10 mt-5 font-meiryo">
+    <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-flow-row lg:grid-rows-3 gap-6 mt-5 font-meiryo">
       <div className="col-span-3 row-span-2">
         <div
           className="w-full rounded-lg border overflow-hidden bg-white mb-10"
