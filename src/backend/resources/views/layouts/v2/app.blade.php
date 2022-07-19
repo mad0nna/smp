@@ -9,10 +9,11 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="shortcut icon" href="{{ asset('images/kotFabIcon.png') }}">
+
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Roboto:ital,wght@0,400;0,700;1,300&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -21,17 +22,25 @@
     @yield('navigation')
     <main class="grid grid-cols-12">
         @if(isset($withSidebar) && $withSidebar)
-            <div class="col-span-2">
+            @if(isset($sidebarColSpan))
+            <div class="col-span-12 md:col-span-{{$sidebarColSpan}}">
+            @else
+                <div class="col-span-2">
+            @endif
                 @yield('sidebar')
             </div>
-            <div class="col-span-10">
-                <div class="mt-50px mb-5 mx-11 border rounded-xl bg-white shadow-5x h-fit">
+            @if(isset($contentColSpan))
+                <div class="col-span-12 md:col-span-{{$contentColSpan}}">
+            @else
+                <div class="col-span-10">
+            @endif
+                <div class="mt-5 mb-5 mx-4 border rounded-xl bg-white border border-whiteTint-500 h-fit lg:mt-50px lg:mx-11">
                     @yield('content')
                 </div>
             </div>
         @else
             <div class="col-span-full">
-                <div class="mt-50px mb-5 mx-11 border rounded-xl bg-white shadow-5x h-fit">
+                <div class="mt-50px mb-5 mx-11 border border-whiteTint-500 rounded-xl bg-white h-fit">
                     @yield('content')
                 </div>
             </div>

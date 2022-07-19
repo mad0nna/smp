@@ -266,7 +266,7 @@ const AccountList = (props) => {
         >
           <div>
             <img src={BillingIcon} className="w-auto h-7 float-left ml-4" />
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2 border-opacity-80">
               <h2 className="text-green-800 text-lg font-bold">顧客企業一覧</h2>
             </div>
             <div id="widget-name" className="float-right mr-12">
