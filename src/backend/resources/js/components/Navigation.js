@@ -289,7 +289,7 @@ const Navigation = () => {
         <li
           key={i}
           className={`sm:ml-0 md:ml-20 md:my-auto hover:text-primary-400 min-h-3.5 ${
-            active === nav.id ? 'text-primary-400' : 'text-body-700'
+            active === nav.id ? 'text-primary-500' : 'text-body-700'
           }`}
           onClick={() => setActive(nav.id)}
         >
