@@ -273,10 +273,10 @@ const CompanyBilling = () => {
   )
 
   return (
-    <div className="relative px-10 mt-5 bg-primaryBg">
-      <div className="w-full h-full bg-white overflow-hidden rounded-lg shadow-xl">
-        <div className="px-3 pt-3 pb-1">
-          <div className="w-full pb-2 border-opacity-80">
+    <div className="relative mt-5">
+      <div className="w-full h-full bg-white overflow-hidden">
+        <div className="px-3 pb-1">
+          <div className="w-full pb-1 border-b border-green-800 border-opacity-80">
             <h2 className="text-green-800 text-lg font-bold">請求履歴</h2>
           </div>
         </div>
@@ -416,22 +416,11 @@ const CompanyBilling = () => {
           </table>
         </div>
       </div>
-      <div
-        id="pagination"
-        className="w-full h-12 p-3 text-center space-x-2 mt-4"
-      >
+      <div id="pagination" className="w-full h-12 text-center space-x-2 my-3">
         <div>
-          {/* <img
-            src="/images/pagination-prev.png?1ac337e7f7bfaacab64ea9a2369b5930"
-            className=" inline-block  w-8 h-auto mr-1"
-          /> */}
           <div className="inline-block text-tertiary-500">
             <ul id="page-numbers">{pageNumbers}</ul>
           </div>
-          {/* <img
-            src="/images/pagination-next.png?831991390ac360b1b03a00cdcd915ec5"
-            className=" inline-block  w-8 h-auto ml-1"
-          /> */}
         </div>
       </div>
     </div>

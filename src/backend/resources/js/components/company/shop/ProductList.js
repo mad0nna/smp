@@ -408,9 +408,9 @@ const ProductList = () => {
   }
 
   return (
-    <div className="bg-primaryBg grid lg:grid-cols-4 md:grid-cols-1 gap-6 mx-10 mt-5 font-meiryo">
-      <div className="md:col-span-1 lg:col-span-4 pb-5">
-        <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
+    <div className="grid lg:grid-cols-4 md:grid-cols-1 gap-6 font-meiryo">
+      <div className="md:col-span-1 lg:col-span-4">
+        <div className="w-full overflow-hidden">
           <div className="px-3 pt-3 pb-2">
             <div className="pb-2 border-opacity-80 flex space-x-2 items-center">
               <svg
@@ -490,7 +490,7 @@ const ProductList = () => {
         </div>
         <div
           id="production-pagination"
-          className="w-full h-12 p-3 text-center space-x-2 mt-3 col-span-3"
+          className="w-full h-12 text-center my-3 space-x-2 col-span-3"
         >
           <Pagination
             listNumbers={state.pageNumbers}
