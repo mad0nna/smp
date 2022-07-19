@@ -356,7 +356,7 @@ const ProductDetail = (props) => {
       <div className=" pb-5">
         <div className="w-full overflow-hidden">
           <div className="px-3 pt-3 pb-6">
-            <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-2 items-center">
+            <div className="pb-2 flex space-x-2 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"

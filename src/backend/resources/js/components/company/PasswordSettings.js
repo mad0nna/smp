@@ -205,7 +205,7 @@ const PasswordSettings = () => {
       <SettingSideNav />
       <div className="bg-white rounded-lg my-10 w-8/12 mx-auto col-span-5">
         <div className="p-3 pb-6">
-          <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+          <div className="w-full pb-2">
             <h2 className="text-green-800 text-lg font-bold">パスワード変更</h2>
           </div>
           <div className="text-center">

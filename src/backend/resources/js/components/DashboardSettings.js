@@ -29,7 +29,7 @@ const DashboardSettings = () => {
           className="relative box-border pt-3 pl-3 pr-3 pb-7"
         >
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">
                 クイックリンク
               </h2>

@@ -45,7 +45,7 @@ const PurchaseHistory = (props) => {
       <div className="w-full h-full overflow-hidden relative bg-white rounded-lg shadow-xl pt-3 px-3">
         <div id="widget-header" className="bg-white relative box-border">
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">購入履歴</h2>
             </div>
           </div>
