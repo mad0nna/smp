@@ -475,7 +475,7 @@ const CompanyProfile = () => {
     <div className="grid grid-cols-5 w-full gap-6 mx-10">
       <div className="col-span-3 bg-white rounded-lg shadow-xl px-3">
         <div className="pt-3 pb-6">
-          <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+          <div className="w-full pb-2">
             <h2 className="text-green-800 text-lg font-bold">
               企業プロフィール
             </h2>
@@ -937,7 +937,7 @@ const CompanyProfile = () => {
       <div className="col-span-2 gap-6 flex flex-col justify-between">
         <div className="bg-white rounded-lg shadow-xl px-3">
           <div className="pt-3 pb-6">
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">
                 KOT インフォメーション
               </h2>
@@ -982,7 +982,7 @@ const CompanyProfile = () => {
         </div>
         <div className="bg-white rounded-lg shadow-xl px-3 flex-grow">
           <div className="pt-3 pb-6">
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">
                 Zendesk インフォメーション
               </h2>

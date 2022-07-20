@@ -277,7 +277,7 @@ const CompanyDashboardPieChart = () => {
           className="h-widgetBody-sm w-full bg-white px-3 flex flex-col gap-3"
         >
           <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-y-8 gap-x-8">
-            <div className="company-dashboard-chart-container opacity-100 rounded-2xl bg-hex-F5F5F5">
+            <div className="company-dashboard-chart-container opacity-100 rounded-15px bg-hex-F5F5F5">
               <div className="grid place-items-center">
                 <Doughnut
                   data={state.record1}
@@ -318,7 +318,7 @@ const CompanyDashboardPieChart = () => {
                 </div>
               </div>
             </div>
-            <div className="company-dashboard-chart-container opacity-100 rounded-2xl bg-hex-F5F5F5">
+            <div className="company-dashboard-chart-container opacity-100 rounded-15px bg-hex-F5F5F5">
               <div className="grid place-items-center">
                 <Doughnut
                   data={state.record2}
