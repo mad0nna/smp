@@ -115,7 +115,8 @@ module.exports = {
         '14px': 14,
         '20px': 20,
         '22px': 22,
-        '23px': 23
+        '23px': 23,
+        '28px': 28
         // endregion
       },
       height: {
@@ -135,7 +136,7 @@ module.exports = {
         '51px': 51,
         '58px': 58,
         '130px': 130,
-        '282px': 282
+        '282px': 282,
         // endregion
       },
       width: {
@@ -151,9 +152,11 @@ module.exports = {
         '143px': 143,
         '165px': 165,
         '202px': 202,
+        '271px': 271,
         '251px': 251,
         '318px': 318,
         '322px': 322,
+        '349px': 349,
         '432px': 432,
         '590px': 590
         //endregion

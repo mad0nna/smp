@@ -39,14 +39,14 @@ const BillingHistory = () => {
 
   return (
     <div className="w-full h-full relative group">
-      <div className="dashboard-widget-list overflow-hidden w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
+      <div className="dashboard-widget-list overflow-hidden w-full h-full relative bg-white rounded-lg pt-3 px-3">
         <div id="widget-header" className="bg-white relative box-border">
           <div>
             <div className="flex flex-row justify-between w-full">
               <div>
-                <h2 className="text-green-800 text-lg font-bold pb-9">
+                <span className="text-green-800 text-28px font-bold pb-9 opacity-100">
                   請求書
-                </h2>
+                </span>
               </div>
             </div>
           </div>

@@ -23,16 +23,16 @@ const DashboardSettings = () => {
 
   return (
     <div className="w-full h-full relative group overflow-hidden">
-      <div className="relative gap-3 bg-white rounded-lg shadow-xl w-full h-full border pb-2">
+      <div className="relative gap-3 bg-white rounded-lg w-full h-full border pb-2">
         <div
           id="widget-header"
           className="relative box-border pt-3 pl-3 pr-3 pb-7"
         >
           <div>
             <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
-              <h2 className="text-green-800 text-lg font-bold">
+              <span className="text-green-800 text-28px font-bold opacity-100">
                 クイックリンク
-              </h2>
+              </span>
             </div>
           </div>
           <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">

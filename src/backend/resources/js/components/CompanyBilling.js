@@ -352,7 +352,7 @@ const CompanyBilling = () => {
           className="h-50 w-full bg-white overflow-hidden px-3"
         >
           <table className="table-auto w-full h-auto text-center mb-6">
-            <thead className="bg-gray-50 border-b border-t border-gray-200">
+            <thead className="bg-whiteTint-500 border-b border-t border-gray-200">
               <tr className="h-11 text-xs text-gray-500 text-shadow-none">
                 <th>請求書番号</th>
                 {/* <th>請求書名</th> */}

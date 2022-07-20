@@ -143,7 +143,9 @@ const ProductWidget = () => {
         >
           <div>
             <div className="w-full pb-2">
-              <h2 className="text-green-800 text-lg font-bold">ショップ</h2>
+              <span className="text-green-800 text-28px font-bold opacity-100">
+                ショップ
+              </span>
             </div>
           </div>
           <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
@@ -189,11 +191,11 @@ const ProductWidget = () => {
                     <div className="pl-2 pt-3 pb-2 text-center font-bold text-hex-1E1E1E text-lg">
                       {prodPrice} 円
                     </div>
-                    <div className="pl-2 text-center text-lg p-3 rounded-3xl tracking-tighter m-auto w-64 opacity-100 text-hex-007B53 bg-hex-8EE9AB ">
+                    <div className="mx-auto text-center text-sm bg-hex-8EE9AB opacity-100 rounded-3xl py-1.5 w-271px">
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}
                       >
-                        <span className="company-dashboard-product-widget-button-text tracking-tighter drop-shadow-none">
+                        <span className="company-dashboard-product-widget-button-text text-hex-007B53 tracking-tighter drop-shadow-none">
                           {' '}
                           ご購入はこちらから
                         </span>

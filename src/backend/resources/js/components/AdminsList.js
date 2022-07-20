@@ -42,7 +42,7 @@ const AdminsList = (props) => {
 
   return (
     <table className="table-auto w-full mb-6">
-      <thead className="bg-gray-50 border-b border-t border-gray-200">
+      <thead className="bg-whiteTint-500 border-b border-t border-gray-200">
         <tr className="h-11 text-xs text-gray-500 text-shadow-none">
           <th>
             <span id="fullName" onClick={() => sortArray('first_name')}>
