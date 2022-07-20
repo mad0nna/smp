@@ -368,7 +368,7 @@ const InvoiceTemplateDetails = () => {
             <InvoiceTemplateDetailTable />
           </div>
           <div
-            className={'bg-gray-100 ' + (state.tab === 2 ? '' : 'hidden')}
+            className={'bg-whiteTint-500 ' + (state.tab === 2 ? '' : 'hidden')}
             style={minheightCompanyList}
           >
             <div className="w-3/5 block text-center mx-auto">

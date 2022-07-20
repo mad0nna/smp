@@ -104,7 +104,7 @@ const Contracts = () => {
           </div>
           <div className="px-3">
             <table className="table-auto w-full mb-6">
-              <thead className="bg-gray-50 border-b border-t border-gray-200">
+              <thead className="bg-whiteTint-500 border-b border-t border-gray-200">
                 <tr className="h-11 text-xs text-gray-500 text-shadow-none">
                   <th>プロダクト</th>
                   <th>KoT申込日</th>

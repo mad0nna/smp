@@ -52,16 +52,16 @@ const ServiceUsage = () => {
 
   return (
     <div className="h-full w-full relative group">
-      <div className="dashboard-widget-list w-full h-full overflow-hidden relative bg-white rounded-lg shadow-xl">
+      <div className="dashboard-widget-list w-full h-full overflow-hidden relative bg-white rounded-lg">
         <div
           id="widget-header"
           className="bg-white box-border p-3 pb-6 relative"
         >
           <div>
             <div className="w-full pb-1">
-              <h2 className="text-green-800 text-lg font-bold">
+              <span className="text-green-800 text-28px font-bold opacity-100">
                 サービス利用日
-              </h2>
+              </span>
             </div>
           </div>
           <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">

@@ -256,16 +256,16 @@ const CompanyDashboardPieChart = () => {
   }, [])
   return (
     <div className="w-full h-full relative group">
-      <div className="w-full h-full overflow-hidden relative bg-white rounded-lg shadow-xl">
+      <div className="w-full h-full overflow-hidden relative bg-white rounded-lg">
         <div
           id="widget-header"
           className="bg-white relative box-border p-3 pb-6"
         >
           <div>
             <div className="w-full pb-2">
-              <h2 className="text-green-800 text-lg font-bold">
+              <span className="text-green-800 text-lg font-bold text-28px opacity-100">
                 サービス利用状況
-              </h2>
+              </span>
             </div>
           </div>
           <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
@@ -290,36 +290,33 @@ const CompanyDashboardPieChart = () => {
                   plugins={state.record1.plugins}
                 />
               </div>
-              <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-2xl text-hex-007B53">
+              <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-xl text-hex-007B53">
                 登録済従業員
               </div>
-              <div className="pt-5 xl:pl-4 lg:pl-10 opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E">
-                勤怠記録
+
+              <div className="m-auto w-11/12 max-w-sm  w-349px">
+                <div className="pt-5 opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E bg-transparent">
+                  勤怠記録
+                </div>
+                <div className="bg-white">
+                  <div className="rounded-t-md border-t border-l border-r border-hex-C4C4C4 px-2.5 py-1.5">
+                    <span className="font-bold text-3xl">
+                      {state.numberOfEmployees}
+                    </span>
+                    <span className="text-hex-676565 tracking-tighter opacity-100 text-lg pl-2">
+                      人のうち
+                    </span>
+                  </div>
+                  <div className="rounded-b-md border-b  border-t border-l border-r border-hex-C4C4C4 px-2.5 py-1.5">
+                    <span className="font-bold text-3xl">
+                      {state.numberOfActiveKOTUsers}
+                    </span>
+                    <span className="text-hex-676565 tracking-tighter opacity-100 text-lg pl-2">
+                      人が打刻済み
+                    </span>
+                  </div>
+                </div>
               </div>
-              <table className="table-fixed border-collapse border border-slate-400 m-auto w-11/12 max-w-sm bg-white ">
-                <tbody>
-                  <tr>
-                    <td className="border border-slate-300 h-9 rounded-md border-hex-C4C4C4 px-2.5 py-1.5">
-                      <span className="font-bold text-3xl">
-                        {state.numberOfEmployees}
-                      </span>{' '}
-                      <span className="text-hex-676565 tracking-tighter opacity-100 text-lg">
-                        人のうち
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border border-slate-300 h-9 rounded-md border-hex-C4C4C4 px-2.5 py-1.5">
-                      <span className="font-bold text-3xl">
-                        {state.numberOfActiveKOTUsers}
-                      </span>{' '}
-                      <span className="text-hex-676565 tracking-tighter opacity-100 text-lg">
-                        人が打刻済み
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
             <div className="company-dashboard-chart-container opacity-100 rounded-2xl bg-hex-F5F5F5">
               <div className="grid place-items-center">
@@ -334,36 +331,32 @@ const CompanyDashboardPieChart = () => {
                   plugins={state.record2.plugins}
                 />
               </div>
-              <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-2xl text-hex-007B53">
+              <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-xl text-hex-007B53">
                 展開率
               </div>
-              <div className="pt-5 xl:pl-4 lg:pl-10 opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E">
-                システムご利用予定人数
+              <div className="m-auto w-11/12 max-w-sm w-349px">
+                <div className="pt-5 opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E">
+                  システムご利用予定人数
+                </div>
+                <div className="bg-white">
+                  <div className="rounded-t-md border-t border-l border-r border-hex-C4C4C4 px-2.5 py-1.5">
+                    <span className="font-bold text-3xl">
+                      {state.numberOfEmployees}
+                    </span>
+                    <span className="text-hex-676565 tracking-tighter opacity-100 text-lg pl-2">
+                      人のうち
+                    </span>
+                  </div>
+                  <div className="rounded-b-md border-b  border-t border-l border-r border-hex-C4C4C4 px-2.5 py-1.5">
+                    <span className="font-bold text-3xl">
+                      {state.numberOfSubscribers}
+                    </span>
+                    <span className="text-hex-676565 tracking-tighter opacity-100 text-lg pl-2">
+                      人が打刻済み
+                    </span>
+                  </div>
+                </div>
               </div>
-              <table className="table-fixed border-collapse border border-slate-400 m-auto w-11/12 max-w-sm bg-white ">
-                <tbody>
-                  <tr>
-                    <td className="border border-slate-300 h-9 rounded-md border-hex-C4C4C4 px-2.5 py-1.5">
-                      <span className="font-bold text-3xl">
-                        {state.numberOfEmployees}
-                      </span>{' '}
-                      <span className="text-hex-676565 tracking-tighter opacity-100 text-lg pl-1">
-                        人のうち{' '}
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border border-slate-300 h-9 rounded-md border-hex-C4C4C4 px-2.5 py-1.5">
-                      <span className="font-bold text-3xl">
-                        {state.numberOfSubscribers}
-                      </span>{' '}
-                      <span className="text-hex-676565 tracking-tighter opacity-100 text-lg">
-                        人が打刻済み{' '}
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </div>
