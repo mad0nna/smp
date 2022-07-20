@@ -39,7 +39,7 @@ const BillingHistory = () => {
 
   return (
     <div className="w-full h-full relative group">
-      <div className="dashboard-widget-list overflow-hidden w-full h-full relative bg-white rounded-lg pt-3 px-3">
+      <div className="dashboard-widget-list overflow-hidden w-full h-full relative bg-white rounded-lg pt-3 px-3 border border-hex-ECEEF1">
         <div id="widget-header" className="bg-white relative box-border">
           <div>
             <div className="flex flex-row justify-between w-full">

@@ -95,7 +95,7 @@ const Notification = (props) => {
     : 'py-3 h-20 p-3 px-3'
   return (
     <div className="w-full h-full relative group ">
-      <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg pt-3 pb-8 px-3">
+      <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg pt-3 pb-8 px-3 border border-hex-ECEEF1">
         <div id="widget-header" className="bg-white relative box-border">
           <div>
             <div className="w-full pb-2">
