@@ -122,6 +122,7 @@ const EmailSettings = () => {
         response = response.data
         if (!response.status) {
           _errorMessages = errorMessages
+          _errorMessages['hasError'] = true
           for (const key in response.errors) {
             _errorMessages[key] = response.errors[key]
             _errorMessages['hasError'] = hasError
@@ -197,6 +198,12 @@ const EmailSettings = () => {
       .then((response) => {
         response = response.data
         if (!response.status) {
+          setErrorMessages((prevState) => {
+            return {
+              ...prevState,
+              hasError: true
+            }
+          })
           setState((prevState) => {
             return {
               ...prevState,
