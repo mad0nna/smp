@@ -54,6 +54,10 @@ const EmailSettings = () => {
           } else if (!emailRegex.test(state.newEmail)) {
             errorMessage = '有効なメールアドレスを入力してください'
             hasError = true
+          } else if (state.enteredCurrentEmail === state.newEmail) {
+            errorMessage =
+              '新しいメールアドレスは現在のメールアドレスと同じです。'
+            hasError = true
           }
           break
         case 'newEmail2':
@@ -78,10 +82,6 @@ const EmailSettings = () => {
             hasError = true
           } else if (state.enteredCurrentEmail !== state.currentEmail) {
             errorMessage = '入力した現在のメールアドレスが正しくありません'
-            hasError = true
-          } else if (state.enteredCurrentEmail === state.newEmail) {
-            errorMessage =
-              '新しいメールアドレスは現在のメールアドレスと同じです。'
             hasError = true
           }
           break
@@ -157,6 +157,21 @@ const EmailSettings = () => {
         for (let x = 0; x < elements.length; x++) {
           elements[x].value = ''
         }
+      })
+      .catch(() => {
+        setErrorMessages((prevState) => {
+          return {
+            ...prevState,
+            hasError: true
+          }
+        })
+        setState((prevState) => {
+          return {
+            ...prevState,
+            isLoading: false,
+            message: 'リクエスト中にエラーが発生しました'
+          }
+        })
       })
   }
 
@@ -268,7 +283,7 @@ const EmailSettings = () => {
       <SettingSideNav />
       <div className="bg-white rounded-lg my-10 w-8/12 mx-auto col-span-5 ">
         <div className="p-3 pb-6">
-          <div className="w-full pb-2">
+          <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
             <h2 className="text-green-800 text-lg font-bold">メールアドレス</h2>
           </div>
           <div className="text-center">
@@ -365,7 +380,10 @@ const EmailSettings = () => {
                 <h1
                   className={
                     (state.message !== '' ? '' : 'hidden') +
-                    ' text-green-700 mb-3 text-lg w-full px-3 leading-8 font-medium'
+                    ' mb-3 text-lg w-full px-3 leading-8 font-medium' +
+                    (errorMessages.hasError
+                      ? ' text-red-600'
+                      : ' text-green-700')
                   }
                 >
                   {state.message}
