@@ -313,6 +313,15 @@ const PasswordSettings = () => {
                   {state.message}
                 </h1>
                 <button
+                  className=" bg-tertiary-500 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm w-32 h-12"
+                  onClick={() => {
+                    history.back()
+                  }}
+                >
+                  <img className="inline mr-2" />
+                  キャンセル
+                </button>
+                <button
                   onClick={handleChangePassword}
                   className={
                     (errorMessages.hasError
@@ -329,15 +338,6 @@ const PasswordSettings = () => {
                     }
                   />
                   変更
-                </button>
-                <button
-                  className=" bg-tertiary-500 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm w-32 h-12"
-                  onClick={() => {
-                    history.back()
-                  }}
-                >
-                  <img className="inline mr-2" />
-                  キャンセル
                 </button>
               </div>
             </div>
