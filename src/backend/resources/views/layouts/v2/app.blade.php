@@ -43,7 +43,7 @@
                 @yield('content')
             @else
             <div class="col-span-full bg-hex-F7F8F9">
-                <div class="mt-50px mb-5 mx-11 rounded-xl bg-hex-F7F8F9 h-fit">
+                <div class="mt-50px mb-5 mx-11 border border-whiteTint-500 rounded-xl bg-white h-fit">
                     @yield('content')
                 </div>
             </div>
