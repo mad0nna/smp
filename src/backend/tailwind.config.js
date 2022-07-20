@@ -219,7 +219,8 @@ module.exports = {
         '3px': 3,
         '8px': 8,
         '9px': 9,
-        '10px': 10
+        '10px': 10,
+        '20px': 20
       },
       borderWidth: {
         '3px': 3
