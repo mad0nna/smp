@@ -6,6 +6,7 @@ import MessageDialog from './MessageDialog'
 import ConfirmTransferAuthority from './admin/company/ConfirmDialog'
 
 const AccountProfileEdit = () => {
+  let userData = JSON.parse(document.getElementById('userData').textContent)
   const [state, setState] = useState({
     mode: 'view',
     account: {
@@ -18,7 +19,8 @@ const AccountProfileEdit = () => {
       email: '',
       userTypeId: '',
       changeRole: false,
-      admin__c: ''
+      admin__c: '',
+      id: ''
     },
     showPopupMessageDialog: false,
     popUpConfirmMessage: '',
@@ -36,7 +38,8 @@ const AccountProfileEdit = () => {
     reload: true,
     errors: [],
     errorMessages: {},
-    currentUserId: ''
+    currentUserId: '',
+    userData: userData
   })
 
   const validate = (fields) => {
@@ -285,7 +288,8 @@ const AccountProfileEdit = () => {
               email: data.email,
               userTypeId: data.user_type_id,
               account_code: data.account_code,
-              changeRole: false
+              changeRole: false,
+              id: id
             },
             dataEmpty: false,
             isEditingProfile: data.canEdit,
@@ -318,7 +322,7 @@ const AccountProfileEdit = () => {
       <div className="bg-primaryBg grid grid-cols-3 font-meiryo gap-6">
         <div className="col-span-3 w-full rounded-lg bg-white border-lightGreen">
           <div className="px-3 pt-3 pb-10">
-            <div className="w-full pb-2">
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
               <h2 className="text-green-800 text-lg font-bold">
                 ユーザープロフィール
               </h2>
@@ -518,7 +522,11 @@ const AccountProfileEdit = () => {
                           <a
                             href={`/company/setting/email`}
                             className={
-                              state.account.userTypeId === 4 ? `` : `hidden`
+                              parseInt(state.currentUserId) ===
+                                parseInt(state.userData.userId) &&
+                              state.account.userTypeId === 4
+                                ? ``
+                                : `hidden`
                             }
                           >
                             <svg

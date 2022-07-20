@@ -475,7 +475,7 @@ const CompanyProfile = () => {
     <div className="grid grid-cols-5 w-full gap-6 mx-10">
       <div className="col-span-3 bg-white rounded-lg shadow-xl px-3">
         <div className="pt-3 pb-6">
-          <div className="w-full pb-2">
+          <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
             <h2 className="text-green-800 text-lg font-bold">
               企業プロフィール
             </h2>
@@ -483,7 +483,7 @@ const CompanyProfile = () => {
         </div>
         <div className="mb-6">
           <div className="">
-            <div className="flex flex-wrap gap-0 w-full justify-start items-center">
+            <div className="flex flex-wrap gap-0 w-full justify-start">
               <div
                 className={
                   (state.isEditingProfile
@@ -492,7 +492,7 @@ const CompanyProfile = () => {
                   'flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center'
                 }
               >
-                <div className="md:mb-0 md:w-1/3 label-title">
+                <div className="md:mb-0 md:w-1/3 min-h-full">
                   <label className="text-sm text-gray-400">
                     会社名
                     <span className="text-red-500">*</span>
@@ -528,8 +528,6 @@ const CompanyProfile = () => {
                   </label>
                 </div>
               </div>
-            </div>
-            <div className="flex flex-wrap gap-0 w-full justify-start">
               <div
                 className={
                   (state.isEditingProfile
@@ -726,14 +724,14 @@ const CompanyProfile = () => {
                   'flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center'
                 }
               >
-                <div className="md:mb-0 md:w-1/3">
+                <div className="md:mb-0 md:w-1/3 min-h-full">
                   <label className="text-sm text-gray-400">ウェブサイト</label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
                   <label
                     className={
                       (state.isEditingProfile ? 'hidden' : '') +
-                      ' text-sm text-black w-full h-8 px-3 leading-8'
+                      ' text-sm text-black w-full px-3 leading-8'
                     }
                   >
                     {state.companyDetails.Website}
@@ -760,7 +758,7 @@ const CompanyProfile = () => {
                   'flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center'
                 }
               >
-                <div className="md:mb-0 md:w-1/3">
+                <div className="md:mb-0 md:w-1/3 min-h-full">
                   <label className="text-sm text-gray-400">業種</label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
@@ -775,7 +773,7 @@ const CompanyProfile = () => {
                   <input
                     className={
                       (state.isEditingProfile ? '' : 'hidden') +
-                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
+                      ' text-sm w-full px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                     }
                     type="textarea"
                     value={state.companyEditValues.Industry}
@@ -794,7 +792,7 @@ const CompanyProfile = () => {
                   'flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center'
                 }
               >
-                <div className="md:mb-0 md:w-1/3">
+                <div className="md:mb-0 md:w-1/3 min-h-full">
                   <label className="text-sm text-gray-400">
                     連絡サポート担当者名<span className="text-red-500">*</span>
                   </label>
@@ -803,7 +801,7 @@ const CompanyProfile = () => {
                   <label
                     className={
                       (state.isEditingProfile ? 'hidden' : '') +
-                      ' text-sm text-black w-full h-8 px-3 leading-8'
+                      ' text-sm text-black w-full leading-8 min-h-full'
                     }
                   >
                     <div className="px-3 flex flex-wrap">
@@ -827,7 +825,7 @@ const CompanyProfile = () => {
                     <label
                       className={
                         (_.includes(state.errors, 'LastName') ? '' : 'hidden') +
-                        ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
+                        ' text-sm text-black w-full leading-8 text-red-600 min-h-full'
                       }
                     >
                       {state.errorMessages['LastName']}
@@ -866,16 +864,18 @@ const CompanyProfile = () => {
                   'flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center'
                 }
               >
-                <div className="md:mb-0 md:w-1/3">
+                <div className="md:mb-0 md:w-1/3 min-h-full">
                   <label className="text-sm text-gray-400">
                     連絡サポート担当者メールアドレス
                   </label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
                   <label
-                    className={'text-sm text-black w-full h-8 px-3 leading-8'}
+                    className={'text-sm text-black w-full leading-8 min-h-full'}
                   >
-                    {state.adminDetails.Email}
+                    <div className="px-3 flex flex-wrap">
+                      {state.adminDetails.Email}
+                    </div>
                   </label>
                 </div>
               </div>
@@ -888,7 +888,7 @@ const CompanyProfile = () => {
                   'flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center'
                 }
               >
-                <div className="md:mb-0 md:w-1/3">
+                <div className="md:mb-0 md:w-1/3 min-h-full">
                   <label className="text-sm text-gray-400">
                     連絡サポート担当者電話番号
                     {/* <span className="text-red-500">*</span> */}
@@ -898,10 +898,12 @@ const CompanyProfile = () => {
                   <label
                     className={
                       (state.isEditingProfile ? 'hidden' : '') +
-                      ' text-sm text-black w-full h-8 px-3 leading-8'
+                      ' text-sm text-black w-full leading-8'
                     }
                   >
-                    {state.adminDetails.MobilePhone}
+                    <div className="px-3 flex flex-wrap">
+                      {state.adminDetails.MobilePhone}
+                    </div>
                   </label>
                   <input
                     type="text"
@@ -935,7 +937,7 @@ const CompanyProfile = () => {
       <div className="col-span-2 gap-6 flex flex-col justify-between">
         <div className="bg-white rounded-lg shadow-xl px-3">
           <div className="pt-3 pb-6">
-            <div className="w-full pb-2">
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
               <h2 className="text-green-800 text-lg font-bold">
                 KOT インフォメーション
               </h2>
@@ -980,7 +982,7 @@ const CompanyProfile = () => {
         </div>
         <div className="bg-white rounded-lg shadow-xl px-3 flex-grow">
           <div className="pt-3 pb-6">
-            <div className="w-full pb-2">
+            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
               <h2 className="text-green-800 text-lg font-bold">
                 Zendesk インフォメーション
               </h2>
