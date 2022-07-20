@@ -194,11 +194,6 @@ html {
     -webkit-line-clamp: 2;
 }
 
-.label-title {
-    min-height: 50px;
-}
-
-
 .company-dashboard-chart-container {
     padding: 30px calc(25px - 15px) 30px calc(25px - 15px);
 }
