@@ -256,7 +256,7 @@ const CompanyDashboardPieChart = () => {
   }, [])
   return (
     <div className="w-full h-full relative group">
-      <div className="w-full h-full overflow-hidden relative bg-white rounded-lg">
+      <div className="w-full h-full overflow-hidden relative bg-white rounded-20px border border-whiteTint-500">
         <div
           id="widget-header"
           className="bg-white relative box-border p-3 pb-6"

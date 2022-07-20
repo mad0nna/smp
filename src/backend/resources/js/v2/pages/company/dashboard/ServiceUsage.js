@@ -52,7 +52,7 @@ const ServiceUsage = () => {
 
   return (
     <div className="h-full w-full relative group">
-      <div className="dashboard-widget-list w-full h-full overflow-hidden relative bg-white rounded-lg">
+      <div className="dashboard-widget-list w-full h-full overflow-hidden relative bg-white rounded-20px border border-whiteTint-500">
         <div
           id="widget-header"
           className="bg-white box-border p-3 pb-6 relative"
