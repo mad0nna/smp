@@ -482,7 +482,7 @@ const ProductList = () => {
             <div></div>
           </div>
           <ShoppingCart />
-          <div className="p-7">
+          <div className="p-7 bg-white">
             <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6 overflow-auto">
               {state.data ? productItem(state.data || []) : ''}
             </div>

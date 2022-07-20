@@ -45,7 +45,15 @@ module.exports = {
           '3A3A3A': '#3A3A3A',
           '7ECBB2': '#7ECBB2',
           '9D9D9D': '#9D9D9D',
-          '2D2D2D': '#2D2D2D'
+          '2D2D2D': '#2D2D2D',
+          '8EE9AB': '#8EE9AB',
+          '9E9E9E': '#9E9E9E',
+          'F7F8F9': '#F7F8F9',
+          '17A8A414': '#17A8A414',
+          '685D5E': '#685D5E',
+          '1E1E1E': '#1E1E1E',
+          '676565': '#676565',
+          'C4C4C4': '#C4C4C4'
         },
         // endregion
         primary: {
@@ -96,7 +104,7 @@ module.exports = {
         },
         errorColor: '#DC2626',
         'table-header-Gray-100': '#ECECEC',
-        'table-header-Gray-400': '#A5A5A5'
+        'table-header-Gray-400': '#A5A5A5',
       },
       fontSize: {
         '2.5xl': ['1.75rem', { lineHeight: '2rem' }],
