@@ -230,7 +230,7 @@ const AccountList = () => {
       <div className="bg-primaryBg grid grid-cols-3 font-meiryo gap-6">
         <div className="col-span-3 w-full rounded-lg bg-white border-lightGreen">
           <div className="px-3 pt-3 pb-10">
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">
                 ユーザーアカウント一覧
               </h2>

@@ -26,7 +26,7 @@ const AdminKotServiceUsage = () => {
       >
         <div id="widget-header" className="box-border p-3 pb-6">
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">システム利用</h2>
             </div>
           </div>

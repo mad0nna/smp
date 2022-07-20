@@ -954,7 +954,7 @@ const CartList = () => {
       <div className="md:col-span-1 lg:col-span-3">
         <div className="w-full overflow-hidden">
           <div className="px-3 pt-3 pb-6">
-            <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-4 items-center">
+            <div className="pb-2 flex space-x-4 items-center">
               <div className="bg-cart-icon h-10 w-8"></div>
               <h2 className="text-green-700 text-lg font-bold">カート</h2>
             </div>
