@@ -180,8 +180,7 @@ const ProductWidget = () => {
                       >
                         <img
                           className="mx-auto p-4 w-56 h-auto bg-transparent"
-                          // src={`${state.img_domain}/${item.media['media.preview']}`}
-                          src="https://idaten.local/images/printer1.png"
+                          src={`${state.img_domain}/${item.media['media.preview']}`}
                         ></img>
                       </a>
                     </div>
