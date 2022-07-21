@@ -82,8 +82,8 @@ const ServiceUsage = () => {
                   サービス利用日 : <span>{state.serviceUsageDate}</span>
                 </p>
               </div>
-              <div className="text-14px border-solid border-b border-l border-r border-slate-100 rounded-b-lg ">
-                <p className="p-2 text-14px opacity-100">
+              <div className="text-hex-9E9E9E text-14px border-solid border-b border-l border-r border-9E9E9E rounded-b-lg ">
+                <p className="p-2 py-3 text-14px opacity-100">
                   サービス利用開始から :
                   {state.daysStarted ? (
                     <span>{state.daysStarted}日経過 </span>

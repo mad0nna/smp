@@ -135,7 +135,7 @@ const Notification = (props) => {
                   id="widget-content-item"
                   className={
                     py +
-                    ' bg-white w-full box-border align-middle px-1 py-4 hover:bg-gray-50 border-b border-gray-100 relative'
+                    ' bg-white w-full align-middle px-2 py-3 border rounded-lg border-hex-17A8A414 relative mb-1 opacity-100'
                   }
                   key={index}
                 >
