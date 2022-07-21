@@ -94,7 +94,7 @@ const Contracts = () => {
     <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-flow-row lg:grid-rows-3 gap-6 mt-5 font-meiryo">
       <div className="col-span-3 row-span-2">
         <div
-          className="w-full rounded-lg border overflow-hidden bg-white mb-10"
+          className="w-full rounded-lg border border-whiteTint-500 overflow-hidden bg-white mb-10"
           style={{ 'min-height': '568px' }}
         >
           <div className="px-3 pt-3 pb-6">
