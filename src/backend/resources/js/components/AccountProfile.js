@@ -6,6 +6,7 @@ import MessageDialog from './MessageDialog'
 import ConfirmTransferAuthority from './admin/company/ConfirmDialog'
 
 const AccountProfileEdit = () => {
+  let userData = JSON.parse(document.getElementById('userData').textContent)
   const [state, setState] = useState({
     mode: 'view',
     account: {
@@ -18,7 +19,8 @@ const AccountProfileEdit = () => {
       email: '',
       userTypeId: '',
       changeRole: false,
-      admin__c: ''
+      admin__c: '',
+      id: ''
     },
     showPopupMessageDialog: false,
     popUpConfirmMessage: '',
@@ -35,7 +37,9 @@ const AccountProfileEdit = () => {
     loggedInUser: {},
     reload: true,
     errors: [],
-    errorMessages: {}
+    errorMessages: {},
+    currentUserId: '',
+    userData: userData
   })
 
   const validate = (fields) => {
@@ -284,12 +288,14 @@ const AccountProfileEdit = () => {
               email: data.email,
               userTypeId: data.user_type_id,
               account_code: data.account_code,
-              changeRole: false
+              changeRole: false,
+              id: id
             },
             dataEmpty: false,
             isEditingProfile: data.canEdit,
             mode: data.canEdit ? 'edit' : 'view',
-            authorityTransfer: data.authorityTransfer
+            authorityTransfer: data.authorityTransfer,
+            currentUserId: id
           }
         })
       })
@@ -312,9 +318,9 @@ const AccountProfileEdit = () => {
   }, [])
 
   return (
-    <div className="relative px-10 py-5 bg-mainbg ">
-      <div className="bg-mainbg grid grid-cols-3 font-meiryo gap-6">
-        <div className="col-span-3 w-full rounded-lg shadow-xl bg-white mb-10 border-primary-100">
+    <div className="relative">
+      <div className="bg-primaryBg grid grid-cols-3 font-meiryo gap-6">
+        <div className="col-span-3 w-full rounded-lg bg-white border-lightGreen">
           <div className="px-3 pt-3 pb-10">
             <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
               <h2 className="text-green-800 text-lg font-bold">
@@ -326,7 +332,7 @@ const AccountProfileEdit = () => {
             <div className="w-full">
               <div className="align-top inline-block w-6/12 rounded-xl border-gray-200 border h-auto bg-white my-4 ml-5 mr-5 py-5 px-6">
                 <div className="mx-10 mt-11 mb-2">
-                  <div className="flex flex-wrap gap-0 w-full justify-center mt-4 text-primary-200 text-xl">
+                  <div className="flex flex-wrap gap-0 w-full justify-center mt-4 text-tertiary-500 text-xl">
                     プロフィールを編集
                   </div>
                   <div className="flex flex-wrap gap-0 w-full justify-start">
@@ -494,7 +500,7 @@ const AccountProfileEdit = () => {
               <div className="align-top inline-block w-5/12  h-80">
                 <div className="align-top inline-block w-full rounded-xl border-gray-200 border h-48 bg-white my-4 py-5 ml-10">
                   <div className="mx-10 mb-2">
-                    <div className="flex flex-wrap gap-0 w-full justify-center text-primary-200 text-xl">
+                    <div className="flex flex-wrap gap-0 w-full justify-center text-tertiary-500 text-xl">
                       ログイン情報
                     </div>
                     <div className="flex flex-wrap gap-0 w-full justify-start mt-4">
@@ -503,20 +509,38 @@ const AccountProfileEdit = () => {
                           <label className="text-sm text-gray-400">
                             メールアドレス:{' '}
                           </label>
-                          <div className="text-sm text-gray-400">&nbsp;</div>
                         </div>
                         <div className="md:w-2/3 flex-grow">
                           <label
                             className={
                               // (state.isEditingProfile ? 'hidden' : '') +
-                              ' text-sm text-black w-full h-8 px-3 leading-8'
+                              ' text-sm text-black h-8 px-3 leading-8'
                             }
                           >
                             {state.account.email}
                           </label>
-                          <div className="px-3 text-sm text-gray-400">
-                            ※メールアドレスの変更はできません
-                          </div>
+                          <a
+                            href={`/company/setting/email`}
+                            className={
+                              parseInt(state.currentUserId) ===
+                                parseInt(state.userData.userId) &&
+                              state.account.userTypeId === 4
+                                ? ``
+                                : `hidden`
+                            }
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              className="inline-block"
+                              style={{ height: '1.2rem' }}
+                            >
+                              <path d="M0 0h24v24H0z" fill="none" />
+                              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                            </svg>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -619,9 +643,9 @@ const AccountProfileEdit = () => {
                   onClick={openConfirmDialog}
                   className={
                     (state.errors.length > 0
-                      ? 'bg-primary-100 pointer-events-none'
-                      : 'bg-primary-200') +
-                    ' bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm mr-5 space-x-2'
+                      ? 'bg-lightGreen pointer-events-none'
+                      : 'bg-tertiary-500') +
+                    ' bg-tertiary-500 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm mr-5 space-x-2'
                   }
                   style={{
                     display: state.isEditingProfile ? '' : 'none'
@@ -636,9 +660,9 @@ const AccountProfileEdit = () => {
                   style={{
                     display: state.isEditingProfile ? '' : 'none'
                   }}
-                  className="bg-primary-200 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
+                  className="bg-tertiary-500 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
                 >
-                  <img className="inline mr-2" />
+                  <img alt="" className="inline mr-2" />
                   キャンセル
                 </button>
               </div>

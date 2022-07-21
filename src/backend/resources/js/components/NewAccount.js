@@ -239,19 +239,19 @@ const NewAccount = (props) => {
     <div
       className={
         (state.isSearched ? 'h-96' : 'h-64') +
-        ' rounded-lg border-2 border-gray-200 absolute inset-x-1/3 top-36 m-auto bg-primary-200 opacity-85'
+        ' rounded-lg border-2 border-gray-200 absolute inset-x-1/3 top-36 m-auto bg-tertiary-500 opacity-85'
       }
     >
       <div className="grid grid-cols-12 gap-4">
         <div className="col-start-2 col-span-10">
           <div className="flex flex-row mt-12">
-            <div className="w-full justify-start">
+            <div className="w-full justify-center">
               <div className="grid grid-cols-12 gap-2">
-                <label className="text-sm text-white 2xl:w-42 xl:w-42 lg:w-24 h-8 leading-8 col-start-1 col-span-3 justify-self-end">
+                <label className="text-sm text-white 2xl:w-32 xl:w-32 lg:w-24  h-8 leading-8 col-start-1 col-span-4 justify-self-end">
                   メールアドレス :
                 </label>
                 <input
-                  className="text-sm col-start-4 col-span-6 h-8 px-2 py-1 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-1 ml-1"
+                  className="text-sm col-start-5 col-span-5 h-8 px-2 py-1 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8"
                   defaultValue={state.email}
                   type="text"
                   onChange={handleEmailChange}
@@ -259,7 +259,7 @@ const NewAccount = (props) => {
                 <button
                   disabled={state.isLoading}
                   onClick={() => searchAdminByEmail(state.email)}
-                  className="2xl:w-fit xl:w-24 lg:w-24 cursor-pointer text-bold text-primary-200 bg-white rounded p-1 text-sm ml-1 mr-2 col-start-10 col-span-3"
+                  className="2xl:w-fit xl:w-24 lg:w-24 cursor-pointer text-bold text-tertiary-500 bg-white rounded p-1 text-sm ml-1 mr-2 col-start-10 col-span-3"
                 >
                   検索する
                   <img
@@ -272,19 +272,19 @@ const NewAccount = (props) => {
               </div>
               <div className={state.isSearched ? '' : 'hidden'}>
                 <div className="mt-5 grid grid-cols-12 gap-2">
-                  <label className="text-sm text-white leading-8 col-start-1 col-span-3 justify-self-end">
+                  <label className="text-sm text-white leading-8 col-start-1 col-span-4 justify-self-end">
                     権限 :
                   </label>
-                  <label className="col-start-4 col-span-3 text-white w-fit mt-1 ml-1">
+                  <label className="col-start-5 col-span-3 text-white w-fit mt-1 ml-1">
                     {state.user_type_id == 3 ? '管理者' : '副管理者'}
                   </label>
                 </div>
                 <div className="grid grid-cols-12 gap-2 mt-2">
-                  <label className="text-right text-sm text-white 2xl:w-42 xl:w-42 lg:w-24 h-8 leading-8 col-start-1 col-span-3 justify-self-end">
+                  <label className="text-right text-sm text-white 2xl:w-32 xl:w-32 lg:w-24 h-8 leading-8 col-start-1 col-span-4 justify-self-end">
                     氏名（姓）:
                   </label>
                   <input
-                    className="text-sm col-start-4 col-span-5 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 mr-3 ml-1"
+                    className="text-sm col-start-5 col-span-5 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 mr-3 ml-1"
                     onChange={handleNameChanges}
                     value={state.lastName}
                     type="text"
@@ -292,11 +292,11 @@ const NewAccount = (props) => {
                   />
                 </div>
                 <div className="grid grid-cols-12 gap-2 mt-2">
-                  <label className="text-right text-sm text-white 2xl:w-42 xl:w-42 lg:w-24 h-8 leading-8 col-start-1 col-span-3 justify-self-end">
+                  <label className="text-right text-sm text-white 2xl:w-32 xl:w-32 lg:w-24 h-8 leading-8 col-start-1 col-span-4 justify-self-end">
                     氏名（名）:
                   </label>
                   <input
-                    className="text-sm col-start-4 col-span-5 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3 ml-1"
+                    className="text-sm col-start-5 col-span-5 h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8 mr-3 ml-1"
                     onChange={handleNameChanges}
                     value={state.firstName}
                     type="text"
@@ -333,7 +333,7 @@ const NewAccount = (props) => {
                 className={
                   (state.disableSendButton
                     ? 'text-gray-500 cursor-default'
-                    : 'text-primary-200 cursor-pointer') +
+                    : 'text-tertiary-500 cursor-pointer') +
                   ' rounded-xl font-extrabold w-40 py-2 px-3 mr-4 tracking-tighter bg-white'
                 }
                 disabled={state.disableSendButton}
@@ -350,7 +350,7 @@ const NewAccount = (props) => {
             </div>
             <button
               onClick={props.closePopup}
-              className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-primary-200  tracking-tighter bg-white"
+              className="rounded-xl cursor-pointer border font-extrabold w-40 py-2 px-3  text-tertiary-500  tracking-tighter bg-white"
             >
               キャンセル
             </button>

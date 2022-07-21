@@ -223,9 +223,9 @@ const AccountList = (props) => {
           >
             <span
               className={
-                props.data.currentPage == number
-                  ? `text-white bg-primary-200 rounded-2xl px-3 py-1`
-                  : `text-primary-200 px-3 py-1`
+                props.data.currentPage === number
+                  ? `text-white bg-tertiary-500 rounded-2xl px-3 py-1`
+                  : `text-tertiary-500 px-3 py-1`
               }
             >
               {number}
@@ -257,23 +257,23 @@ const AccountList = (props) => {
   }, [props.isLoadingPullSf])
 
   return (
-    <div className="relative px-10 py-5 bg-mainbg">
+    <div className="relative">
       <input type="hidden" name="_token" value={state.token}></input>
-      <div className="w-full h-full overflow-hidden relative  rounded-lg border-2 border-gray-200 ">
+      <div className="w-full h-full overflow-hidden rounded-lg">
         <div
           id="widget-header"
           className="max-w-full h-40 bg-white box-border align-middle p-4 relative"
         >
-          <div className="px-3 pt-3 pb-10">
+          <div>
             <img src={BillingIcon} className="w-auto h-7 float-left ml-4" />
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">顧客企業一覧</h2>
             </div>
             <div id="widget-name" className="float-right mr-12">
               <div className="table-cell relative h-20 w-full align-middle">
                 <div
                   id="search-bar"
-                  className="bg-mainbg h-12 rounded-3xl w-96 mx-0 my-auto"
+                  className="bg-primaryBg h-12 rounded-3xl w-96 mx-0 my-auto"
                 >
                   <svg
                     className="text-gray-500 fill-current w-auto h-11 float-left mt-0.5 p-3"
@@ -294,7 +294,7 @@ const AccountList = (props) => {
                   <input
                     type="text"
                     id="billingSearch"
-                    className="h-full w-80 bg-mainbg custom-outline-none"
+                    className="h-full w-80 bg-primaryBg custom-outline-none"
                     placeholder="検索"
                     onChange={handleKeywordChange}
                   />
@@ -305,7 +305,7 @@ const AccountList = (props) => {
               <div className="table-cell relative h-20 mr-3 align-middle">
                 <button
                   onClick={togglePopupNewAccount}
-                  className="cursor-pointer border-primary-200 text-bold w-52 py-2 px-3 border-2 text-primary-200 rounded-3xl tracking-tighter"
+                  className="cursor-pointer border-tertiary-500 text-bold w-52 py-2 px-3 border-2 text-tertiary-500 rounded-3xl tracking-tighter"
                 >
                   顧客企業を新規追加
                 </button>
@@ -320,7 +320,7 @@ const AccountList = (props) => {
         </div>
         <div id="widget-body" className="h-50 w-full bg-white overflow-hidden">
           <table className="table-auto w-full mb-6">
-            <thead className="bg-gray-50 border-b border-t border-gray-200">
+            <thead className="bg-whiteTint-500 border-b border-t border-gray-200">
               <tr className="h-11 text-xs text-gray-500 text-shadow-none">
                 <th
                   className="text-left pl-4 w-72 cursor-pointer"
@@ -409,7 +409,7 @@ const AccountList = (props) => {
                     </td>
                     <td className="text-left pl-4">{item.contactNum}</td>
                     <td className={txtcolor + ' text-left pl-4'}>{status}</td>
-                    <td className="text-left text-primary-200">
+                    <td className="text-left text-tertiary-500">
                       {actionButton}
                     </td>
                   </tr>
@@ -421,7 +421,7 @@ const AccountList = (props) => {
       </div>
       <div
         id="billing-pagination"
-        className="w-full h-12 p-3 text-center space-x-2 mt-3"
+        className="w-full h-12 text-center space-x-2 my-3"
       >
         <Pagination
           listNumbers={state.pageNumbers}

@@ -241,7 +241,7 @@ const InvoiceTemplateDetails = () => {
       <div className="col-span-5 bg-white py-8 px-32">
         <div className="mb-4">
           <div className="bg-cover bg-no-repeat bg-paper w-8 h-8 inline-block"></div>
-          <h1 className="inline-block align-middle mb-4 inline-block align-middle mb-4 text-primary-200 font-bold">
+          <h1 className="inline-block align-middle mb-4 inline-block align-middle mb-4 text-tertiary-500 font-bold">
             Invoice Template Details
           </h1>
         </div>
@@ -295,7 +295,7 @@ const InvoiceTemplateDetails = () => {
           <div className="w-56"></div>
           <div className="mr-4">
             <button
-              className="cursor-pointer border-primary-200 text-bold w-36 py-2 mt-5 px-3 border-2 text-primary-200 rounded-3xl tracking-tighter"
+              className="cursor-pointer border-tertiary-500 text-bold w-36 py-2 mt-5 px-3 border-2 text-tertiary-500 rounded-3xl tracking-tighter"
               onClick={uploadTemplate}
             >
               Upload
@@ -307,7 +307,7 @@ const InvoiceTemplateDetails = () => {
               target="_blank"
               rel="noreferrer"
             >
-              <button className="cursor-pointer border-primary-200 text-bold py-2 mt-5 px-3 border-2 text-primary-200 rounded-3xl tracking-tighter">
+              <button className="cursor-pointer border-tertiary-500 text-bold py-2 mt-5 px-3 border-2 text-tertiary-500 rounded-3xl tracking-tighter">
                 Download Sample Template
               </button>
             </a>
@@ -323,7 +323,7 @@ const InvoiceTemplateDetails = () => {
               className={
                 'bg-white p-2 ' +
                 (state.tab === 1
-                  ? 'text-primary-200 border border-green-500'
+                  ? 'text-tertiary-500 border border-green-500'
                   : '')
               }
               onClick={() => {
@@ -341,7 +341,7 @@ const InvoiceTemplateDetails = () => {
               className={
                 'bg-white p-2 ' +
                 (state.tab === 2
-                  ? 'text-primary-200 border border-green-500 '
+                  ? 'text-tertiary-500 border border-green-500 '
                   : '') +
                 (state.file == '' ? 'text-gray-400' : '')
               }
@@ -368,7 +368,7 @@ const InvoiceTemplateDetails = () => {
             <InvoiceTemplateDetailTable />
           </div>
           <div
-            className={'bg-gray-100 ' + (state.tab === 2 ? '' : 'hidden')}
+            className={'bg-whiteTint-500 ' + (state.tab === 2 ? '' : 'hidden')}
             style={minheightCompanyList}
           >
             <div className="w-3/5 block text-center mx-auto">

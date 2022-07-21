@@ -50,7 +50,7 @@ const PurchaseHistorySmall = () => {
         />
         <div
           id="widget-name"
-          className="text-primary-200 font-sans font-black ml-8"
+          className="text-tertiary-500 font-sans font-black ml-8"
         >
           請求履歴
         </div>
@@ -87,7 +87,7 @@ const PurchaseHistorySmall = () => {
       </div>
       <div id="widget-footer" className="w-full h-14 p-3.5">
         <div id="widget-footer-control" className="float-right">
-          <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">
+          <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter pointer-events-none">
             さらに表示
           </button>
         </div>

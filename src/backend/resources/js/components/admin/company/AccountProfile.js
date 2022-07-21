@@ -6,12 +6,11 @@ import AddAccountToken from './AddAccountToken'
 import ConfirmAddAccountDialog from './ConfirmDialog'
 import ConfirmSaveUpdateDialog from './ConfirmDialog'
 import MessageDialog from './MessageDialog'
-import _ from 'lodash'
+import _, { isEmpty } from 'lodash'
 import queryString from 'query-string'
 import axios from 'axios'
 
 const AccountProfile = (props) => {
-  console.log(props)
   let defaultCompanyState = {
     companyCode: '',
     id: 0,
@@ -29,8 +28,13 @@ const AccountProfile = (props) => {
     kotAccountId: '',
     zenOrgName: '',
     zendeskOpportunityId: '',
-    phoneNumber: '',
-    recordTypeCode: ''
+    contactNum: '',
+    recordTypeCode: '',
+    billingPostalCode: '',
+    billingCity: '',
+    billingState: '',
+    billingCountry: '',
+    billingStreet: ''
   }
   const [state, setState] = useState({
     company: _.isEmpty(props.company) ? defaultCompanyState : props.company,
@@ -41,7 +45,9 @@ const AccountProfile = (props) => {
     showPopupConfirmSaveUpdateDialog: false,
     dialogMessage: '',
     redirectAfterSuccess: false,
-    isLoading: false
+    isLoading: false,
+    errors: [],
+    errorMessages: {}
   })
 
   const industryTypes = [
@@ -73,17 +79,6 @@ const AccountProfile = (props) => {
     'その他',
     '不明'
   ]
-
-  const handleChangeIndustry = (e) => {
-    setState((prevState) => {
-      let _company = prevState.company
-      _company['industry'] = e.target.value
-      return {
-        company: _company,
-        ...prevState
-      }
-    })
-  }
 
   const addCompanyToken = (token) => {
     setState((prevState) => {
@@ -128,7 +123,6 @@ const AccountProfile = (props) => {
         isLoading: true
       }
     })
-
     axios
       .post(`/admin/company/saveAddedCompany`, state.company, {
         'Content-Type': 'application/json'
@@ -196,6 +190,10 @@ const AccountProfile = (props) => {
   }
 
   const handleShowUpdateSaveDialog = () => {
+    validate(state.company)
+    if (state.errors.length > 0) {
+      return
+    }
     setState((prevState) => {
       return {
         ...prevState,
@@ -212,47 +210,6 @@ const AccountProfile = (props) => {
         isLoading: true
       }
     })
-
-    let nameLength = state.company.name.length
-    let kotCompanyCodeLength = state.company.companyCode.length + 2
-    let _errorMessages = errorMessages
-    if (nameLength + kotCompanyCodeLength >= 101) {
-      _errorMessages['name'] = '最大文字数は 100 文字です。'
-      _errorMessages['hasError'] = true
-      setErrorMessages(() => {
-        return {
-          ..._errorMessages
-        }
-      })
-      setState((prevState) => {
-        return {
-          ...prevState,
-          showPopupMessageDialog: false,
-          showPopupConfirmSaveUpdateDialog: false,
-          isLoading: false
-        }
-      })
-    } else {
-      _errorMessages['name'] = ''
-      _errorMessages['hasError'] = false
-      setErrorMessages(() => {
-        return {
-          ..._errorMessages
-        }
-      })
-    }
-
-    if (errorMessages.hasError) {
-      setState((prevState) => {
-        return {
-          ...prevState,
-          showPopupMessageDialog: false,
-          showPopupConfirmSaveUpdateDialog: false,
-          isLoading: false
-        }
-      })
-      return
-    }
 
     let account = state.company
     account._token = props.token
@@ -304,67 +261,6 @@ const AccountProfile = (props) => {
     if (state.redirectAfterSuccess) {
       props.handleUpdateList()
     }
-  }
-
-  function handleNumberChange(evt) {
-    evt = evt ? evt : window.event
-    var charCode = evt.which ? evt.which : evt.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 45) {
-      evt.preventDefault()
-      return false
-    }
-
-    return true
-  }
-
-  let defaultErrorMessage = {
-    name: '',
-    hasError: false
-  }
-
-  const [errorMessages, setErrorMessages] = useState({
-    defaultErrorMessage
-  })
-
-  const handleTextChange = (e) => {
-    let fieldName = e.target.name
-    let _errorMessages = errorMessages
-    if (fieldName == 'name') {
-      let nameLength = e.target.value.length
-      let kotCompanyCodeLength = state.company.companyCode.length + 2
-      if (nameLength + kotCompanyCodeLength >= 101) {
-        _errorMessages[fieldName] = '最大文字数は 100 文字です。'
-        _errorMessages['hasError'] = true
-
-        setErrorMessages(() => {
-          return {
-            ..._errorMessages
-          }
-        })
-      } else {
-        _errorMessages[fieldName] = ''
-        _errorMessages['hasError'] = false
-        setErrorMessages(() => {
-          return {
-            ..._errorMessages
-          }
-        })
-      }
-    }
-    setState((prevState) => {
-      return {
-        ...prevState,
-        company: { ...prevState.company, [fieldName]: e.target.value }
-      }
-    })
-  }
-
-  const handleTextChangeNumberofemployees = () => {
-    setState((prevState) => {
-      return {
-        ...prevState
-      }
-    })
   }
 
   const closeAccountToken = () => {
@@ -429,13 +325,125 @@ const AccountProfile = (props) => {
     }
   }, [props.company])
 
+  const handleCompanyChanges = (e) => {
+    let key = e.target.name
+    let val = e.target.value
+    setState((prevState) => {
+      return {
+        ...prevState,
+        company: {
+          ...prevState.company,
+          [key]: val
+        }
+      }
+    })
+    validate({ [key]: val })
+  }
+
+  const validate = (fields) => {
+    const numbersOnly = /^[0-9０-９]+$/g
+    let keys = Object.keys(fields)
+    keys.forEach((key) => {
+      if (key === 'name') {
+        let companyCodeLength = state.company.companyCode.length + 2
+        let companyNameMaxLength = 100 - companyCodeLength
+        if (isEmpty(fields[key])) {
+          addError(key, '必須フィールド')
+          return
+        }
+        if (fields[key].length > companyNameMaxLength) {
+          addError(key, '最大文字数は 100 文字です。')
+          return
+        }
+        removeError(key)
+      }
+      if (key === 'contactNum') {
+        if (isEmpty(fields[key])) {
+          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
+          return
+        }
+        if (fields[key].length < 10 || fields[key].length > 11) {
+          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
+          return
+        }
+        if (isEmpty(fields[key].match(numbersOnly))) {
+          addError(key, 'ハイフンなしの10桁～11桁の電話番号を入力してください')
+          return
+        }
+        removeError(key)
+      }
+      if (key === 'billingPostalCode') {
+        if (!(numbersOnly.test(fields[key]) && fields[key].length == 7)) {
+          addError(key, 'ハイフンなしの７桁の郵便番号を入力してください')
+          return
+        }
+        removeError(key)
+      }
+      if (
+        key === 'billingCity' ||
+        key === 'billingState' ||
+        key === 'billingCountry' ||
+        key === 'billingStreet'
+      ) {
+        if (isEmpty(fields[key])) {
+          addError(key, '必須フィールド')
+          return
+        }
+        removeError(key)
+      }
+    })
+  }
+  const addError = (key, message) => {
+    if (_.includes(state.errors, key)) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          errorMessages: {
+            ...prevState.errorMessages,
+            [key]: message
+          }
+        }
+      })
+      return
+    }
+    let newError = state.errors
+    newError.push(key)
+    setState((prevState) => {
+      return {
+        ...prevState,
+        errors: newError,
+        errorMessages: {
+          ...prevState.errorMessages,
+          [key]: message
+        }
+      }
+    })
+  }
+
+  const removeError = (key) => {
+    if (!_.includes(state.errors, key)) {
+      return
+    }
+    setState((prevState) => {
+      let newError = prevState.errors
+      let keyIndex = newError.indexOf(key)
+      delete newError[keyIndex]
+      newError = newError.filter(function (e) {
+        return e != null
+      })
+      return {
+        ...prevState,
+        errors: newError
+      }
+    })
+  }
   return (
-    <div className="flex justify-center w-full h-full bg-white">
+    <div className="flex justify-center w-full h-full rounded-lg bg-white">
       <input type="hidden" name="_token" value={state.token}></input>
       <div className="align-top inline-block w-8/12 ">
         <div className="my-4 ml-14 mr-5 py-5 px-6">
           <img className="inline align-top" src={profileIcon} />
-          <span className="align-bottom ml-2 p-0 inline text-primary-200 font-bold text-lg">
+          <span className="align-bottom ml-2 p-0 inline text-tertiary-500 font-bold text-lg">
             顧客企業情報
           </span>
         </div>
@@ -454,7 +462,7 @@ const AccountProfile = (props) => {
                 >
                   {state.company.recordTypeCode}
                 </label>
-                <input
+                {/* <input
                   className={
                     ' hidden text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
                   }
@@ -462,7 +470,7 @@ const AccountProfile = (props) => {
                   defaultValue={state.company.recordTypeCode}
                   type="text"
                   onChange={handleTextChange}
-                />
+                /> */}
               </div>
             </div>
 
@@ -489,23 +497,25 @@ const AccountProfile = (props) => {
                   name="name"
                   value={state.company.name}
                   type="text"
-                  onChange={handleTextChange}
+                  onChange={(e) => handleCompanyChanges(e)}
                 />
 
                 <label
                   className={
-                    (errorMessages.name ? '' : 'hidden') +
+                    (_.includes(state.errors, 'name') ? '' : 'hidden') +
                     ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                   }
                 >
-                  {errorMessages.name}
+                  {state.errorMessages['name']}
                 </label>
               </div>
             </div>
 
             <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
               <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">所在地 :</label>
+                <label className="text-sm text-gray-400">
+                  所在地 : <span className="text-red-500">*</span>
+                </label>
               </div>
               <div className="md:w-2/3 md:flex-grow">
                 <label
@@ -514,10 +524,10 @@ const AccountProfile = (props) => {
                     ' text-sm text-black w-full h-8 px-3 leading-8'
                   }
                 >
-                  {state.company.billingStreet ?? '' + ' '}
-                  {state.company.billingCity ?? '' + ' '}
-                  {state.company.billingState ?? '' + ' '}
                   {state.company.billingCountry ?? '' + ' '}
+                  {state.company.billingState ?? '' + ' '}
+                  {state.company.billingCity ?? '' + ' '}
+                  {state.company.billingStreet ?? '' + ' '}
                   {state.company.billingPostalCode ?? ''}
                 </label>
                 <div className="space-y-1">
@@ -526,56 +536,63 @@ const AccountProfile = (props) => {
                       (state.isEditingProfile ? '' : 'hidden') +
                       ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100'
                     }
-                    defaultValue={state.company.billingStreet}
+                    value={state.company.billingCountry}
                     type="text"
-                    name="billingStreet"
-                    onChange={handleTextChange}
+                    name="billingCountry"
+                    placeholder="国名を入力してください"
+                    onChange={(e) => handleCompanyChanges(e)}
                   />
                   <label
                     className={
-                      (state.isEditingProfile ? '' : 'hidden') +
-                      ' inline-block text-sm text-black w-full h-8 px-3 '
+                      (_.includes(state.errors, 'billingCountry')
+                        ? ''
+                        : 'hidden') +
+                      ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                     }
                   >
-                    地名番地
+                    {state.errorMessages['billingCountry']}
                   </label>
-
                   <input
                     className={
                       (state.isEditingProfile ? '' : 'hidden') +
                       ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100'
                     }
-                    defaultValue={state.company.billingCity}
-                    type="text"
-                    name="billingCity"
-                    onChange={handleTextChange}
-                  />
-                  <label
-                    className={
-                      (state.isEditingProfile ? '' : 'hidden') +
-                      ' inline-block text-sm text-black w-full h-8 px-3 '
-                    }
-                  >
-                    市区町村
-                  </label>
-
-                  <input
-                    className={
-                      (state.isEditingProfile ? '' : 'hidden') +
-                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100'
-                    }
-                    defaultValue={state.company.billingState}
+                    value={state.company.billingState}
                     type="text"
                     name="billingState"
-                    onChange={handleTextChange}
+                    placeholder="都道府県を入力してください"
+                    onChange={(e) => handleCompanyChanges(e)}
                   />
                   <label
                     className={
-                      (state.isEditingProfile ? '' : 'hidden') +
-                      ' inline-block text-sm text-black w-full h-8 px-3'
+                      (_.includes(state.errors, 'billingState')
+                        ? ''
+                        : 'hidden') +
+                      ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                     }
                   >
-                    都道府県
+                    {state.errorMessages['billingState']}
+                  </label>
+                  <input
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100'
+                    }
+                    value={state.company.billingCity}
+                    type="text"
+                    name="billingCity"
+                    placeholder="市区町村を入力してください"
+                    onChange={(e) => handleCompanyChanges(e)}
+                  />
+                  <label
+                    className={
+                      (_.includes(state.errors, 'billingCity')
+                        ? ''
+                        : 'hidden') +
+                      ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
+                    }
+                  >
+                    {state.errorMessages['billingCity']}
                   </label>
 
                   <input
@@ -583,36 +600,44 @@ const AccountProfile = (props) => {
                       (state.isEditingProfile ? '' : 'hidden') +
                       ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 '
                     }
-                    defaultValue={state.company.billingPostalCode}
+                    value={state.company.billingStreet}
+                    name="billingStreet"
+                    type="text"
+                    placeholder="地名番地、建物名等"
+                    onChange={(e) => handleCompanyChanges(e)}
+                  />
+
+                  <label
+                    className={
+                      (_.includes(state.errors, 'billingStreet')
+                        ? ''
+                        : 'hidden') +
+                      ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
+                    }
+                  >
+                    {state.errorMessages['billingStreet']}
+                  </label>
+
+                  <input
+                    className={
+                      (state.isEditingProfile ? '' : 'hidden') +
+                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 '
+                    }
+                    value={state.company.billingPostalCode}
+                    type="text"
+                    placeholder="郵便番号"
                     name="billingPostalCode"
-                    type="text"
-                    onChange={handleTextChange}
+                    onChange={(e) => handleCompanyChanges(e)}
                   />
                   <label
                     className={
-                      (state.isEditingProfile ? '' : 'hidden') +
-                      ' inline-block text-sm text-black w-full h-8 px-3 '
+                      (_.includes(state.errors, 'billingPostalCode')
+                        ? ''
+                        : 'hidden') +
+                      ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
                     }
                   >
-                    郵便番号
-                  </label>
-
-                  <input
-                    className={
-                      (state.isEditingProfile ? '' : 'hidden') +
-                      ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 '
-                    }
-                    defaultValue={state.company.billingCountry}
-                    type="text"
-                    onChange={handleTextChange}
-                  />
-                  <label
-                    className={
-                      (state.isEditingProfile ? '' : 'hidden') +
-                      ' inline-block text-sm text-black w-full h-8 px-3 '
-                    }
-                  >
-                    国名
+                    {state.errorMessages['billingPostalCode']}
                   </label>
                 </div>
               </div>
@@ -620,17 +645,11 @@ const AccountProfile = (props) => {
 
             <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
               <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">電話 :</label>
+                <label className="text-sm text-gray-400">
+                  電話番号 : <span className="text-red-500">*</span>
+                </label>
               </div>
               <div className="md:w-2/3 md:flex-grow">
-                <label
-                  className={
-                    (state.isEditingProfile ? ' hidden ' : '') +
-                    ' text-sm text-black w-full h-8 px-3 leading-8'
-                  }
-                >
-                  {state.company.contactNum}
-                </label>
                 <input
                   className={
                     (state.isEditingProfile ? '' : ' hidden ') +
@@ -638,13 +657,20 @@ const AccountProfile = (props) => {
                   }
                   name="contactNum"
                   type="text"
-                  defaultValue={state.company.contactNum}
-                  onKeyPress={(e) => {
-                    return handleNumberChange(e)
-                  }}
-                  onChange={handleTextChange}
-                  maxLength="15"
+                  value={state.company.contactNum}
+                  placeholde="電話番号"
+                  onChange={(e) => handleCompanyChanges(e)}
+                  maxLength={11}
                 />
+
+                <label
+                  className={
+                    (_.includes(state.errors, 'contactNum') ? '' : 'hidden') +
+                    ' text-sm text-black w-full h-8 px-3 leading-8 text-red-600'
+                  }
+                >
+                  {state.errorMessages['contactNum']}
+                </label>
               </div>
             </div>
 
@@ -655,7 +681,7 @@ const AccountProfile = (props) => {
               <div className="md:w-2/3 md:flex-grow">
                 <label
                   className={
-                    (state.isEditingProfile ? ' hidden ' : '') +
+                    (state.isEditingProfile ? 'hidden' : '') +
                     ' text-sm text-black w-full h-8 px-3 leading-8'
                   }
                 >
@@ -663,13 +689,14 @@ const AccountProfile = (props) => {
                 </label>
                 <input
                   className={
-                    (state.isEditingProfile ? '' : ' hidden ') +
-                    ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
+                    (state.isEditingProfile ? '' : 'hidden') +
+                    ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-50 leading-8'
                   }
-                  name="website"
-                  defaultValue={state.company.website}
                   type="text"
-                  onChange={handleTextChange}
+                  value={state.company.website}
+                  name="website"
+                  placeholder="ウェブサイト"
+                  onChange={(e) => handleCompanyChanges(e)}
                 />
               </div>
             </div>
@@ -695,44 +722,18 @@ const AccountProfile = (props) => {
                       'w-full bg-gray-100 p-1 border rounded focus:shadow-outline bg-gray-100 leading-8'
                     }
                     name="industry"
-                    onChange={handleChangeIndustry}
+                    onChange={(e) => handleCompanyChanges(e)}
+                    value={
+                      industryTypes[
+                        industryTypes.indexOf(state.company.industry)
+                      ]
+                    }
                   >
                     {industryTypes.map(function (val) {
-                      return (
-                        <option
-                          key={val}
-                          value={val}
-                          selected={state.company.industry == val}
-                        >
-                          {val}
-                        </option>
-                      )
+                      return <option key={val}>{val}</option>
                     })}
                   </select>
                 }
-              </div>
-            </div>
-
-            <div className="hidden">
-              <div className="mb-1 md:mb-0 md:w-1/5">
-                <label className="text-sm text-gray-400">従業員数 :</label>
-              </div>
-              <div className="md:w-2/3 md:flex-grow">
-                <label
-                  className={
-                    (state.isEditingProfile ? ' hidden ' : '') +
-                    ' text-sm text-black w-full h-8 px-3 leading-8'
-                  }
-                ></label>
-                <input
-                  className={
-                    (state.isEditingProfile ? '' : ' hidden ') +
-                    ' text-sm w-full h-8 px-3 py-2 placeholder-gray-600 border rounded focus:shadow-outline bg-gray-100 leading-8'
-                  }
-                  name="industrySub2"
-                  type="text"
-                  onChange={handleTextChangeNumberofemployees}
-                />
               </div>
             </div>
           </div>
@@ -792,12 +793,12 @@ const AccountProfile = (props) => {
                 ? handleShowAddToken
                 : handleShowUpdateSaveDialog
             }
-            disabled={errorMessages.hasError}
+            disabled={state.errors.length > 0}
             className={
-              (errorMessages.hasError
-                ? 'bg-primary-100 pointer-events-none hover:cursor-default'
-                : 'bg-primary-200 hover:bg-green-700') +
-              'bg-primary-200  text-white  rounded-lg p-2 text-sm mr-1'
+              (state.errors.length > 0
+                ? 'bg-lightGreen pointer-events-none hover:cursor-default'
+                : 'bg-tertiary-500 hover:bg-green-700') +
+              'bg-tertiary-500 text-white  rounded-lg p-2 text-sm mr-1'
             }
           >
             <img
@@ -813,7 +814,7 @@ const AccountProfile = (props) => {
 
           <button
             onClick={props.handleCloseProfile}
-            className="bg-primary-200 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
+            className="bg-tertiary-500 hover:bg-green-700 text-white  rounded-lg p-2 text-sm mr-1"
           >
             <img className="inline mr-2" />
             キャンセル

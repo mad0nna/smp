@@ -100,7 +100,7 @@ const WidgetSettings = () => {
   return (
     <div className="bg-white rounded-lg shadow-xl mt-10 w-8/12 mx-auto">
       <div className="p-3 pb-6">
-        <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+        <div className="w-full pb-2">
           <h2 className="text-green-800 text-lg font-bold">ウィジェット設定</h2>
         </div>
       </div>
@@ -108,7 +108,7 @@ const WidgetSettings = () => {
       <div className="px-3">
         <form>
           <table className="table-auto w-full mb-6">
-            <thead className="bg-gray-50 border-b border-t border-gray-200">
+            <thead className="bg-whiteTint-500 border-b border-t border-gray-200">
               <tr className="h-11 text-xs text-gray-500 text-shadow-none">
                 <th className="text-left pl-3">ウィジェット名</th>
                 <th>表示</th>

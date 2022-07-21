@@ -1,0 +1,37 @@
+@layer base {
+    /* Screen settings */
+    @media (-webkit-device-pixel-ratio: 1.25) { * { zoom: 0.99; } }
+
+    /* Custom font */
+    @font-face {
+        font-family: 'Meiryo-UI';
+        src: url('/fonts/Meiryo-UI.woff2') format('woff2');
+    }
+
+    /* Typography */
+    .content-header {
+        @apply text-2.5xl text-primary-500 font-medium mt-3.5 mx-25px pb-3.5;
+    }
+
+    /* Buttons */
+    .dashboard-widget-button {
+        width: 151px;
+        height: 42px;
+        border-radius: 21px;
+        opacity: 1;
+    }
+
+
+    /* Inputs */
+
+    /* region > checkbox */
+    input[type=checkbox].checkbox-primary {
+        accent-color: theme('colors.primary.500');
+    }
+    /* endregion */
+
+    /* Containers */
+    .content-body {
+        @apply mt-3.5 mb-25px mx-25px
+    }
+}

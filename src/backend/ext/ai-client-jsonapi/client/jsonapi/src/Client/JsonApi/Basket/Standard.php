@@ -10,6 +10,7 @@
 
 namespace Aimeos\Client\JsonApi\Basket;
 
+use Illuminate\Support\Facades\Auth;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -189,7 +190,16 @@ class Standard extends Base implements \Aimeos\Client\JsonApi\Iface
 			$this->controller->get()->check();
 			$this->clearCache();
 
-			$item = $this->controller->store();
+			$data = [
+				'last_name' => Auth::user()->last_name,
+				'first_name' => Auth::user()->first_name,
+				'company_name' => Auth::user()->company()->first()->name,
+				'company_id' => Auth::user()->company()->first()->id,
+				'email' => Auth::user()->email,
+				'contact_num' => Auth::user()->contact_num,
+			];
+
+			$item = $this->controller->add($data)->store();  
 			$this->getContext()->getSession()->set( 'aimeos/order.baseid', $item->getId() );
 
 			$view->item = $item;

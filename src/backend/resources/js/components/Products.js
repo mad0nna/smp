@@ -42,7 +42,7 @@ const Products = () => {
       <div className="relative gap-1 w-full h-full bg-white shadow-xl group">
         <div id="widget-header" className="relative box-border p-3 bg-white">
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">物販</h2>
             </div>
           </div>
@@ -62,7 +62,7 @@ const Products = () => {
                 >
                   <h3 className={'text-xxs mt-24'}>{product.label}</h3>
                   <h3 className={'text-xxs'}>{product.price}</h3>
-                  <p className="font-bold text-xxs text-primary-200">
+                  <p className="font-bold text-xxs text-tertiary-500">
                     こちらをクリックしてご確認ください
                   </p>
                 </div>

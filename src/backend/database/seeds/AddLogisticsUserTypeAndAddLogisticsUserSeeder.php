@@ -17,7 +17,7 @@ class AddLogisticsUserTypeAndAddLogisticsAdminSeeder extends Seeder
     {
         $data =  [
             'name' => 'Logistics Admin',
-            'dashboard_url' => '/logistics/products',
+            'dashboard_url' => '/logistics/product-list',
             'type_alias' => ''
         ];
 

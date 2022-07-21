@@ -42,7 +42,7 @@ const AdminsList = (props) => {
 
   return (
     <table className="table-auto w-full mb-6">
-      <thead className="bg-gray-50 border-b border-t border-gray-200">
+      <thead className="bg-whiteTint-500 border-b border-t border-gray-200">
         <tr className="h-11 text-xs text-gray-500 text-shadow-none">
           <th>
             <span id="fullName" onClick={() => sortArray('first_name')}>
@@ -101,7 +101,7 @@ const AdminsList = (props) => {
                 {admin.user_status_id === 1 ? 'アクティブ' : '保留中'}
               </td>
               <td className=" grid-flow-row text-center">
-                <a className="grid-flow-row inline text-primary-200">
+                <a className="grid-flow-row inline text-tertiary-500">
                   {admin.user_type_id === 3 &&
                   state.loggedUser.user_type_id != 3 ? (
                     <div

@@ -6,7 +6,7 @@
         <div class="col-md-4">
             <div class="card border-0">
                 <div class="card-body bg-white rounded-lg border-2 border-gray-200 mt-40 w-2/5 mx-auto my-auto shadow-sm p-10 flex flex-wrap flex-col gap-0 justify-center relative">
-                    <div class="absolute w-16 h-16 top-3 -left-16 border-2 border-gray-200 rounded-l-2xl mt-4">  
+                    <div class="absolute w-16 h-16 top-3 -left-16 border-2 border-gray-200 rounded-l-2xl mt-4">
                     <a href="/">
                             <img link="/" src="../images/home-gray.png" class="mt-1 ml-1 h-14 w-34"/>
                     </a>
@@ -23,7 +23,7 @@
                             />
                         </div>
 
-                        <div class="form-group flex flex-wrap flex-col gap-0 w-full justify-center">   
+                        <div class="form-group flex flex-wrap flex-col gap-0 w-full justify-center">
                             <input id="password" placeholder="新しいパスワードを入力してください" type="password" class="form-control @error('password') is-invalid @enderror px-3 py-3 placeholder-blueGray-300 relative bg-white rounded text-sm border border-gray-300 outline-none mx-auto w-7/12" name="password" value="{{old('password')}}" required autocomplete="new-password">
                         </div>
 
@@ -52,13 +52,13 @@
                                 <strong>{{ session('status') }}</strong>
                             </div>
                         @endif
-                        
+
                         <div class="form-group w-full py-2">
-                            <button type="submit" class="btn btn-primary btn-block ml-28 bg-primary-200 hover:bg-green-700 text-white font-bold py-2 px-3 rounded w-7/12">
+                            <button type="submit" class="btn btn-primary btn-block ml-28 bg-tertiary-500 hover:bg-green-700 text-white font-bold py-2 px-3 rounded w-7/12">
                                 {{ __('パスワードを再設定する') }}
                             </button>
                         </div>
-                       
+
                     </form>
                 </div>
             </div>

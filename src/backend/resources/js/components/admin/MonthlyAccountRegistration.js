@@ -213,12 +213,12 @@ const MonthlyAccountRegistration = () => {
           <text id="販売代理店数" transform="translate(252.714 287.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7">
             <tspan x="0" y="0">販売代理店数 (number of client companies)</tspan>
           </text>
-          
+
           <text id="_300_1000" data-name="300 / 1,000" transform="translate(232.714 444.114)" fontSize="30" fontFamily="SegoeUI-Semibold, Segoe UI" fontWeight="600" opacity="0.7">
             <tspan x="0" y="0">300 / 1,000</tspan>
           </text>
           <circle id="Ellipse_4" data-name="Ellipse 4" cx="4.5" cy="4.5" r="4.5" transform="translate(215.714 431.114)" fill="#5490de" />
-          
+
           <text id="販売代理店数-2" data-name="販売代理店数" transform="translate(252.714 459.114)" fontSize="12" fontFamily="YuGothicUI-Regular, Yu Gothic UI" opacity="0.7">
             <tspan x="0" y="0">販売代理店数 (number of client companies SmartHR)</tspan>
           </text> */}
@@ -1371,7 +1371,7 @@ const MonthlyAccountRegistration = () => {
           className="bg-white box-border p-3 pb-6 relative"
         >
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">
                 月次アカウント登録
               </h2>

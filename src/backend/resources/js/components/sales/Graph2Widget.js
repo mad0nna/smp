@@ -22,24 +22,24 @@ const Graph2 = () => {
           />
           <div
             id="widget-name"
-            className="text-primary-200 text-md font-meiryo font-bold ml-4 float-left"
+            className="text-tertiary-500 text-md font-meiryo font-bold ml-4 float-left"
           >
             {chartType === '7.1' ? '各サービスの売上高' : '顧客企業数'}
           </div>
           <div className="float-right">
             <div className="w-full h-8 z-10 py-1 px-8 text-xs">
               <select
-                className="w-full h-8 bg-white border-2 border-primary-200 px-4 lg:px-2 font-bold text-center"
+                className="w-full h-8 bg-white border-2 border-tertiary-500 px-4 lg:px-2 font-bold text-center"
                 onChange={(e) => changeChartHandler(e)}
               >
                 <option
-                  className="h-12 bg-gray-300 border-2 border-primary-200 px-auto"
+                  className="h-12 bg-gray-300 border-2 border-tertiary-500 px-auto"
                   value="7.1"
                 >
                   各サービスの売上高
                 </option>
                 <option
-                  className="h-12 bg-gray-300 px-auto border-2 border-primary-200"
+                  className="h-12 bg-gray-300 px-auto border-2 border-tertiary-500"
                   value="7.2"
                 >
                   顧客企業数

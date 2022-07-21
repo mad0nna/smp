@@ -205,7 +205,7 @@ const PasswordSettings = () => {
       <SettingSideNav />
       <div className="bg-white rounded-lg my-10 w-8/12 mx-auto col-span-5">
         <div className="p-3 pb-6">
-          <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+          <div className="w-full pb-2">
             <h2 className="text-green-800 text-lg font-bold">パスワード変更</h2>
           </div>
           <div className="text-center">
@@ -313,12 +313,21 @@ const PasswordSettings = () => {
                   {state.message}
                 </h1>
                 <button
+                  className=" bg-tertiary-500 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm w-32 h-12"
+                  onClick={() => {
+                    history.back()
+                  }}
+                >
+                  <img className="inline mr-2" />
+                  キャンセル
+                </button>
+                <button
                   onClick={handleChangePassword}
                   className={
                     (errorMessages.hasError
-                      ? 'bg-primary-100 pointer-events-none'
-                      : 'bg-primary-200') +
-                    ' bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm w-32 h-12'
+                      ? 'bg-lightGreen pointer-events-none'
+                      : 'bg-tertiary-500') +
+                    ' bg-tertiary-500 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm w-32 h-12'
                   }
                   disabled={errorMessages.hasError || state.isLoading}
                 >
@@ -329,15 +338,6 @@ const PasswordSettings = () => {
                     }
                   />
                   変更
-                </button>
-                <button
-                  className=" bg-primary-200 hover:bg-green-700 text-white inline-block rounded-lg p-2 text-sm w-32 h-12"
-                  onClick={() => {
-                    history.back()
-                  }}
-                >
-                  <img className="inline mr-2" />
-                  キャンセル
                 </button>
               </div>
             </div>

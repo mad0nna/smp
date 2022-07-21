@@ -45,7 +45,7 @@ const PurchaseHistory = (props) => {
       <div className="w-full h-full overflow-hidden relative bg-white rounded-lg shadow-xl pt-3 px-3">
         <div id="widget-header" className="bg-white relative box-border">
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">購入履歴</h2>
             </div>
           </div>
@@ -115,7 +115,7 @@ const PurchaseHistory = (props) => {
         </div>
         <div id="widget-footer" className="w-full h-10 bg-white pt-3 pr-2">
           <div id="widget-footer-control" className="float-right">
-            <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">
+            <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter pointer-events-none">
               さらに表示
             </button>
           </div>

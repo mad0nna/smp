@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use DB;
+use ZipArchive;
 use Carbon\Carbon;
 use App\Models\File;
 use RuntimeException;
@@ -26,7 +27,7 @@ class FileService
     }
 
     /**
-     * Retrieves the file given a file id
+     * Retrieves the file path record in database given id
      *
      * @param int $id File ID
      * @return App\Models\File $file
@@ -39,49 +40,69 @@ class FileService
 
         $file = $this->file->where($showConditions)->first();
 
-        if (!($file instanceof File)) {
+        if (!($file instanceof File)) { // @codeCoverageIgnoreStart
             throw new RuntimeException('File record does not exist.');
-        }
+        } // @codeCoverageIgnoreEnd
 
         return $file;
     }
 
     /**
-     * Retrieves the file from its file path
+     * Retrieves the file path from record in database to return files
+     * as download in a zipped folder
      *
-     * @param int $id File ID
+     * @param int $id File Path ID in database
      * @param mixed $companyAccountID Company Account ID
-     * @return App\Models\File $file
+     * @return string $zipFile
      */
-    public function getFile(int $id, $companyAccountID)
+    public function getFiles(int $id, $companyAccountID)
     {
         $file = $this->show($id);
 
         $company = $this->company->where('account_id', $companyAccountID)->first();
 
-        if (!($company instanceof Company)) {
+        if (!($company instanceof Company)) { // @codeCoverageIgnoreStart
             throw new RuntimeException('Company does not exist given account ID.');
-        }
+        }  // @codeCoverageIgnoreEnd
 
-        if ($file->company_id !== $company->id) {
-            throw new RuntimeException('User does not have the rights to access file.');
-        }
+        if ($file->company_id !== $company->id) { // @codeCoverageIgnoreStart
+            throw new RuntimeException('User does not have the rights to access files.');
+        } // @codeCoverageIgnoreEnd
 
         try {
-            $file_exists = Storage::disk(config('app.storage_disk_csv'))->exists($file->file_path);
+            $files = Storage::disk(config('app.storage_disk_csv'))->files($file->file_path);
 
-            if ($file_exists === false) {
-                throw new RuntimeException('File does not exist.');
+            if (empty($files)) { // @codeCoverageIgnoreStart
+                throw new RuntimeException('File directory contains no files or has been removed for zipping.');
+            } // @codeCoverageIgnoreEnd
+
+            // initializes the zip folder with selected name
+            $zipFile = $file->invoice_number . '-' .$company->account_id . '.zip';
+            $zip = new ZipArchive;
+            $zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+            // for loops exists each file for folder
+            foreach ($files as $file) {
+                $fileContent = Storage::disk(config('app.storage_disk_csv'))->get($file);
+
+                // extracts the file name from the file path for zip folder
+                $fileArray = explode("/",$file);
+                $fileName = end($fileArray);
+
+                //  adds the file to zip
+                $zip->addFromString($fileName, $fileContent);
             }
 
-            return $file;
+            $zip->close();
+
+            return $zipFile;
         } catch (\Exception $e) { // @codeCoverageIgnoreStart
             throw $e;
         } // @codeCoverageIgnoreEnd
     }
 
     /**
-     * Uploads the file to a specific disk and saving the path to DB
+     * Uploads the file/s to a specific disk and saving the path to DB
      *
      * @param array $data
      * @return App\Models\File $file
@@ -91,40 +112,35 @@ class FileService
         DB::beginTransaction();
 
         try {
-            // Find company given salesforce account id
             $company = $this->company->where('account_id', $data['salesforce_id'])->first();
 
-            if (!($company instanceof Company)) {
+            if (!($company instanceof Company)) { // @codeCoverageIgnoreStart
                 throw new RuntimeException('Company not found given salesforce id.');
+            } // @codeCoverageIgnoreEnd
+
+            // file Directory path
+            $filePath = 'BillingCSVs/' . $company->account_id . '/' . $data['invoice_number'];
+
+            // loop each file to put in disk
+            foreach ($data['files'] as $file) {
+                $fileName = $file->getClientOriginalName();
+
+                // saves file to selected selected disk from env for CSVs
+                Storage::disk(config('app.storage_disk_csv'))->putFileAs(
+                    $filePath,
+                    $file,
+                    $fileName,
+                );
             }
 
-            // File naming convention with s3
-            $fileUrl = 'BillingCSVs/';
-            $fileName = $data['month_of_billing'] . '-'. $company->account_id . '.csv';
-            $filePath = $fileUrl . $fileName ;
-
-            // Form data for DB record
-            $monthOfBilling = Carbon::createFromFormat('Y-m', $data['month_of_billing'])->lastOfMonth()->toDateString();
-            $formData['file_path'] = $filePath;
-            $formData['name'] = $fileName;
-            $formData['file_type'] = 'csv';
-            $formData['company_id'] = $company->id;
-            $formData['month_of_billing'] = $monthOfBilling;
-
-            // Saves file to selected selected disk from env for CSVs
-            Storage::disk(config('app.storage_disk_csv'))->putFileAs(
-                $fileUrl,
-                $data['file'],
-                $fileName,
-            );
-
-            // Creates or updates a new record in DB
-            $where = [
+            $whereParams = [
+                'file_path' => $filePath,
                 'company_id' => $company->id,
-                'month_of_billing' => $monthOfBilling
+                'invoice_number' => $data['invoice_number'],
             ];
 
-            $file = $company->files()->updateOrCreate($where, $formData);
+            // updates the existing logs updated if invoice with that company exists, if not create new row
+            $file = $company->files()->updateOrCreate($whereParams, ['updated_at' => Carbon::now()]);
 
             DB::commit();
 

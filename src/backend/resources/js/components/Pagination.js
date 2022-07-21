@@ -15,7 +15,7 @@ const Pagination = (props) => {
           props.currentPage == 1 ? '' : props.handleNavigation(-1)
         }}
       />
-      <div className="inline-block text-primary-200">{props.listNumbers}</div>
+      <div className="inline-block text-tertiary-500">{props.listNumbers}</div>
       <img
         src={NextButton}
         className={
