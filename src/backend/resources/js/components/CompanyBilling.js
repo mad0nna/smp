@@ -273,7 +273,7 @@ const CompanyBilling = () => {
   )
 
   return (
-    <div className="relative mt-5">
+    <div>
       <div className="w-full h-full bg-white overflow-hidden">
         <div className="px-3 pt-3 pb-10">
           <div className="w-full pb-2">
