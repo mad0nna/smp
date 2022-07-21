@@ -263,7 +263,7 @@ const CompanyDashboardPieChart = () => {
         >
           <div>
             <div className="w-full pb-2">
-              <span className="text-hex-065F46 text-lg font-bold text-28px opacity-100 tracking-1.4px">
+              <span className="text-hex-065F46 font-bold text-28px opacity-100 tracking-1.4px">
                 サービス利用状況
               </span>
             </div>
@@ -276,7 +276,7 @@ const CompanyDashboardPieChart = () => {
           id="widget-body"
           className="h-widgetBody-sm w-full bg-white px-3 flex flex-col gap-3"
         >
-          <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-y-8 gap-x-8">
+          <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-y-8 gap-x-5">
             <div className="company-dashboard-chart-container opacity-100 rounded-15px bg-hex-F5F5F5">
               <div className="grid place-items-center">
                 <Doughnut

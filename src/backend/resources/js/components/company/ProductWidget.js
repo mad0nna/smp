@@ -188,7 +188,7 @@ const ProductWidget = () => {
                     <div className="px-2 line-clamp-2 w-full text-body-500 text-15px">
                       {item.product['product.label']}
                     </div>
-                    <div className="pl-2 pt-3 pb-2 text-center font-bold text-hex-1E1E1E text-lg">
+                    <div className="pl-2 pt-3 pb-2 text-center font-bold text-hex-1E1E1E text-lg tracking-normal">
                       {prodPrice} 円
                     </div>
                     <div className="mx-auto text-center text-sm text-lg bg-hex-8EE9AB opacity-100 rounded-3xl py-2.5 w-271px">
