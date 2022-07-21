@@ -143,7 +143,7 @@ const ProductWidget = () => {
         >
           <div>
             <div className="w-full pb-2">
-              <span className="text-green-800 text-28px font-bold opacity-100">
+              <span className="text-green-800 text-28px font-bold opacity-100 tracking-1.4px">
                 ショップ
               </span>
             </div>
@@ -180,18 +180,18 @@ const ProductWidget = () => {
                       >
                         <img
                           className="mx-auto p-4 w-56 h-auto bg-transparent"
-                          src={`${state.img_domain}/${item.media['media.preview']}`}
-                          // src="https://idaten.local/images/printer1.png"
+                          // src={`${state.img_domain}/${item.media['media.preview']}`}
+                          src="https://idaten.local/images/printer1.png"
                         ></img>
                       </a>
                     </div>
-                    <div className="pl-2 line-clamp-2 w-40 text-body-500">
+                    <div className="pl-2 line-clamp-2 w-40 text-body-500 text-15px">
                       {item.product['product.label']}
                     </div>
                     <div className="pl-2 pt-3 pb-2 text-center font-bold text-hex-1E1E1E text-lg">
                       {prodPrice} 円
                     </div>
-                    <div className="mx-auto text-center text-sm bg-hex-8EE9AB opacity-100 rounded-3xl py-1.5 w-271px">
+                    <div className="mx-auto text-center text-sm text-lg bg-hex-8EE9AB opacity-100 rounded-3xl py-2.5 w-271px">
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}
                       >
