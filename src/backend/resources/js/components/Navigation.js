@@ -51,14 +51,14 @@ const Navigation = () => {
       ],
       menu: [
         {
-          id: 'admin-dashboard',
+          id: 'dashboard',
           label: 'ダッシュボード',
           url: '/admin/dashboard',
           icon: null,
           function: null
         },
         {
-          id: 'admin-account',
+          id: 'accounts',
           label: 'アカウント',
           url: '/admin/accounts',
           icon: null,
@@ -76,7 +76,8 @@ const Navigation = () => {
           label: null,
           url: '#',
           icon: <GearIcon className="w-5 h-5 inline" />,
-          function: null
+          function: null,
+          spacing: 'sm:ml-0 md:ml-39px md:my-auto'
         }
       ]
     },
@@ -156,7 +157,8 @@ const Navigation = () => {
           label: null,
           url: '#',
           icon: <GearIcon className="w-5 h-5 inline" />,
-          function: null
+          function: null,
+          spacing: 'sm:ml-0 md:ml-39px md:my-auto'
         }
       ]
     },
@@ -208,7 +210,7 @@ const Navigation = () => {
           function: null
         },
         {
-          id: 'company',
+          id: 'companies',
           label: '契約',
           url: '/sales/companies',
           icon: null,
@@ -288,7 +290,11 @@ const Navigation = () => {
       content.push(
         <li
           key={i}
-          className={`sm:ml-0 md:ml-20 md:my-auto hover:text-primary-400 min-h-3.5 ${
+          className={`${
+            nav.spacing !== undefined
+              ? nav.spacing
+              : 'sm:ml-0 md:ml-100px md:my-auto'
+          } hover:text-primary-500 min-h-3.5 ${
             active === nav.id ? 'text-primary-500' : 'text-body-700'
           }`}
           onClick={() => setActive(nav.id)}
@@ -377,8 +383,8 @@ const Navigation = () => {
   }, [showDropdown])
 
   return (
-    <div className="border-b border-hex-D5DBE0">
-      <div className="flex justify-between px-11 py-1 bg-header min-h-10">
+    <div>
+      <div className="flex justify-between px-11 py-1 min-h-10 border-b border-hex-D5DBE0">
         <div>
           <div className="mx-auto">
             <h3 className="text-xs text-AAA tracking-normal">
@@ -426,7 +432,7 @@ const Navigation = () => {
           )}
         </div>
       </div>
-      <div className="grid grid-flow-row grid-cols-4 bg-white px-11 min-h-14 min-h-14">
+      <div className="grid grid-flow-row grid-cols-4 bg-white px-11 min-h-14 min-h-14 border-b border-hex-D5DBE0">
         <div className="col-span-1 flex flex-col justify-center xs:my-2">
           <img
             alt="Kot Logo - SM"

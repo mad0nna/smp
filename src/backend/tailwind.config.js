@@ -37,8 +37,11 @@ module.exports = {
           FF9898: '#FF9898',
           FEE5E5: '#FEE5E5',
           D5DBE0: '#D5DBE0',
+          F7F8F9: '#F7F8F9',
+          C4C4C4: '#C4C4C4',
           474747: '#474747',
           333333: '#333333',
+          676565: '#676565',
           '007B53': '#007B53',
           '67D5D1': '#67D5D1',
           '0ABBB5': '#0ABBB5',
@@ -48,12 +51,9 @@ module.exports = {
           '2D2D2D': '#2D2D2D',
           '8EE9AB': '#8EE9AB',
           '9E9E9E': '#9E9E9E',
-          'F7F8F9': '#F7F8F9',
           '17A8A414': '#17A8A414',
           '685D5E': '#685D5E',
           '1E1E1E': '#1E1E1E',
-          '676565': '#676565',
-          'C4C4C4': '#C4C4C4',
           '079591': '#079591',
           '065F46': '#065F46'
         },
@@ -92,7 +92,6 @@ module.exports = {
           900: '#F2F7F5'
         },
         AAA: '#AAAAAA',
-        header: '#2A853508',
         lightGreen: '#6AD48D',
         lime: {
           primary: '#22AC38',
@@ -106,13 +105,14 @@ module.exports = {
         },
         errorColor: '#DC2626',
         'table-header-Gray-100': '#ECECEC',
-        'table-header-Gray-400': '#A5A5A5',
+        'table-header-Gray-400': '#A5A5A5'
       },
       fontSize: {
         '2.5xl': ['1.75rem', { lineHeight: '2rem' }],
         xxs: ['0.60rem', { lineHeight: '.75rem' }],
         'widget-xs': 10,
         // region > Specific font-size in pixels unit (ASC order)
+        '9px': 9,
         '11px': 11,
         '14px': 14,
         '15px': 15,
@@ -142,7 +142,7 @@ module.exports = {
         '51px': 51,
         '58px': 58,
         '130px': 130,
-        '282px': 282,
+        '282px': 282
         // endregion
       },
       width: {
@@ -227,7 +227,7 @@ module.exports = {
         '9px': 9,
         '10px': 10,
         '15px': 15,
-        '20px': 20,
+        '20px': 20
       },
       borderWidth: {
         '3px': 3
