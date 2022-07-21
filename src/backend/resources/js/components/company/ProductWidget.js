@@ -181,11 +181,10 @@ const ProductWidget = () => {
                         <img
                           className="mx-auto p-4 w-56 h-auto bg-transparent"
                           src={`${state.img_domain}/${item.media['media.preview']}`}
-                          // src="https://idaten.local/images/printer1.png"
                         ></img>
                       </a>
                     </div>
-                    <div className="px-2 line-clamp-2 w-full text-body-500 text-15px">
+                    <div className="line-clamp-2 w-full px-5 text-body-500 text-15px">
                       {item.product['product.label']}
                     </div>
                     <div className="pl-2 pt-3 pb-2 text-center font-bold text-hex-1E1E1E text-lg tracking-normal">
