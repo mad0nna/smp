@@ -80,7 +80,7 @@ class WidgetSettings extends Model
             ],
             1 => [
                 'label' => 'サービス利用日',
-                'h' => 3,
+                'h' => 4,
                 'id' => 1,
                 'isBounded' => null,
                 'isDraggable' => null,
@@ -122,7 +122,7 @@ class WidgetSettings extends Model
             // ],
             2 => [
                 'label' => '物販',
-                'h' => 20,
+                'h' => 21,
                 'id' => 2,
                 'isBounded' => null,
                 'isDraggable' => null,
@@ -143,7 +143,7 @@ class WidgetSettings extends Model
             ],
             3 => [
                 'label' => '請求書',
-                'h' => 9,
+                'h' => 10,
                 'id' => 3,
                 'isBounded' => null,
                 'isDraggable' => null,

@@ -263,7 +263,7 @@ const CompanyDashboardPieChart = () => {
         >
           <div>
             <div className="w-full pb-2">
-              <span className="text-green-800 text-lg font-bold text-28px opacity-100">
+              <span className="text-hex-065F46 text-lg font-bold text-28px opacity-100 tracking-1.4px">
                 サービス利用状況
               </span>
             </div>
@@ -290,12 +290,12 @@ const CompanyDashboardPieChart = () => {
                   plugins={state.record1.plugins}
                 />
               </div>
-              <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-xl text-hex-007B53">
+              <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-25px text-hex-007B53">
                 登録済従業員
               </div>
 
               <div className="m-auto w-11/12 max-w-sm  w-349px">
-                <div className="pt-5 opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E bg-transparent">
+                <div className="pt-5 opacity-100 text-19px font-semibold tracking-tighter text-hex-1E1E1E bg-transparent pb-1">
                   勤怠記録
                 </div>
                 <div className="bg-white">
@@ -303,7 +303,7 @@ const CompanyDashboardPieChart = () => {
                     <span className="font-bold text-3xl">
                       {state.numberOfEmployees}
                     </span>
-                    <span className="text-hex-676565 tracking-tighter opacity-100 text-lg pl-2">
+                    <span className="text-hex-676565 tracking-tighter opacity-100 text-lg pl-2 ">
                       人のうち
                     </span>
                   </div>
@@ -331,11 +331,11 @@ const CompanyDashboardPieChart = () => {
                   plugins={state.record2.plugins}
                 />
               </div>
-              <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-xl text-hex-007B53">
+              <div className="company-dashboard-chart-table-title tracking-tighter opacity-100 font-semibold text-25px text-hex-007B53">
                 展開率
               </div>
               <div className="m-auto w-11/12 max-w-sm w-349px">
-                <div className="pt-5 opacity-100 text-lg font-semibold tracking-tighter text-hex-1E1E1E">
+                <div className="pt-5 opacity-100 text-19px font-semibold tracking-tighter text-hex-1E1E1E pb-1">
                   システムご利用予定人数
                 </div>
                 <div className="bg-white">
