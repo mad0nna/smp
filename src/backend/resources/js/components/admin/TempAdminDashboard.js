@@ -7,10 +7,10 @@ const TempAdminDashboard = () => {
     <div className="px-10">
       <div className="flex w-full">
         <div className="flex-grow"></div>
-        <div className="flex-grow" style={{ height: '80vh' }}>
+        <div className="flex-grow" style={{ height: '90vh' }}>
           <div className="grid grid-cols-2">
             <div className="-mr-72">
-              <img alt="Clock" src={clock}></img>
+              <img style={{ height: '90vh' }} alt="Clock" src={clock}></img>
             </div>
             <div className="flex items-center justify-left">
               <h1 className="text-tertiary-500 text-3xl">販売実績表示予定</h1>
