@@ -174,7 +174,7 @@ const ProductWidget = () => {
                     className="grid justify-center gap-2 pb-2 overflow-hidden mb-2 m-1.5"
                     key={index}
                   >
-                    <div className="max-w-full w-80 p-6 opacity-100 rounded-2xl bg-hex-F5F5F5">
+                    <div className="max-w-full w-80 p-6 opacity-100 rounded-15px bg-hex-F5F5F5">
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}
                       >
