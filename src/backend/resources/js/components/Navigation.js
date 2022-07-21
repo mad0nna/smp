@@ -124,7 +124,7 @@ const Navigation = () => {
           function: null
         },
         {
-          id: 'contract',
+          id: 'contracts',
           label: '契約',
           url: '/company/contracts',
           icon: null,
@@ -138,7 +138,7 @@ const Navigation = () => {
           function: null
         },
         {
-          id: 'account-list',
+          id: 'accountslist',
           label: 'アカウント',
           url: '/company/accountslist',
           icon: null,
