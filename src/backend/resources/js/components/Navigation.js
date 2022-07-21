@@ -76,7 +76,8 @@ const Navigation = () => {
           label: null,
           url: '#',
           icon: <GearIcon className="w-5 h-5 inline" />,
-          function: null
+          function: null,
+          spacing: 'sm:ml-0 md:ml-39px md:my-auto'
         }
       ]
     },
@@ -156,7 +157,8 @@ const Navigation = () => {
           label: null,
           url: '#',
           icon: <GearIcon className="w-5 h-5 inline" />,
-          function: null
+          function: null,
+          spacing: 'sm:ml-0 md:ml-39px md:my-auto'
         }
       ]
     },
@@ -288,7 +290,11 @@ const Navigation = () => {
       content.push(
         <li
           key={i}
-          className={`sm:ml-0 md:ml-100px md:my-auto hover:text-primary-500 min-h-3.5 ${
+          className={`${
+            nav.spacing !== undefined
+              ? nav.spacing
+              : 'sm:ml-0 md:ml-100px md:my-auto'
+          } hover:text-primary-500 min-h-3.5 ${
             active === nav.id ? 'text-primary-500' : 'text-body-700'
           }`}
           onClick={() => setActive(nav.id)}
