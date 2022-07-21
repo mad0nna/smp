@@ -103,7 +103,7 @@ module.exports = {
         },
         errorColor: '#DC2626',
         'table-header-Gray-100': '#ECECEC',
-        'table-header-Gray-400': '#A5A5A5',
+        'table-header-Gray-400': '#A5A5A5'
       },
       fontSize: {
         '2.5xl': ['1.75rem', { lineHeight: '2rem' }],
@@ -136,7 +136,7 @@ module.exports = {
         '51px': 51,
         '58px': 58,
         '130px': 130,
-        '282px': 282,
+        '282px': 282
         // endregion
       },
       width: {
@@ -221,7 +221,7 @@ module.exports = {
         '9px': 9,
         '10px': 10,
         '15px': 15,
-        '20px': 20,
+        '20px': 20
       },
       borderWidth: {
         '3px': 3

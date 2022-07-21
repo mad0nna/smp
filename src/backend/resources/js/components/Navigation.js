@@ -288,7 +288,7 @@ const Navigation = () => {
       content.push(
         <li
           key={i}
-          className={`sm:ml-0 md:ml-20 md:my-auto hover:text-primary-400 min-h-3.5 ${
+          className={`sm:ml-0 md:ml-100px md:my-auto hover:text-primary-500 min-h-3.5 ${
             active === nav.id ? 'text-primary-500' : 'text-body-700'
           }`}
           onClick={() => setActive(nav.id)}
