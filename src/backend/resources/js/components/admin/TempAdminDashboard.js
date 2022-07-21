@@ -4,18 +4,6 @@ import clock from '../../../img/admin/dashboard-maintenance.png'
 
 const TempAdminDashboard = () => {
   return (
-    // <div className="grid grid-rows-4 grid-flow-col gap-4">
-    //   <div className="row-span-1 ...">01</div>
-    //   <div className="row-span-4 ...">
-    //     <div className="">
-    //       <img alt="Clock" src={clock}></img>
-    //     </div>
-    //     <div className="flex items-center justify-left">
-    //       <h1 className="text-tertiary-500 text-3xl">販売実績表示予定</h1>
-    //     </div>
-    //   </div>
-    //   <div className="row-span-1 ...">01</div>
-    // </div>
     <div className="px-10">
       <div className="flex w-full">
         <div className="flex-grow"></div>
