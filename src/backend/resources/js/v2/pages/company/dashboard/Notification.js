@@ -99,7 +99,7 @@ const Notification = (props) => {
         <div id="widget-header" className="bg-white relative box-border">
           <div>
             <div className="w-full pb-2">
-              <span className="text-green-800 text-28px font-bold opacity-100">
+              <span className="text-hex-065F46 text-28px font-bold opacity-100 tracking-1.4px">
                 お知らせ
               </span>
             </div>
@@ -127,7 +127,9 @@ const Notification = (props) => {
           ) : (
             state.notificationItems.map((item, index) => {
               let fontColor =
-                item.status !== '既読' ? 'text-gray-900' : 'text-gray-400'
+                item.status !== '既読'
+                  ? 'text-hex-079591 font-medium'
+                  : 'text-secondary-500 font-light'
               return (
                 <div
                   id="widget-content-item"
@@ -146,12 +148,15 @@ const Notification = (props) => {
                   <p
                     id="item-content"
                     className={
-                      fontColor +
                       '  font-sans text-xs tracking-tighter ml-9 w-4/5 '
                     }
                   >
                     {/* <span className="text-secondary-600">{item.header} </span> */}
-                    <span className="text-secondary-600 opacity-100">
+                    <span
+                      className={
+                        fontColor + ' opacity-100 text-base tracking-normal'
+                      }
+                    >
                       {item.message}
                     </span>
                     <br />
@@ -171,7 +176,7 @@ const Notification = (props) => {
                       className="cursor-pointer"
                     >
                       <span
-                        className="text-hex-9E9E9E text-xs opacity-100"
+                        className="text-hex-9E9E9E text-14px opacity-100 tracking-normal"
                         dataid={item.id}
                         datatype={item.type}
                       >

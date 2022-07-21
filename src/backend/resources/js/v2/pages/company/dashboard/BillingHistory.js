@@ -44,7 +44,7 @@ const BillingHistory = () => {
           <div>
             <div className="flex flex-row justify-between w-full">
               <div>
-                <span className="text-green-800 text-28px font-bold pb-9 opacity-100">
+                <span className="text-hex-065F46 text-28px font-bold pb-9 opacity-100 tracking-1.4px">
                   請求書
                 </span>
               </div>
@@ -54,6 +54,7 @@ const BillingHistory = () => {
             <img alt="Ellipsis" src={Ellipsis} />
           </div>
         </div>
+
         <div id="widget-body" className="w-full">
           {state.loading === true ? (
             <div className="w-full relative mt-24 h-24 dashboard-widget-list overflow-hidden">
@@ -78,17 +79,17 @@ const BillingHistory = () => {
                 >
                   <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-x-10 pb-5">
                     <div className="grid">
-                      <div className="text-3xl text-hex-007B53 font-bold tracking-tighter opacity-100">
+                      <div className="text-29px text-hex-007B53 font-bold tracking-tighter opacity-100">
                         {`${item.amount} `} <span>円(税込)</span>
                       </div>
                     </div>
 
                     <div className="grid">
                       <div>
-                        <span className="text-lg text-hex-007B53 font-semibold tracking-tighter opacity-100">
+                        <span className="text-20px text-hex-007B53 font-semibold tracking-tighter opacity-100">
                           請求書番号{' '}
                         </span>
-                        <div className="text-hex-1E1E1E font-semibold tracking-tighter opacity-100">
+                        <div className="text-23px text-hex-1E1E1E tracking-tighter opacity-100">
                           {item.invoiceNumber}
                         </div>
                       </div>
@@ -97,10 +98,10 @@ const BillingHistory = () => {
                   <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-x-10">
                     <div className="grid">
                       <div>
-                        <span className="text-lg text-hex-007B53 font-semibold tracking-tighter opacity-100">
+                        <span className="text-20px text-hex-007B53 font-semibold tracking-tighter opacity-100">
                           支払期限{' '}
                         </span>
-                        <div className="text-1E1E1E font-semibold tracking-tighter opacity-100">
+                        <div className="text-23px text-hex-1E1E1E  tracking-tighter opacity-100">
                           {item.dueDate}
                         </div>
                       </div>
@@ -108,10 +109,10 @@ const BillingHistory = () => {
 
                     <div className="grid">
                       <div>
-                        <span className="text-lg text-hex-007B53 font-bold tracking-tighter opacity-100">
+                        <span className="text-20px text-hex-007B53 font-semibold tracking-tighter opacity-100">
                           請求日{' '}
                         </span>
-                        <div className="text-1E1E1E font-bold tracking-tighter opacity-100">
+                        <div className="text-23px text-hex-1E1E1E tracking-tighter opacity-100">
                           {item.invoiceDate}
                         </div>
                       </div>

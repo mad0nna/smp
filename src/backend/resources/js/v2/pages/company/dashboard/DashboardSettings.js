@@ -30,7 +30,7 @@ const DashboardSettings = () => {
         >
           <div>
             <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
-              <span className="text-green-800 text-28px font-bold opacity-100">
+              <span className="text-hex-065F46 text-28px font-bold opacity-100 tracking-1.4px">
                 クイックリンク
               </span>
             </div>

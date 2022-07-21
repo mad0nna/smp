@@ -53,7 +53,9 @@ module.exports = {
           '685D5E': '#685D5E',
           '1E1E1E': '#1E1E1E',
           '676565': '#676565',
-          'C4C4C4': '#C4C4C4'
+          'C4C4C4': '#C4C4C4',
+          '079591': '#079591',
+          '065F46': '#065F46'
         },
         // endregion
         primary: {
@@ -113,10 +115,14 @@ module.exports = {
         // region > Specific font-size in pixels unit (ASC order)
         '11px': 11,
         '14px': 14,
+        '15px': 15,
+        '19px': 19,
         '20px': 20,
         '22px': 22,
         '23px': 23,
-        '28px': 28
+        '25px': 25,
+        '28px': 28,
+        '29px': 29
         // endregion
       },
       height: {
@@ -245,6 +251,9 @@ module.exports = {
       },
       zIndex: {
         '-1': '-1'
+      },
+      letterSpacing: {
+        '1.4px': 1.4
       }
     },
     fontFamily: {
