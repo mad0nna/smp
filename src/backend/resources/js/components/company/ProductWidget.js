@@ -184,7 +184,7 @@ const ProductWidget = () => {
                         ></img>
                       </a>
                     </div>
-                    <div className="pl-2 line-clamp-2 w-40 text-body-500 text-15px">
+                    <div className="line-clamp-2 w-full px-5 text-body-500 text-15px">
                       {item.product['product.label']}
                     </div>
                     <div className="pl-2 pt-3 pb-2 text-center font-bold text-hex-1E1E1E text-lg">
