@@ -87,7 +87,7 @@ const Notification = (props) => {
       <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
         <div id="widget-header" className="bg-white relative box-border">
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">お知らせ</h2>
             </div>
           </div>
@@ -101,7 +101,7 @@ const Notification = (props) => {
           className={
             'w-full py-1 space-y-1 ' + (state.loading === true)
               ? ''
-              : 'bg-mainbg'
+              : 'bg-primaryBg'
           }
         >
           {state.loading === true ? (
@@ -156,7 +156,7 @@ const Notification = (props) => {
                       className="cursor-pointer"
                     >
                       <span
-                        className="text-primary-200 text-xs"
+                        className="text-tertiary-500 text-xs"
                         dataid={item.id}
                         datatype={item.type}
                       >
@@ -183,7 +183,7 @@ const Notification = (props) => {
           ) : (
             <div id="widget-footer-control" className="float-right">
               <a href="./notifications">
-                <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">
+                <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter pointer-events-none">
                   さらに表示
                 </button>
               </a>

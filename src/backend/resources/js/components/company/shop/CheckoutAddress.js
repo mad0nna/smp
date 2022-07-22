@@ -56,7 +56,7 @@ const CheckoutAddress = (props) => {
       <div className="bg-white rounded-lg md:max-w-auto md:mx-auto p-10 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative w-10/12">
         <div className="flex flex-wrap gap-0 w-full justify-start">
           <div className="w-full flex-wrap gap-0 text-gray-700 items-center mt-5">
-            <div className="text-center w-full text-secondary-200 font-black mb-8 font-semibold">
+            <div className="text-center w-full text-red-600 font-black mb-8 font-semibold">
               配送先を入力してください
             </div>
             <div className="md:flex md:items-center mb-5">
@@ -237,7 +237,7 @@ const CheckoutAddress = (props) => {
                     font-normal
                     text-black-700
                     bg-gray-200 bg-clip-padding bg-no-repeat
-                    border border-solid 
+                    border border-solid
                     ${
                       props.error.prefecture && props.isSubmit
                         ? 'border-red-700'
@@ -507,7 +507,7 @@ const CheckoutAddress = (props) => {
                   </button>
                 ) : (
                   <button
-                    className="bg-primary-200 text-white h-12 w-2/6 rounded-3xl font-semibold"
+                    className="bg-tertiary-500 text-white h-12 w-2/6 rounded-3xl font-semibold"
                     onClick={
                       props.isSubmit &&
                       Object.values(props.error).includes(true)

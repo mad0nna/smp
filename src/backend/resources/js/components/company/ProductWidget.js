@@ -117,27 +117,35 @@ const ProductWidget = () => {
   useEffect(() => {
     // set product list
     let isMounted = true
+
     if (productList.length == 0) {
       getProductListApi()
     }
-    setState((prevState) => {
-      return {
-        ...prevState,
-        loadedComponent: isMounted
-      }
-    })
+    if (isMounted) {
+      setState((prevState) => {
+        return {
+          ...prevState,
+          loadedComponent: isMounted
+        }
+      })
+    }
+    return () => {
+      isMounted = false
+    }
   }, [productList, getProductListApi])
 
   return state.loadedComponent ? (
     <div className="h-full w-full relative group">
-      <div className="dashboard-widget-list w-full h-full relative bg-white rounded-lg shadow-xl overflow-auto">
+      <div className="dashboard-widget-list w-full h-full relative bg-white rounded-20px overflow-auto border border-whiteTint-500">
         <div
           id="widget-header"
           className="bg-white box-border p-3 pb-6 relative"
         >
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
-              <h2 className="text-green-800 text-lg font-bold">物販</h2>
+            <div className="w-full pb-2">
+              <span className="text-green-800 text-28px font-bold opacity-100 tracking-1.4px">
+                ショップ
+              </span>
             </div>
           </div>
           <div className="absolute w-5 h-1 top-1.5 right-3 hidden group-hover:block">
@@ -152,7 +160,7 @@ const ProductWidget = () => {
               </div>
             </div>
           ) : (
-            <div className="grid lg:grid-cols-1 xl:grid-cols-2">
+            <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-y-8 ">
               {productList.map((item, index) => {
                 let prodPrice
                 if (!_.isEmpty(item.price)) {
@@ -163,28 +171,33 @@ const ProductWidget = () => {
 
                 return (
                   <div
-                    className="grid justify-center gap-2 pb-2 overflow-hidden mb-2"
+                    className="grid justify-center gap-2 pb-2 overflow-hidden mb-2 m-1.5"
                     key={index}
                   >
-                    <a
-                      href={`/company/productDetail/?id=${item.product['product.id']}`}
-                    >
-                      <div className="prod-widget-img-holder">
-                        <img
-                          className="mx-auto p-4"
-                          src={`${state.img_domain}/${item.media['media.preview']}`}
-                        ></img>
-                      </div>
-                    </a>
-                    <div className="pl-2 line-clamp-2 prod-label">
-                      {item.product['product.label']}
-                    </div>
-                    <div className="pl-2">{prodPrice}円</div>
-                    <div className="pl-2 text-primary-200">
+                    <div className="max-w-full w-80 p-6 opacity-100 rounded-15px bg-hex-F5F5F5">
                       <a
                         href={`/company/productDetail/?id=${item.product['product.id']}`}
                       >
-                        ご購入はこちらから
+                        <img
+                          className="mx-auto p-4 w-56 h-auto bg-transparent"
+                          src={`${state.img_domain}/${item.media['media.preview']}`}
+                        ></img>
+                      </a>
+                    </div>
+                    <div className="line-clamp-2 w-full px-5 text-body-500 text-15px h-35px">
+                      {item.product['product.label']}
+                    </div>
+                    <div className="pl-2 pt-3 pb-2 text-center font-bold text-hex-1E1E1E text-lg tracking-normal">
+                      {prodPrice} 円
+                    </div>
+                    <div className="mx-auto text-center text-sm text-lg bg-hex-8EE9AB opacity-100 rounded-3xl py-2.5 w-271px">
+                      <a
+                        href={`/company/productDetail/?id=${item.product['product.id']}`}
+                      >
+                        <span className="company-dashboard-product-widget-button-text text-hex-007B53 tracking-tighter drop-shadow-none">
+                          {' '}
+                          ご購入はこちらから
+                        </span>
                       </a>
                     </div>
                   </div>
@@ -193,15 +206,19 @@ const ProductWidget = () => {
             </div>
           )}
         </div>
-        <div id="widget-footer" className="w-full h-10 p-3.5">
-          <div id="widget-footer-control" className="float-right">
-            <a href="/company/shop">
-              <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter cursor-pointer">
-                さらに表示
-              </button>
-            </a>
+        {!state.loading ? (
+          <div id="widget-footer" className="w-full h-10 p-4 mb-7">
+            <div id="widget-footer-control" className="float-right">
+              <a href="/company/shop">
+                <button className="dashboard-widget-button bg-hex-007B53 text-white">
+                  さらに表示
+                </button>
+              </a>
+            </div>
           </div>
-        </div>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   ) : null

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class UploadableTraitTest extends TestCase
 {
     use Uploadable;
-
+    
     public function __constructor()
     {
         parent::__constructor();

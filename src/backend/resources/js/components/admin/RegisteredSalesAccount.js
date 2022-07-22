@@ -22,7 +22,7 @@ const RegisteredSalesAgency = () => {
       >
         <div id="widget-header" className="box-border p-3 pb-6 relative">
           <div>
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">
                 登録済み販売代理店
               </h2>

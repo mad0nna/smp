@@ -53,7 +53,7 @@ const CompanyLogin = () => {
           <div className="flex flex-wrap gap-0 w-full justify-center mt-2 mb-6">
             <button
               onClick={handleSubmit}
-              className="bg-primary-200 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-1/2"
+              className="bg-tertiary-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-1/2"
             >
               サインイン
             </button>

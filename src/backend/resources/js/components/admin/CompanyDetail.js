@@ -38,7 +38,7 @@ const CompanyDetail = (props) => {
     )
   }
   return (
-    <div className="relative px-10 pt-5 pb-5 bg-mainbg font-sans">
+    <div className="relative px-10 pt-5 pb-5 bg-primaryBg font-sans">
       {hasBreadcrumb ? breadCrumb() : ''}
       <div
         id="contact-persons"
@@ -50,7 +50,7 @@ const CompanyDetail = (props) => {
         >
           <div id="contact-logo-container" className="h-10 flex mb-2 pl-20">
             <img src={ProfileIcon} alt="" className="h-8 w-8 pt-1" />
-            <p className="text-primary-200 text-lg font-bold pt-1 ml-2 ">
+            <p className="text-tertiary-500 text-lg font-bold pt-1 ml-2 ">
               管理部
             </p>
           </div>
@@ -125,7 +125,7 @@ const CompanyDetail = (props) => {
         >
           <div id="contact-logo-container" className="h-10 flex mb-2 pl-20">
             <img src={ProfileIcon} alt="" className="h-8 w-8 pt-1" />
-            <p className="text-primary-200 text-lg font-bold pt-1 ml-2">
+            <p className="text-tertiary-500 text-lg font-bold pt-1 ml-2">
               人事部
             </p>
           </div>
@@ -202,7 +202,7 @@ const CompanyDetail = (props) => {
           <div id="companyDetail" className=" pl-20 mt-5">
             <div id="contact-logo-container" className="h-10 flex mb-2">
               <img src={CompanyIcon} alt="" className="h-8 w-8 pt-1" />
-              <p className="text-primary-200 text-lg font-bold pt-1 ml-2 ">
+              <p className="text-tertiary-500 text-lg font-bold pt-1 ml-2 ">
                 顧客 企業 プロフィール
               </p>
             </div>
@@ -353,7 +353,7 @@ const CompanyDetail = (props) => {
           <div className="w-full h-3/5 px-4 py-2 border-2 border-gray-200 bg-white rounded-lg">
             <div id="contact-logo-container" className="h-10 flex mb-2">
               <img src={HistoryIcon} alt="" className="h-5 w-5 pt-1 mt-1" />
-              <p className="text-primary-200 text-lg font-bold pt-1 ml-2 ">
+              <p className="text-tertiary-500 text-lg font-bold pt-1 ml-2 ">
                 請求履歴
               </p>
             </div>
@@ -397,8 +397,8 @@ const CompanyDetail = (props) => {
                       src={PrevButton}
                       className="inline-block w-7 h-auto cursor-default mb-1"
                     />
-                    <div className="inline-block text-primary-200">
-                      <span className="text-white rounded-2xl bg-primary-200 px-3 py-2 cursor-default">
+                    <div className="inline-block text-tertiary-500">
+                      <span className="text-white rounded-2xl bg-tertiary-500 px-3 py-2 cursor-default">
                         1
                       </span>
                       <span className="px-3 py-2 cursor-default">2</span>

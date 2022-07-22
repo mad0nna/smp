@@ -950,11 +950,11 @@ const CartList = () => {
       .then((res) => setCsrfToken(res.data.meta.csrf))
   }, [])
   return (
-    <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 gap-6 mx-10 mt-5 font-meiryo">
-      <div className="md:col-span-1 lg:col-span-3 pb-5">
-        <div className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10">
+    <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6 font-meiryo">
+      <div className="md:col-span-1 lg:col-span-3">
+        <div className="w-full overflow-hidden">
           <div className="px-3 pt-3 pb-6">
-            <div className="pb-2 border-b border-green-800 border-opacity-80 flex space-x-4 items-center">
+            <div className="pb-2 flex space-x-4 items-center">
               <div className="bg-cart-icon h-10 w-8"></div>
               <h2 className="text-green-700 text-lg font-bold">カート</h2>
             </div>
@@ -987,7 +987,7 @@ const CartList = () => {
         </div>
       </div>
       <div className="w-full h-full relative group overflow-hidden">
-        <div className="relative gap-3 bg-white rounded-2xl border-2 border-gray-400 shadow-xl w-full">
+        <div className="relative gap-3 bg-white rounded-xl border-2 border-gray-400 w-full">
           <div className="w-full px-1">
             <div className="grid gap-6 grid-cols-1 p-7 items-center justify-center">
               <div className="flex flex-wrap space-x-4 justify-between pt-10 pb-5">
@@ -1025,7 +1025,7 @@ const CartList = () => {
                   className="h-6 w-6 border-solid border-4 border-gray-500 border-opacity-25 shadow-xl rounded-md checked:bg-gray-500 checked:border-transparent focus:outline-none"
                   onChange={handleAcceptAgreement}
                 />
-                <div className="text-sm  text-primary-200 ">
+                <div className="text-sm text-tertiary-500">
                   <a
                     href={'/pdf/TermsOfUse.pdf'}
                     target="_blank"
@@ -1041,7 +1041,7 @@ const CartList = () => {
             </div>
             <div className="flex flex-col items-center space-y-4 py-10">
               <button
-                className={`bg-primary-200 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
+                className={`bg-tertiary-500 justify-center rounded-3xl items-center text-white h-14 w-4/5 font-bold ${
                   isAgreedTerms && items.length !== 0 && stockData.length === 0
                     ? ''
                     : 'bg-opacity-50 cursor-not-allowed'

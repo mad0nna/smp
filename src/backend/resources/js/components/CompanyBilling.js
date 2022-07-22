@@ -205,12 +205,12 @@ const CompanyBilling = () => {
       }
     })
   }
-  const getBillingCSVFile = (billingCSVFileId, billingCSVFileName = '') => {
+  const getBillingCSVFile = (billingCSVFilePathId, billingCSVFileName = '') => {
     const cancelToken = source.token
     const url = `/company/downloadBillingHistoryCSV`
 
     const body = {
-      id: billingCSVFileId
+      id: billingCSVFilePathId
     }
 
     axios
@@ -248,8 +248,8 @@ const CompanyBilling = () => {
   for (let index = 1; index <= numberOFPages; index++) {
     let activeStyle =
       index === state.currentPage
-        ? 'text-white bg-primary-200 '
-        : 'text-primary-200 '
+        ? 'text-white bg-tertiary-500 '
+        : 'text-tertiary-500 '
     pageNumbers.push(
       <li
         key={index}
@@ -273,10 +273,10 @@ const CompanyBilling = () => {
   )
 
   return (
-    <div className="relative px-10 mt-5 bg-mainbg">
-      <div className="w-full h-full bg-white overflow-hidden rounded-lg shadow-xl">
-        <div className="px-3 pt-3 pb-1">
-          <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+    <div>
+      <div className="w-full h-full bg-white overflow-hidden">
+        <div className="px-3 pt-3 pb-10">
+          <div className="w-full pb-2">
             <h2 className="text-green-800 text-lg font-bold">請求履歴</h2>
           </div>
         </div>
@@ -352,7 +352,7 @@ const CompanyBilling = () => {
           className="h-50 w-full bg-white overflow-hidden px-3"
         >
           <table className="table-auto w-full h-auto text-center mb-6">
-            <thead className="bg-gray-50 border-b border-t border-gray-200">
+            <thead className="bg-whiteTint-500 border-b border-t border-gray-200">
               <tr className="h-11 text-xs text-gray-500 text-shadow-none">
                 <th>請求書番号</th>
                 {/* <th>請求書名</th> */}
@@ -381,7 +381,7 @@ const CompanyBilling = () => {
                         <p className="relative lg:-left-16 sm:-left-0">{`${item.amount} 円(税込)`}</p>
                       </td>
                       {/* <td className={txtcolor + ' text-center'}>-</td> */}
-                      <td className="text-center text-primary-200">
+                      <td className="text-center text-tertiary-500">
                         <div
                           className="inline-block cursor-pointer"
                           onClick={() => {
@@ -394,12 +394,12 @@ const CompanyBilling = () => {
                         >
                           請求書&nbsp;
                         </div>{' '}
-                        {item.billingCSVFileId !== null && (
+                        {item.billingCSVFilePathId !== null && (
                           <div
                             className="inline-block cursor-pointer"
                             onClick={() => {
                               getBillingCSVFile(
-                                item.billingCSVFileId,
+                                item.billingCSVFilePathId,
                                 item.billingCSVFileName
                               )
                             }}
@@ -416,22 +416,11 @@ const CompanyBilling = () => {
           </table>
         </div>
       </div>
-      <div
-        id="pagination"
-        className="w-full h-12 p-3 text-center space-x-2 mt-4"
-      >
+      <div id="pagination" className="w-full h-12 text-center space-x-2 my-3">
         <div>
-          {/* <img
-            src="/images/pagination-prev.png?1ac337e7f7bfaacab64ea9a2369b5930"
-            className=" inline-block  w-8 h-auto mr-1"
-          /> */}
-          <div className="inline-block text-primary-200">
+          <div className="inline-block text-tertiary-500">
             <ul id="page-numbers">{pageNumbers}</ul>
           </div>
-          {/* <img
-            src="/images/pagination-next.png?831991390ac360b1b03a00cdcd915ec5"
-            className=" inline-block  w-8 h-auto ml-1"
-          /> */}
         </div>
       </div>
     </div>

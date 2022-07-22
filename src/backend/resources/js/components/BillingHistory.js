@@ -32,14 +32,14 @@ const BillingHistory = () => {
       <div className="dashboard-widget-list overflow-hidden w-full h-full relative bg-white rounded-lg shadow-xl pt-3 px-3">
         <div id="widget-header" className="bg-white relative box-border">
           <div>
-            <div className="flex flex-row justify-between w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="flex flex-row justify-between w-full pb-2">
               <div>
                 <h2 className="text-green-800 text-lg font-bold">請求書</h2>
               </div>
             </div>
           </div>
           <div className="absolute w-5 h-1 -top-1 -right-1 hidden group-hover:block">
-            <img src={Ellipsis} />
+            <img alt="Ellipsis" src={Ellipsis} />
           </div>
         </div>
         <div id="widget-body" className="w-full">
@@ -47,7 +47,11 @@ const BillingHistory = () => {
             <div className="w-full relative mt-24 h-24 dashboard-widget-list overflow-hidden">
               <div className="mx-auto absolute bottom-1 w-full text-center billing-loading">
                 請求書を読み込み中です
-                <img className="mx-auto h-12 mt-5" src={spinner}></img>
+                <img
+                  alt="Spinner"
+                  className="mx-auto h-12 mt-5"
+                  src={spinner}
+                />
               </div>
             </div>
           ) : (
@@ -101,7 +105,7 @@ const BillingHistory = () => {
             <div id="widget-footer-control" className="float-right">
               <a
                 href="/company/billing"
-                className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter px-2"
+                className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter px-2"
               >
                 さらに表示
               </a>

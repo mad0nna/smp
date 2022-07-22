@@ -39,7 +39,7 @@ class Announcements extends React.Component {
           >
             <div
               id="widget-name"
-              className="text-primary-200 font-sans font-bold"
+              className="text-tertiary-500 font-sans font-bold"
             >
               {' '}
               <img className="h-5 inline" src={notificationIcon} /> お知らせ
@@ -69,7 +69,7 @@ class Announcements extends React.Component {
                   </p>
                   <p
                     id="item-status"
-                    className="absolute right-8 float-right font-sans text-primary-200 text-sm tracking-tighter text-center bottom-3"
+                    className="absolute right-8 float-right font-sans text-tertiary-500 text-sm tracking-tighter text-center bottom-3"
                   >
                     {item.status}
                   </p>
@@ -79,7 +79,7 @@ class Announcements extends React.Component {
           </div>
           <div id="widget-footer" className="w-full h-14 p-2.5">
             <div id="widget-footer-control" className="float-right">
-              <button className="border-primary-200 text-bold w-24 border-2 text-primary-200 rounded-3xl tracking-tighter pointer-events-none">
+              <button className="border-tertiary-500 text-bold w-24 border-2 text-tertiary-500 rounded-3xl tracking-tighter pointer-events-none">
                 さらに表示
               </button>
             </div>

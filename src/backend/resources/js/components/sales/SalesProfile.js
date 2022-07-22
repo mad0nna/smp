@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import profileIcon from '../../../img/customer-company-profile.png'
-import businessLogo from '../../../img/business-logo.png'
 import iconCompany from '../../../img/company-gray.png'
-import iconStreet from '../../../img/street-address-gray.png'
+import businessLogo from '../../../img/business-logo.png'
 import iconPhone from '../../../img/phone-number-gray.png'
-import iconCustomerCompany from '../../../img/customer-company-gray.png'
+import iconStreet from '../../../img/street-address-gray.png'
 import iconEmployees from '../../../img/multi-employee-gray.png'
+import profileIcon from '../../../img/customer-company-profile.png'
+import iconCustomerCompany from '../../../img/customer-company-gray.png'
 
 class SalesProfile extends Component {
   constructor(props) {
@@ -42,19 +42,27 @@ class SalesProfile extends Component {
       <div className="flex justify-center bg-gray-100">
         <div className="align-top inline-block w-full rounded-xl border-gray-200 border  bg-white mb-4 ml-8 mr-5 py-5 px-6">
           <div className="component-header relative w-full">
-            <img className="inline align-top" src={profileIcon} />
-            <span className="align-bottom ml-2 p-0 inline text-primary-200 font-bold text-lg">
+            <img
+              alt="Profile Icon"
+              className="inline align-top"
+              src={profileIcon}
+            />
+            <span className="align-bottom ml-2 p-0 inline text-tertiary-500 font-bold text-lg">
               顧客企業プロフィール
             </span>
           </div>
           <div className="mx-10 mt-11 mb-5">
             <div className="flex flex-wrap gap-0 w-full justify-start">
-              <img className="inline" src={businessLogo} />
+              <img alt="Business Logo" className="inline" src={businessLogo} />
             </div>
             <div className="flex flex-wrap gap-0 w-full justify-start mt-8">
               <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                 <div className="mb-1 md:mb-0 lg:w-1/4 md:w-1/6">
-                  <img className="inline mr-4" src={iconCompany} />
+                  <img
+                    alt="Icon Company"
+                    className="inline mr-4"
+                    src={iconCompany}
+                  />
                   <label className="text-sm text-gray-400">会社名</label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
@@ -80,7 +88,11 @@ class SalesProfile extends Component {
             <div className="flex flex-wrap gap-0 w-full justify-start">
               <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                 <div className="mb-1 md:mb-0 lg:w-1/4 md:w-1/6">
-                  <img className="inline mr-4" src={iconStreet} />
+                  <img
+                    alt="Icon Street"
+                    className="inline mr-4"
+                    src={iconStreet}
+                  />
                   <label className="text-sm text-gray-400">住所</label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
@@ -105,7 +117,11 @@ class SalesProfile extends Component {
 
               <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                 <div className="mb-1 md:mb-0 lg:w-1/4 md:w-1/6">
-                  <img className="inline mr-4" src={iconPhone} />
+                  <img
+                    alt="Phone Icon"
+                    className="inline mr-4"
+                    src={iconPhone}
+                  />
                   <label className="text-sm text-gray-400">電話番号</label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
@@ -130,7 +146,11 @@ class SalesProfile extends Component {
 
               <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                 <div className="mb-1 md:mb-0 lg:w-1/4 md:w-1/6">
-                  <img className="inline mr-4" src={iconCustomerCompany} />
+                  <img
+                    alt="Customer Company Icon"
+                    className="inline mr-4"
+                    src={iconCustomerCompany}
+                  />
                   <label className="text-sm text-gray-400">顧客企業 ID</label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">
@@ -155,7 +175,11 @@ class SalesProfile extends Component {
 
               <div className="flex w-full flex-wrap gap-0 text-gray-700 md:flex md:items-center mt-5">
                 <div className="mb-1 md:mb-0 lg:w-1/4 md:w-1/6">
-                  <img className="inline mr-4" src={iconEmployees} />
+                  <img
+                    alt="Employees Icon"
+                    className="inline mr-4"
+                    src={iconEmployees}
+                  />
                   <label className="text-sm text-gray-400">従業員数</label>
                 </div>
                 <div className="md:w-2/3 md:flex-grow">

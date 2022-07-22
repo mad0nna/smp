@@ -28,18 +28,11 @@ class ForgotResetPasswordTest extends TestCase
     /** @var App\Models\User */
     private static $USER;
 
-    /**
-     * ForgotResetPasswordTest constructor.
-     */
-    public function __construct()
+    public function setUp(): void
     {
-        parent::__construct();
-        $this->createApplication();
-    }
+        $this->markTestSkipped('all tests in this file are invactive for this server configuration!');
 
-    public static function setUpBeforeClass(): void
-    {
-        parent::setUpBeforeClass();
+        parent::setUp();
 
         $userService = new UserService(new User);
         $status = UserStatus::where('name', 'Active')->first();
@@ -48,7 +41,7 @@ class ForgotResetPasswordTest extends TestCase
         self::$USER = $userService->create(self::$DATA);
     }
 
-    public static function tearDownAfterClass(): void
+    protected function tearDown(): void 
     {
         parent::tearDownAfterClass();
         // delete test account

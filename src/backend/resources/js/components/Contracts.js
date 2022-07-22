@@ -63,8 +63,8 @@ const Contracts = () => {
                 <span
                   className={
                     pagingConditions.page == number
-                      ? `text-white bg-primary-200 rounded-2xl px-3 py-1`
-                      : `text-primary-200 px-3 py-1`
+                      ? `text-white bg-tertiary-500 rounded-2xl px-3 py-1`
+                      : `text-tertiary-500 px-3 py-1`
                   }
                 >
                   {number}
@@ -91,20 +91,20 @@ const Contracts = () => {
   }, [pagingConditions])
 
   return (
-    <div className="bg-mainbg grid lg:grid-cols-4 md:grid-cols-2 grid-flow-row lg:grid-rows-3 gap-6 mx-10 mt-5 font-meiryo">
+    <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-flow-row lg:grid-rows-3 gap-6 mt-5 font-meiryo">
       <div className="col-span-3 row-span-2">
         <div
-          className="w-full rounded-lg shadow-xl overflow-hidden bg-white mb-10"
+          className="w-full rounded-lg border border-whiteTint-500 overflow-hidden bg-white mb-10"
           style={{ 'min-height': '568px' }}
         >
           <div className="px-3 pt-3 pb-6">
-            <div className="w-full pb-2 border-b border-green-800 border-opacity-80">
+            <div className="w-full pb-2">
               <h2 className="text-green-800 text-lg font-bold">契約一覧</h2>
             </div>
           </div>
           <div className="px-3">
             <table className="table-auto w-full mb-6">
-              <thead className="bg-gray-50 border-b border-t border-gray-200">
+              <thead className="bg-whiteTint-500 border-b border-t border-gray-200">
                 <tr className="h-11 text-xs text-gray-500 text-shadow-none">
                   <th>プロダクト</th>
                   <th>KoT申込日</th>
@@ -118,7 +118,7 @@ const Contracts = () => {
                   const stripe = !(index % 2) ? '' : 'bg-white'
                   const styles =
                     contract.status === '申請する'
-                      ? 'text-primary-200'
+                      ? 'text-tertiary-500'
                       : 'text-green-900'
                   return (
                     <tr
@@ -152,7 +152,7 @@ const Contracts = () => {
 
         <div
           id="billing-pagination"
-          className="w-full h-12 p-3 text-center space-x-2 mt-3 col-span-3"
+          className="w-full h-12 text-center space-x-2 mt-3 col-span-3"
         >
           <Pagination
             listNumbers={state.pageNumbers}

@@ -151,7 +151,6 @@ $operators = map( $this->get( 'filterOperators/compare', [] ) )->flip()->map( fu
 } )->all();
 
 $baseItems = $this->get( 'baseItems', [] );
-$customer = $this->get( 'customer', [] );
 
 $columnList = [
 	'order.id' => $this->translate( 'admin', '請求書番号' ),	
@@ -292,7 +291,7 @@ $statusList = [
 						<?php $url = $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['id' => $item->getBaseId()] + $params, [], $getConfig ) ) ?>
 						<?php 
 							$baseItem = ( isset( $baseItems[$item->getBaseId()] ) ? $baseItems[$item->getBaseId()] : null );
-							if ($baseItem->getCustomerItem() == null) { continue; }
+							$customer = $baseItem->toArray();
 						?>
 						<tr class="list-item <?= $this->site()->readonly( $item->getSiteId() ) ?>">
 							<?php if( in_array( 'order.id', $fields ) ) : ?>

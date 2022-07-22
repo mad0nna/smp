@@ -15,7 +15,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-mainbg">
+<body class="bg-primaryBg">
     @include('layouts.guest-header')
 
     <main>

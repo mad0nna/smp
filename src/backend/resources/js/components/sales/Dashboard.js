@@ -13,7 +13,7 @@ import Graph2 from './Graph2Widget'
 const SalesDashboard = () => {
   return (
     <div
-      className="bg-mainbg grid grid-cols-16 grid-rows-12 grid-flow-row gap-4 mx-10 mt-5"
+      className="bg-primaryBg grid grid-cols-16 grid-rows-12 grid-flow-row gap-4 mx-10 mt-5"
       style={{ height: '820px' }}
     >
       <div className="col-span-6 row-span-4  ">
